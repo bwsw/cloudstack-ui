@@ -2,16 +2,20 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatRadioModule, MatTableModule } from '@angular/material';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+  MatRadioModule,
+  MatTableModule,
+} from '@angular/material';
 
 import { DiskOfferingDialogComponent } from './disk-offering-dialog.component';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
-import { DiskOffering } from '../../../models';
 import { StringifyDatePipe } from '../../../pipes';
 import { DateTimeFormatterService } from '../../../services/date-time-formatter.service';
 import { User } from '../../../models/user.model';
 import { AuthService } from '../../../services/auth.service';
-
 
 class MockConfigServiceDateTimeFormatterService {
   public stringifyToTime() {
@@ -49,52 +53,47 @@ describe('Disk Offering dialog', () => {
     miniops: 1,
     maxiops: 1,
     storagetype: 'any',
-    provisioningtype: 'any'
+    provisioningtype: 'any',
   };
 
-  const diskOfferings: Array<DiskOffering> = [
-    diskOffering
-  ];
-
   beforeEach(async(() => {
-      dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
+    dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
 
-      TestBed.configureTestingModule({
-        imports: [FormsModule, MatDialogModule, MatRadioModule, MatTableModule],
-        declarations: [MockTranslatePipe, DiskOfferingDialogComponent, StringifyDatePipe],
-        providers: [
-          {
-            provide: MatDialogRef,
-            useValue: dialog
+    TestBed.configureTestingModule({
+      imports: [FormsModule, MatDialogModule, MatRadioModule, MatTableModule],
+      declarations: [MockTranslatePipe, DiskOfferingDialogComponent, StringifyDatePipe],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useValue: dialog,
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {
+            diskOffering,
+            diskOfferings: [],
           },
-          {
-            provide: MAT_DIALOG_DATA,
-            useValue: {
-              diskOffering,
-              diskOfferings: []
-            }
-          },
-          {
-            provide: 'mockConfigServiceConfig',
-            useValue: { value: {} }
-          },
-          {
-            provide: 'mockResourceUsageServiceConfig',
-            useValue: { value: {} }
-          },
-          {
-            provide: DateTimeFormatterService,
-            useClass: MockConfigServiceDateTimeFormatterService
-          },
-          {
-            provide: AuthService,
-            useClass: MockAuthService
-          }
-        ],
-        schemas: [NO_ERRORS_SCHEMA]
-      }).compileComponents();
-    })
-  );
+        },
+        {
+          provide: 'mockConfigServiceConfig',
+          useValue: { value: {} },
+        },
+        {
+          provide: 'mockResourceUsageServiceConfig',
+          useValue: { value: {} },
+        },
+        {
+          provide: DateTimeFormatterService,
+          useClass: MockConfigServiceDateTimeFormatterService,
+        },
+        {
+          provide: AuthService,
+          useClass: MockAuthService,
+        },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DiskOfferingDialogComponent);

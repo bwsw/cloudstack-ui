@@ -2,7 +2,6 @@ import { EventEmitter } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
-
 export class SshKeyItemComponent {
   public item: SSHKeyPair;
   public onClick = new EventEmitter<SSHKeyPair>();

@@ -1,70 +1,69 @@
 import { RouterState } from '@angular/router';
 import { Utils } from './utils.service';
 
-
 const divideFixture = [
   {
     enumerator: 1,
     denominator: 3,
     exponent: 2,
     precision: 2,
-    result: 0.11
-  }
+    result: 0.11,
+  },
 ];
 
 const convertToGbFixture = [
   {
     bytes: 1073741824,
-    gb: 1
-  }
+    gb: 1,
+  },
 ];
 
 const matchLowerFixture = [
   {
     string: 'ACS',
     subString: 'acs',
-    result: true
+    result: true,
   },
   {
     string: 'TestString',
     subString: 'abc',
-    result: false
-  }
+    result: false,
+  },
 ];
 
 const getRouteWithoutQueryParamsFixture = [
   {
     routerState: {
       snapshot: {
-        url: '/path?queryParam1=test1&queryParam2=test2'
-      }
+        url: '/path?queryParam1=test1&queryParam2=test2',
+      },
     },
-    routeWithoutParams: '/path'
+    routeWithoutParams: '/path',
   },
   {
     routerState: {
       snapshot: {
-        url: '/path'
-      }
+        url: '/path',
+      },
     },
-    routeWithoutParams: '/path'
+    routeWithoutParams: '/path',
   },
   {
     routerState: {
       snapshot: {
-        url: '/'
-      }
+        url: '/',
+      },
     },
-    routeWithoutParams: '/'
+    routeWithoutParams: '/',
   },
   {
     routerState: {
       snapshot: {
-        url: '/path?'
-      }
+        url: '/path?',
+      },
     },
-    routeWithoutParams: '/path'
-  }
+    routeWithoutParams: '/path',
+  },
 ];
 
 describe('Utils service', () => {
@@ -74,13 +73,9 @@ describe('Utils service', () => {
 
   it('should divide', () => {
     divideFixture.forEach(example => {
-      expect(Utils.divide(
-        example.enumerator,
-        example.denominator,
-        example.exponent,
-        example.precision
-      ))
-        .toBe(example.result);
+      expect(
+        Utils.divide(example.enumerator, example.denominator, example.exponent, example.precision),
+      ).toBe(example.result);
     });
   });
 
@@ -102,8 +97,9 @@ describe('Utils service', () => {
     expect(Utils.getRouteWithoutQueryParams(undefined)).toBe('/');
 
     getRouteWithoutQueryParamsFixture.forEach(example => {
-      expect(Utils.getRouteWithoutQueryParams(example.routerState as RouterState))
-        .toBe(example.routeWithoutParams);
+      expect(Utils.getRouteWithoutQueryParams(example.routerState as RouterState)).toBe(
+        example.routeWithoutParams,
+      );
     });
   });
 
@@ -117,11 +113,9 @@ describe('Utils service', () => {
     expect(Utils.convertBooleanToBooleanString(true)).toBe('true');
     expect(Utils.convertBooleanToBooleanString(false)).toBe('false');
 
-    expect(() => Utils.convertBooleanToBooleanString(null))
-      .toThrowError('Invalid argument');
+    expect(Utils.convertBooleanToBooleanString(null)).toBe('false');
 
-    expect(() => Utils.convertBooleanToBooleanString(undefined))
-      .toThrowError('Invalid argument');
+    expect(Utils.convertBooleanToBooleanString(undefined)).toBe('false');
   });
 
   it('should check if color is dark', () => {

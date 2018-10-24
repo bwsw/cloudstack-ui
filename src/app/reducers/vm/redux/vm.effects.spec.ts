@@ -44,31 +44,22 @@ import { TagService } from '../../../shared/services/tags/tag.service';
 import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
 
 @Injectable()
-export class MockAccessService {
-}
+export class MockAccessService {}
 
 @Injectable()
 class MockAsyncJobService {
-  public completeAllJobs(): void {
-  }
+  public completeAllJobs(): void {}
 }
 
 @Injectable()
 class MockVMTagService {
-  public setDescription(): void {
-  }
-  public removeDescription(): void {
-  }
-  public setGroup(): void {
-  }
-  public removeGroup(): void {
-  }
-  public setColor(): void {
-  }
-  public setSavePasswordForAllVms(): void {
-  }
-  public setPassword(): void {
-  }
+  public setDescription(): void {}
+  public removeDescription(): void {}
+  public setGroup(): void {}
+  public removeGroup(): void {}
+  public setColor(): void {}
+  public setSavePasswordForAllVms(): void {}
+  public setPassword(): void {}
 }
 
 @Injectable()
@@ -76,16 +67,15 @@ class MockRouter {
   public navigate(route: any): Promise<any> {
     return Promise.resolve(route);
   }
-  public isActive(route: any): void {
-  }
+  public isActive(route: any): void {}
 }
 
 @Injectable()
 class MockStorageService {
   private storage: any = {
     user: {
-      userid: '1'
-    }
+      userid: '1',
+    },
   };
 
   public write(key: string, value: string): void {
@@ -106,8 +96,7 @@ class MockStorageService {
 }
 
 class MockMatDialog {
-  public open(): void {
-  }
+  public open(): void {}
 }
 
 export class TestActions extends Actions {
@@ -116,6 +105,8 @@ export class TestActions extends Actions {
   }
 
   public set stream(source: Observable<VirtualMachine>) {
+    // todo
+    // tslint:disable-next-line
     this.source = source;
   }
 }
@@ -124,8 +115,7 @@ export function getActions() {
   return new TestActions();
 }
 
-const vmsList: Array<VirtualMachine> = require(
-  '../../../../testutils/mocks/model-services/fixtures/vms.json');
+const vmsList: VirtualMachine[] = require('../../../../testutils/mocks/model-services/fixtures/vms.json');
 
 describe('Virtual machine Effects', () => {
   let actions$: TestActions;
@@ -140,19 +130,20 @@ describe('Virtual machine Effects', () => {
   let matDialog: MatDialog;
   let effects: VirtualMachinesEffects;
 
-  const list: Array<VirtualMachine> = vmsList;
+  const list: VirtualMachine[] = vmsList;
 
-  const jobsNotificationService = jasmine.createSpyObj(
-    'JobsNotificationService',
-    ['add', 'finish', 'fail']
-  );
+  const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', [
+    'add',
+    'finish',
+    'fail',
+  ]);
   jobsNotificationService.add.and.returnValue('id');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({ ...fromVMs.virtualMachineReducers })
+        StoreModule.forRoot({ ...fromVMs.virtualMachineReducers }),
       ],
       providers: [
         VmService,
@@ -179,8 +170,8 @@ describe('Virtual machine Effects', () => {
         { provide: TagService, useClass: MockTagService },
         { provide: HttpAccessService, useClass: MockAccessService },
         { provide: SshAccessService, useClass: MockAccessService },
-        { provide: VncAccessService, useClass: MockAccessService }
-      ]
+        { provide: VncAccessService, useClass: MockAccessService },
+      ],
     });
     actions$ = TestBed.get(Actions);
     store = TestBed.get(Store);
@@ -209,7 +200,9 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an empty collection from LoadVMsRequest', () => {
-    const spyGetList = spyOn(service, 'getList').and.returnValue(throwError(new Error('Error occurred!')));
+    const spyGetList = spyOn(service, 'getList').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.LoadVMsRequest();
     const completion = new vmActions.LoadVMsResponse([]);
@@ -236,7 +229,9 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error from LoadVMRequest', () => {
-    const spyGetList = spyOn(service, 'getList').and.returnValue(throwError(new Error('Error occurred!')));
+    const spyGetList = spyOn(service, 'getList').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.LoadVMRequest('e10da283-06b1-4ac5-9888-b4f3717c2fe1');
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
@@ -254,7 +249,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.ChangeDescription({
       description: 'description',
-      vm: list[0]
+      vm: list[0],
     });
     const completion = new vmActions.UpdateVM(list[0]);
 
@@ -271,7 +266,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.ChangeDescription({
       description: '',
-      vm: list[0]
+      vm: list[0],
     });
     const completion = new vmActions.UpdateVM(list[0]);
 
@@ -284,12 +279,13 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing description', () => {
-    const spySetDesc = spyOn(tagService, 'setDescription').and
-      .returnValue(throwError(new Error('Error occurred!')));
+    const spySetDesc = spyOn(tagService, 'setDescription').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.ChangeDescription({
       description: 'desc',
-      vm: list[0]
+      vm: list[0],
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 
@@ -305,8 +301,8 @@ describe('Virtual machine Effects', () => {
     const spyChangeSO = spyOn(service, 'changeServiceOffering').and.returnValue(of(list[1]));
 
     const action = new vmActions.ChangeServiceOffering({
-      offering: <ServiceOffering>{},
-      vm: list[1]
+      offering: {} as ServiceOffering,
+      vm: list[1],
     });
     const completion = new vmActions.UpdateVM(list[1]);
 
@@ -323,10 +319,10 @@ describe('Virtual machine Effects', () => {
     const spyCommand = spyOn(service, 'command').and.returnValue(of(list[0]));
 
     const action = new vmActions.ChangeServiceOffering({
-      offering: <ServiceOffering>{},
-      vm: list[0]
+      offering: {} as ServiceOffering,
+      vm: list[0],
     });
-    const completion = new vmActions.UpdateVM(list[0] as VirtualMachine);
+    const completion = new vmActions.UpdateVM(list[0]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -338,17 +334,18 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing service offering', () => {
-    const spyChangeSO = spyOn(service, 'changeServiceOffering').and
-      .returnValue(throwError(new Error('Error occurred!')));
+    const spyChangeSO = spyOn(service, 'changeServiceOffering').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.ChangeServiceOffering({
-      offering: <ServiceOffering>{},
-      vm: list[1]
+      offering: {} as ServiceOffering,
+      vm: list[1],
     });
     const completion = new vmActions.VMUpdateError({
       error: new Error('Error occurred!'),
       state: VmState.Stopped,
-      vm: list[1]
+      vm: list[1],
     });
 
     actions$.stream = cold('a', { a: action });
@@ -364,7 +361,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.ChangeAffinityGroup({
       affinityGroupId: 'af1_id',
-      vm: list[1]
+      vm: list[1],
     });
     const completion = new vmActions.UpdateVM(list[1]);
 
@@ -383,9 +380,9 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.ChangeAffinityGroup({
       affinityGroupId: 'af1_id',
-      vm: list[0]
+      vm: list[0],
     });
-    const completion = new vmActions.UpdateVM(list[0] as VirtualMachine);
+    const completion = new vmActions.UpdateVM(list[0]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -403,7 +400,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.ChangeAffinityGroup({
       affinityGroupId: 'af1_id',
-      vm: list[0]
+      vm: list[0],
     });
 
     actions$.stream = hot('-a', { a: action });
@@ -416,17 +413,18 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing affinity group', () => {
-    const spyChangeAG = spyOn(afGroupService, 'updateForVm').and
-      .returnValue(throwError(new Error('Error occurred!')));
+    const spyChangeAG = spyOn(afGroupService, 'updateForVm').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.ChangeAffinityGroup({
       affinityGroupId: 'af1_id',
-      vm: list[1]
+      vm: list[1],
     });
     const completion = new vmActions.VMUpdateError({
       error: new Error('Error occurred!'),
       state: VmState.Stopped,
-      vm: list[1]
+      vm: list[1],
     });
 
     actions$.stream = cold('a', { a: action });
@@ -441,8 +439,8 @@ describe('Virtual machine Effects', () => {
     const spyChangeGroup = spyOn(tagService, 'setGroup').and.returnValue(of(list[0]));
 
     const action = new vmActions.ChangeInstanceGroup({
-      group: <InstanceGroup>{},
-      vm: list[0]
+      group: {} as InstanceGroup,
+      vm: list[0],
     });
     const completion = new vmActions.UpdateVM(list[0]);
 
@@ -455,12 +453,13 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing instance group', () => {
-    const spyChangeGroup = spyOn(tagService, 'setGroup').and
-      .returnValue(throwError(new Error('Error occurred!')));
+    const spyChangeGroup = spyOn(tagService, 'setGroup').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.ChangeInstanceGroup({
-      group: <InstanceGroup>{},
-      vm: list[0]
+      group: {} as InstanceGroup,
+      vm: list[0],
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 
@@ -476,12 +475,7 @@ describe('Virtual machine Effects', () => {
     const spyRemoveGroup = spyOn(tagService, 'removeGroup').and.returnValue(of(list[0]));
 
     const action = new vmActions.RemoveInstanceGroup(list[0]);
-    const completion = new vmActions.UpdateVM(
-      Object.assign(
-        list[0],
-        { instanceGroup: undefined }
-      )
-    );
+    const completion = new vmActions.UpdateVM({ ...list[0], tags: [] });
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -492,8 +486,9 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during removing instance group', () => {
-    const spyRemoveGroup = spyOn(tagService, 'removeGroup').and
-      .returnValue(throwError(new Error('Error occurred!')));
+    const spyRemoveGroup = spyOn(tagService, 'removeGroup').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.RemoveInstanceGroup(list[0]);
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
@@ -507,18 +502,20 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should add secondary ip', () => {
-    const spyAddIp = spyOn(service, 'addIpToNic').and.returnValue(of({
-      nicsecondaryip: {
-        id: 'id1',
-        ipaddress: 'ip1',
-      }
-    }));
+    const spyAddIp = spyOn(service, 'addIpToNic').and.returnValue(
+      of({
+        nicsecondaryip: {
+          id: 'id1',
+          ipaddress: 'ip1',
+        },
+      }),
+    );
 
     const action = new vmActions.AddSecondaryIp({
       vm: list[0],
-      nicId: 'id1'
+      nicId: 'id1',
     });
-    const completion = new vmActions.LoadVirtualMachine({ id: list[0].id});
+    const completion = new vmActions.LoadVirtualMachine({ id: list[0].id });
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -532,7 +529,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.RemoveSecondaryIp({
       vm: list[2],
-      id: 'id1'
+      id: 'id1',
     });
     const completion = new vmActions.LoadVirtualMachine({ id: list[2].id });
 
@@ -549,7 +546,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.ChangeVmColor({
       color: new Color(),
-      vm: list[0]
+      vm: list[0],
     });
     const completion = new vmActions.UpdateVM(list[0]);
 
@@ -562,12 +559,13 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing vm color', () => {
-    const spyChangeColor = spyOn(tagService, 'setColor').and
-      .returnValue(throwError(new Error('Error occurred!')));
+    const spyChangeColor = spyOn(tagService, 'setColor').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.ChangeVmColor({
       color: new Color(),
-      vm: list[0]
+      vm: list[0],
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 
@@ -595,15 +593,16 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during stopping vm', () => {
-    const spyCommand = spyOn(service, 'command').and
-      .returnValue(throwError(new Error('Error occurred!')));
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    const spyCommand = spyOn(service, 'command').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
+    spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.StopVm(list[0]);
     const completion = new vmActions.VMUpdateError({
       error: new Error('Error occurred!'),
       state: VmState.Error,
-      vm: list[0]
+      vm: list[0],
     });
 
     actions$.stream = cold('a', { a: action });
@@ -619,7 +618,7 @@ describe('Virtual machine Effects', () => {
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.StartVm(list[1]);
-    const completion = new vmActions.UpdateVM(list[1] as VirtualMachine);
+    const completion = new vmActions.UpdateVM(list[1]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -630,15 +629,16 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during starting vm', () => {
-    const spyCommand = spyOn(service, 'command').and
-      .returnValue(throwError(new Error('Error occurred!')));
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    const spyCommand = spyOn(service, 'command').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
+    spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.StartVm(list[1]);
     const completion = new vmActions.VMUpdateError({
       error: new Error('Error occurred!'),
       state: VmState.Error,
-      vm: list[1]
+      vm: list[1],
     });
 
     actions$.stream = cold('a', { a: action });
@@ -653,8 +653,8 @@ describe('Virtual machine Effects', () => {
     const spyCommand = spyOn(service, 'command').and.returnValue(of(list[1]));
     const spyDialog = spyOn(matDialog, 'open').and.callFake(() => {
       return {
-        afterClosed: () => of(true)
-      }
+        afterClosed: () => of(true),
+      };
     });
 
     const action = new vmActions.DestroyVm(list[1]);
@@ -674,8 +674,8 @@ describe('Virtual machine Effects', () => {
     const spyCommand = spyOn(service, 'command').and.returnValue(of(list[1]));
     const spyDialog = spyOn(matDialog, 'open').and.callFake(() => {
       return {
-        afterClosed: () => of({ expunge: true })
-      }
+        afterClosed: () => of({ expunge: true }),
+      };
     });
 
     const action = new vmActions.DestroyVm(list[1]);
@@ -695,8 +695,8 @@ describe('Virtual machine Effects', () => {
     const spyCommand = spyOn(service, 'command');
     const spyDialog = spyOn(matDialog, 'open').and.callFake(() => {
       return {
-        afterClosed: () => of(false)
-      }
+        afterClosed: () => of(false),
+      };
     });
 
     const action = new vmActions.DestroyVm(list[1]);
@@ -710,19 +710,20 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during destroying vm', () => {
-    const spyCommand = spyOn(service, 'command').and
-      .returnValue(throwError(new Error('Error occurred!')));
-    const spyDialog = spyOn(matDialog, 'open').and.callFake(() => {
+    const spyCommand = spyOn(service, 'command').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
+    spyOn(matDialog, 'open').and.callFake(() => {
       return {
-        afterClosed: () => of(true)
-      }
+        afterClosed: () => of(true),
+      };
     });
 
     const action = new vmActions.DestroyVm(list[1]);
     const completion = new vmActions.VMUpdateError({
       error: new Error('Error occurred!'),
       state: VmState.Error,
-      vm: list[1]
+      vm: list[1],
     });
 
     actions$.stream = cold('a', { a: action });
@@ -763,15 +764,16 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during rebooting vm', () => {
-    const spyCommand = spyOn(service, 'command').and
-      .returnValue(throwError(new Error('Error occurred!')));
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    const spyCommand = spyOn(service, 'command').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
+    spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.RebootVm(list[0]);
     const completion = new vmActions.VMUpdateError({
       error: new Error('Error occurred!'),
       state: VmState.Error,
-      vm: list[0]
+      vm: list[0],
     });
 
     actions$.stream = cold('a', { a: action });
@@ -812,15 +814,16 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during restoring vm', () => {
-    const spyCommand = spyOn(service, 'command').and
-      .returnValue(throwError(new Error('Error occurred!')));
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    const spyCommand = spyOn(service, 'command').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
+    spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.RestoreVm(list[0]);
     const completion = new vmActions.VMUpdateError({
       error: new Error('Error occurred!'),
       state: VmState.Error,
-      vm: list[0]
+      vm: list[0],
     });
 
     actions$.stream = cold('a', { a: action });
@@ -832,9 +835,11 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should recover vm', () => {
-    const spyCommand = spyOn(service, 'commandSync').and.returnValue(of({
-      virtualmachine: list[0]
-    }));
+    const spyCommand = spyOn(service, 'commandSync').and.returnValue(
+      of({
+        virtualmachine: list[0],
+      }),
+    );
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.RecoverVm(list[0]);
@@ -863,15 +868,16 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during recovering vm', () => {
-    const spyCommand = spyOn(service, 'commandSync').and
-      .returnValue(throwError(new Error('Error occurred!')));
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    const spyCommand = spyOn(service, 'commandSync').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
+    spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.RecoverVm(list[0]);
     const completion = new vmActions.VMUpdateError({
       error: new Error('Error occurred!'),
       state: VmState.Error,
-      vm: list[0]
+      vm: list[0],
     });
 
     actions$.stream = cold('a', { a: action });
@@ -883,9 +889,11 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should expunge vm', () => {
-    const spyCommand = spyOn(service, 'command').and.returnValue(of({
-      virtualmachine: list[0]
-    }));
+    const spyCommand = spyOn(service, 'command').and.returnValue(
+      of({
+        virtualmachine: list[0],
+      }),
+    );
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.ExpungeVm(list[0]);
@@ -915,13 +923,14 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during expunging vm', () => {
-    const spyCommand = spyOn(service, 'command').and
-      .returnValue(throwError(new Error('Error occurred!')));
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    const spyCommand = spyOn(service, 'command').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
+    spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.ExpungeVm(list[0]);
     const completion = new vmActions.VMUpdateError({
-      error: new Error('Error occurred!')
+      error: new Error('Error occurred!'),
     });
 
     actions$.stream = cold('a', { a: action });
@@ -937,7 +946,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.AttachIso({
       id: 'id1',
-      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1'
+      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1',
     });
     const completion = new vmActions.UpdateVM(list[0]);
 
@@ -950,11 +959,13 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during attaching Iso', () => {
-    const spyAttach = spyOn(isoService, 'attach').and.returnValue(throwError(new Error('Error occurred!')));
+    const spyAttach = spyOn(isoService, 'attach').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.AttachIso({
       id: 'id1',
-      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1'
+      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1',
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 
@@ -970,7 +981,7 @@ describe('Virtual machine Effects', () => {
     const spyDetach = spyOn(isoService, 'detach').and.returnValue(of(list[0]));
 
     const action = new vmActions.DetachIso({
-      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1'
+      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1',
     });
     const completion = new vmActions.ReplaceVM(list[0]);
 
@@ -983,10 +994,12 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during detaching Iso', () => {
-    const spyDetach = spyOn(isoService, 'detach').and.returnValue(throwError(new Error('Error occurred!')));
+    const spyDetach = spyOn(isoService, 'detach').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.DetachIso({
-      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1'
+      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1',
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 
@@ -1002,8 +1015,8 @@ describe('Virtual machine Effects', () => {
     const spyChangeKey = spyOn(sshService, 'reset').and.returnValue(of(list[1]));
 
     const action = new vmActions.ChangeSshKey({
-      keyPair: <SSHKeyPair>{},
-      vm: list[1]
+      keyPair: {} as SSHKeyPair,
+      vm: list[1],
     });
     const completion = new vmActions.UpdateVM(list[1]);
 
@@ -1021,10 +1034,10 @@ describe('Virtual machine Effects', () => {
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.ChangeSshKey({
-      keyPair: <SSHKeyPair>{},
-      vm: list[0]
+      keyPair: {} as SSHKeyPair,
+      vm: list[0],
     });
-    const completion = new vmActions.UpdateVM(list[0] as VirtualMachine);
+    const completion = new vmActions.UpdateVM(list[0]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -1041,8 +1054,8 @@ describe('Virtual machine Effects', () => {
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(false));
 
     const action = new vmActions.ChangeSshKey({
-      keyPair: <SSHKeyPair>{},
-      vm: list[0]
+      keyPair: {} as SSHKeyPair,
+      vm: list[0],
     });
 
     actions$.stream = hot('-a', { a: action });
@@ -1055,17 +1068,18 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing ssh-key', () => {
-    const spyChangeKey = spyOn(sshService, 'reset').and
-      .returnValue(throwError(new Error('Error occurred!')));
+    const spyChangeKey = spyOn(sshService, 'reset').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
 
     const action = new vmActions.ChangeSshKey({
-      keyPair: <SSHKeyPair>{},
-      vm: list[1]
+      keyPair: {} as SSHKeyPair,
+      vm: list[1],
     });
     const completion = new vmActions.VMUpdateError({
       error: new Error('Error occurred!'),
       state: VmState.Stopped,
-      vm: list[1]
+      vm: list[1],
     });
 
     actions$.stream = cold('a', { a: action });
@@ -1100,7 +1114,7 @@ describe('Virtual machine Effects', () => {
     spyOn(matDialog, 'open');
 
     const action = new vmActions.ResetPasswordVm(list[0]);
-    const completion = new vmActions.UpdateVM(list[0] as VirtualMachine);
+    const completion = new vmActions.UpdateVM(list[0]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -1128,15 +1142,16 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during reseting password', () => {
-    const spyCommand = spyOn(service, 'command').and
-      .returnValue(throwError(new Error('Error occurred!')));
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    const spyCommand = spyOn(service, 'command').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
+    spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.ResetPasswordVm(list[1]);
     const completion = new vmActions.VMUpdateError({
       error: new Error('Error occurred!'),
       state: VmState.Error,
-      vm: list[1]
+      vm: list[1],
     });
 
     actions$.stream = cold('a', { a: action });
@@ -1152,7 +1167,7 @@ describe('Virtual machine Effects', () => {
     const action = new vmActions.VMUpdateError({
       state: VmState.Stopped,
       vm: list[0],
-      error: new Error('error')
+      error: new Error('error'),
     });
 
     actions$.stream = hot('-a', { a: action });
@@ -1165,7 +1180,7 @@ describe('Virtual machine Effects', () => {
   it('should update error without state', () => {
     const spyDispatch = spyOn(store, 'dispatch');
     const action = new vmActions.VMUpdateError({
-      error: new Error('error')
+      error: new Error('error'),
     });
 
     actions$.stream = hot('-a', { a: action });
@@ -1177,7 +1192,7 @@ describe('Virtual machine Effects', () => {
 
   it('should navigate after successful expunging', () => {
     const spyNavigate = spyOn(router, 'navigate');
-    const spyIsActive = spyOn(router, 'isActive').and.returnValue(true);
+    spyOn(router, 'isActive').and.returnValue(true);
     const action = new vmActions.ExpungeVmSuccess(list[0]);
 
     actions$.stream = hot('-a', { a: action });
@@ -1189,7 +1204,7 @@ describe('Virtual machine Effects', () => {
 
   it('should not navigate after successful expunging', () => {
     const spyNavigate = spyOn(router, 'navigate');
-    const spyIsActive = spyOn(router, 'isActive').and.returnValue(false);
+    spyOn(router, 'isActive').and.returnValue(false);
     const action = new vmActions.ExpungeVmSuccess(list[0]);
 
     actions$.stream = hot('-a', { a: action });
@@ -1204,7 +1219,7 @@ describe('Virtual machine Effects', () => {
     const completion1 = new volumeActions.LoadVolumesRequest();
     const completion2 = new vmActions.DeploymentAddLoggerMessage({
       text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED',
-      status: [ProgressLoggerMessageStatus.Highlighted]
+      status: [ProgressLoggerMessageStatus.Highlighted],
     });
 
     actions$.stream = hot('-a', { a: action });
@@ -1212,6 +1227,4 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.vmCreateSuccessLoadVolumes$).toBeObservable(expected);
   });
-
-
 });

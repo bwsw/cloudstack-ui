@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../../models';
 import { isRoot, Volume } from '../../../models/volume.model';
@@ -6,18 +14,22 @@ import { VolumeResizeData } from '../../../services/volume.service';
 import { isCustomized } from '../../../models/offering.model';
 import { AuthService } from '../../../services/auth.service';
 
-
 @Component({
   selector: 'cs-volume-resize',
   templateUrl: 'volume-resize.component.html',
-  styleUrls: ['volume-resize.component.scss']
+  styleUrls: ['volume-resize.component.scss'],
 })
 export class VolumeResizeComponent implements OnInit, OnChanges {
-  @Input() public maxSize: number;
-  @Input() public volume: Volume;
-  @Input() public diskOfferings: Array<DiskOffering>;
-  @Input() public storageAvailable: string;
-  @Output() public onDiskResized = new EventEmitter<VolumeResizeData>();
+  @Input()
+  public maxSize: number;
+  @Input()
+  public volume: Volume;
+  @Input()
+  public diskOfferings: Array<DiskOffering>;
+  @Input()
+  public storageAvailable: string;
+  @Output()
+  public onDiskResized = new EventEmitter<VolumeResizeData>();
 
   public diskOffering: DiskOffering;
   public newSize: number;
@@ -35,9 +47,8 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
 
   constructor(
     public dialogRef: MatDialogRef<VolumeResizeComponent>,
-    public authService: AuthService
-  ) {
-  }
+    public authService: AuthService,
+  ) {}
 
   public isCustomizedForVolume(diskOffering: DiskOffering): boolean {
     if (diskOffering) {
@@ -73,11 +84,13 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
 
   public resizeVolume(): void {
     const includeDiskOffering = this.diskOffering && !isRoot(this.volume);
-    const params: VolumeResizeData = Object.assign(
-      { id: this.volume.id },
-      this.newSize ? { size: this.newSize } : {},
-      includeDiskOffering ? { diskOfferingId: this.diskOffering.id } : {}
-    );
-    this.onDiskResized.emit(params);
+    const size = this.newSize ? { size: this.newSize } : {};
+    const diskOffering = includeDiskOffering ? { diskofferingid: this.diskOffering.id } : {};
+    const params: VolumeResizeData = {
+      id: this.volume.id,
+      ...size,
+      ...diskOffering,
+    };
+    this.diskResized.emit(params);
   }
 }

@@ -17,8 +17,7 @@ export class AccountItemComponent {
     return isUserBelongsToAccount(this.authService.user, this.item);
   }
 
-  constructor(protected authService: AuthService) {
-  }
+  constructor(protected authService: AuthService) {}
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();

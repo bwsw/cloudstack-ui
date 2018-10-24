@@ -5,23 +5,28 @@ import { Zone } from '../../shared/models';
 import { VolumeCreationData } from '../../shared/models/volume.model';
 import { AuthService } from '../../shared/services/auth.service';
 
-
 @Component({
   selector: 'cs-volume-creation-dialog',
   templateUrl: 'volume-creation-dialog.component.html',
-  styleUrls: ['volume-creation-dialog.component.scss']
+  styleUrls: ['volume-creation-dialog.component.scss'],
 })
 export class VolumeCreationDialogComponent {
-
   public newVolume = new VolumeCreationData();
 
-  @Input() public isLoading: boolean;
-  @Input() public diskOfferings: Array<DiskOffering>;
-  @Input() public zones: Array<Zone>;
-  @Input() public storageAvailable: string;
-  @Input() public account: Account;
-  @Output() public onVolumeCreate = new EventEmitter<VolumeCreationData>();
-  @Output() public onZoneUpdated = new EventEmitter<Zone>();
+  @Input()
+  public isLoading: boolean;
+  @Input()
+  public diskOfferings: DiskOffering[];
+  @Input()
+  public zones: Zone[];
+  @Input()
+  public storageAvailable: string;
+  @Input()
+  public account: Account;
+  @Output()
+  public onVolumeCreate = new EventEmitter<VolumeCreationData>();
+  @Output()
+  public onZoneUpdated = new EventEmitter<Zone>();
 
   public diskOffering: DiskOffering;
   public showResizeSlider: boolean;
@@ -29,7 +34,7 @@ export class VolumeCreationDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<VolumeCreationDialogComponent>,
-    public authService: AuthService
+    public authService: AuthService,
   ) {
     this.minSize = this.authService.getCustomDiskOfferingMinSize();
     this.newVolume.size = this.minSize;

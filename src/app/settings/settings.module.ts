@@ -16,14 +16,8 @@ import {
   VmSettingsComponent,
 } from './components';
 
-
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    MaterialModule,
-    ClipboardModule
-  ],
+  imports: [CommonModule, SharedModule, MaterialModule, ClipboardModule],
   exports: [SettingsComponent],
   providers: [ClipboardService],
   declarations: [
@@ -34,8 +28,7 @@ import {
     InterfaceSettingsComponent,
     ThemeSelectorComponent,
     PasswordUpdateFormComponent,
-    SessionTimeoutComponent
-  ]
+    SessionTimeoutComponent,
+  ],
 })
-export class SettingsModule {
-}
+export class SettingsModule {}

@@ -2,11 +2,10 @@ import { MemoryStorageService } from './memory-storage.service';
 import { Injectable } from '@angular/core';
 import { Utils } from './utils/utils.service';
 
-
 @Injectable()
 export class LocalStorageService extends MemoryStorageService {
-  private isLocalStorage: boolean;
   public localStorage: Storage;
+  private isLocalStorage: boolean;
 
   constructor() {
     super();
@@ -16,24 +15,17 @@ export class LocalStorageService extends MemoryStorageService {
   }
 
   public write(key: string, value: string): void {
-    this.isLocalStorage
-      ? this.localStorage.setItem(key, value)
-      : super.write(key, value);
+    this.isLocalStorage ? this.localStorage.setItem(key, value) : super.write(key, value);
   }
 
   public read(key: string): string {
-    const result = this.isLocalStorage
-      ? this.localStorage.getItem(key)
-      : super.read(key);
+    const result = this.isLocalStorage ? this.localStorage.getItem(key) : super.read(key);
 
     return result !== 'undefined' ? result : undefined;
   }
 
   public remove(key: string): void {
-    this.isLocalStorage
-      ? this.localStorage.removeItem(key)
-      : super.remove(key);
-
+    this.isLocalStorage ? this.localStorage.removeItem(key) : super.remove(key);
   }
 
   public reset() {

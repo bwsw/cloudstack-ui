@@ -27,7 +27,7 @@
       type="button"
       color="primary"
       *ngIf="!deploymentInProgress && !deployedVm"
-      (click)="onVmDeploymentFailed.emit()"
+      (click)="vmDeploymentFailed.emit()"
     >
       {{ 'COMMON.CLOSE' | translate }}
     </button>
@@ -99,13 +99,13 @@
                   <cs-service-offering-selector
                     name="serviceOffering"
                     [serviceOffering]="vmCreationState.serviceOffering"
-                    (change)="serviceOfferingChange.emit($event)"
+                    (changed)="serviceOfferingChange.emit($event)"
                   ></cs-service-offering-selector>
                 </div>
                 <div class="dialog-select-wrapper" *ngIf="vmCreationState.zone">
                   <cs-vm-creation-template-container
                     [template]="vmCreationState.template"
-                    (change)="changeTemplate($event)"
+                    (changed)="changeTemplate($event)"
                   ></cs-vm-creation-template-container>
                 </div>
 
@@ -117,7 +117,7 @@
                     [diskOfferings]="diskOfferings"
                     [account]="account"
                     [ngModel]="vmCreationState?.diskOffering"
-                    (change)="diskOfferingChange.emit($event)"
+                    (changed)="diskOfferingChange.emit($event)"
                   ></cs-disk-offering-selector>
                 </div>
                 <div *ngIf="showResizeSlider()">
@@ -206,7 +206,7 @@
                   <cs-vm-creation-ssh-key-selector
                     [sshKeyPair]="vmCreationState.sshKeyPair"
                     [sshKeyPairs]="sshKeyPairs"
-                    (sshKeyPairChange)="onSshKeyPairChange.emit($event)"
+                    (sshKeyPairChange)="sshKeyPairChanged.emit($event)"
                   ></cs-vm-creation-ssh-key-selector>
                 </div>
 

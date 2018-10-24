@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
@@ -13,18 +13,22 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 
-
 @Component({
   selector: 'cs-volume-page',
   templateUrl: 'volume-page.component.html',
-  providers: [ListService]
+  providers: [ListService],
 })
 export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
-  @Input() public volumes: Array<Volume>;
-  @Input() public query: string;
-  @Input() public isLoading: boolean;
-  @Input() public groupings: Array<Grouping>;
-  @Input() public selectedGroupings: Array<Grouping>;
+  @Input()
+  public volumes: Volume[];
+  @Input()
+  public query: string;
+  @Input()
+  public isLoading: boolean;
+  @Input()
+  public groupings: Grouping[];
+  @Input()
+  public selectedGroupings: Grouping[];
 
   public mode: ViewMode;
   public viewModeKey = 'volumePageViewMode';
@@ -35,18 +39,20 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
     private vmService: VmService,
-    private store: Store<State>
+    private store: Store<State>,
   ) {
     super();
   }
 
   public ngOnInit() {
-    this.shouldShowSuggestionDialog.pipe(
-      filter(Boolean),
-      // This delay is needed as a workaround for https://github.com/angular/angular/issues/15634
-      // Otherwise you will get an 'ExpressionChangedAfterItHasBeenCheckedError' error
-      delay(1)
-    ).subscribe(() => this.showSuggestionDialog())
+    this.shouldShowSuggestionDialog
+      .pipe(
+        filter(Boolean),
+        // This delay is needed as a workaround for https://github.com/angular/angular/issues/15634
+        // Otherwise you will get an 'ExpressionChangedAfterItHasBeenCheckedError' error
+        delay(1),
+      )
+      .subscribe(() => this.showSuggestionDialog());
   }
 
   public changeMode(mode) {
@@ -54,9 +60,10 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public activate() {
-    this.vmService.getListWithDetails().pipe(
-      map(res => res.length))
-      .subscribe((res) => {
+    this.vmService
+      .getListWithDetails()
+      .pipe(map(res => res.length))
+      .subscribe(res => {
         if (res !== 0) {
           this.showCreationDialog();
         } else {
@@ -66,13 +73,14 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public showConfirmationDialog() {
-    return this.dialogService.confirm({
-      width: '466px',
-      message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_CREATION',
-      confirmText: 'COMMON.CONTINUE',
-      declineText: 'COMMON.CANCEL'
-    })
-      .subscribe((isContinue) => {
+    return this.dialogService
+      .confirm({
+        width: '466px',
+        message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_CREATION',
+        confirmText: 'COMMON.CONTINUE',
+        declineText: 'COMMON.CANCEL',
+      })
+      .subscribe(isContinue => {
         if (isContinue) {
           this.showCreationDialog();
         }
@@ -82,32 +90,37 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   public showCreationDialog(): void {
     this.router.navigate(['./create'], {
       queryParamsHandling: 'preserve',
-      relativeTo: this.activatedRoute
+      relativeTo: this.activatedRoute,
     });
   }
 
   private get shouldShowSuggestionDialog(): Observable<boolean> {
     const dataReceivedAndUpdated$ = combineLatest(
       this.store.pipe(select(fromVolumes.isLoading)),
-      this.store.pipe(select(fromVolumes.isLoaded))
+      this.store.pipe(select(fromVolumes.isLoaded)),
     ).pipe(
       map(([loading, loaded]) => !loading && loaded),
       filter(Boolean),
-      first()
+      first(),
     );
 
     return dataReceivedAndUpdated$.pipe(
       withLatestFrom(
         this.store.pipe(select(UserTagsSelectors.getIsAskToCreateVolume)),
-        this.store.pipe(select(fromVolumes.getVolumesCount))
+        this.store.pipe(select(fromVolumes.getVolumesCount)),
       ),
-      map(([dataReadyFlag, isAsk, volumeCount]) => isAsk && volumeCount === 0 && !this.isCreationFormOpen)
+      map(
+        ([dataReadyFlag, isAsk, volumeCount]) =>
+          isAsk && volumeCount === 0 && !this.isCreationFormOpen,
+      ),
     );
   }
 
   private get isCreationFormOpen(): boolean {
-    return this.activatedRoute.children.length
-      && this.activatedRoute.children[0].snapshot.url[0].path === 'create';
+    return (
+      this.activatedRoute.children.length &&
+      this.activatedRoute.children[0].snapshot.url[0].path === 'create'
+    );
   }
 
   private showSuggestionDialog(): void {
@@ -116,18 +129,18 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
       actions: [
         {
           handler: () => this.activate(),
-          text: 'COMMON.YES'
+          text: 'COMMON.YES',
         },
         { text: 'COMMON.NO' },
         {
           handler: () => {
-            this.store.dispatch(new UserTagsActions.UpdateAskToCreateVolume({ value: false }))
+            this.store.dispatch(new UserTagsActions.UpdateAskToCreateVolume({ value: false }));
           },
-          text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
-        }
+          text: 'SUGGESTION_DIALOG.NO_DONT_ASK',
+        },
       ],
       disableClose: false,
-      width: '320px'
+      width: '320px',
     });
   }
 }

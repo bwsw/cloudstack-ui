@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { ComputeOfferingViewModel } from '../../vm/view-models';
@@ -8,7 +8,7 @@ import { Account } from '../../shared/models';
 @Component({
   selector: 'cs-custom-service-offering',
   templateUrl: 'custom-service-offering.component.html',
-  styleUrls: ['custom-service-offering.component.scss']
+  styleUrls: ['custom-service-offering.component.scss'],
 })
 export class CustomServiceOfferingComponent implements OnInit {
   public offering: ComputeOfferingViewModel;
@@ -17,7 +17,7 @@ export class CustomServiceOfferingComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
-    public dialogRef: MatDialogRef<CustomServiceOfferingComponent>
+    public dialogRef: MatDialogRef<CustomServiceOfferingComponent>,
   ) {
     this.offering = data.offering;
     this.account = data.account;
@@ -33,7 +33,7 @@ export class CustomServiceOfferingComponent implements OnInit {
       ...this.offering,
       cpunumber: formModel.cpuNumber,
       cpuspeed: formModel.cpuSpeed,
-      memory: formModel.memory
+      memory: formModel.memory,
     };
     this.dialogRef.close(updatedOffering);
   }
@@ -42,11 +42,17 @@ export class CustomServiceOfferingComponent implements OnInit {
     // input text=number provide all other validation for current restrictions
     this.hardwareForm = new FormGroup({
       cpuNumber: new FormControl(
-        { value: this.offering.cpunumber, disabled: !this.offering.isAvailableByResources }, Validators.required),
+        { value: this.offering.cpunumber, disabled: !this.offering.isAvailableByResources },
+        Validators.required,
+      ),
       cpuSpeed: new FormControl(
-        { value: this.offering.cpuspeed, disabled: !this.offering.isAvailableByResources }, Validators.required),
+        { value: this.offering.cpuspeed, disabled: !this.offering.isAvailableByResources },
+        Validators.required,
+      ),
       memory: new FormControl(
-        { value: this.offering.memory, disabled: !this.offering.isAvailableByResources }, Validators.required),
+        { value: this.offering.memory, disabled: !this.offering.isAvailableByResources },
+        Validators.required,
+      ),
     });
   }
 }

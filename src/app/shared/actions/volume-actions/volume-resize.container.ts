@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { filter, map, take } from 'rxjs/operators';
@@ -23,7 +23,7 @@ import { VolumeType } from '../../models';
       [volume]="volume"
       [storageAvailable]="storageAvailable$ | async"
       [diskOfferings]="offerings$ | async"
-      (onDiskResized)="resizeDisk($event)"
+      (diskResized)="resizeDisk($event)"
     >
     </cs-volume-resize>`,
 })
@@ -32,7 +32,8 @@ export class VolumeResizeContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
   readonly storageAvailable$ = this.account$.pipe(
     filter(Boolean),
-    map((account: Account) => account.primarystorageavailable));
+    map((account: Account) => account.primarystorageavailable),
+  );
 
   public volume: Volume;
 
@@ -48,12 +49,16 @@ export class VolumeResizeContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
+    this.store.dispatch(
+      new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }),
+    );
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.volume.zoneid));
 
-    this.account$.pipe(
-      take(1),
-      filter(account => !!account))
+    this.account$
+      .pipe(
+        take(1),
+        filter(account => !!account),
+      )
       .subscribe((account: Account) => {
         this.maxSize = account.primarystorageavailable;
       });
@@ -62,5 +67,4 @@ export class VolumeResizeContainerComponent implements OnInit {
   public resizeDisk(params: VolumeResizeData): void {
     this.dialogRef.close(params);
   }
-
 }

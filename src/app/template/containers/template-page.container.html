@@ -4,5 +4,5 @@
   [templates]="templates$ | async"
   [fetching]="isLoading$ | async"
 
-  (onTemplateDelete)="onTemplateDelete($event)"
+  (templateDeleted)="onTemplateDelete($event)"
 ></cs-template-page>

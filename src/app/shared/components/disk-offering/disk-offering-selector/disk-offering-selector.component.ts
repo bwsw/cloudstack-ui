@@ -1,13 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { DiskOffering } from '../../../models/index';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -22,21 +13,31 @@ import { AuthService } from '../../../services/auth.service';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DiskOfferingSelectorComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnChanges {
-  @Input() public diskOfferings: Array<DiskOffering>;
-  @Input() public required: boolean;
-  @Input() public account: Account;
-  @Input() public isShowSlider = false;
-  @Input() public isShowSelector = true;
-  @Input() public min: number;
-  @Input() public newSize: number;
-  @Input() public storageAvailable: string;
-  @Output() public change = new EventEmitter();
-  @Output() public changeSize = new EventEmitter<number>();
+  @Input()
+  public diskOfferings: DiskOffering[];
+  @Input()
+  public required: boolean;
+  @Input()
+  public account: Account;
+  @Input()
+  public isShowSlider = false;
+  @Input()
+  public isShowSelector = true;
+  @Input()
+  public min: number;
+  @Input()
+  public newSize: number;
+  @Input()
+  public storageAvailable: string;
+  @Output()
+  public change = new EventEmitter();
+  @Output()
+  public changeSize = new EventEmitter<number>();
   public max: number;
   private _diskOffering: DiskOffering;
 
@@ -54,15 +55,16 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
 
   constructor(
     private cd: ChangeDetectorRef,
+    private authService: AuthService,
     private dialog: MatDialog,
-    private authService: AuthService
   ) {
-    this.setMaxSizeValue()
+    this.change = new EventEmitter();
+    this.setMaxSizeValue();
   }
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.storageAvailable && changes.storageAvailable.currentValue) {
-      this.setMaxSizeValue()
+      this.setMaxSizeValue();
     }
   }
 
@@ -70,11 +72,9 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
   public writeValue(diskOffering: DiskOffering): void {
     if (diskOffering) {
@@ -83,14 +83,15 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
   }
 
   public changeOffering(): void {
-    this.dialog.open(DiskOfferingDialogComponent, {
-      width: '750px',
-      data: {
-        diskOfferings: this.diskOfferings,
-        diskOffering: this._diskOffering,
-        storageAvailable: this.storageAvailable
-      }
-    })
+    this.dialog
+      .open(DiskOfferingDialogComponent, {
+        width: '750px',
+        data: {
+          diskOfferings: this.diskOfferings,
+          diskOffering: this._diskOffering,
+          storageAvailable: this.storageAvailable,
+        },
+      })
       .afterClosed()
       .subscribe((offering: DiskOffering) => {
         if (offering) {

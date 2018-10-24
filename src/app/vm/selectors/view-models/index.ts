@@ -1,4 +1,4 @@
 export {
   getComputeOfferingForVmCreation,
-  getComputeOfferingForVmEditing
+  getComputeOfferingForVmEditing,
 } from './compute-offering-view-model.selector';

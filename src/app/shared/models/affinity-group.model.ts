@@ -1,8 +1,7 @@
 import { BaseModel } from './base.model';
 
-
 export enum AffinityGroupType {
-  hostAntiAffinity = 'host anti-affinity'
+  hostAntiAffinity = 'host anti-affinity',
 }
 
 export interface AffinityGroup extends BaseModel {
@@ -10,5 +9,5 @@ export interface AffinityGroup extends BaseModel {
   name: string;
   description: string;
   type: AffinityGroupType;
-  virtualmachineids: Array<string>;
+  virtualmachineids: string[];
 }

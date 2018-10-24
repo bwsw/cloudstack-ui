@@ -2,7 +2,6 @@ import { EventEmitter } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Language } from '../../app/shared/types';
 
-
 export class MockTranslateService {
   public onLangChange: EventEmitter<void>;
 
@@ -14,19 +13,19 @@ export class MockTranslateService {
     return Language.en;
   }
 
-  public get(key: string | Array<string>): Observable<string | any> {
+  public get(key: string | string[]): Observable<string | any> {
     if (typeof key === 'string') {
       return of({ key });
-    } else {
-      const result = key.reduce((acc, element) => {
-        return Object.assign(acc, { [element]: element });
-      }, {});
-
-      return of(result);
     }
+
+    const result = key.reduce((acc, element) => {
+      return { ...acc, [element]: element };
+    }, {});
+
+    return of(result);
   }
 
-  public instant(key: string | Array<string>): string {
+  public instant(key: string | string[]): string {
     return key.toString();
   }
 }

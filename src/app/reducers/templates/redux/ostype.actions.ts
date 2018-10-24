@@ -7,16 +7,13 @@ export const LOAD_OS_TYPES_RESPONSE = '[OS_TYPES] LOAD_OS_TYPES_RESPONSE';
 export class LoadOsTypesRequest implements Action {
   type = LOAD_OS_TYPES_REQUEST;
 
-  constructor(public payload?: any) {
-  }
-
+  constructor(public payload?: any) {}
 }
 
 export class LoadOsTypesResponse implements Action {
   type = LOAD_OS_TYPES_RESPONSE;
 
-  constructor(public payload: OsType[]) {
-  }
+  constructor(public payload: OsType[]) {}
 }
 
 export type Actions = LoadOsTypesRequest | LoadOsTypesResponse;

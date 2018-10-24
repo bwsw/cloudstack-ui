@@ -17,7 +17,6 @@ import { Zone } from '../../shared/models/zone.model';
 import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model';
 import { Account } from '../../shared/models';
 
-
 @Component({
   selector: 'cs-volume-creation-container',
   template: `
@@ -33,14 +32,16 @@ import { Account } from '../../shared/models';
     </cs-volume-creation-dialog>`,
 })
 export class VolumeCreationContainerComponent extends WithUnsubscribe() implements OnInit {
-  @ViewChild(VolumeCreationDialogComponent) public volumeCreationDialogComponent: VolumeCreationDialogComponent;
+  @ViewChild(VolumeCreationDialogComponent)
+  public volumeCreationDialogComponent: VolumeCreationDialogComponent;
   readonly loading$ = this.store.pipe(select(fromVolumes.isLoading));
   readonly offerings$ = this.store.pipe(select(fromDiskOfferings.selectAll));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
   readonly storageAvailable$ = this.account$.pipe(
     filter(Boolean),
-    map((account: Account) => account.primarystorageavailable));
+    map((account: Account) => account.primarystorageavailable),
+  );
 
   constructor(
     public dialogService: DialogService,
@@ -51,7 +52,9 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   }
 
   public ngOnInit() {
-    this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
+    this.store.dispatch(
+      new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }),
+    );
   }
 
   public createVolume(data: VolumeCreationData) {
@@ -60,10 +63,12 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
 
   public updateZone(zone: Zone) {
     this.storageAvailable$.subscribe(maxSize => {
-      this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({
-        maxSize,
-        zone: zone,
-      }));
+      this.store.dispatch(
+        new diskOfferingActions.LoadOfferingsRequest({
+          maxSize,
+          zone: zone,
+        }),
+      );
     });
   }
 }

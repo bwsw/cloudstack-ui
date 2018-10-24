@@ -11,7 +11,7 @@ import { TestStore } from '../../../../testutils/ngrx-test-store';
 
 import * as actions from './disk-offerings.actions';
 
-const diskOfferings: Array<DiskOffering> = [
+const diskOfferings: DiskOffering[] = [
   {
     displaytext: 'test snapshot',
     id: 'test-id',
@@ -25,8 +25,8 @@ const diskOfferings: Array<DiskOffering> = [
     miniops: 1,
     maxiops: 1,
     storagetype: 'any',
-    provisioningtype: 'any'
-  }
+    provisioningtype: 'any',
+  },
 ];
 
 export class TestActions extends Actions {
@@ -35,6 +35,8 @@ export class TestActions extends Actions {
   }
 
   public set stream(source: Observable<DiskOffering>) {
+    // todo
+    // tslint:disable-next-line
     this.source = source;
   }
 }
@@ -56,8 +58,8 @@ describe('Disk Offering Effects', () => {
         DiskOfferingService,
         DiskOfferingEffects,
         { provide: Actions, useFactory: getActions },
-        { provide: Store, useClass: TestStore }
-      ]
+        { provide: Store, useClass: TestStore },
+      ],
     });
     actions$ = TestBed.get(Actions);
     service = TestBed.get(DiskOfferingService);

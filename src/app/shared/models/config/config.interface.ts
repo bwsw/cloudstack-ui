@@ -1,7 +1,7 @@
 import { SidenavConfigElement } from './sidenav-config-element.interface';
 import { ServiceOfferingAvailability } from './service-offering-availability.interface';
 import { OfferingCompatibilityPolicy } from './offering-compatibility-policy.interface';
-import { ComputeOfferingClass } from './compute-offering-class.interface'
+import { ComputeOfferingClass } from './compute-offering-class.interface';
 import { ImageGroup } from './image-group.model';
 import { CustomComputeOfferingHardwareValues } from './custom-compute-offering-hardware-values.interface';
 import { DefaultComputeOffering } from './default-compute-offering.interface';
@@ -17,18 +17,18 @@ export interface CustomizableConfig {
   sessionRefreshInterval: number;
   apiDocLink: string;
   extensions: {
-    webShell: boolean,
-    pulse: boolean
+    webShell: boolean;
+    pulse: boolean;
   };
   /*
    * Virtual machines settings
    */
-  vmColors: Array<{ value: string }>;
+  vmColors: { value: string }[];
   /*
    * Firewall (Security groups) settings
    */
-  securityGroupTemplates: Array<SecurityGroupTemplate>;
-  defaultSecurityGroupName: { en: string, ru: string };
+  securityGroupTemplates: SecurityGroupTemplate[];
+  defaultSecurityGroupName: { en: string; ru: string };
   /*
    * Images settings
    */
@@ -73,5 +73,4 @@ export interface NonCustomizableConfig {
   keyboardLayoutForVms: string;
 }
 
-export interface Config extends CustomizableConfig, NonCustomizableConfig {
-}
+export interface Config extends CustomizableConfig, NonCustomizableConfig {}

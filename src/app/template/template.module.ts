@@ -66,7 +66,6 @@ import { TemplateFilterListContainerComponent } from './template-filter-list/con
 import { TemplateGroupSelectorContainerComponent } from './template-sidebar/template-group/containers/template-group-selector.container';
 import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-attachment-filter-selector.container';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -80,11 +79,7 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     StoreModule.forFeature('templates', templateReducers),
     StoreModule.forFeature('osTypes', osTypeReducers),
     StoreModule.forFeature('zones', zoneReducers),
-    EffectsModule.forFeature([
-      TemplateEffects,
-      OsTypeEffects,
-      ZoneEffects,
-    ]),
+    EffectsModule.forFeature([TemplateEffects, OsTypeEffects, ZoneEffects]),
   ],
   declarations: [
     TemplateSidebarComponent,
@@ -133,7 +128,7 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     IsoAttachmentFilterSelectorContainerComponent,
     TemplateFilterListComponent,
     TemplateFiltersComponent,
-    TemplateGroupComponent
+    TemplateGroupComponent,
   ],
   providers: [
     IsoService,
@@ -141,13 +136,12 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     TemplateActionsService,
     IsoActionsService,
     TemplateDeleteAction,
-    IsoDeleteAction
+    IsoDeleteAction,
   ],
   entryComponents: [
     IsoAttachmentComponent,
     TemplateCreationContainerComponent,
     TemplateGroupSelectorContainerComponent,
-  ]
+  ],
 })
-export class TemplateModule {
-}
+export class TemplateModule {}

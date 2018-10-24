@@ -10,8 +10,7 @@ import { AffinityGroupType } from '../models/affinity-group.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
 import { CSCommands } from './base-backend.service';
-import { VirtualMachineEntityName } from '../../vm/shared/vm.service';
-
+import { virtualMachineEntityName } from '../../vm/shared/vm.service';
 
 export interface AffinityGroupCreationData {
   name: string;
@@ -21,32 +20,23 @@ export interface AffinityGroupCreationData {
 
 @Injectable()
 @BackendResource({
-  entity: 'AffinityGroup'
+  entity: 'AffinityGroup',
 })
 export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup> {
-  constructor(
-    private asyncJob: AsyncJobService,
-    protected http: HttpClient
-  ) {
+  constructor(private asyncJob: AsyncJobService, protected http: HttpClient) {
     super(http);
   }
 
   public create(params: AffinityGroupCreationData): Observable<AffinityGroup> {
-    return super.create(params).pipe(
-      switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity))
-    )
+    return super
+      .create(params)
+      .pipe(switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity)));
   }
 
-  public updateForVm(
-    vmId: string,
-    affinityGroupId: string
-  ): Observable<VirtualMachine> {
+  public updateForVm(vmId: string, affinityGroupId: string): Observable<VirtualMachine> {
     return this.sendCommand(CSCommands.UpdateVM, {
       id: vmId,
-      affinityGroupIds: affinityGroupId
-    }).pipe(
-      switchMap(job => this.asyncJob.queryJob(job.jobid, VirtualMachineEntityName)),
-    );
+      affinityGroupIds: affinityGroupId,
+    }).pipe(switchMap(job => this.asyncJob.queryJob(job.jobid, virtualMachineEntityName)));
   }
-
 }

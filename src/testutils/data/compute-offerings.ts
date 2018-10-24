@@ -18,7 +18,6 @@ export const fixedComputeOffering: ServiceOffering = {
   iscustomized: false,
 };
 
-
 export const customComputeOffering: ServiceOffering = {
   id: '9f55af11-99de-40b7-ab36-45c576296766',
   name: 'custom',
@@ -34,4 +33,3 @@ export const customComputeOffering: ServiceOffering = {
   defaultuse: false,
   iscustomized: true,
 };
-
