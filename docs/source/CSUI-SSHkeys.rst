@@ -4,7 +4,7 @@ SSH Keys
 -----------------
 .. Contents::
 
-In the *SSH keys* section you can create and manage SSH keys. 
+In the *Virtual Machines* -> *SSH keys* section you can create and manage SSH keys. 
 
 In addition to the username and password authentication, CloudStack supports using SSH keys to log in to the cloud infrastructure for additional security. Find more information in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/virtual_machines.html?highlight=keys#using-ssh-keys-for-authentication>`_.
 
@@ -15,7 +15,7 @@ SSH Key List
 
 SSH keys existing in the account are presented in this section. A user can see and manage SSH keys for his/her user only. 
 
-.. figure:: _static/SSH_List.png
+.. figure:: _static/SSH_List1.png
 
 Administrators can see and manage keys for all accounts in the domain.
 
