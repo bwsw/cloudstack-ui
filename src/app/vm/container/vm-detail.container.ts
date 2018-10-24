@@ -39,8 +39,8 @@ const vmDescriptionKey = 'csui.vm.description';
     <cs-affinity-group
       [vm]="vm$ | async"
       [affinityGroups]="affinityGroups$ | async"
-      (onAffinityGroupRemove)="removeAffinityGroup($event)"
-      (onAffinityGroupChange)="changeAffinityGroup($event)"
+      (affinityGroupRemoved)="removeAffinityGroup($event)"
+      (affinityGroupChanged)="changeAffinityGroup($event)"
     >
     </cs-affinity-group>
     <cs-vm-detail-template [vm]="vm$ | async"></cs-vm-detail-template>

@@ -1,15 +1,18 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
-import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { State } from '../../../reducers';
 
 function isUniqName(affinityGroups: AffinityGroup[]): ValidatorFn {
-  return function (control: FormControl) {
+  return function(control: FormControl) {
     const nameIsTaken = affinityGroups.find(group => group.name === control.value);
     return nameIsTaken ? { nameIsTaken: true } : undefined;
   };
@@ -18,30 +21,30 @@ function isUniqName(affinityGroups: AffinityGroup[]): ValidatorFn {
 @Component({
   selector: 'cs-affinity-group-selector',
   templateUrl: 'affinity-group-selector.component.html',
-  styleUrls: ['affinity-group-selector.component.scss']
+  styleUrls: ['affinity-group-selector.component.scss'],
 })
 export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
-  @Input() public affinityGroups: AffinityGroup[];
-  @Input() public sortedAffinityGroups: AffinityGroup[];
-  @Input() public preselectedAffinityGroups: AffinityGroup[];
-  @Input() public enablePreselected: boolean;
-  @Output() public onCreateAffinityGroup = new EventEmitter<AffinityGroup>();
-  @Output() public onSubmit = new EventEmitter<string[]>();
-  @Output() public onCancel = new EventEmitter();
+  @Input()
+  public affinityGroups: AffinityGroup[];
+  @Input()
+  public sortedAffinityGroups: AffinityGroup[];
+  @Input()
+  public preselectedAffinityGroups: AffinityGroup[];
+  @Input()
+  public enablePreselected: boolean;
+  @Output()
+  public createdAffinityGroup = new EventEmitter<AffinityGroup>();
+  @Output()
+  public submited = new EventEmitter<string[]>();
+  @Output()
+  public canceled = new EventEmitter();
   public loading: boolean;
   public selectedGroup: AffinityGroup;
   public types = [AffinityGroupType.antiAffinity, AffinityGroupType.affinity];
   public affinityGroupForm: FormGroup;
   public maxEntityNameLength = 63;
 
-  constructor(
-    private store: Store<State>,
-    private affinityGroupService: AffinityGroupService,
-    private dialogRef: MatDialogRef<AffinityGroupSelectorComponent>,
-    private dialogService: DialogService,
-    private formBuilder: FormBuilder,
-  ) {
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnChanges(changes: SimpleChanges) {
     const affinityGroup = changes.affinityGroups.currentValue;
@@ -59,10 +62,10 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
     const newAffinityGroup = {
       name: this.affinityGroupForm.value.name,
       type: this.affinityGroupForm.value.type,
-      description: this.affinityGroupForm.value.description
+      description: this.affinityGroupForm.value.description,
     } as AffinityGroup;
     this.affinityGroupForm.reset();
-    this.onCreateAffinityGroup.emit(newAffinityGroup);
+    this.createdAffinityGroup.emit(newAffinityGroup);
   }
 
   public changeGroup(group: AffinityGroup): void {
@@ -72,12 +75,12 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
   public submit(): void {
     let selectedGroupIds;
     if (this.enablePreselected) {
-      selectedGroupIds = [this.selectedGroup.id]
-    } else  {
+      selectedGroupIds = [this.selectedGroup.id];
+    } else {
       selectedGroupIds = this.preselectedAffinityGroups.map(group => group.id);
       selectedGroupIds.push(this.selectedGroup.id);
     }
-    this.onSubmit.emit(selectedGroupIds);
+    this.submited.emit(selectedGroupIds);
   }
 
   private createForm() {
@@ -85,10 +88,10 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
       name: this.formBuilder.control('', [
         Validators.required,
         Validators.maxLength(this.maxEntityNameLength),
-        isUniqName(this.affinityGroups)
+        isUniqName(this.affinityGroups),
       ]),
       type: this.formBuilder.control(AffinityGroupType.antiAffinity, [Validators.required]),
-      description: this.formBuilder.control('', [Validators.maxLength(this.maxEntityNameLength)])
+      description: this.formBuilder.control('', [Validators.maxLength(this.maxEntityNameLength)]),
     });
   }
 }

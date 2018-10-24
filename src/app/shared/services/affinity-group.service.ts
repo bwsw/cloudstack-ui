@@ -38,6 +38,6 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
     return this.sendCommand(CSCommands.UpdateVM, {
       id: vmId,
       affinitygroupids: groupIds,
-    }).pipe(switchMap(job => this.asyncJob.queryJob(job.jobid, VirtualMachineEntityName)));
+    }).pipe(switchMap(job => this.asyncJob.queryJob(job.jobid, virtualMachineEntityName)));
   }
 }

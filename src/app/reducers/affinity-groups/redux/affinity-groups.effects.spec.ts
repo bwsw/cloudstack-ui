@@ -17,8 +17,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 class MockAsyncJobService {
-  public completeAllJobs(): void {
-  }
+  public completeAllJobs(): void {}
 }
 
 const affinityGroups: AffinityGroup[] = [
@@ -26,8 +25,8 @@ const affinityGroups: AffinityGroup[] = [
     id: 'test-id',
     name: 'test-name',
     type: AffinityGroupType.affinity,
-    description: 'test-description'
-  }
+    description: 'test-description',
+  },
 ];
 
 export class TestActions extends Actions {
@@ -36,6 +35,8 @@ export class TestActions extends Actions {
   }
 
   public set stream(source: Observable<DiskOffering>) {
+    // todo
+    // tslint:disable-next-line
     this.source = source;
   }
 }
@@ -61,7 +62,7 @@ describe('Affinity Groups Effects', () => {
         { provide: Store, useClass: TestStore },
         { provide: DialogService, useClass: MockDialogService },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
-      ]
+      ],
     });
     actions$ = TestBed.get(Actions);
     service = TestBed.get(AffinityGroupService);
@@ -90,7 +91,7 @@ describe('Affinity Groups Effects', () => {
     const action = new actions.CreateAffinityGroup({
       id: '',
       name: '',
-      type: AffinityGroupType.affinity
+      type: AffinityGroupType.affinity,
     });
     const completion = new actions.CreateAffinityGroupError(error);
 

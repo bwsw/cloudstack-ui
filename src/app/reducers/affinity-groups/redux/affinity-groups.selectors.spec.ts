@@ -3,33 +3,44 @@ import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 
 describe('Affinity Group Selectors', () => {
   it('should get sorted groups', () => {
-    const list = <AffinityGroup[]>[
+    const list = [
       {
-        id: '1', name: 'af1', type: AffinityGroupType.affinity,
+        id: '1',
+        name: 'af1',
+        type: AffinityGroupType.affinity,
       },
       {
-        id: '2', name: 'af2', type: AffinityGroupType.affinity,
-      }
-    ];
+        id: '2',
+        name: 'af2',
+        type: AffinityGroupType.affinity,
+      },
+    ] as AffinityGroup[];
 
-    const preselected = <AffinityGroup[]>[
+    const preselected = [
       {
-        id: '2', name: 'af2', type: AffinityGroupType.affinity,
-      }
-    ];
+        id: '2',
+        name: 'af2',
+        type: AffinityGroupType.affinity,
+      },
+    ] as AffinityGroup[];
 
-    const sortedList = <AffinityGroup[]>[
+    const sortedList = [
       {
-        id: '2', name: 'af2', type: AffinityGroupType.affinity, isPreselected: true
+        id: '1',
+        name: 'af1',
+        type: AffinityGroupType.affinity,
+        isPreselected: false,
       },
       {
-        id: '1', name: 'af1', type: AffinityGroupType.affinity, isPreselected: false
-      }
-    ];
+        id: '2',
+        name: 'af2',
+        type: AffinityGroupType.affinity,
+        isPreselected: true,
+      },
+    ] as AffinityGroup[];
 
-    expect(affinityGroupSelectors.getSortedAffinityGroups(preselected).projector(
-      list,
-    ))
-      .toEqual(sortedList);
+    expect(affinityGroupSelectors.getAffinityGroups(preselected).projector(list)).toEqual(
+      sortedList,
+    );
   });
 });

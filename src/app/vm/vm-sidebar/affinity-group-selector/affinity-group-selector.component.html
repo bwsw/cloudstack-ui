@@ -54,7 +54,7 @@
       <cs-vm-details-affinity-group-list
         [affinityGroups]="sortedAffinityGroups"
         (selectedGroupChange)="changeGroup($event)"
-      ></cs-vm-details-affinity-group-list>ф
+      ></cs-vm-details-affinity-group-list>
     </ng-template>
   </div>
 </mat-dialog-content>
@@ -64,7 +64,7 @@
     mat-button
     type="button"
     color="primary"
-    (click)="onCancel.emit()"
+    (click)="canceled.emit()"
   >
     {{ 'COMMON.CANCEL' | translate }}
   </button>

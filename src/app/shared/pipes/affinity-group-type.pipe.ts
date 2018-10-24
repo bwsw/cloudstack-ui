@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AffinityGroupType, AffinityGroupTypesMap } from '../models';
-
+import { AffinityGroupType, affinityGroupTypesMap } from '../models';
 
 @Pipe({
-  name: 'affinityGroupType'
+  // tslint:disable-next-line
+  name: 'affinityGroupType',
 })
 export class AffinityGroupTypePipe implements PipeTransform {
   public transform(value: AffinityGroupType): string {
-    return AffinityGroupTypesMap[value];
+    return affinityGroupTypesMap[value];
   }
 }

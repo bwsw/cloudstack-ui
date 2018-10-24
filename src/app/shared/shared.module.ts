@@ -54,7 +54,6 @@ import {
   SliderComponent,
   TopBarComponent,
   VmStatisticsComponent,
-  KeyboardsComponent,
 } from './components';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';

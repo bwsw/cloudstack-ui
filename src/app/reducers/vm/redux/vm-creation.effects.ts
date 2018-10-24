@@ -616,9 +616,8 @@ export class VirtualMachineCreationEffects {
           }),
           catchError(error => of(new vmActions.DeploymentRequestError(error))),
         );
-    } else {
-      return of(null);
     }
+    return of(null);
   }
 
   private doCreateSecurityGroup(state: VmCreationState) {
