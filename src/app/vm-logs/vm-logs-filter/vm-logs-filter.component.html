@@ -58,7 +58,7 @@
       [dateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
       [cancelLabel]="'COMMON.CANCEL' | translate"
       [ngModel]="startDate"
-      (change)="startDateChanged.emit($event)"
+      (changed)="startDateChanged.emit($event)"
     ></cs-date-picker>
 
     <cs-time-picker
@@ -77,7 +77,7 @@
       [dateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
       [cancelLabel]="'COMMON.CANCEL' | translate"
       [ngModel]="endDate"
-      (change)="endDateChanged.emit($event)"
+      (changed)="endDateChanged.emit($event)"
     ></cs-date-picker>
 
     <cs-time-picker

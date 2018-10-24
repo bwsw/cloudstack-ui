@@ -1,6 +1,6 @@
-import { Route } from '../models';
 import { virtualMachinesSubroutes } from './virtual-machines-subroutes';
 import { accountsSubroutes } from './accounts-subroutes';
+import { Route } from '../models';
 
 export const appNavRoutes: Route[] = [
   {

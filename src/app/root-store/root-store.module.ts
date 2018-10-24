@@ -18,9 +18,11 @@ import { NotificationsEffects } from './notifications';
 import { ConfigStoreModule } from './config';
 import { LayoutStoreModule } from './layout/layout-store.module';
 import { UserTagsStoreModule } from './server-data/user-tags';
+import { reducer as navMenuReducer } from '../core/nav-menu/redux/nav-menu.reducers';
 
 const reducers = {
   router: routerReducer,
+  navMenu: navMenuReducer,
 };
 
 const EFFECTS = [IdleEffects, NotificationsEffects];

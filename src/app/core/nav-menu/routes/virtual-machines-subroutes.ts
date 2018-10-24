@@ -1,6 +1,5 @@
-import { Subroute } from '../models';
-
-export const virtualMachinesSubroutes: Subroute[] = [
+// todo: create reducer for app nav routes
+export const virtualMachinesSubroutes = [
   {
     text: 'NAVIGATION_SIDEBAR.VMS',
     path: '/instances',

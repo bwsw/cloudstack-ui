@@ -70,7 +70,8 @@ For example,
 ```
 "extensions": {
   "webShell": true,
-  "pulse": false
+  "pulse": false,
+  "vmLogs": false
 }
 ```
 

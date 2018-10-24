@@ -91,7 +91,7 @@ export const vmPulseAction = {
 
 export const vmLogsAction = {
   name: 'VM_PAGE.COMMANDS.LOGS',
-  command: VmActions.ACCESS,
+  command: VmActions.LOGS,
   icon: 'mdi-text',
   canActivate: () => true,
 };
