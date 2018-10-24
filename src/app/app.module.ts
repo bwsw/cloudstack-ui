@@ -10,7 +10,6 @@ import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { select, Store } from '@ngrx/store';
 import { createInputTransfer, removeNgStyles } from '@angularclass/hmr';
 import { filter, first, take } from 'rxjs/operators';
-
 import { AccountModule } from './account/accounts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
@@ -28,13 +27,10 @@ import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { AuthModule } from './auth/auth.module';
 import { VmModule } from './vm';
-
 import { HomeComponent } from './home/home.component';
 import { AppComponent } from './app.component';
-
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
-import { createInputTransfer, removeNgStyles } from '@angularclass/hmr';
 import { VmLogsModule } from './vm-logs/vm-logs.module';
 
 // tslint:disable-next-line:function-name

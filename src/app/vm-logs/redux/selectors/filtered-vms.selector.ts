@@ -8,27 +8,23 @@ export const selectFilteredVMs = createSelector(
   filterSelectedAccountIds,
   filterSelectedVmId,
   fromAccounts.selectAll,
-  (
-    vms,
-    selectedAccountIds,
-    selectedVmId,
-    accounts
-  ) => {
-    const selectedAccounts = accounts.filter(
-      account => selectedAccountIds.find(id => id === account.id));
+  (vms, selectedAccountIds, selectedVmId, accounts) => {
+    const selectedAccounts = accounts.filter(account =>
+      selectedAccountIds.find(id => id === account.id),
+    );
     const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
-    const selectedAccountIdsFilter = vm => !selectedAccountIds.length ||
-      (accountsMap[vm.account] && domainsMap[vm.domainid]);
+    const selectedAccountIdsFilter = vm =>
+      !selectedAccountIds.length || (accountsMap[vm.account] && domainsMap[vm.domainid]);
 
     const selectedVm = vms.find(vm => vm.id === selectedVmId);
-    const filteredVms = vms.filter(vm => selectedAccountIdsFilter(vm));
+    const filteredVms = vms.filter(selectedAccountIdsFilter);
 
     if (!filteredVms.find(vm => vm.id === selectedVmId) && selectedVm) {
       return filteredVms.concat(selectedVm);
     }
 
     return filteredVms;
-  }
+  },
 );

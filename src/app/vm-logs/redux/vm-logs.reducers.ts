@@ -6,18 +6,17 @@ import { Keyword } from '../models/keyword.model';
 import { DateObject } from '../models/date-object.model';
 import moment = require('moment');
 
-
 export interface VmLogsFilters {
-  keywords: Array<Keyword>,
-  startDate: DateObject,
-  endDate: DateObject,
-  selectedLogFile: string
-  newestFirst: boolean
-};
+  keywords: Keyword[];
+  startDate: DateObject;
+  endDate: DateObject;
+  selectedLogFile: string;
+  newestFirst: boolean;
+}
 
 export interface State extends EntityState<VmLog> {
-  loading: boolean,
-  filters: VmLogsFilters
+  loading: boolean;
+  filters: VmLogsFilters;
 }
 
 export interface VmLogsState {
@@ -30,7 +29,7 @@ export const vmLogsReducers = {
 
 export const adapter: EntityAdapter<VmLog> = createEntityAdapter<VmLog>({
   selectId: () => Math.random(),
-  sortComparer: false
+  sortComparer: false,
 });
 
 export const initialState: State = adapter.getInitialState({
@@ -55,19 +54,16 @@ export const initialState: State = adapter.getInitialState({
         milliseconds: 999,
       })
       .toObject(),
-    newestFirst: false
-  }
+    newestFirst: false,
+  },
 });
 
-export function reducer(
-  state = initialState,
-  action: vmLogsActions.Actions
-): State {
+export function reducer(state = initialState, action: vmLogsActions.Actions): State {
   switch (action.type) {
     case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST: {
       return {
         ...adapter.removeAll(state),
-        loading: true
+        loading: true,
       };
     }
 
@@ -76,8 +72,8 @@ export function reducer(
         ...state,
         filters: {
           ...state.filters,
-          keywords: action.payload
-        }
+          keywords: action.payload,
+        },
       };
     }
 
@@ -86,9 +82,9 @@ export function reducer(
         ...state,
         filters: {
           ...state.filters,
-          keywords: state.filters.keywords.concat(action.payload)
-        }
-      }
+          keywords: state.filters.keywords.concat(action.payload),
+        },
+      };
     }
 
     case vmLogsActions.VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD: {
@@ -96,15 +92,15 @@ export function reducer(
         ...state,
         filters: {
           ...state.filters,
-          keywords: state.filters.keywords.filter(keyword => keyword !== action.payload)
-        }
-      }
+          keywords: state.filters.keywords.filter(keyword => keyword !== action.payload),
+        },
+      };
     }
 
     case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE: {
       return {
         ...adapter.addAll([...action.payload], state),
-        loading: false
+        loading: false,
       };
     }
 
@@ -113,8 +109,8 @@ export function reducer(
         ...state,
         filters: {
           ...state.filters,
-          startDate: action.payload
-        }
+          startDate: action.payload,
+        },
       };
     }
 
@@ -130,16 +126,16 @@ export function reducer(
             years,
             months,
             date,
-          }
-        }
+          },
+        },
       };
     }
 
     case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_START_TIME: {
       // todo: remove
       if (
-        action.payload.hour === state.filters.startDate.hours
-        && action.payload.minute === state.filters.startDate.minutes
+        action.payload.hour === state.filters.startDate.hours &&
+        action.payload.minute === state.filters.startDate.minutes
       ) {
         return state;
       }
@@ -152,8 +148,8 @@ export function reducer(
             ...state.filters.startDate,
             hours: action.payload.hour,
             minutes: action.payload.minute,
-          }
-        }
+          },
+        },
       };
     }
 
@@ -162,8 +158,8 @@ export function reducer(
         ...state,
         filters: {
           ...state.filters,
-          endDate: action.payload
-        }
+          endDate: action.payload,
+        },
       };
     }
 
@@ -179,16 +175,16 @@ export function reducer(
             years,
             months,
             date,
-          }
-        }
+          },
+        },
       };
     }
 
     case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_END_TIME: {
       // todo: remove
       if (
-        action.payload.hour === state.filters.endDate.hours
-        && action.payload.minute === state.filters.endDate.minutes
+        action.payload.hour === state.filters.endDate.hours &&
+        action.payload.minute === state.filters.endDate.minutes
       ) {
         return state;
       }
@@ -201,8 +197,8 @@ export function reducer(
             ...state.filters.endDate,
             hours: action.payload.hour,
             minutes: action.payload.minute,
-          }
-        }
+          },
+        },
       };
     }
 
@@ -211,8 +207,8 @@ export function reducer(
         ...state,
         filters: {
           ...state.filters,
-          selectedLogFile: action.payload
-        }
+          selectedLogFile: action.payload,
+        },
       };
     }
 
@@ -221,9 +217,9 @@ export function reducer(
         ...state,
         filters: {
           ...state.filters,
-          newestFirst: !state.filters.newestFirst
-        }
-      }
+          newestFirst: !state.filters.newestFirst,
+        },
+      };
     }
 
     case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_NEWEST_FIRST: {
@@ -231,8 +227,8 @@ export function reducer(
         ...state,
         filters: {
           ...state.filters,
-          newestFirst: action.payload
-        }
+          newestFirst: action.payload,
+        },
       };
     }
 
@@ -242,68 +238,34 @@ export function reducer(
   }
 }
 
-
 export const getVmLogsState = createFeatureSelector<VmLogsState>('vmLogs');
 
-export const getVmLogsEntitiesState = createSelector(
-  getVmLogsState,
-  state => state.list
-);
+export const getVmLogsEntitiesState = createSelector(getVmLogsState, state => state.list);
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getVmLogsEntitiesState);
-
-export const isLoading = createSelector(
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getVmLogsEntitiesState,
-  state => state.loading
 );
 
-export const filters = createSelector(
-  getVmLogsEntitiesState,
-  state => state.filters
-);
+export const isLoading = createSelector(getVmLogsEntitiesState, state => state.loading);
 
-export const filterKeywords = createSelector(
-  filters,
-  state => state.keywords
-);
+export const filters = createSelector(getVmLogsEntitiesState, state => state.filters);
 
-export const filterStartDate = createSelector(
-  filters,
-  state => state.startDate
-);
+export const filterKeywords = createSelector(filters, state => state.keywords);
 
-export const filterStartTime = createSelector(
-  filters,
-  state => ({
-    hour: state.startDate.hours,
-    minute: state.startDate.minutes
-  })
-);
+export const filterStartDate = createSelector(filters, state => state.startDate);
 
-export const filterEndDate = createSelector(
-  filters,
-  state => state.endDate
-);
+export const filterStartTime = createSelector(filters, state => ({
+  hour: state.startDate.hours,
+  minute: state.startDate.minutes,
+}));
 
-export const filterEndTime = createSelector(
-  filters,
-  state => ({
-    hour: state.endDate.hours,
-    minute: state.endDate.minutes
-  })
-);
+export const filterEndDate = createSelector(filters, state => state.endDate);
 
-export const filterNewestFirst = createSelector(
-  filters,
-  state => state.newestFirst
-);
+export const filterEndTime = createSelector(filters, state => ({
+  hour: state.endDate.hours,
+  minute: state.endDate.minutes,
+}));
 
-export const filterSelectedLogFile = createSelector(
-  filters,
-  state => state.selectedLogFile
-);
+export const filterNewestFirst = createSelector(filters, state => state.newestFirst);
+
+export const filterSelectedLogFile = createSelector(filters, state => state.selectedLogFile);

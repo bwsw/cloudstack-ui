@@ -9,9 +9,8 @@ import * as vmLogsActions from './vm-logs.actions';
 import { State } from '../../reducers';
 import { VmLogFilesService } from '../services/vm-log-files.service';
 import { VmLogFile } from '../models/vm-log-file.model';
-import { loadVmLogsRequestParams } from './selectors/loadVmLogsRequestParams.selector';
-import { loadVmLogFilesRequestParams } from './selectors/loadVmLogFilesRequestParams.selector';
-
+import { loadVmLogsRequestParams } from './selectors/load-vm-logs-request-params.selector';
+import { loadVmLogFilesRequestParams } from './selectors/load-vm-log-files-request-params.selector';
 
 @Injectable()
 export class VmLogsEffects {
@@ -24,9 +23,9 @@ export class VmLogsEffects {
         map((vmLogs: VmLog[]) => {
           return new vmLogsActions.LoadVmLogsResponse(vmLogs);
         }),
-        catchError(() => of(new vmLogsActions.LoadVmLogsResponse([])))
+        catchError(() => of(new vmLogsActions.LoadVmLogsResponse([]))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -38,28 +37,27 @@ export class VmLogsEffects {
         map((vmLogFiles: VmLogFile[]) => {
           return new vmLogsActions.LoadVmLogFilesResponse(vmLogFiles);
         }),
-        catchError(() => of(new vmLogsActions.LoadVmLogFilesResponse([])))
+        catchError(() => of(new vmLogsActions.LoadVmLogFilesResponse([]))),
       );
-    })
+    }),
   );
 
   @Effect()
   loadVmLogFilesOnVmChange$: Observable<Action> = this.actions$.pipe(
     ofType(vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID),
-    switchMap(() => of(new vmLogsActions.LoadVmLogFilesRequest()))
+    switchMap(() => of(new vmLogsActions.LoadVmLogFilesRequest())),
   );
 
   @Effect()
   resetLogFileOnVmChange$: Observable<Action> = this.actions$.pipe(
     ofType(vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID),
-    switchMap(() => of(new vmLogsActions.VmLogsUpdateLogFile(null)))
+    switchMap(() => of(new vmLogsActions.VmLogsUpdateLogFile(null))),
   );
 
   constructor(
     private actions$: Actions,
     private store: Store<State>,
     private vmLogsService: VmLogsService,
-    private vmLogFilesService: VmLogFilesService
-  ) {
-  }
+    private vmLogFilesService: VmLogFilesService,
+  ) {}
 }

@@ -5,6 +5,6 @@ import { LoadVmLogFilesRequestParams } from '../../models/load-vm-log-files-requ
 export const loadVmLogFilesRequestParams = createSelector(
   filterSelectedVmId,
   (id): LoadVmLogFilesRequestParams => ({
-    id
-  })
+    id,
+  }),
 );

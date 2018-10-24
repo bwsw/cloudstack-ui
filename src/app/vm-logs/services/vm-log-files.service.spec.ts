@@ -4,36 +4,35 @@ import { of } from 'rxjs';
 import { VmLogFilesService } from './vm-log-files.service';
 
 describe('VM logs service test', () => {
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [
-        VmLogFilesService,
-      ],
-      imports: [
-        HttpClientTestingModule
-      ]
+      providers: [VmLogFilesService],
+      imports: [HttpClientTestingModule],
     });
   }));
 
-  it('should get log files', async(inject([VmLogFilesService], (testService) => {
-    const params = {
-      id: 'test-id'
-    };
+  it('should get log files', async(
+    inject([VmLogFilesService], testService => {
+      const params = {
+        id: 'test-id',
+      };
 
-    const vmlogfiles = [{
-      file: 'test-file',
-    }];
+      const vmlogfiles = [
+        {
+          file: 'test-file',
+        },
+      ];
 
-    spyOn(testService, 'sendCommand').and.callFake(() => {
-      return of({
-        count: 1,
-        vmlogfiles,
+      spyOn(testService, 'sendCommand').and.callFake(() => {
+        return of({
+          vmlogfiles,
+          count: 1,
+        });
       });
-    });
 
-    testService.getList(params).subscribe(res => {
-      expect(res).toEqual(vmlogfiles);
-    });
-  })));
+      testService.getList(params).subscribe(res => {
+        expect(res).toEqual(vmlogfiles);
+      });
+    }),
+  ));
 });

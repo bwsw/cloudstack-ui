@@ -21,9 +21,8 @@ import { ParseTimestampPipe } from './pipes/parse-timestamp.pipe';
 import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
 import { VmLogFilesService } from './services/vm-log-files.service';
 import { reducer as vmLogsVm } from './redux/vm-logs-vm.reducers';
-import { reducer as vmLogs, vmLogsReducers } from './redux/vm-logs.reducers';
-import { reducer as vmLogFiles, vmLogFilesReducers } from './redux/vm-log-files.reducers';
-
+import { vmLogsReducers } from './redux/vm-logs.reducers';
+import { vmLogFilesReducers } from './redux/vm-log-files.reducers';
 
 @NgModule({
   imports: [
@@ -47,12 +46,8 @@ import { reducer as vmLogFiles, vmLogFilesReducers } from './redux/vm-log-files.
     VmLogKeywordsComponent,
     BasePathPipe,
     ParseTimestampPipe,
-    DateObjectToDatePipe
+    DateObjectToDatePipe,
   ],
-  providers: [
-    VmLogsService,
-    VmLogFilesService
-  ]
+  providers: [VmLogsService, VmLogFilesService],
 })
-export class VmLogsModule {
-}
+export class VmLogsModule {}

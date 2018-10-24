@@ -33,106 +33,91 @@ export class LoadVmLogsRequest implements Action {
 export class LoadVmLogsResponse implements Action {
   readonly type = VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE;
 
-  constructor(readonly payload: Array<VmLog>) {
-  }
+  constructor(readonly payload: VmLog[]) {}
 }
 
 export class LoadVmLogFilesRequest implements Action {
   readonly type = VmLogsActionTypes.LOAD_VM_LOG_FILES_REQUEST;
 
-  constructor(public payload?: never) {
-  }
+  constructor(public payload?: never) {}
 }
 
 export class LoadVmLogFilesResponse implements Action {
   readonly type = VmLogsActionTypes.LOAD_VM_LOG_FILES_RESPONSE;
 
-  constructor(public payload: Array<VmLogFile>) {
-  }
+  constructor(public payload: VmLogFile[]) {}
 }
 
 export class VmLogsUpdateKeywords implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_KEYWORDS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class VmLogsAddKeyword implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_ADD_KEYWORD;
 
-  constructor(readonly payload: Keyword) {
-  }
+  constructor(readonly payload: Keyword) {}
 }
 
 export class VmLogsRemoveKeyword implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD;
 
-  constructor(readonly payload: Keyword) {
-  }
+  constructor(readonly payload: Keyword) {}
 }
 
 export class VmLogsUpdateStartDateTime implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_START_DATE_TIME;
 
-  constructor(public payload: DateObject) {
-  }
+  constructor(public payload: DateObject) {}
 }
 
 export class VmLogsUpdateStartDate implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_START_DATE;
 
-  constructor(readonly payload: Date) {
-  }
+  constructor(readonly payload: Date) {}
 }
 
 export class VmLogsUpdateStartTime implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_START_TIME;
 
-  constructor(readonly payload: Time) {
-  }
+  constructor(readonly payload: Time) {}
 }
 
 export class VmLogsUpdateEndDateTime implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_END_DATE_TIME;
 
-  constructor(public payload: DateObject) {
-  }
+  constructor(public payload: DateObject) {}
 }
 
 export class VmLogsUpdateEndDate implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_END_DATE;
 
-  constructor(readonly payload: Date) {
-  }
+  constructor(readonly payload: Date) {}
 }
 
 export class VmLogsUpdateEndTime implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_END_TIME;
 
-  constructor(readonly payload: Time) {
-  }
+  constructor(readonly payload: Time) {}
 }
 
 export class VmLogsUpdateVmId implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID;
 
-  constructor(public payload: string) {
-  }
+  constructor(public payload: string) {}
 }
 
 export class VmLogsUpdateAccountIds implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_ACCOUNT_IDS;
 
-  constructor(readonly payload: Array<string>) {
-  }
+  constructor(readonly payload: string[]) {}
 }
 
 export class VmLogsUpdateNewestFirst implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_NEWEST_FIRST;
 
-  constructor(readonly payload: boolean) {
-  }
+  constructor(readonly payload: boolean) {}
 }
 
 export class VmLogsToggleNewestFirst implements Action {
@@ -142,12 +127,11 @@ export class VmLogsToggleNewestFirst implements Action {
 export class VmLogsUpdateLogFile implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_LOG_FILE;
 
-  constructor(public payload: string) {
-  }
+  constructor(public payload: string) {}
 }
 
 export type Actions =
-  LoadVmLogsResponse
+  | LoadVmLogsResponse
   | LoadVmLogsRequest
   | LoadVmLogFilesRequest
   | LoadVmLogFilesResponse
