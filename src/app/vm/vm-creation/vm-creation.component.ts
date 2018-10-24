@@ -60,6 +60,10 @@ export class VmCreationComponent {
   public enoughResources: boolean;
   @Input()
   public insufficientResources: string[];
+  @Input()
+  public minSize: number;
+  @Input()
+  public isDiskOfferingAvailableByResources: boolean;
 
   @Output()
   public displayNameChange = new EventEmitter<string>();
@@ -107,16 +111,13 @@ export class VmCreationComponent {
 
   public takenName: string;
   public maxEntityNameLength = 63;
-  public minSize: number = null;
   public visibleAffinityGroups: AffinityGroup[];
   public visibleInstanceGroups: InstanceGroup[];
 
   constructor(
     public dialogRef: MatDialogRef<VmCreationContainerComponent>,
     private auth: AuthService,
-  ) {
-    this.minSize = this.auth.getCustomDiskOfferingMinSize();
-  }
+  ) {}
 
   public nameIsTaken(): boolean {
     return !!this.vmCreationState && this.vmCreationState.displayName === this.takenName;
@@ -199,19 +200,9 @@ export class VmCreationComponent {
       !isFormValid ||
       this.nameIsTaken() ||
       !this.vmCreationState.template ||
-      !this.vmCreationState.serviceOffering.isAvailableByResources ||
-      !this.isDiskOfferingAvailableByResources()
+      (this.vmCreationState.serviceOffering &&
+        !this.vmCreationState.serviceOffering.isAvailableByResources) ||
+      !this.isDiskOfferingAvailableByResources
     );
-  }
-
-  public isDiskOfferingAvailableByResources(): boolean {
-    if (!isTemplate(this.vmCreationState.template) && this.vmCreationState.diskOffering) {
-      const storageAvailability = this.account.primarystorageavailable;
-      const size = isCustomized(this.vmCreationState.diskOffering)
-        ? this.minSize
-        : this.vmCreationState.diskOffering.disksize;
-      return size < Number(storageAvailability);
-    }
-    return true;
   }
 }

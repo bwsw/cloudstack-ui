@@ -58,6 +58,8 @@ import { ComputeOfferingViewModel } from '../../view-models';
       [loggerStageList]="loggerStageList$ | async"
       [serviceOfferings]="serviceOfferings$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
+      [isDiskOfferingAvailableByResources]="isDiskOfferingAvailableByResources$ | async"
+      [minSize]="minSize"
       (displayNameChange)="onDisplayNameChange($event)"
       (templateChange)="onTemplateChange($event)"
       (serviceOfferingChange)="onServiceOfferingChange($event)"
@@ -102,12 +104,20 @@ export class VmCreationContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
+  public isDiskOfferingAvailableByResources$;
+  public minSize: number;
 
   constructor(
     private store: Store<State>,
     private authService: AuthService,
     private dialogRef: MatDialogRef<VmCreationContainerComponent>,
   ) {
+    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
+    this.dialogRef.afterClosed().subscribe(() => this.onCancel());
+  }
+
+  public ngOnInit() {
+    this.store.dispatch(new vmActions.VmCreationFormInit());
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
@@ -119,13 +129,10 @@ export class VmCreationContainerComponent implements OnInit {
       new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
     );
 
-    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
-
-    this.dialogRef.afterClosed().subscribe(() => this.onCancel());
-  }
-
-  public ngOnInit() {
-    this.store.dispatch(new vmActions.VmCreationFormInit());
+    this.minSize = this.authService.getCustomDiskOfferingMinSize();
+    this.isDiskOfferingAvailableByResources$ = this.store.pipe(
+      select(fromDiskOfferings.isDiskOfferingAvailableByResources(this.minSize)),
+    );
   }
 
   public onDisplayNameChange(displayName: string) {

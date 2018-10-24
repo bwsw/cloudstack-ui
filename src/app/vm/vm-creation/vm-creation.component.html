@@ -131,7 +131,7 @@
                     [units]="'UNITS.GB' | translate"
                   ></cs-slider>
                 </div>
-                <span *ngIf="!isDiskOfferingAvailableByResources()" class="error-message">
+                <span *ngIf="!isDiskOfferingAvailableByResources" class="error-message">
                   {{ 'ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED' | translate }}
                 </span>
               </div>
