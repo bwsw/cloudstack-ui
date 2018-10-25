@@ -732,8 +732,8 @@
       "IS_ROUTING": "Routing",
       "REQUIRES_HVM": "Requires HVM",
       "BOOTABLE": "Bootable",
-      "SHOW_ADDITIONAL": "Show additional fields",
-      "HIDE_ADDITIONAL": "Hide additional fields"
+      "SHOW_ADDITIONAL": "Show details",
+      "HIDE_ADDITIONAL": "Hide details"
     }
   },
   "SNAPSHOT_PAGE": {
