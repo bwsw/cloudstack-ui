@@ -60,8 +60,8 @@
                       [ngModel]="vmCreationState.displayName"
                       (ngModelChange)="displayNameChange.emit($event)"
                       [placeholder]="'VM_PAGE.VM_CREATION.DISPLAY_NAME' | translate"
-                      [maxlength]="maxEntityNameLength"
-                      pattern="^[\S]{1}[^,]*$"
+                      [maxlength]="32"
+                      pattern="^[\S]{1}.{0,30}[\S]$"
                       required
                     >
                     <mat-error *ngIf="takenDisplayName">
@@ -70,7 +70,7 @@
                     <mat-hint align="end">
                       <cs-character-count
                         [value]="vmCreationState.displayName"
-                        [maxLength]="maxEntityNameLength"
+                        [maxLength]="32"
                       ></cs-character-count>
                     </mat-hint>
                   </mat-form-field>
@@ -149,7 +149,7 @@
                     </mat-error>
                     <mat-hint align="end">
                       <cs-character-count
-                        [value]="vmCreationState.displayName"
+                        [value]="vmCreationState.name"
                         [maxLength]="maxEntityNameLength"
                       ></cs-character-count>
                     </mat-hint>

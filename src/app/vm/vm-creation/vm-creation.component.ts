@@ -81,7 +81,7 @@ export class VmCreationComponent {
   @Output()
   public templateChange = new EventEmitter<BaseTemplateModel>();
   @Output()
-  public onSshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
+  public sshKeyPairChanged = new EventEmitter<SSHKeyPair | NotSelected>();
   @Output()
   public doStartVmChange = new EventEmitter<boolean>();
   @Output()
@@ -89,13 +89,11 @@ export class VmCreationComponent {
   @Output()
   public agreementChange = new EventEmitter<boolean>();
   @Output()
-  public onVmDeploymentFailed = new EventEmitter();
+  public vmDeploymentFailed = new EventEmitter();
   @Output()
   public deploy = new EventEmitter<VmCreationState>();
   @Output()
   public cancel = new EventEmitter();
-  @Output()
-  public onError = new EventEmitter();
 
   public insufficientResourcesErrorMap = {
     instances: 'VM_PAGE.VM_CREATION.INSTANCES',

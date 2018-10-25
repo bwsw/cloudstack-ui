@@ -14,6 +14,7 @@
 }
 
 .ellipsis-overflow {
+  user-select: text !important;
   display: inline-block;
   width: 100%;
   white-space: nowrap;

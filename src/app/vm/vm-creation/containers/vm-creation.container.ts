@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
@@ -12,7 +12,6 @@ import {
   SSHKeyPair,
   Zone,
 } from '../../../shared/models';
-import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
 import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
@@ -106,7 +105,6 @@ export class VmCreationContainerComponent implements OnInit {
 
   constructor(
     private store: Store<State>,
-    private authService: AuthService,
     private dialogRef: MatDialogRef<VmCreationContainerComponent>,
   ) {
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
@@ -119,9 +117,6 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(
       new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
     );
-
-    this.getDefaultVmName().subscribe(name => this.onHostNameChange(name));
-
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());
   }
 
@@ -195,12 +190,5 @@ export class VmCreationContainerComponent implements OnInit {
 
   public showOverlayChange() {
     this.store.dispatch(new vmActions.VmCreationStateUpdate({ showOverlay: false }));
-  }
-
-  private getDefaultVmName(): Observable<string> {
-    return this.store.pipe(
-      select(UserTagsSelectors.getLastVMId),
-      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`),
-    );
   }
 }
