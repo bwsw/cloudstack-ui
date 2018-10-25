@@ -45,10 +45,10 @@
     [okLabel]="'COMMON.OK' | translate"
     [locale]="locale"
     [firstDayOfWeek]="firstDayOfWeek"
-    [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+    [dateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
     [cancelLabel]="'COMMON.CANCEL' | translate"
     [ngModel]="selectedDate"
-    (change)="selectedDateChange.emit($event)"
+    (changed)="selectedDateChange.emit($event)"
   ></cs-date-picker>
 </div>
 

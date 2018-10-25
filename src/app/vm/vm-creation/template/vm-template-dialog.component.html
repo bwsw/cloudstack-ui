@@ -14,10 +14,10 @@
     [selectedTemplate]="preselectedTemplate"
     (selectedTemplateChange)="onSelectedTemplateChange($event)"
     (viewModeChange)="viewModeChange.emit($event)"
-    (onSelectedTypesChange)="selectedTypesChange.emit($event)"
-    (onSelectedOsFamiliesChange)="selectedOsFamiliesChange.emit($event)"
-    (onSelectedGroupsChange)="selectedGroupsChange.emit($event)"
-    (onQueryChange)="queryChange.emit($event)"
+    (selectedTypesChanged)="selectedTypesChange.emit($event)"
+    (selectedOsFamiliesChanged)="selectedOsFamiliesChange.emit($event)"
+    (selectedGroupsChanged)="selectedGroupsChange.emit($event)"
+    (queryChanged)="queryChange.emit($event)"
   ></cs-template-filter-list-selector>
 </div>
 <div class="mat-dialog-actions">

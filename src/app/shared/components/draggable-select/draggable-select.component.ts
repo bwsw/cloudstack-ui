@@ -1,4 +1,5 @@
-/* tslint:disable:use-input-property-decorator use-host-property-decorator */
+/* tslint:disable:use-input-property-decorator use-host-property-decorator no-attribute-parameter-decorator */
+/* tslint:disable:variable-name */
 import { Directionality } from '@angular/cdk/bidi';
 import { ViewportRuler } from '@angular/cdk/overlay';
 import {
@@ -13,7 +14,7 @@ import {
   NgZone,
   Optional,
   Self,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import {
@@ -23,7 +24,7 @@ import {
   MatFormField,
   MatFormFieldControl,
   MatSelect,
-  matSelectAnimations
+  matSelectAnimations,
 } from '@angular/material';
 import { DragulaService } from 'ng2-dragula';
 import * as uuid from 'uuid';
@@ -37,11 +38,11 @@ import * as uuid from 'uuid';
   preserveWhitespaces: false,
   providers: [
     { provide: MatFormFieldControl, useExisting: DraggableSelectComponent },
-    { provide: MAT_OPTION_PARENT_COMPONENT, useExisting: DraggableSelectComponent }
+    { provide: MAT_OPTION_PARENT_COMPONENT, useExisting: DraggableSelectComponent },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'role': 'listbox',
+    role: 'listbox',
     '[attr.id]': 'id',
     '[attr.tabindex]': 'tabIndex',
     '[attr.aria-label]': '_ariaLabel',
@@ -56,18 +57,17 @@ import * as uuid from 'uuid';
     '[class.mat-select-disabled]': 'disabled',
     '[class.mat-select-invalid]': 'errorState',
     '[class.mat-select-required]': 'required',
-    'class': 'mat-select',
+    class: 'mat-select',
     '(keydown)': '_handleKeydown($event)',
     '(focus)': '_onFocus()',
     '(blur)': '_onBlur()',
   },
-  animations: [
-    matSelectAnimations.transformPanel,
-    matSelectAnimations.fadeInContent
-  ]
+  animations: [matSelectAnimations.transformPanel, matSelectAnimations.fadeInContent],
 })
-export class DraggableSelectComponent extends MatSelect implements AfterContentInit, MatFormFieldControl<any> {
-  @Input() public dragItems: Array<any>;
+export class DraggableSelectComponent extends MatSelect
+  implements AfterContentInit, MatFormFieldControl<any> {
+  @Input()
+  public dragItems: any[];
   public bagId: string = uuid.v4();
 
   constructor(
@@ -81,9 +81,11 @@ export class DraggableSelectComponent extends MatSelect implements AfterContentI
     @Optional() _parentForm: NgForm,
     @Optional() _parentFormGroup: FormGroupDirective,
     @Optional() _parentFormField: MatFormField,
-    @Self() @Optional() _control: NgControl,
+    @Self()
+    @Optional()
+    _control: NgControl,
     @Attribute('tabindex') tabIndex: string,
-    @Inject(MAT_SELECT_SCROLL_STRATEGY) _scrollStrategyFactory
+    @Inject(MAT_SELECT_SCROLL_STRATEGY) _scrollStrategyFactory,
   ) {
     super(
       _viewportRuler,
@@ -97,14 +99,12 @@ export class DraggableSelectComponent extends MatSelect implements AfterContentI
       _parentFormField,
       _control,
       tabIndex,
-      _scrollStrategyFactory
+      _scrollStrategyFactory,
     );
   }
 
   public ngAfterContentInit(): void {
     super.ngAfterContentInit();
-    this.dragula.dropModel.subscribe(() =>
-      setTimeout(() => (this as any)._propagateChanges())
-    );
+    this.dragula.dropModel.subscribe(() => setTimeout(() => (this as any)._propagateChanges()));
   }
 }

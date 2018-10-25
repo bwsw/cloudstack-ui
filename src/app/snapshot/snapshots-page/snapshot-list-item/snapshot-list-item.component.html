@@ -19,7 +19,7 @@
 
   <div class="entity-list-item-data">
     {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}:
-   <span [innerHTML]="snapshotCreated | stringifyDate"></span>
+   <span [innerHTML]="snapshotCreated | csStringifyDate"></span>
   </div>
 
   <button mat-icon-button [matMenuTriggerFor]="actionsMenu">

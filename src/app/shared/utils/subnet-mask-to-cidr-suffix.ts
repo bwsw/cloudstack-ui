@@ -11,14 +11,10 @@ export function transformSubnetMaskToCidrSuffix(subnetMask: string): string {
       .reduce((acc, length) => acc + length, 0);
 
     return `/${suffix}`;
-  } else {
-    return '';
   }
+  return '';
 }
 
 function countOnesInBinaryRepresentation(number: number): number {
-  return number
-    .toString(2)
-    .replace(/0/g, '')
-    .length;
+  return number.toString(2).replace(/0/g, '').length;
 }

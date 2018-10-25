@@ -11,7 +11,7 @@
       <cs-account-configuration
         *ngFor="let configuration of configurations"
         [configuration]="configuration"
-        (onConfigurationEdit)="onConfigurationEdit.emit($event)"
+        (configurationEdited)="configurationEdited.emit($event)"
       ></cs-account-configuration>
     </div>
   </mat-card-content>

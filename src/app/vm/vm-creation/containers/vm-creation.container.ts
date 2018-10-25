@@ -2,19 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import {
-  AccountResourceType,
+  accountResourceType,
   AffinityGroup,
   DiskOffering,
   InstanceGroup,
   SSHKeyPair,
-  Zone
+  Zone,
 } from '../../../shared/models';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
-import { VmService } from '../../shared/vm.service';
 import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
@@ -69,18 +68,18 @@ import { ComputeOfferingViewModel } from '../../view-models';
       (securityRulesChange)="onSecurityRulesChange($event)"
       (affinityGroupChange)="onAffinityGroupChange($event)"
       (instanceGroupChange)="onInstanceGroupChange($event)"
-      (onSshKeyPairChange)="onSshKeyPairChange($event)"
+      (sshKeyPairChanged)="onSshKeyPairChange($event)"
       (zoneChange)="onZoneChange($event)"
       (doStartVmChange)="onDoStartVmChange($event)"
       (agreementChange)="onAgreementChange($event)"
       (cancel)="onCancel()"
       (deploy)="onDeploy($event)"
-      (onVmDeploymentFailed)="showOverlayChange()"
+      (vmDeploymentFailed)="showOverlayChange()"
     ></cs-vm-creation>
-  `
+  `,
 })
 export class VmCreationContainerComponent implements OnInit {
-  readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
+  readonly vmFormState$ = this.store.pipe(select(fromVMs.getVmFormState));
   readonly isLoading$ = combineLatest(
     this.store.pipe(select(fromVMs.formIsLoading)),
     this.store.pipe(select(fromZones.isLoading)),
@@ -88,10 +87,8 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
     this.store.pipe(select(fromAffinityGroups.isLoading)),
-    this.store.pipe(select(UserTagsSelectors.getIsLoading))
-  ).pipe(
-    map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
-  );
+    this.store.pipe(select(UserTagsSelectors.getIsLoading)),
+  ).pipe(map((loadings: boolean[]) => !!loadings.find(loading => loading)));
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));
   readonly deploymentInProgress$ = this.store.pipe(select(fromVMs.deploymentInProgress));
@@ -109,9 +106,8 @@ export class VmCreationContainerComponent implements OnInit {
 
   constructor(
     private store: Store<State>,
-    private virtualMachineService: VmService,
     private authService: AuthService,
-    private dialogRef: MatDialogRef<VmCreationContainerComponent>
+    private dialogRef: MatDialogRef<VmCreationContainerComponent>,
   ) {
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
@@ -120,7 +116,9 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
-    this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
+    this.store.dispatch(
+      new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
+    );
 
     this.getDefaultVmName().subscribe(name => this.onHostNameChange(name));
 
@@ -128,7 +126,7 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.store.dispatch(new vmActions.VmCreationFormInit())
+    this.store.dispatch(new vmActions.VmCreationFormInit());
   }
 
   public onDisplayNameChange(displayName: string) {
@@ -202,6 +200,7 @@ export class VmCreationContainerComponent implements OnInit {
   private getDefaultVmName(): Observable<string> {
     return this.store.pipe(
       select(UserTagsSelectors.getLastVMId),
-      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`));
+      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`),
+    );
   }
 }

@@ -24,4 +24,3 @@ export interface ResourceCount extends BaseModel {
   resourcecount: number;
   resourcetype: number;
 }
-

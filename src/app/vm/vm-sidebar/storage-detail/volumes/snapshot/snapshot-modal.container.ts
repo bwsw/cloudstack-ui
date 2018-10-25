@@ -20,10 +20,10 @@ import { DialogService } from '../../../../../dialog/dialog-service/dialog.servi
   template: `
     <cs-snapshot-modal
       [volume]="volume$ | async"
-      (onTemplateCreate)="onTemplateCreate($event)"
-      (onVolumeCreate)="onVolumeCreate($event)"
-      (onSnapshotRevert)="onSnapshotRevert($event)"
-      (onSnapshotDelete)="onSnapshotDelete($event)"
+      (templateCreated)="onTemplateCreate($event)"
+      (volumeCreated)="onVolumeCreate($event)"
+      (snapshotReverted)="onSnapshotRevert($event)"
+      (snapshotDeleted)="onSnapshotDelete($event)"
     >
     </cs-snapshot-modal>`,
 })
@@ -37,16 +37,18 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
     public dialogRef: MatDialogRef<SnapshotModalContainerComponent>,
     private store: Store<State>,
     private dialogService: DialogService,
-    private snapshotActionService: SnapshotActionService
+    private snapshotActionService: SnapshotActionService,
   ) {
     super();
     this.store.dispatch(new volumeActions.LoadSelectedVolume(data.volumeId));
   }
 
   public ngOnInit() {
-    this.volume$.pipe(
-      takeUntil(this.unsubscribe$),
-      filter(volume => !!volume))
+    this.volume$
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(volume => !!volume),
+      )
       .subscribe(volume => {
         // todo remove model
         this.volume = volume as Volume;
@@ -65,9 +67,12 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
   }
 
   public onSnapshotDelete(snapshot: Snapshot): void {
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' }).pipe(
-      onErrorResumeNext(),
-      filter(res => Boolean(res)))
+    this.dialogService
+      .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
+      .pipe(
+        onErrorResumeNext(),
+        filter(Boolean),
+      )
       .subscribe(() => {
         this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
       });

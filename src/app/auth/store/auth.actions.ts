@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 export enum AuthActionTypes {
   IdleLogout = '[Idle monitor] Logout',
-  LogoutComplete = '[Auth API] Logout complete'
+  LogoutComplete = '[Auth API] Logout complete',
 }
 
 export class IdleLogout implements Action {
@@ -13,6 +13,4 @@ export class LogoutComplete implements Action {
   readonly type = AuthActionTypes.LogoutComplete;
 }
 
-export type AuthActionsUnion =
-  | IdleLogout
-  | LogoutComplete;
+export type AuthActionsUnion = IdleLogout | LogoutComplete;

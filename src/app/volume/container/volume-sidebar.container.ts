@@ -1,9 +1,6 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { State } from '../../reducers/index';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as volumeEvent from '../../reducers/volumes/redux/volumes.actions';
 import { ActivatedRoute } from '@angular/router';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
@@ -13,22 +10,15 @@ import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
   template: `
     <cs-volume-sidebar
       [entity]="volume$ | async"
-    ></cs-volume-sidebar>`
+    ></cs-volume-sidebar>`,
 })
 export class VolumeSidebarContainerComponent implements OnInit {
+  readonly volume$ = this.store.pipe(select(fromVolumes.getSelectedVolume));
 
-  readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
-
-
-  constructor(
-    private store: Store<State>,
-    private activatedRoute: ActivatedRoute
-  ) { }
-
+  constructor(private store: Store<State>, private activatedRoute: ActivatedRoute) {}
 
   public ngOnInit() {
     const params = this.activatedRoute.snapshot.params;
     this.store.dispatch(new volumeEvent.LoadSelectedVolume(params['id']));
   }
-
 }

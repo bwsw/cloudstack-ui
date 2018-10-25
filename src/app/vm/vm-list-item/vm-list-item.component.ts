@@ -1,14 +1,8 @@
-import {
-  EventEmitter,
-  OnInit
-} from '@angular/core';
+import { EventEmitter, OnInit } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
-import {
-  VirtualMachine,
-  VmState
-} from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Volume } from '../../shared/models/volume.model';
 import { OsType } from '../../shared/models/os-type.model';
@@ -31,12 +25,12 @@ const stateTranslations = {
   RESTORE_IN_PROGRESS: 'VM_STATE.RESTORE_IN_PROGRESS',
   DESTROY_IN_PROGRESS: 'VM_STATE.DESTROY_IN_PROGRESS',
   DEPLOY_IN_PROGRESS: 'VM_STATE.DEPLOY_IN_PROGRESS',
-  RESET_PASSWORD_IN_PROGRESS: 'VM_STATE.RESET_PASSWORD_IN_PROGRESS'
+  RESET_PASSWORD_IN_PROGRESS: 'VM_STATE.RESET_PASSWORD_IN_PROGRESS',
 };
 
 export abstract class VmListItemComponent implements OnInit {
   public item: VirtualMachine;
-  public volumes: Array<Volume>;
+  public volumes: Volume[];
   public osTypesMap: Dictionary<OsType>;
   public isSelected: (vm: VirtualMachine) => boolean;
   public onClick = new EventEmitter();
@@ -44,10 +38,9 @@ export abstract class VmListItemComponent implements OnInit {
   public query: string;
 
   public color: Color;
-  public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
+  public gigabyte = 1024; // to compare with RAM which is in megabytes
 
-  constructor(private vmTagService: VmTagService) {
-  }
+  constructor(private vmTagService: VmTagService) {}
 
   public ngOnInit(): void {
     this.updateColor();
@@ -72,7 +65,7 @@ export abstract class VmListItemComponent implements OnInit {
       stopping,
       error,
       destroyed,
-      'in-progress': inProgress
+      'in-progress': inProgress,
     };
   }
 
@@ -83,12 +76,12 @@ export abstract class VmListItemComponent implements OnInit {
       state === VmState.Destroyed || (state as any) === 'VM_STATE.EXPUNGE_IN_PROGRESS';
 
     return {
+      error,
+      destroyed,
       'card-selected': this.isSelected(this.item),
       'has-text-color': !!this.color && !!this.color.textColor,
       'dark-background': !!this.color && Utils.isColorDark(this.color.value),
       'light-background': !this.color || !Utils.isColorDark(this.color.value),
-      error,
-      destroyed
     };
   }
 
@@ -108,19 +101,24 @@ export abstract class VmListItemComponent implements OnInit {
   }
 
   public get getDisksSize(): number {
-    const filteredVolumes = this.volumes && this.volumes
-      .filter((volume: Volume) => volume.virtualmachineid === this.item.id);
-    const sizeInBytes = filteredVolumes && filteredVolumes.reduce((
-      acc: number,
-      volume: Volume
-    ) => {
-      return acc + volume.size;
-    }, 0) || 0;
+    const filteredVolumes =
+      this.volumes &&
+      this.volumes.filter((volume: Volume) => volume.virtualmachineid === this.item.id);
+    const sizeInBytes =
+      (filteredVolumes &&
+        filteredVolumes.reduce((acc: number, volume: Volume) => {
+          return acc + volume.size;
+        }, 0)) ||
+      0;
     return sizeInBytes / Math.pow(2, 30);
   }
 
   public get getOsDescription(): string {
-    return this.osTypesMap && this.osTypesMap[this.item.guestosid] && this.osTypesMap[this.item.guestosid].description;
+    return (
+      this.osTypesMap &&
+      this.osTypesMap[this.item.guestosid] &&
+      this.osTypesMap[this.item.guestosid].description
+    );
   }
 
   private updateColor(): void {

@@ -3,18 +3,7 @@ import { Observable, of } from 'rxjs';
 import { Color } from '../../../app/shared/models';
 import { DayOfWeek, Language, TimeFormat } from '../../../app/shared/types';
 
-
-interface UserIdObject {
-  id: string;
-}
-
 export class MockUserTagService {
-  private get user(): UserIdObject {
-    return {
-      id: 'id'
-    };
-  }
-
   public getAccentColor(): Observable<string> {
     return of('');
   }

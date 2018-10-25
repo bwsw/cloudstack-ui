@@ -6,16 +6,22 @@ import * as groupBy from 'lodash/groupBy';
 @Component({
   selector: 'cs-grouped-list',
   templateUrl: 'grouped-list.component.html',
-  styleUrls: ['grouped-list.component.scss']
+  styleUrls: ['grouped-list.component.scss'],
 })
 export class GroupedListComponent implements OnChanges {
-  @Input() public component: Type<any>;
-  @Input() public list: Array<BaseModel>;
-  @Input() public level = 0;
-  @Input() public groupings: Array<Grouping>;
-  @Input() dynamicInputs: { [k: string]: any } = {};
-  @Input() dynamicOutputs: { [k: string]: Function } = {};
-  public tree: Array<{ items?, name? }>;
+  @Input()
+  public component: Type<any>;
+  @Input()
+  public list: BaseModel[];
+  @Input()
+  public level = 0;
+  @Input()
+  public groupings: Grouping[];
+  @Input()
+  dynamicInputs: { [k: string]: any } = {};
+  @Input()
+  dynamicOutputs: { [k: string]: Function } = {};
+  public tree: { items?; name? }[];
 
   readonly emptyName = 'COMMON.EMPTY_GROUP_NAME';
 
@@ -31,12 +37,14 @@ export class GroupedListComponent implements OnChanges {
     const groupings = this.groupings;
     if (groupings.length && this.level < groupings.length) {
       const groups = groupBy(this.list, groupings[this.level].selector);
-      this.tree = Object.keys(groups).map(gn => {
-        return {
-          name: groupings[this.level].name(groups[gn][0]) || this.emptyName,
-          items: groups[gn]
-        };
-      }).sort((group1, group2) => this.sortGroups(group1, group2));
+      this.tree = Object.keys(groups)
+        .map(gn => {
+          return {
+            name: groupings[this.level].name(groups[gn][0]) || this.emptyName,
+            items: groups[gn],
+          };
+        })
+        .sort((group1, group2) => this.sortGroups(group1, group2));
     } else {
       this.tree = [{ items: this.list }];
     }

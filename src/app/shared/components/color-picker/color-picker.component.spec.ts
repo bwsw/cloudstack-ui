@@ -9,13 +9,13 @@ import { ColorPickerComponent } from './color-picker.component';
 describe('Color picker component', () => {
   let fixture;
   let component: ColorPickerComponent;
-  const colors: Array<Color> = [
-    { 'name': 'red', 'value': '#F44336', 'textColor': '#FFFFFF' },
-    { 'name': 'pink', 'value': '#E91E63', 'textColor': '#FFFFFF' },
-    { 'name': 'purple', 'value': '#9C27B0', 'textColor': '#FFFFFF' },
-    { 'name': 'deep_purple', 'value': '#673AB7', 'textColor': '#FFFFFF' },
-    { 'name': 'indigo', 'value': '#3F51B5', 'textColor': '#FFFFFF' },
-    { 'name': 'blue', 'value': '#2196F3', 'textColor': '#FFFFFF' }
+  const colors: Color[] = [
+    { name: 'red', value: '#F44336', textColor: '#FFFFFF' },
+    { name: 'pink', value: '#E91E63', textColor: '#FFFFFF' },
+    { name: 'purple', value: '#9C27B0', textColor: '#FFFFFF' },
+    { name: 'deep_purple', value: '#673AB7', textColor: '#FFFFFF' },
+    { name: 'indigo', value: '#3F51B5', textColor: '#FFFFFF' },
+    { name: 'blue', value: '#2196F3', textColor: '#FFFFFF' },
   ];
 
   @Component({
@@ -26,7 +26,7 @@ describe('Color picker component', () => {
         [colorsPerLine]="colorsPerLine"
         [(ngModel)]="selectedColor"
       ></cs-color-picker>
-    `
+    `,
   })
   class ColorPickerTestComponent {
     public colors = colors;
@@ -34,15 +34,11 @@ describe('Color picker component', () => {
     public colorsPerLine: number;
   }
 
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        PopoverModule
-      ],
+      imports: [FormsModule, PopoverModule],
       declarations: [ColorPickerComponent, ColorPickerTestComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     fixture = TestBed.createComponent(ColorPickerComponent);
@@ -99,11 +95,9 @@ describe('Color picker component', () => {
     f.componentInstance.selectedColor = colors[colors.length - 1];
     f.detectChanges();
     f.whenStable().then(() => {
-      const colorPickerComponent = f.debugElement.query(
-        By.directive(ColorPickerComponent)
-      );
+      const colorPickerComponent = f.debugElement.query(By.directive(ColorPickerComponent));
       expect(colorPickerComponent.componentInstance.selectedColor).toEqual(
-        colors[colors.length - 1]
+        colors[colors.length - 1],
       );
     });
   }));

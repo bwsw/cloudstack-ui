@@ -1,11 +1,7 @@
 <div class="calendar-year-container">
   <div class="calendar-year" #calendarYearElement>
     <div class="calendar-year-child">
-      <div
-        *ngFor="let year of years"
-        class="year-button"
-        (click)="setYear(year)"
-      >
+      <div *ngFor="let year of years" class="year-button" (click)="setYear(year)">
         <span
           *ngIf="selectedDate.getFullYear() == year"
           class="label selected"

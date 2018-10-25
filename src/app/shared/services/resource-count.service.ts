@@ -8,19 +8,18 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ResourceCount } from '../models/resource-count.model';
 import { CSCommands } from './base-backend.service';
 
-
 @Injectable()
 @BackendResource({
-  entity: 'ResourceCount'
+  entity: 'ResourceCount',
 })
 export class ResourceCountService extends BaseBackendCachedService<ResourceCount> {
   constructor(protected http: HttpClient) {
     super(http);
   }
 
-  public updateResourceCount(
-    params: { [key: string]: string; }
-  ): Observable<Array<ResourceCount>> {
-    return this.sendCommand(CSCommands.Update, params).pipe(map(response => this.formatGetListResponse(response).list));
+  public updateResourceCount(params: { [key: string]: string }): Observable<ResourceCount[]> {
+    return this.sendCommand(CSCommands.Update, params).pipe(
+      map(response => this.formatGetListResponse(response).list),
+    );
   }
 }

@@ -11,7 +11,7 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
   template: `
     <cs-account-user-password-form
       (changePassword)="changePassword($event)"
-    ></cs-account-user-password-form>`
+    ></cs-account-user-password-form>`,
 })
 export class AccountUserPasswordFormContainerComponent {
   public user: AccountUser;
@@ -19,16 +19,18 @@ export class AccountUserPasswordFormContainerComponent {
   constructor(
     private dialogRef: MatDialogRef<AccountUserPasswordFormContainerComponent>,
     @Inject(MAT_DIALOG_DATA) data: any,
-    private store: Store<State>
+    private store: Store<State>,
   ) {
-    this.user = {...data.user};
+    this.user = { ...data.user };
   }
 
   public changePassword(password: string) {
-    this.store.dispatch(new accountActions.AccountUserUpdate({
-      ...this.user,
-      password
-    }));
+    this.store.dispatch(
+      new accountActions.AccountUserUpdate({
+        ...this.user,
+        password,
+      }),
+    );
     this.dialogRef.close();
   }
 }

@@ -6,17 +6,13 @@ export const LOAD_RESOURCE_COUNTS_RESPONSE = '[RESOURCE_COUNTS] LOAD_RESOURCE_CO
 export class LoadResourceCountsRequest implements Action {
   type = LOAD_RESOURCE_COUNTS_REQUEST;
 
-  constructor(public payload?: any) {
-  }
-
+  constructor(public payload?: any) {}
 }
 
 export class LoadResourceCountsResponse implements Action {
   type = LOAD_RESOURCE_COUNTS_RESPONSE;
 
-  constructor(public payload:  any ) {
-  }
-
+  constructor(public payload: any) {}
 }
 
 export type Actions = LoadResourceCountsResponse | LoadResourceCountsRequest;

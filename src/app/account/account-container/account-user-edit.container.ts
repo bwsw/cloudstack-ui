@@ -1,15 +1,9 @@
-import {
-  Component,
-  Inject
-} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import { Account } from '../../shared/models/account.model';
 import { AccountUser } from '../../shared/models/account-user.model';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
@@ -21,7 +15,7 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
       [confirmButtonText]="confirmButtonText"
       [user]="user"
       (updateUser)="updateUser($event)"
-    ></cs-account-user-edit>`
+    ></cs-account-user-edit>`,
 })
 export class AccountUserEditContainerComponent {
   public account: Account;
@@ -32,7 +26,7 @@ export class AccountUserEditContainerComponent {
   constructor(
     private dialogRef: MatDialogRef<AccountUserEditContainerComponent>,
     @Inject(MAT_DIALOG_DATA) data: any,
-    private store: Store<State>
+    private store: Store<State>,
   ) {
     this.title = data.title;
     this.user = { ...data.user };
@@ -42,7 +36,7 @@ export class AccountUserEditContainerComponent {
 
   public updateUser(user: AccountUser) {
     if (!this.user || !this.user.id) {
-      user.account = this.account && this.account.name || user.username;
+      user.account = (this.account && this.account.name) || user.username;
 
       if (this.account) {
         user.domainid = this.account.domainid;

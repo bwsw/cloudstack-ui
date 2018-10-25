@@ -26,7 +26,7 @@ const vmDescriptionKey = 'csui.vm.description';
     <cs-instance-group
       [vm]="vm$ | async"
       [groups]="groups$ | async"
-      (onGroupChange)=changeGroup($event)
+      (groupChanged)="changeGroup($event)"
     >
     </cs-instance-group>
     <cs-service-offering-details
@@ -36,24 +36,23 @@ const vmDescriptionKey = 'csui.vm.description';
     </cs-service-offering-details>
     <cs-affinity-group
       [vm]="vm$ | async"
-      (onAffinityGroupChange)="changeAffinityGroup($event)"
+      (affinityGroupChanged)="changeAffinityGroup($event)"
     >
     </cs-affinity-group>
     <cs-vm-detail-template [vm]="vm$ | async"></cs-vm-detail-template>
     <cs-vm-ssh-keypair
       [vm]="vm$ | async"
       [keys]="sshKeys$ | async"
-      (onSshKeyChange)="changeSshKey($event)"
+      (sshKeyChanged)="changeSshKey($event)"
     >
     </cs-vm-ssh-keypair>
     <cs-statistics
       [vm]="vm$ | async"
-      (onStatsUpdate)="updateStats($event)"
+      (statsUpdated)="updateStats($event)"
     ></cs-statistics>
-  `
+  `,
 })
 export class VmDetailContainerComponent implements OnInit {
-
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
   readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
   readonly offering$ = this.store.pipe(select(fromServiceOfferings.getSelectedOffering));
@@ -63,12 +62,10 @@ export class VmDetailContainerComponent implements OnInit {
     map((vm: VirtualMachine) => {
       const descriptionTag = vm.tags.find(tag => tag.key === vmDescriptionKey);
       return descriptionTag && descriptionTag.value;
-    }));
+    }),
+  );
 
-  constructor(
-    private store: Store<State>
-  ) {
-  }
+  constructor(private store: Store<State>) {}
 
   public changeDescription(description) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
@@ -79,10 +76,12 @@ export class VmDetailContainerComponent implements OnInit {
   public changeGroup(group) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       if (group.name !== '') {
-        this.store.dispatch(new vmActions.ChangeInstanceGroup({
-          vm,
-          group
-        }));
+        this.store.dispatch(
+          new vmActions.ChangeInstanceGroup({
+            vm,
+            group,
+          }),
+        );
       } else {
         this.store.dispatch(new vmActions.RemoveInstanceGroup(vm));
       }
@@ -91,19 +90,23 @@ export class VmDetailContainerComponent implements OnInit {
 
   public changeAffinityGroup(affinityGroupId: string) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      this.store.dispatch(new vmActions.ChangeAffinityGroup({
-        vm,
-        affinityGroupId
-      }));
+      this.store.dispatch(
+        new vmActions.ChangeAffinityGroup({
+          vm,
+          affinityGroupId,
+        }),
+      );
     });
   }
 
   public changeSshKey(keyPair: SSHKeyPair) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      this.store.dispatch(new vmActions.ChangeSshKey({
-        vm,
-        keyPair
-      }));
+      this.store.dispatch(
+        new vmActions.ChangeSshKey({
+          vm,
+          keyPair,
+        }),
+      );
     });
   }
 

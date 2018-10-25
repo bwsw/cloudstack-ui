@@ -8,7 +8,7 @@ import { VirtualMachine } from '../../shared/vm.model';
 @Component({
   selector: 'cs-vm-reset-password',
   templateUrl: 'vm-reset-password.component.html',
-  styleUrls: ['vm-reset-password.component.scss']
+  styleUrls: ['vm-reset-password.component.scss'],
 })
 export class VmPasswordDialogComponent {
   public message;
@@ -17,7 +17,7 @@ export class VmPasswordDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<VmPasswordDialogComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.vm = data.vm;
     const { translationToken } = data;
@@ -25,14 +25,11 @@ export class VmPasswordDialogComponent {
       translationToken,
       interpolateParams: {
         vmName: this.vm.displayname,
-      }
+      },
     };
   }
 
   public get translatedMessage(): Observable<string> {
-    return this.translateService.get(
-      this.message.translationToken,
-      this.message.interpolateParams
-    );
+    return this.translateService.get(this.message.translationToken, this.message.interpolateParams);
   }
 }
