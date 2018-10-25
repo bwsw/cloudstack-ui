@@ -80,8 +80,6 @@ describe('Utils service', () => {
   });
 
   it('should convert bytes to GB', () => {
-    expect(Utils.convertToGb(undefined)).toBe(0);
-
     convertToGbFixture.forEach(example => {
       expect(Utils.convertToGb(example.bytes)).toBe(example.gb);
     });
