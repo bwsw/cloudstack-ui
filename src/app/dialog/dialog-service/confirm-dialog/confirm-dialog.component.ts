@@ -12,16 +12,15 @@ export interface ConfirmDialogConfiguration extends BaseDialogConfiguration {
 
 @Component({
   selector: 'cs-confirm-dialog',
-  templateUrl: 'confirm-dialog.component.html'
+  templateUrl: 'confirm-dialog.component.html',
 })
 export class ConfirmDialogComponent {
-
   public config: ConfirmDialogConfiguration;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogConfiguration>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.config = data.config;
   }
@@ -34,11 +33,10 @@ export class ConfirmDialogComponent {
   public get translatedMessage(): Observable<string> {
     if (typeof this.config.message === 'string') {
       return this.translateService.get(this.config.message);
-    } else {
-      return this.translateService.get(
-        this.config.message.translationToken,
-        this.config.message.interpolateParams
-      );
     }
+    return this.translateService.get(
+      this.config.message.translationToken,
+      this.config.message.interpolateParams,
+    );
   }
 }

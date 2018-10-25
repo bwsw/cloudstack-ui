@@ -3,13 +3,12 @@ import { LocalStorageService } from './local-storage.service';
 import { SessionStorageService } from './session-storage.service';
 import { MemoryStorageService } from './memory-storage.service';
 
-
 describe('Storage creation-services (Local Storage)', () => {
   let localStorageService: LocalStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LocalStorageService]
+      providers: [LocalStorageService],
     });
 
     localStorageService = TestBed.get(LocalStorageService);
@@ -29,7 +28,7 @@ describe('Storage services (Session Storage)', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SessionStorageService]
+      providers: [SessionStorageService],
     });
 
     sessionStorageService = TestBed.get(SessionStorageService);
@@ -49,7 +48,7 @@ describe('Storage services (Memory Storage)', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MemoryStorageService]
+      providers: [MemoryStorageService],
     });
 
     memoryStorageService = TestBed.get(MemoryStorageService);

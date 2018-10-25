@@ -17,7 +17,7 @@ export class ResourcesData {
   public ips = 0;
   public secondaryStorage = 0;
 
-  constructor(resources?: Array<ResourceLimit>) {
+  constructor(resources?: ResourceLimit[]) {
     if (resources) {
       this.instances = resources[ResourceType.Instance].max;
       this.ips = resources[ResourceType.IP].max;
@@ -36,6 +36,12 @@ export class ResourceStats {
   public consumed: ResourcesData;
   public max: ResourcesData;
 
+  constructor(available?: ResourcesData, consumed?: ResourcesData, max?: ResourcesData) {
+    this.available = available || new ResourcesData();
+    this.consumed = consumed || new ResourcesData();
+    this.max = max || new ResourcesData();
+  }
+
   public static convertLimits(account: Account): Account {
     const accountJson = { ...account };
     Object.keys(accountJson)
@@ -51,9 +57,9 @@ export class ResourceStats {
         }
       });
     return accountJson as Account;
-  };
+  }
 
-  public static fromAccount(accounts: Array<Account>): ResourceStats {
+  public static fromAccount(accounts: Account[]): ResourceStats {
     const consumedResources = new ResourcesData();
     const maxResources = new ResourcesData();
     const availableResources = new ResourcesData();
@@ -89,26 +95,11 @@ export class ResourceStats {
 
     return new ResourceStats(availableResources, consumedResources, maxResources);
   }
-
-  constructor(
-    available?: ResourcesData,
-    consumed?: ResourcesData,
-    max?: ResourcesData
-  ) {
-    this.available = available || new ResourcesData();
-    this.consumed = consumed || new ResourcesData();
-    this.max = max || new ResourcesData();
-  }
 }
-
 
 @Injectable()
 export class ResourceUsageService {
-  constructor(
-    private authService: AuthService,
-    private accountService: AccountService
-  ) {
-  }
+  constructor(private authService: AuthService, private accountService: AccountService) {}
 
   public getResourceUsage(forDomain = false): Observable<ResourceStats> {
     const params = forDomain
@@ -116,6 +107,7 @@ export class ResourceUsageService {
       : { account: this.authService.user.account };
 
     return this.accountService
-      .getList(params).pipe(map(accounts => ResourceStats.fromAccount(accounts)));
+      .getList(params)
+      .pipe(map(accounts => ResourceStats.fromAccount(accounts)));
   }
 }

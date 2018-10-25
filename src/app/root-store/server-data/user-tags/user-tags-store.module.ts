@@ -8,8 +8,7 @@ import { UserTagsEffects } from './user-tags.effects';
 @NgModule({
   imports: [
     StoreModule.forFeature('userTags', reducer),
-    EffectsModule.forFeature([UserTagsEffects])
-  ]
+    EffectsModule.forFeature([UserTagsEffects]),
+  ],
 })
-export class UserTagsStoreModule {
-}
+export class UserTagsStoreModule {}

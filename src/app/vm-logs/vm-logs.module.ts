@@ -25,7 +25,7 @@ import { vmLogFilesReducers } from './redux/vm-log-files.reducers';
 import { reducer as vmLogsVmReducers } from './redux/vm-logs-vm.reducers';
 import { reducer as vmLogsAutoUpdateReducers } from './redux/vm-logs-auto-update.reducers';
 import { VmLogsContainerComponent } from './containers/vm-logs.container';
-
+import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
 
 @NgModule({
   imports: [
@@ -53,10 +53,6 @@ import { VmLogsContainerComponent } from './containers/vm-logs.container';
     DateObjectToDatePipe,
     VmLogsContainerComponent,
   ],
-  providers: [
-    VmLogsService,
-    VmLogFilesService
-  ]
+  providers: [VmLogsService, VmLogFilesService, VmLogsEnabledGuard],
 })
-export class VmLogsModule {
-}
+export class VmLogsModule {}

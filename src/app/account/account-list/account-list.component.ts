@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AccountCardItemComponent } from '../account/card-item/account-card-item.component';
 import { Account } from '../../shared/models/account.model';
 import { ListService } from '../../shared/components/list/list.service';
@@ -12,24 +7,28 @@ import { AccountRowItemComponent } from '../account/row-item/account-row-item.co
 
 @Component({
   selector: 'cs-account-list',
-  templateUrl: 'account-list.component.html'
+  templateUrl: 'account-list.component.html',
 })
 export class AccountListComponent {
-  @Input() public accounts: Array<Account>;
-  @Input() public groupings: Array<any>;
-  @Input() public mode: ViewMode;
-  @Output() public viewModeChange = new EventEmitter();
+  @Input()
+  public accounts: Account[];
+  @Input()
+  public groupings: any[];
+  @Input()
+  public mode: ViewMode;
+  @Output()
+  public viewModeChange = new EventEmitter();
 
   public inputs;
   public outputs;
 
   constructor(public listService: ListService) {
     this.inputs = {
-      isSelected: (item: Account) => this.listService.isSelected(item.id)
+      isSelected: (item: Account) => this.listService.isSelected(item.id),
     };
 
     this.outputs = {
-      onClick: this.selectAccount.bind(this)
+      onClick: this.selectAccount.bind(this),
     };
   }
 

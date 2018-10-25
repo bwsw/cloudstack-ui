@@ -9,8 +9,8 @@ import * as vmLogsActions from './vm-logs.actions';
 import { State } from '../../reducers';
 import { VmLogFilesService } from '../services/vm-log-files.service';
 import { VmLogFile } from '../models/vm-log-file.model';
-import { loadVmLogsRequestParams } from './selectors/loadVmLogsRequestParams.selector';
-import { loadVmLogFilesRequestParams } from './selectors/loadVmLogFilesRequestParams.selector';
+import { loadVmLogsRequestParams } from './selectors/load-vm-logs-request-params.selector';
+import { loadVmLogFilesRequestParams } from './selectors/load-vm-log-files-request-params.selector';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { filter, takeUntil } from 'rxjs/internal/operators';
 import { loadAutoUpdateVmLogsRequestParams } from './selectors/load-auto-update-vm-logs-request-params.selector';
@@ -19,7 +19,6 @@ import * as fromVmLogsAutoUpdate from './vm-logs-auto-update.reducers';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Router } from '@angular/router';
 import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
-
 
 @Injectable()
 export class VmLogsEffects {
@@ -32,9 +31,9 @@ export class VmLogsEffects {
         map((vmLogs: VmLog[]) => {
           return new vmLogsActions.LoadVmLogsResponse(vmLogs);
         }),
-        catchError(() => of(new vmLogsActions.LoadVmLogsResponse([])))
+        catchError(() => of(new vmLogsActions.LoadVmLogsResponse([]))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -46,21 +45,21 @@ export class VmLogsEffects {
         map((vmLogFiles: VmLogFile[]) => {
           return new vmLogsActions.LoadVmLogFilesResponse(vmLogFiles);
         }),
-        catchError(() => of(new vmLogsActions.LoadVmLogFilesResponse([])))
+        catchError(() => of(new vmLogsActions.LoadVmLogFilesResponse([]))),
       );
-    })
+    }),
   );
 
   @Effect()
   loadVmLogFilesOnVmChange$: Observable<Action> = this.actions$.pipe(
     ofType(vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID),
-    switchMap(() => of(new vmLogsActions.LoadVmLogFilesRequest()))
+    switchMap(() => of(new vmLogsActions.LoadVmLogFilesRequest())),
   );
 
   @Effect()
   resetLogFileOnVmChange$: Observable<Action> = this.actions$.pipe(
     ofType(vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID),
-    switchMap(() => of(new vmLogsActions.VmLogsUpdateLogFile(null)))
+    switchMap(() => of(new vmLogsActions.VmLogsUpdateLogFile(null))),
   );
 
   @Effect()
@@ -81,7 +80,7 @@ export class VmLogsEffects {
 
       return currentUrl !== nextUrl;
     }),
-    map(() => new vmLogsActions.DisableAutoUpdate())
+    map(() => new vmLogsActions.DisableAutoUpdate()),
   );
 
   @Effect()
@@ -99,27 +98,31 @@ export class VmLogsEffects {
         map((vmLogs: VmLog[]) => {
           return new vmLogsActions.LoadAutoUpdateVmLogsResponse(vmLogs);
         }),
-        catchError(error => of(new vmLogsActions.LoadAutoUpdateVmLogsError(error)))
+        catchError(error => of(new vmLogsActions.LoadAutoUpdateVmLogsError(error))),
       );
-    })
+    }),
   );
 
   @Effect()
   enableAutoUpdate$: Observable<Action> = this.actions$.pipe(
     ofType(vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE),
-    switchMap(() => timer(0, 10000).pipe(
-      takeUntil(this.actions$.pipe(ofType(vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE))),
-      switchMap(() => {
-        const startDate = moment().add(-1, 'minutes').toObject();
-        const endDate = moment().toObject();
+    switchMap(() =>
+      timer(0, 10000).pipe(
+        takeUntil(this.actions$.pipe(ofType(vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE))),
+        switchMap(() => {
+          const startDate = moment()
+            .add(-1, 'minutes')
+            .toObject();
+          const endDate = moment().toObject();
 
-        return concat(
-          of(new vmLogsActions.SetAutoUpdateStartDate(startDate)),
-          of(new vmLogsActions.SetAutoUpdateEndDate(endDate)),
-          of(new vmLogsActions.LoadAutoUpdateVmLogsRequest())
-        );
-      }),
-    ))
+          return concat(
+            of(new vmLogsActions.SetAutoUpdateStartDate(startDate)),
+            of(new vmLogsActions.SetAutoUpdateEndDate(endDate)),
+            of(new vmLogsActions.LoadAutoUpdateVmLogsRequest()),
+          );
+        }),
+      ),
+    ),
   );
 
   constructor(
@@ -127,7 +130,6 @@ export class VmLogsEffects {
     private router: Router,
     private store: Store<State>,
     private vmLogsService: VmLogsService,
-    private vmLogFilesService: VmLogFilesService
-  ) {
-  }
+    private vmLogFilesService: VmLogFilesService,
+  ) {}
 }

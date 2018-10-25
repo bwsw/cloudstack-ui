@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 
 import { Component, Directive, NgModule, ViewChild, ViewContainerRef } from '@angular/core';
@@ -12,8 +11,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Directive({ selector: '[csViewContainer]' })
 class ViewContainerDirective {
-  constructor(public viewContainerRef: ViewContainerRef) {
-  }
+  constructor(public viewContainerRef: ViewContainerRef) {}
 }
 
 @Component({
@@ -22,7 +20,8 @@ class ViewContainerDirective {
     <div csViewContainer></div>`,
 })
 class TestComponent {
-  @ViewChild(ViewContainerDirective) viewContainer: ViewContainerDirective;
+  @ViewChild(ViewContainerDirective)
+  viewContainer: ViewContainerDirective;
 
   get childViewContainer() {
     return this.viewContainer.viewContainerRef;
@@ -35,15 +34,12 @@ class TestComponent {
   declarations: [TestComponent, ViewContainerDirective],
   entryComponents: [TestComponent],
 })
-class NotificationTestModule {
-}
+class NotificationTestModule {}
 
 describe('Service: Notification service', () => {
   let notificationService: SnackBarService;
   let mdSnackBar: MatSnackBar;
-  let liveAnnouncer: LiveAnnouncer;
   let overlayContainerElement: HTMLElement;
-  let testViewContainerRef: ViewContainerRef;
   let viewContainerFixture: ComponentFixture<TestComponent>;
 
   beforeEach(async(() => {
@@ -53,32 +49,25 @@ describe('Service: Notification service', () => {
         SnackBarService,
         { provide: TranslateService, useClass: MockTranslateService },
         {
-          provide: OverlayContainer, useFactory: () => {
-          overlayContainerElement = document.createElement('div');
-          return { getContainerElement: () => overlayContainerElement };
-        }
-        }
-      ]
+          provide: OverlayContainer,
+          useFactory: () => {
+            overlayContainerElement = document.createElement('div');
+            return { getContainerElement: () => overlayContainerElement };
+          },
+        },
+      ],
     });
   }));
 
-  beforeEach(async(inject(
-    [SnackBarService, MatSnackBar, LiveAnnouncer],
-    (
-      service: SnackBarService,
-      snackBar: MatSnackBar,
-      lAnnouncer: LiveAnnouncer
-    ) => {
+  beforeEach(async(
+    inject([SnackBarService, MatSnackBar], (service: SnackBarService, snackBar: MatSnackBar) => {
       notificationService = service;
       mdSnackBar = snackBar;
-      liveAnnouncer = lAnnouncer;
-    }
-    ))
-  );
+    }),
+  ));
 
   afterEach(() => {
     overlayContainerElement.innerHTML = '';
-    liveAnnouncer = undefined;
     mdSnackBar = undefined;
     notificationService = undefined;
   });
@@ -87,7 +76,6 @@ describe('Service: Notification service', () => {
     viewContainerFixture = TestBed.createComponent(TestComponent);
 
     viewContainerFixture.detectChanges();
-    testViewContainerRef = viewContainerFixture.componentInstance.childViewContainer;
   });
 
   it('should be defined', () => {
@@ -108,5 +96,3 @@ describe('Service: Notification service', () => {
     expect(overlayContainerElement.querySelector('snack-bar-container')).not.toBeNull();
   });
 });
-
-

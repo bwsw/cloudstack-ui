@@ -1,16 +1,17 @@
 import { VmLogsActionTypes } from './vm-logs.actions';
-import * as fromVmLogsAutoUpdate from './vm-logs-auto-update.reducers';
-import { initialState } from './vm-logs-auto-update.reducers';
-
+import { initialState, reducer } from './vm-logs-auto-update.reducers';
 
 describe('VM logs auto update reducer', () => {
   it('should enable auto update', () => {
-    const state = fromVmLogsAutoUpdate.reducer({
-      ...initialState,
-      isAutoUpdateEnabled: false,
-    }, {
-      type: VmLogsActionTypes.ENABLE_AUTO_UPDATE,
-    });
+    const state = reducer(
+      {
+        ...initialState,
+        isAutoUpdateEnabled: false,
+      },
+      {
+        type: VmLogsActionTypes.ENABLE_AUTO_UPDATE,
+      },
+    );
 
     expect(state).toEqual({
       ...initialState,
@@ -19,12 +20,15 @@ describe('VM logs auto update reducer', () => {
   });
 
   it('should disable auto update', () => {
-    const state = fromVmLogsAutoUpdate.reducer({
-      ...initialState,
-      isAutoUpdateEnabled: true,
-    }, {
-      type: VmLogsActionTypes.DISABLE_AUTO_UPDATE,
-    });
+    const state = reducer(
+      {
+        ...initialState,
+        isAutoUpdateEnabled: true,
+      },
+      {
+        type: VmLogsActionTypes.DISABLE_AUTO_UPDATE,
+      },
+    );
 
     expect(state).toEqual({
       ...initialState,
@@ -45,7 +49,7 @@ describe('VM logs auto update reducer', () => {
   it('should set start date', () => {
     const startDate = getDateObject();
 
-    const state = fromVmLogsAutoUpdate.reducer(undefined, {
+    const state = reducer(undefined, {
       type: VmLogsActionTypes.SET_AUTO_UPDATE_START_DATE,
       payload: startDate,
     });
@@ -59,7 +63,7 @@ describe('VM logs auto update reducer', () => {
   it('should set end date', () => {
     const endDate = getDateObject();
 
-    const state = fromVmLogsAutoUpdate.reducer(undefined, {
+    const state = reducer(undefined, {
       type: VmLogsActionTypes.SET_AUTO_UPDATE_END_DATE,
       payload: endDate,
     });

@@ -11,19 +11,19 @@ import * as affinityGroupActions from './affinity-groups.actions';
 
 @Injectable()
 export class AffinityGroupsEffects {
-
   @Effect()
   loadAffinityGroups$: Observable<Action> = this.actions$.pipe(
     ofType(affinityGroupActions.LOAD_AFFINITY_GROUPS_REQUEST),
     switchMap((action: affinityGroupActions.LoadAffinityGroupsRequest) => {
       return this.affinityGroupService.getList().pipe(
-        map((affinityGroups: AffinityGroup[]) => new affinityGroupActions.LoadAffinityGroupsResponse(affinityGroups)),
-        catchError(() => of(new affinityGroupActions.LoadAffinityGroupsResponse([]))));
-    }));
+        map(
+          (affinityGroups: AffinityGroup[]) =>
+            new affinityGroupActions.LoadAffinityGroupsResponse(affinityGroups),
+        ),
+        catchError(() => of(new affinityGroupActions.LoadAffinityGroupsResponse([]))),
+      );
+    }),
+  );
 
-  constructor(
-    private actions$: Actions,
-    private affinityGroupService: AffinityGroupService
-  ) {
-  }
+  constructor(private actions$: Actions, private affinityGroupService: AffinityGroupService) {}
 }

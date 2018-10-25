@@ -7,14 +7,13 @@ import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VirtualMachine } from '../../shared/vm.model';
 
-
 @Component({
   selector: 'cs-affinity-group-selector',
   templateUrl: 'affinity-group-selector.component.html',
-  styleUrls: ['affinity-group-selector.component.scss']
+  styleUrls: ['affinity-group-selector.component.scss'],
 })
 export class AffinityGroupSelectorComponent implements OnInit {
-  public affinityGroups: Array<AffinityGroup>;
+  public affinityGroups: AffinityGroup[];
   public loading: boolean;
   public selectedAffinityGroupName: string;
   public vm: VirtualMachine;
@@ -23,7 +22,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
     private affinityGroupService: AffinityGroupService,
     private dialogRef: MatDialogRef<AffinityGroupSelectorComponent>,
     private dialogService: DialogService,
-    @Inject(MAT_DIALOG_DATA) public data
+    @Inject(MAT_DIALOG_DATA) public data,
   ) {
     this.vm = data.vm;
   }
@@ -33,10 +32,10 @@ export class AffinityGroupSelectorComponent implements OnInit {
   }
 
   public get groupName(): string {
-    return this.vm.affinityGroup.length && this.vm.affinityGroup[0].name;
+    return this.vm.affinitygroup.length && this.vm.affinitygroup[0].name;
   }
 
-  public get groupNames(): Array<string> {
+  public get groupNames(): string[] {
     return this.affinityGroups.map(_ => _.name);
   }
 
@@ -48,11 +47,11 @@ export class AffinityGroupSelectorComponent implements OnInit {
     this.affinityGroupService
       .create({
         name,
-        type: AffinityGroupType.hostAntiAffinity
+        type: AffinityGroupType.hostAntiAffinity,
       })
       .subscribe(
         affinityGroup => this.dialogRef.close(affinityGroup.id),
-        error => this.dialogService.alert({ message: error.message })
+        error => this.dialogService.alert({ message: error.message }),
       );
   }
 
@@ -71,8 +70,9 @@ export class AffinityGroupSelectorComponent implements OnInit {
 
   private loadGroups(): void {
     this.loading = true;
-    this.affinityGroupService.getList().pipe(
-      finalize(() => this.loading = false))
+    this.affinityGroupService
+      .getList()
+      .pipe(finalize(() => (this.loading = false)))
       .subscribe(groups => {
         this.affinityGroups = groups;
       });

@@ -1,12 +1,5 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
-import {
-  DiskOffering,
-  Volume,
-  getDescription
-} from '../../../../../shared/models';
+import { Component, Input } from '@angular/core';
+import { DiskOffering, Volume, getDescription } from '../../../../../shared/models';
 import * as moment from 'moment';
 
 @Component({
@@ -15,14 +8,15 @@ import * as moment from 'moment';
   styleUrls: ['volume-details.component.scss'],
 })
 export class VolumeDetailsComponent {
-  @Input() public volume: Volume;
-  @Input() public diskOffering: DiskOffering;
-
+  @Input()
+  public volume: Volume;
+  @Input()
+  public diskOffering: DiskOffering;
 
   public get storageTypeTranslationToken(): string {
     const storageTypeTranslations = {
-      'SHARED': 'DISK_OFFERING_STORAGE_TYPE.SHARED',
-      'LOCAL': 'DISK_OFFERING_STORAGE_TYPE.LOCAL'
+      SHARED: 'DISK_OFFERING_STORAGE_TYPE.SHARED',
+      LOCAL: 'DISK_OFFERING_STORAGE_TYPE.LOCAL',
     };
 
     return storageTypeTranslations[this.volume.storagetype.toUpperCase()];
@@ -48,7 +42,7 @@ export class VolumeDetailsComponent {
       diskOffering.diskBytesReadRate,
       diskOffering.diskBytesWriteRate,
       diskOffering.diskIopsReadRate,
-      diskOffering.diskIopsWriteRate
+      diskOffering.diskIopsWriteRate,
     ].some(a => a !== undefined);
   }
 }

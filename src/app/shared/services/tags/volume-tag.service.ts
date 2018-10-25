@@ -1,43 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { Volume } from '../../models';
-import { MarkForRemovalService } from './mark-for-removal.service';
 import { TagService } from './tag.service';
 import { DescriptionTagService } from './description-tag.service';
-import { VolumeTagKeys } from './volume-tag-keys';
+import { volumeTagKeys } from './volume-tag-keys';
 
-export const VolumeResourceType = 'Volume';
+export const volumeResourceType = 'Volume';
 
 @Injectable()
 export class VolumeTagService {
-  public keys = VolumeTagKeys;
+  public keys = volumeTagKeys;
 
   constructor(
     protected descriptionTagService: DescriptionTagService,
-    protected markForRemovalService: MarkForRemovalService,
-    protected tagService: TagService
-  ) {
-  }
+    protected tagService: TagService,
+  ) {}
 
   public setDescription(volume: Volume, description: string): Observable<Volume> {
     return this.descriptionTagService.setDescription(
       volume,
-      VolumeResourceType,
+      volumeResourceType,
       description,
-      this
+      this,
     ) as Observable<Volume>;
   }
 
   public removeDescription(volume: Volume): Observable<Volume> {
     return this.descriptionTagService.removeDescription(
       volume,
-      VolumeResourceType,
-      this
+      volumeResourceType,
+      this,
     ) as Observable<Volume>;
-  }
-
-  public markForRemoval(volume: Volume): Observable<Volume> {
-    return this.markForRemovalService.markForRemoval(volume) as Observable<Volume>;
   }
 }

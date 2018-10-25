@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-
 @Component({
   selector: 'cs-overlay-loading',
   templateUrl: 'overlay-loading.component.html',
@@ -8,5 +7,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverlayLoadingComponent {
-  @Input() public active: boolean;
+  @Input()
+  public active: boolean;
 }

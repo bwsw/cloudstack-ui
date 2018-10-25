@@ -7,22 +7,29 @@ import { NgrxEntities } from '../../../shared/interfaces';
 import { VirtualMachine } from '../../../vm';
 import { SnapshotItemComponent } from './snapshot-item.component';
 
-
 @Component({
   selector: 'cs-snapshot-list-item',
   templateUrl: 'snapshot-list-item.component.html',
-  styleUrls: ['snapshot-list-item.component.scss']
+  styleUrls: ['snapshot-list-item.component.scss'],
 })
 export class SnapshotListItemComponent extends SnapshotItemComponent {
-  @Input() public item: Snapshot;
-  @Input() public volumes: NgrxEntities<Volume>;
-  @Input() public virtualMachines: NgrxEntities<VirtualMachine>;
-  @Input() public isSelected: (snapshot: Snapshot) => boolean;
-  @Input() public query: string;
-  @Output() public onClick = new EventEmitter<Snapshot>();
-  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
+  @Input()
+  public item: Snapshot;
+  @Input()
+  public volumes: NgrxEntities<Volume>;
+  @Input()
+  public virtualMachines: NgrxEntities<VirtualMachine>;
+  @Input()
+  public isSelected: (snapshot: Snapshot) => boolean;
+  @Input()
+  public query: string;
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output()
+  public onClick = new EventEmitter<Snapshot>();
+  @ViewChild(MatMenuTrigger)
+  public matMenuTrigger: MatMenuTrigger;
 
-  constructor(private translateService: TranslateService) {
+  constructor(translateService: TranslateService) {
     super(translateService);
   }
 }

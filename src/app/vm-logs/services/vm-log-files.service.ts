@@ -4,10 +4,9 @@ import { BackendResource } from '../../shared/decorators';
 import { BaseBackendService, FormattedResponse } from '../../shared/services/base-backend.service';
 import { VmLogFile } from '../models/vm-log-file.model';
 
-
 @Injectable()
 @BackendResource({
-  entity: 'VmLogFile'
+  entity: 'VmLogFile',
 })
 export class VmLogFilesService extends BaseBackendService<VmLogFile> {
   constructor(protected http: HttpClient) {
@@ -15,13 +14,12 @@ export class VmLogFilesService extends BaseBackendService<VmLogFile> {
   }
 
   protected formatGetListResponse(response: any): FormattedResponse<VmLogFile> {
-    const result = response && response.vmlogfiles || [];
+    const result = (response && response.vmlogfiles) || [];
     return {
-      list: result.map(m => this.prepareModel(m)) as Array<VmLogFile>,
+      list: result as VmLogFile[],
       meta: {
-        count: response.count || 0
-      }
+        count: response.count || 0,
+      },
     };
   }
 }
-

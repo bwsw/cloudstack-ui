@@ -4,7 +4,7 @@
       multiple="true"
       [placeholder]="'LOGS_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
       [ngModel]="selectedAccountIds"
-      (selectionChange)="onAccountsChange.emit($event.value)"
+      (selectionChange)="accountsChanged.emit($event.value)"
     >
       <mat-option
         *ngFor="let account of accounts"
@@ -18,7 +18,7 @@
     <mat-select
       [placeholder]="'LOGS_PAGE.FILTERS.SELECT_VM' | translate"
       [ngModel]="selectedVmId"
-      (selectionChange)="onVmChange.emit($event.value)"
+      (selectionChange)="vmChanged.emit($event.value)"
     >
       <mat-option
         *ngFor="let vm of vms"
@@ -33,7 +33,7 @@
     <mat-select
       [placeholder]="'LOGS_PAGE.FILTERS.LOG_FILE' | translate"
       [ngModel]="selectedLogFile"
-      (selectionChange)="onLogFileChange.emit($event.value)"
+      (selectionChange)="logFileChanged.emit($event.value)"
     >
       <mat-option [value]="null">
         {{ 'LOGS_PAGE.FILTERS.LOG_FILE_NOT_SELECTED' | translate }}
@@ -43,7 +43,7 @@
         [value]="logFile.file"
       >
         <span [matTooltip]="logFile.file">
-          {{ logFile.file | basepath }}
+          {{ logFile.file | csBasepath }}
         </span>
       </mat-option>
     </mat-select>
@@ -55,16 +55,16 @@
       [okLabel]="'COMMON.OK' | translate"
       [locale]="locale"
       [firstDayOfWeek]="firstDayOfWeek"
-      [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+      [dateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
       [cancelLabel]="'COMMON.CANCEL' | translate"
       [ngModel]="startDate"
-      (change)="onStartDateChange.emit($event)"
+      (changed)="startDateChanged.emit($event)"
     ></cs-date-picker>
 
     <cs-time-picker
       [timeFormat]="'hour24'"
       [ngModel]="startTime"
-      (ngModelChange)="onStartTimeChange.emit($event)"
+      (ngModelChange)="startTimeChanged.emit($event)"
     ></cs-time-picker>
   </div>
 
@@ -74,16 +74,16 @@
       [okLabel]="'COMMON.OK' | translate"
       [locale]="locale"
       [firstDayOfWeek]="firstDayOfWeek"
-      [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+      [dateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
       [cancelLabel]="'COMMON.CANCEL' | translate"
       [ngModel]="endDate"
-      (change)="onEndDateChange.emit($event)"
+      (changed)="endDateChanged.emit($event)"
     ></cs-date-picker>
 
     <cs-time-picker
       [timeFormat]="'hour24'"
       [ngModel]="endTime"
-      (ngModelChange)="onEndTimeChange.emit($event)"
+      (ngModelChange)="endTimeChanged.emit($event)"
     ></cs-time-picker>
   </div>
 </div>
@@ -92,19 +92,19 @@
   <cs-vm-log-keywords
     class="keywords"
     [keywords]="keywords"
-    (onKeywordAdd)="onKeywordAdd.emit($event)"
-    (onKeywordRemove)="onKeywordRemove.emit($event)"
+    (keywordAdded)="keywordAdded.emit($event)"
+    (keywordRemoved)="keywordRemoved.emit($event)"
   ></cs-vm-log-keywords>
 
   <mat-checkbox
     [ngModel]="newestFirst"
-    (change)="onNewestFirstChange.emit()"
+    (change)="newestFirstChanged.emit()"
   >
     {{ 'LOGS_PAGE.FILTERS.NEWEST_FIRST' | translate }}
   </mat-checkbox>
 
   <div>
-    <button mat-button (click)="onRefresh.emit()" [disabled]="!selectedVmId">
+    <button mat-button (click)="refreshed.emit()" [disabled]="!selectedVmId">
       {{ 'LOGS_PAGE.FILTERS.SHOW_LOGS' | translate }}
     </button>
   </div>

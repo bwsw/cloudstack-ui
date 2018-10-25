@@ -1,6 +1,11 @@
 export { RootStoreModule } from './root-store.module';
 export * from './state';
-export * from './server-data';
-export * from './layout';
-export * from './config';
+
+export { configSelectors } from './config';
 export { IdleMonitorActions } from './idle-monitor';
+export { routerSelectors } from './router';
+
+import * as layoutStore from './layout';
+export * from './server-data';
+
+export { layoutStore };

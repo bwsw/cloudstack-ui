@@ -1,8 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { State } from '../../../../reducers/index';
 import { Store } from '@ngrx/store';
 import { BaseTemplateModel, isTemplate } from '../../../../template/shared/base-template.model';
@@ -19,25 +15,24 @@ import { IsoActionsService } from '../iso-actions.service';
       [template]="template"
       [actions]="actions"
       (deleteTemplate)="deleteTemplate($event)"
-    ></cs-template-actions>`
+    ></cs-template-actions>`,
 })
 export class TemplateActionsContainerComponent implements OnInit {
-  @Input() public template: BaseTemplateModel;
-  public actions: Array<BaseTemplateAction> = [];
+  @Input()
+  public template: BaseTemplateModel;
+  public actions: BaseTemplateAction[] = [];
 
   constructor(
     private store: Store<State>,
     private templateActionsService: TemplateActionsService,
-    private isoActionsService: IsoActionsService
-  ) {
-  }
+    private isoActionsService: IsoActionsService,
+  ) {}
 
   public ngOnInit() {
-    if (this.template && isTemplate(this.template)) {
-      this.actions = this.templateActionsService.actions;
-    } else {
-      this.actions = this.isoActionsService.actions;
-    }
+    this.actions =
+      this.template && isTemplate(this.template)
+        ? this.templateActionsService.actions
+        : this.isoActionsService.actions;
   }
 
   public deleteTemplate(template: BaseTemplateModel) {

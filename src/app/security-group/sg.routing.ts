@@ -15,14 +15,15 @@ export const sgRoutes: Routes = [
     children: [
       {
         path: 'create',
-        component: SecurityGroupCreationDialogComponent
-      }, {
+        component: SecurityGroupCreationDialogComponent,
+      },
+      {
         path: ':id',
         children: [
           {
             path: '',
             redirectTo: 'details',
-            pathMatch: 'full'
+            pathMatch: 'full',
           },
           {
             path: 'details',
@@ -32,22 +33,24 @@ export const sgRoutes: Routes = [
               {
                 path: '',
                 redirectTo: 'sg',
-                pathMatch: 'full'
-              }, {
+                pathMatch: 'full',
+              },
+              {
                 path: 'sg',
-                component: SecurityGroupDetailsContainerComponent
-              }, {
+                component: SecurityGroupDetailsContainerComponent,
+              },
+              {
                 path: 'tags',
-                component: SecurityGroupTagsContainerComponent
-              }
-            ]
+                component: SecurityGroupTagsContainerComponent,
+              },
+            ],
           },
           {
             path: 'rules',
-            component: SecurityGroupRulesDialogComponent
-          }
-        ]
-      }
-    ]
-  }
+            component: SecurityGroupRulesDialogComponent,
+          },
+        ],
+      },
+    ],
+  },
 ];

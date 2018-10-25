@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { State } from '../../../reducers';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
-
 
 @Component({
   selector: 'cs-vm-statistics-container',
@@ -11,17 +10,12 @@ import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducer
       [fetching]="loading$ | async"
       [accounts]="accounts$ | async"
       [user]="user$ | async"
-    ></cs-vm-statistics>`
+    ></cs-vm-statistics>`,
 })
 export class VmStatisticContainerComponent {
+  readonly user$ = this.store.pipe(select(fromAccounts.selectUserAccount));
+  readonly accounts$ = this.store.pipe(select(fromAccounts.selectDomainAccounts));
+  readonly loading$ = this.store.pipe(select(fromAccounts.isLoading));
 
-  readonly user$ = this.store.select(fromAccounts.selectUserAccount);
-  readonly accounts$ = this.store.select(fromAccounts.selectDomainAccounts);
-  readonly loading$ = this.store.select(fromAccounts.isLoading);
-
-  constructor(
-    private store: Store<State>,
-  ) {
-  }
-
+  constructor(private store: Store<State>) {}
 }

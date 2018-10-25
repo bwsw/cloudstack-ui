@@ -2,8 +2,8 @@ import * as uuid from 'uuid';
 
 interface RouterState {
   snapshot: {
-    url: string
-  }
+    url: string;
+  };
 }
 
 export class Utils {
@@ -15,16 +15,15 @@ export class Utils {
     enumerator: number,
     denominator: number,
     denominatorExponent?: number,
-    precision?: number
+    precision?: number,
   ): number {
     const calculatedExponent = denominatorExponent != null ? denominatorExponent : 1;
     const calculatedDenominator = Math.pow(denominator, calculatedExponent);
 
     if (precision) {
       return +(enumerator / calculatedDenominator).toFixed(precision);
-    } else {
-      return enumerator / calculatedDenominator;
     }
+    return enumerator / calculatedDenominator;
   }
 
   public static convertToGb(value?: number): number {
@@ -63,15 +62,13 @@ export class Utils {
   }
 
   public static convertBooleanToBooleanString(boolean: boolean): string {
-    if (boolean === true) {
+    if (boolean) {
       return 'true';
     }
 
-    if (boolean === false) {
+    if (!boolean) {
       return 'false';
     }
-
-    throw new Error('Invalid argument');
   }
 
   public static parseJsonString(string): any {

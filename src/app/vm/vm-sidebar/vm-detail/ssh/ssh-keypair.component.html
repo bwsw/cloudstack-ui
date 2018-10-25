@@ -6,19 +6,19 @@
   </mat-card-header>
   <mat-card-content class="mat-card-content-with-actions">
     <div class="mat-card-content-container">
-      <span *ngIf="vm.keyPair; else noKeys">{{ vm.keyPair }}</span>
+      <span *ngIf="vm.keypair; else noKeys">{{ vm.keypair }}</span>
       <ng-template #noKeys>{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.NO_SSH_KEY' | translate }}</ng-template>
     </div>
     <mat-card-actions>
       <button
         mat-icon-button
         type="button"
-        [matTooltip]="(vm.keyPair ? 'COMMON.EDIT': 'COMMON.ADD') | translate"
+        [matTooltip]="(vm.keypair ? 'COMMON.EDIT': 'COMMON.ADD') | translate"
         matTooltipPosition="above"
         [disabled]="!canActivate"
         (click)="showSshKeypairResetDialog()"
       >
-        <mat-icon *ngIf="vm.keyPair; else add" class="mdi-pencil"></mat-icon>
+        <mat-icon *ngIf="vm.keypair; else add" class="mdi-pencil"></mat-icon>
         <ng-template #add>
           <mat-icon class="mdi-plus"></mat-icon>
         </ng-template>

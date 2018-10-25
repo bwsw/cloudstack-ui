@@ -19,14 +19,15 @@ import { SnackBarService } from '../../../core/services';
       >
       </mat-icon>
     </button>
-  `
+  `,
 })
 export class ClipboardButtonComponent {
-  @Input() value: string;
-  @Input() tooltipPosition = 'after';
+  @Input()
+  value: string;
+  @Input()
+  tooltipPosition = 'after';
 
-  constructor(private snackBarService: SnackBarService) {
-  }
+  constructor(private snackBarService: SnackBarService) {}
 
   public onCopySuccess(): void {
     this.snackBarService.open('CLIPBOARD.COPY_SUCCESS').subscribe();

@@ -9,26 +9,27 @@ import { VirtualMachine, VmState } from '../../../shared/vm.model';
 @Component({
   selector: 'cs-service-offering-details',
   templateUrl: 'service-offering-details.component.html',
-  styleUrls: ['service-offering-details.component.scss']
+  styleUrls: ['service-offering-details.component.scss'],
 })
 export class ServiceOfferingDetailsComponent {
-  @Input() public offering: ServiceOffering;
-  @Input() public vm: VirtualMachine;
+  @Input()
+  public offering: ServiceOffering;
+  @Input()
+  public vm: VirtualMachine;
 
   public expandServiceOffering: boolean;
 
-  constructor(
-    private dialog: MatDialog,
-  ) {
+  constructor(private dialog: MatDialog) {
     this.expandServiceOffering = false;
   }
 
   public changeServiceOffering(): void {
-    this.dialog.open(ServiceOfferingDialogContainerComponent, <MatDialogConfig>{
-      width: '700px',
-      disableClose: true,
-      data: { vm: this.vm }
-    })
+    this.dialog
+      .open(ServiceOfferingDialogContainerComponent, {
+        width: '700px',
+        disableClose: true,
+        data: { vm: this.vm },
+      } as MatDialogConfig)
       .afterClosed();
   }
 

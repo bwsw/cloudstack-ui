@@ -13,18 +13,13 @@ import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
   template: `
     <cs-vm-sidebar
       [entity]="vm$ | async"
-      (onColorChange)="changeColor($event)"
-    ></cs-vm-sidebar>`
+      (colorChanged)="changeColor($event)"
+    ></cs-vm-sidebar>`,
 })
 export class VmSidebarContainerComponent implements OnInit {
-
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
 
-  constructor(
-    private store: Store<State>,
-    private activatedRoute: ActivatedRoute
-  ) {
-  }
+  constructor(private store: Store<State>, private activatedRoute: ActivatedRoute) {}
 
   public changeColor(color) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
@@ -32,10 +27,8 @@ export class VmSidebarContainerComponent implements OnInit {
     });
   }
 
-
   public ngOnInit() {
     const params = this.activatedRoute.snapshot.params;
     this.store.dispatch(new vmActions.LoadSelectedVM(params['id']));
   }
-
 }

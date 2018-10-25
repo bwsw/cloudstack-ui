@@ -2,10 +2,9 @@ import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInput } from '@angular/material';
 
-import { padStart } from '../../utils/padStart';
+import { padStart } from '../../utils/pad-start';
 import { DayPeriod } from '../day-period/day-period.component';
 import { TimeFormat } from '../../types/index';
-
 
 export interface Time {
   hour: number;
@@ -21,17 +20,23 @@ export interface Time {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TimePickerComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TimePickerComponent implements ControlValueAccessor, OnInit {
-  @Input() public label = '';
-  @Input() public timeFormat: TimeFormat;
-  @ViewChild('hourField') public hourField: MatInput;
-  @ViewChild('minuteField') public minuteField: MatInput;
+  @Input()
+  public label = '';
+  @Input()
+  public timeFormat: TimeFormat;
+  @ViewChild('hourField')
+  public hourField: MatInput;
+  @ViewChild('minuteField')
+  public minuteField: MatInput;
 
+  // tslint:disable-next-line:variable-name
   public _hour: number;
+  // tslint:disable-next-line:variable-name
   public _minute: number;
   public period: DayPeriod;
 
@@ -70,17 +75,15 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   public get minHourValue(): number {
     if (this.timeFormat === TimeFormat.hour12) {
       return 1;
-    } else {
-      return 0;
     }
+    return 0;
   }
 
   public get maxHourValue(): number {
     if (this.timeFormat === TimeFormat.hour12) {
       return 12;
-    } else {
-      return 23;
     }
+    return 23;
   }
 
   public updateHour(value: number): void {
@@ -100,15 +103,13 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     this.writeValue(this.time);
   }
 
-  public propagateChange: any = () => {
-  };
-
+  public propagateChange: any = () => {};
 
   public get time(): Time {
     return {
       hour: +this.hour,
       minute: +this.minute,
-      period: this.period
+      period: this.period,
     };
   }
 
@@ -127,8 +128,7 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
   public writeValue(value: any): void {
     // todo: remove ngModel

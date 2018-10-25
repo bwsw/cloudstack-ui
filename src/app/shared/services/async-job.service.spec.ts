@@ -7,7 +7,6 @@ import { AsyncJobService } from './async-job.service';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
 
-
 describe('Async job service', () => {
   let httpTestingController: HttpTestingController;
   let asyncJobService: AsyncJobService;
@@ -15,32 +14,32 @@ describe('Async job service', () => {
   const mockResponse1 = {
     status: 200,
     body: {
-      'listasyncjobsresponse': {
-        'asyncjobs': [
+      listasyncjobsresponse: {
+        asyncjobs: [
           {
-            'jobid': 'resolvable-job-id',
-            'jobstatus': 0,
-            'jobresultcode': 0
-          }
-        ]
-      }
-    }
+            jobid: 'resolvable-job-id',
+            jobstatus: 0,
+            jobresultcode: 0,
+          },
+        ],
+      },
+    },
   };
 
   const mockResponse2 = {
     status: 200,
     body: {
-      'listasyncjobsresponse': {
-        'asyncjobs': [
+      listasyncjobsresponse: {
+        asyncjobs: [
           {
-            'jobid': 'resolvable-job-id',
-            'jobstatus': 1,
-            'jobresultcode': 0,
-            'jobresult': {}
-          }
-        ]
-      }
-    }
+            jobid: 'resolvable-job-id',
+            jobstatus: 1,
+            jobresultcode: 0,
+            jobresult: {},
+          },
+        ],
+      },
+    },
   };
 
   const queryFailedJobResponse = {
@@ -50,12 +49,12 @@ describe('Async job service', () => {
         jobid: 'failing-job-id',
         jobresult: {
           errorcode: 530,
-          errortext: 'Failed to authorize security group ingress rule(s)'
+          errortext: 'Failed to authorize security group ingress rule(s)',
         },
         jobresultcode: 530,
         jobstatus: 2,
-      }
-    }
+      },
+    },
   };
 
   beforeEach(async(() => {
@@ -63,24 +62,23 @@ describe('Async job service', () => {
       providers: [
         ErrorService,
         { provide: CacheService, useClass: MockCacheService },
-        AsyncJobService
+        AsyncJobService,
       ],
-      imports: [
-        HttpClientTestingModule
-      ]
+      imports: [HttpClientTestingModule],
     });
     asyncJobService = TestBed.get(AsyncJobService);
     httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   it('job service polls server until a job is resolved', fakeAsync(() => {
-    asyncJobService.queryJob({ jobid: 'resolving-job-id' })
+    asyncJobService
+      .queryJob({ jobid: 'resolving-job-id' }, '')
       .subscribe(() => expect(true).toBeTruthy());
     tick(3000);
 
     const requests = httpTestingController.match({});
     const lastRequest = requests.length - 1;
-    for (let i = 0; i < requests.length - 1; i++) {
+    for (let i = 0; i < requests.length - 1; i += 1) {
       requests[i].flush(mockResponse1.body);
     }
     requests[lastRequest].flush(mockResponse2.body);
@@ -89,22 +87,20 @@ describe('Async job service', () => {
   }));
 
   it('should parse failed job correctly', fakeAsync(() => {
-    asyncJobService.queryJob({ jobid: 'failing-job-id' })
-      .subscribe(
-        () => {
-        },
-        (error) => {
-          expect(error).toBeDefined();
-          expect(error.errorcode).toBeDefined();
-          expect(error.errortext).toBeDefined();
-          expect(error.message).toBeDefined();
-        }
-      );
+    asyncJobService.queryJob({ jobid: 'failing-job-id' }, '').subscribe(
+      () => {},
+      error => {
+        expect(error).toBeDefined();
+        expect(error.errorcode).toBeDefined();
+        expect(error.errortext).toBeDefined();
+        expect(error.message).toBeDefined();
+      },
+    );
     tick(3000);
 
     const requests = httpTestingController.match({});
     const lastRequest = requests.length - 1;
-    for (let i = 0; i < requests.length - 1; i++) {
+    for (let i = 0; i < requests.length - 1; i += 1) {
       requests[i].flush(mockResponse1.body);
     }
     requests[lastRequest].flush(queryFailedJobResponse.body);

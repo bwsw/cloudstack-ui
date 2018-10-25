@@ -16,7 +16,7 @@ export const templateRouting: Routes = [
     children: [
       {
         path: 'create',
-        component: TemplateCreationDialogComponent
+        component: TemplateCreationDialogComponent,
       },
       {
         path: 'template/:id',
@@ -26,21 +26,24 @@ export const templateRouting: Routes = [
           {
             path: '',
             redirectTo: 'details',
-            pathMatch: 'full'
-          }, {
+            pathMatch: 'full',
+          },
+          {
             path: 'details',
             component: DetailsContainerComponent,
-            canActivate: [AuthGuard]
-          }, {
+            canActivate: [AuthGuard],
+          },
+          {
             path: 'zones',
             component: TemplateZonesContainerComponent,
-            canActivate: [AuthGuard]
-          }, {
+            canActivate: [AuthGuard],
+          },
+          {
             path: 'tags',
             component: TagsContainerComponent,
-            canActivate: [AuthGuard]
-          }
-        ]
+            canActivate: [AuthGuard],
+          },
+        ],
       },
       {
         path: 'iso/:id',
@@ -50,22 +53,25 @@ export const templateRouting: Routes = [
           {
             path: '',
             redirectTo: 'details',
-            pathMatch: 'full'
-          }, {
+            pathMatch: 'full',
+          },
+          {
             path: 'details',
             component: DetailsContainerComponent,
-            canActivate: [AuthGuard]
-          }, {
+            canActivate: [AuthGuard],
+          },
+          {
             path: 'zones',
             component: IsoZonesContainerComponent,
-            canActivate: [AuthGuard]
-          }, {
+            canActivate: [AuthGuard],
+          },
+          {
             path: 'tags',
             component: TagsContainerComponent,
-            canActivate: [AuthGuard]
-          }
-        ]
-      }
-    ]
-  }
+            canActivate: [AuthGuard],
+          },
+        ],
+      },
+    ],
+  },
 ];

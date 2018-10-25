@@ -1,12 +1,5 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as event from './configurations.actions';
 import { Configuration } from '../../../shared/models/configuration.model';
 
@@ -18,7 +11,7 @@ import { Configuration } from '../../../shared/models/configuration.model';
  * any additional interface properties.
  */
 export interface State extends EntityState<Configuration> {
-  loading: boolean
+  loading: boolean;
 }
 
 export interface ConfigurationsState {
@@ -39,7 +32,7 @@ export const configurationReducers = {
  */
 export const adapter: EntityAdapter<Configuration> = createEntityAdapter<Configuration>({
   selectId: (item: Configuration) => item.name,
-  sortComparer: false
+  sortComparer: false,
 });
 
 /** getInitialState returns the default initial state
@@ -47,23 +40,19 @@ export const adapter: EntityAdapter<Configuration> = createEntityAdapter<Configu
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false
+  loading: false,
 });
 
-export function reducer(
-  state = initialState,
-  action: event.Actions
-): State {
+export function reducer(state = initialState, action: event.Actions): State {
   switch (action.type) {
     case event.LOAD_CONFIGURATIONS_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
 
     case event.LOAD_CONFIGURATIONS_RESPONSE: {
-
       const configurations = action.payload;
 
       return {
@@ -75,7 +64,7 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll(configurations, state),
-        loading: false
+        loading: false,
       };
     }
     default: {
@@ -84,24 +73,15 @@ export function reducer(
   }
 }
 
-
 export const getConfigurationsState = createFeatureSelector<ConfigurationsState>('configurations');
 
 export const getConfigurationsEntitiesState = createSelector(
   getConfigurationsState,
-  state => state.list
+  state => state.list,
 );
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getConfigurationsEntitiesState);
-
-export const isLoading = createSelector(
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getConfigurationsEntitiesState,
-  state => state.loading
 );
 
-
+export const isLoading = createSelector(getConfigurationsEntitiesState, state => state.loading);

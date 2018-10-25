@@ -4,7 +4,6 @@ import { VirtualMachine } from '../../../app/vm/shared/vm.model';
 import { Color } from '../../../app/shared/models/color.model';
 import { InstanceGroup } from '../../../app/shared/models/instance-group.model';
 
-
 export class MockVmTagService {
   public getColor(vm: VirtualMachine): Observable<Color> {
     return of(new Color());

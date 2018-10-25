@@ -6,28 +6,30 @@ import { Role } from '../../shared/models/role.model';
 
 @Component({
   selector: 'cs-account-creation-dialog',
-  templateUrl: 'account-creation-dialog.component.html'
+  templateUrl: 'account-creation-dialog.component.html',
 })
 export class AccountCreationDialogComponent {
   public showPassword = true;
   public accountForm: FormGroup;
 
-  @Input() public isLoading: boolean;
-  @Input() public domains: Domain[];
-  @Input() public roles: Role[];
-  @Output() public onAccountCreate = new EventEmitter<AccountData>();
+  @Input()
+  public isLoading: boolean;
+  @Input()
+  public domains: Domain[];
+  @Input()
+  public roles: Role[];
+  @Output()
+  public accountCreated = new EventEmitter<AccountData>();
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {
+  constructor(private formBuilder: FormBuilder) {
     this.accountForm = this.formBuilder.group({
-      username: this.formBuilder.control('', [ Validators.required ]),
-      email: this.formBuilder.control('', [ Validators.required, Validators.email ]),
-      password: this.formBuilder.control('', [ Validators.required ]),
-      firstname: this.formBuilder.control('', [ Validators.required ]),
-      lastname: this.formBuilder.control('', [ Validators.required ]),
-      domainid: this.formBuilder.control('', [ Validators.required ]),
-      roleid: this.formBuilder.control('', [ Validators.required ]),
+      username: this.formBuilder.control('', [Validators.required]),
+      email: this.formBuilder.control('', [Validators.required, Validators.email]),
+      password: this.formBuilder.control('', [Validators.required]),
+      firstname: this.formBuilder.control('', [Validators.required]),
+      lastname: this.formBuilder.control('', [Validators.required]),
+      domainid: this.formBuilder.control('', [Validators.required]),
+      roleid: this.formBuilder.control('', [Validators.required]),
       timezone: this.formBuilder.control(null),
       networkdomain: this.formBuilder.control(null),
     });
@@ -35,7 +37,7 @@ export class AccountCreationDialogComponent {
 
   public onSubmit(): void {
     const accountCreationParams = this.prepareData(this.accountForm.value);
-    this.onAccountCreate.emit(accountCreationParams);
+    this.accountCreated.emit(accountCreationParams);
   }
 
   public prepareData(data: AccountForm): AccountData {

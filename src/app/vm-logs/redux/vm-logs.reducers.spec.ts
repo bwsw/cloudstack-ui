@@ -1,11 +1,9 @@
 import { VmLogsActionTypes } from './vm-logs.actions';
-import * as fromVmLogs from './vm-logs.reducers';
-import { initialState } from './vm-logs.reducers';
-
+import { reducer, initialState } from './vm-logs.reducers';
 
 describe('VM logs reducer', () => {
   it('should set loading', () => {
-    const state = fromVmLogs.reducer(undefined, { type: VmLogsActionTypes.LOAD_VM_LOGS_REQUEST });
+    const state = reducer(undefined, { type: VmLogsActionTypes.LOAD_VM_LOGS_REQUEST });
     expect(state).toEqual({
       ...initialState,
       loading: true,
@@ -21,16 +19,16 @@ describe('VM logs reducer', () => {
         {
           log: 'test-log1',
           timestamp: 'test-timestamp1',
-          file: 'test-file1'
+          file: 'test-file1',
         },
         {
           log: 'test-log2',
           timestamp: 'test-timestamp2',
-          file: 'test-file2'
-        }
+          file: 'test-file2',
+        },
       ];
 
-      const state = fromVmLogs.reducer(undefined, {
+      const state = reducer(undefined, {
         type,
         payload: logs,
       } as any);
@@ -44,45 +42,48 @@ describe('VM logs reducer', () => {
 
   it('should add keywords', () => {
     const keyword = {
-      text: 'test-keyword'
+      text: 'test-keyword',
     };
 
-    const state = fromVmLogs.reducer(undefined, {
+    const state = reducer(undefined, {
       type: VmLogsActionTypes.VM_LOGS_ADD_KEYWORD,
-      payload: keyword
+      payload: keyword,
     });
 
     expect(state).toEqual({
       ...initialState,
       filters: {
         ...initialState.filters,
-        keywords: [keyword]
-      }
+        keywords: [keyword],
+      },
     });
   });
 
   it('should remove keywords', () => {
     const keyword = {
-      text: 'test-keyword'
+      text: 'test-keyword',
     };
 
-    const state = fromVmLogs.reducer({
-      ...initialState,
-      filters: {
-        ...initialState.filters,
-        keywords: [keyword]
-      }
-    }, {
-      type: VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD,
-      payload: keyword
-    });
+    const state = reducer(
+      {
+        ...initialState,
+        filters: {
+          ...initialState.filters,
+          keywords: [keyword],
+        },
+      },
+      {
+        type: VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD,
+        payload: keyword,
+      },
+    );
 
     expect(state).toEqual(initialState);
   });
 
   it('should toggle newest first', () => {
-    const toggledState = fromVmLogs.reducer(undefined, {
-      type: VmLogsActionTypes.VM_LOGS_TOGGLE_NEWEST_FIRST
+    const toggledState = reducer(undefined, {
+      type: VmLogsActionTypes.VM_LOGS_TOGGLE_NEWEST_FIRST,
     });
 
     expect(toggledState).toEqual({
@@ -90,32 +91,32 @@ describe('VM logs reducer', () => {
       filters: {
         ...initialState.filters,
         newestFirst: true,
-      }
+      },
     });
 
-    const toggledTwiceState = fromVmLogs.reducer(toggledState, {
-      type: VmLogsActionTypes.VM_LOGS_TOGGLE_NEWEST_FIRST
+    const toggledTwiceState = reducer(toggledState, {
+      type: VmLogsActionTypes.VM_LOGS_TOGGLE_NEWEST_FIRST,
     });
 
     expect(toggledTwiceState).toEqual(initialState);
   });
 
   it('should remove all logs on auto update', () => {
-    [
-      VmLogsActionTypes.ENABLE_AUTO_UPDATE,
-      VmLogsActionTypes.DISABLE_AUTO_UPDATE
-    ].forEach(type => {
-      const state = fromVmLogs.reducer({
-        ...initialState,
-        ids: ['id1'],
-        entities: {
-          id1: {
-            timestamp: 'test1',
-            log: 'test1',
-            file: 'test1'
+    [VmLogsActionTypes.ENABLE_AUTO_UPDATE, VmLogsActionTypes.DISABLE_AUTO_UPDATE].forEach(type => {
+      const state = reducer(
+        {
+          ...initialState,
+          ids: ['id1'],
+          entities: {
+            id1: {
+              timestamp: 'test1',
+              log: 'test1',
+              file: 'test1',
+            },
           },
-        }
-      }, { type } as any);
+        },
+        { type } as any,
+      );
 
       expect(state).toEqual(initialState);
     });

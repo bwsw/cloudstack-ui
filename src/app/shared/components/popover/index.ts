@@ -10,6 +10,6 @@ import { PopoverComponent } from './popover.component';
   imports: [OverlayModule, PortalModule, ScrollDispatchModule],
   exports: [PopoverComponent, PopoverTriggerDirective, ScrollDispatchModule],
   declarations: [PopoverComponent, PopoverTriggerDirective],
-  providers: []
+  providers: [],
 })
 export class PopoverModule {}
