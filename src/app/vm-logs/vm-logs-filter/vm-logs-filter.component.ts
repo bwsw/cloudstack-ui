@@ -10,39 +10,62 @@ import { VmLogFile } from '../models/vm-log-file.model';
 @Component({
   selector: 'cs-vm-logs-filter',
   templateUrl: 'vm-logs-filter.component.html',
-  styleUrls: ['vm-logs-filter.component.scss']
+  styleUrls: ['vm-logs-filter.component.scss'],
 })
 export class VmLogsFilterComponent {
-  @Input() public accounts: Array<Account>;
-  @Input() public vms: Array<VirtualMachine>;
-  @Input() public logFiles: Array<VmLogFile>;
-  @Input() public selectedAccountIds: Array<string>;
-  @Input() public selectedVmId: string;
-  @Input() public selectedLogFile: string;
-  @Input() public keywords: Array<Keyword>;
-  @Input() public firstDayOfWeek: number;
-  @Input() public startDate: Date;
-  @Input() public startTime: Time;
-  @Input() public endDate: Date;
-  @Input() public endTime: Time;
-  @Input() public newestFirst: boolean;
-  @Output() public onAccountsChange = new EventEmitter<Array<string>>();
-  @Output() public onVmChange = new EventEmitter<string>();
-  @Output() public onLogFileChange = new EventEmitter<VmLogFile>();
-  @Output() public onRefresh = new EventEmitter<void>();
-  @Output() public onKeywordAdd = new EventEmitter<Keyword>();
-  @Output() public onKeywordRemove = new EventEmitter<Keyword>();
-  @Output() public onStartDateChange = new EventEmitter<Date>();
-  @Output() public onStartTimeChange = new EventEmitter<Time>();
-  @Output() public onEndDateChange = new EventEmitter<Date>();
-  @Output() public onEndTimeChange = new EventEmitter<Time>();
-  @Output() public onNewestFirstChange = new EventEmitter<void>();
+  @Input()
+  public accounts: Account[];
+  @Input()
+  public vms: VirtualMachine[];
+  @Input()
+  public logFiles: VmLogFile[];
+  @Input()
+  public selectedAccountIds: string[];
+  @Input()
+  public selectedVmId: string;
+  @Input()
+  public selectedLogFile: string;
+  @Input()
+  public keywords: Keyword[];
+  @Input()
+  public firstDayOfWeek: number;
+  @Input()
+  public startDate: Date;
+  @Input()
+  public startTime: Time;
+  @Input()
+  public endDate: Date;
+  @Input()
+  public endTime: Time;
+  @Input()
+  public newestFirst: boolean;
+  @Output()
+  public accountsChanged = new EventEmitter<string[]>();
+  @Output()
+  public vmChanged = new EventEmitter<string>();
+  @Output()
+  public logFileChanged = new EventEmitter<VmLogFile>();
+  @Output()
+  public refreshed = new EventEmitter<void>();
+  @Output()
+  public keywordAdded = new EventEmitter<Keyword>();
+  @Output()
+  public keywordRemoved = new EventEmitter<Keyword>();
+  @Output()
+  public startDateChanged = new EventEmitter<Date>();
+  @Output()
+  public startTimeChanged = new EventEmitter<Time>();
+  @Output()
+  public endDateChanged = new EventEmitter<Date>();
+  @Output()
+  public endTimeChanged = new EventEmitter<Time>();
+  @Output()
+  public newestFirstChanged = new EventEmitter<void>();
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    public translate: TranslateService
-  ) {
-  }
+    public translate: TranslateService,
+  ) {}
 
   public get locale(): Language {
     return this.translate.currentLang as Language;

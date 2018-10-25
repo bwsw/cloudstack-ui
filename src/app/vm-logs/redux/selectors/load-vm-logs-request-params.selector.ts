@@ -6,11 +6,10 @@ import {
   filterKeywords,
   filterNewestFirst,
   filterSelectedLogFile,
-  filterStartDate
+  filterStartDate,
 } from '../vm-logs.reducers';
 import moment = require('moment');
 import * as pickBy from 'lodash/pickBy';
-
 
 export const loadVmLogsRequestParams = createSelector(
   filterSelectedVmId,
@@ -22,14 +21,17 @@ export const loadVmLogsRequestParams = createSelector(
   (id, keywords, startDate, endDate, logFile, newestFirst): LoadVmLogsRequestParams => {
     const fields = {
       id,
-      keywords: keywords.map(keyword => keyword.text).join(','),
-      startDate: moment(startDate).toISOString().slice(0, -1),
-      endDate: moment(endDate).toISOString().slice(0, -1),
-      sort: newestFirst ? '-timestamp' : 'timestamp',
       logFile,
+      keywords: keywords.map(keyword => keyword.text).join(','),
+      startDate: moment(startDate)
+        .toISOString()
+        .slice(0, -1),
+      endDate: moment(endDate)
+        .toISOString()
+        .slice(0, -1),
+      sort: newestFirst ? '-timestamp' : 'timestamp',
     };
 
     return pickBy(fields, Boolean);
-  }
+  },
 );
-

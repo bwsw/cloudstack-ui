@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-
 @Pipe({
-  name: 'basepath'
+  name: 'csBasepath',
 })
 export class BasePathPipe implements PipeTransform {
   public transform(value: string): string {

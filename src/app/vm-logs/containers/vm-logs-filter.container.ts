@@ -19,8 +19,7 @@ import { UserTagsSelectors } from '../../root-store';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import { combineLatest } from 'rxjs';
 import moment = require('moment');
-import { VmLogFile } from '../models/vm-log-file.model';
-import { selectFilteredVMs } from '../redux/selectors/filteredVms.selector';
+import { selectFilteredVMs } from '../redux/selectors/filtered-vms.selector';
 
 const FILTER_KEY = 'logsFilters';
 
@@ -36,26 +35,27 @@ const FILTER_KEY = 'logsFilters';
       [selectedVmId]="selectedVmId$ | async"
       [selectedLogFile]="selectedLogFile$ | async"
       [keywords]="keywords$ | async"
-      [startDate]="startDate$ | async | dateObjectToDate"
+      [startDate]="startDate$ | async | csDateObjectToDate"
       [startTime]="startTime$ | async"
-      [endDate]="endDate$ | async | dateObjectToDate"
+      [endDate]="endDate$ | async | csDateObjectToDate"
       [endTime]="endTime$ | async"
       [newestFirst]="newestFirst$ | async"
       [firstDayOfWeek]="firstDayOfWeek$ | async"
-      (onAccountsChange)="onAccountsChange($event)"
-      (onVmChange)="onVmChange($event)"
-      (onLogFileChange)="onLogFileChange($event)"
-      (onRefresh)="onRefresh()"
-      (onKeywordAdd)="onKeywordAdd($event)"
-      (onKeywordRemove)="onKeywordRemove($event)"
-      (onStartDateChange)="onStartDateChange($event)"
-      (onStartTimeChange)="onStartTimeChange($event)"
-      (onEndDateChange)="onEndDateChange($event)"
-      (onEndTimeChange)="onEndTimeChange($event)"
-      (onNewestFirstChange)="onNewestFirstChange($event)"
-    ></cs-vm-logs-filter>`
+      (accountsChanged)="onAccountsChange($event)"
+      (vmChanged)="onVmChange($event)"
+      (logFileChanged)="onLogFileChange($event)"
+      (refreshed)="onRefresh()"
+      (keywordAdded)="onKeywordAdd($event)"
+      (keywordRemoved)="onKeywordRemove($event)"
+      (startDateChanged)="onStartDateChange($event)"
+      (startTimeChanged)="onStartTimeChange($event)"
+      (endDateChanged)="onEndDateChange($event)"
+      (endTimeChanged)="onEndTimeChange($event)"
+      (newestFirstChanged)="onNewestFirstChange($event)"
+    ></cs-vm-logs-filter>`,
 })
-export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
+export class VmLogsFilterContainerComponent extends WithUnsubscribe()
+  implements OnInit, AfterViewInit {
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
   readonly selectedAccountIds$ = this.store.pipe(select(fromVmLogsVm.filterSelectedAccountIds));
@@ -79,12 +79,12 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
       startDate: { type: 'string' },
       endDate: { type: 'string' },
       logFile: { type: 'string' },
-      newestFirst: { type: 'boolean' }
+      newestFirst: { type: 'boolean' },
     },
     this.router,
     this.sessionStorage,
     FILTER_KEY,
-    this.activatedRoute
+    this.activatedRoute,
   );
 
   constructor(
@@ -97,7 +97,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     super();
   }
 
-  public onAccountsChange(selectedAccountIds: Array<string>) {
+  public onAccountsChange(selectedAccountIds: string[]) {
     this.store.dispatch(new vmLogActions.VmLogsUpdateAccountIds(selectedAccountIds));
   }
 
@@ -141,6 +141,41 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     this.store.dispatch(new vmLogActions.VmLogsToggleNewestFirst());
   }
 
+  public ngOnInit() {
+    this.store.dispatch(new vmActions.LoadVMsRequest());
+    this.store.dispatch(new accountActions.LoadAccountsRequest());
+    this.initFilters();
+
+    combineLatest(
+      this.keywords$,
+      this.startDate$,
+      this.endDate$,
+      this.selectedVmId$,
+      this.selectedAccountIds$,
+      this.selectedLogFile$,
+      this.newestFirst$,
+    )
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        debounceTime(100),
+      )
+      .subscribe(([keywords, startDate, endDate, vm, accounts, logFile, newestFirst]) => {
+        this.filterService.update({
+          vm,
+          accounts,
+          logFile,
+          newestFirst,
+          keywords: keywords.map(keyword => keyword.text),
+          startDate: moment(startDate).toISOString(),
+          endDate: moment(endDate).toISOString(),
+        });
+      });
+  }
+
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
+
   private initFilters(): void {
     const {
       vm,
@@ -149,7 +184,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
       startDate,
       endDate,
       logFile,
-      newestFirst
+      newestFirst,
     } = this.filterService.getParams();
 
     this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(vm));
@@ -164,50 +199,11 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     }
 
     if (startDate) {
-      this.store.dispatch(new vmLogActions.VmLogsUpdateStartDateTime(
-        moment(startDate).toObject()
-      ));
+      this.store.dispatch(new vmLogActions.VmLogsUpdateStartDateTime(moment(startDate).toObject()));
     }
 
     if (endDate) {
-      this.store.dispatch(new vmLogActions.VmLogsUpdateEndDateTime(
-        moment(endDate).toObject()
-      ));
+      this.store.dispatch(new vmLogActions.VmLogsUpdateEndDateTime(moment(endDate).toObject()));
     }
-  }
-
-  public ngOnInit() {
-    this.store.dispatch(new vmActions.LoadVMsRequest());
-    this.store.dispatch(new accountActions.LoadAccountsRequest());
-    this.initFilters();
-
-    combineLatest(
-      this.keywords$,
-      this.startDate$,
-      this.endDate$,
-      this.selectedVmId$,
-      this.selectedAccountIds$,
-      this.selectedLogFile$,
-      this.newestFirst$
-    )
-      .pipe(
-        takeUntil(this.unsubscribe$),
-        debounceTime(100)
-      )
-      .subscribe(([keywords, startDate, endDate, vm, accounts, logFile, newestFirst]) => {
-        this.filterService.update({
-          vm,
-          accounts,
-          keywords: keywords.map(keyword => keyword.text),
-          startDate: moment(startDate).toISOString(),
-          endDate: moment(endDate).toISOString(),
-          logFile,
-          newestFirst
-        });
-      });
-  }
-
-  public ngAfterViewInit() {
-    this.cd.detectChanges();
   }
 }

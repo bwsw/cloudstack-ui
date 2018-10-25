@@ -9,6 +9,12 @@ import { CustomComputeOfferingHardwareRestrictions } from './custom-compute-offe
 import { CustomComputeOfferingParameters } from './custom-compute-offering-parameters.interface';
 import { SecurityGroupTemplate } from '../../../security-group/sg.model';
 
+export interface ExtensionsConfig {
+  webShell: boolean;
+  pulse: boolean;
+  vmLogs: boolean;
+}
+
 export interface CustomizableConfig {
   /*
    * General
@@ -16,10 +22,7 @@ export interface CustomizableConfig {
   defaultDomain: string;
   sessionRefreshInterval: number;
   apiDocLink: string;
-  extensions: {
-    webShell: boolean;
-    pulse: boolean;
-  };
+  extensions: ExtensionsConfig;
   /*
    * Virtual machines settings
    */

@@ -811,6 +811,19 @@ export class VirtualMachinesEffects {
     tap((vm: VirtualMachine) => this.httpModeService.openWindow(vm)),
   );
 
+  @Effect({ dispatch: false })
+  viewVmLogs$: Observable<VirtualMachine> = this.actions$.pipe(
+    ofType(vmActions.VIEW_VM_LOGS),
+    map((action: vmActions.ViewVmLogs) => action.payload),
+    tap((vm: VirtualMachine) =>
+      this.router.navigate(['logs'], {
+        queryParams: {
+          vm: vm.id,
+        },
+      }),
+    ),
+  );
+
   constructor(
     private store: Store<State>,
     private actions$: Actions,

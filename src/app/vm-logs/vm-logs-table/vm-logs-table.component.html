@@ -12,7 +12,7 @@
           {{ 'LOGS_PAGE.LIST.DATE' | translate}}
         </mat-header-cell>
         <mat-cell *cdkCellDef="let element">
-          {{ element.timestamp | parseTimestamp | date:'y-MM-dd HH:mm:ss' }}
+          {{ element.timestamp | csParseTimestamp | date:'y-MM-dd HH:mm:ss' }}
         </mat-cell>
       </ng-container>
 
@@ -22,7 +22,7 @@
         </mat-header-cell>
         <mat-cell *cdkCellDef="let element">
           <span [matTooltip]="element.file">
-            {{ element.file | basepath }}
+            {{ element.file | csBasepath }}
           </span>
         </mat-cell>
       </ng-container>
