@@ -63,7 +63,7 @@ export enum UserTagsActionTypes {
   IncrementLastVMIdSuccess = '[Resource tags API] Increment "csui.user.last-vm-id" tag success',
   IncrementLastVMIdError = '[Resource tags API] Increment "csui.user.last-vm-id" tag error',
 
-  UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag'
+  UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs

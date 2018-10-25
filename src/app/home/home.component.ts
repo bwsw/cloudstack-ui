@@ -20,7 +20,9 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public routes$: Observable<Route[]> = this.navRoutesService.getRoutes();
   public currentRoute$: Observable<Route> = this.navRoutesService.getCurrentRoute();
   public subroutes$: Observable<Subroute[]> = this.navRoutesService.getSubroutes();
-  public showAppNav$: Observable<boolean> = this.store.pipe(select(layoutStore.selectors.getShowAppNav));
+  public showAppNav$: Observable<boolean> = this.store.pipe(
+    select(layoutStore.selectors.getShowAppNav),
+  );
   public username: string;
 
   constructor(
