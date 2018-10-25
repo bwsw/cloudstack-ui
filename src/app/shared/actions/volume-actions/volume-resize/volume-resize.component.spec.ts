@@ -205,4 +205,33 @@ describe('volume resize for data disks', () => {
       diskofferingid: component.diskOffering.id,
     });
   });
+
+  it('should send uncustomized disk offerings without size when resizing data disks', () => {
+    const newVolumeSize = 100;
+    component.newSize = newVolumeSize;
+    spyOn(component.diskResized, 'emit').and.callThrough();
+
+    const diskOffering = {
+      disksize: 1,
+      id: 'diskofferingid',
+      name: 'Disk Offering',
+      displaytext: 'About disk offering',
+      diskBytesReadRate: 1,
+      diskBytesWriteRate: 1,
+      diskIopsReadRate: 1,
+      diskIopsWriteRate: 1,
+      iscustomized: false,
+      miniops: 1,
+      maxiops: 1,
+      storagetype: storageTypes.local,
+      provisioningtype: '',
+    };
+    component.diskOffering = diskOffering;
+
+    component.resizeVolume();
+    expect(component.diskResized.emit).toHaveBeenCalledWith({
+      id: '1',
+      diskofferingid: component.diskOffering.id,
+    });
+  });
 });
