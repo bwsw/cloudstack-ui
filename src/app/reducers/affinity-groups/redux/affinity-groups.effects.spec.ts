@@ -85,7 +85,7 @@ describe('Affinity Groups Effects', () => {
   });
 
   it('should show alert after creation error', () => {
-    const spyAlert = spyOn(dialogService, 'alert');
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const error = new Error('Error');
     spyOn(service, 'create').and.returnValue(throwError(error));
     const action = new actions.CreateAffinityGroup({
