@@ -2,7 +2,6 @@ import { Login } from './pages/login.po';
 import { browser } from 'protractor';
 import { VMList } from './pages/vm-list.po';
 
-
 describe('e2e-test-login', () => {
   let page: Login;
   let vmlist: VMList;
@@ -22,15 +21,15 @@ describe('e2e-test-login', () => {
   });
 
   it('Can not login by incorrect password', () => {
-    page.setLogin(page.e2e_login);
+    page.setLogin(page.e2eLogin);
     page.setPassword('incorrect');
     page.clickLogin();
     page.checkUrlToContain('login');
   });
 
   it('Can not login by Uppercase password', () => {
-    page.setLogin(page.e2e_login);
-    page.setPassword(page.e2e_pass.toUpperCase());
+    page.setLogin(page.e2eLogin);
+    page.setPassword(page.e2ePass.toUpperCase());
     page.clickLogin();
     page.checkUrlToContain('login');
   });
@@ -39,8 +38,8 @@ describe('e2e-test-login', () => {
   // Нужно либо создавать нового пользователя, либо отказываться от этой проверки
   /*
   it('Can not login by Lowercase password', () => {
-    page.setLogin(page.e2e_login);
-    page.setPassword(page.e2e_pass.toLowerCase());
+    page.setLogin(page.e2eLogin);
+    page.setPassword(page.e2ePass.toLowerCase());
     page.clickLogin();
     page.checkUrlToContain('login');
   });
@@ -48,19 +47,19 @@ describe('e2e-test-login', () => {
 
   it('Can not login by incorrect login', () => {
     page.setLogin('incorrect');
-    page.setPassword(page.e2e_pass);
+    page.setPassword(page.e2ePass);
     page.clickLogin();
     page.checkUrlToContain('login');
   });
 
   it('Login is required', () => {
-    page.setPassword(page.e2e_pass);
+    page.setPassword(page.e2ePass);
     page.clickLogin();
     page.checkUrlToContain('login');
   });
 
   it('Password is required', () => {
-    page.setLogin(page.e2e_login);
+    page.setLogin(page.e2eLogin);
     page.clickLogin();
     page.checkUrlToContain('login');
   });
@@ -86,7 +85,7 @@ describe('e2e-test-login', () => {
     vmlist.cancelVMPropose();
     page.logout();
     page.waitUrlContains('login');
-    browser.get(browser.baseUrl + '/instances');
+    browser.get(`${browser.baseUrl}/instances`);
     page.waitUrlContains('login');
     page.checkUrlToContain('login');
   });

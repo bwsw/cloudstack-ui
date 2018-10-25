@@ -12,10 +12,10 @@
   [selectedTypes]="selectedTypes"
   [query]="query"
 
-  (queryChange)="onQueryChange.emit($event)"
-  (selectedGroupsChange)="onSelectedGroupsChange.emit($event)"
-  (selectedTypesChange)="onSelectedTypesChange.emit($event)"
-  (selectedOsFamiliesChange)="onSelectedOsFamiliesChange.emit($event)"
+  (queryChange)="queryChanged.emit($event)"
+  (selectedGroupsChange)="selectedGroupsChanged.emit($event)"
+  (selectedTypesChange)="selectedTypesChanged.emit($event)"
+  (selectedOsFamiliesChange)="selectedOsFamiliesChanged.emit($event)"
   (viewModeChange)="viewModeChange.emit($event)"
 ></cs-template-filters>
 <cs-template-list

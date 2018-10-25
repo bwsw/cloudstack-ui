@@ -2,9 +2,15 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
 
-import { AlertDialogComponent, AlertDialogConfiguration } from './alert-dialog/alert-dialog.component';
+import {
+  AlertDialogComponent,
+  AlertDialogConfiguration,
+} from './alert-dialog/alert-dialog.component';
 import { AskDialogComponent, AskDialogConfiguration } from './ask-dialog/ask-dialog.component';
-import { ConfirmDialogComponent, ConfirmDialogConfiguration } from './confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogConfiguration,
+} from './confirm-dialog/confirm-dialog.component';
 
 const defaultConfirmDialogConfirmText = 'COMMON.YES';
 const defaultConfirmDialogDeclineText = 'COMMON.NO';
@@ -14,7 +20,7 @@ const defaultWidth = '400px';
 
 export interface ParametrizedTranslation {
   translationToken: string;
-  interpolateParams: { [key: string]: string; };
+  interpolateParams: { [key: string]: string };
 }
 
 export interface BaseDialogConfiguration {
@@ -24,11 +30,9 @@ export interface BaseDialogConfiguration {
   width?: string;
 }
 
-
 @Injectable()
 export class DialogService {
-
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) {}
 
   public confirm(config: ConfirmDialogConfiguration): Observable<any> {
     let dialogRef: MatDialogRef<ConfirmDialogComponent>;
@@ -66,7 +70,7 @@ export class DialogService {
     config.actions = config.actions.map(action => ({
       handler: action.handler || (() => {}),
       text: action.text,
-      isClosingAction: action.isClosingAction
+      isClosingAction: action.isClosingAction,
     }));
 
     dialogRef = this.dialog.open(AskDialogComponent, this.getDialogConfiguration(config));
@@ -74,12 +78,12 @@ export class DialogService {
   }
 
   private getDialogConfiguration(config: BaseDialogConfiguration) {
-    const configuration =  <MatDialogConfig>{
+    const configuration = {
       data: { config },
-      disableClose: config.disableClose
-    };
-    return config.width ?
-      Object.assign(configuration, { width: config.width }) :
-      Object.assign(configuration, { width: defaultWidth });
+      disableClose: config.disableClose,
+    } as MatDialogConfig;
+    return config.width
+      ? { ...configuration, width: config.width }
+      : { ...configuration, width: defaultWidth };
   }
 }

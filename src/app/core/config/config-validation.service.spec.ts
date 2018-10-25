@@ -19,7 +19,7 @@ describe('ConfigValidationService', () => {
     }
   });
 
-  it('should merge user\'s value if it is correct (only if property has a validator) to resulted config', () => {
+  it("should merge user's value if it is correct (only if property has a validator) to resulted config", () => {
     const config: Partial<Config> = {
       defaultDomain: 'develop',
     };
@@ -27,7 +27,7 @@ describe('ConfigValidationService', () => {
     expect(conf.defaultDomain).toBe('develop');
   });
 
-  it('should not merge user\'s value if it is incorrect (only if property has a validator) to resulted config', () => {
+  it("should not merge user's value if it is incorrect (only if property has a validator) to resulted config", () => {
     const config = {
       defaultInterfaceLanguage: 'fr',
       defaultFirstDayOfWeek: 'monday',
@@ -47,36 +47,35 @@ describe('ConfigValidationService', () => {
 
   it('should not add unknown properties', () => {
     const config = {
-      noSuchProperty: true
+      noSuchProperty: true,
     };
     const conf = configValidationService.validate(config);
     expect(conf['noSuchProperty']).toBeUndefined();
   });
 
   it('should use default value if user do not provide a value', () => {
-    const config = {
-    };
+    const config = {};
     const conf = configValidationService.validate(config);
     expect(conf.defaultInterfaceLanguage).toBe(defaultConfig.defaultInterfaceLanguage);
   });
 
-  it('should log a warning message to the console if a user\'s key is unknown', () => {
+  it("should log a warning message to the console if a user's key is unknown", () => {
     const config = {
-      noSuchProperty: true
+      noSuchProperty: true,
     };
     configValidationService.validate(config);
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
-  it('should log a warning message to the console if a user\'s value is incorrect', () => {
+  it("should log a warning message to the console if a user's value is incorrect", () => {
     const config = {
-      defaultFirstDayOfWeek: 'monday'
+      defaultFirstDayOfWeek: 'monday',
     };
     configValidationService.validate(config);
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
-  it('should log a warning message to the console if a user\'s config is incorrect', () => {
+  it("should log a warning message to the console if a user's config is incorrect", () => {
     const config = 'defaultFirstDayOfWeek: "monday"';
     configValidationService.validate(config);
     expect(console.warn).toHaveBeenCalledTimes(1);

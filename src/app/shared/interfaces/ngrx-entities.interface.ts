@@ -3,6 +3,6 @@
 // This Dictionary class is not a part of public API, so we use custom interface
 
 export interface NgrxEntities<T> {
-  [id: string ]: T;
+  [id: string]: T;
   [id: number]: T;
 }

@@ -10,25 +10,14 @@ import { ServiceOfferingFilterComponent } from './service-offering-filter/servic
 import { ServiceOfferingListComponent } from './service-offering-list/service-offering-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    MaterialModule
-  ],
-  exports: [
-    CustomServiceOfferingComponent,
-    ServiceOfferingDialogComponent
-  ],
+  imports: [CommonModule, SharedModule, MaterialModule],
+  exports: [CustomServiceOfferingComponent, ServiceOfferingDialogComponent],
   declarations: [
     CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
     ServiceOfferingFilterComponent,
-    ServiceOfferingListComponent
+    ServiceOfferingListComponent,
   ],
-  entryComponents: [
-    CustomServiceOfferingComponent,
-    ServiceOfferingDialogComponent
-  ]
+  entryComponents: [CustomServiceOfferingComponent, ServiceOfferingDialogComponent],
 })
-export class ServiceOfferingModule {
-}
+export class ServiceOfferingModule {}

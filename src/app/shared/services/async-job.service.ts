@@ -8,23 +8,22 @@ import { AsyncJob, mapCmd } from '../models';
 import { BaseBackendService, CSCommands } from './base-backend.service';
 import { ErrorService } from './error.service';
 
-
 const enum JobStatus {
   InProgress,
   Completed,
-  Failed
+  Failed,
 }
 
 @Injectable()
 @BackendResource({
-  entity: 'AsyncJob'
+  entity: 'AsyncJob',
 })
 export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   public event: Subject<AsyncJob<any>>;
   public pollingInterval: number;
   public immediatePollingInterval: number;
-  private timerIds: Array<any> = [];
-  private jobs: Array<Subject<AsyncJob<any>>> = [];
+  private timerIds: any[] = [];
+  private jobs: Subject<AsyncJob<any>>[] = [];
 
   constructor(protected http: HttpClient) {
     super(http);
@@ -38,13 +37,13 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     const jobObservable = Observable.create(observer => {
       let interval;
       setTimeout(() => {
-        this._queryJob(jobId, observer, entity);
+        this.jobRequest(jobId, observer, entity);
         interval = setInterval(() => {
           if (jobObservable.isStopped) {
             clearInterval(interval);
             return;
           }
-          this._queryJob(jobId, observer, entity, interval);
+          this.jobRequest(jobId, observer, entity, interval);
         }, this.pollingInterval);
         this.timerIds.push(interval);
       }, this.immediatePollingInterval);
@@ -57,20 +56,20 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   }
 
   public completeAllJobs(): void {
-    this.timerIds.forEach(id => clearInterval(id));
+    this.timerIds.forEach(clearInterval);
     this.jobs = [];
     this.timerIds = [];
   }
 
-  private _queryJob(
+  private jobRequest(
     jobId: string,
     observer: Observer<AsyncJob<any>>,
     entity: string,
-    interval?: any
+    interval?: any,
   ): void {
-    this.sendCommand(CSCommands.QueryResult, { jobId }).pipe(
-      map(res => res as AsyncJob<any>))
-      .subscribe((asyncJob) => {
+    this.sendCommand(CSCommands.QueryResult, { jobId })
+      .pipe(map(res => res as AsyncJob<any>))
+      .subscribe(asyncJob => {
         switch (asyncJob.jobstatus) {
           case JobStatus.InProgress:
             return;
@@ -78,9 +77,13 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
             observer.next(this.getResult(asyncJob, entity));
             break;
           case JobStatus.Failed: {
-            observer.error(ErrorService.parseError(this.getResponse({ error: asyncJob.jobresult })));
+            observer.error(
+              ErrorService.parseError(this.getResponse({ error: asyncJob.jobresult })),
+            );
             break;
           }
+          default:
+            break;
         }
 
         if (interval) {
@@ -93,12 +96,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   }
 
   private getJobId(job: any): string {
-    let jobId;
-    if (this.isAsyncJob(job)) {
-      jobId = job.jobid;
-    } else {
-      jobId = job.jobid || job;
-    }
+    const jobId = this.isAsyncJob(job) ? job.jobid : job.jobid || job;
 
     if (typeof jobId !== 'string') {
       throw new Error('Unsupported job format');

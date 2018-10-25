@@ -1,8 +1,8 @@
 import { BaseModel } from './base.model';
 
-export const StorageTypes = {
+export const storageTypes = {
   local: 'local',
-  shared: 'shared'
+  shared: 'shared',
 };
 
 export interface Offering extends BaseModel {
@@ -20,6 +20,6 @@ export interface Offering extends BaseModel {
   maxiops?: number;
 }
 
-export const isOfferingLocal = (offering: Offering) => offering.storagetype === StorageTypes.local;
+export const isOfferingLocal = (offering: Offering) => offering.storagetype === storageTypes.local;
 
 export const isCustomized = (offering: Offering) => offering.iscustomized;

@@ -29,7 +29,7 @@ import { volumeTypeNames } from '../../shared/models';
       </ng-template>
     </ng-container>
   `,
-  styleUrls: ['../../shared/components/grouped-list/grouped-list.component.scss']
+  styleUrls: ['../../shared/components/grouped-list/grouped-list.component.scss'],
 })
 export class VolumeGroupedListComponent extends GroupedListComponent {
   protected sortGroups(group1, group2) {

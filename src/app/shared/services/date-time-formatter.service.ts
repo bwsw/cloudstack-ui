@@ -4,16 +4,12 @@ import { dateTimeFormat as enDateTimeFormat } from '../components/date-picker/da
 import { TimeFormat } from '../types';
 import DateTimeFormat = Intl.DateTimeFormat;
 
-
 @Injectable()
 export class DateTimeFormatterService {
   private dateFormatter: DateTimeFormat;
   private timeFormatter: DateTimeFormat;
 
-  constructor(
-    private translateService: TranslateService
-  ) {
-  }
+  constructor(private translateService: TranslateService) {}
 
   public get dateTimeFormat(): any {
     if (this.translateService.currentLang === 'en') {
@@ -51,14 +47,14 @@ export class DateTimeFormatterService {
   private updateTimeFormatter(timeFormat: any): void {
     this.timeFormatter = new Intl.DateTimeFormat(
       this.translateService.currentLang,
-      this.getTimeFormatterOptions(timeFormat)
+      this.getTimeFormatterOptions(timeFormat),
     );
   }
 
   private updateDateFormatter(timeFormat: any): void {
     this.dateFormatter = new Intl.DateTimeFormat(
       this.translateService.currentLang,
-      this.getDateFormatterOptions(timeFormat)
+      this.getDateFormatterOptions(timeFormat),
     );
   }
 
@@ -69,7 +65,7 @@ export class DateTimeFormatterService {
       day: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
-      timeZoneName: 'short'
+      timeZoneName: 'short',
     };
 
     if (timeFormat !== TimeFormat.AUTO) {
@@ -84,7 +80,7 @@ export class DateTimeFormatterService {
       hour: 'numeric',
       minute: 'numeric',
       second: 'numeric',
-      timeZoneName: 'short'
+      timeZoneName: 'short',
     };
 
     if (timeFormat !== TimeFormat.AUTO) {
@@ -95,8 +91,6 @@ export class DateTimeFormatterService {
   }
 
   private removeAmPmLocalization(date: string): string {
-    return date
-      .replace('ПП', 'PM')
-      .replace('ДП', 'AM');
+    return date.replace('ПП', 'PM').replace('ДП', 'AM');
   }
 }

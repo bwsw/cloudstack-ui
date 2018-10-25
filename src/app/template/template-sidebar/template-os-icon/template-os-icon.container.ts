@@ -1,10 +1,7 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseTemplateModel } from '../../shared/base-template.model';
 import { State } from '../../../reducers/index';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
 
@@ -14,12 +11,12 @@ import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers'
     <cs-template-os-icon
       [template]="template"
       [osTypes]="osTypes$ | async"
-    ></cs-template-os-icon>`
+    ></cs-template-os-icon>`,
 })
 export class TemplateOsIconContainerComponent {
-  public osTypes$ = this.store.select(fromOsTypes.selectEntities);
-  @Input() public template: BaseTemplateModel;
+  public osTypes$ = this.store.pipe(select(fromOsTypes.selectEntities));
+  @Input()
+  public template: BaseTemplateModel;
 
-  constructor(private store: Store<State>) {
-  }
+  constructor(private store: Store<State>) {}
 }

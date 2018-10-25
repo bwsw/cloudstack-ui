@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
@@ -31,51 +31,68 @@ const FILTER_KEY = 'accountListFilters';
       [selectedStates]="selectedStates$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings"
-      (onDomainsChange)="onDomainsChange($event)"
-      (onRolesChange)="onRolesChange($event)"
-      (onRoleTypesChange)="onRoleTypesChange($event)"
-      (onStatesChange)="onStatesChange($event)"
-      (onGroupingsChange)="onGroupingsChange($event)"
-    ></cs-account-list-filter>`
+      (domainsChanged)="onDomainsChange($event)"
+      (rolesChanged)="onRolesChange($event)"
+      (roleTypesChanged)="onRoleTypesChange($event)"
+      (statesChanged)="onStatesChange($event)"
+      (groupingsChanged)="onGroupingsChange($event)"
+    ></cs-account-list-filter>`,
 })
 export class AccountFilterContainerComponent extends WithUnsubscribe() implements OnInit {
-  @Input() groupings: Array<any>;
-  @Input() selectedGroupings: Array<any>;
+  @Input()
+  groupings: any[];
+  @Input()
+  selectedGroupings: any[];
 
-  readonly filters$ = this.store.select(fromAccounts.filters);
-  readonly loading$ = this.store.select(fromAccounts.isLoading);
-  readonly domains$ = this.store.select(fromDomains.selectAll);
-  readonly roles$ = this.store.select(fromRoles.selectAll);
-  readonly roleTypes$ = this.store.select(fromRoles.roleTypes);
+  readonly filters$ = this.store.pipe(select(fromAccounts.filters));
+  readonly loading$ = this.store.pipe(select(fromAccounts.isLoading));
+  readonly domains$ = this.store.pipe(select(fromDomains.selectAll));
+  readonly roles$ = this.store.pipe(select(fromRoles.selectAll));
+  readonly roleTypes$ = this.store.pipe(select(fromRoles.roleTypes));
 
-  readonly selectedDomainIds$ = this.store.select(fromAccounts.filterSelectedDomainIds);
-  readonly selectedRoleNames$ = this.store.select(fromAccounts.filterSelectedRoleNames);
-  readonly selectedStates$ = this.store.select(fromAccounts.filterSelectedStates);
-  readonly selectedRoleTypes$ = this.store.select(fromAccounts.filterSelectedRoleTypes);
+  readonly selectedDomainIds$ = this.store.pipe(select(fromAccounts.filterSelectedDomainIds));
+  readonly selectedRoleNames$ = this.store.pipe(select(fromAccounts.filterSelectedRoleNames));
+  readonly selectedStates$ = this.store.pipe(select(fromAccounts.filterSelectedStates));
+  readonly selectedRoleTypes$ = this.store.pipe(select(fromAccounts.filterSelectedRoleTypes));
 
-  public states: Array<string> = ['enabled', 'disabled'];
+  public states: string[] = ['enabled', 'disabled'];
 
   private filterService = new FilterService(
     {
-      'domains': { type: 'array', defaultOption: [] },
-      'roles': { type: 'array', defaultOption: [] },
-      'roleTypes': { type: 'array', defaultOption: [] },
-      'states': { type: 'array', defaultOption: [] },
-      'groupings': { type: 'array', defaultOption: [] }
+      domains: { type: 'array', defaultOption: [] },
+      roles: { type: 'array', defaultOption: [] },
+      roleTypes: { type: 'array', defaultOption: [] },
+      states: { type: 'array', defaultOption: [] },
+      groupings: { type: 'array', defaultOption: [] },
     },
     this.router,
     this.sessionStorage,
     FILTER_KEY,
-    this.activatedRoute
+    this.activatedRoute,
   );
 
   constructor(
     private store: Store<State>,
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {
     super();
+  }
+
+  public ngOnInit() {
+    this.store.dispatch(new domainActions.LoadDomainsRequest());
+    this.store.dispatch(new roleActions.LoadRolesRequest());
+    this.initFilters();
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
+      this.filterService.update({
+        domains: filters.selectedDomainIds,
+        roles: filters.selectedRoleNames,
+        roleTypes: filters.selectedRoleTypes,
+        states: filters.selectedStates,
+        groupings: filters.selectedGroupings.map(g => g.key),
+      });
+    });
   }
 
   public onDomainsChange(selectedDomainIds) {
@@ -99,7 +116,6 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
   }
 
   private initFilters(): void {
-
     const params = this.filterService.getParams();
     const selectedDomainIds = params['domains'];
     const selectedRoleNames = params['roles'];
@@ -114,31 +130,14 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
       return acc;
     }, []);
 
-    this.store.dispatch(new accountActions.AccountFilterUpdate({
-      selectedRoleTypes,
-      selectedRoleNames,
-      selectedDomainIds,
-      selectedStates,
-      selectedGroupings
-    }));
-
+    this.store.dispatch(
+      new accountActions.AccountFilterUpdate({
+        selectedRoleTypes,
+        selectedRoleNames,
+        selectedDomainIds,
+        selectedStates,
+        selectedGroupings,
+      }),
+    );
   }
-
-  public ngOnInit() {
-    this.store.dispatch(new domainActions.LoadDomainsRequest());
-    this.store.dispatch(new roleActions.LoadRolesRequest());
-    this.initFilters();
-    this.filters$.pipe(
-      takeUntil(this.unsubscribe$))
-      .subscribe(filters => {
-        this.filterService.update({
-          'domains': filters.selectedDomainIds,
-          'roles': filters.selectedRoleNames,
-          'roleTypes': filters.selectedRoleTypes,
-          'states': filters.selectedStates,
-          'groupings': filters.selectedGroupings.map(g => g.key)
-        });
-      });
-  }
-
 }

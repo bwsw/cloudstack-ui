@@ -26,65 +26,61 @@ export interface VolumeResizeData {
 
 @Injectable()
 @BackendResource({
-  entity: 'Volume'
+  entity: 'Volume',
 })
 export class VolumeService extends BaseBackendService<Volume> {
   public onVolumeResized = new Subject<Volume>();
 
-  constructor(
-    private asyncJobService: AsyncJobService,
-    protected http: HttpClient
-  ) {
+  constructor(private asyncJobService: AsyncJobService, protected http: HttpClient) {
     super(http);
   }
 
-  public getList(params?: {}): Observable<Array<Volume>> {
-    return super.getList(params).pipe(
-      map((volumes: Volume[]) => volumes.filter(volume => !isDeleted(volume))));
+  public getList(params?: {}): Observable<Volume[]> {
+    return super
+      .getList(params)
+      .pipe(map((volumes: Volume[]) => volumes.filter(volume => !isDeleted(volume))));
   }
 
   public resize(params: VolumeResizeData): Observable<Volume> {
-    return this.sendCommand(CSCommands.Resize, params).pipe(switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity)
-      ),
-      tap(jobResult => this.onVolumeResized.next(jobResult)));
+    return this.sendCommand(CSCommands.Resize, params).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
+      tap(jobResult => this.onVolumeResized.next(jobResult)),
+    );
   }
 
   // TODO fix return type
   public remove(volume: Volume): Observable<any> {
-    return super.remove({ id: volume.id }).pipe(map(response => {
-      if (response['success'] === 'true') {
-        return of(null);
-      }
-      return throwError(response);
-    }));
+    return super.remove({ id: volume.id }).pipe(
+      map(response => {
+        if (response['success'] === 'true') {
+          return of(null);
+        }
+        return throwError(response);
+      }),
+    );
   }
 
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand(CSCommands.Create, data).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job.jobid, this.entity)
-      ));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
+    );
   }
 
   public createFromSnapshot(data: VolumeFromSnapshotCreationData): Observable<Volume> {
-    return this.sendCommand(CSCommands.Create, data).pipe(switchMap(job =>
-      this.asyncJobService.queryJob(job.jobid, this.entity)
-    ));
+    return this.sendCommand(CSCommands.Create, data).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
+    );
   }
 
   public detach(volume: Volume): Observable<Volume> {
     return this.sendCommand(CSCommands.Detach, { id: volume.id }).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity)
-      ));
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
+    );
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
     return this.sendCommand(CSCommands.Attach, data).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity)
-      )
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
     );
   }
 }

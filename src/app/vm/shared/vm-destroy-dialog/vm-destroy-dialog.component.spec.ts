@@ -1,15 +1,11 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
   MatCheckbox,
   MatCheckboxModule,
   MatDialogModule,
-  MatDialogRef
+  MatDialogRef,
 } from '@angular/material';
 import { By } from '@angular/platform-browser';
 
@@ -21,23 +17,21 @@ describe('VmDestroyDialogComponent', () => {
   let fixture: ComponentFixture<VmDestroyDialogComponent>;
   let dialog: MatDialogRef<VmDestroyDialogComponent>;
 
-  beforeEach(
-    async(() => {
-      dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
+  beforeEach(async(() => {
+    dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
 
-      TestBed.configureTestingModule({
-        imports: [FormsModule, MatCheckboxModule, MatDialogModule],
-        declarations: [MockTranslatePipe, VmDestroyDialogComponent],
-        providers: [
-          {
-            provide: MatDialogRef,
-            useValue: dialog
-          },
-          { provide: MAT_DIALOG_DATA, useValue: true }
-        ]
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      imports: [FormsModule, MatCheckboxModule, MatDialogModule],
+      declarations: [MockTranslatePipe, VmDestroyDialogComponent],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useValue: dialog,
+        },
+        { provide: MAT_DIALOG_DATA, useValue: true },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VmDestroyDialogComponent);
@@ -82,7 +76,6 @@ describe('VmDestroyDialogComponent', () => {
     expect(dialog.close).toHaveBeenCalledTimes(1);
     // expunge is false by default, thus omitted (cloudstack quirks)
     expect(dialog.close).toHaveBeenCalledWith({});
-
 
     const checkbox = fixture.debugElement.query(By.directive(MatCheckbox));
     checkbox.nativeElement.querySelector('input').click();

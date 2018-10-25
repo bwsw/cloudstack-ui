@@ -15,7 +15,7 @@ export interface UserTagsState extends EntityState<Tag> {
 }
 
 export const adapter: EntityAdapter<Tag> = createEntityAdapter<Tag>({
-  selectId: (tag: Tag) => tag.key
+  selectId: (tag: Tag) => tag.key,
 });
 
 const initialIds = [
@@ -34,52 +34,55 @@ const initialIds = [
 const initialEntities = {
   [userTagKeys.askToCreateVM]: {
     key: userTagKeys.askToCreateVM,
-    value: defaultConfig.askToCreateVM.toString()
+    value: defaultConfig.askToCreateVM.toString(),
   },
   [userTagKeys.askToCreateVolume]: {
     key: userTagKeys.askToCreateVolume,
-    value: defaultConfig.askToCreateVolume.toString()
+    value: defaultConfig.askToCreateVolume.toString(),
   },
   [userTagKeys.savePasswordForAllVMs]: {
     key: userTagKeys.savePasswordForAllVMs,
-    value: defaultConfig.savePasswordForAllVMs === null ? null : defaultConfig.savePasswordForAllVMs.toString()
+    value:
+      defaultConfig.savePasswordForAllVMs === null
+        ? null
+        : defaultConfig.savePasswordForAllVMs.toString(),
   },
   [userTagKeys.firstDayOfWeek]: {
     key: userTagKeys.firstDayOfWeek,
-    value: defaultConfig.defaultFirstDayOfWeek.toString()
+    value: defaultConfig.defaultFirstDayOfWeek.toString(),
   },
   [userTagKeys.lang]: {
     key: userTagKeys.lang,
-    value: defaultConfig.defaultInterfaceLanguage
+    value: defaultConfig.defaultInterfaceLanguage,
   },
   [userTagKeys.lastVMId]: {
     key: userTagKeys.lastVMId,
-    value: defaultConfig.lastVMId.toString()
+    value: defaultConfig.lastVMId.toString(),
   },
   [userTagKeys.sessionTimeout]: {
     key: userTagKeys.sessionTimeout,
-    value: defaultConfig.sessionTimeout.toString()
+    value: defaultConfig.sessionTimeout.toString(),
   },
   [userTagKeys.showSystemTags]: {
     key: userTagKeys.showSystemTags,
-    value: defaultConfig.showSystemTags.toString()
+    value: defaultConfig.showSystemTags.toString(),
   },
   [userTagKeys.timeFormat]: {
     key: userTagKeys.timeFormat,
-    value: defaultConfig.defaultTimeFormat
+    value: defaultConfig.defaultTimeFormat,
   },
   [userTagKeys.theme]: {
     key: userTagKeys.theme,
-    value: defaultConfig.defaultTheme
+    value: defaultConfig.defaultTheme,
   },
   [userTagKeys.keyboardLayoutForVms]: {
     key: userTagKeys.keyboardLayoutForVms,
-    value: defaultConfig.keyboardLayoutForVms
-  }
+    value: defaultConfig.keyboardLayoutForVms,
+  },
 };
 
 export const initialState: UserTagsState = adapter.getInitialState({
   isLoading: false,
   ids: initialIds,
-  entities: initialEntities
+  entities: initialEntities,
 });

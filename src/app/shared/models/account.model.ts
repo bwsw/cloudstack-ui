@@ -5,15 +5,15 @@ import { BaseModel } from './base.model';
 export const enum AccountType {
   User = '0',
   RootAdmin = '1',
-  DomainAdmin = '2'
+  DomainAdmin = '2',
 }
 
-export const AccountState = {
+export const accountState = {
   enabled: 'enabled',
   disabled: 'disabled',
 };
 
-export const AccountResourceType = 'Account';
+export const accountResourceType = 'Account';
 
 export interface AccountForm {
   username: string;
@@ -76,7 +76,7 @@ export interface Account extends BaseModel {
   templateavailable: string;
   templatelimit: string;
   templatetotal: number;
-  user: Array<AccountUser>;
+  user: AccountUser[];
   vmavailable: string;
   vmlimit: string;
   vmrunning: number;

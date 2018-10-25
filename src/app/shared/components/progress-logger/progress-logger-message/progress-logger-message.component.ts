@@ -4,26 +4,25 @@ import { Observable } from 'rxjs';
 
 import { ProgressLoggerMessage, ProgressLoggerMessageStatus } from './progress-logger-message';
 
-
 @Component({
   selector: 'cs-progress-logger-message',
   templateUrl: 'progress-logger-message.component.html',
-  styleUrls: ['progress-logger-message.component.scss']
+  styleUrls: ['progress-logger-message.component.scss'],
 })
 export class ProgressLoggerMessageComponent {
-  @Input() public message: ProgressLoggerMessage;
+  @Input()
+  public message: ProgressLoggerMessage;
 
-  constructor (private translateService: TranslateService) { }
+  constructor(private translateService: TranslateService) {}
 
   public get translatedMessage(): Observable<string> {
     if (typeof this.message.text === 'string') {
       return this.translateService.get(this.message.text);
-    } else {
-      return this.translateService.get(
-        this.message.text.translationToken,
-        this.message.text.interpolateParams
-      );
     }
+    return this.translateService.get(
+      this.message.text.translationToken,
+      this.message.text.interpolateParams,
+    );
   }
 
   public get isHighlighted(): boolean {
@@ -46,7 +45,7 @@ export class ProgressLoggerMessageComponent {
     return this.status.includes(ProgressLoggerMessageStatus.ErrorMessage);
   }
 
-  private get status(): Array<ProgressLoggerMessageStatus> {
-    return this.message && this.message.status || [];
+  private get status(): ProgressLoggerMessageStatus[] {
+    return (this.message && this.message.status) || [];
   }
 }
