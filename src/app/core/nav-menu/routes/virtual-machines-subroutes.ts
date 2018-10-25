@@ -1,4 +1,3 @@
-// todo: create reducer for app nav routes
 export const virtualMachinesSubroutes = [
   {
     text: 'NAVIGATION_SIDEBAR.VMS',
