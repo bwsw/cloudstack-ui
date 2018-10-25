@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AffinityGroupSelectorContainerComponent } from '../../affinity-group-selector/affinity-group-selector-container.component';
 import { DateTimeFormatterService } from '../../../../shared/services/date-time-formatter.service';
 import { VirtualMachine, VmState } from '../../../shared/vm.model';
-import { AffinityGroup, affinityGroupTypesMap } from '../../../../shared/models';
+import { AffinityGroup } from '../../../../shared/models';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 
 @Component({
