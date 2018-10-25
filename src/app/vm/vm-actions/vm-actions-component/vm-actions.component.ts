@@ -121,7 +121,8 @@ export class VmActionsComponent {
       }
 
       if (action.command === VmActions.LOGS) {
-        return extensions.vmLogs;
+        // todo: fix if we want this action in vm's context menu
+        return extensions.vmLogs && false;
       }
 
       return true;
