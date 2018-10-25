@@ -21,15 +21,28 @@ export function reducer(state = initialState, action: any): State {
   }
 }
 
+const vmLogsSubroute = {
+  text: 'NAVIGATION_SIDEBAR.LOGS',
+  path: '/logs',
+  icon: 'mdi-text',
+  routeId: 'virtual-machines',
+};
+
 export const getNavMenuState = createFeatureSelector<State>('navMenu');
 
 export const getRoutes = createSelector(getNavMenuState, state => state.routes);
 
 const getCurrentSubroutePath = createSelector(getUrl, url => url.match(/^\/[A-Za-z-]*/)[0]);
 
-const getAllSubroutes = createSelector(getRoutes, routes =>
-  flatten(routes.map(route => route.subroutes)),
-);
+const getAllSubroutes = createSelector(getRoutes, get('extensions'), (routes, { vmLogs }) => {
+  const subroutes = flatten(routes.map(route => route.subroutes));
+
+  if (vmLogs) {
+    return subroutes.concat(vmLogsSubroute);
+  }
+
+  return subroutes;
+});
 
 const getCurrentSubroute = createSelector(
   getCurrentSubroutePath,
@@ -51,15 +64,7 @@ export const getSubroutes = createSelector(
     }
 
     if (route.id === 'virtual-machines' && vmLogs) {
-      return [
-        ...route.subroutes,
-        {
-          text: 'NAVIGATION_SIDEBAR.LOGS',
-          path: '/logs',
-          icon: 'mdi-text',
-          routeId: 'virtual-machines',
-        },
-      ];
+      return route.subroutes.concat(vmLogsSubroute);
     }
 
     return route.subroutes;
