@@ -1,6 +1,5 @@
 import { Subroute } from '../models';
 
-// todo: create reducer for app nav routes
 export const accountsSubroutes: Subroute[] = [
   {
     text: 'NAVIGATION_SIDEBAR.ACCOUNTS',
