@@ -196,7 +196,8 @@ export class VmCreationComponent {
       !isFormValid ||
       this.nameIsTaken() ||
       !this.vmCreationState.template ||
-      !this.vmCreationState.serviceOffering.isAvailableByResources
+      (this.vmCreationState.serviceOffering &&
+        !this.vmCreationState.serviceOffering.isAvailableByResources)
     );
   }
 }

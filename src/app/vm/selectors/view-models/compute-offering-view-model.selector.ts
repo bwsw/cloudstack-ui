@@ -280,11 +280,11 @@ export const getComputeOfferingForVmEditing = createSelector(
     const cpuNumber =
       account && account.cpuavailable === 'Unlimited'
         ? account.cpuavailable
-        : Number(account.cpuavailable) + cpuNumberUsed;
+        : Number(account.cpuavailable) + cpuNumberUsed || '0';
     const memory =
       account && account.memoryavailable === 'Unlimited'
         ? account.memoryavailable
-        : Number(account.memoryavailable) + memoryUsed;
+        : Number(account.memoryavailable) + memoryUsed || '0';
 
     const availableResources: Resources = { cpuNumber, memory };
 
