@@ -4,9 +4,9 @@ Firewall
 --------------
 .. Contents::
 
-The *Firewall* section contains templates to create a security group for a virtual machine and shared security groups used for virtual machines of other users.
+The *Virtual Machines* -> *Firewall* section contains templates to create a security group for a virtual machine and shared security groups used for virtual machines of other users.
 
-.. figure:: _static/Firewall_List816.png
+.. figure:: _static/Firewall_List816-1.png
 
 **Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment via the JSON configuration file (find more in `configurations guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#security-group-templates>`_). These presets will be used when creating a new security group.
 
@@ -22,7 +22,7 @@ Users can manage security group rules in two modes: a "view" mode with filtering
 
 Templates, shared and private security groups are placed in different tabs of the *Firewall* section. You can switch from templates to shared or private security groups using the tool above the list. 
 
-.. figure:: _static/Firewall_Switch816.png
+.. figure:: _static/Firewall_Switch816-1.png
    
 A user can see security groups of his/her user only. An Administrator can observe security groups of all accounts in the domain.
 

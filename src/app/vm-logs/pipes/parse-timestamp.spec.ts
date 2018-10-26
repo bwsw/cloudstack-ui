@@ -8,5 +8,5 @@ describe('parse timestamp pipe', () => {
     expect(date.getFullYear()).toBe(2018);
     expect(date.getMonth()).toBe(9);
     expect(date.getDate()).toBe(11);
-  })
+  });
 });
