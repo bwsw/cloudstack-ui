@@ -20,12 +20,11 @@ Here is the documentation structure:
    CSUI-Snapshots
    CSUI-Firewall
    CSUI-SSHkeys
-   CSUI-LogView
    CSUI-Accounts
    CSUI-Events
    CSUI-Settings
    CSUI-Logout
-
+   CSUI-LogView
 
 
 
