@@ -24,7 +24,7 @@ Here is the documentation structure:
    CSUI-Events
    CSUI-Settings
    CSUI-Logout
-   CSUI-LogView
+   
 
 
 
