@@ -3,7 +3,7 @@ import { Route } from '../models';
 import { appNavRoutes } from '../routes';
 import { getUrl } from '../../../root-store/router/router.selectors';
 import * as flatten from 'lodash/flatten';
-import { ConfigActionTypes } from '../../../root-store/config/config.actions';
+import { get } from '../../../root-store/config/config.selectors';
 
 export interface State {
   routes: Route[];
@@ -15,35 +15,18 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: any): State {
   switch (action.type) {
-    case ConfigActionTypes.LoadConfigSuccess: {
-      if (action.payload.config.extensions.vmLogs) {
-        return {
-          routes: state.routes.map(route => {
-            if (route.id === 'virtual-machines') {
-              return {
-                ...route,
-                subroutes: route.subroutes.concat({
-                  text: 'NAVIGATION_SIDEBAR.LOGS',
-                  path: '/logs',
-                  icon: 'mdi-text',
-                  routeId: 'virtual-machines',
-                }),
-              };
-            }
-
-            return route;
-          }),
-        };
-      }
-
-      break;
-    }
-
     default: {
       return state;
     }
   }
 }
+
+const vmLogsSubroute = {
+  text: 'NAVIGATION_SIDEBAR.LOGS',
+  path: '/logs',
+  icon: 'mdi-text',
+  routeId: 'virtual-machines',
+};
 
 export const getNavMenuState = createFeatureSelector<State>('navMenu');
 
@@ -51,9 +34,15 @@ export const getRoutes = createSelector(getNavMenuState, state => state.routes);
 
 const getCurrentSubroutePath = createSelector(getUrl, url => url.match(/^\/[A-Za-z-]*/)[0]);
 
-const getAllSubroutes = createSelector(getRoutes, routes =>
-  flatten(routes.map(route => route.subroutes)),
-);
+const getAllSubroutes = createSelector(getRoutes, get('extensions'), (routes, { vmLogs }) => {
+  const subroutes = flatten(routes.map(route => route.subroutes));
+
+  if (vmLogs) {
+    return subroutes.concat(vmLogsSubroute);
+  }
+
+  return subroutes;
+});
 
 const getCurrentSubroute = createSelector(
   getCurrentSubroutePath,
@@ -65,4 +54,19 @@ export const getCurrentRoute = createSelector(getRoutes, getCurrentSubroute, (ro
   routes.find(route => subroute && route.id === subroute.routeId),
 );
 
-export const getSubroutes = createSelector(getCurrentRoute, route => route.subroutes);
+export const getSubroutes = createSelector(
+  getCurrentRoute,
+  get('extensions'),
+  (route, { vmLogs }) => {
+    // todo: replace with plugin system
+    if (!route) {
+      return [];
+    }
+
+    if (route.id === 'virtual-machines' && vmLogs) {
+      return route.subroutes.concat(vmLogsSubroute);
+    }
+
+    return route.subroutes;
+  },
+);
