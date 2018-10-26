@@ -96,7 +96,7 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
       name: this.formBuilder.control('', [
         Validators.required,
         Validators.maxLength(this.maxEntityNameLength),
-        Validators.pattern('^[^d_*&^%$#@!~-]{1}[^,]*$'),
+        Validators.pattern('^[^\\d_*&^%$#@!~-]{1}[^,]*$'),
         isUniqName(this.affinityGroups),
       ]),
       type: this.formBuilder.control(AffinityGroupType.antiAffinity, [Validators.required]),

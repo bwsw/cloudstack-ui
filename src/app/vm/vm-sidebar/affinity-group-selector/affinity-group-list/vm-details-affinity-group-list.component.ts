@@ -25,6 +25,7 @@ export class VmDetailsAffinityGroupListComponent extends AffinityGroupListCompon
 
   public ngOnInit() {
     this.selectedGroup = this.affinityGroups.find(group => !group.isPreselected);
+    this.selectedGroupChange.emit(this.selectedGroup);
   }
 
   public isDisabledAffinityGroup(affinityGroupId: string): boolean {

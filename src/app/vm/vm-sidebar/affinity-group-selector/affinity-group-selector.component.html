@@ -77,7 +77,7 @@
     mat-button
     type="button"
     color="primary"
-    [disabled]="!selectedGroup"
+    [disabled]="affinityGroups.length === 1"
     (click)="submit()"
   >
     {{ 'COMMON.SELECT' | translate }}
