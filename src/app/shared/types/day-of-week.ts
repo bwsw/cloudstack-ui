@@ -5,5 +5,5 @@ export const enum DayOfWeek {
   Wednesday,
   Thursday,
   Friday,
-  Saturday
+  Saturday,
 }

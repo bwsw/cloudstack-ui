@@ -1,0 +1,28 @@
+@import '../../../../../style/_variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: $nav-menu-min-width;
+  height: 100%;
+}
+
+.nav-routes {
+  margin-bottom: 15px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+
+  .nav-link {
+    padding: 12px 25px;
+    display: flex;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+
+    mat-icon {
+      margin-right: 10px;
+    }
+  }
+}

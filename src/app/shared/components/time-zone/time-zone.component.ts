@@ -1,17 +1,6 @@
-import {
-  Component,
-  forwardRef,
-  Input,
-  OnInit
-} from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR
-} from '@angular/forms';
-import {
-  TimeZone,
-  TimeZoneService
-} from './time-zone.service';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TimeZone, TimeZoneService } from './time-zone.service';
 
 @Component({
   selector: 'cs-time-zone',
@@ -21,16 +10,16 @@ import {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TimeZoneComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TimeZoneComponent implements ControlValueAccessor, OnInit {
+  // tslint:disable-next-line:variable-name
   public _timeZone: TimeZone;
-  public timeZones: Array<TimeZone>;
+  public timeZones: TimeZone[];
 
-  constructor(private timeZoneService: TimeZoneService) {
-  }
+  constructor(private timeZoneService: TimeZoneService) {}
 
   public ngOnInit(): void {
     this.timeZoneService.get().subscribe(timeZones => {

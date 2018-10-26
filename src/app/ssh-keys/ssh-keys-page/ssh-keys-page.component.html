@@ -1,5 +1,5 @@
 <cs-list
-  (onAction)="showCreationDialog()"
+  (action)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
   <ng-container cs-panels>
@@ -11,7 +11,7 @@
   <ng-container cs-list>
     <div class="switch-panel">
       <cs-view-mode-switch
-        (onModeChange)="changeMode($event)"
+        (modeChanged)="changeMode($event)"
         [key]="viewModeKey">
       </cs-view-mode-switch>
     </div>
@@ -21,7 +21,7 @@
       [mode]="mode"
       [keys]="sshKeyList"
       [groupings]="selectedGroupings"
-      (onRemove)="removeKey($event)"
+      (remove)="removeKey($event)"
       cs-list
     ></cs-ssh-key-list>
   </ng-container>

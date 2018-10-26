@@ -1,8 +1,7 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 import { IpAddress } from './ip-address.model';
 
-
-export interface NIC extends BaseModelInterface {
+export interface NIC extends BaseModel {
   id: string;
   broadcasturi: string;
   deviceid: string;
@@ -19,7 +18,7 @@ export interface NIC extends BaseModelInterface {
   networkname: string;
   nsxlogicalswitch: string;
   nsxlogicalswitchport: string;
-  secondaryip: Array<IpAddress>;
+  secondaryip: IpAddress[];
   traffictype: string;
   type: string;
   virtualmachineid: string;

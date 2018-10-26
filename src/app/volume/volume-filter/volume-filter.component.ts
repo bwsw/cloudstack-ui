@@ -5,28 +5,43 @@ import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings'
 
 @Component({
   selector: 'cs-volume-filter',
-  templateUrl: 'volume-filter.component.html'
+  templateUrl: 'volume-filter.component.html',
 })
 export class VolumeFilterComponent implements OnInit {
-  @Input() public zones: Array<Zone>;
-  @Input() public types: Array<VolumeType>;
-  @Input() public groupings: Array<Grouping>;
-  @Input() public selectedGroupings: Array<Grouping>;
-  @Input() public accounts: Array<Account>;
-  @Input() public query: string;
-  @Input() public spareOnly: boolean;
-  @Input() public selectedZoneIds: Array<string>;
-  @Input() public selectedTypes: Array<string>;
-  @Input() public selectedAccountIds: Array<string>;
-  @Output() public onQueryChange = new EventEmitter();
-  @Output() public onSpareOnlyChange = new EventEmitter();
-  @Output() public onZonesChange = new EventEmitter();
-  @Output() public onAccountsChange = new EventEmitter();
-  @Output() public onTypesChange = new EventEmitter();
-  @Output() public onGroupingsChange = new EventEmitter();
+  @Input()
+  public zones: Zone[];
+  @Input()
+  public types: VolumeType[];
+  @Input()
+  public groupings: Grouping[];
+  @Input()
+  public selectedGroupings: Grouping[];
+  @Input()
+  public accounts: Account[];
+  @Input()
+  public query: string;
+  @Input()
+  public spareOnly: boolean;
+  @Input()
+  public selectedZoneIds: string[];
+  @Input()
+  public selectedTypes: string[];
+  @Input()
+  public selectedAccountIds: string[];
+  @Output()
+  public queryChanged = new EventEmitter();
+  @Output()
+  public spareOnlyChanged = new EventEmitter();
+  @Output()
+  public zonesChanged = new EventEmitter();
+  @Output()
+  public accountsChanged = new EventEmitter();
+  @Output()
+  public typesChanged = new EventEmitter();
+  @Output()
+  public groupingsChanged = new EventEmitter();
 
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   public getVolumeTypeName(type: VolumeType): string {
     return volumeTypeNames[type];

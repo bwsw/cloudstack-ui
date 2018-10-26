@@ -6,9 +6,9 @@ import { isOfferingLocal } from '../../shared/models/offering.model';
 import {
   ComputeOfferingClass,
   defaultComputeOfferingClass,
-  ServiceOfferingAvailability
+  ServiceOfferingAvailability,
 } from '../../shared/models/config';
-import { ServiceOffering, ServiceOfferingType, Zone } from '../../shared/models';
+import { ServiceOffering, serviceOfferingType, Zone } from '../../shared/models';
 import { configSelectors } from '../../root-store';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import * as fromAuths from '../../reducers/auth/redux/auth.reducers';
@@ -21,16 +21,17 @@ import {
 } from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import {
   getComputeOfferingForVmCreation,
-  getComputeOfferingForVmEditing
+  getComputeOfferingForVmEditing,
 } from './view-models/compute-offering-view-model.selector';
 
 const isComputeOfferingAvailableInZone = (
   offering: ServiceOffering,
   availability: ServiceOfferingAvailability,
-  zone: Zone
+  zone: Zone,
 ) => {
   if (availability.zones[zone.id]) {
-    const isOfferingExist = availability.zones[zone.id].computeOfferings.indexOf(offering.id) !== -1;
+    const isOfferingExist =
+      availability.zones[zone.id].computeOfferings.indexOf(offering.id) !== -1;
     return isOfferingExist;
   }
   return false;
@@ -39,7 +40,7 @@ const isComputeOfferingAvailableInZone = (
 const getOfferingsAvailableInZone = (
   offeringList: ComputeOfferingViewModel[],
   availability: ServiceOfferingAvailability,
-  zone: Zone
+  zone: Zone,
 ) => {
   if (!availability.filterOfferings) {
     return offeringList;
@@ -63,7 +64,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(
     }
 
     return getOfferingsAvailableInZone(serviceOfferings, availability, zone);
-  }
+  },
 );
 
 export const getAvailableOfferings = createSelector(
@@ -73,34 +74,40 @@ export const getAvailableOfferings = createSelector(
   configSelectors.get('offeringCompatibilityPolicy'),
   fromZones.getSelectedZone,
   fromAuths.getUserAccount,
-  (
-    serviceOfferings,
-    currentOffering,
-    availability,
-    compatibilityPolicy,
-    zone,
-    user
-  ) => {
+  (serviceOfferings, currentOffering, availability, compatibilityPolicy, zone, user) => {
     if (!zone || !user) {
       return [];
     }
 
     const availableOfferings = getOfferingsAvailableInZone(serviceOfferings, availability, zone);
 
-    const filterByCompatibilityPolicy = VmCompatibilityPolicy.getFilter(compatibilityPolicy, currentOffering);
+    const filterByCompatibilityPolicy = VmCompatibilityPolicy.getFilter(
+      compatibilityPolicy,
+      currentOffering,
+    );
 
-    const filterStorageType = (offering: ServiceOffering) => offering.storagetype === currentOffering.storagetype;
+    const filterStorageType = (offering: ServiceOffering) =>
+      offering.storagetype === currentOffering.storagetype;
 
-    return availableOfferings.filter(item => filterByCompatibilityPolicy(item) && filterStorageType(item));
-  }
+    return availableOfferings.filter(
+      item => filterByCompatibilityPolicy(item) && filterStorageType(item),
+    );
+  },
 );
 
-export const classesFilter = (offering: ServiceOffering, soClasses: ComputeOfferingClass[], classesMap: any) => {
-  const classes = soClasses.filter(soClass =>
-    soClass.computeOfferings && soClass.computeOfferings.indexOf(offering.id) > -1);
+export const classesFilter = (
+  offering: ServiceOffering,
+  soClasses: ComputeOfferingClass[],
+  classesMap: any,
+) => {
+  const classes = soClasses.filter(
+    soClass => soClass.computeOfferings && soClass.computeOfferings.indexOf(offering.id) > -1,
+  );
   const showGeneral = !!classesMap[defaultComputeOfferingClass.id];
-  return classes.length && classes.find(soClass => classesMap[soClass.id])
-    || (showGeneral && !classes.length);
+  return (
+    (classes.length && classes.find(soClass => classesMap[soClass.id])) ||
+    (showGeneral && !classes.length)
+  );
 };
 
 export const selectFilteredOfferingsForVmCreation = createSelector(
@@ -114,7 +121,9 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
     const queryLower = query && query.toLowerCase();
 
     const selectedViewModeFilter = (offering: ComputeOfferingViewModel) => {
-      return viewMode === ServiceOfferingType.custom ? offering.iscustomized : !offering.iscustomized;
+      return viewMode === serviceOfferingType.custom
+        ? offering.iscustomized
+        : !offering.iscustomized;
     };
 
     const selectedClassesFilter = (offering: ComputeOfferingViewModel) => {
@@ -124,12 +133,16 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
       return true;
     };
 
-    const queryFilter = (offering: ComputeOfferingViewModel) => !query || offering.name.toLowerCase()
-      .includes(queryLower);
+    const queryFilter = (offering: ComputeOfferingViewModel) =>
+      !query || offering.name.toLowerCase().includes(queryLower);
 
-    return offerings.filter((offering: ComputeOfferingViewModel) => selectedViewModeFilter(
-      offering) && queryFilter(offering) && selectedClassesFilter(offering));
-  }
+    return offerings.filter(
+      (offering: ComputeOfferingViewModel) =>
+        selectedViewModeFilter(offering) &&
+        queryFilter(offering) &&
+        selectedClassesFilter(offering),
+    );
+  },
 );
 
 export const selectFilteredOfferings = createSelector(
@@ -143,7 +156,9 @@ export const selectFilteredOfferings = createSelector(
     const queryLower = query && query.toLowerCase();
 
     const selectedViewModeFilter = (offering: ServiceOffering) => {
-      return viewMode === ServiceOfferingType.custom ? offering.iscustomized : !offering.iscustomized;
+      return viewMode === serviceOfferingType.custom
+        ? offering.iscustomized
+        : !offering.iscustomized;
     };
 
     const selectedClassesFilter = (offering: ServiceOffering) => {
@@ -153,9 +168,14 @@ export const selectFilteredOfferings = createSelector(
       return true;
     };
 
-    const queryFilter = (offering: ServiceOffering) => !query || offering.name.toLowerCase().includes(queryLower);
+    const queryFilter = (offering: ServiceOffering) =>
+      !query || offering.name.toLowerCase().includes(queryLower);
 
-    return offerings.filter((offering: ServiceOffering) =>
-      selectedViewModeFilter(offering) && queryFilter(offering) && selectedClassesFilter(offering))
-  }
+    return offerings.filter(
+      (offering: ServiceOffering) =>
+        selectedViewModeFilter(offering) &&
+        queryFilter(offering) &&
+        selectedClassesFilter(offering),
+    );
+  },
 );

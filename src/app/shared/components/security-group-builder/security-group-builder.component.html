@@ -69,13 +69,13 @@
       *ngFor="let rule of selectedRules.ingress"
       [item]="rule"
       [type]="NetworkRuleType.Ingress"
-      (onCheckChange)="onRulesChange($event)"
+      (checkChanged)="onRulesChange($event)"
     ></cs-security-group-builder-rule>
     <cs-security-group-builder-rule
       *ngFor="let rule of selectedRules.egress"
       [item]="rule"
       [type]="NetworkRuleType.Egress"
-      (onCheckChange)="onRulesChange($event)"
+      (checkChanged)="onRulesChange($event)"
     ></cs-security-group-builder-rule>
   </mat-list>
 </div>

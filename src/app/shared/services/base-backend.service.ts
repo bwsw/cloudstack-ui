@@ -6,7 +6,6 @@ import * as range from 'lodash/range';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
-import { BaseModelInterface } from '../models/base.model';
 
 export const BACKEND_API_URL = 'client/api';
 
@@ -18,10 +17,10 @@ export interface ApiFormat {
 export const MAX_PAGE_SIZE = 500;
 
 export interface FormattedResponse<M> {
-  list: Array<M>,
+  list: M[];
   meta: {
-    count: number
-  }
+    count: number;
+  };
 }
 
 export enum CSCommands {
@@ -55,15 +54,12 @@ export enum CSCommands {
   UpdateVM = 'updateVM',
 }
 
-export abstract class BaseBackendService<M extends BaseModelInterface> {
+// todo: should be M extends (type with id: string)
+export abstract class BaseBackendService<M> {
   protected entity: string;
-  protected entityModel?: { new(params?): M };
-
   protected requestCache: Cache<Observable<FormattedResponse<M>>>;
 
-  constructor(
-    protected http: HttpClient
-  ) {
+  constructor(protected http: HttpClient) {
     this.initRequestCache();
   }
 
@@ -72,62 +68,69 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
       throw Error('BaseBackendService.get id not specified!');
     }
 
-    return this.getList().pipe(map(res => res.find(entity => entity.id === id)));
+    return this.getList().pipe(map(res => res.find(entity => (entity as any).id === id)));
   }
 
-  public getListAll(params, customApiFormat?: ApiFormat): Observable<Array<M>> {
-    const requestParams = Object.assign({}, this.extendParams(params), { all: true });
+  public getListAll(params, customApiFormat?: ApiFormat): Observable<M[]> {
+    const requestParams = { ...this.extendParams(params), all: true };
     return this.makeGetListObservable(requestParams, customApiFormat).pipe(
       switchMap(result => {
         if (result.meta.count > result.list.length) {
           const numberOfCalls = Math.ceil(result.meta.count / MAX_PAGE_SIZE);
-          return forkJoin(...range(2, numberOfCalls + 1).map(page => {
-            return this.makeGetListObservable(
-              Object.assign(
-                {},
-                requestParams,
+          // todo
+          // tslint:disable-next-line:deprecation
+          return forkJoin(
+            ...range(2, numberOfCalls + 1).map(page => {
+              return this.makeGetListObservable(
                 {
+                  ...requestParams,
+                  page,
                   pageSize: MAX_PAGE_SIZE,
-                  page
-                }
-              ),
-              customApiFormat
-            );
-          })).pipe(map((results: Array<FormattedResponse<M>>) => {
-            return results.reduce((memo, res) => {
-              return Object.assign(memo, {
-                list: memo.list.concat(res.list)
-              });
-            }, result);
-          }));
-        } else {
-          return of(result);
+                },
+                customApiFormat,
+              );
+            }),
+          ).pipe(
+            map((results: FormattedResponse<M>[]) => {
+              return results.reduce((memo, res) => {
+                return {
+                  ...memo,
+                  list: memo.list.concat(res.list),
+                };
+              }, result);
+            }),
+          );
         }
+        return of(result);
       }),
-      map(r => r.list));
+      map(r => r.list),
+    );
   }
 
-  public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
+  public getList(params?: {}, customApiFormat?: ApiFormat): Observable<M[]> {
     return this.makeGetListObservable(this.extendParams(params), customApiFormat).pipe(
-      map(r => r.list));
+      map(r => r.list),
+    );
   }
 
   public extendParams(params = {}) {
-    return Object.assign({}, params, { listAll: 'true' });
+    return { ...params, listAll: 'true' };
   }
 
   public create(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
     const command = (customApiFormat && customApiFormat.command) || CSCommands.Create;
-    const _entity = customApiFormat && customApiFormat.entity;
+    const customEntity = customApiFormat && customApiFormat.entity;
 
-    return this.sendCommand(command, params, _entity).pipe(map(response => {
-      const entity = this.entity.toLowerCase();
-      if (entity === 'tag' || entity === 'affinitygroup') {
-        return response;
-      }
+    return this.sendCommand(command, params, customEntity).pipe(
+      map(response => {
+        const entity = this.entity.toLowerCase();
+        if (entity === 'tag' || entity === 'affinitygroup') {
+          return response;
+        }
 
-      return this.prepareModel(response[entity] as M);
-    }));
+        return response[entity] as M;
+      }),
+    );
   }
 
   public remove(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
@@ -135,15 +138,6 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     const entity = customApiFormat && customApiFormat.entity;
 
     return this.sendCommand(command, params, entity);
-  }
-
-  protected prepareModel(res, entityModel?): M {
-    if (entityModel) {
-      return new entityModel(res);
-    } else if (this.entityModel) {
-      return new this.entityModel(res);
-    }
-    return res;
   }
 
   protected buildParams(command: string, params?: {}, entity?: string): HttpParams {
@@ -173,16 +167,10 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     return urlParams;
   }
 
-  protected getRequest(
-    command: string,
-    params?: {},
-    entity?: string
-  ): Observable<any> {
-    return this.http
-      .get(
-        BACKEND_API_URL, {
-          params: this.buildParams(command, params, entity)
-        });
+  protected getRequest(command: string, params?: {}, entity?: string): Observable<any> {
+    return this.http.get(BACKEND_API_URL, {
+      params: this.buildParams(command, params, entity),
+    });
   }
 
   protected getResponse(result: any): any {
@@ -195,25 +183,15 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
   }
 
   protected postRequest(command: string, params?: {}): Observable<any> {
-    const headers = new HttpHeaders().set(
-      'Content-Type',
-      'application/x-www-form-urlencoded'
-    );
-    return this.http.post(
-      BACKEND_API_URL,
-      this.buildParams(command, params),
-      { headers }
-    );
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers });
   }
 
-  protected sendCommand(
-    command: string,
-    params?: {},
-    entity?: string
-  ): Observable<any> {
+  protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
     return this.getRequest(command, params, entity).pipe(
       map(res => this.getResponse(res)),
-      catchError(e => this.handleCommandError(e.error)));
+      catchError(e => this.handleCommandError(e.error)),
+    );
   }
 
   protected handleCommandError(error): Observable<any> {
@@ -229,18 +207,17 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
 
     const result = response[entity] || [];
     return {
-      list: result.map(m => this.prepareModel(m)) as Array<M>,
+      list: result as M[],
       meta: {
-        count: response.count || 0
-      }
+        count: response.count || 0,
+      },
     };
   }
 
   private makeGetListObservable(
     params?: {},
-    customApiFormat?: ApiFormat
+    customApiFormat?: ApiFormat,
   ): Observable<FormattedResponse<M>> {
-
     const cachedRequest = this.requestCache.get(params);
     if (cachedRequest) {
       return cachedRequest;
@@ -249,7 +226,8 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     const entity = customApiFormat && customApiFormat.entity;
     const request = this.sendCommand(command, params, entity).pipe(
       map(response => this.formatGetListResponse(response)),
-      share());
+      share(),
+    );
     this.requestCache.set({ params, result: request });
     return request;
   }

@@ -17,7 +17,7 @@
   <cs-security-group-builder
     *ngIf="isModeBuilder"
     [inputRules]="savedData?.rules"
-    (onChange)="onBuilderGroupChange($event)"
+    (changed)="onBuilderGroupChange($event)"
   ></cs-security-group-builder>
 
   <cs-security-group-selector
@@ -28,15 +28,21 @@
 </div>
 
 <div class="mat-dialog-actions">
-  <button mat-button (click)="onCancel.emit()">
+  <button
+    mat-button
+    type="button"
+    color="primary"
+    (click)="canceled.emit()">
     {{ 'COMMON.CANCEL' | translate }}
   </button>
 
   <button
     mat-button
+    type="button"
+    color="primary"
     [disabled]="(isModeBuilder && !savedData.rules?.templates?.length)
      || (isModeSelector && !savedData.securityGroups?.length)"
-    (click)="onSave.emit(savedData)"
+    (click)="saved.emit(savedData)"
   >
     {{ 'COMMON.SAVE' | translate }}
   </button>

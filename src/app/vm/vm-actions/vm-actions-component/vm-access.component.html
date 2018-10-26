@@ -1,5 +1,81 @@
-<cs-postdeployment-dialog
-  [vm]="vm"
-  [dialogRef]="dialogRef"
-  [title]="title">
-</cs-postdeployment-dialog>
+<h3 mat-dialog-title>{{ 'VM_PAGE.COMMANDS.VM_ACCESS' | translate }}</h3>
+<mat-tab-group>
+  <mat-tab mat-tab-class="my-class" [label]="'VM_POST_ACTION.VNC_CONSOLE' | translate">
+    <div class="parameters-wrapper">
+      <p><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}:</b> {{ vncAccessService.getLogin(vm) }}</p>
+      <p><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ getVncPassword(vm) }}</p>
+
+      <br>
+      <p class="action-link">
+        <a (click)="openConsoleVm(vm)">{{ 'VM_POST_ACTION.OPEN_VNC_CONSOLE' | translate }}</a>
+      </p>
+    </div>
+  </mat-tab>
+
+  <mat-tab [disabled]="!sshAccessService.isSshAuthMode(vm)" [label]="'VM_POST_ACTION.SHELL_CONSOLE' | translate">
+    <div class="parameters-wrapper">
+      <p>
+        <b>{{ 'VM_POST_ACTION.CONNECTION_STRING_4' | translate }}:</b>
+        {{ sshAccessService.getIpv4ConnectionString(vm) }}
+        <cs-clipboard-button
+          [value]="sshAccessService.getIpv4ConnectionString(vm)"
+          tooltipPosition="below"
+        ></cs-clipboard-button>
+      </p>
+      <p *ngIf="vm.nic[0]?.ip6address">
+        <b>{{ 'VM_POST_ACTION.CONNECTION_STRING_6' | translate }}:</b>
+        {{ sshAccessService.getIpv6ConnectionString(vm) }}
+        <cs-clipboard-button
+          [value]="sshAccessService.getIpv6ConnectionString(vm)"
+          tooltipPosition="below"
+        ></cs-clipboard-button>
+      </p>
+      <p><b>{{ 'VM_POST_ACTION.IPv4' | translate }}:</b> {{ vm.nic[0].ipaddress }}</p>
+      <p *ngIf="vm.nic[0]?.ip6address"><b>{{ 'VM_POST_ACTION.IPv6' | translate }}:</b> {{ vm.nic[0].ip6address }}</p>
+      <p><b>{{ 'VM_POST_ACTION.PORT' | translate }}:</b> {{ sshAccessService.getPort(vm) }}</p>
+      <p><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}:</b> {{ sshAccessService.getLogin(vm) }}</p>
+      <p><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ getSshPassword(vm) }}</p>
+      <p *ngIf="vm.keypair">
+        <b>{{ 'VM_POST_ACTION.SSH_KEY' | translate }}: </b>
+        <span>
+          {{ vm.keypair }}
+        </span>
+      </p>
+
+      <br>
+      <p *ngIf="sshAccessService.isWebShellEnabled()" class="action-link">
+        <a (click)="openWebShell(vm)">{{ 'VM_POST_ACTION.OPEN_SHELL_CONSOLE' | translate }}</a>
+      </p>
+    </div>
+  </mat-tab>
+
+  <mat-tab [disabled]="!httpAccessService.isHttpAuthMode(vm)" [label]="'VM_POST_ACTION.URL' | translate">
+    <div class="parameters-wrapper">
+      <p><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}:</b> {{ httpAccessService.getLogin(vm) }}</p>
+      <p><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ getUrlPassword(vm) }}</p>
+
+      <br>
+      <p>
+        <b>{{ 'VM_POST_ACTION.OPEN_URL' | translate }}:</b>
+        <ng-container *ngIf="isValidUrl(httpAccessService.getAddress(vm)); else invalidUrl">
+          <a class="action-link" (click)="openUrlVm(vm)"> {{ httpAccessService.getAddress(vm) }}</a>
+        </ng-container>
+        <ng-template #invalidUrl>
+          {{ httpAccessService.getAddress(vm) }}
+          <span class="error-message">
+            {{ 'ERRORS.VM_POST_ACTION.INVALID_URL' | translate }}
+          </span>
+        </ng-template>
+      </p>
+    </div>
+
+  </mat-tab>
+</mat-tab-group>
+
+<div class="mat-dialog-actions">
+  <button
+    mat-button color="primary"
+    (click)="dialogRef.close()"
+  >{{ 'COMMON.CLOSE' | translate }}
+  </button>
+</div>

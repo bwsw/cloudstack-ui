@@ -5,20 +5,22 @@ import {
   getSnapshotDescription,
   Snapshot,
   SnapshotStates,
-  Volume
+  Volume,
 } from '../../../shared/models';
 import { NgrxEntities } from '../../../shared/interfaces';
-
 
 @Component({
   selector: 'cs-snapshot-sidebar',
   templateUrl: 'snapshot-sidebar.component.html',
-  styleUrls: ['snapshot-sidebar.component.scss']
+  styleUrls: ['snapshot-sidebar.component.scss'],
 })
 export class SnapshotSidebarComponent {
-  @Input() public snapshot: Snapshot;
-  @Input() public volumes: NgrxEntities<Volume>;
-  @Input() public isLoading: boolean;
+  @Input()
+  public snapshot: Snapshot;
+  @Input()
+  public volumes: NgrxEntities<Volume>;
+  @Input()
+  public isLoading: boolean;
 
   public stateTranslations = {
     [SnapshotStates.BackedUp]: 'SNAPSHOT_STATE.BACKEDUP',
@@ -30,7 +32,7 @@ export class SnapshotSidebarComponent {
 
   public get notFound(): boolean {
     return !this.snapshot;
-  };
+  }
 
   public get snapshotCreated() {
     return getDateSnapshotCreated(this.snapshot);
@@ -54,12 +56,16 @@ export class SnapshotSidebarComponent {
       SnapshotStates.BackingUp,
       SnapshotStates.Allocated,
       SnapshotStates.Creating,
-      SnapshotStates.Error
-    ].filter(state => this.snapshot.state === state)
-      .map((state) => (state === SnapshotStates.BackingUp)
-        ? 'backing-up'
-        : state === SnapshotStates.BackedUp
-          ? 'backed-up'
-          : state.toLowerCase());
+      SnapshotStates.Error,
+    ]
+      .filter(state => this.snapshot.state === state)
+      .map(
+        state =>
+          state === SnapshotStates.BackingUp
+            ? 'backing-up'
+            : state === SnapshotStates.BackedUp
+              ? 'backed-up'
+              : state.toLowerCase(),
+      );
   }
 }

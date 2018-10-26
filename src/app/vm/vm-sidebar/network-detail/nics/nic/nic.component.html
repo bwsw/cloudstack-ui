@@ -12,8 +12,8 @@
       <cs-nic-fields *ngIf="nic" [nic]="nic"></cs-nic-fields>
       <cs-secondary-ip-list
         [nic]="nic"
-        (onSecondaryIpAdd)="onSecondaryIpAdd.emit($event)"
-        (onSecondaryIpRemove)="onSecondaryIpRemove.emit($event)">
+        (secondaryIpAdded)="secondaryIpAdded.emit($event)"
+        (secondaryIpRemoved)="secondaryIpRemoved.emit($event)">
       </cs-secondary-ip-list>
     </div>
   </mat-card-content>

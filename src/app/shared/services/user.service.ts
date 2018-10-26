@@ -9,7 +9,7 @@ import { BaseBackendService, CSCommands } from './base-backend.service';
 
 @Injectable()
 @BackendResource({
-  entity: 'User'
+  entity: 'User',
 })
 export class UserService extends BaseBackendService<AccountUser> {
   constructor(protected http: HttpClient) {
@@ -17,13 +17,11 @@ export class UserService extends BaseBackendService<AccountUser> {
   }
 
   public createUser(user: AccountUser): Observable<AccountUser> {
-    return this.sendCommand(CSCommands.Create, user).pipe(
-      map(res => res.user));
+    return this.sendCommand(CSCommands.Create, user).pipe(map(res => res.user));
   }
 
   public updateUser(user: AccountUser): Observable<AccountUser> {
-    return this.sendCommand(CSCommands.Update, user).pipe(
-      map(res => res.user));
+    return this.sendCommand(CSCommands.Update, user).pipe(map(res => res.user));
   }
 
   public removeUser(user: AccountUser): Observable<any> {

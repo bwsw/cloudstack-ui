@@ -3,4 +3,4 @@ export interface ImageGroup {
   translations?: object;
 }
 
-export const DefaultTemplateGroupId = 'general';
+export const defaultTemplateGroupId = 'general';

@@ -1,13 +1,13 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
 export enum OsFamily {
   Linux = 'Linux',
   Windows = 'Windows',
   MacOs = 'Mac OS',
-  Other = 'Other'
+  Other = 'Other',
 }
 
-export interface OsType extends BaseModelInterface {
+export interface OsType extends BaseModel {
   id: string;
   description: string;
   isuserdefined: boolean;

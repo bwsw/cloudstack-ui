@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { State } from '../../reducers/index';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as fromVM from '../../reducers/vm/redux/vm.reducers';
@@ -15,14 +15,12 @@ import * as fromVM from '../../reducers/vm/redux/vm.reducers';
       [viewMode]="viewMode$ | async"
       [vmList]="vmList$ | async"
     ></cs-security-group-vm-list>
-  `
+  `,
 })
 export class SecurityGroupDetailsContainerComponent {
-  readonly securityGroup$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);
-  readonly vmList$ = this.store.select(fromVM.getUsingSGVMs);
-  readonly viewMode$ = this.store.select(fromSecurityGroups.viewMode);
+  readonly securityGroup$ = this.store.pipe(select(fromSecurityGroups.getSelectedSecurityGroup));
+  readonly vmList$ = this.store.pipe(select(fromVM.getUsingSGVMs));
+  readonly viewMode$ = this.store.pipe(select(fromSecurityGroups.viewMode));
 
-  constructor(
-    private store: Store<State>
-  ) { }
+  constructor(private store: Store<State>) {}
 }

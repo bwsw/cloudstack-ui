@@ -7,34 +7,30 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VirtualMachine } from '../shared/vm.model';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 
-
 @Component({
   selector: 'cs-vm-actions-container',
   template: `
     <cs-vm-actions
       [vm]="vm"
-      (onVmDestroy)="onVmDestroy($event)"
-      (onVmReboot)="onVmReboot($event)"
-      (onVmResetPassword)="onVmResetPassword($event)"
-      (onVmRestore)="onVmRestore($event)"
-      (onVmStart)="onVmStart($event)"
-      (onVmStop)="onVmStop($event)"
-      (onVmExpunge)="onVmExpunge($event)"
-      (onVmRecover)="onVmRecover($event)"
-      (onVmAccess)="onVmAccess($event)"
-      (onVmPulse)="onVmPulse($event)"
+      (vmDestroyed)="onVmDestroy($event)"
+      (vmRebooted)="onVmReboot($event)"
+      (vmResetedPassword)="onVmResetPassword($event)"
+      (vmRestored)="onVmRestore($event)"
+      (vmStarted)="onVmStart($event)"
+      (vmStopped)="onVmStop($event)"
+      (vmExpunged)="onVmExpunge($event)"
+      (vmRecovered)="onVmRecover($event)"
+      (vmAccessed)="onVmAccess($event)"
+      (vmPulse)="onVmPulse($event)"
+      (vmLogs)="onViewVmLogs($event)"
     >
     </cs-vm-actions>`,
 })
 export class VmActionsContainerComponent {
+  @Input()
+  public vm: VirtualMachine;
 
-  @Input() public vm: VirtualMachine;
-
-  constructor(
-    public dialogService: DialogService,
-    private store: Store<State>,
-  ) {
-  }
+  constructor(public dialogService: DialogService, private store: Store<State>) {}
 
   public onVmRecover(vm: VirtualMachine): void {
     this.store.dispatch(new vmActions.RecoverVm(vm));
@@ -69,21 +65,30 @@ export class VmActionsContainerComponent {
   }
 
   public onVmStart(vm: VirtualMachine): void {
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_START' }).pipe(
-      onErrorResumeNext(),
-      filter(res => Boolean(res)))
+    this.dialogService
+      .confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_START' })
+      .pipe(
+        onErrorResumeNext(),
+        filter(Boolean),
+      )
       .subscribe(() => {
         this.store.dispatch(new vmActions.StartVm(vm));
       });
   }
 
   public onVmStop(vm: VirtualMachine): void {
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_STOP' }).pipe(
-      onErrorResumeNext(),
-      filter(res => Boolean(res)))
+    this.dialogService
+      .confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_STOP' })
+      .pipe(
+        onErrorResumeNext(),
+        filter(Boolean),
+      )
       .subscribe(() => {
         this.store.dispatch(new vmActions.StopVm(vm));
       });
   }
 
+  public onViewVmLogs(vm: VirtualMachine): void {
+    this.store.dispatch(new vmActions.ViewVmLogs(vm));
+  }
 }

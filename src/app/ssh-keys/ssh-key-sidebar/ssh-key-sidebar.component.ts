@@ -16,7 +16,7 @@ import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
 
 @Component({
   selector: 'cs-ssh-key-sidebar',
-  templateUrl: 'ssh-key-sidebar.component.html'
+  templateUrl: 'ssh-key-sidebar.component.html',
 })
 export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   public description: string;
@@ -27,7 +27,7 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
     protected route: ActivatedRoute,
     protected router: Router,
     protected store: Store<State>,
-    protected accountTagService: AccountTagService
+    protected accountTagService: AccountTagService,
   ) {
     super(entityService, notificationService, route, router);
   }
@@ -35,6 +35,10 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   public onDescriptionChange(description: string): void {
     this.description = description;
     this.accountTagService.setSshKeyDescription(this.entity, this.description).subscribe();
+  }
+
+  public onRemoveClicked(sshKeyPair) {
+    this.store.dispatch(new sshKeyActions.RemoveSshKeyPair(sshKeyPair));
   }
 
   protected loadEntity(name: string): Observable<SSHKeyPair> {
@@ -48,24 +52,21 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
           switchMap(sshKeyPair => {
             if (sshKeyPair) {
               return of(sshKeyPair);
-            } else {
-              return throwError(new EntityDoesNotExistError());
             }
+            return throwError(new EntityDoesNotExistError());
           }),
           switchMap(sshKeyPair => {
             return forkJoin(
               of(sshKeyPair),
-              this.accountTagService.getSshKeyDescription(sshKeyPair)
-            )
+              this.accountTagService.getSshKeyDescription(sshKeyPair),
+            );
           }),
           map(([sshKeyPair, description]) => {
             this.description = description;
             return sshKeyPair;
-          }));
-      }));
-  }
-
-  public onRemoveClicked(sshKeyPair) {
-    this.store.dispatch(new sshKeyActions.RemoveSshKeyPair(sshKeyPair));
+          }),
+        );
+      }),
+    );
   }
 }

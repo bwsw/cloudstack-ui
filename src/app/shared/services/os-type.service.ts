@@ -7,14 +7,13 @@ import { OsFamily, OsType } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { HttpClient } from '@angular/common/http';
 
-
 @Injectable()
 @BackendResource({
-  entity: 'OsType'
+  entity: 'OsType',
 })
 export class OsTypeService extends BaseBackendService<OsType> {
-  private osTypes: Array<OsType>;
-  private requestObservable: Observable<Array<OsType>>;
+  private osTypes: OsType[];
+  private requestObservable: Observable<OsType[]>;
 
   constructor(protected http: HttpClient) {
     super(http);
@@ -28,7 +27,7 @@ export class OsTypeService extends BaseBackendService<OsType> {
     return super.get(id);
   }
 
-  public getList(params?: {}): Observable<Array<OsType>> {
+  public getList(params?: {}): Observable<OsType[]> {
     if (this.osTypes) {
       return of(this.osTypes);
     }
@@ -45,7 +44,8 @@ export class OsTypeService extends BaseBackendService<OsType> {
 
         this.osTypes = osTypes;
         return osTypes;
-      }));
+      }),
+    );
     return this.requestObservable;
   }
 
@@ -65,8 +65,12 @@ export class OsTypeService extends BaseBackendService<OsType> {
       return linux;
     }
 
-    if (osName.includes('CentOS') || osName.includes('Debian') ||
-      osName.includes('Fedora') || osName.includes('Ubuntu')) {
+    if (
+      osName.includes('CentOS') ||
+      osName.includes('Debian') ||
+      osName.includes('Fedora') ||
+      osName.includes('Ubuntu')
+    ) {
       return linux;
     }
 

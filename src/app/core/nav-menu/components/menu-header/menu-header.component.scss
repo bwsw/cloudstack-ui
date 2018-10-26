@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.menu-header {
+  font-size: 13px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+
+  .mdi-menu {
+    color: inherit !important;
+  }
+
+  .logo {
+    width: 210px;
+    margin: 15px 0;
+    align-self: center;
+  }
+
+  .account-info {
+    margin: 0 9px;
+    display: flex;
+    align-items: center;
+
+    mat-icon {
+      margin-right: 10px;
+    }
+  }
+}

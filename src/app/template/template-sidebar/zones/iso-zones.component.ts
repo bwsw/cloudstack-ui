@@ -6,7 +6,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 @Component({
   selector: 'cs-iso-zones',
   templateUrl: './zones.component.html',
-  styleUrls: ['./zones.component.scss']
+  styleUrls: ['./zones.component.scss'],
 })
 export class IsoZonesComponent extends BaseTemplateZonesComponent {
   constructor(service: IsoService, dialogService: DialogService) {

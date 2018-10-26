@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VolumeCreationContainerComponent } from '../container/volume-creation.container';
 
 @Component({
   selector: 'cs-volume-creation',
-  template: ``
+  template: ``,
 })
 export class VolumeCreationComponent {
   constructor(
@@ -16,14 +13,16 @@ export class VolumeCreationComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
   ) {
-    this.dialog.open(VolumeCreationContainerComponent, {
-      width: '405px',
-      disableClose: true
-    }).afterClosed()
+    this.dialog
+      .open(VolumeCreationContainerComponent, {
+        width: '405px',
+        disableClose: true,
+      })
+      .afterClosed()
       .subscribe(() => {
         this.router.navigate(['../'], {
           queryParamsHandling: 'preserve',
-          relativeTo: this.activatedRoute
+          relativeTo: this.activatedRoute,
         });
       });
   }

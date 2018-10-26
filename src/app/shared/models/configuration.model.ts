@@ -1,6 +1,6 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
-export interface Configuration extends BaseModelInterface {
+export interface Configuration extends BaseModel {
   category: string;
   description: string;
   name: string;
