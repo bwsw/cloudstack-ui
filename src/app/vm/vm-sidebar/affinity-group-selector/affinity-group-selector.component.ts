@@ -74,16 +74,21 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
   }
 
   public submit(): void {
-    let selectedGroupIds;
-    if (this.enablePreselected) {
-      selectedGroupIds = [this.selectedGroup.id];
-    } else if (this.selectedGroup.id === emptyAffinityGroup) {
-      selectedGroupIds = [];
-    } else {
-      selectedGroupIds = this.preselectedAffinityGroups.map(group => group.id);
-      selectedGroupIds.push(this.selectedGroup.id);
-    }
+    const selectedGroupIds = this.getSelectedAffinityGroups();
     this.submited.emit(selectedGroupIds);
+  }
+
+  private getSelectedAffinityGroups(): string[] {
+    if (this.enablePreselected) {
+      return [this.selectedGroup.id];
+    }
+
+    if (this.selectedGroup.id === emptyAffinityGroup) {
+      return [];
+    }
+    const selectedGroupIds = this.preselectedAffinityGroups.map(group => group.id);
+    selectedGroupIds.push(this.selectedGroup.id);
+    return selectedGroupIds;
   }
 
   private createForm() {
@@ -91,7 +96,7 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
       name: this.formBuilder.control('', [
         Validators.required,
         Validators.maxLength(this.maxEntityNameLength),
-        Validators.pattern('^[a-zA-zА-яа-я]{1}[^,]*$'),
+        Validators.pattern('^[^d_*&^%$#@!~-]{1}[^,]*$'),
         isUniqName(this.affinityGroups),
       ]),
       type: this.formBuilder.control(AffinityGroupType.antiAffinity, [Validators.required]),
