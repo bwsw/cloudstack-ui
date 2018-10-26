@@ -42,7 +42,7 @@ Select the following parameters in the provided order from drop-down lists:
 
 - VM * - Allows selecting logs for a specific VM. Choose a VM you wish in the drop-down list. The list of available VMs is determined by the account(s) selected at the previous step, if you are an Administrator. If you are a user, you can see the machines belonging to your user only.
  
-- Log files * - Allows viewing logs by log files available for the selected VM. Choose a log file in the drop-down list.
+- Log file * - Allows viewing logs by a log file available for the selected VM. Choose a log file in the drop-down list.
 
 - Date - Allows selecting logs for a specific period. Click |date icon| and in the appeared calendar choose the start and end dates to see the logs for. By default, the system shows logs for the last day.
 
