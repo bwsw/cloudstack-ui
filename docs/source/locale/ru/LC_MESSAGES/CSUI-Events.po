@@ -21,7 +21,7 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 
 #: ../../CSUI-Events.rst:4
-msgid "Activity log"
+msgid "Activity Log"
 msgstr "Журнал событий"
 
 #: ../../CSUI-Events.rst:7
