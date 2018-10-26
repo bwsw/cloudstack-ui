@@ -446,12 +446,20 @@ A started virtual machine will be rebooted at editing the service offering.
     If no affinity group is assigned to the VM, or you wish to add another affinity group to the list, click "Add" (+) in the block. A dialog box appears where you can choose an existing group or create a new one. 
     
     Select a group in the list and click "Assign" to assign it to the VM. A user can add several groups to one virtual machine.
+    
+    .. figure:: _static/VMs_Details_AddAffGroup.png
 
     To create an affinity group fill in the form at the top of the dialog box and click "+" to add the group to the list. Then, you can assign the newly created group to the VM.
     
+    .. figure:: _static/VMs_Details_CreateAffGroup2.png
+    
     When assigning an affinity group to a started virtual machine, the system will suggest you stopping the VM. Click "OK" in the dialog window. Then, the VM will be started again.
-
+    
+    .. figure:: _static/VMs_Details_EditAffGroup.png
+    
     The selected group/groups can be deleted by clicking |delete icon| near the group name in the list.  
+    
+    .. figure:: _static/VMs_Details_RemoveAffGroup2.png
    
 6. Template - Shows the template used to create the virtual machine.
 
@@ -854,4 +862,4 @@ To close the modal window click "CLOSE".
 .. |copy icon| image:: _static/copy_icon.png
 .. |color picker| image:: _static/color-picker_icon.png
 .. |adv icon| image:: _static/adv_icon.png
-
+.. |delete icon| image:: _static/delete_icon.png
