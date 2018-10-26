@@ -4,7 +4,7 @@ Settings
 -------------
 .. Contents::
 
-In the *Settings* section a user can modify the interface by changing settings.
+In the *Accounts* -> *Settings* section a user can modify the interface by changing settings.
 
 .. figure:: _static/Settings_List.png
    :scale: 80%
