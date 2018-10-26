@@ -2,7 +2,7 @@ Snapshots
 =============
 .. Contents::
 
-The *Snapshots* section contains the information on snapshots existing in the system.
+The *Virtual Machines* -> *Snapshots* section contains the information on snapshots existing in the system.
 
 .. figure:: _static/Snapshots1.png
 
