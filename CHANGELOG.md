@@ -1,3 +1,18 @@
+<a name="1.411.23"></a>
+
+## [1.411.23](https://github.com/wowshakhov/cloudstack-ui/compare/1.411.22...1.411.23) (2018-10-26)
+
+### Bug Fixes
+
+- dialog about the deletion of attached data disk appears when VM destroyed ([#1360](https://github.com/wowshakhov/cloudstack-ui/issues/1360)) ([a36e56f](https://github.com/wowshakhov/cloudstack-ui/commit/a36e56f)), closes [#1355](https://github.com/wowshakhov/cloudstack-ui/issues/1355)
+
+### Features
+
+- **config-validation:** add config validators ([#1309](https://github.com/wowshakhov/cloudstack-ui/issues/1309)) ([06361fb](https://github.com/wowshakhov/cloudstack-ui/commit/06361fb))
+- **navigation:** rework navigation menu ([#1333](https://github.com/wowshakhov/cloudstack-ui/issues/1333)) ([cf47298](https://github.com/wowshakhov/cloudstack-ui/commit/cf47298)), closes [#1235](https://github.com/wowshakhov/cloudstack-ui/issues/1235)
+- **vm-creation:** access vm enhancements ([#1301](https://github.com/wowshakhov/cloudstack-ui/issues/1301)) ([6ab2e88](https://github.com/wowshakhov/cloudstack-ui/commit/6ab2e88)), closes [#1224](https://github.com/wowshakhov/cloudstack-ui/issues/1224)
+- **vm-logs:** VM logs plugin ([#1330](https://github.com/wowshakhov/cloudstack-ui/issues/1330)) ([#1344](https://github.com/wowshakhov/cloudstack-ui/issues/1344)) ([f71f1ce](https://github.com/wowshakhov/cloudstack-ui/commit/f71f1ce)), closes [#1346](https://github.com/wowshakhov/cloudstack-ui/issues/1346) [#1351](https://github.com/wowshakhov/cloudstack-ui/issues/1351) [#1362](https://github.com/wowshakhov/cloudstack-ui/issues/1362) [#1180](https://github.com/wowshakhov/cloudstack-ui/issues/1180) [#1104](https://github.com/wowshakhov/cloudstack-ui/issues/1104) [#1347](https://github.com/wowshakhov/cloudstack-ui/issues/1347) [#1333](https://github.com/wowshakhov/cloudstack-ui/issues/1333) [#1235](https://github.com/wowshakhov/cloudstack-ui/issues/1235) [#1309](https://github.com/wowshakhov/cloudstack-ui/issues/1309) [#1359](https://github.com/wowshakhov/cloudstack-ui/issues/1359) [#1363](https://github.com/wowshakhov/cloudstack-ui/issues/1363) [#1180](https://github.com/wowshakhov/cloudstack-ui/issues/1180) [#1104](https://github.com/wowshakhov/cloudstack-ui/issues/1104) [#1347](https://github.com/wowshakhov/cloudstack-ui/issues/1347) [#1333](https://github.com/wowshakhov/cloudstack-ui/issues/1333) [#1235](https://github.com/wowshakhov/cloudstack-ui/issues/1235) [#1309](https://github.com/wowshakhov/cloudstack-ui/issues/1309) [#1359](https://github.com/wowshakhov/cloudstack-ui/issues/1359)
+
 <a name="1.411.22"></a>
 
 ## [1.411.22](https://github.com/HeyRoach/cloudstack-ui/compare/1.411.21...1.411.22) (2018-10-12)
