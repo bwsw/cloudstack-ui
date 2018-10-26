@@ -5,7 +5,8 @@
     background-color: mat-color($primary, 800);
   }
 
-  cs-app-nav, cs-section-nav {
+  cs-app-nav,
+  cs-section-nav {
     color: mat-color($primary, '500-contrast');
     background-color: mat-color($primary);
 

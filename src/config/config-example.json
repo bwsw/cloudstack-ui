@@ -4,7 +4,8 @@
   "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.11/",
   "extensions": {
     "webShell": true,
-    "pulse": true
+    "pulse": true,
+    "vmLogs": true
   },
   "vmColors": [
     { "value": "#F44336" },

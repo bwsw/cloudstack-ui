@@ -6,7 +6,7 @@ import { Route } from '../../models';
   selector: 'cs-app-nav',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app-nav.component.html',
-  styleUrls: ['./app-nav.component.scss']
+  styleUrls: ['./app-nav.component.scss'],
 })
 export class AppNavComponent {
   @Input()

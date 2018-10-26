@@ -8,6 +8,7 @@ import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { VmActions } from '../vm-action';
 import { configSelectors, State } from '../../../root-store';
+import { ExtensionsConfig } from '../../../shared/models/config';
 
 @Component({
   selector: 'cs-vm-actions',
@@ -36,6 +37,8 @@ export class VmActionsComponent {
   public vmAccessed = new EventEmitter<VirtualMachine>();
   @Output()
   public vmPulse = new EventEmitter<VirtualMachine>();
+  @Output()
+  public vmLogs = new EventEmitter<VirtualMachine>();
 
   public vmActions$: Observable<any[]>;
   public destroyedVmActions: any[];
@@ -47,7 +50,7 @@ export class VmActionsComponent {
   ) {
     this.vmActions$ = store.pipe(
       select(configSelectors.get('extensions')),
-      map(extensions => this.actionListDependingOnExtension(extensions.pulse)),
+      map(extensions => this.actionListDependingOnExtension(extensions)),
     );
     this.destroyedVmActions = this.vmActionsService.destroyedActions;
   }
@@ -94,6 +97,10 @@ export class VmActionsComponent {
         this.vmRecovered.emit(vm);
         break;
       }
+      case VmActions.LOGS: {
+        this.vmLogs.emit(vm);
+        break;
+      }
       default:
         break;
     }
@@ -107,9 +114,18 @@ export class VmActionsComponent {
     return this.authService.canExpungeOrRecoverVm();
   }
 
-  private actionListDependingOnExtension(pulse: boolean) {
+  private actionListDependingOnExtension(extensions: ExtensionsConfig) {
     return this.vmActionsService.actions.filter(action => {
-      return action.command !== VmActions.PULSE || pulse;
+      if (action.command === VmActions.PULSE) {
+        return extensions.pulse;
+      }
+
+      if (action.command === VmActions.LOGS) {
+        // todo: fix if we want this action in vm's context menu
+        return extensions.vmLogs && false;
+      }
+
+      return true;
     });
   }
 }

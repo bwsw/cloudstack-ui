@@ -285,6 +285,7 @@
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
     "ACCOUNTS": "Аккаунты",
+    "LOGS": "Просмотр логов",
     "SETTINGS": "Настройки",
     "LOGOUT": "Выйти",
     "LICENSE": {
@@ -306,7 +307,8 @@
       "CONSOLE": "Консоль",
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
-      "VM_ACCESS_TITLE": "Виртуальная машина"
+      "VM_ACCESS_TITLE": "Виртуальная машина",
+      "LOGS": "Просмотр логов"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",
@@ -758,7 +760,8 @@
       "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_TYPES": "Выберите типы",
       "GROUP_BY_TYPES": "Типам",
-      "GROUP_BY_ACCOUNTS": "Аккаунтам"
+      "GROUP_BY_ACCOUNTS": "Аккаунтам",
+      "SELECT_DATE": "Выберите дату"
     },
     "SIDEBAR": {
       "DETAILS": "Детали",
@@ -1425,6 +1428,24 @@
       "EMAIL": "Email",
       "API_KEY": "API ключ",
       "SECRET_KEY": "Секретный ключ"
+    }
+  },
+  "LOGS_PAGE": {
+    "FILTERS": {
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
+      "SELECT_VM": "Выберите ВМ",
+      "KEYWORDS": "Ключевые слова",
+      "SHOW_LOGS": "Показать логи",
+      "START_DATE": "Начальная дата",
+      "END_DATE": "Конечная дата",
+      "LOG_FILE": "Журнал",
+      "LOG_FILE_NOT_SELECTED": "Не выбран",
+      "NEWEST_FIRST": "Новые сверху"
+    },
+    "LIST": {
+      "DATE": "Дата",
+      "LOG_FILE": "Файл",
+      "TEXT": "Текст"
     }
   },
   "SETTINGS": {

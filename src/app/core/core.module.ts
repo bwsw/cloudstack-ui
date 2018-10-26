@@ -11,13 +11,13 @@ import {
   MenuHeaderComponent,
   SectionNavComponent,
 } from './nav-menu/components/';
-import { SnackBarService, NavMenuService } from './services';
+import { SnackBarService } from './services';
 
 @NgModule({
   imports: [CommonModule, SharedModule, MaterialModule, RouterModule],
   exports: [AppNavComponent, SectionNavComponent],
   declarations: [AppNavComponent, SectionNavComponent, LicenseComponent, MenuHeaderComponent],
-  providers: [ConfigValidationService, SnackBarService, NavMenuService],
+  providers: [ConfigValidationService, SnackBarService],
 })
 export class CoreModule {
   constructor(

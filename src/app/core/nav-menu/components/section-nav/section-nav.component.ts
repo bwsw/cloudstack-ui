@@ -5,7 +5,7 @@ import { Subroute } from '../../models';
   selector: 'cs-section-nav',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './section-nav.component.html',
-  styleUrls: ['./section-nav.component.scss']
+  styleUrls: ['./section-nav.component.scss'],
 })
 export class SectionNavComponent {
   @Input()

@@ -38,6 +38,8 @@ interface DatePickerConfig {
 })
 export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   @Input()
+  public label = '';
+  @Input()
   public okLabel = 'Ok';
   @Input()
   public cancelLabel = 'Cancel';
