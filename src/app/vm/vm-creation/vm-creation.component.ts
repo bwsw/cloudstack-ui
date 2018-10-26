@@ -104,8 +104,6 @@ export class VmCreationComponent {
     primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE',
   };
 
-  public takenDisplayName: string;
-  public takenHostName: string;
   public maxEntityNameLength = 63;
 
   public visibleAffinityGroups: AffinityGroup[];
@@ -116,12 +114,11 @@ export class VmCreationComponent {
     private auth: AuthService,
   ) {}
 
-  public displayNameIsTaken(): boolean {
-    return !!this.vmCreationState && this.vmCreationState.displayName === this.takenDisplayName;
-  }
-
   public hostNameIsTaken(): boolean {
-    return !!this.vmCreationState && this.vmCreationState.name === this.takenHostName;
+    if (!!this.vmCreationState) {
+      return !!this.affinityGroupList.find(group => group.name === this.vmCreationState.name);
+    }
+    return false;
   }
 
   public diskOfferingsAreAllowed(): boolean {
@@ -199,7 +196,6 @@ export class VmCreationComponent {
   public isSubmitButtonDisabled(isFormValid: boolean): boolean {
     return (
       !isFormValid ||
-      this.displayNameIsTaken() ||
       this.hostNameIsTaken() ||
       !this.vmCreationState.template ||
       !this.vmCreationState.serviceOffering.isAvailableByResources

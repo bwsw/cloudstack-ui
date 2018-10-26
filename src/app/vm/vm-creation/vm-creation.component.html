@@ -64,9 +64,6 @@
                       pattern="^[\S]{1}.{0,30}[\S]$"
                       required
                     >
-                    <mat-error *ngIf="takenDisplayName">
-                      {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
-                    </mat-error>
                     <mat-hint align="end">
                       <cs-character-count
                         [value]="vmCreationState.displayName"
@@ -144,9 +141,6 @@
                       pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
                       [maxlength]="maxEntityNameLength"
                     >
-                    <mat-error *ngIf="takenHostName">
-                      {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
-                    </mat-error>
                     <mat-hint align="end">
                       <cs-character-count
                         [value]="vmCreationState.name"
@@ -154,6 +148,9 @@
                       ></cs-character-count>
                     </mat-hint>
                   </mat-form-field>
+                  <mat-error *ngIf="hostNameIsTaken()">
+                    {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
+                  </mat-error>
                 </div>
 
                 <div>
