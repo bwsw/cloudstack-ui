@@ -200,7 +200,21 @@ In the *Advanced* tab you will find the following fields:
 .. figure:: _static/VMs_Create_Advanced.png
 
 1. **Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field. The group will be saved to the machine `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
-2. **Affinity group** - Select an affinity group from the drop-down list. Or create a new group entering it right in this field. The name should contain letters, figures, start from a letter and should not contain spaces. Its length should not exceed 63 symbols. What an affinity group is you can read in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/virtual_machines.html?highlight=Affinity%20group#affinity-groups>`_.
+2. **Affinity group** - Select an affinity group in the list or create a new group filling in the form. By clicking "SELECT" in the block you open a form with two sections - "Create new" and "Select a group".
+
+    **Create an Affinity group**. Under the "Create new" tab you should fill in the form:
+    
+    - Name * - Enter a name for the group. The name should contain letters, figures, start from a letter and should not contain spaces. Maximum length is 63 symbols.
+    
+    - Type * - Select type of the group - "anti-affinity" or "affinity".
+    
+    - Description - Provide a short description. Maximum length is 63 symbols.
+    
+    Click "Create" to create the group with the specified settings.
+    
+    **Select a group**. Under this tab you will see a list of groups. Click on a group in the list and press "SELECT". 
+    
+    What an affinity group is you can read in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/virtual_machines.html?highlight=Affinity%20group#affinity-groups>`_.
 3. **Firewall rules** - Select a security group for the machine. Click "EDIT" to specify a security group for the VM. A default security group, defined in `the configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-security-group-name>`_, is shown in this field. To change it click "EDIT". In the appeared window choose between "Create new" or "Select Shared" options. 
   
 **Create a new security group**
@@ -426,17 +440,19 @@ Click "Change" to implement the edits.
 
 A started virtual machine will be rebooted at editing the service offering.
 
-5. Affinity Group - The affinity group assigned to the virtual machine. Edit this field by clicking the "Edit" button |edit icon|. In the dialog window, choose an existing group or create a new one right in the dialog window. Click "Assign" to assign the group to the VM. 
+5. Affinity Group - The affinity group(s) assigned to the virtual machine. A name and a type of groups are displayed here. Groups are listed in alphabetic order. Hovering over a group name shows a description of a group (if provided at creation). 
 
-.. figure:: _static/VMs_Details_CreateAffGroup1.png
-   
-When assigning an affinity group to the started virtual machine, the system will suggest you stopping the VM. Click "OK" in the dialog window. Then the VM will be started again.
+    If no affinity group is assigned to the VM, or you wish to add another affinity group to the list, click "Add" (+) in the block. A dialog box appears where you can choose an existing group or create a new one. 
+    
+    Select a group in the list and click "Assign" to assign it to the VM. 
 
-.. figure:: _static/VMs_Details_EditAffGroup.png
-   
-The selected group can be removed by clicking "Edit" and choosing "Remove from the group" in the dialog window.
+    A user can add several groups to one virtual machine.
 
-.. figure:: _static/VMs_Details_RemoveAffGroup1.png
+    To create an affinity group fill in the form at the top of the dialog box and click "+" to add the group to the list. Then, you can assign the newly created group to the VM.
+    
+    When assigning an affinity group to a started virtual machine, the system will suggest you stopping the VM. Click "OK" in the dialog window. Then, the VM will be started again.
+
+    The selected group/groups can be deleted by clicking |delete icon| near the group name in the list.  
    
 6. Template - Shows the template used to create the virtual machine.
 
