@@ -170,7 +170,7 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     value: number,
     max: number,
     units?: string,
-    precision?: number,
+    precision: number = Utils.defaultPrecision,
   ): Observable<string> {
     if (max !== Infinity) {
       return this.getStatsStringWithRestrictions(value, max, units, precision);

@@ -2,6 +2,8 @@ import { RouterState } from '@angular/router';
 import * as uuid from 'uuid';
 
 export class Utils {
+  public static defaultPrecision = 1;
+
   public static getUniqueId(): string {
     return uuid.v4();
   }
@@ -10,7 +12,7 @@ export class Utils {
     enumerator: number,
     denominator: number,
     denominatorExponent?: number,
-    precision?: number,
+    precision: number = Utils.defaultPrecision,
   ): number {
     const calculatedExponent = denominatorExponent != null ? denominatorExponent : 1;
     const calculatedDenominator = Math.pow(denominator, calculatedExponent);
