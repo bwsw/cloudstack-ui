@@ -19,7 +19,7 @@
   <button
     mat-fab
     [disabled]="!selectedVmId"
-    (click)="onAutoUpdate.emit()"
+    (click)="autoUpdateStarted.emit()"
   >
     <mat-icon class="mdi-format-vertical-align-bottom"></mat-icon>
   </button>
@@ -33,7 +33,7 @@
 >
   <button
     mat-fab
-    (click)="onAutoUpdateStop.emit()"
+    (click)="autoUpdateStopped.emit()"
   >
     <mat-icon class="mdi-cancel"></mat-icon>
   </button>

@@ -12,8 +12,8 @@ import { debounceTime } from 'rxjs/internal/operators';
     <cs-vm-logs
       [isAutoUpdateEnabled]="isAutoUpdateEnabled$ | async"
       [selectedVmId]="selectedVmId$ | async"
-      (onAutoUpdate)="onAutoUpdate()"
-      (onAutoUpdateStop)="onAutoUpdateStop()"
+      (autoUpdateStarted)="onAutoUpdate()"
+      (autoUpdateStopped)="onAutoUpdateStop()"
     ></cs-vm-logs>
   `,
 })
