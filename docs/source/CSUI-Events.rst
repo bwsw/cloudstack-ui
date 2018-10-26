@@ -1,6 +1,6 @@
 .. _SSH_Keys:
 
-Activity log
+Activity Log
 -----------------
 .. Contents::
 
