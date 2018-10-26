@@ -1,0 +1,736 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-24 17:18+0700\n"
+"PO-Revision-Date: 2018-10-26 09:04+0700\n"
+"Last-Translator: \n"
+"Language: ru\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 "
+"&& (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: ../../CSUI-Firewall.rst:4
+msgid "Firewall"
+msgstr "Брандмауэр"
+
+#: ../../CSUI-Firewall.rst:7
+msgid ""
+"The *Virtual Machines* -> *Firewall* section contains templates to create a "
+"security group for a virtual machine and shared security groups used for "
+"virtual machines of other users."
+msgstr ""
+"Раздел *Виртуальные машины* -> *Брандмауэр* содержит шаблоны для создания "
+"группы безопасности виртуальной машины, а также разделяемые группы "
+"безопасности, используемые виртуальными машинами разных пользователей, и "
+"приватные группы безопасности. "
+
+#: ../../CSUI-Firewall.rst:11
+msgid ""
+"**Firewall templates** are presets of rules that can be system or developed by "
+"a user (custom). Administrators can specify default presets during the "
+"interface deployment via the JSON configuration file (find more in "
+"`configurations guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-"
+"guide.md#security-group-templates>`_). These presets will be used when creating "
+"a new security group."
+msgstr ""
+"**Шаблоны брандмауэра** представляют собой предзаданные правила безопасности, "
+"которые могут быть системными или пользовательскими, созданные отдельными "
+"пользователями. Администраторы могут указать в конфигурационном файле JSON "
+"системные предустановки, которые будут отображаться по умолчанию (см. подробнее "
+"в `руководстве по конфигурациям <https://github.com/bwsw/cloudstack-ui/blob/"
+"master/config-guide.md#security-group-templates>`_. Эти предустановки можно "
+"использовать при создании группы безопасности."
+
+#: ../../CSUI-Firewall.rst:15
+msgid ""
+"A custom security group template can be created via the UI. Find more "
+"information on how to create a custom security group template at :ref:"
+"`Create_FTemplate`."
+msgstr ""
+"Пользовательский шаблон группы безопасности можно создать через UI. См. "
+"подробнее радел :ref:`Create_FTemplate`."
+
+#: ../../CSUI-Firewall.rst:17
+msgid ""
+"Upon VM creation the system creates a new security group for a VM on the base "
+"of templates (if they exist). Next, when the user changes the rules for a "
+"certain virtual machine, it does not affect other machines. These changed rules "
+"make a **private security group** used for that virtual machine only."
+msgstr ""
+"При создании ВМ система создает новую группу безопасности для данной машины на "
+"основе шаблонов. Впоследствии, если пользователь редактирует правила для "
+"конкретной машины, эти изменения не влияют на работу других машин, а группа "
+"становится **приватной** и используется только данной конкретной машиной.   "
+
+#: ../../CSUI-Firewall.rst:19
+msgid ""
+"The second way is to use a **shared security group** for your virtual machine. "
+"Shared groups are used by several VMs. Changes of rules in them may affect "
+"other VMs."
+msgstr ""
+"Также, для виртуальной машины можно использовать **разделяемую группу "
+"безопасности**. Разделяемые группы используются несколькими машинами. Изменения "
+"правил в них может повлиять на работу других виртуальных машин."
+
+#: ../../CSUI-Firewall.rst:21
+msgid ""
+"Users can manage security group rules in two modes: a \"view\" mode with "
+"filtering by types and protocols and an “edit” mode. Security groups editing is "
+"available when switching from \"view\" mode to \"editing\" mode. If the group "
+"is shared, the user is warned that changes will affect other VMs using this "
+"group. This behavior allows avoiding undesirable changes for other VMs."
+msgstr ""
+"Пользователи могут управлять группами безопасности в двух режимах: в режиме "
+"просмотра и в режиме редактирования, переключение между которыми доступно при "
+"просмотре правил группы. При редактировании разделяемой группы безопасности "
+"система предупреждает, что изменения могут затронуть работу других машин. Это "
+"позволяет избежать нежелательных изменений работы других машин. "
+
+#: ../../CSUI-Firewall.rst:23
+msgid ""
+"Templates, shared and private security groups are placed in different tabs of "
+"the *Firewall* section. You can switch from templates to shared or private "
+"security groups using the tool above the list."
+msgstr ""
+"Шаблоны брандмауэра, разделяемые и приватные группы безопасности расположены в "
+"разных вкладках раздела *Брандмауэр*. Переключаться между шаблонами и "
+"разделяемыми или частными группами безопасности можно с помощью кнопок в "
+"верхней части экрана.  "
+
+#: ../../CSUI-Firewall.rst:27
+msgid ""
+"A user can see security groups of his/her user only. An Administrator can "
+"observe security groups of all accounts in the domain."
+msgstr ""
+"Пользователь видит только те группы безопасности, которые принадлежат его/ее "
+"пользователю. Администратор видит группы безопасности всех аккаунтов в домене."
+
+#: ../../CSUI-Firewall.rst:30
+msgid "Firewall List"
+msgstr "Список групп безопасности"
+
+#: ../../CSUI-Firewall.rst:32
+msgid ""
+"The security groups are presented in a list format. You can change the view "
+"from list to cards clicking the switch view icon |view icon|/|box icon| in the "
+"upper-right corner."
+msgstr ""
+"Группы безопасности представлены в виде списка. Формат представления можно "
+"изменить со списка на карточки с помощью переключателя |view icon|/|box icon| в "
+"правом верхнем углу. "
+
+#: ../../CSUI-Firewall.rst:34
+msgid ""
+"To quickly find the security group you need, please, use the search tool above "
+"the list. Enter a name or a part of the name of the template/security group and "
+"see the immediate result."
+msgstr ""
+"Для более быстрого поиска группы в списке используйте инструмент поиска сверху. "
+"Введите название группы или его часть, и список будет отфильтрован по заданным "
+"параметрам."
+
+#: ../../CSUI-Firewall.rst:36
+msgid "Administrators can filter the list of templates/shared groups by accounts."
+msgstr ""
+"Администраторы могут фильтровать список шаблонов/групп безопасности по "
+"аккаунтам."
+
+#: ../../CSUI-Firewall.rst:43
+msgid "Create a Security Group Template"
+msgstr "Создание шаблона группы безопасности"
+
+#: ../../CSUI-Firewall.rst:45
+msgid ""
+"You can create your own template. It will be available as a base at a new "
+"private security group creation for VM."
+msgstr ""
+"Вы можете создать собственный шаблон безопасности, который будет доступен при "
+"создании виртуальной машины в качестве основы для приватной группы "
+"безопасности. "
+
+#: ../../CSUI-Firewall.rst:47
+msgid ""
+"A new security group template is created on the base of existing templates. "
+"This security group will be created as a custom template (with a ``custom-"
+"template`` type)."
+msgstr ""
+"Новый шаблон группы безопасности создается на основе существующих шаблонов. "
+"Созданная группа будет иметь тип ``custom-template``."
+
+#: ../../CSUI-Firewall.rst:49
+msgid ""
+"If you would like to create a new security group template, click \"Create\" |"
+"create icon| in the bottom-right corner and fill in the form:"
+msgstr ""
+"Чтобы создать новый шаблон группы безопасности, нажмите \"Создать\" |create "
+"icon| в правом нижнем углу и заполните поля формы:"
+
+#: ../../CSUI-Firewall.rst:53 ../../CSUI-Firewall.rst:87
+msgid "Required fields are marked with an asterisk (*)."
+msgstr "Обязательные поля отмечены \"звездочкой\" (*)."
+
+#: ../../CSUI-Firewall.rst:55
+msgid "Name * - Enter a name for the template."
+msgstr "Название * - введите название шаблона."
+
+#: ../../CSUI-Firewall.rst:56
+msgid "Description - Provide a short description for the firewall template."
+msgstr "Описание - введите краткое описание шаблона."
+
+#: ../../CSUI-Firewall.rst:57
+msgid ""
+"Basic rules - Click \"ADD\" to open the list of rules to assign them to the "
+"template. In the appeared window select a template in the “All templates” list "
+"at the left and move it to the “Selected templates” list at the right by "
+"clicking the arrow icon:"
+msgstr ""
+"Базовые правила - Нажмите \"ДОБАВИТЬ\", чтобы открыть список правил для "
+"добавления их в шаблон. В появившемся окне выберите шаблон из левого списка "
+"\"Все шаблоны\" и переместите его в правый список \"Выбранные шаблоны\" с "
+"помощью \"стрелки\":"
+
+#: ../../CSUI-Firewall.rst:61 ../../CSUI-Firewall.rst:95
+msgid "Click “SELECT ALL” to move all templates from left to right at once."
+msgstr ""
+"Нажмите “ВЫБРАТЬ ВСЕ”, чтобы разом переместить все шаблоны из левого списка в "
+"правый. "
+
+#: ../../CSUI-Firewall.rst:63 ../../CSUI-Firewall.rst:97
+msgid "Click “RESET” to drop all selected templates."
+msgstr "Чтобы очистить список выбранных шаблонов, нажмите “СБРОСИТЬ”. "
+
+#: ../../CSUI-Firewall.rst:65
+msgid ""
+"In the list below you will see the rules corresponding to the selected "
+"templates. All of them are checked as selected. Uncheck those you do not wish "
+"to add to your firewall template."
+msgstr ""
+"В списке ниже появятся правила, соответствующие выбранным шаблонам. Все правила "
+"отмечены в списке как активные. Отключите те, которые Вы не хотите добавлять в "
+"шаблон брандмауэра. "
+
+#: ../../CSUI-Firewall.rst:69 ../../CSUI-Firewall.rst:103
+msgid "Click “SAVE” to apply the selected rules to your security group template."
+msgstr "Нажмите “СОХРАНИТЬ” для создания шаблона с выбранными правилами."
+
+#: ../../CSUI-Firewall.rst:71
+msgid ""
+"Click “CANCEL” to drop the selected options. No rules will be assigned to the "
+"template. You will return to the “Create a new security group” window."
+msgstr ""
+"Чтобы сбросить выбранные настройки, нажмите “ОТМЕНИТЬ”. Правила не будут "
+"добавлены в шаблон. Вы вернетесь к форме создания шаблона. "
+
+#: ../../CSUI-Firewall.rst:73
+msgid ""
+"When all fields are completed, click \"CREATE\" to create the new firewall "
+"template. The template will appear in the list of firewall templates as "
+"*Custom*:"
+msgstr ""
+"Когда все поля заполнены, нажмите \"СОЗДАТЬ\", чтобы создать новый шаблон "
+"брандмауэра. Шаблон появится в списке шаблонов как *Пользовательский*:"
+
+#: ../../CSUI-Firewall.rst:77
+msgid ""
+"Click \"CANCEL\" to cancel the template creation process. No firewall templates "
+"will be created then. All fields will be cleared in the form."
+msgstr ""
+"Или нажмите \"ОТМЕНИТЬ\", чтобы отменить создание шаблона. Поля формы будут "
+"очищены, новый шаблон не будет создан. "
+
+#: ../../CSUI-Firewall.rst:80
+msgid "Create a Shared Security Group"
+msgstr "Создание разделяемой группы безопасности"
+
+#: ../../CSUI-Firewall.rst:81
+msgid ""
+"You can create a shared security group and it will be available for creating "
+"virtual machines of other users."
+msgstr ""
+"Можно создать разделяемую группу безопасности, которую могут использовать "
+"другие пользователи при создании виртуальных машин."
+
+#: ../../CSUI-Firewall.rst:83
+msgid ""
+"A new shared security group is created on the base of existing templates. This "
+"security group will be created with a ``shared`` type."
+msgstr ""
+"Новая разделяемая группа безопасности создается на основе существующих "
+"шаблонов, и имеет тип \"разделяемая\" (``shared``)."
+
+#: ../../CSUI-Firewall.rst:85
+msgid ""
+"If you would like to create a new shared security group, navigate to the Shared "
+"Security Group section and click \"Create\" in the bottom-right corner. Then, "
+"fill in the form:"
+msgstr ""
+"Чтобы создать новую разделяемую группу безопасности, нажмите \"Создать\" |"
+"create icon| в правом нижнем углу и заполните форму (обязательные поля отмечены "
+"\"звездочкой\" *): "
+
+#: ../../CSUI-Firewall.rst:89
+msgid "Name * - Enter a name for the group."
+msgstr "Название * - введите название группы."
+
+#: ../../CSUI-Firewall.rst:90
+msgid "Description - Provide a short description for the group."
+msgstr "Описание - введите краткое описание для группы."
+
+#: ../../CSUI-Firewall.rst:91
+msgid ""
+"Basic rules - Click \"ADD\" to open the list of rules to assign them to the "
+"group. In the appeared window select a template in the “All templates” list at "
+"the left and move it to the “Selected templates” list at the right by clicking "
+"the arrow icon:"
+msgstr ""
+"Базовые правила - нажмите \"Добавить\", чтобы открыть список доступных правил "
+"для добавления в группу. В появившемся окне выберите шаблон из левого списка "
+"\"Все шаблоны\" и переместите его в правый список \"Выбранные шаблоны\" с "
+"помощью \"стрелки\":"
+
+#: ../../CSUI-Firewall.rst:99
+#, fuzzy
+msgid ""
+"In the list below you will see the rules corresponding to the selected "
+"templates. Check those you wish to add to your shared security group."
+msgstr ""
+"В списке ниже появятся правила, соответствующие выбранным шаблонам. Отметьте те "
+"правила, которые Вы хотите добавить в группу безопасности."
+
+#: ../../CSUI-Firewall.rst:105
+msgid ""
+"Click “CANCEL” to drop the selected options. No rules will be assigned to the "
+"security group. You will return to the “Create a new security group” window."
+msgstr ""
+"Нажмите \"ОТМЕНИТЬ\", чтобы сбросить все выбранные опции. Правила не будут "
+"добавлены в группу безопасности. Пользователь вернется к форме создания группы."
+
+#: ../../CSUI-Firewall.rst:109
+msgid ""
+"Click \"CREATE\" to create the new shared security group. The group will appear "
+"in the list of shared security groups."
+msgstr "Нажмите “СОХРАНИТЬ” для создания группы с выбранными правилами."
+
+#: ../../CSUI-Firewall.rst:113
+msgid ""
+"Click \"CANCEL\" to cancel the group creation process. No group will be created "
+"then. All fields will be cleared in the form."
+msgstr ""
+"Для отмены создания группы нажмите \"ОТМЕНИТЬ\". Группа не будет создана, поля "
+"формы очистятся. "
+
+#: ../../CSUI-Firewall.rst:116
+msgid "Private Security Groups"
+msgstr "Приватные группы безопасности"
+
+#: ../../CSUI-Firewall.rst:117
+msgid ""
+"Private security groups are listed in the *Private Security Groups* section."
+msgstr ""
+"Существующие в системе приватные группы безопасности отображаются в разделе "
+"*Приватные группы безопасности*. "
+
+#: ../../CSUI-Firewall.rst:119
+msgid ""
+"Security groups appear in this section once they are created for a virtual "
+"machine (see :ref:`Create_VM`). A private security group name has the following "
+"format - ``sg-{{ virtual machine name }}`` - containing the name of the virtual "
+"machine it is created for."
+msgstr ""
+"Создать группу безопасности можно при создании виртуальной машины (см. :ref:"
+"`Create_VM`). Название приватной группы имеет следующий формат - ``sg-"
+"{{ virtual machine name }}``, - где содержится название виртуальной машины, для "
+"которой создана группа"
+
+#: ../../CSUI-Firewall.rst:121
+msgid ""
+"You can quickly find a group by its name or a part of the name using the "
+"searching tool above the list."
+msgstr ""
+"Список групп можно фильтровать по названию или его части, используя инструмент "
+"поиска над списком."
+
+#: ../../CSUI-Firewall.rst:125
+msgid "Besides, Administrators can filter the list by accounts."
+msgstr "Кроме того, Администратор может фильтровать список по аккаунтам."
+
+#: ../../CSUI-Firewall.rst:129
+msgid ""
+"You can filter the list by ticking the \"Orphan\" checkbox above. It allows "
+"displaying only the security groups that are not used by any machine."
+msgstr ""
+"Также, фильтрация списка возможна с помощью опции \"Свободные\" в левом верхнем "
+"углу. Активируйте ее, чтобы отобразить в списке только те группы, которые не "
+"используются ни одной виртуальной машиной."
+
+#: ../../CSUI-Firewall.rst:133
+msgid ""
+"The \"Orphan\" option appears above the list in case the security groups that "
+"are not used by any VM exist in the list. This might happen in case a VM has "
+"been deleted but a group has been not (because of an error or incorrect "
+"behavior)."
+msgstr ""
+"Опция \"Свободные\" доступна, если в списке групп есть свободные группы "
+"безопасности. Свободные группы возникают в случае, когда виртуальная машина "
+"была удалена, а группа не удалилась ввиду ошибки или некорректного поведения "
+"системы. "
+
+#: ../../CSUI-Firewall.rst:136
+msgid "Security Group Details Sidebar"
+msgstr "Информационная панель группы безопасности"
+
+#: ../../CSUI-Firewall.rst:137
+msgid "You can see the firewall rules details in the sidebar to the right."
+msgstr ""
+"Информацию о группе безопасности можно просмотреть в информационной панели "
+"справа."
+
+#: ../../CSUI-Firewall.rst:139
+msgid ""
+"Click the template/shared/private security group in the list and open the "
+"sidebar. You will see two tabs there - Details and Tags."
+msgstr ""
+"Кликните на шаблон/разделяемую группу/приватную группу безопасности в списке и "
+"откройте информационную панель справа. В ней расположены две вкладки - \"Детали"
+"\" и \"Теги\".  "
+
+#: ../../CSUI-Firewall.rst:141
+msgid "The **Details** tab contains the following information:"
+msgstr "Во вкладке \"Детали\" отображается следующая информация:"
+
+#: ../../CSUI-Firewall.rst:143
+msgid "Name of the security group;"
+msgstr "Название группы безопасности;"
+
+#: ../../CSUI-Firewall.rst:144
+msgid ":ref:`SG_Action_Box` under |actions icon|;"
+msgstr ":ref:`SG_Action_Box` под |actions icon|;"
+
+#: ../../CSUI-Firewall.rst:145
+msgid "ID of the security group;"
+msgstr "ID группы безопасности;"
+
+#: ../../CSUI-Firewall.rst:146
+msgid ""
+"Description giving an idea what the security group contains (not available for "
+"private security groups);"
+msgstr ""
+"Описание группы для общего представления о том, что содержится в группе (для "
+"приватных групп описание недоступно);"
+
+#: ../../CSUI-Firewall.rst:147
+msgid ""
+"Type - Defines the security group types. For firewall templates it can be "
+"``custom-template`` for custom templates, or ``predefined-template`` for system "
+"templates. For shared security groups it is ``shared``. For private security "
+"groups you will see ``private``."
+msgstr ""
+"Тип - определяет тип группы. Для шаблонов брандмауэра: ``custom-template`` для "
+"пользовательских шаблонов, или ``predefined-template`` для системных шаблонов. "
+"Для разделяемых групп безопасности: ``shared``. Для приватных групп "
+"безопасности: ``private``."
+
+#: ../../CSUI-Firewall.rst:151
+msgid ""
+"For shared security groups you also can see what virtual machines are assigned "
+"to this group. The machine name in the list is active. You can move to the "
+"virtual machine details bar by clicking it."
+msgstr ""
+"Для разделяемых групп безопасности также отображается название машины, для "
+"которой используется группа. Название виртуальной машины активно. Кликом на "
+"него откроется информационная панель машины. "
+
+#: ../../CSUI-Firewall.rst:155
+msgid ""
+"For private security groups a VM name is also displayed in the details sidebar, "
+"but it is not active."
+msgstr ""
+"Для приватных групп название машины также отображается в информационной панели, "
+"но оно не активно."
+
+#: ../../CSUI-Firewall.rst:157
+msgid ""
+"The **Tags** tab presents the list of tags assigned to the security group. "
+"Using the search tool above you can quickly find a tag by its name."
+msgstr ""
+"Во вкладке \"Теги\" представлен список тегов, добавленных к группе "
+"безопасности. Используя инструмент поиска над списком, можно быстро найти тег "
+"по названию. "
+
+#: ../../CSUI-Firewall.rst:159
+msgid "System tags are listed in a separate card."
+msgstr "Системные теги отображаются в отдельной карточке."
+
+#: ../../CSUI-Firewall.rst:163
+msgid "Сlick |create icon| to add a tag. Enter a key and a value."
+msgstr "Нажмите |create icon|, чтобы добавить тег. Введите ключ и значение. "
+
+#: ../../CSUI-Firewall.rst:165
+msgid ""
+"Both fields are required. The input values for both fields cannot start with a "
+"space."
+msgstr ""
+"Оба поля обязательны к заполнению. Вводимые значения не могут начинаться с "
+"пробела."
+
+#: ../../CSUI-Firewall.rst:169
+msgid ""
+"Click \"CREATE\" to create the new tag. It will be saved in a separate card."
+msgstr ""
+"Нажмите \"СОЗДАТЬ\", чтобы сохранить новый тег. Он отобразится в отдельной "
+"карточке."
+
+#: ../../CSUI-Firewall.rst:171
+msgid ""
+"An existing tag can be edited or deleted by clicking a correspondent icon next "
+"to the tag's name."
+msgstr ""
+"Созданный тег можно редактировать или удалить, кликнув на соответствующую "
+"иконку рядом с названием тега. "
+
+#: ../../CSUI-Firewall.rst:176
+msgid "Security Group Action Box"
+msgstr "Список действий с группой безопасности"
+
+#: ../../CSUI-Firewall.rst:177
+msgid ""
+"Firewall templates, shared and private security groups have an Action box with "
+"the following actions in it:"
+msgstr ""
+"Для шаблона брандмауэра, разделяемых или приватных групп безопасности можно "
+"развернуть Список действий со следующими опциями:"
+
+#: ../../CSUI-Firewall.rst:179
+msgid ""
+"View - Allows viewing the rules in the group/template. Click \"Rules\" |view| "
+"to open the rules implemented to the template."
+msgstr ""
+"Правила - позволяет просмотреть правила группы/шаблона. Нажмите \"Правила\" |"
+"view|, чтобы открыть список правил, применяемых для данного шаблона."
+
+#: ../../CSUI-Firewall.rst:181
+msgid "Delete - Allows deleting the group or the template from the system."
+msgstr "Удалить - позволяет удалить группу или шаблон из системы. "
+
+#: ../../CSUI-Firewall.rst:183
+msgid ""
+"A template/security group cannot be deleted if it is used for a virtual "
+"machine, or it belongs to another user. Deleting action is not available for "
+"system firewall templates."
+msgstr ""
+"Нельзя удалить шаблон или группу безопасности, если он/она используется "
+"виртуальной машиной, или принадлежит другому пользователю. Также действие "
+"удаления недоступно для системных шаблонов брандмауэра. "
+
+#: ../../CSUI-Firewall.rst:186
+msgid "Edit a Firewall Template/Security Group"
+msgstr "Редактирование шаблона брандмауэра/группы безопасности"
+
+#: ../../CSUI-Firewall.rst:188
+msgid ""
+"When clicking \"Rules\" |view| in the Action box you open a modal window where "
+"the rules of the template/security group are listed. The list of rules can be "
+"filtered by:"
+msgstr ""
+"Кликом на \"Правила\" |view| в списке действий открывается модальное окно, где "
+"представлен список правил шаблона/группы безопасности. Список правил можно "
+"фильтровать по:"
+
+#: ../../CSUI-Firewall.rst:190
+msgid "IP versions - IPv4 and/or IPv6;"
+msgstr "Версиям - ipv4 и/или ipv6;"
+
+#: ../../CSUI-Firewall.rst:191
+msgid "Types - Ingress and/or Egress;"
+msgstr "Типам - Входящее и/или Исходящее;"
+
+#: ../../CSUI-Firewall.rst:192
+msgid "Protocols - TCP and/or UDP and/or ICMP."
+msgstr "Протоколам - TCP и/или UDP и/или ICMP."
+
+#: ../../CSUI-Firewall.rst:194
+msgid "Besides, you can group the rules by types and/or protocols."
+msgstr "Также, список правил можно группировать по типам и/или протоколам."
+
+#: ../../CSUI-Firewall.rst:198
+msgid ""
+"You can edit the implemented rules right in this modal window by clicking \"EDIT"
+"\" below the list. When switching to the edit mode you are enabled to add rules "
+"or delete the selected ones from the list."
+msgstr ""
+"В этом же модальном окне можно редактировать правила. Перейти в режим "
+"редактирования можно кликом на  \"РЕДАКТИРОВАТЬ\" внизу списка. Редактирование "
+"подразумевает добавление или удаление правил, отмеченных в списке."
+
+#: ../../CSUI-Firewall.rst:200
+msgid ""
+"To add rules, please, fill in the fields in the panel above the list and click "
+"“+”:"
+msgstr "Для добавления правил заполните поля в панели над списком и нажмите “+”:"
+
+#: ../../CSUI-Firewall.rst:204
+msgid "**Validation**"
+msgstr "**Правила валидации полей**"
+
+#: ../../CSUI-Firewall.rst:206
+msgid "Please, make sure you enter valid values for Start and End ports:"
+msgstr ""
+"При заполнении полей \"Начальный порт\" и \"Конечный порт\" убедитесь, что вы "
+"указываете корректные значения, а именно:"
+
+#: ../../CSUI-Firewall.rst:208
+msgid ""
+"Start port can be less or equal to End port. For more convenience, we added the "
+"autocomplete, that is, when entering a Start port value, the End port field is "
+"prepopulated with an equal value."
+msgstr ""
+"Значение для начального порта не может быть меньше значения для конечного "
+"порта. Для удобства мы добавили автозаполнение полей - при вводе начального "
+"порта то же значение подставляется в поле \"Конечный порт\", где при желании "
+"его можно изменить на большее значение. "
+
+#: ../../CSUI-Firewall.rst:209
+msgid ""
+"The values in these fields cannot be greater/less than maximum/minimum allowed "
+"values (for TCP/UDP max port is 65535, for ICMP - 255)."
+msgstr ""
+"Значения в данных полях не могут быть больше/меньше максимально/минимально "
+"разрешенных значений (для TCP/UDP максимально  разрешенное значение порта "
+"65535, для ICMP - 255)."
+
+#: ../../CSUI-Firewall.rst:210
+msgid "The fields cannot be empty."
+msgstr "Поля \"Начальный порт\" и \"Конечный порт\" обязательны к заполнению."
+
+#: ../../CSUI-Firewall.rst:212
+msgid "For ICMP type make sure you input a valid CIDR, ICMP type and code."
+msgstr ""
+"Для типа ICMP следует указывать корректные значения для CIDR, тип и код ICMP. "
+
+#: ../../CSUI-Firewall.rst:214
+msgid ""
+"You will not be able to enter an ICMP type and a code until a valid CIDR is "
+"specified. Likewise, you will not be able to enter an ICMP code until a valid "
+"ICMP type is specified."
+msgstr ""
+"Поля CIDR, тип и код ICMP зависимы от предшествующего поля: пока не указан "
+"корректный CIDR, нельзя ввести тип ICMP, и пока не указан корректный тип ICMP, "
+"нальзя ввести код ICMP."
+
+#: ../../CSUI-Firewall.rst:215
+msgid "CIDR allows entering IP addresses in both IPv4 and IPv6 formats."
+msgstr "Для CIDR поддерживаются оба формата IP адресов: IPv4 и IPv6."
+
+#: ../../CSUI-Firewall.rst:216
+msgid "ICMP IPv6 the \"[-1] Any\" value is supported for type and code."
+msgstr "Для ICMP IPv6 поддерживается значение \"[-1] Любой\" для полей тип и код."
+
+#: ../../CSUI-Firewall.rst:217
+msgid "ICMP type and code fields cannot be empty."
+msgstr "Поля Тип и Код ICMP обязательны к заполнению."
+
+#: ../../CSUI-Firewall.rst:219
+msgid "For invalid values the add button \"+\" is disabled."
+msgstr ""
+"При вводе некоррекнтых значений кнопка добавления правила \"+\" недоступна. "
+
+#: ../../CSUI-Firewall.rst:221
+msgid ""
+"To delete rules, please, click the Delete icon in the list. The rule will be "
+"deleted from the security group."
+msgstr ""
+"Чтобы удалить правила, нажмите на значок удаления. Правило будет удалено из "
+"списка. "
+
+#: ../../CSUI-Firewall.rst:225
+msgid ""
+"Then you can move back to the view mode, or close the window. You will see the "
+"rules are edited."
+msgstr ""
+"Затем можно вернуться в режим просмотра группы или закрыть окно. Измененные "
+"правила отобразятся в списке."
+
+#: ../../CSUI-Firewall.rst:227
+msgid ""
+"Please, note, when editing shared security groups, a warning message appears:"
+msgstr ""
+"Обратите внимание, что при редактировании разделяемой группы безопасности, "
+"появляется предупреждение:"
+
+#: ../../CSUI-Firewall.rst:231
+msgid ""
+"Click “Yes” if you still want to edit a shared security group. You will be "
+"switched to the \"Edit\" mode. Change the security group as you need following "
+"the instructions above."
+msgstr ""
+"Нажмите “Да”, если группу по прежнему нужно редактировать. Окно переключится в "
+"режим редактирования. Измените настройки группы безопасности, как описано выше."
+
+#: ../../CSUI-Firewall.rst:233
+msgid ""
+"Editing is not available for system firewall templates and security groups of "
+"other users. You can view the rules only."
+msgstr ""
+"Редактирование недоступно для системных шаблонов брандмауэра, а также групп "
+"безопасности, принадлежащих другим пользователям. Правила, входящие в них, "
+"можно только просматривать."
+
+#: ../../CSUI-Firewall.rst:236
+msgid "\"Convert to Shared\" Action for Private Security Groups"
+msgstr "Создание общей группы безопасности из приватной"
+
+#: ../../CSUI-Firewall.rst:238
+msgid ""
+"For private security groups you can find a \"Convert to shared\" action in the "
+"Action box. It allows making a shared SG from a private SG so that it can be "
+"used for VMs by other users."
+msgstr ""
+"В списке действий для приватных групп безопасности можно увидеть опцию "
+"\"Сделать общей\", которая позволяет превратить приватную группу безопасности в "
+"разделяемую. Таким образом, данную группу можно будет использовать для других "
+"ВМ."
+
+#: ../../CSUI-Firewall.rst:240
+msgid ""
+"To convert a private security group into a shared one, please, follow the steps:"
+msgstr ""
+"Чтобы сдлать из приватной группы безопасности разделяемую, доступную для других "
+"машин, нужно:"
+
+#: ../../CSUI-Firewall.rst:242
+msgid "Move to the list of Private Security groups,"
+msgstr "Перийти в раздел \"Приватные группы безопасности\" ,"
+
+#: ../../CSUI-Firewall.rst:244
+msgid "Select \"Convert to shared\" option in action box for a security group,"
+msgstr ""
+"выбрать опцию \"Сделать общей\" в списке действий той машины, которую нужно "
+"сделать разделяемой."
+
+#: ../../CSUI-Firewall.rst:248
+msgid "A warning dialog appears. Click \"YES\" to confirm your action."
+msgstr "В диалоговом окне следует подтвердить свое действия, кликнув \"ДА\"."
+
+#: ../../CSUI-Firewall.rst:252
+msgid ""
+"The security group will be moved to the list of \"Shared Security Groups\". The "
+"tag \"is private\" will be removed for this security group."
+msgstr ""
+"Группа безопасности переместится в раздел \"Разделяемые группы безопасности\". "
+"Из ее списка тегов будет удален тег, указывающий тип группы \"private\"."
+
+#: ../../CSUI-Firewall.rst:254
+msgid ""
+"Click \"NO\" to cancel the convertion, the security group will stay private."
+msgstr "Нажмите \"НЕТ\", чтобы отменить перевод группы в разделяемую группу."

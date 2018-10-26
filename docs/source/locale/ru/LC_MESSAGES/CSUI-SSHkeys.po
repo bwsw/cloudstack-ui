@@ -1,0 +1,252 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-24 17:18+0700\n"
+"PO-Revision-Date: 2018-10-26 09:10+0700\n"
+"Last-Translator: \n"
+"Language: ru\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: ../../CSUI-SSHkeys.rst:4
+msgid "SSH Keys"
+msgstr "Ключи SSH "
+
+#: ../../CSUI-SSHkeys.rst:7
+msgid ""
+"In the *Virtual Machines* -> *SSH keys* section you can create and manage SSH "
+"keys."
+msgstr ""
+"В разделе *Virtual Machines* -> *Ключи SSH* можно создавать и управлять "
+"ключами SSH. "
+
+#: ../../CSUI-SSHkeys.rst:9
+msgid ""
+"In addition to the username and password authentication, CloudStack supports "
+"using SSH keys to log in to the cloud infrastructure for additional security. "
+"Find more information in the `official documentation <http://docs.cloudstack."
+"apache.org/projects/cloudstack-administration/en/latest/virtual_machines.html?"
+"highlight=keys#using-ssh-keys-for-authentication>`_."
+msgstr ""
+"CloudStack поддерживает использование ключей SSH в качестве дополнительной "
+"защиты при доступе к облачной инфраструктуре, помимо имени пользователя и "
+"пароля. См. подробнее в `официальной документации <http://docs.cloudstack."
+"apache.org/projects/cloudstack-administration/en/latest/virtual_machines.html?"
+"highlight=keys#using-ssh-keys-for-authentication>`_."
+
+#: ../../CSUI-SSHkeys.rst:11
+msgid ""
+"CloudStack-UI allows managing SSH key in a separate section which is more "
+"convenient for a user."
+msgstr ""
+"CloudStack-UI позволяет управлять ключами SSH в отдельном разделе, что "
+"значительно удобнее для пользователя."
+
+#: ../../CSUI-SSHkeys.rst:14
+msgid "SSH Key List"
+msgstr "Список ключей SSH "
+
+#: ../../CSUI-SSHkeys.rst:16
+msgid ""
+"SSH keys existing in the account are presented in this section. A user can "
+"see and manage SSH keys for his/her user only."
+msgstr ""
+"В данном разделе представлены ключи SSH, созданные в аккаунте. Пользователь "
+"может просматривать и управлять ключами SSH, которые принадлежат ему.  "
+
+#: ../../CSUI-SSHkeys.rst:20
+msgid "Administrators can see and manage keys for all accounts in the domain."
+msgstr ""
+"Администраторы могут видеть и управлять ключами всех пользователей в домене. "
+
+#: ../../CSUI-SSHkeys.rst:22
+msgid ""
+"You can switch the view from a list mode to a card mode using the switch tool "
+"|view icon|/|box icon| in the upper-right corner."
+msgstr ""
+"Существующие ключи могут быть представлены в виде списка или в виде карточек. "
+"Используйте переключатель |view icon|/|box icon| в правом верхнем углу."
+
+#: ../../CSUI-SSHkeys.rst:24
+msgid "For every key the following information is displayed:"
+msgstr "Для каждого ключа отображается следующая информация:"
+
+#: ../../CSUI-SSHkeys.rst:26
+msgid "Key name;"
+msgstr "Название ключа;"
+
+#: ../../CSUI-SSHkeys.rst:27
+msgid "SSH public key;"
+msgstr "Fingerprint открытого ключа SSH;"
+
+#: ../../CSUI-SSHkeys.rst:28
+msgid "Action box - Allows deleting a key from the system."
+msgstr "Список действий - позволяет удалить ключ из системы."
+
+#: ../../CSUI-SSHkeys.rst:31
+msgid "Filtering of SSH Keys"
+msgstr "Фильтрация ключей SSH"
+
+#: ../../CSUI-SSHkeys.rst:33
+msgid ""
+"The filtering tool is available to Administrators. It is placed above the "
+"list of keys and allows filtering keys by accounts."
+msgstr ""
+"Фильтрация ключей доступна для Администраторов и позволяет фильтровать и "
+"группировать ключи по аккаунтам. "
+
+#: ../../CSUI-SSHkeys.rst:35
+msgid ""
+"Besides, the keys can be grouped by accounts that may be convenient for list "
+"viewing."
+msgstr "Панель фильтрации расположена над списком ключей."
+
+#: ../../CSUI-SSHkeys.rst:40
+msgid "Create an SSH Key"
+msgstr "Создание ключа SSH"
+
+#: ../../CSUI-SSHkeys.rst:41
+msgid "You can generate a new SSH key to use for authentication."
+msgstr "Вы можете создать новый ключ SSH для аутентификации. "
+
+#: ../../CSUI-SSHkeys.rst:43
+msgid ""
+"By clicking “Create” |create icon| in the bottom-right corner you will open a "
+"form where you should specify a key name:"
+msgstr ""
+"Нажмите \"Создать\" |create icon| в правом нижнем углу и в открывшейся форме "
+"введите название ключа: "
+
+#: ../../CSUI-SSHkeys.rst:47
+msgid ""
+"Then click “CREATE”. The SSH key will be auto-generated. The public key will "
+"appear in the list of SSH keys with a fingerprint. In the modal window, you "
+"will see the private key. This private key is not saved in the system. You "
+"should save it for yourself. Click \"COPY\" to correctly copy it and save it "
+"locally."
+msgstr ""
+"Затем нажмите \"СОЗДАТЬ\". Ключ SSH будет создан автоматически. Открытый ключ "
+"появится в списке ключей SSH, для него будет отображаться fingerprint. В "
+"модальном окне появится закрытый ключ, который нужно будет скопировать и "
+"сохранить локально. В системе он не сохранится. Нажмите \"КОПИРОВАТЬ\", чтобы "
+"правильно скопировать его в буфер обмена и сохранить себе."
+
+#: ../../CSUI-SSHkeys.rst:51
+msgid "Then click “OK” to close the window."
+msgstr "Нажмите “OK”, чтобы закрыть окно. "
+
+#: ../../CSUI-SSHkeys.rst:53
+msgid ""
+"You can specify an SSH public key entering its value in the field. It should "
+"start from ``ssh-rsa`` followed by one space and at least one symbol. Then "
+"click “CREATE”. The key will be saved. No private key is required in this "
+"case."
+msgstr ""
+"Можно задать значение для ключа. Для этого введите значение ключа во втором "
+"поле, после того, как ввели название. Значение ключа должно начинаться с "
+"``ssh-rsa`` с последующим пробелом и минимум одним символом после него. Затем "
+"нажмите “СОЗДАТЬ”. Ключ будет сохранен. Закрытый ключ в данном случае не "
+"будет создан."
+
+#: ../../CSUI-SSHkeys.rst:57
+msgid "The created SSH key is available to assign to VMs now."
+msgstr ""
+"Новый ключ будет доступен для добавления к виртуальной машине сразу после "
+"создания. "
+
+#: ../../CSUI-SSHkeys.rst:60
+msgid "SSH Key Details Sidebar"
+msgstr "Информационная панель ключа SSH"
+
+#: ../../CSUI-SSHkeys.rst:62
+msgid ""
+"By clicking an SSH key in the list you will open a details sidebar to the "
+"right."
+msgstr "Кликом на ключ SSH в списке можно открыть информационную панель справа."
+
+#: ../../CSUI-SSHkeys.rst:66
+msgid "It contains the following information:"
+msgstr "В ней отображается следующая информация:"
+
+#: ../../CSUI-SSHkeys.rst:68
+msgid "SSH key name;"
+msgstr "Название ключа SSH;"
+
+#: ../../CSUI-SSHkeys.rst:69
+msgid "Key action box allowing key deleting;"
+msgstr "Список действий, через который можно удалить ключ;"
+
+#: ../../CSUI-SSHkeys.rst:70
+msgid "SSH public key fingerprint;"
+msgstr "Fingerprint открытого ключа SSH;"
+
+#: ../../CSUI-SSHkeys.rst:71
+msgid ""
+"SSH key description - In this block a description can be added to understand "
+"better what this key is for. Click the block and enter a short description in "
+"the text field. Then click \"SAVE\" to save it."
+msgstr ""
+"Описание ключа SSH - В данном блоке можно добавить описание для ключа, для "
+"лучшего понимания его назначения. Кликните на блок и введите описание в "
+"текстовое поле. Нажмите \"СОХРАНИТЬ\"."
+
+#: ../../CSUI-SSHkeys.rst:75
+msgid "Click \"CANCEL\" to drop adding a description."
+msgstr "Для отмены добавления описания нажмите \"ОТМЕНИТЬ\"."
+
+#: ../../CSUI-SSHkeys.rst:77
+#, fuzzy
+msgid ""
+"You can edit the description of an SSH key by clicking |edit icon|. Change "
+"the existing description in the text field and save the edits. The "
+"description is saved to account tags."
+msgstr ""
+"Описание ключа можно редактировать, кликнув на |edit icon|. Измените описание "
+"ключа в текстовом поле и сохраните изменения."
+
+#: ../../CSUI-SSHkeys.rst:80
+msgid "SSH Key Action Box"
+msgstr "Список действий с ключом SSH"
+
+#: ../../CSUI-SSHkeys.rst:81
+msgid ""
+"By clicking \"Actions\" |actions icon| you can expand the list of actions for "
+"those SSH keys that belong to your user only. The deleting action is "
+"available here."
+msgstr ""
+"Список действий для ключей SSH открывается кликом на |actions icon| напротив "
+"нужного ключа в списке. Список действий доступен для тех ключей, которые "
+"принадлежат пользователю. В списке действий доступно действие удаления ключа "
+"SSH."
+
+#: ../../CSUI-SSHkeys.rst:85
+msgid ""
+"Click \"Delete\" to delete a key and then confirm your action in the dialog "
+"box. The key will be deleted. Click \"Cancel\" to close the window without "
+"deleting a key."
+msgstr ""
+"Для отмены удаления ключа нажмите \"Отменить\". Модальное окно закроется, "
+"ключ не будет удален из системы."
+
+#~ msgid ""
+#~ "The description is saved to account tags if they are supported for the "
+#~ "account. Account tags can be switched on in the `configuration file "
+#~ "<https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_ by "
+#~ "an Administrator."
+#~ msgstr ""
+#~ "Описание ключа сохраняется в теги аккаунта, если они активированы. "
+#~ "Активировать теги аккаунта может Администратор, задав настройки в "
+#~ "`конфигурационном файле <https://github.com/bwsw/cloudstack-ui/blob/master/"
+#~ "config-guide.md>`_."

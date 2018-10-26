@@ -1,0 +1,636 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-24 17:18+0700\n"
+"PO-Revision-Date: 2018-10-26 09:05+0700\n"
+"Last-Translator: \n"
+"Language: ru\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 "
+"&& (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: ../../CSUI-Images.rst:4
+msgid "Images"
+msgstr "Образы"
+
+#: ../../CSUI-Images.rst:7
+msgid ""
+"In the *Virtual Machines* -> *Images* section, you can manage Templates and ISO "
+"files that are used as installation sources for VMs."
+msgstr ""
+"В разделе *Виртуальные машины* -> *Образы* можно управлять шаблонами и файлами "
+"ISO, используемыми с качестве источников установки виртуальных машин."
+
+#: ../../CSUI-Images.rst:9
+msgid ""
+"A template is a reusable configuration for virtual machines. When users create "
+"a VM, they can choose from a list of templates. Administrators and users can "
+"create new templates and add them to CloudStack."
+msgstr ""
+"Шаблон представляет собой повторно используемую конфигурацию для виртуальных "
+"машин. При создании машины шаблон выбирается из списка доступных шаблонов в "
+"качестве источника установки. Новые шаблоны могут быть созданы и добавлены в "
+"список Администраторами или пользователями CloudStack."
+
+#: ../../CSUI-Images.rst:11
+msgid "ISO files are another installation source for virtual machines."
+msgstr "Еще одним типом источника установки являются файлы ISO."
+
+#: ../../CSUI-Images.rst:13
+msgid ""
+"You can switch from Templates to ISOs by selecting a corresponding option above:"
+msgstr ""
+"Список можно переключить с шаблонов на ISO, выбрав соответствующую опцию вверху:"
+
+#: ../../CSUI-Images.rst:18
+msgid "Images List"
+msgstr "Список образов"
+
+#: ../../CSUI-Images.rst:20
+msgid ""
+"Existing templates/ISOs are presented in the list in the \"Images\" section. A "
+"user can see the templates/ISOs belonging to his/her user only. Domain "
+"Administrator can see templates/ISOs of all users in the domain but cannot "
+"perform actions on other users' templates."
+msgstr ""
+"Шаблоны/ISO, существующие в системе, представлены в виде списка в разделе "
+"*Образы*. Пользователь видит только те шаборны/ISO, которые принадлежат его/ее "
+"пользователю. Доменный Администратор может видеть шаблоны/ISO всех "
+"пользователей в домене, но не может выполнять действия над шаблонами/ISO других "
+"пользователей. "
+
+#: ../../CSUI-Images.rst:22
+msgid ""
+"You can switch the list view of templates/ISOs to the box view using the view "
+"button |view box icon| in the upper-right corner."
+msgstr ""
+"Шаблоны/ISO  могут отображаться в виде списка или карточек. Переключить "
+"отображение можно нажатием на |view box icon| в правом верхнем углу. "
+
+#: ../../CSUI-Images.rst:24
+msgid ""
+"For each template/ISO in the list, you can see its name, OS family, "
+"description.  The Actions button |actions icon| expands the list of actions. "
+"Actions are available to those templates/ISOs that belong to your user only "
+"(corresponding to \"My\" type). Administrators can see templates/ISOs of all "
+"users in the domain, but cannot manage them."
+msgstr ""
+"Для каждого шаблона/ISO в списке отображается его название, семейство ОС, "
+"описание. С помощью кнопки |actions icon| можно раскрыть список действий. "
+"Список действий доступен только для тех шаблонов/ISO, которые принадлежат "
+"пользователю (соответствующие типу \"Мои\")."
+
+#: ../../CSUI-Images.rst:27
+msgid "Filtering of Images"
+msgstr "Фильтрация образов"
+
+#: ../../CSUI-Images.rst:28
+msgid ""
+"The list of templates/ISOs can be filtered using the filtering tool. The "
+"filtering parameters are as follows:"
+msgstr "Список шаблонов/ISO можно фильтровать по следующим параметрам:"
+
+#: ../../CSUI-Images.rst:30
+msgid "Accounts (for Domain Administrators);"
+msgstr "Аккаунты (для Администраторов);"
+
+#: ../../CSUI-Images.rst:31
+msgid "OS families;"
+msgstr "ОС;"
+
+#: ../../CSUI-Images.rst:32
+msgid "Types of templates/ISO:"
+msgstr "Типы:"
+
+#: ../../CSUI-Images.rst:34
+msgid "My - for user's templates or ISOs (Private),"
+msgstr "Мои - для сортировки шаблонов/ISO пользователя;"
+
+#: ../../CSUI-Images.rst:35
+msgid ""
+"Featured - for templates marked by an Administrator as most prominent for users "
+"to select,"
+msgstr ""
+"Рекомендуемые - для шаблонов/ISO, отмеченных как наиболее рекомендованные для "
+"использования;"
+
+#: ../../CSUI-Images.rst:36
+msgid ""
+"Community - for templates accessible to all users of this CloudStack "
+"installation (Public);"
+msgstr ""
+"Сообщество - для шаблонов/ISO, доступных для всех пользователей установки "
+"CloudStack.\n"
+"  "
+
+#: ../../CSUI-Images.rst:38
+msgid "Zones."
+msgstr "Зоны."
+
+#: ../../CSUI-Images.rst:42
+msgid ""
+"Besides, you can adjust the list view using the grouping tool. Templates/ISOs "
+"can be grouped by zones or/and groups. Administrators can group the list by "
+"accounts."
+msgstr ""
+"Кроме этого, можно группировать список по зонам и/или группам. Администраторы "
+"могут группировать список по аккаунтам."
+
+#: ../../CSUI-Images.rst:46
+msgid ""
+"Use the search tool to easily find a template/ISO by its name or by a part of "
+"the name."
+msgstr ""
+"Используйте инструмент поиска для быстрого поиска нужного шаблона/ISO в списке "
+"по его названию или части названия. "
+
+#: ../../CSUI-Images.rst:49
+msgid "Create Template"
+msgstr "Создание шаблона"
+
+#: ../../CSUI-Images.rst:51
+msgid ""
+"There is a variety of ways to add more templates to the system. In the :ref:"
+"`VM_Info` section, we have described one way of template creation from a VM "
+"volume snapshot in the \"Storage\" tab of the VM information sidebar (see :ref:"
+"`Actions_on_Snapshots`). From the :ref:`Storage_Info` of the \"Storage\" "
+"section, you also can create a template on the base of the volume snapshot "
+"(see :ref:`Actions_on_Snapshot_Volume`)."
+msgstr ""
+"Шаблоны можно добавить в систему несколькими способами. В разделе :ref:"
+"`VM_Info` упоминался способ создания шаблона из снимка диска виртуальной машины "
+"во вкладке \"Диски\" информационной панели (см. :ref:`Actions_on_Snapshots`). "
+"Также, создать шаблон можно на основе снимка диска из информационной панели "
+"диска (см. :ref:`Storage_Info`)."
+
+#: ../../CSUI-Images.rst:53
+msgid ""
+"One more way to create a new template is filling in the form in the *Images* "
+"section by clicking \"Create\" |create icon| in the bottom-right corner."
+msgstr ""
+"Еще одним способом создания нового шаблона является заполнение формы создания "
+"шаблона в разделе *Образы*. Открыть форму можно, нажав \"Создать\" |create "
+"icon| в правом нижнем углу. "
+
+#: ../../CSUI-Images.rst:57 ../../CSUI-Images.rst:98
+msgid ""
+"It will open a creation form where you should specify the following information:"
+msgstr "В форме следует заполнить следующие поля:"
+
+#: ../../CSUI-Images.rst:59 ../../CSUI-Images.rst:100
+msgid "Required fields are marked with an asterisk (*)."
+msgstr "Обязательные поля отмечены \"звездочкой\" (*)."
+
+#: ../../CSUI-Images.rst:61
+msgid "Name * - Enter a name for the new template."
+msgstr "Название * - введите название нового шаблона."
+
+#: ../../CSUI-Images.rst:63
+msgid ""
+"Description * - Provide a short description to have a general idea about the "
+"template."
+msgstr ""
+"Описание * - дайте краткое описание, чтобы иметь общее представление о шаблоне."
+
+#: ../../CSUI-Images.rst:65
+msgid "URL * - Specify a valid URL of the template file."
+msgstr "URL * - введите URL файла шаблона. "
+
+#: ../../CSUI-Images.rst:67 ../../CSUI-Images.rst:108
+msgid ""
+"OS type * - This helps CloudStack and the hypervisor perform certain operations "
+"and make assumptions that improve the VM performance. Select from the drop-down "
+"list the necessary option, or select \"Other\" if there is no needed option in "
+"the list."
+msgstr ""
+"Тип ОС * - выберите из ниспадающего списка нужную опцию, или выберите \"Другое"
+"\", если в списке нет нужной опции. "
+
+#: ../../CSUI-Images.rst:69
+msgid "Zone * - Choose the zone where you want the template to be available."
+msgstr "Зона * - выберите зону, в которой шаблон будет доступен."
+
+#: ../../CSUI-Images.rst:71
+msgid ""
+"Group - Select a group from the drop-down list. The list of groups is managed "
+"by Administrator in the `configuration file <https://github.com/bwsw/cloudstack-"
+"ui/blob/master/config-guide.md#image-groups>`_. The group assigned to a "
+"template is saved to template tags with the ``csui.template.group`` tag. The "
+"group can be edited or deleted from the :ref:`Image_Details` from the \"Template"
+"\" tab or by editing or deleting the corresponding tag in the \"Tags\" tab."
+msgstr ""
+"Группа - выберите группу из ниспадающего списка. Список групп управляется "
+"Администратором через  `конфигурационный файл  <https://github.com/bwsw/"
+"cloudstack-ui/blob/master/config-guide.md#image-groups>`_. Группа, указанная "
+"для шаблона, сохраняется в теги шаблона с тегом ``csui.template.group``. Группу "
+"можно редактировать или удалить из вкладки \"Шаблон\" информационной панели "
+"(см. :ref:`Image_Details`) или путем редактирования или удаления тега во "
+"вкладке \"Теги\"."
+
+#: ../../CSUI-Images.rst:73
+msgid ""
+"Password enabled checkbox - Tick this option if your template has the "
+"CloudStack password change script installed. That means the VM created on the "
+"base of this template will be accessed by a password, and this password can be "
+"reset."
+msgstr ""
+"Пароль включен - активируйте данную опцию, если для шаблона установлен скрипт "
+"изменения пароля CloudStack. Это значит, что доступ к машине, созданной на "
+"основе данного шаблона, будет ограничен паролем. Пароль можно будет изменять."
+
+#: ../../CSUI-Images.rst:75
+msgid ""
+"Dynamically scalable checkbox - Tick this option if the template contains XS/VM "
+"Ware tools to support dynamic scaling of VM CPU/memory."
+msgstr ""
+"Динамическое масштабирование - активируйте данную опцию, если шаблон содержит "
+"инструмент XS/VM Ware для поддержки динамического масштабирования CPU/памяти "
+"машины."
+
+#: ../../CSUI-Images.rst:77 ../../CSUI-Images.rst:114
+msgid ""
+"\"Show additional fields\" allows expanding the form and set more settings:"
+msgstr ""
+"\"Показать дополнительные параметры\" позволяет развернуть форму и задать "
+"следующие настройки:"
+
+#: ../../CSUI-Images.rst:79
+msgid "Hypervisor - Select a hypervisor from the drop-down list."
+msgstr "Гипервизор - выберите гипервизор из ниспадающего списка."
+
+#: ../../CSUI-Images.rst:81
+msgid "Format - The format of the template upload file, e.g. VHD or RAW or VMDK."
+msgstr "Формат - формат файла шаблона, например VHD или RAW или VMDK."
+
+#: ../../CSUI-Images.rst:83
+msgid ""
+"Extractable - Tick this option if the template is available for extraction. If "
+"this option is selected, end-users can download a full image of a template."
+msgstr ""
+"Извлекаемый - активируйте данную опцию, если шаблон доступен для извлечения. "
+"При активации данной опции конечный пользователь может загрузить полный образ "
+"шаблона."
+
+#: ../../CSUI-Images.rst:85
+msgid "Requires HVM - Tick this option for creating a template that requires HVM."
+msgstr "HVM - активируйте данную опцию для создания шаблона, который требует HVM."
+
+#: ../../CSUI-Images.rst:87
+msgid ""
+"Once all fields are filled in, click \"Create\" to create the template with "
+"these settings. The created template will appear in the list."
+msgstr ""
+"Заполнив все поля, нажмите \"СОЗДАТЬ\" для сохранения шаблона с заданными "
+"настройками. Созданный шаблон появится в списке. "
+
+#: ../../CSUI-Images.rst:89
+msgid ""
+"Click \"Cancel\" to close the form without template creation. All fields will "
+"be cleared."
+msgstr ""
+"Или нажмите \"ОТМЕНИТЬ\", чтобы закрыть форму без сохранения нового шаблона. "
+"Поля формы будут очищены."
+
+#: ../../CSUI-Images.rst:92
+msgid "Create ISO"
+msgstr "Создание ISO"
+
+#: ../../CSUI-Images.rst:94
+msgid ""
+"You can create a new ISO file in the *Images* section by clicking \"Create\" |"
+"create icon| in the bottom-right corner."
+msgstr ""
+"Вы можете создать новый файл ISO в разделе *Образы*, нажав \"Создать\" |create "
+"icon| в правом нижнем углу.  Откроется форма создания ISO, в которой следует "
+"заполнить поля:"
+
+#: ../../CSUI-Images.rst:102
+msgid "Name * - Enter a name for the new ISO file."
+msgstr "Название * - введите имя нового файла ISO."
+
+#: ../../CSUI-Images.rst:104
+msgid ""
+"Description * - Provide a short description to have a general idea about the "
+"ISO file."
+msgstr ""
+"Описание * - введите краткое описание, чтобы иметь в дальнейшем общее "
+"представление о данном файле ISO."
+
+#: ../../CSUI-Images.rst:106
+msgid "URL * - Specify a valid URL of the ISO file."
+msgstr ""
+"URL * - укажите URL файла ISO.\n"
+"Тип ОС * - выберите из ниспадающего списка нужную опцию, или выберите \"Другое"
+"\", если в списке нет нужной опции. "
+
+#: ../../CSUI-Images.rst:110
+msgid "Zone * - Choose the zone where you want the ISO file to be available."
+msgstr "Зона * - Выберите зону, в которой будет доступен данный файл ISO."
+
+#: ../../CSUI-Images.rst:112
+msgid ""
+"Group - Select a group from the drop-down list. The list of groups is managed "
+"by Administrator  in the `configuration file <https://github.com/bwsw/"
+"cloudstack-ui/blob/master/config-guide.md#image-groups>`_. The group assigned "
+"to ISO is saved to ISO tags with the ``csui.template.group`` tag. The group can "
+"be edited or deleted from the :ref:`Image_Details` from the \"Template\" tab or "
+"by editing or deleting the corresponding tag in the \"Tags\" tab."
+msgstr ""
+"Группа - Выберите группу из ниспадающего списка. Список групп управляется "
+"Администратором через `конфигурационный файл <https://github.com/bwsw/"
+"cloudstack-ui/blob/master/config-guide.md#image-groups>`_. Группа, указанная "
+"для шаблона, сохраняется в теги шаблона с тегом ``csui.template.group``. Группу "
+"можно редактировать или удалить из вкладки \"Шаблон\" информационной панели "
+"(см. :ref:`Image_Details`) или путем редактирования или удаления тега во "
+"вкладке \"Теги\".\n"
+"\"Показать дополнительные параметры\" позволяет развернуть форму и задать "
+"следующие настройки:"
+
+#: ../../CSUI-Images.rst:116
+msgid ""
+"Extractable - Tick this option if the ISO file is available for extraction. If "
+"this option is selected, end-users can download a full image of an ISO file."
+msgstr ""
+"Извлекаемый - активируйте данную опцию, если файл ISO доступен для извлечения. "
+"При выборе данной опции конечный пользователь может загрузить полный образ "
+"файла ISO."
+
+#: ../../CSUI-Images.rst:118
+msgid ""
+"Bootable - Tick this option to indicate whether the machine can be booted using "
+"this ISO."
+msgstr ""
+"Загружаемый - активируйте данную опцию, чтобы обозначить, что машину, "
+"использующую данный ISO, можно загрузить."
+
+#: ../../CSUI-Images.rst:120
+msgid ""
+"Once all fields are filled in, click \"CREATE\" to create the ISO file with "
+"these settings. The created ISO file will appear in the list."
+msgstr ""
+"Заполнив все поля, нажмите \"СОЗДАТЬ\" для сохранения файла ISO с заданными "
+"настройками. "
+
+#: ../../CSUI-Images.rst:122
+msgid ""
+"Click \"CANCEL\" to close the form without ISO creation. All fields will be "
+"cleared."
+msgstr ""
+"Или нажмите \"ОТМЕНИТЬ\", чтобы закрыть форму без сохранения нового ISO. Поля "
+"формы будут очищены."
+
+#: ../../CSUI-Images.rst:124
+msgid "The created ISO will appear in the list."
+msgstr "Созданный ISO появится в списке."
+
+#: ../../CSUI-Images.rst:129
+msgid "Template/ISO Details Sidebar"
+msgstr "Информационная панель шаблона/ISO "
+
+#: ../../CSUI-Images.rst:131
+msgid ""
+"The information on each template/ISO is presented in the sidebar to the right. "
+"It is opened by clicking the template/ISO card or line in the list. The "
+"information is presented here in 3 tabs. Above the tabs you can see the "
+"template/ISO general information:"
+msgstr ""
+"Информация по каждому шаблону/ISO представлена в информационной панели справа. "
+"Она открывается кликом на шаблон/ISO в списке. Информация представлена в трех "
+"вкладках: Шаблон, Зоны, Теги. Вверху над вкладками представлена общая "
+"информация о шаблоне/ISO: "
+
+#: ../../CSUI-Images.rst:133
+msgid "Name - Template/ISO name and symbol,"
+msgstr "Название - название шаблона/ISO и иконка, "
+
+#: ../../CSUI-Images.rst:134
+msgid "Actions button - Actions list allowing the Delete action."
+msgstr ""
+"Список действий - список действий с шаблоном/ISO, позволяющий удалить шаблон/"
+"ISO. "
+
+#: ../../CSUI-Images.rst:138
+msgid "Template tab:"
+msgstr "Вкладка \"Шаблон\""
+
+#: ../../CSUI-Images.rst:140
+msgid "Description - Template/ISO description provided at its creation."
+msgstr "Описание - описание шаблона/ISO, указанное при его создании. "
+
+#: ../../CSUI-Images.rst:141
+msgid "OS - The OS selected for this template/ISO."
+msgstr "OС - ОС, выбранная для шаблона/ISO. "
+
+#: ../../CSUI-Images.rst:142
+msgid ""
+"General Information - The settings saved for this template/ISO: size, creation "
+"date, type, hypervisor, other settings."
+msgstr ""
+"Общая информация - настройки, сохраненные для шаблона/ISO: размер, дата "
+"создания, тип, гипервизор, другие настройки. "
+
+#: ../../CSUI-Images.rst:143
+msgid ""
+"Download URL - The URL provided for this template/ISO. Next to it you can see "
+"the \"Copy\" icon |copy icon|. Click it to copy the URL to clipboard and then "
+"paste it in the address line."
+msgstr ""
+"Ссылка на скачивание - URL, указанная для шаблона/ISO. Рядом расположена кнопка "
+"\"Копировать\" |copy icon|, которая позволяет скопировать URL в буфер обмена и "
+"затем вставить ее в адресную строку."
+
+#: ../../CSUI-Images.rst:144
+msgid ""
+"Group - Shows the template/ISO group if it is enabled via the `configuration "
+"file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#image-"
+"groups>`_. You can change the group by clicking \"Edit\" |edit icon|. Choose an "
+"existing group in the appeared window and click \"ASSIGN\" to assign the "
+"template/ISO to the selected group. You can remove the template/ISO from the "
+"group. Select the \"Remove from the group <group name>\" option and click "
+"\"REMOVE\"."
+msgstr ""
+"Группа - группа шаблона/ISO. Отображается, если группы заданы для системы через "
+"`конфигурационный файл <https://github.com/bwsw/cloudstack-ui/blob/master/"
+"config-guide.md#image-groups>`_. Изменить группу можно, кликнув иконку "
+"\"Редактировать\" |edit icon|. Во всплывающем окне выберите одну из "
+"существующих групп в списке и нажмите \"ПРИСОЕДИНИТЬ\". В этом же окне можно "
+"удалить шаблон/ISO из группы. Выберите \"Удалить из группы <название группы>\" "
+"и нажмите \"УДАЛИТЬ\". "
+
+#: ../../CSUI-Images.rst:150
+msgid ""
+"Zones tab - Shows the zone where the template/ISO is available. If the zone has "
+"\"Yes\" for the *Ready* status, the template/ISO can be used for VM creation."
+msgstr ""
+"Вкладка \"Зоны\"  -  отображает название зоны, в которой доступен шаблон/ISO. "
+"Если статус шаблона/ISO в зоне *Готов*, шаблон/ISO можно использовать для "
+"создания виртуальной машины.  "
+
+#: ../../CSUI-Images.rst:154
+msgid "Tags tab - Presents the list of tags assigned to the template/ISO."
+msgstr "Вкладка \"Теги\"  -  предоставляет список тегов шаблона/ISO."
+
+#: ../../CSUI-Images.rst:158
+msgid ""
+"Tags can be system or non-system. System tags are used to provide the "
+"functionality from the user interface perspective. Changing these tags affects "
+"the functionality of the application. The \"Show system tags\" checkbox allows "
+"to view or hide system tags of the template. Hiding system tags helps to avoid "
+"accidental unwanted changes. If a user has disabled displaying of these tags, "
+"the system will remember it and next time tags will also be hidden. Uncheck the "
+"\"Show system tags\" checkbox to hide system tags from the list."
+msgstr ""
+"Теги могут быть системными и несистемными. Системные теги обеспечивают "
+"дополнительную функциональность с точки зрения пользовательского интерфейса. "
+"Изменение этих тегов может затронуть работу всего приложения. Можно включить "
+"или выключить отображение системных тегов с помощью опции \"Показывать "
+"системные теги\". При выключении данной опции системные теги будут скрыты из "
+"списка, что поможет избежать случайных нежелательных изменений в них. Система "
+"запомнит, что отображение системных тегов отключено, и в дальнейшем системные "
+"теги не будут отображаться в списке. "
+
+#: ../../CSUI-Images.rst:160
+msgid "The following system tags can be used for templates/ISOs:"
+msgstr "Для шаблонов/ISO используются следующие системные теги:"
+
+#: ../../CSUI-Images.rst:162
+msgid "``csui.template.group`` - Used to assign a template/ISO to a group."
+msgstr "``csui.template.group`` - используется для присвоения группы шаблону/ISO."
+
+#: ../../CSUI-Images.rst:163
+msgid ""
+"``csui.template.download-url`` - Used for URL, if any provided for the template/"
+"ISO."
+msgstr ""
+"``csui.template.download-url`` - используется для URL, если она указана для "
+"шаблона/ISO."
+
+#: ../../CSUI-Images.rst:165
+msgid ""
+"Please, see the `list of tags <https://github.com/bwsw/cloudstack-ui/wiki/"
+"Tags>`_ to find system tags that can be used for a template/ISO."
+msgstr ""
+"См. полный `список тегов <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_ , "
+"используемых в системе. "
+
+#: ../../CSUI-Images.rst:167
+msgid ""
+"To find the tag you are interested in, please, use the search tool above the "
+"tag list. You can enter a name or a part of the tag name to distinguish it in "
+"the list."
+msgstr ""
+"Для быстрого поиска тега в списке воспользуйтесь инструментом поиска вверху. "
+"Введите название или часть названия тега, и оно будет выделено в списке."
+
+#: ../../CSUI-Images.rst:169
+msgid ""
+"To add a tag for the template/ISO click \"Create\" |create icon|. In the "
+"appeared form enter:"
+msgstr ""
+"Для добавления тега к шаблону/ISO нажмите \"Создать\" |create icon|. В "
+"появившейся форме введите:"
+
+#: ../../CSUI-Images.rst:171
+msgid "Key *"
+msgstr "Ключ *"
+
+#: ../../CSUI-Images.rst:172
+msgid "Value *"
+msgstr "Значение *"
+
+#: ../../CSUI-Images.rst:174
+msgid ""
+"Required fields are marked with an asterisk (*). The values in the fields "
+"cannot start with a space."
+msgstr ""
+"Обязательные поля отмечены \"звездочкой\" (*). Значения в полях не могут "
+"начинаться с пробела."
+
+#: ../../CSUI-Images.rst:176
+msgid "Click \"Create\" to assign a new tag to the template/ISO."
+msgstr "Нажмите \"СОЗДАТЬ\" для добавления нового тега к шаблону/ISO. "
+
+#: ../../CSUI-Images.rst:180
+msgid ""
+"When adding a system tag, click \"+\" in the card to open the creation form. "
+"You will see that the ``csui`` prefix is automatically prepopulated here."
+msgstr ""
+"При добавлении системного тега нажмите \"+\" в карточке. Префикс ``csui`` будет "
+"автоматически задан в форме создания тега. "
+
+#: ../../CSUI-Images.rst:184
+msgid ""
+"If you create a non-system tag, it will be saved in a new card. If you have "
+"entered a key in the format ``<prefix>.<example>``, a card will be named as "
+"\"<prefix>\". When creating a new tag from this card, click \"+\" in the card "
+"and in the tag creation form the *Key* field will be prepopulated with the "
+"<prefix>."
+msgstr ""
+"При создании несистемного тега он будет сохранен в отдельную карточку. При "
+"введении ключа в формате ``<prefix>.<example>``, название карточки сохранится "
+"как \"<prefix>\". Для создания нового тега из данной карточки, нажмите \"+\" в "
+"карточке, и в поле \"Ключ\" в форме создания будет предзадан указанный <prefix>."
+
+#: ../../CSUI-Images.rst:188
+msgid ""
+"Tags can be edited or/and deleted. Mouse over the tag in the list and see \"Edit"
+"\" and \"Delete\" buttons."
+msgstr ""
+"Управление тегами включает в себя редактирование и/или удаление. Наведите мышью "
+"на тег в списке, и рядом с названием тега появятся кнопки \"Редактировать\" и "
+"\"Удалить\"."
+
+#: ../../CSUI-Images.rst:192
+msgid ""
+"Click \"Edit\" to change the tag's key or value in the appeared form. Save the "
+"edits."
+msgstr ""
+"Нажмите \"Редактировать\" для изменения ключа или значения тега. Введите "
+"изменения в соответствующие поля и сохраните их. "
+
+#: ../../CSUI-Images.rst:194
+msgid ""
+"Click \"Delete\" to delete the tag from the list for this template. Confirm "
+"your action in the dialog window. Make sure the tag disappeared from the list "
+"of assigned tags."
+msgstr ""
+"Нажмите \"Удалить\" для удаления тега из списка тегов. Подтвердите свое "
+"действие в диалоговом окне. Тег будет удален из списка. "
+
+#: ../../CSUI-Images.rst:197
+msgid "Template/ISO Action Box"
+msgstr "Список действий с шаблоном/ISO "
+
+#: ../../CSUI-Images.rst:199
+msgid ""
+"By clicking \"Actions\" |actions icon| you can expand the list of actions for "
+"those templates/ISO that are in the account your user belongs to (corresponding "
+"to \"My\" type). The deleting action is available here."
+msgstr ""
+"Кликом на \"Список действий\" |actions icon| раскрывается список действий для "
+"данного шаблона/ISO. Список действий доступен только для шаблонов/ISO, "
+"принадлежащих аккаунту, в котором состоит пользователь (соответствующих типу "
+"\"Мои\").  В списке доступно действие удаления. "
+
+#: ../../CSUI-Images.rst:203
+msgid ""
+"Click \"Delete\" to delete the template/ISO and then confirm your action in the "
+"dialog window. The template/ISO will be deleted."
+msgstr ""
+"Нажмите \"Удалить\", чтобы удалить шаблон/ISO. Затем подтвердите свое действие "
+"и далоговом окне. Шаблон/ISO будет удален. "
+
+#: ../../CSUI-Images.rst:205
+msgid "Click \"Cancel\" to close the window without deleting a template/ISO."
+msgstr "Или нажмите \"Отменить\". Окно закроется без удаления шаблона/ISO."

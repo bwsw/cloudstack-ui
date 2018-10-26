@@ -1,0 +1,545 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-24 17:18+0700\n"
+"PO-Revision-Date: 2018-10-26 09:03+0700\n"
+"Last-Translator: \n"
+"Language: ru\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 "
+"&& (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: ../../CSUI-Accounts.rst:4
+msgid "Accounts"
+msgstr "Аккаунты"
+
+#: ../../CSUI-Accounts.rst:7
+msgid ""
+"In the *Accounts* section Administrators can manage accounts and users in them, "
+"as well as user settings and activity logs. For an account, details and resource "
+"limits can be viewed. Please, note that the account limits are shared by all "
+"users in the account. If you are facing the problem of the lack of resources, "
+"contact your Administrator. Administrators are able to edit the limits of an "
+"account. Besides, they can monitor resource usage having access to the resource "
+"statistics for each account."
+msgstr ""
+"В разделе *Аккаунты* Администраторы могут управлять аккаунтами,  пользователями "
+"и пользовательскими настройками, а также просматривать логи об активности "
+"пользователей в аккаунте. Для аккаунтов отображается подробная информация и "
+"лимит используемых ресурсов. Обратите внимание, что ресурсы аккаунта делят между "
+"собой все пользователи этого аккаунта. При недостатке ресурсов свяжитесь с "
+"Администратором. Администратор может изменить лимит ресурсов для аккаунта. Кроме "
+"того, он может отслеживать расход ресурсов в аккаунте, т.к. он имеет доступ к "
+"статистике ресурсов каждого аккаунта. "
+
+#: ../../CSUI-Accounts.rst:12
+msgid ""
+"Administrators can see the list of accounts for the whole domain. They can "
+"create new users for an account, edit or delete a user."
+msgstr ""
+"Администраторы видят все аккаунты в домене. Они могут создавать новых "
+"пользователей в аккаунте и управлять ими. "
+
+#: ../../CSUI-Accounts.rst:14
+msgid ""
+"If you are a User, you can view but not manage your account and users in it. For "
+"each user in the account, you can see the settings."
+msgstr ""
+"Пользователь может видеть аккаунт, которому он принадлежит, и других "
+"пользователей в нем, но не может управлять ими. Для каждого пользователя в "
+"аккаунте доступны настройки.  "
+
+#: ../../CSUI-Accounts.rst:17
+msgid "Account List"
+msgstr "Список аккаунтов"
+
+#: ../../CSUI-Accounts.rst:19
+msgid ""
+"Clicking *Accounts* in the left-side navigation bar you open the *Accounts* "
+"section. It presents the list of accounts. Administrators can see accounts for "
+"the whole domain. A user can see his/her account only, that is the account his/"
+"her user belongs to."
+msgstr ""
+"Раздел *Аккаунты* открывается кликом на *Аккаунты* в навигационной панели слева. "
+"В нем представлен список аккаунтов, существующих в домене. Администраторы видят "
+"все аккаунты в домене. Пользователь может видеть только свой аккаунт, т.е. "
+"аккаунт, которому он принадлежит. "
+
+#: ../../CSUI-Accounts.rst:21
+msgid ""
+"You can switch the view from list to box using the switch tool |view icon|/|box "
+"icon| in the upper-right corner."
+msgstr ""
+"Отображение аккаунтов можно переключить со списка на карточки, используя "
+"переключатель |view icon|/|box icon| справа."
+
+#: ../../CSUI-Accounts.rst:25
+msgid "For each account in the list you can see the following information:"
+msgstr "Для каждого аккаунта в списке отображается следующая информация:"
+
+#: ../../CSUI-Accounts.rst:27
+msgid "Account name;"
+msgstr "Название аккаунта;"
+
+#: ../../CSUI-Accounts.rst:28
+msgid ""
+"State - Shows the account state by color spot: green for Enabled, red for "
+"Disabled statuses;"
+msgstr ""
+"Статус - цветовая метка показывает статус аккаунта: зеленая - \"Активирован\", "
+"красная - \"Деактивирован\"; "
+
+#: ../../CSUI-Accounts.rst:29
+msgid ""
+"Role - A role assigned to the account - Root Administrator, Resource "
+"Administrator, Domain Administrator, User. Find more information on roles in "
+"CloudStack in the `official documentation <http://docs.cloudstack.apache.org/"
+"en/4.11.1.0/adminguide/accounts.html#roles>`_."
+msgstr ""
+"Роль - роль аккаунта - Администратор, Администратор ресурсов, Доменный "
+"администратор, Пользователь. См. подробнее о ролях в CloudStack в `официальной "
+"документации <http://docs.cloudstack.apache.org/projects/cloudstack-"
+"administration/en/4.9/accounts.html>`_."
+
+#: ../../CSUI-Accounts.rst:30
+msgid "Role type - A role type connected to the role."
+msgstr "Тип роли - тип роли для заданной роли."
+
+#: ../../CSUI-Accounts.rst:31
+msgid "Domain - The domain which the account belongs to."
+msgstr "Домен - домен, которому принадлежит аккаунт."
+
+#: ../../CSUI-Accounts.rst:32
+msgid ""
+"Action list - Allows an Administrator to manage the account - to disable or "
+"delete it. Find more details at :ref:`Account_Action_Box`."
+msgstr ""
+"Список действий - позволяет Администратору управлять аккаунтом: деактивировать "
+"его или удалить. Подробнее см. раздел  :ref:`Account_Action_Box`. "
+
+#: ../../CSUI-Accounts.rst:35
+msgid "Filtering of Accounts"
+msgstr "Фильтрация аккаунтов"
+
+#: ../../CSUI-Accounts.rst:37
+msgid ""
+"If you are an Administrator, filtering and search tools will help you to find an "
+"account in the list."
+msgstr ""
+"Инструмент фильтрации и поиска позволяет быстро найти нужный аккаунт в списке. "
+
+#: ../../CSUI-Accounts.rst:39
+msgid "You can filter the list by:"
+msgstr "Доступна фильтрация по следующим параметрам:"
+
+#: ../../CSUI-Accounts.rst:41
+msgid "Domains - Select a domain/domains available to you from the drop-down list."
+msgstr "Домены - выберите домен/домены из списка. "
+
+#: ../../CSUI-Accounts.rst:42
+msgid ""
+"Roles - Select a role - Root Administrator, Resource Administrator, Domain "
+"Administrator and/or User -from the drop-down list."
+msgstr ""
+"Роли - выберите роль из списка -  Администратор, Администратор ресурсов, "
+"Доменный администратор и/или Пользователь."
+
+#: ../../CSUI-Accounts.rst:43
+msgid "Role types - Select a role type/types from the drop-down list."
+msgstr "Типы ролей - выберите тип/типы ролей из списка."
+
+#: ../../CSUI-Accounts.rst:44
+msgid ""
+"States - Select a state/states - Enabled and/or Disabled - from the drop-down "
+"list."
+msgstr ""
+"Статусы - выберите статус/статусы из списка - Активирован и/или Деактивирован."
+
+#: ../../CSUI-Accounts.rst:46
+msgid "Besides, accounts can be grouped by the parameters mentioned above."
+msgstr "Кроме того, аккаунты можно группировать по параметрам, перечисленным выше."
+
+#: ../../CSUI-Accounts.rst:51
+msgid "Create an Account"
+msgstr "Создание аккаунта"
+
+#: ../../CSUI-Accounts.rst:53
+msgid "An Administrator can create a new account in the domain."
+msgstr "Создание нового аккаунта в домене доступно для Администратора."
+
+#: ../../CSUI-Accounts.rst:57
+msgid ""
+"By clicking \"Create\" |create icon| in the bottom-right corner you will open a "
+"form where the following fields should be completed:"
+msgstr ""
+"Кликом на \"Создать\" |create icon| в нижнем правом углу открывается форма "
+"создания аккаунта, где необходимо заполнить следующие поля:"
+
+#: ../../CSUI-Accounts.rst:59
+msgid "Required fields are marked with an asterisk (*)."
+msgstr "Обязательные поля отмечены \"звездочкой\" (*)."
+
+#: ../../CSUI-Accounts.rst:61
+msgid ""
+"Name * - Enter any desired login ID for the account name. It should be unique "
+"within the domain."
+msgstr "Имя аккаунта * - введите желаемое имя аккаунта, уникальное в домене. "
+
+#: ../../CSUI-Accounts.rst:62
+msgid "Email * - Enter the accounts email address."
+msgstr "Email * - введите email аккаунта."
+
+#: ../../CSUI-Accounts.rst:63 ../../CSUI-Accounts.rst:129
+msgid ""
+"Password * - Enter any password you like. You can view the password that you are "
+"entering by clicking |view| to the right. Hide the password under dots by "
+"clicking |hide|."
+msgstr ""
+"Пароль * - введите желаемый пароль. Можно активировать отображение вводимых "
+"символов, нажав |view| справа. Спрятать символы вводимого пароля можно кликом на "
+"|hide|."
+
+#: ../../CSUI-Accounts.rst:64
+msgid ""
+"First name * - Enter the first name of a person or the first part of the entity "
+"represented by the account. It can be a department or a customer."
+msgstr ""
+"Имя * - введите имя первого пользователя аккаунта или другого представителя в "
+"аккаунте. Это может быть подразделение или контрагент."
+
+#: ../../CSUI-Accounts.rst:65
+msgid ""
+"Last name * - Enter the last name of a person or the second part of the entity "
+"represented by the account (a customer or a department)."
+msgstr ""
+"Фамилия * - введите фамилию пользователя аккаунта или вторую часть названия "
+"подразделения или контрагента. "
+
+#: ../../CSUI-Accounts.rst:66
+msgid "Domain * - Select a domain in which the account is to be created."
+msgstr "Домен * - выберите домен, которому будет принадлежать созданный аккаунт."
+
+#: ../../CSUI-Accounts.rst:67
+msgid "Role * - Select the role for the account."
+msgstr "Роль * - выберите роль для аккаунта из ниспадающего списка."
+
+#: ../../CSUI-Accounts.rst:68
+msgid "Time zone - Set the time zone that corresponds to the account locale."
+msgstr ""
+"Часовой пояс - укажите часовой пояс, соответствующий местоположению, в котором "
+"аккаунт будет действовать."
+
+#: ../../CSUI-Accounts.rst:69
+msgid ""
+"Network domain - If you want to assign a special domain name to the account's "
+"guest VM network, specify the DNS suffix."
+msgstr ""
+"Сетевой домен - если сети гостевой машины аккаунта нужно присвоить имя домена, "
+"укажите DNS-суффикс. "
+
+#: ../../CSUI-Accounts.rst:73
+msgid ""
+"Click \"CREATE\" to create the new account. Make sure it has appeared in the "
+"list of accounts."
+msgstr ""
+"Нажмите \"СОЗДАТЬ\", чтобы сохранить новый аккаунт. Он должен появиться в списке "
+"аккаунтов. "
+
+#: ../../CSUI-Accounts.rst:75
+msgid ""
+"A user is created automatically for the new account. User's name corresponds to "
+"the first and the last name specified in the account creation form. This user "
+"inherits account's email and time zone."
+msgstr ""
+"Для нового аккаунта пользователь создается автоматически. Имя пользователя "
+"соответствует имени и фамилии, указанным в форме при создании аккаунта. Ему "
+"присваиваются email и часовой пояс аккаунта."
+
+#: ../../CSUI-Accounts.rst:77
+msgid ""
+"Click \"CANCEL\" to leave the account creation form. No account will be created "
+"then."
+msgstr ""
+"Нажмите \"ОТМЕНИТЬ\", форма создания аккаунта закроется, аккаунт не будет создан."
+
+#: ../../CSUI-Accounts.rst:80
+msgid "Account Details Sidebar"
+msgstr "Информационная панель аккаунта"
+
+#: ../../CSUI-Accounts.rst:82
+msgid ""
+"For each account, the information is available in the details sidebar to the "
+"right. Click the account in the list to open the sidebar:"
+msgstr ""
+"Для каждого аккаунта в информационной панели справа представлена информация. "
+"Панель открывается кликом на аккаунт в списке:"
+
+#: ../../CSUI-Accounts.rst:86
+msgid "There are two tabs in the sidebar: General and Users."
+msgstr ""
+"Информация в ней представлена в двух вкладках: \"Общее\" и \"Пользователи\"."
+
+#: ../../CSUI-Accounts.rst:88
+msgid ""
+"The *General* tab contains the general information on the account: details, "
+"limits for resources."
+msgstr ""
+"Во вкладке \"Общее\" содержится общая информация по аккаунту: детали, "
+"ограничения по ресурсам, статистика использования ресурсов (доступно для "
+"Администратора). "
+
+#: ../../CSUI-Accounts.rst:90
+msgid ""
+"Administrators can edit the limits. Click \"Edit\" |edit icon| in the Limits "
+"block and change the values right in the block."
+msgstr ""
+"Ограничения можно редактировать. Право редактирования ограничений есть у "
+"Администраторов. Для редактирования ограничений нужно нажать \"Редактировать\" |"
+"edit icon| в блоке ограничений и изменить значения в полях блока."
+
+#: ../../CSUI-Accounts.rst:94
+msgid ""
+"Administrators can see the statistics on resource usage at the bottom. Refresh "
+"the data by clicking |refresh icon|."
+msgstr ""
+"Администраторы могут видеть статистику использования ресурсов в блоке ниже. "
+"Обновить данные статистики можно кликом на |refresh icon|."
+
+#: ../../CSUI-Accounts.rst:98
+msgid ""
+"The *Users* tab contains the list of users in the account. For each user you can "
+"expand the information card where the following information is listed:"
+msgstr ""
+"Во вкладке \"Пользователи\" содержится  список пользователей в аккаунте. Для "
+"каждого пользователя можно развернуть карточку и увидеть данные: "
+
+#: ../../CSUI-Accounts.rst:100
+msgid "Username;"
+msgstr "Имя аккаунта;"
+
+#: ../../CSUI-Accounts.rst:101
+msgid "First and Last name;"
+msgstr "Имя и фамилия пользователя;"
+
+#: ../../CSUI-Accounts.rst:102
+msgid "Timezone;"
+msgstr "Часовой пояс;"
+
+#: ../../CSUI-Accounts.rst:103
+msgid "Email;"
+msgstr "Email;"
+
+#: ../../CSUI-Accounts.rst:104
+msgid ""
+"Secret key - The key generated for a user by clicking \"Regenerate key\" in the "
+"Action box. You can copy it to the buffer by clicking |copy icon|."
+msgstr ""
+"Секретный ключ - ключ, создаваемый при применении действия \"Сгенерировать ключ"
+"\" из списка действий. Скопировать ключ в буффер обмена можно, кликнув |copy "
+"icon|. "
+
+#: ../../CSUI-Accounts.rst:105
+msgid ""
+"API key - The key generated for a user by clicking \"Regenerate key\" in the "
+"Action box. You can copy it to the buffer by clicking |copy icon|."
+msgstr ""
+"Ключ API - ключ, создаваемый при применении действия \"Сгенерировать ключ\" из "
+"списка действий. Скопировать ключ в буффер обмена можно, кликнув |copy icon|."
+
+#: ../../CSUI-Accounts.rst:109
+msgid ""
+"An Administrator has a list of actions available for each user. A user can "
+"manage his/her user only. A list of actions is available under the |actions "
+"icon| button. It contains the following actions:"
+msgstr ""
+"Для управления пользователем в карточке пользователя доступен список действий. "
+"Администратор может управлять всеми пользователями в домене. Пользователь может "
+"управлять только своим пользователем. Список действий доступен по клику на |"
+"actions icon|. В нем предлагаются следующие действия:"
+
+#: ../../CSUI-Accounts.rst:111
+msgid "Edit user;"
+msgstr "Изменить пользователя;"
+
+#: ../../CSUI-Accounts.rst:112
+msgid "Change password;"
+msgstr "Изменить пароль;"
+
+#: ../../CSUI-Accounts.rst:113
+msgid "Regenerate key;"
+msgstr "Сгенерировать ключ;"
+
+#: ../../CSUI-Accounts.rst:114
+msgid "Delete user (available for Administrators)."
+msgstr "Удалить пользователя (доступно для Администратора)."
+
+#: ../../CSUI-Accounts.rst:116
+msgid "Find more about actions for users in the :ref:`User_Action_Box` section."
+msgstr ""
+"Подробно о действиях с пользователями см. в разделе  :ref:`User_Action_Box`"
+
+#: ../../CSUI-Accounts.rst:119
+msgid "Create a User"
+msgstr "Создание пользователя"
+
+#: ../../CSUI-Accounts.rst:120
+msgid ""
+"Administrators can create a new user from the *Users* tab of the Account Details "
+"sidebar by clicking \"Create\" |create icon|."
+msgstr ""
+"Администраторы могут создать нового пользователя из вкладки \"Пользователи\" "
+"информационной панели аккаунта. Кликните \"Создать\" |create icon|: "
+
+#: ../../CSUI-Accounts.rst:124
+msgid "In the appeared form fill in the following fields:"
+msgstr "В открывшейся форме заполните следующие поля:"
+
+#: ../../CSUI-Accounts.rst:126
+msgid "Required fields are marked with asterisks (*)."
+msgstr "Обязательные поля отмечены \"звездочкой\" (*)."
+
+#: ../../CSUI-Accounts.rst:128
+msgid ""
+"Username * - Enter any desired user ID. It should be unique within the domain."
+msgstr ""
+"Имя аккаунта * - введите желаемое имя аккаунта, уникальное в домене.\n"
+"Пароль * - введите желаемый пароль. Можно активировать отображение вводимых "
+"символов, нажав |view| справа. Спрятать символы вводимого пароля можно кликом на "
+"|hide|. "
+
+#: ../../CSUI-Accounts.rst:130
+msgid "First name * - User's first name."
+msgstr "Имя * - введите имя пользователя."
+
+#: ../../CSUI-Accounts.rst:131
+msgid "Last name * - User's last name."
+msgstr "Фамилия * - введите фамилию пользователя."
+
+#: ../../CSUI-Accounts.rst:132
+msgid "Email * - Enter the user's email address."
+msgstr "Email * - введите email пользователя."
+
+#: ../../CSUI-Accounts.rst:133
+msgid ""
+"Time zone * - Set the timezone that corresponds to the user's locale. Select an "
+"option from the drop-down list."
+msgstr ""
+"Часовой пояс * - укажите часовой пояс, соответствующий местоположению, в котором "
+"аккаунт будет действовать."
+
+#: ../../CSUI-Accounts.rst:137
+msgid ""
+"Click \"CREATE\" to create the new user. It will appear in the list of users for "
+"this account."
+msgstr ""
+"Нажмите \"СОЗДАТЬ\". Новый пользователь будет добавлен в аккаунт. Он появится в "
+"списке пользователей данного аккаунта. "
+
+#: ../../CSUI-Accounts.rst:139
+msgid "Click \"CANCEL\" to cancel the user creation."
+msgstr "Для отмены создания пользователя нажмите \"ОТМЕНИТЬ\""
+
+#: ../../CSUI-Accounts.rst:144
+msgid "User Action Box"
+msgstr "Список действий с пользователем"
+
+#: ../../CSUI-Accounts.rst:145
+msgid "Administrators can manage a user via the Action box."
+msgstr ""
+"Администраторы могут управлять пользователями посредством выбора нужного "
+"действия из списка действий для пользователя. "
+
+#: ../../CSUI-Accounts.rst:149 ../../CSUI-Accounts.rst:172
+msgid "The list of actions allows an Administrator to:"
+msgstr "Список действий позволяет Администратору:"
+
+#: ../../CSUI-Accounts.rst:151
+msgid ""
+"Edit user - Opens a form to edit user's settings (name, email, timezone). Edit "
+"the information and click \"SAVE\" to save the edits."
+msgstr ""
+"Изменить пользователя - при выборе данного действия открывается форма "
+"редактирования настроек пользователя (имя, email, часовой пояс). Редактируйте "
+"информацию и нажмите \"СОХРАНИТЬ\", чтобы сохранить изменения."
+
+#: ../../CSUI-Accounts.rst:155
+msgid ""
+"Change password - Opens a modal window with two fields for you to enter a new "
+"password and confirm it. Use the view tool |view| to view or hide a password "
+"while entering. Click \"SAVE\" to save the new password."
+msgstr ""
+"Изменить пароль - при выборе данного действия открывается модальное окно, где "
+"следует ввести желаемый пароль в первом поле и подтвердить его в следующем поле. "
+"Воспользуйтесь просмотром |view|, чтобы видеть или скрыть символы пароля. "
+"Нажмите \"СОХРАНИТЬ\" для регистрации нового пароля."
+
+#: ../../CSUI-Accounts.rst:159
+msgid ""
+"Regenerate key - Allows changing the keys - secret and API - for the user. "
+"Confirm your action in the dialog window, and the keys will be changed."
+msgstr ""
+"Сгенерировать ключ - данное действие позволяет создать или изменить секретный "
+"ключ и ключ API для пользователя. Подтвердите свое действие в диалоговом окне, "
+"ключи будут сгенерированы/изменены. "
+
+#: ../../CSUI-Accounts.rst:161
+msgid ""
+"Delete a user - Allows deleting a user from the system. Confirm your action in "
+"the dialog window, and the user will be deleted."
+msgstr ""
+"Удалить пользователя - данное действие позволяет удалить пользователя из "
+"системы. Подтвердите свое действие в диалоговом окне, и пользователь будет "
+"удален. "
+
+#: ../../CSUI-Accounts.rst:166
+msgid "Account Action Box"
+msgstr "Список действий с аккаунтом"
+
+#: ../../CSUI-Accounts.rst:168
+msgid ""
+"Administrators can manage an account via the Action box under |actions icon|."
+msgstr ""
+"Администраторы могут управлять аккаунтами посредством выбора нужного действия из "
+"списка действий для аккаунта под |actions icon|.  Список действий позволяет "
+"Администратору:"
+
+#: ../../CSUI-Accounts.rst:174
+msgid ""
+"Disable account - Allows disabling an account. By disabling the account all "
+"users for this account will no longer have access to their cloud resources. All "
+"running VMs will be immediately shut down. Click \"Disable account\" and confirm "
+"your action in the dialog window. The account will be inactive."
+msgstr ""
+"Деактивировать аккаунт - доступно для активированных аккаунтов. Позволяет "
+"сделать аккаунт неактивным. При деактивации аккаунта облачные ресурсы всех его "
+"пользователей будут недоступны, все запущенные машины будут остановлены.  Для "
+"деактивации аккаунта нажмите \"Деактивировать аккаунт\" и подтвердите свое "
+"действие в диалоговом окне. Аккаунт будет деактивирован."
+
+#: ../../CSUI-Accounts.rst:176
+msgid ""
+"Enable account - Allows activating a disabled account. Click \"Enable account\" "
+"and confirm your action in the dialog window. The account will be activated."
+msgstr ""
+"Активировать аккаунт - доступно для деактивированного аккаунта. Позволяет "
+"активировать аккаунт. Для этого нажмите \"Активировать аккаунт\" и подтвердите "
+"свое действие в диалоговом окне. Аккаунт будет активирован. "
+
+#: ../../CSUI-Accounts.rst:178
+msgid ""
+"Delete account - Allows an Administrator to delete an account from the system. "
+"Confirm your action in the dialog window, and the account will be deleted."
+msgstr ""
+"Удалить аккаунт - позволяет удалить аккаунт из системы. Подтвердите свое "
+"действие в диалоговом окне, и аккаунт будет удален. "
