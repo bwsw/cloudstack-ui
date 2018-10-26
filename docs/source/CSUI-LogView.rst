@@ -1,7 +1,7 @@
 .. _Log_View:
 
-View logs
-=============
+View Logs Plugin
+===================
 
 .. warning:: The section is under development!
 
