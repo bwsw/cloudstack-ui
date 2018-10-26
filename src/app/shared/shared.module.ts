@@ -87,6 +87,7 @@ import {
   StringifyTimePipe,
   ViewValuePipe,
   VolumeSortPipe,
+  AffinityGroupTypePipe,
 } from './pipes';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
@@ -181,6 +182,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     ForbiddenValuesDirective,
     GroupedListComponent,
     HighLightPipe,
+    AffinityGroupTypePipe,
     InlineEditComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
@@ -259,6 +261,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     ForbiddenValuesDirective,
     GroupedListComponent,
     HighLightPipe,
+    AffinityGroupTypePipe,
     InlineEditComponent,
     InputGroupComponent,
     IntegerValidatorDirective,

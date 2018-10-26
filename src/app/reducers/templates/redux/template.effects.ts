@@ -91,7 +91,7 @@ export class TemplateEffects {
           const message = isIso
             ? 'NOTIFICATIONS.ISO.DELETION_FAILED'
             : 'NOTIFICATIONS.TEMPLATE.DELETION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new templateActions.RemoveTemplateError(error));
         }),
       );
@@ -129,7 +129,7 @@ export class TemplateEffects {
         }),
         map(createdTemplate => new templateActions.RegisterTemplateSuccess(createdTemplate)),
         catchError((error: Error) => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new templateActions.RegisterTemplateError(error));
         }),
       );
@@ -151,7 +151,7 @@ export class TemplateEffects {
         map(createdTemplate => new templateActions.CreateTemplateSuccess(createdTemplate)),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.TEMPLATE.CREATION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new templateActions.CreateTemplateError(error));
         }),
       );
@@ -208,20 +208,5 @@ export class TemplateEffects {
       });
     }
     this.snackBarService.open(message).subscribe();
-  }
-
-  private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
-    if (jobNotificationId) {
-      this.jobsNotificationService.fail({
-        message,
-        id: jobNotificationId,
-      });
-    }
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params,
-      },
-    });
   }
 }

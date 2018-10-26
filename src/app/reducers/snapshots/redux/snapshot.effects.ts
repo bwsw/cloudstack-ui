@@ -70,7 +70,7 @@ export class SnapshotEffects {
               }),
               catchError(error => {
                 const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_FAILED';
-                this.showNotificationsOnFail(error, message, notificationId);
+                this.dialogService.showNotificationsOnFail(error, message, notificationId);
                 return of(new snapshotActions.SnapshotUpdateError(error));
               }),
             );
@@ -96,7 +96,7 @@ export class SnapshotEffects {
         }),
         catchError(error => {
           const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new snapshotActions.SnapshotUpdateError(error));
         }),
       );
@@ -161,7 +161,7 @@ export class SnapshotEffects {
                     }),
                     catchError(error => {
                       const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_FAILED';
-                      this.showNotificationsOnFail(error, message, notificationId);
+                      this.dialogService.showNotificationsOnFail(error, message, notificationId);
                       return of(new snapshotActions.SnapshotUpdateError(error));
                     }),
                   );
@@ -205,20 +205,5 @@ export class SnapshotEffects {
       });
     }
     this.snackBarService.open(message).subscribe();
-  }
-
-  private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
-    if (jobNotificationId) {
-      this.jobsNotificationService.fail({
-        message,
-        id: jobNotificationId,
-      });
-    }
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params,
-      },
-    });
   }
 }
