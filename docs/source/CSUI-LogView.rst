@@ -7,7 +7,37 @@ View Logs Plugin
 
 .. Contents::
 
-In the *Virtual Machines*-*View Logs* section a user can see logs for VMs in the system. Log files to display can be selected by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs. Optionally, you can specify a time period and keywords to filter the log files.
+Overview
+----------------
+
+In the *Virtual Machines*-*View Logs* section a user can see VM logs. This is a UI for API plugin our team has developed to process and view virtual machine logs which are handled by ELK and delivered by Filebeat. The version of the plugin matches Apache CloudStack version that it is build for. The plugin is developed and tested only with Apache CloudStack 4.11.1
+ 
+Under this UI section you can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs. Optionally, you can specify a time period and keywords to filter the log files.
+
+To make the *View logs* section available, first deploy the View Logs plugin and then activate it via the ```config.json``` file. See details below.
+
+Deployment Instructions
+-------------------------
+
+Full instructions on the View Logs plugin deployment is presented at the `project page <https://github.com/bwsw/cloud-plugin-vm-logs#deployment>`_. 
+
+To enable the View Logs plugin you need to:
+
+1. Install the plugin into CloudStack.
+2. Deploy necessary components: ElasticSearch, Filebeat, Logstash, Curator.
+3. Enable the extention via the ```config.json``` file (see below).
+
+View Logs Configuration
+-------------------------
+
+Please, enable ```vmLogs``` in the extensions section of ```config.json```::
+
+ "extensions": {
+   ...,
+   "vmLogs": true
+ }
+
+Now you can see the *View logs* section under the *Virtual Machines* menu. In this section you can view the log files and sort the logs by keywords. To view logs you should specify an account (for Administrators), a VM for which you wish to see the logs, and a log file to view the logs from. More details are provided below.
 
 Filtering of Logs
 -----------------------
