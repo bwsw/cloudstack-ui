@@ -10,34 +10,27 @@ View Logs Plugin
 Overview
 ----------------
 
-In the *Virtual Machines*-*View Logs* section a user can see VM logs. This is a UI for API plugin our team has developed to process and view virtual machine logs which are handled by ELK and delivered by Filebeat. The version of the plugin matches Apache CloudStack version that it is build for. The plugin is developed and tested only with Apache CloudStack 4.11.1
+In the *Virtual Machines*-*View Logs* section a user can see VM logs. This is a UI for the API plugin our team has developed to process and view virtual machine logs which are handled by ELK and delivered by Filebeat. The version of the plugin matches Apache CloudStack version that it is built for. The plugin is developed and tested only with Apache CloudStack 4.11.1
  
 Under this UI section you can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs. Optionally, you can specify a time period and keywords to filter the log files.
 
-To make the *View logs* section available, first deploy the View Logs plugin and then activate it via the ```config.json``` file. See details below.
+To make the *View logs* section available, first deploy the View Logs plugin and then activate it via the ```config.json``` file. 
 
 Deployment Instructions
 -------------------------
 
-Full instructions on the View Logs plugin deployment is presented at the `project page <https://github.com/bwsw/cloud-plugin-vm-logs#deployment>`_. 
+Full instructions on the View Logs plugin deployment is presented at the `plugin page <https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin>`_. 
 
 To enable the View Logs plugin you need to:
 
 1. Install the plugin into CloudStack.
 2. Deploy necessary components: ElasticSearch, Filebeat, Logstash, Curator.
-3. Enable the extention via the ```config.json``` file (see below).
+3. Enable the extension via the ```config.json``` file.
 
-View Logs Configuration
+View Logs UI
 -------------------------
 
-Please, enable ```vmLogs``` in the extensions section of ```config.json```::
-
- "extensions": {
-   ...,
-   "vmLogs": true
- }
-
-Now you can see the *View logs* section under the *Virtual Machines* menu. In this section you can view the log files and sort the logs by keywords. To view logs you should specify an account (for Administrators), a VM for which you wish to see the logs, and a log file to view the logs from. More details are provided below.
+After successful deployment you can see the *View logs* section under the *Virtual Machines* menu in UI. In this section you can view the log files and sort the logs by keywords. To view logs you should specify an account (for Administrators), a VM for which you wish to see the logs, and a log file to view the logs from. More details are provided below.
 
 Filtering of Logs
 -----------------------
@@ -45,11 +38,11 @@ To view logs in the list, please, set up the filtering parameters.
 
 Select the following parameters in the provided order from drop-down lists:
 
-- Accounts * - Allows Administrators to select logs for a specific account/accounts. Select in the drop-down list an account or a number of accounts.
+- Accounts * - Allows Administrators to further select a VM in a specific account/accounts. Select in the drop-down list an account or a number of accounts.
 
-- VM * - Allows selecting logs for a specific VM. Choose a VM you wish in the drop-down list.
-
-- Log files * - Allows selecting logs by log files. Choose a log file in the drop-down list.
+- VM * - Allows selecting logs for a specific VM. Choose a VM you wish in the drop-down list. The list of available VMs is determined by the account(s) selected at the previous step, if you are an Administrator. If you are a user, you can see the machines belonging to your user only.
+ 
+- Log files * - Allows viewing logs by log files available for the selected VM. Choose a log file in the drop-down list.
 
 - Date - Allows selecting logs for a specific period. Click |date icon| and in the appeared calendar choose the start and end dates to see the logs for. By default, the system shows logs for the last day.
 
@@ -65,7 +58,7 @@ Click "Show logs" to implement the filtering settings.
 
 The logs will be displayed in accordance with the chosen period.
 
-You can change filtering parameters and refresh the list of logs by clicking "Show logs".
+You can change filtering parameters and refresh the list of logs by clicking "SHOW LOGS".
 
 Sorting of Logs
 ---------------------------
@@ -81,7 +74,7 @@ To delete any word in the list click |remove icon| next to it.
 
 View Logs List
 --------------------------
-By clicking "Show logs", a user can view log files corresponding to the filtering parameters. Logs in the *View Logs* are listed in a chronological order from the earliest till the latest. 
+By clicking "SHOW LOGS", a user can view log files corresponding to the filtering parameters. Logs in the *View Logs* are listed in a chronological order from the earliest till the latest. 
 
 By default, the system shows logs for the last day. 
 
@@ -94,6 +87,8 @@ The following information for each log file is presented in the list:
 - Date
 - File 
 - Text
+
+You can change filtering parameters and refresh the list of logs by clicking "SHOW LOGS".
 
 .. Refresh the List of Logs - To update the list of logs click "Refresh" to see the latest logs for the selected filtering parameters.
 
