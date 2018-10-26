@@ -1,7 +1,12 @@
 <mat-card-header>
   <mat-card-title>
     <h3 class="mat-dialog-title">
-      {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.SELECT_AFFINITY_GROUP' | translate }}
+      <span *ngIf="enablePreselected; else toSelect">
+        {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.SELECT_AFFINITY_GROUP' | translate }}
+      </span>
+      <ng-template #toSelect>
+        {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.TO_SELECT_AFFINITY_GROUP' | translate }}
+      </ng-template>
     </h3>
   </mat-card-title>
 </mat-card-header>

@@ -3,6 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AffinityGroup } from '../../../shared/models';
 
 import * as affinityGroupActions from './affinity-groups.actions';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -33,7 +34,7 @@ export const affinityGroupReducers = {
  */
 export const adapter: EntityAdapter<AffinityGroup> = createEntityAdapter<AffinityGroup>({
   selectId: (item: AffinityGroup) => item.id,
-  sortComparer: false,
+  sortComparer: Utils.sortByName,
 });
 
 /** getInitialState returns the default initial state

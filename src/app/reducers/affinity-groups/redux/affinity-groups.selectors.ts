@@ -44,16 +44,22 @@ const sortAffinityGroups = (affinityGroups: AffinityGroup[]) => {
   return affinityGroups.sort(sortBySelected);
 };
 
+const isHasPreselected = (groups: AffinityGroup[]) => {
+  return !!groups.find(group => group.isPreselected);
+};
+
 export const getAffinityGroupsForVmForm = createSelector(
   fromAffinityGroups.selectAll,
   fromVMs.getVmFormStateAffinityGroup,
   (affinityGroups: AffinityGroup[], preselectedGroup: AffinityGroup): AffinityGroup[] => {
+    const groups = setAffinityGroupsState(affinityGroups, [preselectedGroup]);
+
     const emptyGroup = {
       id: emptyAffinityGroup,
       name: emptyAffinityGroup,
-      isPreselected: false,
+      isPreselected: !isHasPreselected(groups),
     } as AffinityGroup;
-    const groups = setAffinityGroupsState(affinityGroups, [preselectedGroup]);
+
     groups.unshift(emptyGroup);
     return groups;
   },

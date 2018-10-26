@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AffinityGroupSelectorContainerComponent } from '../../affinity-group-selector/affinity-group-selector-container.component';
 import { DateTimeFormatterService } from '../../../../shared/services/date-time-formatter.service';
 import { VirtualMachine, VmState } from '../../../shared/vm.model';
-import { AffinityGroup } from '../../../../shared/models';
+import { AffinityGroup, affinityGroupTypesMap } from '../../../../shared/models';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 
 @Component({
@@ -43,6 +43,11 @@ export class AffinityGroupComponent {
           this.removeAffinityGroup(id);
         }
       });
+  }
+
+  public getAffinityGroupType(id: string): string {
+    const affinityGroup = this.affinityGroups.find(group => group.id === id);
+    return affinityGroup && affinityGroupTypesMap[affinityGroup.type];
   }
 
   private removeAffinityGroup(id: string) {

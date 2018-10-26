@@ -2,7 +2,7 @@
   <table mat-table [dataSource]="affinityGroups">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> {{ 'AFFINITY_GROUP.NAME' | translate }}</th>
-      <td [class.preselected]="element.isPreselected && enablePreselected" mat-cell *matCellDef="let element">
+      <td [class.preselected]="element.isPreselected && enablePreselected"  class="name-column" mat-cell *matCellDef="let element">
         <span
           *ngIf="element.description; else noDescription"
           [matTooltip]="element.description">
