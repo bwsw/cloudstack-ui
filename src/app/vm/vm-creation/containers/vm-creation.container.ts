@@ -47,6 +47,7 @@ import { ComputeOfferingViewModel } from '../../view-models';
       [instanceGroupList]="instanceGroups$ | async"
       [affinityGroupList]="affinityGroups$ | async"
       [diskOfferings]="diskOfferings$ | async"
+      [virtualMachineList]="vms$ | async"
       [diskOfferingsAreLoading]="diskOfferingsAreLoading$ | async"
       [zones]="zones$ | async"
       [showOverlay]="showOverlay$ | async"
@@ -90,6 +91,7 @@ export class VmCreationContainerComponent implements OnInit {
   ).pipe(map((loadings: boolean[]) => !!loadings.find(loading => loading)));
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));
+  readonly vms$ = this.store.pipe(select(fromVMs.selectAll));
   readonly deploymentInProgress$ = this.store.pipe(select(fromVMs.deploymentInProgress));
   readonly diskOfferings$ = this.store.pipe(select(fromDiskOfferings.selectAll));
   readonly diskOfferingsAreLoading$ = this.store.pipe(select(fromDiskOfferings.isLoading));

@@ -59,6 +59,8 @@ export class VmCreationComponent {
   public enoughResources: boolean;
   @Input()
   public insufficientResources: string[];
+  @Input()
+  public virtualMachineList: VirtualMachine[];
 
   @Output()
   public displayNameChange = new EventEmitter<string>();
@@ -116,7 +118,7 @@ export class VmCreationComponent {
 
   public hostNameIsTaken(): boolean {
     if (!!this.vmCreationState) {
-      return !!this.affinityGroupList.find(group => group.name === this.vmCreationState.name);
+      return !!this.virtualMachineList.find(vm => vm.name === this.vmCreationState.name);
     }
     return false;
   }
