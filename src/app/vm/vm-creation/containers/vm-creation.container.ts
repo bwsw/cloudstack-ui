@@ -167,7 +167,6 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public onZoneChange(zone: Zone) {
-    console.log('ZONE', zone);
     this.store.dispatch(new vmActions.VmFormUpdate({ zone }));
   }
 
