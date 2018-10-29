@@ -11,6 +11,7 @@ import {
   ConfirmDialogComponent,
   ConfirmDialogConfiguration,
 } from './confirm-dialog/confirm-dialog.component';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 
 const defaultConfirmDialogConfirmText = 'COMMON.YES';
 const defaultConfirmDialogDeclineText = 'COMMON.NO';
@@ -32,7 +33,10 @@ export interface BaseDialogConfiguration {
 
 @Injectable()
 export class DialogService {
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private jobsNotificationService: JobsNotificationService,
+  ) {}
 
   public confirm(config: ConfirmDialogConfiguration): Observable<any> {
     let dialogRef: MatDialogRef<ConfirmDialogComponent>;
@@ -75,6 +79,22 @@ export class DialogService {
 
     dialogRef = this.dialog.open(AskDialogComponent, this.getDialogConfiguration(config));
     return dialogRef.afterClosed();
+  }
+
+  public showNotificationsOnFail(error, message?: string, jobNotificationId?: string): void {
+    if (jobNotificationId) {
+      this.jobsNotificationService.fail({
+        message,
+        id: jobNotificationId,
+      });
+    }
+
+    this.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params,
+      },
+    });
   }
 
   private getDialogConfiguration(config: BaseDialogConfiguration) {

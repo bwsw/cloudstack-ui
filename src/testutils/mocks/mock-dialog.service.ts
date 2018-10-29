@@ -13,4 +13,7 @@ export class MockDialogService {
   public confirm(config: ConfirmDialogConfiguration): Observable<boolean> {
     return of(true);
   }
+  public showNotificationsOnFail(config: AlertDialogConfiguration): Observable<void> {
+    return of(null);
+  }
 }

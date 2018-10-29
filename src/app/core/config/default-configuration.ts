@@ -39,6 +39,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   extensions: {
     webShell: false,
     pulse: false,
+    vmLogs: false,
   },
   /*
    * Virtual machines settings
@@ -77,6 +78,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     { id: 'EVENTS', visible: true },
     { id: 'SSH', visible: true },
     { id: 'ACCOUNTS', visible: true },
+    { id: 'LOGS', visible: true },
     { id: 'SETTINGS', visible: true },
   ],
   /*

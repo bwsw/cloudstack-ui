@@ -2,9 +2,9 @@ import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInput } from '@angular/material';
 
-import { padStart } from '../../../shared/utils/pad-start';
+import { padStart } from '../../utils/pad-start';
 import { DayPeriod } from '../day-period/day-period.component';
-import { TimeFormat } from '../../../shared/types';
+import { TimeFormat } from '../../types/index';
 
 export interface Time {
   hour: number;
@@ -25,6 +25,8 @@ export interface Time {
   ],
 })
 export class TimePickerComponent implements ControlValueAccessor, OnInit {
+  @Input()
+  public label = '';
   @Input()
   public timeFormat: TimeFormat;
   @ViewChild('hourField')
@@ -129,7 +131,8 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   public registerOnTouched(): void {}
 
   public writeValue(value: any): void {
-    if (value) {
+    // todo: remove ngModel
+    if (value != null && value.hour != null && value.minute != null) {
       this.time = value;
     }
   }

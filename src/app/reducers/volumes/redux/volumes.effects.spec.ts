@@ -308,6 +308,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during attaching volume', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyAttach = spyOn(volumeService, 'attach').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -328,7 +329,7 @@ describe('Volume Effects', () => {
       id: '9f027074-2a1a-4745-949a-d666ccf0a8b3',
       virtualMachineId: 'vm-id1',
     });
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should attach volume to vm', () => {
@@ -352,6 +353,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during attaching volume to vm', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyAttach = spyOn(volumeService, 'attach').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -370,7 +372,7 @@ describe('Volume Effects', () => {
       id: '9f027074-2a1a-4745-949a-d666ccf0a8b3',
       virtualMachineId: 'vm-id1',
     });
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should detach volume', () => {
@@ -402,6 +404,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during detaching volume', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyDetach = spyOn(volumeService, 'detach').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -415,7 +418,7 @@ describe('Volume Effects', () => {
 
     expect(effects.detachVolume$).toBeObservable(expected);
     expect(spyDetach).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should resize volume', () => {
@@ -455,6 +458,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during resizing volume', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyResize = spyOn(volumeService, 'resize').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -472,7 +476,7 @@ describe('Volume Effects', () => {
 
     expect(effects.resizeVolume$).toBeObservable(expected);
     expect(spyResize).toHaveBeenCalledWith({} as VolumeResizeData);
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should delete volumes with snaps', () => {
@@ -549,6 +553,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during detaching volume (delete volume)', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyDetach = spyOn(volumeService, 'detach').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -562,10 +567,11 @@ describe('Volume Effects', () => {
     expect(effects.deleteVolume$).toBeObservable(expected);
     expect(spyDetach).toHaveBeenCalled();
     expect(spyRemove).not.toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should return an error during deleting volume (without detach)', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyDetach = spyOn(volumeService, 'detach');
     const spyRemove = spyOn(volumeService, 'remove').and.returnValue(
       throwError(new Error('Error occurred!')),
@@ -580,7 +586,7 @@ describe('Volume Effects', () => {
     expect(effects.deleteVolume$).toBeObservable(expected);
     expect(spyDetach).not.toHaveBeenCalled();
     expect(spyRemove).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should navigate after successful deleting', () => {
@@ -608,7 +614,7 @@ describe('Volume Effects', () => {
   });
 
   it('should show alert after creation error', () => {
-    const spyAlert = spyOn(dialogService, 'alert');
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const error = new Error('Error');
     spyOn(volumeService, 'create').and.returnValue(throwError(error));
     const action = new volumeActions.CreateVolume({

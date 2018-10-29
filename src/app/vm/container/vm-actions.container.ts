@@ -22,6 +22,7 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
       (vmRecovered)="onVmRecover($event)"
       (vmAccessed)="onVmAccess($event)"
       (vmPulse)="onVmPulse($event)"
+      (vmLogs)="onViewVmLogs($event)"
     >
     </cs-vm-actions>`,
 })
@@ -85,5 +86,9 @@ export class VmActionsContainerComponent {
       .subscribe(() => {
         this.store.dispatch(new vmActions.StopVm(vm));
       });
+  }
+
+  public onViewVmLogs(vm: VirtualMachine): void {
+    this.store.dispatch(new vmActions.ViewVmLogs(vm));
   }
 }

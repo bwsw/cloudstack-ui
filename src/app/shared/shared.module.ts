@@ -87,6 +87,7 @@ import {
   StringifyTimePipe,
   ViewValuePipe,
   VolumeSortPipe,
+  AffinityGroupTypePipe,
 } from './pipes';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
@@ -137,6 +138,8 @@ import {
   SquareStateIndicatorComponent,
 } from './components/state-indicator';
 import { UrlDirective } from './validators/directives';
+import { TimePickerComponent } from './components/time-picker/time-picker.component';
+import { DayPeriodComponent } from './components/day-period/day-period.component';
 
 // tslint:enable max-line-length
 
@@ -179,6 +182,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     ForbiddenValuesDirective,
     GroupedListComponent,
     HighLightPipe,
+    AffinityGroupTypePipe,
     InlineEditComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
@@ -223,6 +227,8 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent,
     KeyboardsComponent,
+    TimePickerComponent,
+    DayPeriodComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -255,6 +261,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     ForbiddenValuesDirective,
     GroupedListComponent,
     HighLightPipe,
+    AffinityGroupTypePipe,
     InlineEditComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
@@ -311,6 +318,8 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent,
     KeyboardsComponent,
+    TimePickerComponent,
+    DayPeriodComponent,
   ],
   providers: [
     AccountService,

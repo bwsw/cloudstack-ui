@@ -66,7 +66,7 @@ export class VolumesEffects {
         }),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new volumeActions.CreateError(error));
         }),
       );
@@ -90,7 +90,7 @@ export class VolumesEffects {
         }),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new volumeActions.CreateError(error));
         }),
       );
@@ -116,7 +116,7 @@ export class VolumesEffects {
         }),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new volumeActions.VolumeUpdateError(error));
         }),
       );
@@ -155,7 +155,7 @@ export class VolumesEffects {
               }),
               catchError((error: Error) => {
                 const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED';
-                this.showNotificationsOnFail(error, message, notificationId);
+                this.dialogService.showNotificationsOnFail(error, message, notificationId);
                 return of(new volumeActions.VolumeUpdateError(error));
               }),
             );
@@ -184,7 +184,7 @@ export class VolumesEffects {
         }),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new volumeActions.VolumeUpdateError(error));
         }),
       );
@@ -212,7 +212,7 @@ export class VolumesEffects {
               }),
               catchError((error: Error) => {
                 const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED';
-                this.showNotificationsOnFail(error, message, notificationId);
+                this.dialogService.showNotificationsOnFail(error, message, notificationId);
                 return of(new volumeActions.VolumeUpdateError(error));
               }),
             );
@@ -248,7 +248,7 @@ export class VolumesEffects {
               }),
               catchError((error: Error) => {
                 const message = 'NOTIFICATIONS.VOLUME.RESIZE_FAILED';
-                this.showNotificationsOnFail(error, message, notificationId);
+                this.dialogService.showNotificationsOnFail(error, message, notificationId);
                 return of(new volumeActions.VolumeUpdateError(error));
               }),
             );
@@ -285,7 +285,7 @@ export class VolumesEffects {
     switchMap(([volumes, expunged]: [Volume[], boolean]) =>
       this.dialog
         .open(VolumeDeleteDialogComponent, {
-          data: !!volumes.find(volume => !!volume.snapshots.length),
+          data: !!volumes.find(volume => volume.snapshots && !!volume.snapshots.length),
         })
         .afterClosed()
         .pipe(
@@ -325,7 +325,7 @@ export class VolumesEffects {
           }),
           catchError((error: Error) => {
             const message = 'NOTIFICATIONS.VOLUME.DELETION_FAILED';
-            this.showNotificationsOnFail(error, message, notificationId);
+            this.dialogService.showNotificationsOnFail(error, message, notificationId);
             return of(new volumeActions.VolumeUpdateError(error));
           }),
         );
@@ -338,7 +338,7 @@ export class VolumesEffects {
           }),
           catchError((error: Error) => {
             const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED';
-            this.showNotificationsOnFail(error, message, notificationId);
+            this.dialogService.showNotificationsOnFail(error, message, notificationId);
             return of(new volumeActions.VolumeUpdateError(error));
           }),
         );
@@ -388,20 +388,5 @@ export class VolumesEffects {
       });
     }
     this.snackBarService.open(message).subscribe();
-  }
-
-  private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
-    if (jobNotificationId) {
-      this.jobsNotificationService.fail({
-        message,
-        id: jobNotificationId,
-      });
-    }
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params,
-      },
-    });
   }
 }

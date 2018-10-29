@@ -6,5 +6,5 @@ const getLayoutState = createFeatureSelector<LayoutState>(featureStoreName);
 
 export const getShowAppNav = createSelector(
   getLayoutState,
-  (state: LayoutState) => state.showAppNav
+  (state: LayoutState) => state.showAppNav,
 );

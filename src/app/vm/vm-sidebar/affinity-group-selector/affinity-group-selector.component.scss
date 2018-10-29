@@ -1,4 +1,13 @@
-:host {
-  position: relative;
-  display: block;
+mat-form-field {
+  width: 150px;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-card-header /deep/ .mat-card-header-text {
+  margin: 0 !important;
 }

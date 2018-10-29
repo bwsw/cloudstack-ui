@@ -7,7 +7,8 @@ import { State, UserTagsActions, layoutStore } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { Route, Subroute } from '../core/nav-menu/models';
-import { NavMenuService } from '../core/services';
+import { getCurrentRoute, getRoutes, getSubroutes } from '../core/nav-menu/redux/nav-menu.reducers';
+import * as authActions from '../reducers/auth/redux/auth.actions';
 import * as authActions from '../reducers/auth/redux/auth.actions';
 
 @Component({
@@ -17,19 +18,15 @@ import * as authActions from '../reducers/auth/redux/auth.actions';
 })
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
-  public routes$: Observable<Route[]> = this.navRoutesService.getRoutes();
-  public currentRoute$: Observable<Route> = this.navRoutesService.getCurrentRoute();
-  public subroutes$: Observable<Subroute[]> = this.navRoutesService.getSubroutes();
+  public routes$: Observable<Route[]> = this.store.pipe(select(getRoutes));
+  public currentRoute$: Observable<Route> = this.store.pipe(select(getCurrentRoute));
+  public subroutes$: Observable<Subroute[]> = this.store.pipe(select(getSubroutes));
   public showAppNav$: Observable<boolean> = this.store.pipe(
     select(layoutStore.selectors.getShowAppNav),
   );
   public username: string;
 
-  constructor(
-    private auth: AuthService,
-    private store: Store<State>,
-    private navRoutesService: NavMenuService,
-  ) {
+  constructor(private auth: AuthService, private store: Store<State>) {
     super();
     this.username = this.auth.user ? this.auth.user.username : '';
   }
