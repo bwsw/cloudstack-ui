@@ -9,5 +9,5 @@ describe('base path pipe', () => {
 
   it('should extract base path', () => {
     expect(basePath.transform('/dir1/dir2/dir3/filename')).toBe('filename');
-  })
+  });
 });

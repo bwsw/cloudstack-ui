@@ -18,11 +18,9 @@ Virtual Machines List
 
 At this page, you can see the list of your virtual machines available to your user only.
 
-.. figure:: _static/VMs_List_User1.png
+.. figure:: _static/VMs_List_User2.png
 
-If you are a Domain Administrator you can see the virtual machines of all users in your account. Or select all accounts in the "Select accounts" option above the list to see the virtual machines for the whole domain.
-
-.. figure:: _static/VMs_List_Admin1.png
+If you are a Domain Administrator you can see the virtual machines of all users in the domain. 
    
 You can change the data representation of existing virtual machines from "card" to "list". We have added the switch |view icon|/|box icon| in the upper-right corner of each section. This improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
 
@@ -50,7 +48,7 @@ Filtering of Virtual Machines
 
 The filtering and search tool will help you to find a virtual machine in the list. 
 
-.. figure:: _static/VMs_FilterAndSearch_User1.png
+.. figure:: _static/VMs_FilterAndSearch_User2.png
    
 You can filter the VM list by accounts (available for Domain Administrators) and/or zones and/or groups and/or states. In the drop-down lists tick the filtering parameters and see the immediate result.
 
@@ -75,13 +73,10 @@ Please, note that a virtual machine is created with a root disk so you do not ne
 To create a new VM click the "Create" button |create icon| at the bottom-right corner. 
 
 .. figure:: _static/VMs_Create4.png
-
    
 The *New virtual machine* form contains two tabs: *General* and *Advanced*. 
 
 In the *General* tab the following fields should be filled in:
-
-.. note:: Required fields are marked with an asterisk (*).
 
 .. note:: Required fields are marked with an asterisk (*).
 
@@ -137,7 +132,7 @@ The settings will appear for the VM service offerings.
 
 For custom service offerings the parameters are also provided in the table per each option. Besides, you can see more parameters by clicking "SHOW ADDITIONAL FIELDS". 
 
-By selecting an option in the list, you open a modal window where you can set a value for the following parameters:
+By selecting an option in the list, you open a modal window where you can set values for the following parameters:
 
 - CPU Cores;
 - CPU (MHz);
@@ -145,7 +140,9 @@ By selecting an option in the list, you open a modal window where you can set a 
 
 These parameters can be predefined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-compute-offering>`_ by an Administrator. The values specified there will be used as default parameters for a custom service offering.
 
-Administrators can set limits for custom service offerings in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#custom-compute-offering-parameters>`_. That means you cannot set values larger than the limits specified for custom service offerings.
+Administrators can set limits for custom service offering parameters in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#custom-compute-offering-parameters>`_. That means you cannot set values larger than the limits specified for custom service offerings. 
+
+Besides, the system checks the available account resources. And if you try to enter a value larger than the available amount of resources, the system will automatically change it to the maximum available value.
 
 .. figure:: _static/VMs_Create_SO_Custom2.png   
    
@@ -167,7 +164,7 @@ Click "SELECT" below the list to assign a selected service offering to your mach
 
 .. figure:: _static/VMs_Create_IstallationSource2.png
     
-The Disk size slider below the **Installation source** block allows changing the size of a root-disk of the VM. Move the slider or enter a number value in the field to set the root-disk size.
+The Disk size slider below the **Installation source** block allows changing the size of a root-disk of the VM. The default minimum size is determined by the account limits and shown in the number field. Move the slider or enter a number value in the field to set the root-disk size.
    
 .. figure:: _static/VMs_Create_IstallationSource_DiskSize.png
 
@@ -203,7 +200,22 @@ In the *Advanced* tab you will find the following fields:
 .. figure:: _static/VMs_Create_Advanced.png
 
 1. **Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field. The group will be saved to the machine `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
-2. **Affinity group** - Select an affinity group from the drop-down list. Or create a new group entering it right in this field. The name should contain letters, figures, start from a letter and should not contain spaces. Its length should not exceed 63 symbols. What an affinity group is you can read in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/virtual_machines.html?highlight=Affinity%20group#affinity-groups>`_.
+2. **Affinity group** - Select an affinity group in the list or create a new group filling in the form. By clicking "SELECT" in the block you open a form with the list of existing groups and a creation block above the list.
+
+    **Create an Affinity group**. To create a new affinity group you should fill in the form at the top of the dialog box:
+    
+    - Name * - Enter a name for the group. The name should contain letters, figures, start with a letter and should not contain spaces. Maximum length is 63 symbols.
+    
+    - Type * - Select type of the group - "anti-affinity" or "affinity".
+    
+    - Description - Provide a short description. Maximum length is 63 symbols.
+    
+    Click "+" to add the new group with the specified settings to the list.
+    
+    **Select a group**. Click on a group in the list and press "SELECT". 
+    
+    What an affinity group is you can read in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/virtual_machines.html?highlight=Affinity%20group#affinity-groups>`_.
+    
 3. **Firewall rules** - Select a security group for the machine. Click "EDIT" to specify a security group for the VM. A default security group, defined in `the configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-security-group-name>`_, is shown in this field. To change it click "EDIT". In the appeared window choose between "Create new" or "Select Shared" options. 
   
 **Create a new security group**
@@ -265,7 +277,7 @@ The message will show the list of all creation steps and the virtual machine inf
 
 The system will ask you if you wish to save passwords to VM tags by default for the virtual machines created in the future. Click "Yes" and the "Save VM password by default" option will be activated in the account settings:
 
-.. figure:: _static/Settings_SavePass1.png
+.. figure:: _static/Settings_SavePass2.png
 
 It means the password will be saved to tags automatically for all created virtual machines.
 
@@ -304,7 +316,7 @@ VM Action Box
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Once a VM instance is created, you can stop, restart, or delete it as needed. These actions are available under the "Actions" button |actions icon| to the right from each virtual machine in the list. 
 
-.. figure:: _static/VMs_ActionBox1.png
+.. figure:: _static/VMs_ActionBox2.png
    
 It allows performing the following actions with the VM:
 
@@ -342,11 +354,11 @@ After clicking "Yes" the VM will be rebooted and a new password will be autogene
 
 .. figure:: _static/VMs_PasswordReset.png
 
-Click "Save" to save the password for this VM. It will activate the "Save VM passwords by default" option in the *Settings* section. In the future the password will be saved automatically right at VM creation. Click "OK" to close the dialog window. 
+Click "Save" to save the password for this VM. It will activate the "Save VM passwords by default" option in the *Settings* section (see :ref:`Settings_VMPass`). In the future the password will be saved automatically right at VM creation. Click "OK" to close the dialog window. 
 
 - Access VM - Opens an "Access VM" dialog window which allows to view VM name and IP, view and save a password for the VM and access the VM via the VNC console. 
 
-.. figure:: _static/AccessVM.png
+.. figure:: _static/AccessVM_OpenConsole3.png
 
 In the :ref:`VM_Access` section you can find more information on accessing a VM.
 
@@ -429,17 +441,25 @@ Click "Change" to implement the edits.
 
 A started virtual machine will be rebooted at editing the service offering.
 
-5. Affinity Group - The affinity group assigned to the virtual machine. Edit this field by clicking the "Edit" button |edit icon|. In the dialog window, choose an existing group or create a new one right in the dialog window. Click "Assign" to assign the group to the VM. 
+5. Affinity Group - The affinity group(s) assigned to the virtual machine. A name and a type of groups are displayed here. Groups are listed in alphabetic order. Hovering over a group name shows a description of a group (if provided at creation). 
 
-.. figure:: _static/VMs_Details_CreateAffGroup1.png
-   
-When assigning an affinity group to the started virtual machine, the system will suggest you stopping the VM. Click "OK" in the dialog window. Then the VM will be started again.
+    If no affinity group is assigned to the VM, or you wish to add another affinity group to the list, click "Add" (+) in the block. A dialog box appears where you can choose an existing group or create a new one. 
+    
+    Select a group in the list and click "Assign" to assign it to the VM. A user can add several groups to one virtual machine.
+    
+    .. figure:: _static/VMs_Details_AddAffGroup.png
 
-.. figure:: _static/VMs_Details_EditAffGroup.png
-   
-The selected group can be removed by clicking "Edit" and choosing "Remove from the group" in the dialog window.
-
-.. figure:: _static/VMs_Details_RemoveAffGroup1.png
+    To create an affinity group fill in the form at the top of the dialog box and click "+" to add the group to the list. Then, you can assign the newly created group to the VM.
+    
+    .. figure:: _static/VMs_Details_CreateAffGroup2.png
+    
+    When assigning an affinity group to a started virtual machine, the system will suggest you stopping the VM. Click "OK" in the dialog window. Then, the VM will be started again.
+    
+    .. figure:: _static/VMs_Details_EditAffGroup.png
+    
+    The selected group/groups can be deleted by clicking |delete icon| near the group name in the list.  
+    
+    .. figure:: _static/VMs_Details_RemoveAffGroup2.png
    
 6. Template - Shows the template used to create the virtual machine.
 
@@ -738,21 +758,97 @@ If you create a non-system tag, it will be saved in a new card. If you have ente
 
 Access a Virtual Machine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Depending on the installation source (ISO or a Template) the system allows getting an access to the VM interaction interface. Currently, the following options are supported:
+Depending on the installation source (ISO or a Template) and tags determined for a VM, the system allows getting an access to the VM interaction interface. Currently, the following access modes are supported:
 
-- Open VNC console - This button under the "Access VM" action allows opening a console.
+- Via a VNC console - active by default for all VMs;  
 
-.. figure:: _static/AccessVM_OpenConsole2.png
+- Via WebShell;
 
-- WebShell if VM has a ``csui.vm.auth-mode`` tag with SSH value. To find more information on accessing VM via WebShell, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_. See the detailed instructions on the deployment of WebShell Plugin at the :ref:`Webshell_Plugin` page.
+- Via URL.
 
-.. figure:: _static/AccessVM_WebShell1.png
+Selecting "Access VM" in the VM action list, you open a modal window with three tabs. In active tab(s) you can view detailed information for the access option(s) enabled for this machine.
+If an access mode is not available for the machine, the tab is inactive. All three options can be enabled at the same time for one machine.
 
-- Access via HTTP if VM has a ``csui.vm.auth-mode`` tag with HTTP value. To configure access to VM via HTTP, please, refer to `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
+In each tab you can click on a corresponding link to open a VNC console/Webshell/URL.
 
-.. figure:: _static/AccessVM_OpenURL2.png
+Below you will find more information on each access mode.
 
-You can choose the way you like and make necessary settings.
+VNC console
+""""""""""""""""
+This tab contains the following details: 
+
+- Login;
+
+- Password (if available);
+
+- Open VNC console link that opens a console to access the VM.
+
+.. figure:: _static/AccessVM_OpenConsole3.png
+
+WebShell
+""""""""""""""""""""""
+This tab is active if the access via WebShell is enabled. It is determined by the following tags in VM's template::
+
+ csui.vm.auth-mode = SSH
+ csui.vm.ssh.login = login
+ csui.vm.ssh.password = password
+ csui.vm.ssh.port = port
+
+This tab displays the following details: 
+
+- Connection String (IPv4)
+
+- Connection String (IPv6)
+
+- IPv4
+
+- IPv6
+
+- Port
+
+- Login
+
+- Password
+
+- SSH Key
+
+- Open WebShell - a clickable link to open a WebShell console.
+
+To find more information on accessing a VM via WebShell, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_. See the detailed instructions on the deployment of WebShell Plugin at the :ref:`Webshell_Plugin` page.
+
+.. figure:: _static/AccessVM_WebShell2.png
+
+URL
+"""""""""""""""
+Under this tab you can access a VM via HTTP/HTTPS URL.
+This mode is defined by the tags::
+
+ csui.vm.auth-mode = HTTP
+ csui.vm.http.protocol = HTTP|HTTPS
+ csui.vm.http.port =
+ csui.vm.http.path =
+ csui.vm.http.login =
+ csui.vm.http.password =
+
+.. note:: If no ``csui.vm.http.port`` is defined, then default values are used:
+            
+            - for HTTPS protocol: 443
+            
+            - for HTTP protocol: 80 
+
+This tab displays the following information:
+
+- Login;
+
+- Password (if available);
+
+- Open URL with a clickable URL. 
+
+To configure access to VM via HTTP/HTTPS, please, refer to `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
+
+.. figure:: _static/AccessVM_OpenURL3.png
+
+To close the modal window click "CLOSE".
 
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
@@ -766,4 +862,4 @@ You can choose the way you like and make necessary settings.
 .. |copy icon| image:: _static/copy_icon.png
 .. |color picker| image:: _static/color-picker_icon.png
 .. |adv icon| image:: _static/adv_icon.png
-
+.. |delete icon| image:: _static/delete_icon.png

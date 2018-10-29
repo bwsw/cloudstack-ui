@@ -3,9 +3,9 @@
 Logout
 -------------
 
-Clicking *Logout* in the bottom of the navigation menu bar a user can logout from CloudStack.
+Clicking *Logout* in the bottom of the navigation bar a user can logout from CloudStack.
 
-.. figure:: _static/LogoutCS.png
+.. figure:: _static/LogoutCS1.png
 
 
 It will move a user back to the Login form.

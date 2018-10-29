@@ -101,7 +101,15 @@ We consider this plugin very important for the CloudStack ecosystem as currently
 
 WebShell is a CloudStack-UI extension designed to perform a clientless SSH connection to a virtual machine. The extension is activated in the CloudStack-UI configuration file and is supported by an additional Docker container. As for the way of WebShell usage, the plugin is similar to NoVNC interface provided by CloudStack. However, WebShell uses the SSH protocol and doesn’t allow VM emergency management.
 
-This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on [the plug-in page](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin#webshell-plugin-deployment).
+This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on [the plugin page](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin#webshell-plugin-deployment).
+
+**View Logs Plugin**
+
+This extension is an API plugin featured with the UI that our team has developed to process and view virtual machine logs which are handled by ELK and delivered by Filebeat. The extension is activated in the CloudStack-UI configuration file after installing it into CloudStack and deploying the required components. The version of the plugin matches Apache CloudStack version that it is built for. The plugin is developed and tested only with Apache CloudStack 4.11.1
+
+After deployment, the _View logs_ section is available in the CloudStack-UI. There a user can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs. Optionally, you can specify a time period and keywords to filter the log files.
+
+Plugin deployment and configuration instructions can be found at the [plugin page](https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin).
 
 ## Features Yet Unsupported
 
@@ -120,7 +128,6 @@ We intensively use features like projects in our own CloudStack cloud to manage 
   - Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
   - Self registration for public cloud
   - RDP/VNC (guacamole)
-  - Log View plugin
 
 ## Far Away To Dos
 
@@ -260,13 +267,13 @@ npm install
 To run docker container use:
 
 ```
-docker pull bitworks.software:8443/cloudstack-ui:1.411.22
+docker pull bitworks.software:8443/cloudstack-ui:1.411.23
 
 docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bitworks.software:8443/cloudstack-ui:1.411.22
+           bitworks.software:8443/cloudstack-ui:1.411.23
 ```
 
 `http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)

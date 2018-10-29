@@ -125,15 +125,6 @@ export class VmLogsEffects {
     ),
   );
 
-  @Effect({ dispatch: false })
-  resetScrollPositionOnAutoUpdateChange$: Observable<Action> = this.actions$.pipe(
-    ofType(
-      vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE,
-      vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE,
-    ),
-    tap(() => window.scrollTo(0, 0)),
-  );
-
   constructor(
     private actions$: Actions,
     private router: Router,

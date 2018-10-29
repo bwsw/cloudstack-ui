@@ -7,15 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-10 15:17+0700\n"
-"PO-Revision-Date: 2018-10-11 17:00+0700\n"
+"POT-Creation-Date: 2018-10-24 17:18+0700\n"
+"PO-Revision-Date: 2018-10-26 09:21+0700\n"
+"Last-Translator: \n"
+"Language: ru\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 "
+"&& (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.4.0\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: ru\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
 #: ../../CSUI-Storage.rst:4
@@ -24,12 +26,13 @@ msgstr "Хранилище"
 
 #: ../../CSUI-Storage.rst:7
 msgid ""
-"In the *Storage* section, you can create and manage drives for virtual "
-"machines. Here you can add new disks, create templates and snapshots of a "
-"volume, view the list of snapshots for each volume."
+"In the *Virtual Machines* -> *Storage* section, you can create and manage drives "
+"for virtual machines. Here you can add new disks, create templates and snapshots "
+"of a volume, view the list of snapshots for each volume."
 msgstr ""
 "В данном разделе можно создавать дополнительные диски для виртуальных машин и "
-"управлять ими."
+"управлять ими. Здесь можно добавлять диски, создавать шаблоны и снимки томов, "
+"просматривать списки снимков для каждого тома."
 
 #: ../../CSUI-Storage.rst:13
 msgid "Drive list"
@@ -61,12 +64,12 @@ msgstr "Доменный Администратор видит диски все
 
 #: ../../CSUI-Storage.rst:25
 msgid ""
-"Disks can be viewed as a list or as a grid of cards. Switch the view by "
-"clicking a view icon |view icon|/|box icon| in the upper-right corner."
+"Disks can be viewed as a list or as a grid of cards. Switch the view by clicking "
+"a view icon |view icon|/|box icon| in the upper-right corner."
 msgstr ""
 "Представление дисков можно изменить с режима списка на режим карточек. Выберите "
-"удобный режим представления, нажав переключатель |view icon|/|box icon| в "
-"правом верхнем углу."
+"удобный режим представления, нажав переключатель |view icon|/|box icon| в правом "
+"верхнем углу."
 
 #: ../../CSUI-Storage.rst:28
 msgid "Filtering of Drives"
@@ -88,8 +91,8 @@ msgid ""
 "or types. You also can apply the search tool selecting a drive by its name or a "
 "part of the name."
 msgstr ""
-"Как и во всех разделах, в разделе *Хранилище* список дисков можно фильтровать "
-"по зонам и/или по типам. Также, можно искать диски по названию или его части."
+"Как и во всех разделах, в разделе *Хранилище* список дисков можно фильтровать по "
+"зонам и/или по типам. Также, можно искать диски по названию или его части."
 
 #: ../../CSUI-Storage.rst:35
 msgid ""
@@ -123,8 +126,8 @@ msgstr "Статус — Готов или Аллоцирован."
 
 #: ../../CSUI-Storage.rst:49
 msgid ""
-"The Actions button |actions icon| is available to the right. It expands the "
-"list of actions for a disk. See the information on actions in the :ref:"
+"The Actions button |actions icon| is available to the right. It expands the list "
+"of actions for a disk. See the information on actions in the :ref:"
 "`Actions_on_Disks` section below."
 msgstr ""
 "Справа находится кнопка Список действий |actions icon|. Подробнее о действиях с "
@@ -170,7 +173,7 @@ msgstr "Откроется форма создания диска."
 msgid "To create a new volume fill in the fields:"
 msgstr "В форме заполните поля:"
 
-#: ../../CSUI-Storage.rst:68 ../../CSUI-Storage.rst:159 ../../CSUI-Storage.rst:226
+#: ../../CSUI-Storage.rst:68 ../../CSUI-Storage.rst:159 ../../CSUI-Storage.rst:223
 msgid "Required fields are marked with an asterisk (*)."
 msgstr "Обязательные поля отмечены \"звездочкой\" (*)."
 
@@ -193,8 +196,8 @@ msgstr ""
 "доступных дисковых предложений, нажав \"ВЫБРАТЬ\" в блоке дисковых предложений. "
 "Список доступных дисковых предложений задается Администратором. Доступность "
 "дисковых предложений определяется той зоной, которая задана в `конфигурационном "
-"файле <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide."
-"md#service-offering-availability>`_."
+"файле <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-"
+"offering-availability>`_."
 
 #: ../../CSUI-Storage.rst:74
 msgid ""
@@ -206,9 +209,9 @@ msgstr ""
 
 #: ../../CSUI-Storage.rst:78
 msgid ""
-"For each disk offering you can expand detailed information by clicking the "
-"arrow icon or the whole line in the list. In the appeared section you will see "
-"a range of parameters. The following parameters are shown by default:"
+"For each disk offering you can expand detailed information by clicking the arrow "
+"icon or the whole line in the list. In the appeared section you will see a range "
+"of parameters. The following parameters are shown by default:"
 msgstr ""
 "Для каждого предложения в списке можно развернуть подробную информацию, кликнув "
 "на строку или стрелку напротив предложения. В открывшемся блоке представлены "
@@ -236,18 +239,17 @@ msgstr "Дата создания."
 
 #: ../../CSUI-Storage.rst:86
 msgid "Use the scrolling tool to view them all."
-msgstr ""
-"Для просмотра полного перечня параметров воспользуйтесь прокруткой справа."
+msgstr "Для просмотра полного перечня параметров воспользуйтесь прокруткой справа."
 
 #: ../../CSUI-Storage.rst:88
 msgid ""
 "More parameters can be added via the `configuration file <https://github.com/"
-"bwsw/cloudstack-ui/blob/master/config-guide.md#disk-offering-parameters>`_ by "
-"an Administrator."
+"bwsw/cloudstack-ui/blob/master/config-guide.md#disk-offering-parameters>`_ by an "
+"Administrator."
 msgstr ""
 "Администратор может расширить список параметров через `конфигурационный файл  "
-"<https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#disk-"
-"offering-parameters>`_ ."
+"<https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#disk-offering-"
+"parameters>`_ ."
 
 #: ../../CSUI-Storage.rst:92
 msgid "Select a disk offering in the list and click \"SELECT\"."
@@ -295,8 +297,8 @@ msgstr "Вкладка \"Диск\", в которой отображается 
 
 #: ../../CSUI-Storage.rst:119
 msgid ""
-"General information - Presents disk size, date and time of creation, the "
-"storage type (shared, local)."
+"General information - Presents disk size, date and time of creation, the storage "
+"type (shared, local)."
 msgstr ""
 "Общая информация — Размер, дата и время создания диска, тип хранилища (общее, "
 "локальное)."
@@ -335,8 +337,8 @@ msgstr ""
 
 #: ../../CSUI-Storage.rst:132
 msgid ""
-"Snapshots tab - Allows creating disk snapshots. Snapshots can be taken for "
-"disks with the \"Ready\" status only."
+"Snapshots tab - Allows creating disk snapshots. Snapshots can be taken for disks "
+"with the \"Ready\" status only."
 msgstr ""
 "Вкладка \"Снимки\", которая содержит информацию о снимках диска, если они есть. "
 "Здесь же можно сделать снимок диска. Снимки можно делать только для дисков со "
@@ -354,10 +356,9 @@ msgstr ""
 "Имя - Название снимка. Система автоматически предлагает имя в формате  ``<дата>-"
 "<время>``. Можно ввести любое название по желанию."
 
-#: ../../CSUI-Storage.rst:137 ../../CSUI-Storage.rst:224
+#: ../../CSUI-Storage.rst:137 ../../CSUI-Storage.rst:226
 msgid "Description - Add a description of the snapshot to know what it contains."
-msgstr ""
-"Описание - Дайте краткое описание снимку, чтобы понимать, что он содержит."
+msgstr "Описание - Дайте краткое описание снимку, чтобы понимать, что он содержит."
 
 #: ../../CSUI-Storage.rst:139
 msgid "Then click \"Create\" and see the snapshot has appeared in the list."
@@ -367,8 +368,8 @@ msgstr ""
 
 #: ../../CSUI-Storage.rst:143
 msgid ""
-"Every snapshot is saved in a separate card. There you will see the name and "
-"time of the snapshot."
+"Every snapshot is saved in a separate card. There you will see the name and time "
+"of the snapshot."
 msgstr ""
 "Каждый снимок сохраняется в отдельную карточку. В ней отображается название и "
 "время создания снимка. "
@@ -398,8 +399,8 @@ msgstr ""
 
 #: ../../CSUI-Storage.rst:153
 msgid ""
-"Likewise the Virtual Machine information tab, the same actions are available "
-"for a snapshot:"
+"Likewise the Virtual Machine information tab, the same actions are available for "
+"a snapshot:"
 msgstr ""
 "Список действий для снимков содержит тот же перечень действий, что и в "
 "Информационной панели виртуальной машины:"
@@ -435,12 +436,12 @@ msgstr "Группа — выберите группу из ниспадающе
 #: ../../CSUI-Storage.rst:165
 msgid ""
 "Password enabled - Tick this option if the template has the password change "
-"script installed. That means the VM created on the base of this template will "
-"be accessed by a password, and this password can be reset."
+"script installed. That means the VM created on the base of this template will be "
+"accessed by a password, and this password can be reset."
 msgstr ""
 "Пароль включен - отметьте эту опцию галочкой, если у вашего шаблона установлен "
-"скрипт изменения пароля CloudStack. То есть, машина, созданная на основе "
-"данного шаблона, будет доступна по паролю, и пароль можно изменить."
+"скрипт изменения пароля CloudStack. То есть, машина, созданная на основе данного "
+"шаблона, будет доступна по паролю, и пароль можно изменить."
 
 #: ../../CSUI-Storage.rst:166
 msgid ""
@@ -503,8 +504,8 @@ msgid ""
 "confirm your action in modal window. The snapshot will be deleted. Click "
 "“Cancel” to cancel the snapshot deleting."
 msgstr ""
-"**Удалить** - позволяет удалить снимок. Выберите \"Удалить\" в списке действий "
-"и подтвердите свое действие в диалоговом окне. Снимок будет удален. Нажмите "
+"**Удалить** - позволяет удалить снимок. Выберите \"Удалить\" в списке действий и "
+"подтвердите свое действие в диалоговом окне. Снимок будет удален. Нажмите "
 "\"Отменить\" для отмены удаления снимка."
 
 #: ../../CSUI-Storage.rst:195
@@ -570,10 +571,9 @@ msgid ""
 "Click \"Take a snapshot\" in the disk Actions list and in the dialog window "
 "enter the following information:"
 msgstr ""
-"Нажмите \"Сделать снимок\" в списке действий к диску и в диалоговом окне "
-"введите:"
+"Нажмите \"Сделать снимок\" в списке действий к диску и в диалоговом окне введите:"
 
-#: ../../CSUI-Storage.rst:223
+#: ../../CSUI-Storage.rst:225
 msgid ""
 "Name of the snapshot * - Define a name for the snapshot. It is autogenerated in "
 "the form ``<date>-<time>``. But you can specify any name you wish."
@@ -631,8 +631,8 @@ msgstr ""
 #: ../../CSUI-Storage.rst:244
 msgid ""
 "Select a minute (for hourly scheduling), the time (for daily scheduling), the "
-"day of week (for weekly scheduling) or the day of month (for monthly "
-"scheduling) when the snapshotting is to be done;"
+"day of week (for weekly scheduling) or the day of month (for monthly scheduling) "
+"when the snapshotting is to be done;"
 msgstr ""
 "Выберите минуту (для почасового создания снимков), время (для ежедневного "
 "создания снимков), день недели (для еженедельного создания снимков) или день в "
@@ -664,9 +664,9 @@ msgstr "**Изменить размер диска**"
 
 #: ../../CSUI-Storage.rst:254
 msgid ""
-"This action is available to root disks as well as data disks created on the "
-"base of disk offerings with a custom disk size. Disk offerings with custom disk "
-"size can be created by Root Administrators only."
+"This action is available to root disks as well as data disks created on the base "
+"of disk offerings with a custom disk size. Disk offerings with custom disk size "
+"can be created by Root Administrators only."
 msgstr ""
 "Данное действие доступно для дополнительных дисков, созданных на основе "
 "дискового предложения с размером диска, устанавливаемого пользователем. Такие "
@@ -697,8 +697,8 @@ msgstr "**Прикрепить/Открепить**"
 
 #: ../../CSUI-Storage.rst:266
 msgid ""
-"This action can be applied to data disks. It allows attaching/detaching the "
-"data disk to/from the virtual machine."
+"This action can be applied to data disks. It allows attaching/detaching the data "
+"disk to/from the virtual machine."
 msgstr ""
 "Данное действие можно применить к дополнительным дискам. Оно позволяет "
 "прикрепить/открепить диск к/от виртуальной машины."
@@ -708,8 +708,8 @@ msgid ""
 "Click \"Attach\" in the Actions list and in the dialog window select a virtual "
 "machine to attach the disk to. Click \"ATTACH\" to perform the attachment."
 msgstr ""
-"Нажмите \"Прикрепить\" в списке действий и в появившемся окне выберите машину, "
-"к которой следует прикрепить диск. Нажмите \"ПРИКРЕПИТЬ\" в диалоговом окне."
+"Нажмите \"Прикрепить\" в списке действий и в появившемся окне выберите машину, к "
+"которой следует прикрепить диск. Нажмите \"ПРИКРЕПИТЬ\" в диалоговом окне."
 
 #: ../../CSUI-Storage.rst:272
 msgid ""
@@ -718,8 +718,8 @@ msgid ""
 "the virtual machine."
 msgstr ""
 "Прикрепленный диск можно открепить. Нажмите \"Открепить\" в списке действий и "
-"подтвердите свое действие в диалоговом окне. Дополнительный диск будет "
-"откреплен от машины."
+"подтвердите свое действие в диалоговом окне. Дополнительный диск будет откреплен "
+"от машины."
 
 #: ../../CSUI-Storage.rst:274
 msgid "**Delete**"

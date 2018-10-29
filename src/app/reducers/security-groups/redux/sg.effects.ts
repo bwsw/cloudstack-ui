@@ -61,7 +61,7 @@ export class SecurityGroupEffects {
         }),
         map(sg => new securityGroupActions.CreateSecurityGroupSuccess(sg)),
         catchError(error => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new securityGroupActions.CreateSecurityGroupError(error));
         }),
       );
@@ -85,7 +85,7 @@ export class SecurityGroupEffects {
         }),
         map(() => new securityGroupActions.DeleteSecurityGroupSuccess(action.payload)),
         catchError(error => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new securityGroupActions.DeleteSecurityGroupError(error));
         }),
       );
@@ -114,7 +114,7 @@ export class SecurityGroupEffects {
         }),
         map(() => new securityGroupActions.DeleteSecurityGroupSuccess(group)),
         catchError(error => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new securityGroupActions.DeleteSecurityGroupError(error));
         }),
       );
@@ -153,7 +153,7 @@ export class SecurityGroupEffects {
                 return new securityGroupActions.ConvertSecurityGroupSuccess(response);
               }),
               catchError(error => {
-                this.showNotificationsOnFail(error);
+                this.dialogService.showNotificationsOnFail(error);
                 return of(new securityGroupActions.ConvertSecurityGroupError(error));
               }),
             );
@@ -219,14 +219,5 @@ export class SecurityGroupEffects {
 
   private showNotificationsOnFinish(message: string) {
     this.snackBarService.open(message).subscribe();
-  }
-
-  private showNotificationsOnFail(error: any) {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params,
-      },
-    });
   }
 }
