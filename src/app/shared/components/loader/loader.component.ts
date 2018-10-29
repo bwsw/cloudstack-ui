@@ -2,7 +2,11 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 
 @Component({
   selector: 'cs-loader',
-  template: '<mat-spinner class="spinner" [diameter]="50" [strokeWidth]="5"></mat-spinner>',
+  template: `
+    <div class="container">
+      <mat-spinner class="spinner" [diameter]="50" [strokeWidth]="5"></mat-spinner>
+    </div>
+  `,
   styles: [
     `
       cs-loader {
@@ -12,7 +16,11 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
       cs-loader .spinner {
         width: 40px;
         height: 40px;
-        margin: 20px auto;
+        margin: 0 auto;
+      }
+
+      cs-loader .container {
+        padding: 20px 0;
       }
     `,
   ],
