@@ -31,6 +31,7 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   @Output()
   public diskResized = new EventEmitter<VolumeResizeData>();
 
+  public availableStorageForResize: number | string;
   public diskOffering: DiskOffering;
   public newSize: number;
 
@@ -45,19 +46,25 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
     return maxRootCapability;
   }
 
+  public get volumeIsRoot(): boolean {
+    return isRoot(this.volume);
+  }
+
+  public get canResize(): boolean {
+    return (this.diskOfferings && this.diskOfferings.length > 0) || isRoot(this.volume);
+  }
+
   constructor(
     public dialogRef: MatDialogRef<VolumeResizeComponent>,
     public authService: AuthService,
   ) {}
 
-  public isCustomizedForVolume(diskOffering: DiskOffering): boolean {
-    if (diskOffering) {
-      return isCustomized(diskOffering);
-    }
-  }
-
   public ngOnInit(): void {
     this.newSize = this.volume.size / Math.pow(2, 30);
+    const availableStorage = Number(this.availableStorage);
+    this.availableStorageForResize = !isNaN(availableStorage)
+      ? availableStorage + this.newSize
+      : this.availableStorage;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -66,12 +73,10 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
     }
   }
 
-  public get volumeIsRoot(): boolean {
-    return isRoot(this.volume);
-  }
-
-  public get canResize(): boolean {
-    return (this.diskOfferings && this.diskOfferings.length > 0) || isRoot(this.volume);
+  public isCustomizedForVolume(diskOffering: DiskOffering): boolean {
+    if (diskOffering) {
+      return isCustomized(diskOffering);
+    }
   }
 
   public updateSize(value: number): void {

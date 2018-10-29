@@ -112,15 +112,9 @@ export class VmCreationContainerComponent implements OnInit {
     private authService: AuthService,
     private dialogRef: MatDialogRef<VmCreationContainerComponent>,
   ) {
-    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
-    this.dialogRef.afterClosed().subscribe(() => this.onCancel());
-  }
-
-  public ngOnInit() {
-    this.store.dispatch(new vmActions.VmCreationFormInit());
+    this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
-    this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
@@ -128,11 +122,16 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(
       new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
     );
-
     this.minSize = this.authService.getCustomDiskOfferingMinSize();
     this.isDiskOfferingAvailableByResources$ = this.store.pipe(
       select(fromDiskOfferings.isDiskOfferingAvailableByResources(this.minSize)),
     );
+    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
+    this.dialogRef.afterClosed().subscribe(() => this.onCancel());
+  }
+
+  public ngOnInit() {
+    this.store.dispatch(new vmActions.VmCreationFormInit());
   }
 
   public onDisplayNameChange(displayName: string) {
@@ -168,6 +167,7 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public onZoneChange(zone: Zone) {
+    console.log('ZONE', zone);
     this.store.dispatch(new vmActions.VmFormUpdate({ zone }));
   }
 

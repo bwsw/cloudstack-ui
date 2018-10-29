@@ -9,7 +9,6 @@ import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { Route, Subroute } from '../core/nav-menu/models';
 import { getCurrentRoute, getRoutes, getSubroutes } from '../core/nav-menu/redux/nav-menu.reducers';
 import * as authActions from '../reducers/auth/redux/auth.actions';
-import * as authActions from '../reducers/auth/redux/auth.actions';
 
 @Component({
   selector: 'cs-home',

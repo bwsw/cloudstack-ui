@@ -21,12 +21,13 @@ export class DiskOfferingDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
-    public authService: AuthService
+    public authService: AuthService,
   ) {
     this.diskOfferings = data.diskOfferings;
     this.selectedDiskOffering = data.diskOffering;
     this.storageAvailable = data.storageAvailable;
     this.minSize = this.authService.getCustomDiskOfferingMinSize();
+    this.checkResourcesLimit();
   }
 
   public offeringCreated(date: string): Date {
@@ -58,7 +59,9 @@ export class DiskOfferingDialogComponent {
   }
 
   private checkResourcesLimit() {
-    const diskSize = isCustomized(this.selectedDiskOffering) ? this.minSize : this.selectedDiskOffering.disksize;
+    const diskSize = isCustomized(this.selectedDiskOffering)
+      ? this.minSize
+      : this.selectedDiskOffering.disksize;
     const storageAvailable = this.storageAvailable || 0;
     this.resourcesLimitExceeded = Number(storageAvailable) < Number(diskSize);
   }

@@ -4,6 +4,7 @@ import {
   forwardRef,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -25,7 +26,7 @@ import { AuthService } from '../../../services/auth.service';
     },
   ],
 })
-export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnChanges {
+export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnChanges, OnInit {
   @Input()
   public diskOfferings: DiskOffering[];
   @Input()
@@ -64,6 +65,9 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
 
   constructor(private authService: AuthService, private dialog: MatDialog) {
     this.changed = new EventEmitter();
+  }
+
+  public ngOnInit() {
     this.setMaxSizeValue();
   }
 
@@ -109,9 +113,9 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
   private setMaxSizeValue() {
     const customDiskOfferingMaxSize = this.authService.getCustomDiskOfferingMaxSize();
     this.min = this.min ? this.min : this.authService.getCustomDiskOfferingMinSize();
-    if (isNaN(Number(this.availableStorage))) {
-      this.max = customDiskOfferingMaxSize;
-    }
-    this.max = Math.min(customDiskOfferingMaxSize, Number(this.availableStorage));
+    this.max =
+      !this.availableStorage && isNaN(Number(this.availableStorage))
+        ? customDiskOfferingMaxSize
+        : Math.min(customDiskOfferingMaxSize, Number(this.availableStorage));
   }
 }

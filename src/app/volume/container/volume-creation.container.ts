@@ -26,8 +26,8 @@ import { Account } from '../../shared/models';
       [storageAvailable]="storageAvailable$ | async"
       [zones]="zones$ | async"
       [account]="account$ | async"
-      (onVolumeCreate)="createVolume($event)"
-      (onZoneUpdated)="updateZone($event)"
+      (volumeCreated)="createVolume($event)"
+      (zoneUpdated)="updateZone($event)"
     >
     </cs-volume-creation-dialog>`,
 })
