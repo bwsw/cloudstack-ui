@@ -12,7 +12,7 @@ import {
   ProgressLoggerMessageStatus,
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { BaseTemplateModel, isTemplate } from '../../../template/shared';
-import { AffinityGroupType, DiskOffering, Zone } from '../../../shared/models';
+import { DiskOffering, Zone } from '../../../shared/models';
 import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
@@ -23,7 +23,6 @@ import { State } from '../../index';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
-import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services/vm-creation-security-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
@@ -69,8 +68,6 @@ interface VmCreationParams {
 export enum VmDeploymentStage {
   STARTED = 'STARTED',
   VM_CREATION_IN_PROGRESS = 'VM_CREATION_IN_PROGRESS',
-  AG_GROUP_CREATION = 'AG_GROUP_CREATION',
-  AG_GROUP_CREATION_FINISHED = 'AG_GROUP_CREATION_FINISHED',
   SG_GROUP_CREATION = 'SG_GROUP_CREATION',
   SG_GROUP_CREATION_FINISHED = 'SG_GROUP_CREATION_FINISHED',
   VM_DEPLOYED = 'VM_DEPLOYED',
@@ -313,55 +310,51 @@ export class VirtualMachineCreationEffects {
     ofType(vmActions.VM_DEPLOYMENT_REQUEST),
     withLatestFrom(this.store.pipe(select(UserTagsSelectors.getKeyboardLayout))),
     switchMap(([action, keyboard]: [vmActions.DeploymentRequest, KeyboardLayout]) => {
-      return this.doCreateAffinityGroup(action.payload).pipe(
-        switchMap(() =>
-          this.doCreateSecurityGroup(action.payload).pipe(
-            switchMap(securityGroups => {
-              if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
-                this.store.dispatch(
-                  new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups),
-                );
-              }
-              this.store.dispatch(
-                new vmActions.DeploymentChangeStatus({
-                  stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED,
-                }),
-              );
+      return this.doCreateSecurityGroup(action.payload).pipe(
+        switchMap(securityGroups => {
+          if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
+            this.store.dispatch(
+              new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups),
+            );
+          }
+          this.store.dispatch(
+            new vmActions.DeploymentChangeStatus({
+              stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED,
+            }),
+          );
 
-              this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
-              const params = this.getVmCreationParams(action.payload, keyboard, securityGroups);
-              let deployResponse;
+          this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
+          const params = this.getVmCreationParams(action.payload, keyboard, securityGroups);
+          let deployResponse;
 
-              return this.vmService.deploy(params).pipe(
-                switchMap(response => {
-                  deployResponse = response;
-                  return this.vmService.get(deployResponse.id);
-                }),
-                switchMap(() => {
-                  this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
+          return this.vmService.deploy(params).pipe(
+            switchMap(response => {
+              deployResponse = response;
+              return this.vmService.get(deployResponse.id);
+            }),
+            switchMap(() => {
+              this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
 
-                  this.store.dispatch(new UserTagsActions.IncrementLastVMId());
-                  return this.vmService.registerVmJob(deployResponse);
-                }),
-                switchMap((deployedVm: VirtualMachine) => {
-                  this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
+              this.store.dispatch(new UserTagsActions.IncrementLastVMId());
+              return this.vmService.registerVmJob(deployResponse);
+            }),
+            switchMap((deployedVm: VirtualMachine) => {
+              this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
 
-                  return this.doCreateInstanceGroup(deployedVm, action.payload).pipe(
-                    switchMap(virtualMachine => this.doCopyTags(virtualMachine, action.payload)),
-                  );
-                }),
-                map(vmWithTags => {
-                  if (action.payload.doStartVm) {
-                    vmWithTags.state = VmState.Running;
-                  }
-                  return new vmActions.DeploymentRequestSuccess(vmWithTags);
-                }),
-                catchError(error => of(new vmActions.DeploymentRequestError(error))),
+              return this.doCreateInstanceGroup(deployedVm, action.payload).pipe(
+                switchMap(virtualMachine => this.doCopyTags(virtualMachine, action.payload)),
               );
             }),
+            map(vmWithTags => {
+              if (action.payload.doStartVm) {
+                vmWithTags.state = VmState.Running;
+              }
+              return new vmActions.DeploymentRequestSuccess(vmWithTags);
+            }),
             catchError(error => of(new vmActions.DeploymentRequestError(error))),
-          ),
-        ),
+          );
+        }),
+        catchError(error => of(new vmActions.DeploymentRequestError(error))),
       );
     }),
   );
@@ -414,7 +407,6 @@ export class VirtualMachineCreationEffects {
     private dialog: MatDialog,
     private auth: AuthService,
     private resourceUsageService: ResourceUsageService,
-    private affinityGroupService: AffinityGroupService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private instanceGroupService: InstanceGroupService,
     private vmTagService: VmTagService,
@@ -423,12 +415,6 @@ export class VirtualMachineCreationEffects {
 
   private handleDeploymentMessages(deploymentMessage: VmDeploymentMessage): void {
     switch (deploymentMessage.stage) {
-      case VmDeploymentStage.AG_GROUP_CREATION:
-        this.onAffinityGroupCreation();
-        break;
-      case VmDeploymentStage.AG_GROUP_CREATION_FINISHED:
-        this.onAffinityGroupCreationFinished();
-        break;
       case VmDeploymentStage.SG_GROUP_CREATION:
         this.onSecurityGroupCreation();
         break;
@@ -465,7 +451,6 @@ export class VirtualMachineCreationEffects {
     const doCopyTags = true;
 
     return [
-      this.createAffinityGroup(state) ? VmDeploymentStage.AG_GROUP_CREATION : null,
       this.createSecurityGroup(state) ? VmDeploymentStage.SG_GROUP_CREATION : null,
       VmDeploymentStage.VM_CREATION_IN_PROGRESS,
       this.createInstanceGroup(state) ? VmDeploymentStage.INSTANCE_GROUP_CREATION : null,
@@ -475,7 +460,6 @@ export class VirtualMachineCreationEffects {
 
   private initializeDeploymentActionList(state: VmCreationState): ProgressLoggerMessageData[] {
     const translations = {
-      [VmDeploymentStage.AG_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_AG',
       [VmDeploymentStage.SG_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_SG',
       [VmDeploymentStage.VM_CREATION_IN_PROGRESS]: 'VM_PAGE.VM_CREATION.DEPLOYING_VM',
       [VmDeploymentStage.INSTANCE_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP',
@@ -489,17 +473,6 @@ export class VirtualMachineCreationEffects {
     });
 
     return loggerStageList;
-  }
-
-  private onAffinityGroupCreation(): void {
-    this.updateLoggerMessage('VM_PAGE.VM_CREATION.CREATING_AG', [
-      ProgressLoggerMessageStatus.Highlighted,
-      ProgressLoggerMessageStatus.InProgress,
-    ]);
-  }
-
-  private onAffinityGroupCreationFinished(): void {
-    this.updateLoggerMessage('VM_PAGE.VM_CREATION.CREATING_AG', [ProgressLoggerMessageStatus.Done]);
   }
 
   private onSecurityGroupCreation(): void {
@@ -577,13 +550,6 @@ export class VirtualMachineCreationEffects {
       .afterClosed();
   }
 
-  private createAffinityGroup = (state: VmCreationState) =>
-    state.affinityGroup &&
-    state.affinityGroup.name &&
-    !state.affinityGroupNames
-      .map(name => name.toUpperCase())
-      .includes(state.affinityGroup.name.toUpperCase());
-
   private createSecurityGroup = (state: VmCreationState) =>
     state.zone &&
     state.zone.securitygroupsenabled &&
@@ -592,34 +558,6 @@ export class VirtualMachineCreationEffects {
 
   private createInstanceGroup = (state: VmCreationState) =>
     state.instanceGroup && !!state.instanceGroup.name;
-
-  private doCreateAffinityGroup(state: VmCreationState) {
-    if (this.createAffinityGroup(state)) {
-      this.handleDeploymentMessages({ stage: VmDeploymentStage.AG_GROUP_CREATION });
-
-      return this.affinityGroupService
-        .create({
-          name: state.affinityGroup.name,
-          type: AffinityGroupType.hostAntiAffinity,
-        })
-        .pipe(
-          map(() => {
-            this.store.dispatch(
-              new vmActions.DeploymentChangeStatus({
-                stage: VmDeploymentStage.AG_GROUP_CREATION_FINISHED,
-              }),
-            );
-            this.store.dispatch(
-              new vmActions.VmFormUpdate({
-                affinityGroupNames: [...state.affinityGroupNames, state.affinityGroup.name],
-              }),
-            );
-          }),
-          catchError(error => of(new vmActions.DeploymentRequestError(error))),
-        );
-    }
-    return of(null);
-  }
 
   private doCreateSecurityGroup(state: VmCreationState) {
     if (this.createSecurityGroup(state)) {

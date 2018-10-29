@@ -4,9 +4,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'cs-license',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './license.component.html',
-  styleUrls: ['./license.component.scss']
+  styleUrls: ['./license.component.scss'],
 })
-
 export class LicenseComponent {
   public year: string;
 

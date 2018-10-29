@@ -45,6 +45,7 @@ export const EXPUNGE_VM = '[VM] EXPUNGE_VM';
 export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
 export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
+export const VIEW_VM_LOGS = '[VM] VIEW_LOGS';
 
 export const VM_FORM_INIT = '[VM creation] VM_FORM_INIT';
 export const VM_FORM_CLEAN = '[VM creation] VM_FORM_CLEAN';
@@ -147,7 +148,7 @@ export class ChangeAffinityGroup implements Action {
   constructor(
     public payload: {
       vm: VirtualMachine;
-      affinityGroupId: string;
+      affinityGroupIds: string[];
     },
   ) {}
 }
@@ -303,6 +304,12 @@ export class ConsoleVm implements Action {
 
 export class OpenUrlVm implements Action {
   readonly type = OPEN_URL_VM;
+
+  constructor(public payload: VirtualMachine) {}
+}
+
+export class ViewVmLogs implements Action {
+  readonly type = VIEW_VM_LOGS;
 
   constructor(public payload: VirtualMachine) {}
 }

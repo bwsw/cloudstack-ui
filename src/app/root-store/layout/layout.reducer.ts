@@ -16,14 +16,14 @@ export function reducer(state = initialState, action: LayoutActionsUnion) {
       return {
         ...state,
         showAppNav: true,
-      }
+      };
     }
 
     case LayoutActionTypes.CloseAppNav: {
       return {
         ...state,
-        showAppNav: false
-      }
+        showAppNav: false,
+      };
     }
 
     default: {

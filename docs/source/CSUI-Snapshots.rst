@@ -2,7 +2,7 @@ Snapshots
 =============
 .. Contents::
 
-The *Snapshots* section contains the information on snapshots existing in the system.
+The *Virtual Machines* -> *Snapshots* section contains the information on snapshots existing in the system.
 
 .. figure:: _static/Snapshots1.png
 
@@ -35,7 +35,7 @@ For each snapshot in the list the following information is presented:
 - State bullet - green for backed up, red for any error behavior, yellow for creating, grey for allocated.
 - Name of the snapshot.
 - Volume the snapshot is created for.
-- Date and time of creation
+- Date and time of creation.
 - Actions button |actions icon|.
 
 Snapshot Details Sidebar

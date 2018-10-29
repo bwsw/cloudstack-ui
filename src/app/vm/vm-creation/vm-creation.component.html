@@ -176,33 +176,10 @@
                 </div>
 
                 <div>
-                  <h4>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUP' | translate }}</h4>
-                  <mat-form-field floatLabel="never">
-                    <input
-                      name="affinityGroup"
-                      matInput
-                      pattern="^[a-zA-ZА-яЁё]{1}[^,]*$"
-                      [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-                      [matAutocomplete]="affinityGroups"
-                      [maxlength]="maxEntityNameLength"
-                      [ngModel]="vmCreationState.affinityGroup?.name"
-                      (ngModelChange)="changeAffinityGroup($event)"
-                    >
-                    <mat-hint align="end">
-                      <cs-character-count
-                        [value]="vmCreationState.affinityGroup?.name"
-                        [maxLength]="maxEntityNameLength"
-                      ></cs-character-count>
-                    </mat-hint>
-                  </mat-form-field>
-                  <mat-autocomplete #affinityGroups>
-                    <mat-option
-                      *ngFor="let group of (visibleAffinityGroups || affinityGroupList)"
-                      [value]="group.name"
-                    >
-                      {{ group.name }}
-                    </mat-option>
-                  </mat-autocomplete>
+                  <cs-vm-creation-affinity-group-manager
+                    [affinityGroup]="vmCreationState.affinityGroup"
+                    (affinityGroupChanged)="changeAffinityGroup($event)"
+                  ></cs-vm-creation-affinity-group-manager>
                 </div>
 
                 <div>
