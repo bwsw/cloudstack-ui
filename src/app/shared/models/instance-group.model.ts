@@ -1,3 +1,3 @@
 export class InstanceGroup {
-  constructor(public name: string) {};
+  constructor(public name: string) {}
 }

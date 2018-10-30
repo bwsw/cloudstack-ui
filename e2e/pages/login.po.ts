@@ -3,15 +3,14 @@ import { by, element } from 'protractor';
 import { CloudstackUiPage } from './app.po';
 
 export class Login extends CloudstackUiPage {
-
-  e2e_login = 'admin';
-  e2e_pass = 'password';
+  e2eLogin = 'admin';
+  e2ePass = 'password';
 
   setLogin(login: string) {
     element(by.name('username')).sendKeys(login);
-  };
+  }
 
-  setPassword (pass: string) {
+  setPassword(pass: string) {
     element(by.name('password')).sendKeys(pass);
   }
 
@@ -24,20 +23,23 @@ export class Login extends CloudstackUiPage {
   }
 
   openDomainField() {
-    element(by.css('.domains-visible')).isPresent().then(function () {
-      return;
-    }).catch(function () {
-      element(by.css('.options-button.mat-icon-button')).click();
-    });
+    element(by.css('.domains-visible'))
+      .isPresent()
+      .then(() => {
+        return;
+      })
+      .catch(() => {
+        element(by.css('.options-button.mat-icon-button')).click();
+      });
   }
 
-  clickLogin () {
+  clickLogin() {
     return this.clickButtonbyText('Login');
   }
 
   login() {
-    this.setLogin(this.e2e_login);
-    this.setPassword(this.e2e_pass);
+    this.setLogin(this.e2eLogin);
+    this.setPassword(this.e2ePass);
     this.clickLogin();
   }
 

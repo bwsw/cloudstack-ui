@@ -1,5 +1,5 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
-export interface Hypervisor extends BaseModelInterface {
+export interface Hypervisor extends BaseModel {
   name: string;
 }

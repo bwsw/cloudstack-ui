@@ -1,8 +1,7 @@
-import { BaseModelInterface } from '../../shared/models';
+import { BaseModel } from '../../shared/models';
 import { PolicyType } from './snapshot-policy-type';
 
-
-export interface SnapshotPolicy extends BaseModelInterface {
+export interface SnapshotPolicy extends BaseModel {
   id: string;
   fordisplay: boolean;
   intervaltype: PolicyType;

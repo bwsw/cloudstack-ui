@@ -5,7 +5,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
   templateUrl: 'account-user-password.component.html',
 })
 export class AccountUserPasswordFormComponent {
-  @Output() public changePassword = new EventEmitter<string>();
+  @Output()
+  public changePassword = new EventEmitter<string>();
 
   public password: string;
   public confirmPassword: string;

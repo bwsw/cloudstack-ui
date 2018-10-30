@@ -1,19 +1,85 @@
-<div *loading="!affinityGroups || loading">
-  <cs-create-update-delete-dialog
-    [enableAssign]="affinityGroups?.length"
-    [enableRemove]="!!groupName"
-    [defaultValue]="groupName"
-    [options]="groupNames"
-    [assignLabel]="'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.CHOOSE_EXISTING_GROUP'"
-    [createLabel]="'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.CREATE_NEW_GROUP'"
-    [maxLength]="255"
-    [removeLabel]="'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.REMOVE_FROM_GROUP'"
-    [selectPlaceholder]="'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.CHOOSE_GROUP'"
-    [textFieldPlaceholder]="'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.ENTER_GROUP_NAME'"
-    [title]="'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.SELECT_AFFINITY_GROUP'"
-    (onAssigned)="changeGroup($event)"
-    (onCancel)="onCancel()"
-    (onCreated)="createGroup($event)"
-    (onRemoved)="removeGroup()"
-  ></cs-create-update-delete-dialog>
+<mat-card-header>
+  <mat-card-title>
+    <h3 class="mat-dialog-title">
+      <span *ngIf="enablePreselected; else toSelect">
+        {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.SELECT_AFFINITY_GROUP' | translate }}
+      </span>
+      <ng-template #toSelect>
+        {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.TO_SELECT_AFFINITY_GROUP' | translate }}
+      </ng-template>
+    </h3>
+  </mat-card-title>
+</mat-card-header>
+
+<mat-dialog-content>
+  <div *loading="!affinityGroups || loading">
+    <form [formGroup]="affinityGroupForm" (ngSubmit)="createGroup()">
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          formControlName="name"
+          [placeholder]="'AFFINITY_GROUP.NAME' | translate"
+        >
+        <mat-error *ngIf="affinityGroupForm.controls['name'].hasError('nameIsTaken')">
+          {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select class="type" formControlName="type">
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{ type | csAffinityGroupType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          formControlName="description"
+          [placeholder]="'AFFINITY_GROUP.DESCRIPTION' | translate"
+        >
+      </mat-form-field>
+      <button
+        mat-icon-button
+        class="add-rule-button"
+        [disabled]="affinityGroupForm.invalid"
+      >
+        <mat-icon class="mdi-plus"></mat-icon>
+      </button>
+    </form>
+
+    <ng-container *ngIf="enablePreselected; else vmDetails">
+      <cs-vm-creation-affinity-group-list
+        [affinityGroups]="affinityGroups"
+        (selectedGroupChange)="changeGroup($event)"
+      ></cs-vm-creation-affinity-group-list>
+    </ng-container>
+    <ng-template #vmDetails>
+      <cs-vm-details-affinity-group-list
+        [affinityGroups]="sortedAffinityGroups"
+        (selectedGroupChange)="changeGroup($event)"
+      ></cs-vm-details-affinity-group-list>
+    </ng-template>
+  </div>
+</mat-dialog-content>
+
+<div class="mat-dialog-actions">
+  <button
+    mat-button
+    type="button"
+    color="primary"
+    (click)="canceled.emit()"
+  >
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <button
+    mat-button
+    type="button"
+    color="primary"
+    [disabled]="affinityGroups.length === 1"
+    (click)="submit()"
+  >
+    {{ 'COMMON.SELECT' | translate }}
+  </button>
 </div>

@@ -4,7 +4,7 @@
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
       [ngModel]=" selectedAccountIds"
-      (selectionChange)="onAccountsChange.emit($event.value)"
+      (selectionChange)="accountsChanged.emit($event.value)"
     >
       <mat-option
         *ngFor="let account of accounts"
@@ -18,7 +18,7 @@
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_ZONES' | translate"
       [ngModel]="selectedZoneIds"
-      (selectionChange)="onZonesChange.emit($event.value)"
+      (selectionChange)="zonesChanged.emit($event.value)"
     >
       <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
     </mat-select>
@@ -28,7 +28,7 @@
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
       [ngModel]="selectedGroupNames"
-      (selectionChange)="onGroupNamesChange.emit($event.value)"
+      (selectionChange)="groupNamesChanged.emit($event.value)"
     >
       <mat-option [value]="noGroup">
         <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
@@ -46,7 +46,7 @@
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_STATES' | translate"
       [ngModel]="selectedStates"
-      (selectionChange)="onStatesChange.emit($event.value)"
+      (selectionChange)="statesChanged.emit($event.value)"
     >
       <mat-option *ngFor="let s of states" [value]="s.state">
         {{ s.name | translate }}
@@ -59,7 +59,7 @@
       [placeholder]="'VM_PAGE.FILTERS.GROUP_BY' | translate"
       [ngModel]="selectedGroupings"
       [dragItems]="groupings"
-      (selectionChange)="onGroupingsChange.emit($event.value)"
+      (selectionChange)="groupingsChanged.emit($event.value)"
     >
       <mat-option *ngFor="let g of groupings" [value]="g">
         {{ g.label | translate }}
@@ -71,6 +71,6 @@
 <div class="filter-wrapper">
   <cs-search
     [ngModel]="query"
-    (ngModelChange)="onQueryChange.emit($event)"
+    (ngModelChange)="queryChanged.emit($event)"
   ></cs-search>
 </div>

@@ -34,7 +34,7 @@
 
       <div *ngIf="offering?.created" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.created' | translate }}</div>
-        <div>{{ offeringCreated | stringifyDate }}</div>
+        <div>{{ offeringCreated | csStringifyDate }}</div>
       </div>
 
       <div *ngIf="offering?.networkrate" class="row">

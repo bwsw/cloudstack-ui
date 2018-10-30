@@ -1,0 +1,41 @@
+<mat-form-field>
+  <input
+    matInput
+    name="hour"
+    type="number"
+    [min]="minHourValue"
+    [max]="maxHourValue"
+    [csMinValue]="minHourValue"
+    [csMaxValue]="maxHourValue"
+    [ngModel]="hour"
+    (ngModelChange)="updateHour($event)"
+    [placeholder]="label"
+    #hourField
+  >
+</mat-form-field>
+
+<span class="delimiter">:</span>
+
+<mat-form-field>
+  <input
+    matInput
+    name="minute"
+    type="number"
+    [min]="minMinuteValue"
+    [max]="maxMinuteValue"
+    [csMinValue]="minMinuteValue"
+    [csMaxValue]="maxMinuteValue"
+    [ngModel]="minute"
+    (ngModelChange)="updateMinute($event)"
+    #minuteField
+  >
+</mat-form-field>
+
+<span class="delimiter"></span>
+
+<cs-day-period
+  *ngIf="showPeriodSelector"
+  name="period"
+  [ngModel]="period"
+  (ngModelChange)="updatePeriod($event)"
+></cs-day-period>

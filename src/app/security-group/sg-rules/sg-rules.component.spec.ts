@@ -11,15 +11,15 @@ import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
 import { SnackBarService } from '../../core/services';
 import { SecurityGroupService } from '../services/security-group.service';
-import { IPVersion, NetworkRuleType, SecurityGroup } from '../sg.model';
+import { IPVersion, NetworkRuleType, SecurityGroup, SecurityGroupTemplate } from '../sg.model';
 import { SgRulesComponent } from './sg-rules.component';
 import { NetworkProtocol } from '../network-rule.model';
 import { NetworkRuleService } from '../services/network-rule.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { LoadingDirective } from '../../shared/directives/loading.directive';
 
-const securityGroupTemplates: Array<Object> = require(
-  '../../../testutils/mocks/model-services/fixtures/securityGroupTemplates.json');
+// tslint:disable-next-line:max-line-length
+const securityGroupTemplates: SecurityGroupTemplate[] = require('../../../testutils/mocks/model-services/fixtures/securityGroupTemplates.json');
 
 @Injectable()
 class MockRouter {
@@ -43,7 +43,7 @@ describe('Security group firewall rules component', () => {
     egressrule: [],
     tags: [],
     virtualmachinecount: 0,
-    virtualmachineids: []
+    virtualmachineids: [],
   };
   const mockSecurityGroupWithRules: SecurityGroup = {
     id: '9d1f0e3b-82a7-4528-b02e-70c4f9eff4b0',
@@ -58,58 +58,57 @@ describe('Security group firewall rules component', () => {
         protocol: NetworkProtocol.ICMP,
         icmptype: 3,
         icmpcode: 2,
-        cidr: '2001:DB8::/128'
+        cidr: '2001:DB8::/128',
       },
       {
         ruleid: '293a8e35-7c26-4216-851e-c87a46c9620f',
         protocol: NetworkProtocol.TCP,
         startport: 0,
         endport: 65535,
-        cidr: '2001:DB8::/128'
+        cidr: '2001:DB8::/128',
       },
       {
         ruleid: 'af34ea6c-dd50-4cab-9f5e-ca4e454e59d3',
         protocol: NetworkProtocol.ICMP,
         icmptype: 2,
         icmpcode: 0,
-        cidr: '2001:DB8::/128'
+        cidr: '2001:DB8::/128',
       },
       {
         ruleid: '41ce53d6-5274-49b0-a2e9-7b0ebc87c89a',
         protocol: NetworkProtocol.ICMP,
         icmptype: 132,
         icmpcode: 0,
-        cidr: '2001:DB8::/128'
+        cidr: '2001:DB8::/128',
       },
       {
         ruleid: '02990ed4-827f-49a1-bb27-4ea6d565c1fd',
         protocol: NetworkProtocol.ICMP,
         icmptype: 4,
         icmpcode: 1,
-        cidr: '2001:DB8::/128'
+        cidr: '2001:DB8::/128',
       },
       {
         ruleid: '787ee1c9-ec5f-4612-9894-1080acec515e',
         protocol: NetworkProtocol.ICMP,
         icmptype: 0,
         icmpcode: 0,
-        cidr: '0.0.0.0/0'
-      }
+        cidr: '0.0.0.0/0',
+      },
     ],
     egressrule: [],
     tags: [],
     virtualmachinecount: 0,
-    virtualmachineids: []
+    virtualmachineids: [],
   };
 
   class SecurityGroupServiceMock {
-    public getList(): Observable<Array<SecurityGroup>> {
+    public getList(): Observable<SecurityGroup[]> {
       return of([mockSecurityGroup]);
     }
   }
 
-  class NetworkRuleServiceMock {
-  }
+  class NetworkRuleServiceMock {}
 
   beforeEach(async(() => {
     const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
@@ -126,9 +125,9 @@ describe('Security group firewall rules component', () => {
         { provide: Router, useClass: MockRouter },
         { provide: SnackBarService, useClass: MockSnackBarService },
         { provide: NetworkRuleService, useClass: NetworkRuleServiceMock },
-        { provide: DialogService, useValue: dialogService }
+        { provide: DialogService, useValue: dialogService },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     TestBed.compileComponents().then(() => {
@@ -170,7 +169,7 @@ describe('Security group firewall rules component', () => {
   it('should change view mode for not shared group', async(() => {
     comp.editMode = false;
     comp.inputs = {
-      canRemove: true
+      canRemove: true,
     };
     comp.securityGroup = securityGroupTemplates[0];
     comp.confirmChangeMode();

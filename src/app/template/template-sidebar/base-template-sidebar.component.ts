@@ -7,21 +7,17 @@ export abstract class BaseTemplateSidebarComponent {
 
   public get notFound(): boolean {
     return !this.entity;
-  };
+  }
 
   public get isSelf(): boolean {
-    return (this.authService.user && this.authService.user.account === this.entity.account);
+    return this.authService.user && this.authService.user.account === this.entity.account;
   }
 
-  constructor(
-    protected route: ActivatedRoute,
-    protected authService: AuthService
-  ) {
-  }
+  constructor(protected route: ActivatedRoute, protected authService: AuthService) {}
 
   public tabIsActive(tabId: string) {
     const path = this.route.snapshot;
     const pathLastChild = path.firstChild ? path.firstChild.routeConfig.path : null;
-    return (tabId === pathLastChild);
+    return tabId === pathLastChild;
   }
 }

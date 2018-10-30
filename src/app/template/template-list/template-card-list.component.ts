@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { Template } from '../shared';
 import { BaseTemplateModel, getPath } from '../shared/base-template.model';
@@ -14,14 +9,19 @@ import { TemplateRowItemComponent } from '../template/row-item/template-row-item
 @Component({
   selector: 'cs-template-card-list',
   templateUrl: 'template-card-list.component.html',
-  styleUrls: ['template-list.component.scss']
+  styleUrls: ['template-list.component.scss'],
 })
 export class TemplateCardListComponent {
-  @Input() public templateList: Array<BaseTemplateModel>;
-  @Input() public query: string;
-  @Input() public groupings: string;
-  @Input() public mode: ViewMode;
-  @Output() public deleteTemplate = new EventEmitter();
+  @Input()
+  public templateList: BaseTemplateModel[];
+  @Input()
+  public query: string;
+  @Input()
+  public groupings: string;
+  @Input()
+  public mode: ViewMode;
+  @Output()
+  public deleteTemplate = new EventEmitter();
 
   public inputs;
   public outputs;
@@ -36,7 +36,7 @@ export class TemplateCardListComponent {
     };
     this.outputs = {
       onClick: this.selectTemplate,
-      deleteTemplate: this.removeTemplate
+      deleteTemplate: this.removeTemplate,
     };
   }
 

@@ -25,9 +25,9 @@
   [tags]="tags"
   [query]="query"
   [hasPermissions]="hasPermissions"
-  (onTagAdd)="addTag($event)"
-  (onTagEdit)="editTag($event)"
-  (onTagDelete)="removeTag($event)"
+  (tagAdded)="addTag($event)"
+  (tagEdited)="editTag($event)"
+  (tagDeleted)="removeTag($event)"
 ></cs-tag-category>
 
 <cs-no-results *ngIf="!visibleCategories?.length"></cs-no-results>

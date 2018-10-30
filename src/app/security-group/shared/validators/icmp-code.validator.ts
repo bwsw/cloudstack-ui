@@ -8,13 +8,13 @@ export function icmpCodeValidator(cidr: AbstractControl, icmpType: AbstractContr
   return (control: AbstractControl): ValidationErrors | null => {
     const code = +control.value;
     const type = +icmpType.value;
-    const types = CidrUtils.getCidrIpVersion(cidr.value) === IPVersion.ipv4 ? icmpV4Types : icmpV6Types;
+    const types =
+      CidrUtils.getCidrIpVersion(cidr.value) === IPVersion.ipv4 ? icmpV4Types : icmpV6Types;
     const typeObject = types.find(value => value.type === type);
     if (!typeObject) {
       return null;
     }
     const index = typeObject.codes.findIndex(value => value === code);
-    return index > -1 ? null : { 'icmpCodeValidator': { value: control.value } };
-  }
+    return index > -1 ? null : { icmpCodeValidator: { value: control.value } };
+  };
 }
-

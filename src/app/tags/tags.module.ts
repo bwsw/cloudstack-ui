@@ -10,26 +10,10 @@ import { TagEditComponent } from './tag-edit/tag-edit.component';
 import { TagComponent } from './tag/tag.component';
 import { TagsViewComponent } from './tags-view/tags-view.component';
 
-
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    MaterialModule,
-    ClipboardModule,
-  ],
-  declarations: [
-    TagComponent,
-    TagsViewComponent,
-    TagEditComponent,
-    TagCategoryComponent
-  ],
-  entryComponents: [
-    TagEditComponent
-  ],
-  exports: [
-    TagsViewComponent
-  ]
+  imports: [CommonModule, SharedModule, MaterialModule, ClipboardModule],
+  declarations: [TagComponent, TagsViewComponent, TagEditComponent, TagCategoryComponent],
+  entryComponents: [TagEditComponent],
+  exports: [TagsViewComponent],
 })
-export class TagsModule {
-}
+export class TagsModule {}

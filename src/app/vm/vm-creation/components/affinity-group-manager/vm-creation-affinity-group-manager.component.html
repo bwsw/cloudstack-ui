@@ -1,0 +1,22 @@
+<cs-fancy-select>
+  <h4 class="fancy-select-header">{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUP' | translate }}</h4>
+  <button
+    mat-button
+    type="button"
+    class="fancy-select-button"
+    (click)="showDialog()"
+  >
+    {{ 'COMMON.SELECT' | translate }}
+  </button>
+  <span class="fancy-select-content">
+    <div class="mat-form-field-wrapper template-list">
+      <ng-container *ngIf="affinityGroup; else noAffinityGroup">
+        <span class="name-container"><span class="ellipsis-overflow">{{ affinityGroup.name }} </span>: {{ affinityGroup.type | csAffinityGroupType }}</span>
+      </ng-container>
+      <ng-template #noAffinityGroup>
+        {{ 'COMMON.NONE' | translate }}
+      </ng-template>
+    </div>
+  </span>
+
+</cs-fancy-select>

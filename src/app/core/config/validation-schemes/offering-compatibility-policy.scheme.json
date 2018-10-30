@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "offeringCompatibilityPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "offeringChangePolicy": {
+      "type": "string",
+      "enum": ["contains-all", "exactly-match", "no-restrictions"]
+    },
+    "offeringChangePolicyIgnoreTags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

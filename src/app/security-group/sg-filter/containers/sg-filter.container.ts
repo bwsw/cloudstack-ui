@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 
 import { FilterService } from '../../../shared/services/filter.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { State } from '../../../reducers';
 
-import * as  securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
-import * as  fromSecurityGroups from '../../../reducers/security-groups/redux/sg.reducers';
+import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
+import * as fromSecurityGroups from '../../../reducers/security-groups/redux/sg.reducers';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import { SecurityGroupViewMode } from '../../sg-view-mode';
@@ -21,8 +21,8 @@ const FILTER_KEY = 'securityGroupFilters';
   templateUrl: 'sg-filter.container.html',
 })
 export class SgFilterContainerComponent extends WithUnsubscribe() implements OnInit {
-  public filters$ = this.store.select(fromSecurityGroups.filters);
-  readonly accounts$ = this.store.select(fromAccounts.selectAll);
+  public filters$ = this.store.pipe(select(fromSecurityGroups.filters));
+  readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
   public viewMode: SecurityGroupViewMode;
 
   public query: string;
@@ -34,19 +34,19 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
         options: [
           SecurityGroupViewMode.Templates,
           SecurityGroupViewMode.Shared,
-          SecurityGroupViewMode.Private
+          SecurityGroupViewMode.Private,
         ],
-        defaultOption: SecurityGroupViewMode.Templates
+        defaultOption: SecurityGroupViewMode.Templates,
       },
       query: {
-        type: 'string'
+        type: 'string',
       },
-      accounts: { type: 'array', defaultOption: [] }
+      accounts: { type: 'array', defaultOption: [] },
     },
     this.router,
     this.sessionStorage,
     FILTER_KEY,
-    this.activatedRoute
+    this.activatedRoute,
   );
 
   constructor(
@@ -69,20 +69,22 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     const query = params.query;
     const selectedAccountIds = params.accounts;
 
-    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({
-      viewMode,
-      query,
-      selectedAccountIds
-    }));
+    this.store.dispatch(
+      new securityGroupActions.SecurityGroupFilterUpdate({
+        viewMode,
+        query,
+        selectedAccountIds,
+      }),
+    );
 
-    this.filters$.pipe(
-      takeUntil(this.unsubscribe$))
-      .subscribe(filters => this.filterService.update({
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters =>
+      this.filterService.update({
         viewMode: filters.viewMode,
         query: filters.query,
         accounts: filters.selectedAccountIds,
-        orphan: filters.selectOrphanSG
-      }));
+        orphan: filters.selectOrphanSG,
+      }),
+    );
   }
 
   public onViewModeChange(viewMode) {
@@ -90,7 +92,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
   }
 
   public onAccountsChange(selectedAccountIds) {
-    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ selectedAccountIds }))
+    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ selectedAccountIds }));
   }
 
   public onQueryChange(query) {

@@ -1,11 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-
 @Component({
   selector: 'cs-date-picker-dialog',
   templateUrl: 'date-picker-dialog.component.html',
-  styleUrls: ['date-picker-dialog.component.scss']
+  styleUrls: ['date-picker-dialog.component.scss'],
 })
 export class DatePickerDialogComponent {
   public config;
@@ -13,7 +12,7 @@ export class DatePickerDialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DatePickerDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data
+    @Inject(MAT_DIALOG_DATA) public data,
   ) {
     this.config = data.datePickerConfig;
   }

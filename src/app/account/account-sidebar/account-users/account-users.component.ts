@@ -10,30 +10,36 @@ import { AccountUserPasswordFormContainerComponent } from '../../account-contain
   templateUrl: 'account-users.component.html',
 })
 export class AccountUsersComponent {
-  @Input() public account: Account;
-  @Input() public isAdmin: boolean;
-  @Input() public currentUserId: string;
+  @Input()
+  public account: Account;
+  @Input()
+  public isAdmin: boolean;
+  @Input()
+  public currentUserId: string;
 
-  @Output() public onUserDelete = new EventEmitter<AccountUser>();
-  @Output() public onUserRegenerateKey = new EventEmitter<AccountUser>();
-  @Output() public onLoadUserKeys = new EventEmitter<AccountUser>();
+  @Output()
+  public userDeleted = new EventEmitter<AccountUser>();
+  @Output()
+  public userRegenerateKey = new EventEmitter<AccountUser>();
+  @Output()
+  public loadUserKeys = new EventEmitter<AccountUser>();
 
   public step: string;
 
-  public get sortedUsers(): Array<AccountUser> {
-    return this.account && this.account.user ? [...this.account.user]
-      .sort((u1, u2) => u1.firstname.localeCompare(u2.firstname)) : [];
+  public get sortedUsers(): AccountUser[] {
+    return this.account && this.account.user
+      ? [...this.account.user].sort((u1, u2) => u1.firstname.localeCompare(u2.firstname))
+      : [];
   }
 
-  constructor(private dialog: MatDialog) {
-  }
+  constructor(private dialog: MatDialog) {}
 
   public addUser() {
     this.openUserFormDialog();
   }
 
   public deleteUser(user) {
-    this.onUserDelete.emit(user);
+    this.userDeleted.emit(user);
   }
 
   public editUser(user) {
@@ -41,15 +47,16 @@ export class AccountUsersComponent {
   }
 
   public regenerateKeys(user) {
-    this.onUserRegenerateKey.emit(user);
+    this.userRegenerateKey.emit(user);
     this.setStep(user.id);
   }
 
   public onUserChangePassword(user) {
-    this.dialog.open(AccountUserPasswordFormContainerComponent, {
-      width: '375px',
-      data: { user }
-    })
+    this.dialog
+      .open(AccountUserPasswordFormContainerComponent, {
+        width: '375px',
+        data: { user },
+      })
       .afterClosed()
       .subscribe(() => this.setStep(user.id));
   }
@@ -61,20 +68,21 @@ export class AccountUsersComponent {
   public openItem(user) {
     this.setStep(user.id);
     if (user.apikey && !user.secretkey) {
-      this.onLoadUserKeys.emit(user);
+      this.loadUserKeys.emit(user);
     }
   }
 
   private openUserFormDialog(user?: AccountUser) {
-    this.dialog.open(AccountUserEditContainerComponent, {
-      width: '375px',
-      data: {
-        title: !user ? 'ACCOUNT_PAGE.USER.CREATE_USER' : null,
-        confirmButtonText: !user ? 'COMMON.CREATE' : null,
-        account: this.account,
-        user
-      }
-    })
+    this.dialog
+      .open(AccountUserEditContainerComponent, {
+        width: '375px',
+        data: {
+          user,
+          title: !user ? 'ACCOUNT_PAGE.USER.CREATE_USER' : null,
+          confirmButtonText: !user ? 'COMMON.CREATE' : null,
+          account: this.account,
+        },
+      })
       .afterClosed()
       .subscribe(updatedUser => {
         if (updatedUser) {

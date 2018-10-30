@@ -8,18 +8,13 @@ import { NetworkRuleType, SecurityGroup } from '../sg.model';
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-import { AsyncJob } from '../../shared/models';
-
 
 @Injectable()
 @BackendResource({
-  entity: 'SecurityGroup'
+  entity: 'SecurityGroup',
 })
 export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> {
-  constructor(
-    private asyncJobService: AsyncJobService,
-    protected http: HttpClient
-  ) {
+  constructor(private asyncJobService: AsyncJobService, protected http: HttpClient) {
     super(http);
   }
 
@@ -27,21 +22,22 @@ export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> 
     const command = 'authorize';
     return this.sendCommand(`${command};${type}`, data).pipe(
       switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
-      map((job: AsyncJob<any>) => job.jobresult.securitygroup),
       map(securityGroup => {
         return securityGroup[`${type.toLowerCase()}rule`][0];
-      }));
+      }),
+    );
   }
 
   public removeRule(type: NetworkRuleType, data): Observable<null> {
     this.invalidateCache();
     const command = 'revoke';
     return this.sendCommand(`${command};${type}`, data).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
+    );
   }
 
-  public removeDuplicateRules(rules: Array<NetworkRule>): Array<NetworkRule> {
-    return rules.reduce((acc: Array<NetworkRule>, rule: NetworkRule) => {
+  public removeDuplicateRules(rules: NetworkRule[]): NetworkRule[] {
+    return rules.reduce((acc: NetworkRule[], rule: NetworkRule) => {
       const unique = !acc.some(resultRule => rule.ruleid === resultRule.ruleid);
       return unique ? acc.concat(rule) : acc;
     }, []);

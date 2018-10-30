@@ -1,54 +1,71 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatInput } from '@angular/material';
 
-
 export enum Mode {
   assign,
   create,
-  remove
+  remove,
 }
 
 @Component({
   selector: 'cs-create-update-delete-dialog',
   templateUrl: 'create-update-delete-dialog.component.html',
-  styleUrls: ['create-update-delete-dialog.component.scss']
+  styleUrls: ['create-update-delete-dialog.component.scss'],
 })
 export class CreateUpdateDeleteDialogComponent implements OnInit {
-  @Input() public defaultValue: string;
-  @Input() public options: Array<string>;
+  @Input()
+  public defaultValue: string;
+  @Input()
+  public options: string[];
 
-  @Input() public enableAssign = true;
-  @Input() public enableCreate = true;
-  @Input() public enableRemove = true;
+  @Input()
+  public enableAssign = true;
+  @Input()
+  public enableCreate = true;
+  @Input()
+  public enableRemove = true;
 
-  @Input() public assignLabel: string;
-  @Input() public createLabel: string;
-  @Input() public removeLabel: string;
+  @Input()
+  public assignLabel: string;
+  @Input()
+  public createLabel: string;
+  @Input()
+  public removeLabel: string;
 
-  @Input() public maxLength: number;
+  @Input()
+  public maxLength: number;
 
-  @Input() public selectPlaceholder: string;
-  @Input() public textFieldPlaceholder: string;
+  @Input()
+  public selectPlaceholder: string;
+  @Input()
+  public textFieldPlaceholder: string;
 
-  @Input() public title: string;
+  @Input()
+  public title: string;
 
-  @Output() public onAssigned: EventEmitter<string>;
-  @Output() public onCancel: EventEmitter<void>;
-  @Output() public onCreated: EventEmitter<string>;
-  @Output() public onRemoved: EventEmitter<void>;
-  @ViewChild(MatInput) public textField: MatInput;
+  @Output()
+  public assigned: EventEmitter<string>;
+  @Output()
+  public canceled: EventEmitter<void>;
+  @Output()
+  public created: EventEmitter<string>;
+  @Output()
+  public removed: EventEmitter<void>;
+  @ViewChild(MatInput)
+  public textField: MatInput;
 
   public loading: boolean;
   public newValue: string;
 
-  private _mode: Mode;
   public modes = Mode;
+  // tslint:disable-next-line:variable-name
+  private _mode: Mode;
 
   constructor() {
-    this.onAssigned = new EventEmitter<string>();
-    this.onCancel = new EventEmitter<void>();
-    this.onCreated = new EventEmitter<string>();
-    this.onRemoved = new EventEmitter<void>();
+    this.assigned = new EventEmitter<string>();
+    this.canceled = new EventEmitter<void>();
+    this.created = new EventEmitter<string>();
+    this.removed = new EventEmitter<void>();
   }
 
   public ngOnInit(): void {
@@ -73,21 +90,22 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
   }
 
   public cancel(): void {
-    this.onCancel.emit();
+    this.canceled.emit();
   }
 
   public submit(): void {
     switch (this.mode) {
       case Mode.assign:
-        this.onAssigned.emit(this.newValue);
+        this.assigned.emit(this.newValue);
         break;
       case Mode.create:
-        this.onCreated.emit(this.newValue);
+        this.created.emit(this.newValue);
         break;
       case Mode.remove:
-        this.onRemoved.emit();
+        this.removed.emit();
         break;
-      default: break;
+      default:
+        break;
     }
   }
 
@@ -100,7 +118,8 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
         this.newValue = undefined;
         setTimeout(() => this.textField.focus());
         break;
-      default: break;
+      default:
+        break;
     }
   }
 

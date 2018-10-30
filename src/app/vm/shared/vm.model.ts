@@ -1,10 +1,9 @@
 import { SecurityGroup } from '../../security-group/sg.model';
-import { FieldMapper, ZoneName } from '../../shared/decorators';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
-import { BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume } from '../../shared/models';
+import { BaseModel, NIC, OsType, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
-import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 import { BaseTemplateModel } from '../../template/shared';
+import { virtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 export enum VmState {
   Running = 'Running',
@@ -16,125 +15,61 @@ export enum VmState {
   Stopping = 'Stopping',
   // custom states
   Deploying = 'Deploying',
-  Expunging = 'Expunging'
+  Expunging = 'Expunging',
 }
 
-export const VmResourceType = 'UserVm';
+export const vmResourceType = 'UserVm';
 
-@ZoneName()
-@FieldMapper({
-  displayname: 'displayName',
-  serviceofferingid: 'serviceOfferingId',
-  serviceofferingname: 'serviceOfferingName',
-  securitygroup: 'securityGroup',
-  affinitygroup: 'affinityGroup',
-  zoneid: 'zoneId',
-  zonename: 'zoneName',
-  templateid: 'templateId',
-  templatename: 'templateName',
-  guestosid: 'guestOsId',
-  cpunumber: 'cpuNumber',
-  cpuspeed: 'cpuSpeed',
-  jobid: 'jobId',
-  cpuused: 'cpuUsed',
-  networkkbsread: 'networkKbsRead',
-  networkkbswrite: 'networkKbsWrite',
-  diskkbsread: 'diskKbsRead',
-  diskkbswrite: 'diskKbsWrite',
-  diskioread: 'diskIoRead',
-  diskiowrite: 'diskIoWrite',
-  keypair: 'keyPair',
-  isoid: 'isoId',
-  passwordenabled: 'passwordEnabled'
-})
-export class VirtualMachine extends BaseModel implements Taggable {
-  public static ColorDelimiter = ';';
-
-  public id: string;
-  public displayName: string;
-  public name: string;
-  public account: string;
-  public domain: string;
-  public domainid: string;
+export interface VirtualMachine extends BaseModel, Taggable {
+  id: string;
+  displayname: string;
+  name: string;
+  account: string;
+  domain: string;
+  domainid: string;
   // Status
-  public state: VmState;
+  state: VmState;
   // Service Offering
-  public serviceOffering: ServiceOffering;
-  public serviceOfferingId: string;
-  public serviceOfferingName: string;
-  public cpuNumber: number;
-  public cpuSpeed: number;
-  public memory: number;
-  public volumes: Array<Volume>;
+  serviceofferingid: string;
+  serviceofferingname: string;
+  cpunumber: number;
+  cpuspeed: number;
+  memory: number;
+  volumes: Volume[];
   // IP addresses
-  public nic: Array<NIC>;
+  nic: NIC[];
   // Security Group
-  public securityGroup: Array<SecurityGroup>;
+  securitygroup: SecurityGroup[];
   // Affinity Group
-  public affinityGroup: Array<AffinityGroup>;
+  affinitygroup: AffinityGroup[];
   // Zone
-  public zoneId: string;
-  public zoneName: string;
+  zoneid: string;
+  zonename: string;
   // Template
-  public template: BaseTemplateModel;
-  public templateId: string;
-  public templateName: string;
-  public isoId: string;
-  public osType: OsType;
-  public guestOsId: string;
+  template: BaseTemplateModel;
+  templateid: string;
+  templatename: string;
+  isoid: string;
+  osType: OsType;
+  guestosid: string;
   // CUSTOM
-  public pending?: boolean;
+  pending?: boolean;
   // statistics
-  public cpuUsed: string;
-  public networkKbsRead: number;
-  public networkKbsWrite: number;
-  public diskKbsRead: number;
-  public diskKbsWrite: number;
-  public diskIoRead: number;
-  public diskIoWrite: number;
+  cpuused: string;
+  networkkbsread: number;
+  networkkbswrite: number;
+  diskkbsread: number;
+  diskkbswrite: number;
+  diskioread: number;
+  diskiowrite: number;
   // misc
-  public created: string;
-  public keyPair: string;
-  public password: string;
-  public passwordEnabled: boolean;
-  public tags: Array<Tag>;
-  public instanceGroup: InstanceGroup;
-
-  constructor(params?: {}) {
-    super(params);
-
-    this.initializeNic();
-    this.initializeTags();
-    this.initializeInstanceGroup();
-  }
-
-  public getDisksSize(): number {
-    const sizeInBytes = this.volumes && this.volumes.reduce((
-      acc: number,
-      volume: Volume
-    ) => {
-      return acc + volume.size;
-    }, 0) || 0;
-    return sizeInBytes / Math.pow(2, 30);
-  }
-
-  private initializeNic(): void {
-    if (!this.nic) {
-      this.nic = [];
-    }
-  }
-
-  private initializeTags(): void {
-    if (!this.tags) {
-      this.tags = [];
-    }
-  }
-
-  private initializeInstanceGroup(): void {
-    const group = this.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
-
-    if (group) {
-      this.instanceGroup = new InstanceGroup(group.value);
-    }
-  }
+  created: string;
+  keypair: string;
+  password: string;
+  passwordenabled: boolean;
 }
+
+export const getInstanceGroupName = (vm: VirtualMachine): string | undefined => {
+  const instanceGroup = vm && vm.tags.find(tag => tag.key === virtualMachineTagKeys.group);
+  return instanceGroup && instanceGroup.value;
+};

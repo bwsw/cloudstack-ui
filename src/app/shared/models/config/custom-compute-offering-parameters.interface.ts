@@ -7,7 +7,6 @@ export interface CustomComputeOfferingParameters {
   memory: HardwareParameter;
 }
 
-
 interface HardwareParameter extends HardwareLimits {
   value: number;
 }

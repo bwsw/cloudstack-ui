@@ -1,41 +1,40 @@
 [![Build Status](https://travis-ci.org/bwsw/cloudstack-ui.svg?branch=master)](https://travis-ci.org/bwsw/cloudstack-ui) [![Coverage Status](https://coveralls.io/repos/github/bwsw/cloudstack-ui/badge.svg?branch=master)](https://coveralls.io/github/bwsw/cloudstack-ui?branch=master)
 
-Table of Contents
-=================
+# Table of Contents
 
-   * [CloudStack-UI](#cloudstack-ui)
-      * [Project Story](#project-story)
-      * [Implementation Details](#implementation-details)
-      * [Features Supported](#features-supported)
-      * [Plugins Supported](#plugins-supported)
-      * [Features Yet Unsupported](#features-yet-unsupported)
-      * [Current To Do's](#current-to-dos)
-      * [Long Term To Do's](#long-term-to-dos)
-      * [Far Away To Do's](#far-away-to-dos)
-      * [Screenshots and Features descriptions](#screenshots--features-descriptions)
-         * [Login view](#login-view)
-         * [Virtual machines](#virtual-machines-view)
-         * [New virtual machine form](#new-virtual-machine-form)
-         * [Resource usage bar](#resource-usage-bar)
-         * [Storage](#storage)
-         * [Images](#images)
-         * [Snapshots](#snapshots)
-         * [Firewall](#firewall)
-         * [Activity log](#activity-log)
-         * [Accounts](#accounts)
-   * [Documentation](#documentation)
-      * [User Guide](#user-guide)
-      * [Getting started guide](#getting-started-guide)
-          * [Prerequisites](#prerequisites)
-          * [Download and install dependencies](#download-and-install-dependencies)
-          * [Main commands](#main-commands)
-      * [Deployment](#deployment)
-          * [Main UI Container](#main-ui-container)
-      * [Versioning](#versioning)
-      * [Configuration Options](#configuration-options)
-   * [Project Sponsors](#project-sponsors)
-      * [How to Contribute](#how-to-contribute)
-      * [License](#license)
+- [CloudStack-UI](#cloudstack-ui)
+  - [Project Story](#project-story)
+  - [Implementation Details](#implementation-details)
+  - [Features Supported](#features-supported)
+  - [Plugins Supported](#plugins-supported)
+  - [Features Yet Unsupported](#features-yet-unsupported)
+  - [Current To Do's](#current-to-dos)
+  - [Long Term To Do's](#long-term-to-dos)
+  - [Far Away To Do's](#far-away-to-dos)
+  - [Screenshots and Features descriptions](#screenshots--features-descriptions)
+    - [Login view](#login-view)
+    - [Virtual machines](#virtual-machines-view)
+    - [New virtual machine form](#new-virtual-machine-form)
+    - [Resource usage bar](#resource-usage-bar)
+    - [Storage](#storage)
+    - [Images](#images)
+    - [Snapshots](#snapshots)
+    - [Firewall](#firewall)
+    - [Activity log](#activity-log)
+    - [Accounts](#accounts)
+- [Documentation](#documentation)
+  - [User Guide](#user-guide)
+  - [Getting started guide](#getting-started-guide)
+    - [Prerequisites](#prerequisites)
+    - [Download and install dependencies](#download-and-install-dependencies)
+    - [Main commands](#main-commands)
+  - [Deployment](#deployment)
+    - [Main UI Container](#main-ui-container)
+  - [Versioning](#versioning)
+  - [Configuration Options](#configuration-options)
+- [Project Sponsors](#project-sponsors)
+  - [How to Contribute](#how-to-contribute)
+  - [License](#license)
 
 # CloudStack-UI
 
@@ -51,14 +50,14 @@ The project is developed by Bitworks Software Frontend Division within the educa
 
 ## Implementation Details
 
-* Designed compatible with [Apache CloudStack](http://cloudstack.apache.org/) 4.11 and has been tested for the previous versions of CS (4.9, 4.10).
-* Powered by [Angular](https://angular.io/) and [Material 2](https://material.angular.io/).
-* Tested and works fine in the next modern browsers:
-   * Google Chrome 60.0.3112.78
-   * Chromium 60.0.3169.0
-   * Mozilla Firefox 54.0.1
-   * Safari 5.1.7
-   * Internet Explorer 11.483.150630
+- Designed compatible with [Apache CloudStack](http://cloudstack.apache.org/) 4.11 and has been tested for the previous versions of CS (4.9, 4.10).
+- Powered by [Angular](https://angular.io/) and [Material 2](https://material.angular.io/).
+- Tested and works fine in the next modern browsers:
+  - Google Chrome 60.0.3112.78
+  - Chromium 60.0.3169.0
+  - Mozilla Firefox 54.0.1
+  - Safari 5.1.7
+  - Internet Explorer 11.483.150630
 
 ## Features Supported
 
@@ -68,25 +67,25 @@ Since we designed the product from the perspective of well-known use cases, whic
 
 So, what is supported:
 
-* Basic CloudStack zones with virtual router
-* Security groups
-* KVM Hypervisor
-* Security group templates
-* Multiple zones
-* CloudStackAccount Domains
-* Virtual machine standard operations supported by Apache CloudStack
-* Root and Data disks management
-* Ad-hoc snapshots for disks
-* Affinity groups management
-* VM groups
-* Localization support
-* Frontend Themes, Custom VM colors
-* Custom and Fixed service and disk offerings
-* Password management
-* SSH keys management
-* API keys management
-* Accounts management
-* A lot of small improvements which affect user experience greatly
+- Basic CloudStack zones with virtual router
+- Security groups
+- KVM Hypervisor
+- Security group templates
+- Multiple zones
+- CloudStackAccount Domains
+- Virtual machine standard operations supported by Apache CloudStack
+- Root and Data disks management
+- Ad-hoc snapshots for disks
+- Affinity groups management
+- VM groups
+- Localization support
+- Frontend Themes, Custom VM colors
+- Custom and Fixed service and disk offerings
+- Password management
+- SSH keys management
+- API keys management
+- Accounts management
+- A lot of small improvements which affect user experience greatly
 
 ## Plugins Supported
 
@@ -96,7 +95,7 @@ Pulse Plugin is designed for visualization of virtual machines performance stati
 
 Pulse allows users of Apache CloudStack to monitor current and previous operational states of virtual machines. The plugin supports various view scales like minutes, hours, days and enables data overlays to monitor peak and average values.
 
-We consider this plugin very important for the CloudStack ecosystem as currently there is no built-in functionality to track VM operational states, although it is vital for system administrators to successfully operate virtual servers. Read more about Plugin deployment [here](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin#how-to-deploy-and-configure-pulse-plugin). 
+We consider this plugin very important for the CloudStack ecosystem as currently there is no built-in functionality to track VM operational states, although it is vital for system administrators to successfully operate virtual servers. Read more about Plugin deployment [here](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin#how-to-deploy-and-configure-pulse-plugin).
 
 **WebShell Plugin**
 
@@ -107,8 +106,8 @@ This feature is not available in basic CloudStack UI and API. Plugin deployment 
 **View Logs Plugin**
 
 This extension is an API plugin featured with the UI that our team has developed to process and view virtual machine logs which are handled by ELK and delivered by Filebeat. The extension is activated in the CloudStack-UI configuration file after installing it into CloudStack and deploying the required components. The version of the plugin matches Apache CloudStack version that it is built for. The plugin is developed and tested only with Apache CloudStack 4.11.1
- 
-After deployment, the *View logs* section is available in the CloudStack-UI. There a user can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs. Optionally, you can specify a time period and keywords to filter the log files.
+
+After deployment, the _View logs_ section is available in the CloudStack-UI. There a user can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs. Optionally, you can specify a time period and keywords to filter the log files.
 
 Plugin deployment and configuration instructions can be found at the [plugin page](https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin).
 
@@ -116,24 +115,24 @@ Plugin deployment and configuration instructions can be found at the [plugin pag
 
 We intensively use features like projects in our own CloudStack cloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
 
-* Advanced Zones
-* Hypervisors other than KVM have not been tested
+- Advanced Zones
+- Hypervisors other than KVM have not been tested
 
 ## Current To Dos
 
-* Responsive interface for smart devices
+- Responsive interface for smart devices
 
 ## Long Term To Dos
 
-* Plugins
-   * Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
-   * Self registration for public cloud
-   * RDP/VNC (guacamole)
+- Plugins
+  - Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
+  - Self registration for public cloud
+  - RDP/VNC (guacamole)
    
 ## Far Away To Dos
-* Plugins
-   * Applications a.k.a. Roller (Docker swarm or Ansible, tbd)
 
+- Plugins
+  - Applications a.k.a. Roller (Docker swarm or Ansible, tbd)
 
 ## Screenshots & Features Descriptions
 
@@ -171,7 +170,7 @@ Currently supported:
 
 #### Resource usage bar
 
-We also decided to place the resource usage bar on the same virtual machine view screen. It can be collapsed or displayed. A resource usage bar allows switching between "used" and "free" presentations to help users understanding capabilities in a better way. Domain administrators can also choose between Account and Domain view. 
+We also decided to place the resource usage bar on the same virtual machine view screen. It can be collapsed or displayed. A resource usage bar allows switching between "used" and "free" presentations to help users understanding capabilities in a better way. Domain administrators can also choose between Account and Domain view.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/resource_UsageBar.png" target="_blank">![New Virtual Machine View](./screens/resource_UsageBar_mini.png)</a>
 
@@ -202,14 +201,13 @@ Here the action box also allows a user to create template or volume from the sna
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/snapshotsDetails.png" target="_blank">![Snapshots view 2](./screens/snapshotsDetails_mini.png)</a>
 
-#### Firewall 
+#### Firewall
 
 Firewall section includes three views: Firewall templates, Shared security groups and Private security groups.
 
+It is important to understand the concept of Firewall _templates_. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in the json configuration file. Upon VM creation the system uses a default security group defined in the configuration file, or a user can create a new security group right in the VM creation form. Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a _private_ security group used for that virtual machine only.
 
-It is important to understand the concept of Firewall *templates*. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in the json configuration file. Upon VM creation the system uses a default security group defined in the configuration file, or a user can create a new security group right in the VM creation form. Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a *private* security group used for that virtual machine only. 
-
-The second way is to use a *shared* security group - a group that is used by other VMs. 
+The second way is to use a _shared_ security group - a group that is used by other VMs.
 
 Users can manage security group rules in two modes: a "view" mode with filtering by types and protocols and an “edit” mode. Security groups editing is available when switching from "view" mode to "editing" mode. If editing a shared group, a user is warned that changes will affect other VMs using this group. This behavior allows avoiding undesirable changes for other VMs.
 
@@ -218,7 +216,7 @@ Users can manage security group rules in two modes: a "view" mode with filtering
 
 #### Activity Log
 
-It’s a simplified view for account activities. It lets you choose the date and levels and see all of them. It’s close to the same screen in the ACS native UI, but we believe that the user is interested in the events of specific date and scrolling a huge event log back to find something is not productive. Sometimes the HelpDesk service just wants to show a user that something had happened on a specific date, and thus the interface allows you to find information easier.  
+It’s a simplified view for account activities. It lets you choose the date and levels and see all of them. It’s close to the same screen in the ACS native UI, but we believe that the user is interested in the events of specific date and scrolling a huge event log back to find something is not productive. Sometimes the HelpDesk service just wants to show a user that something had happened on a specific date, and thus the interface allows you to find information easier.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/activityLog.png" target="_blank">![Activity Log screen](./screens/activityLog_mini.png)</a>
 
@@ -244,7 +242,7 @@ Before you start, please, prepare Node development environment. Install Node.js 
 ### Download and install dependencies
 
 1. Clone the CS-UI project from GitHub.
-2. Run ```npm install``` command. This command installs all dependencies, which are used in the project. Also, you may use ```yarn``` command.
+2. Run `npm install` command. This command installs all dependencies, which are used in the project. Also, you may use `yarn` command.
 3. Add your own `proxy-conf.js` file in the project root folder and set the API endpoint in this file. See [proxy-conf-example](https://github.com/bwsw/cloudstack-ui/blob/master/proxy-conf-example.js).
 
 ```
@@ -255,11 +253,11 @@ npm install
 
 ### Main commands
 
-| command | action |
-|---------|--------|
-|npm test | use this command to execute tests via Karma|
-|npm run build| use this command to build the project, the build artifacts will be stored in the "dist/cloudstack-ui" directory|
-|npm start| use this command to compile the application, it will be available at URL - "localhost:8080".|
+| command       | action                                                                                                          |
+| ------------- | --------------------------------------------------------------------------------------------------------------- |
+| npm test      | use this command to execute tests via Karma                                                                     |
+| npm run build | use this command to build the project, the build artifacts will be stored in the "dist/cloudstack-ui" directory |
+| npm start     | use this command to compile the application, it will be available at URL - "localhost:8080".                    |
 
 ## Deployment
 
@@ -268,20 +266,20 @@ npm install
 To run docker container use:
 
 ```
-docker pull bitworks.software:8443/cloudstack-ui:1.411.22
+docker pull bitworks.software:8443/cloudstack-ui:1.411.23
 
 docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bitworks.software:8443/cloudstack-ui:1.411.22
+           bitworks.software:8443/cloudstack-ui:1.411.23
 ```
 
 `http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)
 
 `base_href` - custom base URL (optional, defaults to "/")
 
-`/path/to/config.json` - path to a custom configuration file named ```config.json``` (optional)
+`/path/to/config.json` - path to a custom configuration file named `config.json` (optional)
 
 Additionally, you can change favicon and CloudStack logo on login screen and in the sidebar:
 
@@ -320,7 +318,7 @@ The project is currently supported by [Bitworks Software](https://bitworks.softw
 You can contribute to the project development in various ways:
 
 1. Share the information about the project with other people, try to install the UI and share your opinion with us and your colleagues.
-2. Propose useful features. Ideas are always welcome. 
+2. Propose useful features. Ideas are always welcome.
 3. Deploy it somewhere and inform us about your success story, and we will share it in the adopters section.
 4. Fix bugs and send us the PR.
 5. Implement a feature from the Roadmap or simply make something new.
@@ -329,7 +327,7 @@ You can contribute to the project development in various ways:
    1. KVM with RBD
    2. Xen with NFS, Local, RBD
    3. Oher browsers and operating systems
-7. Hire us for frontend or backend development of custom software development projects. Take a look at our [website](https://bitworks.software/) to know where we can be useful. Take a look at our [presentation](https://www.slideshare.net/secret/BpNGxtaPUfOIqj) to learn more about us.
+8. Hire us for frontend or backend development of custom software development projects. Take a look at our [website](https://bitworks.software/) to know where we can be useful. Take a look at our [presentation](https://www.slideshare.net/secret/BpNGxtaPUfOIqj) to learn more about us.
 
 To contribute, just contact us via e-mail: info@bw-sw.com
 

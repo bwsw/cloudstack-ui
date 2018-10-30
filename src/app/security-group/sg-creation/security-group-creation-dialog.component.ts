@@ -4,25 +4,24 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 
 import { SecurityGroupCreationContainerComponent } from '../containers/security-group-creation.container';
 
-
 @Component({
   selector: 'cs-security-group-create-dialog',
-  template: ``
+  template: ``,
 })
 export class SecurityGroupCreationDialogComponent {
-  constructor(
-    private dialog: MatDialog,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    this.dialog.open(SecurityGroupCreationContainerComponent, <MatDialogConfig>{
-      data: { },
-      disableClose: true,
-      width: '405px'
-    }).afterClosed()
-      .subscribe(() => this.router.navigate(['../'], {
-        queryParamsHandling: 'preserve',
-        relativeTo: this.route
-      }));
+  constructor(private dialog: MatDialog, private router: Router, private route: ActivatedRoute) {
+    this.dialog
+      .open(SecurityGroupCreationContainerComponent, {
+        data: {},
+        disableClose: true,
+        width: '405px',
+      } as MatDialogConfig)
+      .afterClosed()
+      .subscribe(() =>
+        this.router.navigate(['../'], {
+          queryParamsHandling: 'preserve',
+          relativeTo: this.route,
+        }),
+      );
   }
 }

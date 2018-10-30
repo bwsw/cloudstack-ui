@@ -1,19 +1,19 @@
 import { TimeZone } from '../components/time-zone/time-zone.service';
 import { AccountUser } from './account-user.model';
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
 export const enum AccountType {
   User = '0',
   RootAdmin = '1',
-  DomainAdmin = '2'
+  DomainAdmin = '2',
 }
 
-export const AccountState = {
+export const accountState = {
   enabled: 'enabled',
   disabled: 'disabled',
 };
 
-export const AccountResourceType = 'Account';
+export const accountResourceType = 'Account';
 
 export interface AccountForm {
   username: string;
@@ -39,7 +39,7 @@ export class AccountData {
   networkdomain?: string;
 }
 
-export interface Account extends BaseModelInterface {
+export interface Account extends BaseModel {
   accounttype: AccountType;
   cpuavailable: string;
   cpulimit: string;
@@ -76,7 +76,7 @@ export interface Account extends BaseModelInterface {
   templateavailable: string;
   templatelimit: string;
   templatetotal: number;
-  user: Array<AccountUser>;
+  user: AccountUser[];
   vmavailable: string;
   vmlimit: string;
   vmrunning: number;

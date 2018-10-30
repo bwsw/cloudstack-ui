@@ -3,6 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AffinityGroup } from '../../../shared/models';
 
 import * as affinityGroupActions from './affinity-groups.actions';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -33,7 +34,7 @@ export const affinityGroupReducers = {
  */
 export const adapter: EntityAdapter<AffinityGroup> = createEntityAdapter<AffinityGroup>({
   selectId: (item: AffinityGroup) => item.id,
-  sortComparer: false
+  sortComparer: Utils.sortByName,
 });
 
 /** getInitialState returns the default initial state
@@ -44,15 +45,12 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
 });
 
-export function reducer(
-  state = initialState,
-  action: affinityGroupActions.Actions
-): State {
+export function reducer(state = initialState, action: affinityGroupActions.Actions): State {
   switch (action.type) {
     case affinityGroupActions.LOAD_AFFINITY_GROUPS_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case affinityGroupActions.LOAD_AFFINITY_GROUPS_RESPONSE: {
@@ -65,8 +63,11 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll(action.payload, state),
-        loading: false
+        loading: false,
       };
+    }
+    case affinityGroupActions.CREATE_AFFINITY_GROUP_SUCCESS: {
+      return adapter.addOne(action.payload, state);
     }
     default: {
       return state;
@@ -74,22 +75,15 @@ export function reducer(
   }
 }
 
-
 export const getAffinityGroupsState = createFeatureSelector<AffinityGroupsState>('affinity-groups');
 
 export const getAffinityGroupEntitiesState = createSelector(
   getAffinityGroupsState,
-  state => state.list
+  state => state.list,
 );
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getAffinityGroupEntitiesState);
-
-export const isLoading = createSelector(
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getAffinityGroupEntitiesState,
-  state => state.loading
 );
+
+export const isLoading = createSelector(getAffinityGroupEntitiesState, state => state.loading);

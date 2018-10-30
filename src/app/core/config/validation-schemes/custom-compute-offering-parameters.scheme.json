@@ -5,12 +5,7 @@
   "items": {
     "type": "object",
     "additionalProperties": false,
-    "required": [
-      "offeringId",
-      "cpunumber",
-      "cpuspeed",
-      "memory"
-    ],
+    "required": ["offeringId", "cpunumber", "cpuspeed", "memory"],
     "properties": {
       "offeringId": {
         "type": "string"
@@ -27,6 +22,9 @@
     }
   },
   "uniqueItemProperties": ["offeringId"],
+  "errorMessage": {
+    "uniqueItemProperties": "should NOT contain objects with the same offeringId"
+  },
   "definitions": {
     "HardwareParameterLimits": {
       "type": "object",

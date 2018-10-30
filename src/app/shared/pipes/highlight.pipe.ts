@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   // tslint:disable-next-line
-  name: 'highlight'
+  name: 'highlight',
 })
 export class HighLightPipe implements PipeTransform {
   public transform(text: string, search: string): string {

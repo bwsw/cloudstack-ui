@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "securityGroupTemplates",
+  "definitions": {
+    "TcpUdpPort": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65535
+    },
+    "TcpUdpRule": {
+      "type": "object",
+      "required": ["ruleid", "protocol", "startport", "endport", "cidr"],
+      "additionalProperties": false,
+      "properties": {
+        "ruleid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "protocol": {
+          "type": "string",
+          "enum": ["tcp", "udp"]
+        },
+        "startport": {
+          "$ref": "#/definitions/TcpUdpPort"
+        },
+        "endport": {
+          "$ref": "#/definitions/TcpUdpPort"
+        },
+        "cidr": {
+          "type": "string"
+        }
+      }
+    },
+    "IcmpRule": {
+      "type": "object",
+      "required": ["ruleid", "protocol", "icmpcode", "icmptype", "cidr"],
+      "additionalProperties": false,
+      "properties": {
+        "ruleid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "protocol": {
+          "type": "string",
+          "const": "icmp"
+        },
+        "icmpcode": {
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 255
+        },
+        "icmptype": {
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 255
+        },
+        "cidr": {
+          "type": "string"
+        }
+      }
+    },
+    "RulesArray": {
+      "type": "array",
+      "uniqueItemProperties": ["ruleid"],
+      "errorMessage": {
+        "uniqueItemProperties": "should NOT contain objects with the same ruleId"
+      },
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/definitions/TcpUdpRule"
+          },
+          {
+            "$ref": "#/definitions/IcmpRule"
+          }
+        ]
+      }
+    }
+  },
+  "type": "array",
+  "uniqueItemProperties": ["id"],
+  "errorMessage": {
+    "uniqueItemProperties": "should NOT contain objects with the same id"
+  },
+  "items": {
+    "type": "object",
+    "required": ["id", "name", "description", "preselected", "ingressrule", "egressrule"],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": {
+        "type": "string"
+      },
+      "preselected": {
+        "type": "boolean"
+      },
+      "ingressrule": {
+        "$ref": "#/definitions/RulesArray"
+      },
+      "egressrule": {
+        "$ref": "#/definitions/RulesArray"
+      }
+    }
+  }
+}

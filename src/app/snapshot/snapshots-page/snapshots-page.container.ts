@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../reducers';
 
 import * as fromSnapshots from '../../reducers/snapshots/redux/snapshot.reducers';
@@ -19,21 +19,17 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
       [query]="query$ | async"
       [volumes]="volumes$ | async"
       [virtualMachines]="virtualMachines$ | async"
-    ></cs-snapshots-page>`
+    ></cs-snapshots-page>`,
 })
 export class SnapshotsPageContainerComponent implements OnInit, AfterViewInit {
-  readonly snapshots$ = this.store.select(fromSnapshots.selectFilteredSnapshots);
-  readonly volumes$ = this.store.select(fromVolumes.selectEntities);
-  readonly virtualMachines$ = this.store.select(fromVMs.selectEntities);
-  readonly isLoading$ = this.store.select(fromSnapshots.isLoading);
-  readonly groupings$ = this.store.select(fromSnapshots.filterSelectedGroupings);
-  readonly query$ = this.store.select(fromSnapshots.filterQuery);
+  readonly snapshots$ = this.store.pipe(select(fromSnapshots.selectFilteredSnapshots));
+  readonly volumes$ = this.store.pipe(select(fromVolumes.selectEntities));
+  readonly virtualMachines$ = this.store.pipe(select(fromVMs.selectEntities));
+  readonly isLoading$ = this.store.pipe(select(fromSnapshots.isLoading));
+  readonly groupings$ = this.store.pipe(select(fromSnapshots.filterSelectedGroupings));
+  readonly query$ = this.store.pipe(select(fromSnapshots.filterQuery));
 
-  constructor(
-    private store: Store<State>,
-    private cd: ChangeDetectorRef
-  ) {
-  }
+  constructor(private store: Store<State>, private cd: ChangeDetectorRef) {}
 
   public ngOnInit() {
     this.store.dispatch(new snapshotActions.LoadSnapshotRequest());

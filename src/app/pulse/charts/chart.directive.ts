@@ -1,13 +1,20 @@
 import {
-  Directive, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit,
-  Output, SimpleChanges
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
 } from '@angular/core';
 
 import { Chart } from 'chart.js';
 
 @Directive({ selector: 'canvas[csBaseChart]', exportAs: 'cs-base-chart' })
 export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
-  public static defaultColors: Array<number[]> = [
+  public static defaultColors: number[][] = [
     [255, 99, 132],
     [54, 162, 235],
     [255, 206, 86],
@@ -19,23 +26,31 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
     [70, 191, 189],
     [253, 180, 92],
     [148, 159, 177],
-    [77, 83, 96]
+    [77, 83, 96],
   ];
 
-  @Input() public data: number[] | any[];
-  @Input() public datasets: any[];
-  @Input() public labels: Array<any> = [];
-  @Input() public options: any = {};
-  @Input() public chartType: string;
-  @Input() public colors: Array<any>;
-  @Input() public legend: boolean;
+  @Input()
+  public data: number[] | any[];
+  @Input()
+  public datasets: any[];
+  @Input()
+  public labels: any[] = [];
+  @Input()
+  public options: any = {};
+  @Input()
+  public chartType: string;
+  @Input()
+  public colors: any[];
+  @Input()
+  public legend: boolean;
 
-  @Output() public chartClick: EventEmitter<any> = new EventEmitter();
-  @Output() public chartHover: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public chartClick: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public chartHover: EventEmitter<any> = new EventEmitter();
 
   public ctx: any;
   public chart: any;
-  private cvs: any;
   private initFlag = false;
 
   private element: ElementRef;
@@ -44,9 +59,8 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
     this.element = element;
   }
 
-  public ngOnInit(): any {
+  public ngOnInit() {
     this.ctx = this.element.nativeElement.getContext('2d');
-    this.cvs = this.element.nativeElement;
     this.initFlag = true;
     if (this.data || this.datasets) {
       this.refresh();
@@ -71,24 +85,24 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
     }
   }
 
-  public ngOnDestroy(): any {
+  public ngOnDestroy() {
     if (this.chart) {
       this.chart.destroy();
       this.chart = void 0;
     }
   }
 
-  public getChartBuilder(ctx: any/*, data:Array<any>, options:any*/): any {
+  public getChartBuilder(ctx: any): any {
     const datasets: any = this.getDatasets();
 
-    const options: any = Object.assign({}, this.options);
-    if (this.legend === false) {
+    const options: any = { ...this.options };
+    if (!this.legend) {
       options.legend = { display: false };
     }
     // hock for onHover and onClick events
     options.hover = options.hover || {};
     if (!options.hover.onHover) {
-      options.hover.onHover = (active: Array<any>) => {
+      options.hover.onHover = (active: any[]) => {
         if (active && !active.length) {
           return;
         }
@@ -97,18 +111,18 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
     }
 
     if (!options.onClick) {
-      options.onClick = (event: any, active: Array<any>) => {
+      options.onClick = (event: any, active: any[]) => {
         this.chartClick.emit({ event, active });
       };
     }
 
     const opts = {
+      options,
       type: this.chartType,
       data: {
+        datasets,
         labels: this.labels,
-        datasets: datasets
       },
-      options: options
     };
 
     return new Chart(ctx, opts);
@@ -135,9 +149,9 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
   private getDatasets(): any {
     let datasets: any = void 0;
     // in case if datasets is not provided, but data is present
-    if (!this.datasets || !this.datasets.length && (this.data && this.data.length)) {
+    if (!this.datasets || (!this.datasets.length && (this.data && this.data.length))) {
       if (Array.isArray(this.data[0])) {
-        datasets = (this.data as Array<number[]>).map((data: number[], index: number) => {
+        datasets = (this.data as number[][]).map((data: number[], index: number) => {
           return { data, label: this.labels[index] || `Label ${index}` };
         });
       } else {
@@ -145,18 +159,16 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
       }
     }
 
-    if (this.datasets && this.datasets.length ||
-      (datasets && datasets.length)) {
-      datasets = (this.datasets || datasets)
-        .map((elm: number, index: number) => {
-          const newElm: any = Object.assign({}, elm);
-          if (this.colors && this.colors.length) {
-            Object.assign(newElm, this.colors[index]);
-          } else {
-            Object.assign(newElm, getColors(this.chartType, index, newElm.data.length));
-          }
-          return newElm;
-        });
+    if ((this.datasets && this.datasets.length) || (datasets && datasets.length)) {
+      datasets = (this.datasets || datasets).map((elm: any, index: number) => {
+        const newElm: any = { ...elm };
+        if (this.colors && this.colors.length) {
+          Object.assign(newElm, this.colors[index]);
+        } else {
+          Object.assign(newElm, getColors(this.chartType, index, newElm.data.length));
+        }
+        return newElm;
+      });
     }
 
     if (!datasets) {
@@ -174,7 +186,7 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
 
     // todo: remove this line, it is producing flickering
     this.ngOnDestroy();
-    this.chart = this.getChartBuilder(this.ctx/*, data, this.options*/);
+    this.chart = this.getChartBuilder(this.ctx /*, data, this.options*/);
   }
 }
 
@@ -212,51 +224,52 @@ export interface Colors extends Color {
   label?: string;
 }
 
-function rgba(colour: Array<number>, alpha: number): string {
-  return 'rgba(' + colour.concat(alpha).join(',') + ')';
+function rgba(colour: number[], alpha: number): string {
+  const rgbaValues = colour.concat(alpha).join(',');
+  return `rgba(${rgbaValues})`;
 }
 
 function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function formatLineColor(colors: Array<number>): Color {
+function formatLineColor(colors: number[]): Color {
   return {
     backgroundColor: rgba(colors, 0.4),
     borderColor: rgba(colors, 1),
     pointBackgroundColor: rgba(colors, 1),
     pointBorderColor: '#fff',
     pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: rgba(colors, 0.8)
+    pointHoverBorderColor: rgba(colors, 0.8),
   };
 }
 
-function formatBarColor(colors: Array<number>): Color {
+function formatBarColor(colors: number[]): Color {
   return {
     backgroundColor: rgba(colors, 0.6),
     borderColor: rgba(colors, 1),
     hoverBackgroundColor: rgba(colors, 0.8),
-    hoverBorderColor: rgba(colors, 1)
+    hoverBorderColor: rgba(colors, 1),
   };
 }
 
-function formatPieColors(colors: Array<number[]>): Colors {
+function formatPieColors(colors: number[][]): Colors {
   return {
     backgroundColor: colors.map((color: number[]) => rgba(color, 0.6)),
     borderColor: colors.map(() => '#fff'),
     pointBackgroundColor: colors.map((color: number[]) => rgba(color, 1)),
     pointBorderColor: colors.map(() => '#fff'),
     pointHoverBackgroundColor: colors.map((color: number[]) => rgba(color, 1)),
-    pointHoverBorderColor: colors.map((color: number[]) => rgba(color, 1))
+    pointHoverBorderColor: colors.map((color: number[]) => rgba(color, 1)),
   };
 }
 
-function formatPolarAreaColors(colors: Array<number[]>): Color {
+function formatPolarAreaColors(colors: number[][]): Color {
   return {
     backgroundColor: colors.map((color: number[]) => rgba(color, 0.6)),
     borderColor: colors.map((color: number[]) => rgba(color, 1)),
     hoverBackgroundColor: colors.map((color: number[]) => rgba(color, 0.8)),
-    hoverBorderColor: colors.map((color: number[]) => rgba(color, 1))
+    hoverBorderColor: colors.map((color: number[]) => rgba(color, 1)),
   };
 }
 
@@ -278,9 +291,9 @@ function generateColor(index: number): number[] {
  * @param count
  * @returns {Colors}
  */
-function generateColors(count: number): Array<number[]> {
-  const colorsArr: Array<number[]> = new Array(count);
-  for (let i = 0; i < count; i++) {
+function generateColors(count: number): number[][] {
+  const colorsArr: number[][] = [];
+  for (let i = 0; i < count; i += 1) {
     colorsArr[i] = BaseChartDirective.defaultColors[i] || getRandomColor();
   }
   return colorsArr;

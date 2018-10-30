@@ -13,21 +13,27 @@ import { NgrxEntities } from '../../shared/interfaces';
 import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 
-
 @Component({
   selector: 'cs-vm-page',
   templateUrl: 'vm-page.component.html',
   styleUrls: ['vm-page.component.scss'],
-  providers: [ListService]
+  providers: [ListService],
 })
 export class VmPageComponent implements OnInit {
-  @Input() public vms: Array<VirtualMachine>;
-  @Input() public query: string;
-  @Input() public volumes: Array<Volume>;
-  @Input() public osTypesMap: NgrxEntities<OsType>;
-  @Input() public isLoading: boolean;
-  @Input() public groupings: Array<Grouping>;
-  @Input() public selectedGroupings: Array<Grouping>;
+  @Input()
+  public vms: VirtualMachine[];
+  @Input()
+  public query: string;
+  @Input()
+  public volumes: Volume[];
+  @Input()
+  public osTypesMap: NgrxEntities<OsType>;
+  @Input()
+  public isLoading: boolean;
+  @Input()
+  public groupings: Grouping[];
+  @Input()
+  public selectedGroupings: Grouping[];
 
   public mode: ViewMode;
   public viewModeKey = 'vmPageViewMode';
@@ -37,17 +43,18 @@ export class VmPageComponent implements OnInit {
     private dialogService: DialogService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private store: Store<State>
-  ) {
-  }
+    private store: Store<State>,
+  ) {}
 
   public ngOnInit(): void {
-    this.shouldShowSuggestionDialog.pipe(
-      filter(Boolean),
-      // This delay is needed as a workaround for https://github.com/angular/angular/issues/15634
-      // Otherwise you will get an 'ExpressionChangedAfterItHasBeenCheckedError' error
-      delay(1)
-    ).subscribe(() => this.showSuggestionDialog());
+    this.shouldShowSuggestionDialog
+      .pipe(
+        filter(Boolean),
+        // This delay is needed as a workaround for https://github.com/angular/angular/issues/15634
+        // Otherwise you will get an 'ExpressionChangedAfterItHasBeenCheckedError' error
+        delay(1),
+      )
+      .subscribe(() => this.showSuggestionDialog());
   }
 
   public changeMode(mode) {
@@ -57,26 +64,26 @@ export class VmPageComponent implements OnInit {
   public showVmCreationDialog(): void {
     this.router.navigate(['./create'], {
       queryParamsHandling: 'preserve',
-      relativeTo: this.activatedRoute
+      relativeTo: this.activatedRoute,
     });
   }
 
   private get shouldShowSuggestionDialog(): Observable<boolean> {
     const dataReceivedAndUpdated$ = combineLatest(
-      this.store.select(fromVMs.isLoading),
-      this.store.select(fromVMs.isLoaded)
+      this.store.pipe(select(fromVMs.isLoading)),
+      this.store.pipe(select(fromVMs.isLoaded)),
     ).pipe(
       map(([loading, loaded]) => !loading && loaded),
       filter(Boolean),
-      first()
+      first(),
     );
 
     return dataReceivedAndUpdated$.pipe(
       withLatestFrom(
         this.store.pipe(select(UserTagsSelectors.getIsAskToCreateVM)),
-        this.store.pipe(select(fromVMs.getVMCount))
+        this.store.pipe(select(fromVMs.getVMCount)),
       ),
-      map(([dataReadyFlag, isAsk, vmCount]) => isAsk && vmCount === 0 && !this.isCreationFormOpen)
+      map(([dataReadyFlag, isAsk, vmCount]) => isAsk && vmCount === 0 && !this.isCreationFormOpen),
     );
   }
 
@@ -93,21 +100,20 @@ export class VmPageComponent implements OnInit {
       actions: [
         {
           handler: () => this.showVmCreationDialog(),
-          text: 'COMMON.YES'
+          text: 'COMMON.YES',
         },
         {
-          text: 'COMMON.NO'
+          text: 'COMMON.NO',
         },
         {
           handler: () => {
             this.store.dispatch(new UserTagsActions.UpdateAskToCreateVM({ value: false }));
           },
-          text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
-        }
+          text: 'SUGGESTION_DIALOG.NO_DONT_ASK',
+        },
       ],
       disableClose: false,
-      width: '320px'
+      width: '320px',
     });
   }
-
 }

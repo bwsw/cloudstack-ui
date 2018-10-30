@@ -12,11 +12,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-radio-button
-            [value]="offering"
-            [checked]="offering.id === selectedDiskOffering?.id"
-            (click)="selectOffering(offering); preventTriggerExpansionPanel($event)"
-            ></mat-radio-button>
-            {{ offering.name }}
+              [value]="offering"
+              [checked]="offering.id === selectedDiskOffering?.id"
+              (click)="selectOffering(offering); preventTriggerExpansionPanel($event)"
+            >
+              {{ offering.name }}
+            </mat-radio-button>
           </mat-panel-title>
           <mat-panel-description>
             <div
@@ -73,7 +74,7 @@
             </tr>
             <tr>
               <td>{{ 'DISK_OFFERING.CREATED' | translate }}: </td>
-              <td>{{ offeringCreated(offering.created) | stringifyDate }}</td>
+              <td>{{ offeringCreated(offering.created) | csStringifyDate }}</td>
             </tr>
           </table>
         </div>
