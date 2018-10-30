@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { filter, map } from 'rxjs/operators';
 
 import { State } from '../../reducers/index';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
@@ -15,7 +14,6 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeCreationDialogComponent } from '../volume-creation/volume-creation-dialog.component';
 import { Zone } from '../../shared/models/zone.model';
 import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model';
-import { Account } from '../../shared/models';
 
 @Component({
   selector: 'cs-volume-creation-container',

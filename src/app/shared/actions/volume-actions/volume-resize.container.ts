@@ -13,6 +13,7 @@ import { Account } from '../../models/account.model';
 import { Volume } from '../../models/volume.model';
 import { VolumeResizeData } from '../../services/volume.service';
 import { VolumeType } from '../../models';
+import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 
 @Component({
   selector: 'cs-volume-resize-container',
@@ -28,11 +29,8 @@ import { VolumeType } from '../../models';
 })
 export class VolumeResizeContainerComponent implements OnInit {
   readonly offerings$ = this.store.pipe(select(fromDiskOfferings.getAvailableOfferings));
-  readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
-  readonly availableStorage$ = this.account$.pipe(
-    filter(Boolean),
-    map((account: Account) => account.primarystorageavailable),
-  );
+  readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
+  readonly availableStorage$ = this.store.pipe(select(fromAccounts.selectStorageAvailable));
 
   public volume: Volume;
 
