@@ -2,6 +2,7 @@
   <mat-form-field cs-input-group-textbox>
     <input
       matInput
+      [disabled]="disabled"
       [(ngModel)]="displayDate"
       [placeholder]="label"
       (focus)="onFocus($event)"
@@ -10,6 +11,7 @@
   <button
     mat-icon-button
     cs-input-group-button
+    [disabled]="disabled"
     (click)="onFocus($event)"
   >
     <mat-icon class="mdi-calendar-range"></mat-icon>
