@@ -735,8 +735,8 @@
       "IS_ROUTING": "Routing",
       "REQUIRES_HVM": "Requires HVM",
       "BOOTABLE": "Bootable",
-      "SHOW_ADDITIONAL": "Show additional fields",
-      "HIDE_ADDITIONAL": "Hide additional fields"
+      "SHOW_DETAILS": "Show details",
+      "HIDE_DETAILS": "Hide details"
     }
   },
   "SNAPSHOT_PAGE": {
@@ -1552,8 +1552,8 @@
     "NO_AVAILABLE_OFFERINGS": "No available offerings",
     "CPU_MHZ": "{{ count }}x{{ speed }} MHz",
     "VM_WILL_BE_RESTARTED": "Virtual machine will be restarted",
-    "SHOW_ADDITIONAL_FIELDS": "Show additional fields",
-    "HIDE_ADDITIONAL_FIELDS": "Hide additional fields",
+    "SHOW_DETAILS": "Show details",
+    "HIDE_DETAILS": "Hide details",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Custom offering",
       "CPU_NUMBER": "CPU cores",
