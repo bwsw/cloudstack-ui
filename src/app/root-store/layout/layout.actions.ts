@@ -13,6 +13,4 @@ export class CloseAppNav implements Action {
   readonly type = LayoutActionTypes.CloseAppNav;
 }
 
-export type LayoutActionsUnion =
-  | OpenAppNav
-  | CloseAppNav;
+export type LayoutActionsUnion = OpenAppNav | CloseAppNav;

@@ -7,30 +7,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-10 15:17+0700\n"
-"PO-Revision-Date: 2018-10-10 16:44+0700\n"
+"POT-Creation-Date: 2018-10-24 17:18+0700\n"
+"PO-Revision-Date: 2018-10-26 09:04+0700\n"
+"Last-Translator: \n"
+"Language: ru\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.4.0\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: ru\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
 #: ../../CSUI-Events.rst:4
-msgid "Activity log"
+msgid "Activity Log"
 msgstr "Журнал событий"
 
 #: ../../CSUI-Events.rst:7
 msgid ""
-"In the *Activity log* section you can see user activity in the account. "
-"Event search by main parameters - date and keywords - is supported to make "
-"it easier to find a necessary event for a specific date or type."
+"In the *Accounts* -> *Activity log* section you can see user activity in the "
+"account. Event search by main parameters - date and keywords - is supported "
+"to make it easier to find a necessary event for a specific date or type."
 msgstr ""
-"В разделе *Журнал событий* отображаются действия пользователя в аккаунте. "
-"В списке можно быстро найти события по основным параметрам - дате и "
-"ключевым словам. "
+"В разделе *Аккаунты* -> *Журнал событий* отображаются действия пользователя "
+"в аккаунте. В списке можно быстро найти события по основным параметрам - "
+"дате и ключевым словам. "
 
 #: ../../CSUI-Events.rst:10
 msgid "Events List"
@@ -71,8 +73,8 @@ msgid ""
 "INFO - For regular activities, for example, logging in, creating a VM, "
 "attaching a disk."
 msgstr ""
-"INFO - для простых действий пользователя, например, вход в систему, "
-"создание машины, присоединение диска к ВМ. "
+"INFO - для простых действий пользователя, например, вход в систему, создание "
+"машины, присоединение диска к ВМ. "
 
 #: ../../CSUI-Events.rst:23
 msgid "WARN - For any warnings occurred."
@@ -80,20 +82,19 @@ msgstr "WARN - для предупреждений."
 
 #: ../../CSUI-Events.rst:24
 msgid ""
-"ERROR - For any errors occurred, for example, an error while registering "
-"an SSH key pair."
+"ERROR - For any errors occurred, for example, an error while registering an "
+"SSH key pair."
 msgstr "ERROR - для ошибок, например, ошибка при создании SSH ключа. "
 
 #: ../../CSUI-Events.rst:26
 msgid ""
-"Type - Displays in what aspect of the system the event has taken place, "
-"for example: ``USER.LOGIN`` - for events happened at user authentication "
-"to the system; ``VOLUME.RESIZE`` - for events at disk size change."
+"Type - Displays in what aspect of the system the event has taken place, for "
+"example: ``USER.LOGIN`` - for events happened at user authentication to the "
+"system; ``VOLUME.RESIZE`` - for events at disk size change."
 msgstr ""
-"Тип - показывает, в какой части системы произошло данное событие, "
-"например: ``USER.LOGIN`` - для событий, произошедших при авторизации "
-"пользователя в системе; ``VOLUME.RESIZE`` - для событий изменения размера "
-"диска."
+"Тип - показывает, в какой части системы произошло данное событие, например: "
+"``USER.LOGIN`` - для событий, произошедших при авторизации пользователя в "
+"системе; ``VOLUME.RESIZE`` - для событий изменения размера диска."
 
 #: ../../CSUI-Events.rst:28
 msgid "Time of the event."
@@ -115,21 +116,21 @@ msgstr "Фильтровать список можно по следующим �
 
 #: ../../CSUI-Events.rst:36
 msgid ""
-"Date - Allows selecting events for a specific date. By default, the "
-"today's date is selected. Click |date icon| and in the appeared calendar "
-"change the date for the day you wish to see activities for."
+"Date - Allows selecting events for a specific date. By default, the today's "
+"date is selected. Click |date icon| and in the appeared calendar change the "
+"date for the day you wish to see activities for."
 msgstr ""
-"Дата - позволяет выбрать события за определенный день. По умолчанию "
-"события отображаются за сегодняшний день. Для выбора даты нажмите |date "
-"icon| и в появившемся календаре выберите нужную дату. "
+"Дата - позволяет выбрать события за определенный день. По умолчанию события "
+"отображаются за сегодняшний день. Для выбора даты нажмите |date icon| и в "
+"появившемся календаре выберите нужную дату. "
 
 #: ../../CSUI-Events.rst:40
 msgid ""
 "Click \"OK\" to filter the list. The events will be selected in accordance "
 "with the chosen date."
 msgstr ""
-"Нажмите \"OK\" для применения параметров фильтрации. События в списке "
-"будут отобраны в соответствии с выбранной датой. "
+"Нажмите \"OK\" для применения параметров фильтрации. События в списке будут "
+"отобраны в соответствии с выбранной датой. "
 
 #: ../../CSUI-Events.rst:42
 msgid "Click \"CANCEL\" to drop the selection."
@@ -137,8 +138,8 @@ msgstr "Чтобы сбросить настройки фильтрации, н�
 
 #: ../../CSUI-Events.rst:44
 msgid ""
-"Levels - Allows selecting events by levels. Choose the level/levels you "
-"with from the drop-down list."
+"Levels - Allows selecting events by levels. Choose the level/levels you with "
+"from the drop-down list."
 msgstr ""
 "Уровни - позволяет фильтровать события по уровню/уровням. Выберите уровень/"
 "уровни из списка. "
@@ -148,13 +149,11 @@ msgid ""
 "Types - Allows selecting events by types. Choose the type/types from the "
 "drop-down list."
 msgstr ""
-"Типы - позволяет отобрать события по типу/типам. Выберите тип/типы из "
-"списка."
+"Типы - позволяет отобрать события по типу/типам. Выберите тип/типы из списка."
 
 #: ../../CSUI-Events.rst:48
 msgid "An Administrator has an additional filtering parameter - accounts."
-msgstr ""
-"Администратору доступен дополнительный параметр фильтрации - аккаунты."
+msgstr "Администратору доступен дополнительный параметр фильтрации - аккаунты."
 
 #: ../../CSUI-Events.rst:52
 msgid "Use the search tool to find an event by keywords or a part of a word."

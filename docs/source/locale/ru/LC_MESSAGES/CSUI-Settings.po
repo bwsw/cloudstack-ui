@@ -5,18 +5,19 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: CSUI\n"
+"Project-Id-Version:  CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-10 15:17+0700\n"
+"POT-Creation-Date: 2018-10-24 17:18+0700\n"
 "PO-Revision-Date: 2018-10-10 17:47+0700\n"
+"Last-Translator: \n"
+"Language: ru\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.4.0\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: ru\n"
-"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../../CSUI-Settings.rst:4
 msgid "Settings"
@@ -26,8 +27,7 @@ msgstr "Настройки"
 msgid ""
 "In the *Settings* section a user can modify the interface by changing "
 "settings."
-msgstr ""
-"В разделе *Настройки* пользователь может вносить изменения в интерфейс."
+msgstr "В разделе *Настройки* пользователь может вносить изменения в интерфейс."
 
 #: ../../CSUI-Settings.rst:13
 msgid "Security"
@@ -55,11 +55,11 @@ msgstr "Изменение пароля"
 
 #: ../../CSUI-Settings.rst:22
 msgid ""
-"Here you can change the password provided by your Administrator to the one "
-"you like. This will improve the account security."
+"Here you can change the password provided by your Administrator to the "
+"one you like. This will improve the account security."
 msgstr ""
-"В данной секции можно изменить пароль, предоставленный Администратором, на "
-"желаемый пароль, что может улучшить безопасность аккаунта."
+"В данной секции можно изменить пароль, предоставленный Администратором, "
+"на желаемый пароль, что может улучшить безопасность аккаунта."
 
 #: ../../CSUI-Settings.rst:24
 msgid "Enter a new password and re-enter it in the next field to confirm it:"
@@ -81,24 +81,24 @@ msgstr "Лимит времени сеанса"
 
 #: ../../CSUI-Settings.rst:35
 msgid ""
-"Here you can specify the maximum amount of time that an active session can "
-"be idle (without user activity) before it automatically closes. The "
+"Here you can specify the maximum amount of time that an active session "
+"can be idle (without user activity) before it automatically closes. The "
 "default interval is 30 minutes."
 msgstr ""
 "В данной секции можно установить максимальное количество времени в "
-"минутах, в течение которого сессия будет оставаться активной в отсутствие "
-"действий пользователя. По истечение установленного времени сессия будет "
+"минутах, в течение которого сессия будет оставаться активной в отсутствие"
+" действий пользователя. По истечение установленного времени сессия будет "
 "автоматически завершена. По умолчанию установлен интервал 30 минут."
 
 #: ../../CSUI-Settings.rst:37
 msgid ""
 "Set the desired time limit in minutes using the switch button |switch "
-"icon| to the right or typing it just into the field. Then click \"UPDATE\" "
-"to save the changes."
+"icon| to the right or typing it just into the field. Then click "
+"\"UPDATE\" to save the changes."
 msgstr ""
-"Установите желаемый лимит вермени в минутах, используя  переключатель |"
-"switch icon| справа или посредством ввода значения в поле. Затем нажмите "
-"\"ОБНОВИТЬ\", чтобы сохранить изменения."
+"Установите желаемый лимит вермени в минутах, используя  переключатель "
+"|switch icon| справа или посредством ввода значения в поле. Затем нажмите"
+" \"ОБНОВИТЬ\", чтобы сохранить изменения."
 
 #: ../../CSUI-Settings.rst:41
 msgid "The value is stored in user’s tags."
@@ -115,18 +115,18 @@ msgstr ""
 #: ../../CSUI-Settings.rst:45
 msgid ""
 "The session timeout can be set in the configuration file. You will find "
-"more information in the  `configuration guide <https://github.com/bwsw/"
-"cloudstack-ui/blob/master/config-guide.md#session-timeout>`_."
+"more information in the  `configuration guide <https://github.com/bwsw"
+"/cloudstack-ui/blob/master/config-guide.md#session-timeout>`_."
 msgstr ""
 "Лимит времени сеанса можно установить в конфигурационном файле. См. "
-"подробнее `руководство по конфигурациям <https://github.com/bwsw/"
-"cloudstack-ui/blob/master/config-guide.md#session-timeout>`_."
+"подробнее `руководство по конфигурациям <https://github.com/bwsw"
+"/cloudstack-ui/blob/master/config-guide.md#session-timeout>`_."
 
-#: ../../CSUI-Settings.rst:49
+#: ../../CSUI-Settings.rst:50
 msgid "Save VM passwords by default"
 msgstr "Сохранять пароли ВМ по умолчанию"
 
-#: ../../CSUI-Settings.rst:50
+#: ../../CSUI-Settings.rst:51
 msgid ""
 "This checkbox allows saving passwords to VM tags automatically for all "
 "created virtual machines requiring passwords."
@@ -134,17 +134,18 @@ msgstr ""
 "Данная опция позволяет автоматически сохранять пароли в теги ВМ при "
 "создании машин, для которых необходимы пароли."
 
-#: ../../CSUI-Settings.rst:52
+#: ../../CSUI-Settings.rst:53
 msgid ""
-"Tick this option here. The passwords will be saved to VM tags right at the "
-"moment VMs are created. You will see a password (if it is required for the "
-"VM) is marked as saved in a dialog window after the new VM is deployed:"
+"Tick this option here. The passwords will be saved to VM tags right at "
+"the moment VMs are created. You will see a password (if it is required "
+"for the VM) is marked as saved in a dialog window after the new VM is "
+"deployed:"
 msgstr ""
-"Активируйте опцию в данной секции. При создании машины пароли сразу будут "
-"сохранятся в теги ВМ. В диалоговом окне создания ВМ пароль (если он "
+"Активируйте опцию в данной секции. При создании машины пароли сразу будут"
+" сохранятся в теги ВМ. В диалоговом окне создания ВМ пароль (если он "
 "требуется для данной ВМ) будет отмечен как сохраненный:"
 
-#: ../../CSUI-Settings.rst:56
+#: ../../CSUI-Settings.rst:57
 msgid ""
 "If this option is not activated, every time when creating a machine the "
 "system will ask you to save the password by clicking \"SAVE\" next to it:"
@@ -153,22 +154,23 @@ msgstr ""
 "будет спрашивать о необходимости сохранить пароль, нажав \"СОХРАНИТЬ\" "
 "рядом с паролем:"
 
-#: ../../CSUI-Settings.rst:60
+#: ../../CSUI-Settings.rst:61
 msgid ""
 "Then the system will ask you if you wish to save passwords to VM tags "
-"automatically. If you click \"Yes\", the \"Save VM passwords by default\" "
-"option will be activated in *Settings*. You will find more information "
+"automatically. If you click \"Yes\", the \"Save VM passwords by default\""
+" option will be activated in *Settings*. You will find more information "
 "about VM creation in the :ref:`Create_VM` section."
 msgstr ""
-"Затем система спросит, нужно ли автоматически сохранять пароли ВМ. Кликнув "
-"\"Да\", Вы активируете опцию \"Сохранять пароли ВМ по умолчанию\" в "
-"разделе *Настройки*. См.подробнее о создании ВМ в разделе :ref:`Create_VM`."
+"Затем система спросит, нужно ли автоматически сохранять пароли ВМ. "
+"Кликнув \"Да\", Вы активируете опцию \"Сохранять пароли ВМ по умолчанию\""
+" в разделе *Настройки*. См.подробнее о создании ВМ в разделе "
+":ref:`Create_VM`."
 
-#: ../../CSUI-Settings.rst:63
+#: ../../CSUI-Settings.rst:64
 msgid "API Configuration"
 msgstr "Конфигурация API"
 
-#: ../../CSUI-Settings.rst:65
+#: ../../CSUI-Settings.rst:66
 msgid ""
 "In this block of settings you can see and manage the API configurations: "
 "regenerate API keys, see the connection URL."
@@ -176,7 +178,7 @@ msgstr ""
 "В данном блоке настроек можно просматривать и управлять настройками API: "
 "cгенерерировать новый ключ API, просматривать URL подключения."
 
-#: ../../CSUI-Settings.rst:67
+#: ../../CSUI-Settings.rst:68
 msgid ""
 "You can see an API key and a Secret key in corresponding fields. You can "
 "copy any of them clicking |copy icon| to the right."
@@ -184,15 +186,15 @@ msgstr ""
 "Ключ API и Секретный ключ отображаются в соответствующих полях. Их можно "
 "скопировать нажатием на |copy icon| справа."
 
-#: ../../CSUI-Settings.rst:71
+#: ../../CSUI-Settings.rst:72
 msgid ""
-"Regenerate the keys by clicking |refresh icon| above the fields. New keys "
-"will be generated."
+"Regenerate the keys by clicking |refresh icon| above the fields. New keys"
+" will be generated."
 msgstr ""
 "Для генерации нового ключа нажмите |refresh icon| вверху блока. В "
 "соответствующих полях появятся новые открытый и закрытый ключи."
 
-#: ../../CSUI-Settings.rst:75
+#: ../../CSUI-Settings.rst:76
 msgid ""
 "Below you can view a connection URL which is used to send requests to "
 "CloudStack API. All requests are listed in the Apache CloudStack "
@@ -203,70 +205,76 @@ msgstr ""
 "ознакомиться в официальной документации Apache CloudStack, доступной по "
 "предоставленной ссылке."
 
-#: ../../CSUI-Settings.rst:80
+#: ../../CSUI-Settings.rst:81
 msgid "VM preferences"
 msgstr "Настройки ВМ"
 
-#: ../../CSUI-Settings.rst:81
+#: ../../CSUI-Settings.rst:82
 msgid "In this block you may set up the keyboard layout."
 msgstr "В данном блоке настроек можно задать раскладку клавиатуры для ВМ."
 
-#: ../../CSUI-Settings.rst:84
+#: ../../CSUI-Settings.rst:85
 msgid "Keyboard layout"
 msgstr "Раскладка клавиатуры"
 
-#: ../../CSUI-Settings.rst:85
+#: ../../CSUI-Settings.rst:86
 msgid "Select a keyboard layout in the drop-down list."
-msgstr ""
-"Выберите подходящий вариант раскладки клавиатуры из ниспадающего списка."
+msgstr "Выберите подходящий вариант раскладки клавиатуры из ниспадающего списка."
 
-#: ../../CSUI-Settings.rst:87
+#: ../../CSUI-Settings.rst:88
 msgid "The following options are available:"
 msgstr "Доступные варианты:"
 
-#: ../../CSUI-Settings.rst:89
+#: ../../CSUI-Settings.rst:90
 msgid "Standard US keyboard (default value)"
 msgstr "Стандартная раскладка (США) (выбран по умолчанию)"
 
-#: ../../CSUI-Settings.rst:90
+#: ../../CSUI-Settings.rst:91
 msgid "UK keyboard"
 msgstr "Английская раскладка (UK)"
 
-#: ../../CSUI-Settings.rst:91
+#: ../../CSUI-Settings.rst:92
 msgid "Japanese keyboard"
 msgstr "Японская раскладка"
 
-#: ../../CSUI-Settings.rst:92
+#: ../../CSUI-Settings.rst:93
 msgid "Simplified Chinese keyboard."
 msgstr "Упрощенная китайская раскладка"
 
 #: ../../CSUI-Settings.rst:97
+msgid ""
+"The selected option will appear in the VNC console kayboard layout "
+"parameter when accessing a VM via concole. The selected option is also "
+"saved to account tags."
+msgstr ""
+
+#: ../../CSUI-Settings.rst:100
 msgid "Look and Feel"
 msgstr "Настройки интерфейса"
 
-#: ../../CSUI-Settings.rst:98
+#: ../../CSUI-Settings.rst:101
 msgid "In this block you can adjust the interface look."
 msgstr ""
 "В данном блоке можно выбрать один из типов недели: воскресенье - суббота "
 "или понедельник - воскресенье. "
 
-#: ../../CSUI-Settings.rst:101
+#: ../../CSUI-Settings.rst:104
 msgid "Interface Language"
 msgstr "Язык интерфейса"
 
-#: ../../CSUI-Settings.rst:102
+#: ../../CSUI-Settings.rst:105
 msgid ""
-"Select the language of your interface. Currently two options are available "
-"in the drop-down list: Russian and English."
+"Select the language of your interface. Currently two options are "
+"available in the drop-down list: Russian and English."
 msgstr ""
-"Выберите язык интерфейса из представленных в списке вариантов: русский или "
-"английский."
+"Выберите язык интерфейса из представленных в списке вариантов: русский "
+"или английский."
 
-#: ../../CSUI-Settings.rst:108
+#: ../../CSUI-Settings.rst:111
 msgid "First Day of Week"
 msgstr "Первый день недели"
 
-#: ../../CSUI-Settings.rst:109
+#: ../../CSUI-Settings.rst:112
 msgid ""
 "In this block, you have the opportunity to choose between two types of "
 "weeks: Sunday - Saturday or Monday - Sunday."
@@ -274,36 +282,36 @@ msgstr ""
 "В данном блоке можно выбрать один из типов недели: воскресенье - суббота "
 "или понедельник - воскресенье. "
 
-#: ../../CSUI-Settings.rst:111
+#: ../../CSUI-Settings.rst:114
 msgid ""
 "From the drop-down list select the day when a week starts: Monday or "
 "Sanday."
 msgstr ""
-"Выберите из ниспадающего списка день, с которого будет начинаться неделя: "
-"понедельник или воскресенье. "
+"Выберите из ниспадающего списка день, с которого будет начинаться неделя:"
+" понедельник или воскресенье. "
 
-#: ../../CSUI-Settings.rst:118
+#: ../../CSUI-Settings.rst:121
 msgid "Time Format"
 msgstr "Формат времени"
 
-#: ../../CSUI-Settings.rst:119
+#: ../../CSUI-Settings.rst:122
 msgid ""
-"Here you have the opportunity to switch the time format from AM/PM to 24H. "
-"You can set it to \"Auto\" and the time format will be set in "
-"correspondence to the interface language: AM/PM if you select English and "
-"24H if you select Russian."
+"Here you have the opportunity to switch the time format from AM/PM to "
+"24H. You can set it to \"Auto\" and the time format will be set in "
+"correspondence to the interface language: AM/PM if you select English and"
+" 24H if you select Russian."
 msgstr ""
-"В данном блоке можно переключить формат времени с 12-часового на 24-"
-"часовой. При выборе варианта \"Автоматически\"  формат времени будет "
+"В данном блоке можно переключить формат времени с 12-часового на "
+"24-часовой. При выборе варианта \"Автоматически\"  формат времени будет "
 "установлен в зависимости от выбранного языка интерфейса: если язык "
-"интерфейса английский - 12-часовой формат; если язык интерфейса русский - "
-"24-часовой формат. "
+"интерфейса английский - 12-часовой формат; если язык интерфейса русский -"
+" 24-часовой формат. "
 
-#: ../../CSUI-Settings.rst:126
+#: ../../CSUI-Settings.rst:129
 msgid "Theme Color"
 msgstr "Цвет темы"
 
-#: ../../CSUI-Settings.rst:127
+#: ../../CSUI-Settings.rst:130
 msgid ""
 "Select a preferred theme color. Currently two options are available: "
 "\"blue-red\" and \"indigo-pink\". The blue-red one is used by default."
@@ -312,16 +320,17 @@ msgstr ""
 "сине-красный или индиго-розовый. Сине-красный цвет темы используется по "
 "умолчанию. "
 
-#: ../../CSUI-Settings.rst:129
+#: ../../CSUI-Settings.rst:132
 msgid "Click the field and select another color if you wish."
 msgstr "Кликните на поле и выберите желаемый цвет."
 
-#: ../../CSUI-Settings.rst:133
+#: ../../CSUI-Settings.rst:136
 msgid ""
 "A theme color can be set in the configuration JSON file. You will find "
-"more information in the `configuration guide <https://github.com/bwsw/"
-"cloudstack-ui/blob/master/config-guide.md#default-theme-name>`_."
+"more information in the `configuration guide <https://github.com/bwsw"
+"/cloudstack-ui/blob/master/config-guide.md#default-theme-name>`_."
 msgstr ""
 "Цвет темы можно установить в конфигурационном файле JSON. См.подробнее "
-"`руководство по конфигурациям <https://github.com/bwsw/cloudstack-ui/blob/"
-"master/config-guide.md#default-theme-name>`_."
+"`руководство по конфигурациям <https://github.com/bwsw/cloudstack-"
+"ui/blob/master/config-guide.md#default-theme-name>`_."
+

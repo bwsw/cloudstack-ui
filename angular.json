@@ -25,13 +25,7 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": [
-              "src/config",
-              "src/i18n",
-              "src/css",
-              "src/img",
-              "src/agreements"
-            ],
+            "assets": ["src/config", "src/i18n", "src/css", "src/img", "src/agreements"],
             "styles": [
               "node_modules/@mdi/font/css/materialdesignicons.min.css",
               "src/style/app.scss"
@@ -102,25 +96,14 @@
               "src/style/app.scss"
             ],
             "scripts": [],
-            "assets": [
-              "src/config",
-              "src/i18n",
-              "src/css",
-              "src/img",
-              "src/agreements"
-            ]
+            "assets": ["src/config", "src/i18n", "src/css", "src/img", "src/agreements"]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -145,12 +128,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

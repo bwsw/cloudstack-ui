@@ -176,14 +176,9 @@ export class VmCreationComponent {
     return this.instanceGroupList.find(group => group.name === name);
   }
 
-  public changeAffinityGroup(groupName: string): void {
-    const val = groupName.toLowerCase();
-    this.visibleAffinityGroups = this.affinityGroupList.filter(
-      g => g.name.toLowerCase().indexOf(val) === 0,
-    );
-    const existingGroup = this.affinityGroupList.find(group => group.name === groupName);
-
-    this.affinityGroupChange.emit(clone(existingGroup) || { name: groupName });
+  public changeAffinityGroup(groupId: string): void {
+    const affinityGroup = this.affinityGroupList.find(group => group.id === groupId);
+    this.affinityGroupChange.emit(clone(affinityGroup));
   }
 
   public onVmCreationSubmit(e: any): void {

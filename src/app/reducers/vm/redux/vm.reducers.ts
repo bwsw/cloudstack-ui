@@ -211,6 +211,11 @@ export const getSelectedVM = createSelector(
   (state, selectedId): VirtualMachine => state.list.entities[selectedId],
 );
 
+export const getSelectedVmAffinityGroups = createSelector(
+  getSelectedVM,
+  vm => vm && vm.affinitygroup,
+);
+
 export const filters = createSelector(getVMsEntitiesState, state => state.filters);
 
 export const attachmentFilters = createSelector(
@@ -426,7 +431,13 @@ export function formReducer(
 }
 
 export const getVmForm = createSelector(getVMsState, state => state.form);
+
 export const getVmFormState = createSelector(getVMsState, state => state.form.state);
+
+export const getVmFormStateAffinityGroup = createSelector(
+  getVMsState,
+  state => state.form.state.affinityGroup,
+);
 
 export const formIsLoading = createSelector(getVmForm, state => state.loading);
 

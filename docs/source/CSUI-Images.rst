@@ -4,7 +4,7 @@ Images
 ---------------
 .. Contents::
 
-In the *Images* section, you can manage Templates and ISO files that are used as installation sources for VMs.
+In the *Virtual Machines* -> *Images* section, you can manage Templates and ISO files that are used as installation sources for VMs.
 
 A template is a reusable configuration for virtual machines. When users create a VM, they can choose from a list of templates. Administrators and users can create new templates and add them to CloudStack.
 
@@ -12,7 +12,7 @@ ISO files are another installation source for virtual machines.
 
 You can switch from Templates to ISOs by selecting a corresponding option above:
 
-.. figure:: _static/Images_TempISO2.png
+.. figure:: _static/Images_TempISO3.png
 
 Images List
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,7 +37,7 @@ The list of templates/ISOs can be filtered using the filtering tool. The filteri
   
 - Zones.
 
-.. figure:: _static/Images_TempList_Admin2.png
+.. figure:: _static/Images_TempList_Admin3.png
 
 Besides, you can adjust the list view using the grouping tool. Templates/ISOs can be grouped by zones or/and groups. Administrators can group the list by accounts.
 

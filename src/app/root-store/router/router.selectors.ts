@@ -5,7 +5,4 @@ import { RouterStateUrl } from '../custom-router-state-serializer';
 
 const getRouterState = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');
 
-export const getUrl = createSelector(
-  getRouterState,
-  state => state.state.url
-);
+export const getUrl = createSelector(getRouterState, state => state.state.url);

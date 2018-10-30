@@ -7,4 +7,5 @@ export type SidenavRouteId =
   | 'EVENTS'
   | 'SSH'
   | 'ACCOUNTS'
+  | 'LOGS'
   | 'SETTINGS';
