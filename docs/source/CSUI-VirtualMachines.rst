@@ -758,18 +758,21 @@ If you create a non-system tag, it will be saved in a new card. If you have ente
 
 Access a Virtual Machine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Depending on the installation source (ISO or a Template) and tags determined for a VM, the system allows getting an access to the VM interaction interface. Currently, the following access modes are supported:
+Access VM component allows a user to obtain all necessary credentials to access a VM in the final dialog box shown after VM creation, or later when a user selects a corresponding action in the VM Action box. Depending on tags determined for a template or a VM, the system allows getting access to the VM interaction interface. Currently, the following access modes are supported:
 
 - Via a VNC console - active by default for all VMs;  
 
-- Via WebShell;
+- Via SSH;
 
-- Via URL.
+- Via HTTP.
 
-Selecting "Access VM" in the VM action list, you open a modal window with three tabs. In active tab(s) you can view detailed information for the access option(s) enabled for this machine.
-If an access mode is not available for the machine, the tab is inactive. All three options can be enabled at the same time for one machine.
+The three access modes can be used at the same time for one machine.
 
-In each tab you can click on a corresponding link to open a VNC console/Webshell/URL.
+You can find more information on how to enable a necessary access mode at the `wiki-page <https://github.com/bwsw/cloudstack-ui/wiki/Access-VM:-Supported-Modes>`_.
+
+Selecting "Access VM" in the VM action list, you open a modal window with three tabs. The view and contents of the modal window are determined by the defined tags. Some tabs in the window can be inactive. That means these access modes are not enabled for the machine. In active tab(s) you can view detailed access information for the machine: login, password, port, path and other.
+
+In each tab you can click on a corresponding link to open a console or a window to access the VM.
 
 Below you will find more information on each access mode.
 
@@ -783,11 +786,11 @@ This tab contains the following details:
 
 - Open VNC console link that opens a console to access the VM.
 
-.. figure:: _static/AccessVM_OpenConsole3.png
+.. figure:: _static/AccessVM_OpenConsole4.png
 
-WebShell
+SSH
 """"""""""""""""""""""
-This tab is active if the access via WebShell is enabled. It is determined by the following tags in VM's template::
+This tab is active if the access via SSH is enabled. It is determined by the following template tags::
 
  csui.vm.auth-mode = SSH
  csui.vm.ssh.login = login
@@ -796,9 +799,9 @@ This tab is active if the access via WebShell is enabled. It is determined by th
 
 This tab displays the following details: 
 
-- Connection String (IPv4)
+- Connection String (IPv4), that can be copied by clicking on |copy icon|.
 
-- Connection String (IPv6)
+- Connection String (IPv6), that can be copied by clicking on |copy icon|.
 
 - IPv4
 
@@ -814,11 +817,11 @@ This tab displays the following details:
 
 - Open WebShell - a clickable link to open a WebShell console.
 
-To find more information on accessing a VM via WebShell, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_. See the detailed instructions on the deployment of WebShell Plugin at the :ref:`Webshell_Plugin` page.
+In case the WebShell plugin is enabled, a user can SSH to VM in browser. To find more information on deployment and using the WebShell plugin, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_. 
 
-.. figure:: _static/AccessVM_WebShell2.png
+.. figure:: _static/AccessVM_WebShell3.png
 
-URL
+HTTP
 """""""""""""""
 Under this tab you can access a VM via HTTP/HTTPS URL.
 This mode is defined by the tags::
@@ -844,9 +847,9 @@ This tab displays the following information:
 
 - Open URL with a clickable URL. 
 
-To configure access to VM via HTTP/HTTPS, please, refer to `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
+To configure VM access via HTTP/HTTPS, please, refer to `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
 
-.. figure:: _static/AccessVM_OpenURL3.png
+.. figure:: _static/AccessVM_OpenURL4.png
 
 To close the modal window click "CLOSE".
 
