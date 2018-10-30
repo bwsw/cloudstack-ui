@@ -79,12 +79,7 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   public resizeVolume(): void {
     const includeDiskOffering = this.diskOffering && !isRoot(this.volume);
     const diskOffering = includeDiskOffering ? { diskofferingid: this.diskOffering.id } : {};
-
-    // send size only for custom offering and for same offering
-    const isResizableDiskOffering = isCustomized(this.diskOffering)
-      ? true
-      : diskOffering && this.volume.diskofferingid === diskOffering.diskofferingid;
-    const size = this.newSize && isResizableDiskOffering ? { size: this.newSize } : {};
+    const size = this.newSize && isCustomized(this.diskOffering) ? { size: this.newSize } : {};
 
     const params: VolumeResizeData = {
       id: this.volume.id,
