@@ -5,6 +5,7 @@ import { Account } from '../../../shared/models';
 import { Language } from '../../../shared/types';
 import { DateTimeFormatterService } from '../../../shared/services/date-time-formatter.service';
 import { reorderAvailableGroupings } from '../../../shared/utils/reorder-groupings';
+import { SidebarContainerService } from '../../../shared/services/sidebar-container.service';
 
 @Component({
   selector: 'cs-snapshots-filter',
@@ -48,9 +49,16 @@ export class SnapshotFilterComponent implements OnInit {
     return this.translate.currentLang as Language;
   }
 
+  public get marginRight() {
+    return this.sidebarContainerService.isOpen.getValue()
+      ? this.sidebarContainerService.width.getValue()
+      : 0;
+  }
+
   constructor(
     private translate: TranslateService,
     public dateTimeFormatterService: DateTimeFormatterService,
+    private sidebarContainerService: SidebarContainerService,
   ) {}
 
   public ngOnInit() {

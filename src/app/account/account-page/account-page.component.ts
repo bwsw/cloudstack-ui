@@ -4,6 +4,7 @@ import { Account } from '../../shared';
 import { AuthService } from '../../shared/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
+import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 @Component({
   selector: 'cs-account-page',
@@ -24,9 +25,14 @@ export class AccountPageComponent {
   public mode: ViewMode;
   public viewModeKey = 'accountPageViewMode';
 
+  public get sidebarWidth() {
+    return this.sidebarContainerService.width.getValue();
+  }
+
   constructor(
     public listService: ListService,
     public authService: AuthService,
+    public sidebarContainerService: SidebarContainerService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
   ) {}

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Domain, Role } from '../../shared/models';
 import { stateTranslations } from '../account-container/account.container';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
+import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 @Component({
   selector: 'cs-account-list-filter',
@@ -39,11 +40,19 @@ export class AccountListFilterComponent implements OnInit {
   @Output()
   public groupingsChanged = new EventEmitter();
 
-  public stateTranslationToken(state): string {
-    return stateTranslations[state];
+  public get marginRight() {
+    return this.sidebarContainerService.isOpen.getValue()
+      ? this.sidebarContainerService.width.getValue()
+      : 0;
   }
+
+  constructor(private sidebarContainerService: SidebarContainerService) {}
 
   public ngOnInit() {
     this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);
+  }
+
+  public stateTranslationToken(state): string {
+    return stateTranslations[state];
   }
 }

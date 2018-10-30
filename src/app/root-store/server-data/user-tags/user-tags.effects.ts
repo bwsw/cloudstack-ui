@@ -42,6 +42,8 @@ import {
   UpdateShowSystemTags,
   UpdateShowSystemTagsError,
   UpdateShowSystemTagsSuccess,
+  UpdateSidebarWidthError,
+  UpdateSidebarWidthSuccess,
   UpdateTheme,
   UpdateThemeError,
   UpdateThemeSuccess,
@@ -257,6 +259,19 @@ export class UserTagsEffects {
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateKeyboardLayoutForVmsSuccess({ key, value })),
         catchError(error => of(new UpdateKeyboardLayoutForVmsError({ error }))),
+      );
+    }),
+  );
+
+  @Effect()
+  updateSidebarWidth$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateKeyboardLayoutForVms>(UserTagsActionTypes.UpdateSidebarWidth),
+    map(action => action.payload.value),
+    mergeMap((value: string) => {
+      const key = userTagKeys.sidebarWidth;
+      return this.upsertTag(key, value).pipe(
+        map(() => new UpdateSidebarWidthSuccess({ key, value })),
+        catchError(error => of(new UpdateSidebarWidthError({ error }))),
       );
     }),
   );

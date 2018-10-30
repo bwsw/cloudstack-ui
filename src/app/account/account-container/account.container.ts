@@ -4,6 +4,7 @@ import { select, Store } from '@ngrx/store';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import * as UserTagsSelectors from '../../root-store/server-data/user-tags/user-tags.selectors';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../shared/services/auth.service';
 import { Account, accountState } from '../../shared/models/account.model';
@@ -19,6 +20,7 @@ export const stateTranslations = {
     <cs-account-page
       [accounts]="accounts$ | async"
       [isLoading]="loading$ | async"
+      [sidebarWidth]="sidebarWidth$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
     ></cs-account-page>`,
@@ -28,6 +30,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe()
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectFilteredAccounts));
   readonly loading$ = this.store.pipe(select(fromAccounts.isLoading));
   readonly selectedGroupings$ = this.store.pipe(select(fromAccounts.filterSelectedGroupings));
+  readonly sidebarWidth$ = this.store.pipe(select(UserTagsSelectors.getSidebarWidth));
 
   public groupings = [
     {

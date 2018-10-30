@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Account, Grouping, VolumeType, volumeTypeNames, Zone } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
+import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 @Component({
   selector: 'cs-volume-filter',
@@ -41,7 +42,20 @@ export class VolumeFilterComponent implements OnInit {
   @Output()
   public groupingsChanged = new EventEmitter();
 
-  constructor(private authService: AuthService) {}
+  public get marginRight() {
+    return this.sidebarContainerService.isOpen.getValue()
+      ? this.sidebarContainerService.width.getValue()
+      : 0;
+  }
+
+  constructor(
+    private authService: AuthService,
+    private sidebarContainerService: SidebarContainerService,
+  ) {}
+
+  public ngOnInit() {
+    this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);
+  }
 
   public getVolumeTypeName(type: VolumeType): string {
     return volumeTypeNames[type];
@@ -49,9 +63,5 @@ export class VolumeFilterComponent implements OnInit {
 
   public showAccountFilter(): boolean {
     return this.authService.isAdmin();
-  }
-
-  public ngOnInit() {
-    this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);
   }
 }

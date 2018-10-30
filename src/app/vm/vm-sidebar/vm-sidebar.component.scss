@@ -3,7 +3,7 @@ mat-icon {
 }
 
 h3 {
-  max-width: 280px;
+  max-width: 70%;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 16px !important;
@@ -16,7 +16,7 @@ h3 {
 }
 
 :host /deep/ .mat-tab-link {
-  min-width: 75px !important;
+  min-width: 25% !important;
 }
 
 .title-color-container {
@@ -58,4 +58,11 @@ h3 {
 
 .vm-actions-container {
   text-align: right;
+}
+
+.color-title-container {
+  display: flex;
+  justify-content: start;
+  width: 90%;
+  align-items: center;
 }

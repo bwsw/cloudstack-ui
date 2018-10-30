@@ -64,6 +64,15 @@ export enum UserTagsActionTypes {
   IncrementLastVMIdError = '[Resource tags API] Increment "csui.user.last-vm-id" tag error',
 
   UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
+
+  UpdateSidebarWidth = '[Sidebar] Update "csui.user.sidebar-width" tag',
+  UpdateSidebarWidthSuccess = '[Sidebar] Update "csui.user.sidebar-width" tag success',
+  UpdateSidebarWidthError = '[Sidebar] Update "csui.user.sidebar-width" tag error',
+
+  // This Actions needed to be in the user tags because sidenav status works through user tags
+  // These actions will be exported through layoutActions
+  OpenSidenav = '[Layout] Open Sidenav',
+  CloseSidenav = '[Layout] Close Sidenav',
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs
@@ -360,6 +369,26 @@ export class UpdateCustomServiceOfferingParams implements Action {
   constructor(readonly payload: { offering: ServiceOffering }) {}
 }
 
+// Sidebar
+
+export class UpdateSidebarWidth implements Action {
+  readonly type = UserTagsActionTypes.UpdateSidebarWidth;
+
+  constructor(readonly payload: { value: string }) {}
+}
+
+export class UpdateSidebarWidthSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateSidebarWidthSuccess;
+
+  constructor(readonly payload: { key: string; value: string }) {}
+}
+
+export class UpdateSidebarWidthError implements Action {
+  readonly type = UserTagsActionTypes.UpdateSidebarWidthError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
 export type UserTagsActionsUnion =
   | SetDefaultUserTagsAtStartup
   | SetDefaultUserTagsDueToLogout
@@ -405,4 +434,7 @@ export type UserTagsActionsUnion =
   | IncrementLastVMId
   | IncrementLastVMIdSuccess
   | IncrementLastVMIdError
-  | UpdateCustomServiceOfferingParams;
+  | UpdateCustomServiceOfferingParams
+  | UpdateSidebarWidth
+  | UpdateSidebarWidthSuccess
+  | UpdateSidebarWidthError;

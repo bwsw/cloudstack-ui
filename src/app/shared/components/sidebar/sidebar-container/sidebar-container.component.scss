@@ -5,16 +5,18 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: $sidebar-width;
   box-sizing: border-box;
   transition: transform 0.3s;
   overflow-y: auto;
   overflow-x: hidden;
   background: #fafafa;
-  padding: 10px 5px;
-  border-left: 1px solid #E0E0E0;
+  padding: 10px 5px 10px 8px;
+  border-left: 1px solid #e0e0e0;
   transform: translateX(100%);
   z-index: 2;
+  left: auto !important;
+  min-width: $sidebar-min-width;
+  max-width: $sidebar-max-width;
 
   &.open {
     transform: translate(0);
@@ -71,6 +73,35 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   z-index: 1;
+}
+
+.sidebar-container {
+  display: flex;
+  justify-content: start;
+  height: 100%;
+}
+
+.resize-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: $sidebar-min-width - 8px;
+  left: auto;
+  width: $sidebar-min-width + 14px;
+  height: 24px;
+  margin: auto;
+  z-index: 1000;
+
+  mat-icon {
+    width: 14px !important;
+    float: right;
+    cursor: move;
+    display: none;
+
+    &.show-resize {
+      display: flex;
+    }
+  }
 }

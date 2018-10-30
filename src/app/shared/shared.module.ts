@@ -140,6 +140,8 @@ import {
 import { UrlDirective } from './validators/directives';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { DayPeriodComponent } from './components/day-period/day-period.component';
+import { SidebarContainerService } from './services/sidebar-container.service';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 // tslint:enable max-line-length
 
@@ -157,6 +159,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     ClipboardModule,
     DragulaModule,
     PopoverModule,
+    AngularDraggableModule,
     TranslateModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
@@ -351,6 +354,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     SecurityGroupTagService,
     ServiceOfferingService,
     SessionStorageService,
+    SidebarContainerService,
     SnapshotService,
     SnapshotTagService,
     VolumeActionsService,

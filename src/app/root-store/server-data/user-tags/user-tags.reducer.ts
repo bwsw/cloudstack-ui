@@ -62,6 +62,7 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.UpdateThemeSuccess:
     case UserTagsActionTypes.SetSPFAVMSuccess:
     case UserTagsActionTypes.UpdateKeyboardLayoutForVmsSuccess:
+    case UserTagsActionTypes.UpdateSidebarWidthSuccess:
     case UserTagsActionTypes.IncrementLastVMIdSuccess: {
       const update: Update<Tag> = { id: action.payload.key, changes: action.payload };
       return adapter.updateOne(update, state);

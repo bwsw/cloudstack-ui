@@ -102,3 +102,8 @@ export const getKeyboardLayout = createSelector(
   getUserTagsEntities,
   (entities): KeyboardLayout => entities[userTagKeys.keyboardLayoutForVms].value as KeyboardLayout,
 );
+
+export const getSidebarWidth = createSelector(
+  getUserTagsEntities,
+  (entities): number => Number(entities[userTagKeys.sidebarWidth].value),
+);

@@ -15,5 +15,12 @@ mat-icon {
 }
 
 :host /deep/ .mat-tab-link {
-  min-width: 96px !important;
+  min-width: 33% !important;
+}
+
+.title-container {
+  display: flex;
+  justify-content: start;
+  width: 90%;
+  align-items: center;
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { SidebarContainerService } from '../../services/sidebar-container.service';
 
 @Component({
   selector: 'cs-fab',
@@ -11,6 +12,14 @@ export class FabComponent {
   public isOpen: boolean;
   @Output()
   public clicked = new EventEmitter<Event>();
+
+  constructor(private sidebarContainerService: SidebarContainerService) {}
+
+  public get marginRight() {
+    return this.isOpen && this.sidebarContainerService.isOpen.getValue()
+      ? this.sidebarContainerService.width.getValue()
+      : 0;
+  }
 
   public onClick(e: Event): void {
     e.stopPropagation();
