@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-26 15:15+0700\n"
-"PO-Revision-Date: 2018-10-26 15:26+0700\n"
+"POT-Creation-Date: 2018-10-30 12:43+0700\n"
+"PO-Revision-Date: 2018-10-30 13:02+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -2204,139 +2204,161 @@ msgstr "Доступ к виртуальной машине"
 
 #: ../../CSUI-VirtualMachines.rst:753
 msgid ""
-"Depending on the installation source (ISO or a Template) and tags determined for "
-"a VM, the system allows getting an access to the VM interaction interface. "
-"Currently, the following access modes are supported:"
+"Access VM component allows a user to obtain all necessary credentials to access "
+"a VM in the final dialog box shown after VM creation, or later when a user "
+"selects a corresponding action in the VM Action box. Depending on tags "
+"determined for a template or a VM, the system allows getting access to the VM "
+"interaction interface. Currently, the following access modes are supported:"
 msgstr ""
-"В зависимости от источника установки (ISO или шаблон) и тегов, заданных для ВМ, "
-"система предоставляет следующие варианты доступа к ВМ:"
+"Помощники доступа к виртуальной машине позволяют пользователю получить все "
+"необходимые реквизиты для доступа к ней в финальном диалоговом окне, который "
+"отображается пользователю после создания машины, или позже, когда пользователь "
+"выбирает соответствующий пункт в контекстном меню виртуальной машины. В "
+"зависимости от того, какие теги определены для шаблона, из которого создается "
+"машина, или для самой машины, в интерфейсе доступа к ВМ отображается необходимая "
+"информация. На сегодня реализованы следующие режимы доступа к машине:"
 
 #: ../../CSUI-VirtualMachines.rst:755
 msgid "Via a VNC console - active by default for all VMs;"
 msgstr "Через VNC консоль - опция активна по умолчанию для всех машин;"
 
 #: ../../CSUI-VirtualMachines.rst:757
-msgid "Via WebShell;"
-msgstr "Через WebShell;"
+msgid "Via SSH;"
+msgstr "По SSH;"
 
 #: ../../CSUI-VirtualMachines.rst:759
-msgid "Via URL."
-msgstr "Через URL."
+msgid "Via HTTP."
+msgstr "По HTTP."
 
 #: ../../CSUI-VirtualMachines.rst:761
+msgid "The three access modes can be used at the same time for one machine."
+msgstr "Все три режима доступа могут использоваться для одной ВМ одновременно."
+
+#: ../../CSUI-VirtualMachines.rst:763
+msgid ""
+"You can find more information on how to enable a necessary access mode at the "
+"`wiki-page <https://github.com/bwsw/cloudstack-ui/wiki/Access-VM:-Supported-"
+"Modes>`_."
+msgstr ""
+"Подробная информация о настройке помощников доступа к ВМ представлена на  "
+"странице `wiki <https://github.com/bwsw/cloudstack-ui/wiki/Access-VM:-Supported-"
+"Modes>`_  в репозитории проекта."
+
+#: ../../CSUI-VirtualMachines.rst:765
 msgid ""
 "Selecting \"Access VM\" in the VM action list, you open a modal window with "
-"three tabs. In active tab(s) you can view detailed information for the access "
-"option(s) enabled for this machine. If an access mode is not available for the "
-"machine, the tab is inactive. All three options can be enabled at the same time "
-"for one machine."
+"three tabs. The view and contents of the modal window are determined by the "
+"defined tags. Some tabs in the window can be inactive. That means these access "
+"modes are not enabled for the machine. In active tab(s) you can view detailed "
+"access information for the machine: login, password, port, path and other."
 msgstr ""
-"При выборе \"Доступ к ВМ\" в списке действий к машине открывается модальное окно "
-"с тремя вкладками. В активных вкладках можно просматривать информацию о доступе "
-"для тех режимов, которые включены для данной машины. Для тех режимов, которые не "
-"включены, вкладки не активны. Все три режима доступа могут быть включены для "
-"одной машины одновременно."
+"Выбирая действие \"Доступ к ВМ\"  в контекстном меню машины, вы открываете "
+"модальное окно с тремя вкладками. Заданные теги определяют доступность "
+"информации во вкладках и ее содержание. Некоторые вкладки могут быть недоступны. "
+"Это значит, что для машины данный режим доступа отключен. В активных вкладках "
+"можно просматривать  реквизиты доступа к ВМ: логин, пароль, порт, путь и другие."
 
-#: ../../CSUI-VirtualMachines.rst:764
+#: ../../CSUI-VirtualMachines.rst:767
 msgid ""
-"In each tab you can click on a corresponding link to open a VNC console/Webshell/"
-"URL."
+"In each tab you can click on a corresponding link to open a console or a window "
+"to access the VM."
 msgstr ""
 "В каждой вкладке предоставлена соответствующая ссылка, кликом на которую можно "
-"открыть консоль/окно доступа через WebShell/окно доступа в браузере."
-
-#: ../../CSUI-VirtualMachines.rst:766
-msgid "Below you will find more information on each access mode."
-msgstr "Ниже более подробно описан каждый режим доступа к ВМ."
+"открыть консоль/окно доступа по SSH/окно доступа по URL."
 
 #: ../../CSUI-VirtualMachines.rst:769
+msgid "Below you will find more information on each access mode."
+msgstr "Ниже более подробно описан каждый помощник доступа к ВМ."
+
+#: ../../CSUI-VirtualMachines.rst:772
 msgid "VNC console"
 msgstr "Доступ через VNC консоль"
 
-#: ../../CSUI-VirtualMachines.rst:770
+#: ../../CSUI-VirtualMachines.rst:773
 msgid "This tab contains the following details:"
 msgstr "В данной вкладке содержится следующая информация:"
 
-#: ../../CSUI-VirtualMachines.rst:772 ../../CSUI-VirtualMachines.rst:833
+#: ../../CSUI-VirtualMachines.rst:775 ../../CSUI-VirtualMachines.rst:836
 msgid "Login;"
 msgstr "Логин;"
 
-#: ../../CSUI-VirtualMachines.rst:774 ../../CSUI-VirtualMachines.rst:835
+#: ../../CSUI-VirtualMachines.rst:777 ../../CSUI-VirtualMachines.rst:838
 msgid "Password (if available);"
 msgstr "Пароль (если он доступен);"
 
-#: ../../CSUI-VirtualMachines.rst:776
+#: ../../CSUI-VirtualMachines.rst:779
 msgid "Open VNC console link that opens a console to access the VM."
 msgstr "Ссылка, чтобы открыть VNC консоль для доступа к ВМ."
 
-#: ../../CSUI-VirtualMachines.rst:781
-msgid "WebShell"
-msgstr "Доступ через WebShell"
+#: ../../CSUI-VirtualMachines.rst:784
+msgid "SSH"
+msgstr "SSH"
 
-#: ../../CSUI-VirtualMachines.rst:782
+#: ../../CSUI-VirtualMachines.rst:785
 msgid ""
-"This tab is active if the access via WebShell is enabled. It is determined by "
-"the following tags in VM's template::"
+"This tab is active if the access via SSH is enabled. It is determined by the "
+"following template tags::"
 msgstr ""
-"Данная вкладка активна, если для машины включен доступ по WebShell. Включить его "
+"Данная вкладка активна, если для машины включен доступ по SSH. Включить его "
 "можно через следующие теги в шаблоне ВМ::"
 
-#: ../../CSUI-VirtualMachines.rst:789
+#: ../../CSUI-VirtualMachines.rst:792
 msgid "This tab displays the following details:"
 msgstr "Данная вкладка отображает следующую информацию:"
 
-#: ../../CSUI-VirtualMachines.rst:791
-msgid "Connection String (IPv4)"
-msgstr "Строка подключения (IPv4)"
+#: ../../CSUI-VirtualMachines.rst:794
+msgid "Connection String (IPv4), that can be copied by clicking on |copy icon|."
+msgstr ""
+"Строка подключения (IPv4), которую можно скопировать кликом на  |copy icon|."
 
-#: ../../CSUI-VirtualMachines.rst:793
-msgid "Connection String (IPv6)"
-msgstr "Строка подключения (IPv6)"
+#: ../../CSUI-VirtualMachines.rst:796
+msgid "Connection String (IPv6), that can be copied by clicking on |copy icon|."
+msgstr ""
+"Строка подключения (IPv6), которую можно скопировать кликом на |copy icon|."
 
-#: ../../CSUI-VirtualMachines.rst:795
+#: ../../CSUI-VirtualMachines.rst:798
 msgid "IPv4"
 msgstr "IPv4"
 
-#: ../../CSUI-VirtualMachines.rst:797
+#: ../../CSUI-VirtualMachines.rst:800
 msgid "IPv6"
 msgstr "IPv6"
 
-#: ../../CSUI-VirtualMachines.rst:799
+#: ../../CSUI-VirtualMachines.rst:802
 msgid "Port"
 msgstr "Порт"
 
-#: ../../CSUI-VirtualMachines.rst:801
+#: ../../CSUI-VirtualMachines.rst:804
 msgid "Login"
 msgstr "Логин"
 
-#: ../../CSUI-VirtualMachines.rst:803
+#: ../../CSUI-VirtualMachines.rst:806
 msgid "Password"
 msgstr "Пароль"
 
-#: ../../CSUI-VirtualMachines.rst:805
+#: ../../CSUI-VirtualMachines.rst:808
 msgid "SSH Key"
 msgstr "SSH ключ"
 
-#: ../../CSUI-VirtualMachines.rst:807
+#: ../../CSUI-VirtualMachines.rst:810
 msgid "Open WebShell - a clickable link to open a WebShell console."
 msgstr "Открыть WebShell - активная ссылк для октрытия консоль WebShell."
 
-#: ../../CSUI-VirtualMachines.rst:809
+#: ../../CSUI-VirtualMachines.rst:812
 msgid ""
-"To find more information on accessing a VM via WebShell, please, refer to the "
-"`page <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_. See the "
-"detailed instructions on the deployment of WebShell Plugin at the :ref:"
-"`Webshell_Plugin` page."
+"In case the WebShell plugin is enabled, a user can SSH to VM in browser. To find "
+"more information on deployment and using the WebShell plugin, please, refer to "
+"the `page <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_."
 msgstr ""
-"Подробнее о доступе к ВМ через WebShell  рассказывается на `странице <https://"
-"github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_ .  Подробные инструкции по "
-"установке плагина WebShell см. в разделе :ref:`Webshell_Plugin`."
+"При включенном расширении WebShell пользователь может подключиться к машине по "
+"SSH через браузер. Подробнее об установке и использовании плагине WebShell см. "
+"`страницу плагина <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_."
 
-#: ../../CSUI-VirtualMachines.rst:814
-msgid "URL"
-msgstr "Доступ через URL"
+#: ../../CSUI-VirtualMachines.rst:817
+msgid "HTTP"
+msgstr "HTTP"
 
-#: ../../CSUI-VirtualMachines.rst:815
+#: ../../CSUI-VirtualMachines.rst:818
 msgid ""
 "Under this tab you can access a VM via HTTP/HTTPS URL. This mode is defined by "
 "the tags::"
@@ -2344,36 +2366,36 @@ msgstr ""
 "Из данной вкладки можно получить доступ к ВМ через  HTTP/HTTPS URL. Данный режим "
 "доступа включается при определении следующих тегов для ВМ::"
 
-#: ../../CSUI-VirtualMachines.rst:825
+#: ../../CSUI-VirtualMachines.rst:828
 msgid "If no ``csui.vm.http.port`` is defined, then default values are used:"
 msgstr ""
 "Если ``csui.vm.http.port`` не определен, используются значения по умолчанию:"
 
-#: ../../CSUI-VirtualMachines.rst:827
+#: ../../CSUI-VirtualMachines.rst:830
 msgid "for HTTPS protocol: 443"
 msgstr "для протокола HTTPS: 443"
 
-#: ../../CSUI-VirtualMachines.rst:829
+#: ../../CSUI-VirtualMachines.rst:832
 msgid "for HTTP protocol: 80"
 msgstr "для протокола HTTP: 80"
 
-#: ../../CSUI-VirtualMachines.rst:831
+#: ../../CSUI-VirtualMachines.rst:834
 msgid "This tab displays the following information:"
 msgstr "В данной вкладке доступна следующая информация:"
 
-#: ../../CSUI-VirtualMachines.rst:837
+#: ../../CSUI-VirtualMachines.rst:840
 msgid "Open URL with a clickable URL."
 msgstr "Активная ссылка  URL, чтобы открыть консоль."
 
-#: ../../CSUI-VirtualMachines.rst:839
+#: ../../CSUI-VirtualMachines.rst:842
 msgid ""
-"To configure access to VM via HTTP/HTTPS, please, refer to `page <https://github."
+"To configure VM access via HTTP/HTTPS, please, refer to `page <https://github."
 "com/bwsw/cloudstack-ui/wiki/Tags>`_."
 msgstr ""
 "Подробнее о конфигурировании доступа к ВМ через HTTP см. на `странице <https://"
 "github.com/bwsw/cloudstack-ui/wiki/Tags>`_."
 
-#: ../../CSUI-VirtualMachines.rst:843
+#: ../../CSUI-VirtualMachines.rst:846
 msgid "To close the modal window click \"CLOSE\"."
 msgstr "Чтобы закрыть модальное окно, нажмите \"ЗАКРЫТЬ\"."
 
@@ -2458,3 +2480,52 @@ msgstr "Чтобы закрыть модальное окно, нажмите \"
 #~ "\"Редактировать\" |edit icon|. В диалоговом окне выберите существующую группу "
 #~ "из спика или создайте новую прямо в данном окне. Кликните \"Применить\" для "
 #~ "добавления группы к ВМ. "
+
+#~ msgid ""
+#~ "Depending on the installation source (ISO or a Template) and tags determined "
+#~ "for a VM, the system allows getting an access to the VM interaction "
+#~ "interface. Currently, the following access modes are supported:"
+#~ msgstr ""
+#~ "В зависимости от источника установки (ISO или шаблон) и тегов, заданных для "
+#~ "ВМ, система предоставляет следующие варианты доступа к ВМ:"
+
+#~ msgid "Via WebShell;"
+#~ msgstr "Через WebShell;"
+
+#~ msgid "Via URL."
+#~ msgstr "Через URL."
+
+#~ msgid ""
+#~ "Selecting \"Access VM\" in the VM action list, you open a modal window with "
+#~ "three tabs. In active tab(s) you can view detailed information for the access "
+#~ "option(s) enabled for this machine. If an access mode is not available for "
+#~ "the machine, the tab is inactive. All three options can be enabled at the "
+#~ "same time for one machine."
+#~ msgstr ""
+#~ "При выборе \"Доступ к ВМ\" в списке действий к машине открывается модальное "
+#~ "окно с тремя вкладками. В активных вкладках можно просматривать информацию о "
+#~ "доступе для тех режимов, которые включены для данной машины. Для тех режимов, "
+#~ "которые не включены, вкладки не активны. Все три режима доступа могут быть "
+#~ "включены для одной машины одновременно."
+
+#~ msgid "WebShell"
+#~ msgstr "Доступ через WebShell"
+
+#~ msgid "Connection String (IPv4)"
+#~ msgstr "Строка подключения (IPv4)"
+
+#~ msgid "Connection String (IPv6)"
+#~ msgstr "Строка подключения (IPv6)"
+
+#~ msgid ""
+#~ "To find more information on accessing a VM via WebShell, please, refer to the "
+#~ "`page <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_. See the "
+#~ "detailed instructions on the deployment of WebShell Plugin at the :ref:"
+#~ "`Webshell_Plugin` page."
+#~ msgstr ""
+#~ "Подробнее о доступе к ВМ через WebShell  рассказывается на `странице <https://"
+#~ "github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_ .  Подробные инструкции "
+#~ "по установке плагина WebShell см. в разделе :ref:`Webshell_Plugin`."
+
+#~ msgid "URL"
+#~ msgstr "Доступ через URL"
