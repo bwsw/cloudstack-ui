@@ -15,7 +15,7 @@
         [enableSlider]="isCustomizedForVolume(diskOffering) || volumeIsRoot"
         [min]="volume.size | division:2:30"
         [newSize]="newSize"
-        [availableStorage]="availableStorageForResize"
+        [availableStorage]="availableStorage"
         [diskOfferings]="diskOfferings"
         [diskOffering]="diskOffering"
         (changedSize)="updateSize($event)"

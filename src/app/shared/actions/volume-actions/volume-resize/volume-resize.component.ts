@@ -27,11 +27,10 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   @Input()
   public diskOfferings: DiskOffering[];
   @Input()
-  public availableStorage: string;
+  public availableStorage: number | null;
   @Output()
   public diskResized = new EventEmitter<VolumeResizeData>();
 
-  public availableStorageForResize: number | string;
   public diskOffering: DiskOffering;
   public newSize: number;
 
@@ -61,10 +60,9 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.newSize = this.volume.size / Math.pow(2, 30);
-    const availableStorage = Number(this.availableStorage);
-    this.availableStorageForResize = !isNaN(availableStorage)
-      ? availableStorage + this.newSize
-      : this.availableStorage;
+    if (!!this.availableStorage) {
+      this.availableStorage = this.availableStorage + this.newSize;
+    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

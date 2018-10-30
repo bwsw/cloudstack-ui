@@ -38,10 +38,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   readonly offerings$ = this.store.pipe(select(fromDiskOfferings.selectAll));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
-  readonly storageAvailable$ = this.account$.pipe(
-    filter(Boolean),
-    map((account: Account) => account.primarystorageavailable),
-  );
+  readonly storageAvailable$ = this.store.pipe(select(fromAccounts.selectStorageAvailable));
 
   constructor(
     public dialogService: DialogService,
@@ -62,13 +59,10 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   }
 
   public updateZone(zone: Zone) {
-    this.storageAvailable$.subscribe(maxSize => {
-      this.store.dispatch(
-        new diskOfferingActions.LoadOfferingsRequest({
-          maxSize,
-          zone,
-        }),
-      );
-    });
+    this.store.dispatch(
+      new diskOfferingActions.LoadOfferingsRequest({
+        zone,
+      }),
+    );
   }
 }

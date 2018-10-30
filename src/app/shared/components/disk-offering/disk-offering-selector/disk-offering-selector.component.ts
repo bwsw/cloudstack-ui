@@ -113,9 +113,8 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
   private setMaxSizeValue() {
     const customDiskOfferingMaxSize = this.authService.getCustomDiskOfferingMaxSize();
     this.min = this.min ? this.min : this.authService.getCustomDiskOfferingMinSize();
-    this.max =
-      !this.availableStorage && isNaN(Number(this.availableStorage))
-        ? customDiskOfferingMaxSize
-        : Math.min(customDiskOfferingMaxSize, Number(this.availableStorage));
+    this.max = isNaN(Number(this.availableStorage))
+      ? customDiskOfferingMaxSize
+      : Math.min(customDiskOfferingMaxSize, Number(this.availableStorage));
   }
 }
