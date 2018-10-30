@@ -4,7 +4,6 @@ import { SshKeyCreationComponent } from './ssh-key-creation/ssh-key-creation.com
 import { SshKeySidebarComponent } from './ssh-key-sidebar/ssh-key-sidebar.component';
 import { SshKeyPageContainerComponent } from './containers/ssh-key-page/ssh-key-page.container';
 
-
 export const sshRoutes: Routes = [
   {
     path: 'ssh-keys',
@@ -13,13 +12,13 @@ export const sshRoutes: Routes = [
     children: [
       {
         path: 'create',
-        component: SshKeyCreationComponent
+        component: SshKeyCreationComponent,
       },
       {
         path: 'view/:id',
         component: SshKeySidebarComponent,
-        canActivate: [AuthGuard]
-      }
-    ]
-  }
+        canActivate: [AuthGuard],
+      },
+    ],
+  },
 ];

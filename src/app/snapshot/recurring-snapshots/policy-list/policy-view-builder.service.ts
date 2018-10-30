@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  Policy,
-  TimePolicy
-} from '../policy-editor/policy-editor.component';
+import { Policy, TimePolicy } from '../policy-editor/policy-editor.component';
 import { DayOfWeek } from '../../../shared/types/day-of-week';
 import { PolicyType } from '../snapshot-policy-type';
 import DateTimeFormat = Intl.DateTimeFormat;
-
 
 interface PolicyView {
   id: string;
@@ -20,15 +16,15 @@ interface PolicyView {
 }
 
 interface DayOfWeekToken {
-  value: DayOfWeek,
-  name: string
+  value: DayOfWeek;
+  name: string;
 }
 
 @Injectable()
 export class PolicyViewBuilderService {
   public buildPolicyViewFromPolicy(
     policy: Policy<TimePolicy>,
-    dateStringifyDateTimeFormat: DateTimeFormat
+    dateStringifyDateTimeFormat: DateTimeFormat,
   ): PolicyView {
     return {
       id: policy.id,
@@ -38,11 +34,11 @@ export class PolicyViewBuilderService {
       periodToken: this.getPeriodToken(policy),
       periodValue: this.getPeriodValue(policy),
       timeZone: this.getTimeZone(policy),
-      keep: this.getKeepNumber(policy)
-    }
+      keep: this.getKeepNumber(policy),
+    };
   }
 
-  private get daysOfWeek(): Array<DayOfWeekToken> {
+  private get daysOfWeek(): DayOfWeekToken[] {
     return [
       { value: DayOfWeek.Sunday, name: 'DATE_TIME.DAYS_OF_WEEK.SUNDAY_LOWER' },
       { value: DayOfWeek.Monday, name: 'DATE_TIME.DAYS_OF_WEEK.MONDAY_LOWER' },
@@ -50,7 +46,7 @@ export class PolicyViewBuilderService {
       { value: DayOfWeek.Wednesday, name: 'DATE_TIME.DAYS_OF_WEEK.WEDNESDAY_LOWER' },
       { value: DayOfWeek.Thursday, name: 'DATE_TIME.DAYS_OF_WEEK.THURSDAY_LOWER' },
       { value: DayOfWeek.Friday, name: 'DATE_TIME.DAYS_OF_WEEK.FRIDAY_LOWER' },
-      { value: DayOfWeek.Saturday, name: 'DATE_TIME.DAYS_OF_WEEK.SATURDAY_LOWER' }
+      { value: DayOfWeek.Saturday, name: 'DATE_TIME.DAYS_OF_WEEK.SATURDAY_LOWER' },
     ];
   }
 
@@ -72,7 +68,7 @@ export class PolicyViewBuilderService {
     }
 
     if (policy.type === PolicyType.Monthly) {
-      return (policy.timePolicy.dayOfMonth || 0).toString()
+      return (policy.timePolicy.dayOfMonth || 0).toString();
     }
 
     return '';
@@ -82,9 +78,12 @@ export class PolicyViewBuilderService {
     return policy.storedSnapshots || 0;
   }
 
-  private getTimeString(policy: Policy<TimePolicy>, dateStringifyDateTimeFormat: DateTimeFormat): string {
+  private getTimeString(
+    policy: Policy<TimePolicy>,
+    dateStringifyDateTimeFormat: DateTimeFormat,
+  ): string {
     if (policy.type === PolicyType.Hourly) {
-      return (policy.timePolicy.minute || 0).toString()
+      return (policy.timePolicy.minute || 0).toString();
     }
 
     const date = new Date();
@@ -99,7 +98,7 @@ export class PolicyViewBuilderService {
       [PolicyType.Hourly]: 'SNAPSHOT_POLICIES.HOURLY_TIME',
       [PolicyType.Daily]: 'SNAPSHOT_POLICIES.DAILY_TIME',
       [PolicyType.Weekly]: 'SNAPSHOT_POLICIES.WEEKLY_TIME',
-      [PolicyType.Monthly]: 'SNAPSHOT_POLICIES.MONTHLY_TIME'
+      [PolicyType.Monthly]: 'SNAPSHOT_POLICIES.MONTHLY_TIME',
     };
 
     return timeTokens[policy.type];

@@ -6,11 +6,10 @@ import { configSelectors, State } from '../../../root-store';
 @Component({
   selector: 'cs-template-filter-list-container',
   template: `
-    <cs-template-filter-list [groups]="groups$ | async"></cs-template-filter-list>`
+    <cs-template-filter-list [groups]="groups$ | async"></cs-template-filter-list>`,
 })
 export class TemplateFilterListContainerComponent {
   readonly groups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
 
-  constructor(private store: Store<State>) {
-  }
+  constructor(private store: Store<State>) {}
 }

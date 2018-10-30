@@ -3,22 +3,24 @@ import { SshKeyCreationData } from '../../shared/services/ssh-keypair.service';
 
 @Component({
   selector: 'cs-ssh-key-creation',
-  templateUrl: 'ssh-key-creation-dialog.component.html'
+  templateUrl: 'ssh-key-creation-dialog.component.html',
 })
 export class SshKeyCreationDialogComponent {
   public name: string;
   public publicKey: string;
 
-  @Input() public isLoading: boolean;
-  @Output() public onSshKeyPairCreation = new EventEmitter<SshKeyCreationData>();
+  @Input()
+  public isLoading: boolean;
+  @Output()
+  public sshKeyPairCreated = new EventEmitter<SshKeyCreationData>();
 
   public onSubmit(e): void {
     e.preventDefault();
     const sshKeyCreationParams = {
       name: this.name,
-      publicKey: this.publicKey
+      publicKey: this.publicKey,
     };
 
-    this.onSshKeyPairCreation.emit(sshKeyCreationParams);
+    this.sshKeyPairCreated.emit(sshKeyCreationParams);
   }
 }

@@ -11,33 +11,23 @@ interface TimeParams {
   shift: string;
 }
 
-
 export interface Interval {
   scales: Object;
 }
 
 @Injectable()
 export class PulseService {
-  constructor(protected http: HttpClient) {
-  }
+  constructor(protected http: HttpClient) {}
 
   public getPermittedIntervals() {
     return this.http.get(`cs-extensions/pulse/permitted-intervals`);
   }
 
-  public cpuTime(
-    vmId: string,
-    params: TimeParams,
-    forceUpdate = false
-  ): Observable<Array<CpuStats>> {
+  public cpuTime(vmId: string, params: TimeParams, forceUpdate = false): Observable<CpuStats[]> {
     return this.request('cputime', vmId, params, forceUpdate);
   }
 
-  public ram(
-    vmId: string,
-    params: TimeParams,
-    forceUpdate = false
-  ): Observable<Array<RamStats>> {
+  public ram(vmId: string, params: TimeParams, forceUpdate = false): Observable<RamStats[]> {
     return this.request('ram', vmId, params, forceUpdate);
   }
 
@@ -45,8 +35,8 @@ export class PulseService {
     vmId: string,
     diskId: string,
     params: TimeParams,
-    forceUpdate = false
-  ): Observable<Array<DiskStats>> {
+    forceUpdate = false,
+  ): Observable<DiskStats[]> {
     return this.request('disk', `${vmId}/${diskId}`, params, forceUpdate);
   }
 
@@ -54,22 +44,12 @@ export class PulseService {
     vmId: string,
     macAddress: string,
     params: TimeParams,
-    forceUpdate = false
-  ): Observable<Array<NetworkStats>> {
-    return this.request(
-      'network-interface',
-      `${vmId}/${macAddress}`,
-      params,
-      forceUpdate
-    );
+    forceUpdate = false,
+  ): Observable<NetworkStats[]> {
+    return this.request('network-interface', `${vmId}/${macAddress}`, params, forceUpdate);
   }
 
-  protected request(
-    endpoint: string,
-    params: string,
-    timeParams: TimeParams,
-    forceUpdate = false
-  ) {
+  protected request(endpoint: string, params: string, timeParams: TimeParams, forceUpdate = false) {
     const t = `${timeParams.range}/${timeParams.aggregation}/${timeParams.shift}`;
 
     let requestParams = new HttpParams();
@@ -78,7 +58,7 @@ export class PulseService {
     }
 
     return this.http
-      .get(`cs-extensions/pulse/${endpoint}/${params}/${t}`, { params: requestParams }).pipe(
-        map(res => res['result']));
+      .get(`cs-extensions/pulse/${endpoint}/${params}/${t}`, { params: requestParams })
+      .pipe(map(res => res['result']));
   }
 }

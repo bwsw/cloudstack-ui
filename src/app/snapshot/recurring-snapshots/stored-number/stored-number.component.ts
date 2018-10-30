@@ -3,7 +3,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-
 @Component({
   selector: 'cs-stored-number',
   templateUrl: 'stored-number.component.html',
@@ -11,14 +10,17 @@ import { Observable } from 'rxjs';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => StoredNumberComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class StoredNumberComponent implements ControlValueAccessor {
-  @Input() public min: number;
-  @Input() public max: number;
+  @Input()
+  public min: number;
+  @Input()
+  public max: number;
 
+  // tslint:disable-next-line:variable-name
   public _storedNumber: number;
 
   constructor(private translateService: TranslateService) {}
@@ -26,7 +28,7 @@ export class StoredNumberComponent implements ControlValueAccessor {
   public get errorMessage(): Observable<string> {
     return this.translateService.get('SNAPSHOT_POLICIES.BETWEEN', {
       lowerLimit: this.min,
-      upperLimit: this.max
+      upperLimit: this.max,
     });
   }
 
@@ -46,7 +48,7 @@ export class StoredNumberComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {}
 
   public writeValue(value: any): void {
     if (value) {

@@ -1,9 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Volume } from '../../../../../shared/models/volume.model';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import {
   ResourceStats,
-  ResourceUsageService
+  ResourceUsageService,
 } from '../../../../../shared/services/resource-usage.service';
 
 import * as moment from 'moment';
@@ -11,7 +10,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'cs-snapshot-creation',
   templateUrl: 'snapshot-creation.component.html',
-  styleUrls: ['snapshot-creation.component.scss']
+  styleUrls: ['snapshot-creation.component.scss'],
 })
 export class SnapshotCreationComponent implements OnInit {
   public name: string;
@@ -22,19 +21,16 @@ export class SnapshotCreationComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<SnapshotCreationComponent>,
-    @Inject(MAT_DIALOG_DATA) private volume: Volume,
     private resourceUsageService: ResourceUsageService,
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.name = this.defaultName;
 
-    this.resourceUsageService.getResourceUsage()
-      .subscribe((resourceStats: ResourceStats) => {
-        this.loading = false;
-        this.enoughResources = resourceStats.available.snapshots > 0;
-      });
+    this.resourceUsageService.getResourceUsage().subscribe((resourceStats: ResourceStats) => {
+      this.loading = false;
+      this.enoughResources = resourceStats.available.snapshots > 0;
+    });
   }
 
   public get defaultName(): string {

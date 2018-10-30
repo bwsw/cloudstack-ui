@@ -8,24 +8,30 @@ import { VirtualMachine } from '../../vm';
 import { SnapshotCardItemComponent } from './snapshot-list-item/snapshot-card-item.component';
 import { SnapshotListItemComponent } from './snapshot-list-item/snapshot-list-item.component';
 
-
 @Component({
   selector: 'cs-snapshots-page',
   templateUrl: './snapshots-page.component.html',
-  providers: [ListService]
+  providers: [ListService],
 })
 export class SnapshotsPageComponent implements OnChanges {
-  @Input() public snapshots: Snapshot[];
-  @Input() public volumes: NgrxEntities<Volume>;
-  @Input() public virtualMachines: NgrxEntities<VirtualMachine>;
-  @Input() public groupings: Array<Grouping> = [];
-  @Input() public isLoading: boolean;
-  @Input() public query: string;
+  @Input()
+  public snapshots: Snapshot[];
+  @Input()
+  public volumes: NgrxEntities<Volume>;
+  @Input()
+  public virtualMachines: NgrxEntities<VirtualMachine>;
+  @Input()
+  public groupings: Grouping[] = [];
+  @Input()
+  public isLoading: boolean;
+  @Input()
+  public query: string;
 
   public mode: ViewMode;
   public viewModeKey = 'volumePageViewMode';
 
-  @Output() public viewModeChange = new EventEmitter();
+  @Output()
+  public viewModeChange = new EventEmitter();
 
   public inputs;
   public outputs;
@@ -36,7 +42,7 @@ export class SnapshotsPageComponent implements OnChanges {
     };
 
     this.outputs = {
-      onClick: this.selectSnapshot.bind(this)
+      onClick: this.selectSnapshot.bind(this),
     };
   }
 
@@ -53,9 +59,7 @@ export class SnapshotsPageComponent implements OnChanges {
   }
 
   public get itemComponent() {
-    return this.mode === ViewMode.BOX
-      ? SnapshotCardItemComponent
-      : SnapshotListItemComponent;
+    return this.mode === ViewMode.BOX ? SnapshotCardItemComponent : SnapshotListItemComponent;
   }
 
   public changeMode(mode) {
@@ -66,4 +70,3 @@ export class SnapshotsPageComponent implements OnChanges {
     this.listService.showDetails(snapshot.id);
   }
 }
-

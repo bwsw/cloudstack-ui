@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 
 import { SecurityGroup } from '../../../app/security-group/sg.model';
 
-
 @Injectable()
 export class MockSecurityGroupTagService {
   public markForRemoval(securityGroup: SecurityGroup): Observable<SecurityGroup> {

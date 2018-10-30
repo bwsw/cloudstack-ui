@@ -10,7 +10,6 @@ import { DiskOffering } from '../../../shared/models';
 
 @Injectable()
 export class DiskOfferingEffects {
-
   @Effect()
   loadOfferings$: Observable<Action> = this.actions$.pipe(
     ofType(diskOfferingActions.LOAD_DISK_OFFERINGS_REQUEST),
@@ -19,12 +18,10 @@ export class DiskOfferingEffects {
         map((offerings: DiskOffering[]) => {
           return new diskOfferingActions.LoadOfferingsResponse(offerings);
         }),
-        catchError(() => of(new diskOfferingActions.LoadOfferingsResponse([]))));
-    }));
+        catchError(() => of(new diskOfferingActions.LoadOfferingsResponse([]))),
+      );
+    }),
+  );
 
-  constructor(
-    private actions$: Actions,
-    private offeringService: DiskOfferingService
-  ) {
-  }
+  constructor(private actions$: Actions, private offeringService: DiskOfferingService) {}
 }

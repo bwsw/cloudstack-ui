@@ -26,7 +26,7 @@ const COLORS = [
   { value: '#FFFDE7' },
   { value: '#FFF3E0' },
   { value: '#FFFFFF' },
-  { value: '#ECEFF1' }
+  { value: '#ECEFF1' },
 ];
 
 export const customizableProperties: Readonly<CustomizableConfig> = {
@@ -38,7 +38,8 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   apiDocLink: 'https://cloudstack.apache.org/api/apidocs-4.11/',
   extensions: {
     webShell: false,
-    pulse: false
+    pulse: false,
+    vmLogs: false,
   },
   /*
    * Virtual machines settings
@@ -50,7 +51,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   securityGroupTemplates: [],
   defaultSecurityGroupName: {
     en: 'default',
-    ru: 'default'
+    ru: 'default',
   },
   /*
   * Images settings
@@ -77,7 +78,8 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     { id: 'EVENTS', visible: true },
     { id: 'SSH', visible: true },
     { id: 'ACCOUNTS', visible: true },
-    { id: 'SETTINGS', visible: true }
+    { id: 'LOGS', visible: true },
+    { id: 'SETTINGS', visible: true },
   ],
   /*
    * Service offering setting
@@ -87,7 +89,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   offeringCompatibilityPolicy: {},
   computeOfferingClasses: [],
   serviceOfferingAvailability: {
-    'filterOfferings': false
+    filterOfferings: false,
   },
 };
 
@@ -101,33 +103,33 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
   // The application will ask him about autosave passwords and set the value based on the user's choice.
   savePasswordForAllVMs: null,
   lastVMId: 0,
-  isSidenavVisible: true,
   showSystemTags: false,
-  // Should be empty string. Use configureSidenav instead
-  navigationOrder: '',
   /*
    * Offerings
    */
   customComputeOfferingHardwareValues: {
     cpunumber: 1,
     cpuspeed: 1000,
-    memory: 512
+    memory: 512,
   },
   defaultCustomComputeOfferingRestrictions: {
     cpunumber: {
       min: 1,
-      max: Number.POSITIVE_INFINITY
+      max: Number.POSITIVE_INFINITY,
     },
     cpuspeed: {
       min: 1000,
-      max: Number.POSITIVE_INFINITY
+      max: Number.POSITIVE_INFINITY,
     },
     memory: {
       min: 512,
-      max: Number.POSITIVE_INFINITY
-    }
+      max: Number.POSITIVE_INFINITY,
+    },
   },
-  keyboardLayoutForVms: 'us'
+  keyboardLayoutForVms: 'us',
 };
 
-export const defaultConfig: Readonly<Config> = {...customizableProperties, ...nonCustomizableProperties};
+export const defaultConfig: Readonly<Config> = {
+  ...customizableProperties,
+  ...nonCustomizableProperties,
+};

@@ -48,11 +48,9 @@ const MATERIAL_MODULES = [
   MatTooltipModule,
 ];
 
-
 @NgModule({
   imports: MATERIAL_MODULES,
-  exports: MATERIAL_MODULES
-
+  exports: MATERIAL_MODULES,
 })
 export class MaterialModule {
   constructor(matIconRegistry: MatIconRegistry) {

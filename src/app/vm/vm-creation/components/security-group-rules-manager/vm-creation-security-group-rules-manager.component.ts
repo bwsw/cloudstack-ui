@@ -17,21 +17,21 @@ import * as cloneDeep from 'lodash/cloneDeep';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => VmCreationSecurityGroupRulesManagerComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class VmCreationSecurityGroupRulesManagerComponent implements ControlValueAccessor {
   public savedData: VmCreationSecurityGroupData;
 
+  // tslint:disable-next-line:variable-name
   private _securityGroupRulesManagerData: VmCreationSecurityGroupData;
 
   constructor(private dialog: MatDialog) {
     this.savedData = VmCreationSecurityGroupData.fromRules(new Rules());
   }
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
   @Input()
   public get securityGroupRulesManagerData(): VmCreationSecurityGroupData {
@@ -51,8 +51,7 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
   public get isModeNew(): boolean {
     return this.savedData && this.savedData.mode === VmCreationSecurityGroupMode.Builder;
@@ -79,10 +78,11 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
 
   public showDialog(): void {
     const data = cloneDeep(this.savedData);
-    this.dialog.open(VmCreationSecurityGroupContainerComponent, {
-      width: '720px',
-      data
-    })
+    this.dialog
+      .open(VmCreationSecurityGroupContainerComponent, {
+        data,
+        width: '720px',
+      })
       .afterClosed()
       .subscribe((res: any) => {
         if (res) {
@@ -96,4 +96,3 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
     this.securityGroupRulesManagerData = this.savedData;
   }
 }
-

@@ -1,6 +1,5 @@
 import { transformSubnetMaskToCidrSuffix } from './subnet-mask-to-cidr-suffix';
 
-
 const suffixes = {
   '255.255.255.255': '/32',
   '255.255.255.254': '/31',
@@ -34,18 +33,17 @@ const suffixes = {
   '224.0.0.0': '/3',
   '192.0.0.0': '/2',
   '128.0.0.0': '/1',
-  '0.0.0.0': '/0'
+  '0.0.0.0': '/0',
 };
 
 describe('Subnet mask to CIDR suffix converter', () => {
   it('transforms subnet masks to suffixes', () => {
-    const suffixesAreValid = Object.keys(suffixes)
-      .reduce((acc, subnetMask) => {
-        const suffix = transformSubnetMaskToCidrSuffix(subnetMask);
-        const suffixIsCorrect = suffix === suffixes[subnetMask];
+    const suffixesAreValid = Object.keys(suffixes).reduce((acc, subnetMask) => {
+      const suffix = transformSubnetMaskToCidrSuffix(subnetMask);
+      const suffixIsCorrect = suffix === suffixes[subnetMask];
 
-        return acc && suffixIsCorrect;
-      }, true);
+      return acc && suffixIsCorrect;
+    }, true);
 
     expect(suffixesAreValid).toBeTruthy();
   });

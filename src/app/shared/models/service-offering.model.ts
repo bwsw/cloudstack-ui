@@ -12,16 +12,16 @@ export interface ServiceOffering extends Offering {
   cpunumber?: number;
   cpuspeed?: number;
   memory?: number;
-  tags?: Array<Tag>;
+  tags?: Tag[];
   domain?: string;
   hosttags?: string;
   deploymentplanner?: string;
   networkrate?: string;
 }
 
-export const ServiceOfferingType = {
+export const serviceOfferingType = {
   fixed: 'Select',
-  custom: 'Custom'
+  custom: 'Custom',
 };
 
-export const ServiceOfferingParamKey = userTagKeys.computeOfferingParam;
+export const serviceOfferingParamKey = userTagKeys.computeOfferingParam;

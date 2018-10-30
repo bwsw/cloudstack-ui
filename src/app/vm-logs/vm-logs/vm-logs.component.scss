@@ -1,0 +1,29 @@
+@import '../../../style/_variables';
+
+.fab {
+  transition: margin 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 99;
+  height: 50px;
+  width: 50px;
+}
+
+.mat-fab {
+  width: 50px;
+  height: 50px;
+}
+
+/deep/ .mat-fab .mat-button-wrapper {
+  padding: 14px 0 !important;
+}
+
+/deep/ .mat-mini-fab {
+  width: 36px;
+  height: 36px;
+}
+
+/deep/ .mat-mini-fab .mat-button-wrapper {
+  padding: 7px 0 !important;
+}

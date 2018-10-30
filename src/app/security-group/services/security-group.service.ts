@@ -6,26 +6,23 @@ import { map } from 'rxjs/operators';
 import { Rules } from '../../shared/components/security-group-builder/rules';
 import { BackendResource } from '../../shared/decorators';
 import { BaseBackendService } from '../../shared/services/base-backend.service';
-import { SecurityGroupTagService } from '../../shared/services/tags/security-group-tag.service';
-import { SecurityGroup, SecurityGroupNative } from '../sg.model';
+import { SecurityGroup } from '../sg.model';
 import { PrivateSecurityGroupCreationService } from './creation-services/private-security-group-creation.service';
 import { SharedSecurityGroupCreationService } from './creation-services/shared-security-group-creation.service';
 import { TemplateSecurityGroupCreationService } from './creation-services/template-security-group-creation.service';
-
 
 export const GROUP_POSTFIX = '-cs-sg';
 
 @Injectable()
 @BackendResource({
-  entity: 'SecurityGroup'
+  entity: 'SecurityGroup',
 })
 export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   constructor(
     protected http: HttpClient,
     private privateSecurityGroupCreation: PrivateSecurityGroupCreationService,
-    private securityGroupTagService: SecurityGroupTagService,
     private sharedSecurityGroupCreation: SharedSecurityGroupCreationService,
-    private templateSecurityGroupCreation: TemplateSecurityGroupCreationService
+    private templateSecurityGroupCreation: TemplateSecurityGroupCreationService,
   ) {
     super(http);
   }
@@ -48,6 +45,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
         if (!result || result.success !== 'true') {
           return throwError(result);
         }
-      }));
+      }),
+    );
   }
 }

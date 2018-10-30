@@ -17,8 +17,8 @@ export interface Capabilities {
   allowusercreateprojects: boolean;
   allowuserexpungerecovervm: boolean;
   allowuserviewdestroyedvm: boolean;
-  apilimitinterval: number,
-  apilimitmax: number,
+  apilimitinterval: number;
+  apilimitmax: number;
   cloudstackversion: string;
   customdiskofferingmaxsize: number;
   customdiskofferingminsize: number;
@@ -37,6 +37,7 @@ export interface Capabilities {
 })
 export class AuthService extends BaseBackendService<BaseModel> {
   public loggedIn: BehaviorSubject<boolean>;
+  // tslint:disable-next-line:variable-name
   private _user: User | null;
   private capabilities: Capabilities | null;
 
@@ -44,7 +45,7 @@ export class AuthService extends BaseBackendService<BaseModel> {
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
     protected http: HttpClient,
-    protected jobsNotificationService: JobsNotificationService
+    protected jobsNotificationService: JobsNotificationService,
   ) {
     super(http);
   }
@@ -54,40 +55,33 @@ export class AuthService extends BaseBackendService<BaseModel> {
       const userRaw = this.storage.read('user');
       const user: User = Utils.parseJsonString(userRaw);
       this._user = user;
-    } catch (e) {
-    }
+    } catch (e) {}
 
-    this.loggedIn = new BehaviorSubject<boolean>(
-      !!(this._user && this._user.userid)
-    );
+    this.loggedIn = new BehaviorSubject<boolean>(!!(this._user && this._user.userid));
     this.jobsNotificationService.reset();
 
-    return this._user && this._user.userid
-      ? this.getCapabilities().toPromise()
-      : Promise.resolve()
+    return this._user && this._user.userid ? this.getCapabilities().toPromise() : Promise.resolve();
   }
 
   public get user(): User | null {
     return this._user;
   }
 
-  public login(
-    username: string,
-    password: string,
-    domain?: string
-  ): Observable<void> {
+  public login(username: string, password: string, domain?: string): Observable<void> {
     return this.postRequest('login', { username, password, domain }).pipe(
       map(res => this.getResponse(res)),
-      tap((res) => this.saveUserDataToLocalStorage(res)),
+      tap(res => this.saveUserDataToLocalStorage(res)),
       switchMap(() => this.getCapabilities()),
       tap(() => this.loggedIn.next(true)),
-      catchError(error => this.handleCommandError(error.error)));
+      catchError(error => this.handleCommandError(error.error)),
+    );
   }
 
   public logout(): Observable<void> {
     return this.postRequest('logout').pipe(
       tap(() => this.setLoggedOut()),
-      catchError(error => throwError('Unable to log out.')));
+      catchError(error => throwError('Unable to log out.')),
+    );
   }
 
   public isLoggedIn(): Observable<boolean> {
@@ -132,6 +126,7 @@ export class AuthService extends BaseBackendService<BaseModel> {
   private getCapabilities(): Observable<void> {
     return this.sendCommand(CSCommands.ListCapabilities, {}, '').pipe(
       map(({ capability }) => (this.capabilities = capability)),
-      catchError(() => this.logout()));
+      catchError(() => this.logout()),
+    );
   }
 }

@@ -10,7 +10,6 @@ import { RuleListItem } from '../security-group-builder.component';
 import { SecurityGroupBuilderRuleComponent } from './security-group-builder-rule.component';
 import { NetworkRuleType } from '../../../../security-group/sg.model';
 
-
 describe('Sg creation rule component', () => {
   let f;
   let comp;
@@ -24,16 +23,14 @@ describe('Sg creation rule component', () => {
       endport: 65535,
       cidr: '0.0.0.0/0',
     },
-    type: NetworkRuleType.Ingress
+    type: NetworkRuleType.Ingress,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SecurityGroupBuilderRuleComponent, MockTranslatePipe],
-      providers: [
-        { provide: TranslateService, useClass: MockTranslateService },
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+      providers: [{ provide: TranslateService, useClass: MockTranslateService }],
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     TestBed.compileComponents().then(() => {
@@ -48,9 +45,7 @@ describe('Sg creation rule component', () => {
 
     f.detectChanges();
 
-    const listContent = f.debugElement.query(
-      By.css('mat-list-item h5')
-    ).nativeElement.textContent;
+    const listContent = f.debugElement.query(By.css('mat-list-item h5')).nativeElement.textContent;
 
     expect(listContent).toContain('SECURITY_GROUP_PAGE.RULES.INGRESS_RULE_PORT_RANGE');
 

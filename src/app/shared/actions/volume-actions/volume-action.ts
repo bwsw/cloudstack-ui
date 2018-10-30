@@ -4,5 +4,5 @@ export enum VolumeAction {
   DELETE = 'delete',
   RESIZE = 'resize',
   SNAPSHOT = 'snapshot',
-  SCHEDULE = 'schedule'
+  SCHEDULE = 'schedule',
 }

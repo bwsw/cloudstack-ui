@@ -1,32 +1,28 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  NgZone,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatInput } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { AbstractInlineEditComponent } from './abstract-inline-edit.component';
 
-
 @Component({
   selector: 'cs-inline-edit',
   templateUrl: 'inline-edit.component.html',
-  styleUrls: ['inline-edit.scss', 'inline-edit.component.scss']
+  styleUrls: ['inline-edit.scss', 'inline-edit.component.scss'],
 })
 export class InlineEditComponent extends AbstractInlineEditComponent implements OnInit {
-  @Input() public rows: number;
-  @Input() public maxrows: number;
-  @Input() public maxLength: number;
+  @Input()
+  public rows: number;
+  @Input()
+  public maxrows: number;
+  @Input()
+  public maxLength: number;
 
-  @ViewChild(MatInput) public textArea: MatInput;
+  @ViewChild(MatInput)
+  public textArea: MatInput;
 
   public constructor(
     protected changeDetectorRef: ChangeDetectorRef,
     protected translateService: TranslateService,
-    protected zone: NgZone
+    protected zone: NgZone,
   ) {
     super(changeDetectorRef);
     this.inputPlaceholder = this.contentPlaceholder || 'INLINE_EDIT.ENTER_TEXT';

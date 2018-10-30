@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, Observable, of, Subject, throwError } from 'rxjs';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { AsyncJobService } from '../../shared/services/async-job.service';
@@ -10,20 +10,19 @@ import { TemplateTagService } from '../../shared/services/tags/template-tag.serv
 import { BaseTemplateModel } from './base-template.model';
 import { Utils } from '../../shared/services/utils/utils.service';
 
-
-export const TemplateFilters = {
+export const templateFilters = {
   community: 'community',
   executable: 'executable',
   featured: 'featured',
   self: 'self',
   selfExecutable: 'selfexecutable',
   sharedExecutable: 'sharedexecutable',
-  all: 'all'
+  all: 'all',
 };
 
-export const TemplateResourceType = {
+export const templateResourceType = {
   template: 'Template',
-  iso: 'Iso'
+  iso: 'Iso',
 };
 
 export interface RequestParams {
@@ -53,25 +52,25 @@ export interface CreateTemplateBaseParams {
 }
 
 export class GroupedTemplates<T extends BaseTemplateModel> {
-  public community: Array<T>;
-  public executable: Array<T>;
-  public featured: Array<T>;
-  public self: Array<T>;
-  public selfExecutable: Array<T>;
-  public sharedExecutable: Array<T>;
-  public all: Array<T>;
+  public community: T[];
+  public executable: T[];
+  public featured: T[];
+  public self: T[];
+  public selfExecutable: T[];
+  public sharedExecutable: T[];
+  public all: T[];
 
   constructor(templates: {}) {
-    this.all = templates[TemplateFilters.all] || [];
-    this.community = templates[TemplateFilters.community] || [];
-    this.executable = templates[TemplateFilters.executable] || [];
-    this.featured = templates[TemplateFilters.featured] || [];
-    this.self = templates[TemplateFilters.self] || [];
-    this.selfExecutable = templates[TemplateFilters.selfExecutable] || [];
-    this.sharedExecutable = templates[TemplateFilters.sharedExecutable] || [];
+    this.all = templates[templateFilters.all] || [];
+    this.community = templates[templateFilters.community] || [];
+    this.executable = templates[templateFilters.executable] || [];
+    this.featured = templates[templateFilters.featured] || [];
+    this.self = templates[templateFilters.self] || [];
+    this.selfExecutable = templates[templateFilters.selfExecutable] || [];
+    this.sharedExecutable = templates[templateFilters.sharedExecutable] || [];
   }
 
-  public toArray(): Array<T> {
+  public toArray(): T[] {
     return []
       .concat(this.featured)
       .concat(this.selfExecutable)
@@ -83,52 +82,53 @@ export class GroupedTemplates<T extends BaseTemplateModel> {
   }
 }
 
-
 @Injectable()
 export abstract class BaseTemplateService extends BaseBackendCachedService<BaseTemplateModel> {
   public onTemplateRemoved = new Subject<BaseTemplateModel>();
-  private _templateFilters: Array<string>;
+  private filters: string[];
 
   constructor(
     protected asyncJobService: AsyncJobService,
     protected templateTagService: TemplateTagService,
-    protected http: HttpClient
+    protected http: HttpClient,
   ) {
     super(http);
-    this._templateFilters = [
-      TemplateFilters.featured,
-      TemplateFilters.selfExecutable,
-      TemplateFilters.community,
-      TemplateFilters.sharedExecutable,
-      TemplateFilters.executable,
-      TemplateFilters.self,
-      TemplateFilters.all
+    this.filters = [
+      templateFilters.featured,
+      templateFilters.selfExecutable,
+      templateFilters.community,
+      templateFilters.sharedExecutable,
+      templateFilters.executable,
+      templateFilters.self,
+      templateFilters.all,
     ];
   }
 
   public get(id: string, params?: RequestParams): Observable<BaseTemplateModel> {
-    const filter = params && params.filter ? params.filter : TemplateFilters.featured;
+    const filter = params && params.filter ? params.filter : templateFilters.featured;
     return this.getList({ id, filter }).pipe(
       map(templates => templates[0]),
-      catchError(error => throwError(error)));
+      catchError(() => of(null)),
+    );
   }
 
   public getList(
     params: RequestParams,
     customApiFormat?: {},
-    useCache = false
-  ): Observable<Array<BaseTemplateModel>> {
+    useCache = false,
+  ): Observable<BaseTemplateModel[]> {
     return this.getListWithDuplicates(params, useCache).pipe(
       map(templates => this.distinctIds(templates)),
-      catchError((err) => {
+      catchError(() => {
         return of([]);
-      }));
+      }),
+    );
   }
 
   public getListWithDuplicates(
     params: RequestParams,
-    useCache = true
-  ): Observable<Array<BaseTemplateModel>> {
+    useCache = true,
+  ): Observable<BaseTemplateModel[]> {
     params[`${this.entity}filter`.toLowerCase()] = params.filter;
     delete params.filter;
 
@@ -142,22 +142,22 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     return super.getList(params, null, useCache).pipe(
       map(templates => {
         if (maxSize) {
-          return templates.filter(
-            template => Utils.convertToGb(template.size) <= maxSize);
+          return templates.filter(template => Utils.convertToGb(template.size) <= maxSize);
         }
         return templates;
       }),
-      catchError((error) => {
+      catchError(() => {
         return of([]);
-      }));
+      }),
+    );
   }
 
   public getWithGroupedZones(
     id: string,
     params?: RequestParams,
-    useCache = true
+    useCache = true,
   ): Observable<BaseTemplateModel> {
-    const filter = params && params.filter ? params.filter : TemplateFilters.featured;
+    const filter = params && params.filter ? params.filter : templateFilters.featured;
     return this.getListWithDuplicates({ id, filter }, useCache).pipe(
       map(templates => {
         if (templates.length) {
@@ -169,13 +169,14 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
               zoneid: template.zoneid,
               zonename: template.zonename,
               status: template.status,
-              isready: template.isready
+              isready: template.isready,
             });
           });
         }
 
         return templates[0];
-      }));
+      }),
+    );
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<BaseTemplateModel> {
@@ -186,48 +187,50 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       switchMap(template => {
         if (params.groupId) {
           return this.templateTagService.setGroup(template, { id: params.groupId });
-        } else {
-          return of(template);
         }
+        return of(template);
       }),
       switchMap(template => {
         return this.templateTagService.setDownloadUrl(template, params.url).pipe(
           catchError(() => of(null)),
-          tap(tag => template.tags.push(tag)));
-      }));
+          tap(tag => template.tags.push(tag)),
+        );
+      }),
+    );
   }
 
   public remove(template: BaseTemplateModel): Observable<BaseTemplateModel> {
     this.invalidateCache();
     return this.sendCommand(CSCommands.Delete, {
       id: template.id,
-      zoneId: template.zoneid
+      zoneId: template.zoneid,
     }).pipe(
       switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
       map(() => {
         this.onTemplateRemoved.next(template);
         return template;
-      }));
+      }),
+    );
   }
 
   public getGroupedTemplates<T extends BaseTemplateModel>(
     params?: {},
-    filters?: Array<string>,
-    distinct = true
+    filters?: string[],
+    distinct = true,
   ): Observable<GroupedTemplates<T>> {
-    const _params = params || {};
-    let localFilters = this._templateFilters;
+    const parameters = params || {};
+    let localFilters = this.filters;
     if (filters) {
       if (filters.includes('all')) {
-        filters = Object.keys(TemplateFilters).map((key) => TemplateFilters[key]);
+        // tslint:disable-next-line:no-parameter-reassignment
+        filters = Object.keys(templateFilters).map(key => templateFilters[key]);
       }
       localFilters = filters;
-
     }
 
-    const templateObservables = [];
+    const templateObservables: Observable<BaseTemplateModel[]>[] = [];
     for (const filter of localFilters) {
-      const requestParams = Object.assign({}, _params, { filter });
+      const requestParams = { ...parameters, filter };
       const templates = distinct
         ? this.getList(requestParams)
         : this.getListWithDuplicates(requestParams);
@@ -235,6 +238,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       templateObservables.push(templates);
     }
 
+    // todo
+    // tslint:disable-next-line:deprecation
     return forkJoin(...templateObservables).pipe(
       map(data => {
         const obj = {};
@@ -243,16 +248,17 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
         });
 
         return new GroupedTemplates<T>(obj);
-      }));
+      }),
+    );
   }
 
-  private distinctIds(templates: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
+  private distinctIds(templates: BaseTemplateModel[]): BaseTemplateModel[] {
     const ids = {};
     const result = [];
-    for (let i = 0; i < templates.length; i++) {
-      if (!ids[templates[i].id]) {
-        ids[templates[i].id] = true;
-        result.push(templates[i]);
+    for (const template of templates) {
+      if (!ids[template.id]) {
+        ids[template.id] = true;
+        result.push(template);
       }
     }
     return result;

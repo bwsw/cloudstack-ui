@@ -1,10 +1,10 @@
 import {
   HorizontalConnectionPos,
   Overlay,
-  OverlayRef,
   OverlayConfig,
+  OverlayRef,
   PositionStrategy,
-  VerticalConnectionPos
+  VerticalConnectionPos,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
@@ -16,7 +16,7 @@ import {
   Input,
   OnDestroy,
   Output,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import { PopoverComponent } from './popover.component';
 
@@ -28,23 +28,29 @@ import { PopoverComponent } from './popover.component';
  * It handles opening and closing the popover.
  */
 @Directive({
-  selector: '[csPopoverTrigger]'
+  selector: '[csPopoverTrigger]',
 })
 export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
-  @Input() public csPopoverTrigger: PopoverComponent;
-  @Input() public popoverPositionX: HorizontalConnectionPos;
-  @Input() public popoverPositionY: VerticalConnectionPos;
-  @Output() public onPopoverOpen = new EventEmitter<void>();
-  @Output() public onPopoverClose = new EventEmitter<void>();
+  @Input()
+  public csPopoverTrigger: PopoverComponent;
+  @Input()
+  public popoverPositionX: HorizontalConnectionPos;
+  @Input()
+  public popoverPositionY: VerticalConnectionPos;
+  @Output()
+  public popoverOpened = new EventEmitter<void>();
+  @Output()
+  public popoverClosed = new EventEmitter<void>();
 
   private portal: TemplatePortal<any>;
   private overlayRef: OverlayRef | null = null;
+  // tslint:disable-next-line:variable-name
   private _open = false;
 
   constructor(
     private overlay: Overlay,
     private element: ElementRef,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
   ) {}
 
   public ngAfterViewInit(): void {
@@ -98,7 +104,7 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
     if (!this._open) {
       this.createOverlay().attach(this.portal);
       this._open = true;
-      this.onPopoverOpen.emit();
+      this.popoverOpened.emit();
     }
   }
 
@@ -106,16 +112,13 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
     if (this.overlayRef && this._open) {
       this.overlayRef.detach();
       this._open = false;
-      this.onPopoverClose.emit();
+      this.popoverClosed.emit();
     }
   }
 
   private createOverlay(): OverlayRef {
     if (!this.overlayRef) {
-      this.portal = new TemplatePortal(
-        this.csPopoverTrigger.templateRef,
-        this.viewContainerRef
-      );
+      this.portal = new TemplatePortal(this.csPopoverTrigger.templateRef, this.viewContainerRef);
 
       const config = new OverlayConfig();
       config.positionStrategy = this.getPositionStrategy();
@@ -131,33 +134,36 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
     const overlayX = this.popoverPositionX || 'center';
     const overlayY = this.popoverPositionY || 'top';
 
-    const fallbackOverlayX =
-      overlayX === 'start' ? 'end' : (overlayX === 'end' ? 'start' : 'center');
+    const fallbackOverlayX = overlayX === 'start' ? 'end' : overlayX === 'end' ? 'start' : 'center';
     const fallbackOverlayY =
-      overlayY === 'top' ? 'bottom' : (overlayY === 'bottom' ? 'top' : 'center');
+      overlayY === 'top' ? 'bottom' : overlayY === 'bottom' ? 'top' : 'center';
 
-    return this.overlay
-      .position()
-      .connectedTo(
-        this.element,
-        {
-          originX: 'center',
-          originY: 'bottom'
-        },
-        {
-          overlayX,
-          overlayY
-        }
-      )
-      .withFallbackPosition(
-        {
-          originX: 'center',
-          originY: 'top'
-        },
-        {
-          overlayX: fallbackOverlayX,
-          overlayY: fallbackOverlayY
-        }
-      );
+    return (
+      this.overlay
+        .position()
+        // todo
+        // tslint:disable-next-line:deprecation
+        .connectedTo(
+          this.element,
+          {
+            originX: 'center',
+            originY: 'bottom',
+          },
+          {
+            overlayX,
+            overlayY,
+          },
+        )
+        .withFallbackPosition(
+          {
+            originX: 'center',
+            originY: 'top',
+          },
+          {
+            overlayX: fallbackOverlayX,
+            overlayY: fallbackOverlayY,
+          },
+        )
+    );
   }
 }

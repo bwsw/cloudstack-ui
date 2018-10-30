@@ -4,9 +4,10 @@ import { INotificationStatus, JobNotification } from '../../services/jobs-notifi
 @Component({
   selector: 'cs-notification-box-item',
   templateUrl: 'notification-box-item.component.html',
-  styleUrls: ['notification-box-item.component.scss']
+  styleUrls: ['notification-box-item.component.scss'],
 })
 export class NotificationBoxItemComponent {
-  @Input() public notification: JobNotification;
+  @Input()
+  public notification: JobNotification;
   public notificationStatus = INotificationStatus;
 }

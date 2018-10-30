@@ -5,7 +5,6 @@ import { catchError, map, onErrorResumeNext, switchMap } from 'rxjs/operators';
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
 import { BaseTemplateAction } from '../base-template-action';
 
-
 @Injectable()
 export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
   public name = 'COMMON.DELETE';
@@ -23,19 +22,10 @@ export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
       switchMap(res => {
         if (res) {
           return this.onConfirm(template);
-        } else {
-          return of(null);
         }
-      }));
-  }
-
-  private onConfirm(template: BaseTemplateModel): Observable<any> {
-    return this.remove(template).pipe(
-      map(() => this.onSuccess()),
-      catchError(error => {
-        this.onError(error);
-        return throwError(null);
-      }));
+        return of(null);
+      }),
+    );
   }
 
   protected onSuccess(): void {
@@ -49,8 +39,8 @@ export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
     this.dialogService.alert({
       message: {
         translationToken: error.message,
-        interpolateParams: error.params
-      }
+        interpolateParams: error.params,
+      },
     });
 
     this.jobsNotificationService.fail({
@@ -60,4 +50,14 @@ export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
   }
 
   protected abstract remove(template: BaseTemplateModel): Observable<any>;
+
+  private onConfirm(template: BaseTemplateModel): Observable<any> {
+    return this.remove(template).pipe(
+      map(() => this.onSuccess()),
+      catchError(error => {
+        this.onError(error);
+        return throwError(null);
+      }),
+    );
+  }
 }

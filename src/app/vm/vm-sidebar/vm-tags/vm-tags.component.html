@@ -2,8 +2,8 @@
   <cs-tags-view
     [hasPermissions]="true"
     [tags]="entity.tags"
-    (onTagAdd)="addTag($event)"
-    (onTagEdit)="editTag($event)"
-    (onTagDelete)="deleteTag($event)"
+    (tagAdded)="addTag($event)"
+    (tagEdited)="editTag($event)"
+    (tagDeleted)="deleteTag($event)"
   ></cs-tags-view>
 </div>

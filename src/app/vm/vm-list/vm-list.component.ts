@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { ListService } from '../../shared/components/list/list.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
@@ -8,18 +8,23 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 import { OsType, Volume } from '../../shared/models';
 import { NgrxEntities } from '../../shared/interfaces';
 
-
 @Component({
   selector: 'cs-vm-list',
-  templateUrl: 'vm-list.component.html'
+  templateUrl: 'vm-list.component.html',
 })
 export class VmListComponent implements OnChanges {
-  @Input() public vms: Array<VirtualMachine>;
-  @Input() public volumes: Array<Volume>;
-  @Input() public osTypesMap: NgrxEntities<OsType>;
-  @Input() public groupings: Array<any>;
-  @Input() public mode: ViewMode;
-  @Input() public query: string;
+  @Input()
+  public vms: VirtualMachine[];
+  @Input()
+  public volumes: Volume[];
+  @Input()
+  public osTypesMap: NgrxEntities<OsType>;
+  @Input()
+  public groupings: any[];
+  @Input()
+  public mode: ViewMode;
+  @Input()
+  public query: string;
   public inputs;
   public outputs;
 
@@ -28,7 +33,7 @@ export class VmListComponent implements OnChanges {
       query: this.query,
       isSelected: item => this.listService.isSelected(item.id),
       volumes: this.volumes,
-      osTypesMap: this.osTypesMap
+      osTypesMap: this.osTypesMap,
     };
 
     this.outputs = {

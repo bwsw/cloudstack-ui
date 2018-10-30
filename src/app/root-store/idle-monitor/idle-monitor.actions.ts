@@ -4,7 +4,7 @@ export enum IdleMonitorActionTypes {
   StartIdleMonitor = '[User tags loaded] Start idle monitor',
   StopIdleMonitor = '[Logout] Stop idle monitor',
   UpdateIdleMonitorTimeout = '[Session timeout change] Update idle monitor timeout',
-  RefreshSessionRequest = '[Idle monitor] Refresh session request'
+  RefreshSessionRequest = '[Idle monitor] Refresh session request',
 }
 
 export class StartIdleMonitor implements Action {
@@ -18,8 +18,7 @@ export class StopIdleMonitor implements Action {
 export class UpdateIdleMonitorTimeout implements Action {
   readonly type = IdleMonitorActionTypes.UpdateIdleMonitorTimeout;
 
-  constructor(public payload: { timeout: number }) {
-  }
+  constructor(public payload: { timeout: number }) {}
 }
 
 export class RefreshSessionRequest implements Action {

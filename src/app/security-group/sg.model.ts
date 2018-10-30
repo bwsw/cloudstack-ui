@@ -1,23 +1,22 @@
 import { NetworkRule } from './network-rule.model';
-import { SecurityGroupTagKeys } from '../shared/services/tags/security-group-tag-keys';
+import { securityGroupTagKeys } from '../shared/services/tags/security-group-tag-keys';
 import { Tag } from '../shared/models';
-
 
 export enum SecurityGroupType {
   PredefinedTemplate = 'predefined-template',
   CustomTemplate = 'custom-template',
   Private = 'private',
-  Shared = 'shared'
+  Shared = 'shared',
 }
 
 export enum NetworkRuleType {
   Ingress = 'Ingress',
-  Egress = 'Egress'
+  Egress = 'Egress',
 }
 
 export enum IPVersion {
   ipv4 = 'ipv4',
-  ipv6 = 'ipv6'
+  ipv6 = 'ipv6',
 }
 
 export interface SecurityGroupNative {
@@ -41,22 +40,22 @@ export interface SecurityGroupTemplate {
   description: string;
   preselected?: boolean;
   egressrule: NetworkRule[];
-  ingressrule: NetworkRule[]
+  ingressrule: NetworkRule[];
 }
 
 export type SecurityGroup = SecurityGroupNative | SecurityGroupTemplate;
 
 export const isSecurityGroupNative = (sg: SecurityGroup): sg is SecurityGroupNative =>
-  ((sg as SecurityGroupNative).tags) != null;
+  (sg as SecurityGroupNative).tags != null;
 
 export const isCustomTemplate = (securityGroup: SecurityGroupNative) => {
-  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+  const typeTag = securityGroup.tags.find(tag => tag.key === securityGroupTagKeys.type);
 
   return typeTag && typeTag.value === SecurityGroupType.CustomTemplate;
 };
 
 export const isPrivate = (securityGroup: SecurityGroupNative) => {
-  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+  const typeTag = securityGroup.tags.find(tag => tag.key === securityGroupTagKeys.type);
 
   return typeTag && typeTag.value === SecurityGroupType.Private;
 };

@@ -5,16 +5,16 @@ export enum ProgressLoggerMessageStatus {
   InProgress,
   Done,
   Error,
-  ErrorMessage
+  ErrorMessage,
 }
 
 export interface ProgressLoggerMessageData {
   text: string;
-  status?: Array<ProgressLoggerMessageStatus>;
+  status?: ProgressLoggerMessageStatus[];
 }
 
 export interface ProgressLoggerMessage {
   id: string;
   text: string | ParametrizedTranslation;
-  status?: Array<ProgressLoggerMessageStatus>;
+  status?: ProgressLoggerMessageStatus[];
 }

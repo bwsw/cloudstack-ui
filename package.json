@@ -1,6 +1,6 @@
 {
   "name": "cloudstack-ui",
-  "version": "1.411.22",
+  "version": "1.411.23",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
@@ -15,6 +15,11 @@
     "e2e": "ng e2e",
     "coveralls": "cat ./reports/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   },
   "private": true,
   "dependencies": {
@@ -70,6 +75,7 @@
     "conventional-changelog": "^2.0.3",
     "conventional-changelog-cli": "^2.0.5",
     "coveralls": "^3.0.2",
+    "husky": "^1.1.2",
     "jasmine-core": "~2.99.1",
     "jasmine-marbles": "^0.4.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -81,9 +87,13 @@
     "karma-junit-reporter": "^1.2.0",
     "karma-mocha-reporter": "^2.2.3",
     "ngrx-store-freeze": "^0.2.0",
+    "prettier": "1.14.3",
+    "pretty-quick": "^1.8.0",
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
-    "tslint": "~5.9.1",
+    "tslint": "~5.11.0",
+    "tslint-config-airbnb": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
     "typescript": "~2.7.2"
   }
 }

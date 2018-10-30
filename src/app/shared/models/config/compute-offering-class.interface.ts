@@ -9,5 +9,5 @@ export const defaultComputeOfferingClass = {
   id: 'common',
   name: {},
   description: {},
-  computeOfferings: []
+  computeOfferings: [],
 };

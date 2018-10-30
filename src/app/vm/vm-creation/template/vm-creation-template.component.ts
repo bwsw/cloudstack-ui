@@ -8,7 +8,6 @@ import { map } from 'rxjs/operators';
 import { BaseTemplateModel } from '../../../template/shared';
 import { InstallationSourceDialogComponent } from './containers/installation-source-dialog.component';
 
-
 @Component({
   selector: 'cs-vm-creation-template',
   templateUrl: 'vm-creation-template.component.html',
@@ -17,19 +16,22 @@ import { InstallationSourceDialogComponent } from './containers/installation-sou
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => VmCreationTemplateComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class VmCreationTemplateComponent {
-  @Input() public templates: BaseTemplateModel[];
-  @Input() public numberOfTemplates: number;
-  @Output() public change = new EventEmitter<BaseTemplateModel>();
+  @Input()
+  public templates: BaseTemplateModel[];
+  @Input()
+  public numberOfTemplates: number;
+  @Output()
+  public changed = new EventEmitter<BaseTemplateModel>();
 
+  // tslint:disable-next-line:variable-name
   private _template: BaseTemplateModel | null;
 
-  constructor(private dialog: MatDialog, private translateService: TranslateService) {
-  }
+  constructor(private dialog: MatDialog, private translateService: TranslateService) {}
 
   public get templateName(): Observable<string> {
     if (!this.template) {
@@ -39,22 +41,20 @@ export class VmCreationTemplateComponent {
     return this.translateService.get(['VM_PAGE.VM_CREATION.OS_TEMPLATE']).pipe(
       map(translations => {
         return `${translations['VM_PAGE.VM_CREATION.OS_TEMPLATE']}: ${this.template.name}`;
-      }));
+      }),
+    );
   }
 
   public onClick(): void {
-    this.showTemplateSelectionDialog()
-      .subscribe(template => {
-
-        if (template) {
-          this.template = template;
-          this.change.next(this.template);
-        }
-      });
+    this.showTemplateSelectionDialog().subscribe(template => {
+      if (template) {
+        this.template = template;
+        this.changed.next(this.template);
+      }
+    });
   }
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
   @Input()
   public get template(): BaseTemplateModel {
@@ -76,15 +76,16 @@ export class VmCreationTemplateComponent {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
-    return this.dialog.open(InstallationSourceDialogComponent, {
-      width: '776px',
-      data: {
-        template: this.template
-      },
-    }).afterClosed();
+    return this.dialog
+      .open(InstallationSourceDialogComponent, {
+        width: '776px',
+        data: {
+          template: this.template,
+        },
+      })
+      .afterClosed();
   }
 }

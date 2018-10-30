@@ -1,17 +1,12 @@
 import { CidrUtils } from './cidr-utils';
 import { IPVersion } from '../../security-group/sg.model';
 
-const validCidrV4Values = [
-  '99.198.122.146/32',
-  '46.51.197.88/8',
-  '173.194.34.134/12',
-  '0.0.0.0/0'
-];
+const validCidrV4Values = ['99.198.122.146/32', '46.51.197.88/8', '173.194.34.134/12', '0.0.0.0/0'];
 const validCidrV6Values = [
   'fe80:0000:0000:0000:0204:61ff:fe9d:f156/100',
   '::1/128',
   'a:b:c:d:e:f:0::/64',
-  'FE80::/10'
+  'FE80::/10',
 ];
 const invalidCidrValues = [
   'invalid',
@@ -31,7 +26,7 @@ const invalidCidrValues = [
   '1.2.3.4::/64',
   '::',
   ':::/64',
-  '::2222:3333:4444:5555:7777:8888::/64'
+  '::2222:3333:4444:5555:7777:8888::/64',
 ];
 
 describe('CIDR Utils', () => {

@@ -5,13 +5,12 @@ import { forkJoin, Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
 import { DayOfWeek } from '../../../shared/types';
-import { State, UserTagsSelectors } from '../../../root-store'
+import { State, UserTagsSelectors } from '../../../root-store';
 import { select, Store } from '@ngrx/store';
 
-
 export interface DayOfWeekName {
-  value: DayOfWeek,
-  name: string
+  value: DayOfWeek;
+  name: string;
 }
 
 @Component({
@@ -21,19 +20,18 @@ export interface DayOfWeekName {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DayOfWeekComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class DayOfWeekComponent {
+  // tslint:disable-next-line:variable-name
   public _dayOfWeek: DayOfWeek;
-  readonly daysOfWeek$: Observable<Array<DayOfWeekName>> = this.getDaysOfWeek();
+  readonly daysOfWeek$: Observable<DayOfWeekName[]> = this.getDaysOfWeek();
 
-  constructor(private store: Store<State>, private translateService: TranslateService) {
-  }
+  constructor(private store: Store<State>, private translateService: TranslateService) {}
 
-
-  private get daysOfWeekList(): Array<DayOfWeekName> {
+  private get daysOfWeekList(): DayOfWeekName[] {
     return [
       { value: DayOfWeek.Sunday, name: 'DATE_TIME.DAYS_OF_WEEK.SUNDAY' },
       { value: DayOfWeek.Monday, name: 'DATE_TIME.DAYS_OF_WEEK.MONDAY' },
@@ -45,8 +43,7 @@ export class DayOfWeekComponent {
     ];
   }
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
   @Input()
   public get dayOfWeek(): number {
@@ -62,8 +59,7 @@ export class DayOfWeekComponent {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
   public writeValue(value: any): void {
     if (value) {
@@ -71,11 +67,14 @@ export class DayOfWeekComponent {
     }
   }
 
-  private getDaysOfWeek(): Observable<Array<DayOfWeekName>> {
+  private getDaysOfWeek(): Observable<DayOfWeekName[]> {
     const dayNames = this.daysOfWeekList.map(day => day.name);
 
     return forkJoin(
-      this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek), first()),
+      this.store.pipe(
+        select(UserTagsSelectors.getFirstDayOfWeek),
+        first(),
+      ),
       this.translateService.get(dayNames),
     ).pipe(
       map(([firstDayOfWeek, translations]) => {
@@ -89,6 +88,7 @@ export class DayOfWeekComponent {
           dayOfWeek.name = translations[dayOfWeek.name];
           return dayOfWeek;
         });
-      }));
+      }),
+    );
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AccessService, AuthModeType } from './access.service';
 import { VirtualMachine } from '../';
-import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
+import { virtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 @Injectable()
 export class VncAccessService extends AccessService {
@@ -12,10 +12,10 @@ export class VncAccessService extends AccessService {
   }
 
   public getLogin(vm: VirtualMachine): string {
-    return this.getTagValue(vm.tags, VirtualMachineTagKeys.loginTag) || this.defaultLogin;
+    return this.getTagValue(vm.tags, virtualMachineTagKeys.loginTag) || this.defaultLogin;
   }
 
   public getPassword(vm: VirtualMachine): string {
-    return this.getTagValue(vm.tags, VirtualMachineTagKeys.passwordTag);
+    return this.getTagValue(vm.tags, virtualMachineTagKeys.passwordTag);
   }
 }

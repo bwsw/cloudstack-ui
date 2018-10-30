@@ -5,24 +5,25 @@ import { TemplateCreationContainerComponent } from './containers/template-creati
 
 @Component({
   selector: 'cs-template-create-dialog',
-  template: ``
+  template: ``,
 })
 export class TemplateCreationDialogComponent {
   constructor(
     private dialog: MatDialog,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {
-    this.dialog.open(TemplateCreationContainerComponent, {
-      data: {},
-      disableClose: true,
-      width: '650px'
-    })
+    this.dialog
+      .open(TemplateCreationContainerComponent, {
+        data: {},
+        disableClose: true,
+        width: '650px',
+      })
       .afterClosed()
       .subscribe(() => {
         this.router.navigate(['../'], {
           queryParamsHandling: 'preserve',
-          relativeTo: this.activatedRoute
+          relativeTo: this.activatedRoute,
         });
       });
   }

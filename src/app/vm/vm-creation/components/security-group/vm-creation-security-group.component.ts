@@ -4,21 +4,24 @@ import { Rules } from '../../../../shared/components/security-group-builder/rule
 import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
 import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
 
-
 @Component({
   selector: 'cs-vm-creation-security-group',
   templateUrl: 'vm-creation-security-group.component.html',
-  styleUrls: ['vm-creation-security-group.component.scss']
+  styleUrls: ['vm-creation-security-group.component.scss'],
 })
 export class VmCreationSecurityGroupComponent {
-  @Input() public sharedGroups: Array<SecurityGroup>;
-  @Input() public savedData: VmCreationSecurityGroupData;
-  @Output() public onSave = new EventEmitter<VmCreationSecurityGroupData>();
-  @Output() public onCancel = new EventEmitter();
+  @Input()
+  public sharedGroups: SecurityGroup[];
+  @Input()
+  public savedData: VmCreationSecurityGroupData;
+  @Output()
+  public saved = new EventEmitter<VmCreationSecurityGroupData>();
+  @Output()
+  public canceled = new EventEmitter();
 
   public title = {
     [VmCreationSecurityGroupMode.Builder]: 'SECURITY_GROUP_SELECTOR.BUILD_NEW_GROUP',
-    [VmCreationSecurityGroupMode.Selector]: 'SECURITY_GROUP_SELECTOR.SELECT_EXISTING_GROUP'
+    [VmCreationSecurityGroupMode.Selector]: 'SECURITY_GROUP_SELECTOR.SELECT_EXISTING_GROUP',
   };
 
   public get VmCreationSecurityGroupMode() {

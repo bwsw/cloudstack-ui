@@ -14,14 +14,13 @@ import { BaseTemplateModel } from '../../../shared/base-template.model';
       [groups]="imageGroups$ | async"
       (groupChange)="onGroupChange($event)"
       (groupReset)="onGroupReset()"
-    ></cs-template-group>`
+    ></cs-template-group>`,
 })
 export class TemplateGroupContainerComponent {
   readonly imageGroups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
   readonly template$ = this.store.pipe(select(fromTemplates.getSelectedTemplate));
 
-  constructor(private store: Store<State>) {
-  }
+  constructor(private store: Store<State>) {}
 
   public onGroupChange(template: BaseTemplateModel) {
     this.store.dispatch(new templateActions.UpdateTemplate(template));

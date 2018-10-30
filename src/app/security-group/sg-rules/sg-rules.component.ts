@@ -12,18 +12,22 @@ import { FirewallRule } from '../shared/models';
 import { SecurityGroupViewMode } from '../sg-view-mode';
 import { CidrUtils } from '../../shared/utils/cidr-utils';
 
-
 @Component({
   selector: 'cs-security-group-rules',
   templateUrl: 'sg-rules.component.html',
-  styleUrls: ['sg-rules.component.scss']
+  styleUrls: ['sg-rules.component.scss'],
 })
 export class SgRulesComponent implements OnInit, OnChanges {
-  @Input() public securityGroup: SecurityGroup;
-  @Input() public editMode = false;
-  @Input() public vmId: string;
-  @Output() public onCloseDialog = new EventEmitter();
-  @Output() public onFirewallRulesChange = new EventEmitter<SecurityGroup>();
+  @Input()
+  public securityGroup: SecurityGroup;
+  @Input()
+  public editMode = false;
+  @Input()
+  public vmId: string;
+  @Output()
+  public closeDialog = new EventEmitter();
+  @Output()
+  public firewallRulesChanged = new EventEmitter<SecurityGroup>();
 
   public selectedIPVersion: string[] = [];
   public selectedTypes: string[] = [];
@@ -36,7 +40,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
 
   public adding: boolean;
 
-  public IPversions = [IPVersion.ipv4, IPVersion.ipv6];
+  public ipVersions = [IPVersion.ipv4, IPVersion.ipv6];
 
   public inputs;
   public outputs;
@@ -47,14 +51,17 @@ export class SgRulesComponent implements OnInit, OnChanges {
       key: 'types',
       label: 'SECURITY_GROUP_PAGE.FILTERS.TYPES',
       selector: (item: NetworkRule) => item.type,
-      name: (item: NetworkRule) => this.translateService
-        .instant(`SECURITY_GROUP_PAGE.RULES.${item.type.toUpperCase()}_DISPLAY`)
-    }, {
+      name: (item: NetworkRule) =>
+        this.translateService.instant(
+          `SECURITY_GROUP_PAGE.RULES.${item.type.toUpperCase()}_DISPLAY`,
+        ),
+    },
+    {
       key: 'protocols',
       label: 'SECURITY_GROUP_PAGE.FILTERS.PROTOCOLS',
       selector: (item: NetworkRule) => item.protocol,
-      name: (item: NetworkRule) => 'SECURITY_GROUP_PAGE.RULES.' + item.protocol.toUpperCase()
-    }
+      name: (item: NetworkRule) => `SECURITY_GROUP_PAGE.RULES.${item.protocol.toUpperCase()}`,
+    },
   ];
 
   public types = [
@@ -65,11 +72,13 @@ export class SgRulesComponent implements OnInit, OnChanges {
   public protocols = [
     { value: NetworkProtocol.TCP, text: 'SECURITY_GROUP_PAGE.RULES.TCP' },
     { value: NetworkProtocol.UDP, text: 'SECURITY_GROUP_PAGE.RULES.UDP' },
-    { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
+    { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' },
   ];
 
   public get isPredefinedTemplate(): boolean {
-    return this.securityGroup && getType(this.securityGroup) === SecurityGroupType.PredefinedTemplate;
+    return (
+      this.securityGroup && getType(this.securityGroup) === SecurityGroupType.PredefinedTemplate
+    );
   }
 
   constructor(
@@ -77,7 +86,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
     private notificationService: SnackBarService,
     private translateService: TranslateService,
     private dialogService: DialogService,
-    private router: Router
+    private router: Router,
   ) {
     this.adding = false;
   }
@@ -85,11 +94,11 @@ export class SgRulesComponent implements OnInit, OnChanges {
   public ngOnInit() {
     this.inputs = {
       type: item => item.type,
-      canRemove: this.editMode && !this.isPredefinedTemplate
+      canRemove: this.editMode && !this.isPredefinedTemplate,
     };
 
     this.outputs = {
-      onRemove: ({ type, id }) => this.removeRule({ type, id })
+      removed: ({ type, id }) => this.removeRule({ type, id }),
     };
   }
 
@@ -103,7 +112,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
     const data: any = {
       securitygroupid: this.securityGroup.id,
       protocol: rule.protocol,
-      cidrList: rule.cidr
+      cidrList: rule.cidr,
     };
     if (rule.protocol === NetworkProtocol.ICMP) {
       data.icmptype = rule.icmpType;
@@ -113,34 +122,31 @@ export class SgRulesComponent implements OnInit, OnChanges {
       data.endport = rule.endPort;
     }
 
-    this.networkRuleService.addRule(rule.type, data)
-      .subscribe(
-        createdRule => {
-          createdRule.type = rule.type;
+    this.networkRuleService.addRule(rule.type, data).subscribe(
+      createdRule => {
+        createdRule.type = rule.type;
 
-          if (createdRule.type === NetworkRuleType.Ingress) {
-            this.ingressRules.push(createdRule);
-          } else {
-            this.egressRules.push(createdRule);
-          }
-
-          this.emitChanges();
-          this.filter();
-          this.adding = false;
-        },
-        () => {
-          this.notificationService.open('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE').subscribe();
-          this.adding = false;
+        if (createdRule.type === NetworkRuleType.Ingress) {
+          this.ingressRules.push(createdRule);
+        } else {
+          this.egressRules.push(createdRule);
         }
-      );
+
+        this.emitChanges();
+        this.filter();
+        this.adding = false;
+      },
+      () => {
+        this.notificationService.open('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE').subscribe();
+        this.adding = false;
+      },
+    );
   }
 
   public removeRule({ type, id }): void {
-    this.networkRuleService.removeRule(type, { id })
-      .subscribe(() => {
-        const rules = type === NetworkRuleType.Ingress
-          ? this.ingressRules
-          : this.egressRules;
+    this.networkRuleService.removeRule(type, { id }).subscribe(
+      () => {
+        const rules = type === NetworkRuleType.Ingress ? this.ingressRules : this.egressRules;
         const ind = rules.findIndex(rule => rule.ruleid === id);
         if (ind === -1) {
           return;
@@ -148,12 +154,17 @@ export class SgRulesComponent implements OnInit, OnChanges {
         rules.splice(ind, 1);
         this.emitChanges();
         this.filter();
-      }, () => {
-        this.translateService.get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
-          .subscribe((translations) => {
-            this.notificationService.open(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']).subscribe();
+      },
+      () => {
+        this.translateService
+          .get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
+          .subscribe(translations => {
+            this.notificationService
+              .open(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
+              .subscribe();
           });
-      });
+      },
+    );
   }
 
   public filter(): void {
@@ -167,23 +178,22 @@ export class SgRulesComponent implements OnInit, OnChanges {
 
   public confirmChangeMode() {
     if (!this.editMode && getType(this.securityGroup) === SecurityGroupType.Shared) {
-      this.dialogService.confirm({
-        message: !this.vmId
-          ? 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT'
-          : 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT_FROM_VM'
-      })
-        .subscribe((res) => {
+      this.dialogService
+        .confirm({
+          message: !this.vmId
+            ? 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT'
+            : 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT_FROM_VM',
+        })
+        .subscribe(res => {
           if (res) {
             if (this.vmId) {
-              this.router.navigate([
-                'security-group', this.securityGroup.id, 'rules'
-              ], {
+              this.router.navigate(['security-group', this.securityGroup.id, 'rules'], {
                 queryParams: {
                   vm: this.vmId,
-                  viewMode: SecurityGroupViewMode.Shared
-                }
+                  viewMode: SecurityGroupViewMode.Shared,
+                },
               });
-              this.onCloseDialog.emit();
+              this.closeDialog.emit();
             } else {
               this.changeMode();
             }
@@ -202,10 +212,14 @@ export class SgRulesComponent implements OnInit, OnChanges {
 
   private update() {
     if (this.securityGroup) {
-      this.ingressRules = this.securityGroup.ingressrule
-        .map(rule => ({ ...rule, type: NetworkRuleType.Ingress }));
-      this.egressRules = this.securityGroup.egressrule
-        .map(rule => ({ ...rule, type: NetworkRuleType.Egress }));
+      this.ingressRules = this.securityGroup.ingressrule.map(rule => ({
+        ...rule,
+        type: NetworkRuleType.Ingress,
+      }));
+      this.egressRules = this.securityGroup.egressrule.map(rule => ({
+        ...rule,
+        type: NetworkRuleType.Egress,
+      }));
     }
 
     this.filter();
@@ -221,16 +235,20 @@ export class SgRulesComponent implements OnInit, OnChanges {
   private filterRules(rules: NetworkRule[]) {
     return rules.filter((rule: NetworkRule) => {
       const filterByIPversion = (item: NetworkRule) => {
-        const ruleIPversion = item.cidr && CidrUtils.getCidrIpVersion(item.cidr) === IPVersion.ipv6
-          ? IPVersion.ipv6
-          : IPVersion.ipv4;
-        return !this.selectedIPVersion.length
-          || this.selectedIPVersion.find(version => version === ruleIPversion);
+        const ruleIPversion =
+          item.cidr && CidrUtils.getCidrIpVersion(item.cidr) === IPVersion.ipv6
+            ? IPVersion.ipv6
+            : IPVersion.ipv4;
+        return (
+          !this.selectedIPVersion.length ||
+          this.selectedIPVersion.find(version => version === ruleIPversion)
+        );
       };
-      const filterByProtocol = (item: NetworkRule) => !this.selectedProtocols.length
-        || this.selectedProtocols.find(protocol => protocol === item.protocol);
-      const filterByTypes = (item: NetworkRule) => !this.selectedTypes.length
-        || this.selectedTypes.find(type => item.type === type);
+      const filterByProtocol = (item: NetworkRule) =>
+        !this.selectedProtocols.length ||
+        this.selectedProtocols.find(protocol => protocol === item.protocol);
+      const filterByTypes = (item: NetworkRule) =>
+        !this.selectedTypes.length || this.selectedTypes.find(type => item.type === type);
 
       return filterByTypes(rule) && filterByIPversion(rule) && filterByProtocol(rule);
     });
@@ -240,8 +258,8 @@ export class SgRulesComponent implements OnInit, OnChanges {
     const updatedSecurityGroup = {
       ...this.securityGroup,
       ingressrule: this.ingressRules,
-      egressrule: this.egressRules
+      egressrule: this.egressRules,
     };
-    this.onFirewallRulesChange.emit(updatedSecurityGroup);
+    this.firewallRulesChanged.emit(updatedSecurityGroup);
   }
 }

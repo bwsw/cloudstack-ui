@@ -3,7 +3,7 @@ import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { BaseModel, NIC, OsType, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { BaseTemplateModel } from '../../template/shared';
-import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
+import { virtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 export enum VmState {
   Running = 'Running',
@@ -15,10 +15,10 @@ export enum VmState {
   Stopping = 'Stopping',
   // custom states
   Deploying = 'Deploying',
-  Expunging = 'Expunging'
+  Expunging = 'Expunging',
 }
 
-export const VmResourceType = 'UserVm';
+export const vmResourceType = 'UserVm';
 
 export interface VirtualMachine extends BaseModel, Taggable {
   id: string;
@@ -35,13 +35,13 @@ export interface VirtualMachine extends BaseModel, Taggable {
   cpunumber: number;
   cpuspeed: number;
   memory: number;
-  volumes: Array<Volume>;
+  volumes: Volume[];
   // IP addresses
-  nic: Array<NIC>;
+  nic: NIC[];
   // Security Group
-  securitygroup: Array<SecurityGroup>;
+  securitygroup: SecurityGroup[];
   // Affinity Group
-  affinitygroup: Array<AffinityGroup>;
+  affinitygroup: AffinityGroup[];
   // Zone
   zoneid: string;
   zonename: string;
@@ -69,7 +69,7 @@ export interface VirtualMachine extends BaseModel, Taggable {
   passwordenabled: boolean;
 }
 
-export const getInstanceGroupName = (vm: VirtualMachine) => {
-  const instanceGroup = vm && vm.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
+export const getInstanceGroupName = (vm: VirtualMachine): string | undefined => {
+  const instanceGroup = vm && vm.tags.find(tag => tag.key === virtualMachineTagKeys.group);
   return instanceGroup && instanceGroup.value;
 };

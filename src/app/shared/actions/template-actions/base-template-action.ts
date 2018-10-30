@@ -6,7 +6,6 @@ import { Action } from '../../interfaces/action.interface';
 import { JobsNotificationService } from '../../services/jobs-notification.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 
-
 @Injectable()
 export abstract class BaseTemplateAction implements Action<BaseTemplateModel> {
   public name: string;
@@ -14,7 +13,7 @@ export abstract class BaseTemplateAction implements Action<BaseTemplateModel> {
 
   constructor(
     protected dialogService: DialogService,
-    protected jobsNotificationService: JobsNotificationService
+    protected jobsNotificationService: JobsNotificationService,
   ) {}
 
   public abstract activate(template: BaseTemplateModel, params?: {}): Observable<any>;
