@@ -12,8 +12,7 @@ export class TopBarComponent {
   constructor(
     @Optional() private listService: ListService,
     private activatedRoute: ActivatedRoute,
-  ) {
-  }
+  ) {}
 
   public get sidebarOpen(): boolean {
     return this.listService ? this.listService.hasSelected() && this.showSidebarForSG() : false;

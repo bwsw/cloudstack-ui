@@ -9,7 +9,9 @@
     },
     "pulse": {
       "type": "boolean"
+    },
+    "vmLogs": {
+      "type": "boolean"
     }
-  },
-  "required": ["webShell", "pulse"]
+  }
 }

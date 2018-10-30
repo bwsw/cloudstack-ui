@@ -5,7 +5,7 @@
     <ng-container *ngFor="let route of routes">
       <a
         class="nav-link"
-        [class.link-active]="route.id === currentRoute.id"
+        [class.link-active]="route && currentRoute && route.id === currentRoute.id"
         [routerLink]="route.path"
         (click)="onMenuButtonClicked()"
       >

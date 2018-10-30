@@ -39,6 +39,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   extensions: {
     webShell: false,
     pulse: false,
+    vmLogs: false,
   },
   /*
    * Virtual machines settings

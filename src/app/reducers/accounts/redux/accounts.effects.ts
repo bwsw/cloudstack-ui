@@ -64,7 +64,7 @@ export class AccountsEffects {
         map(updatedAccount => new accountActions.UpdateAccount(updatedAccount)),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new accountActions.AccountUpdateError(error));
         }),
       );
@@ -82,7 +82,7 @@ export class AccountsEffects {
         }),
         map(updatedAccount => new accountActions.UpdateAccount(updatedAccount)),
         catchError((error: Error) => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
         }),
       );
@@ -104,7 +104,7 @@ export class AccountsEffects {
         map(() => new accountActions.DeleteSuccess(action.payload)),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.ACCOUNT.DELETION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new accountActions.AccountUpdateError(error));
         }),
       );
@@ -122,7 +122,7 @@ export class AccountsEffects {
         }),
         map(createdAccount => new accountActions.CreateSuccess(createdAccount)),
         catchError((error: Error) => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new accountActions.CreateError(error));
         }),
       );
@@ -162,7 +162,7 @@ export class AccountsEffects {
         }),
         map(() => new accountActions.AccountUserDeleteSuccess(action.payload)),
         catchError(error => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
         }),
       ),
@@ -180,7 +180,7 @@ export class AccountsEffects {
         }),
         map(user => new accountActions.AccountUserCreateSuccess(user)),
         catchError(error => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
         }),
       ),
@@ -206,7 +206,7 @@ export class AccountsEffects {
         }),
         map(user => new accountActions.AccountUserUpdateSuccess(user)),
         catchError(error => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
         }),
       ),
@@ -230,7 +230,7 @@ export class AccountsEffects {
             }),
         ),
         catchError(error => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
         }),
       ),
@@ -273,20 +273,5 @@ export class AccountsEffects {
       });
     }
     this.snackBarService.open(message).subscribe();
-  }
-
-  private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
-    if (jobNotificationId) {
-      this.jobsNotificationService.fail({
-        message,
-        id: jobNotificationId,
-      });
-    }
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params,
-      },
-    });
   }
 }

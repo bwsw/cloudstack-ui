@@ -28,20 +28,34 @@ To enter the platform use your credentials provided by an administrator:
 
 .. figure:: _static/LoginScreen.png
 
-Push "Login" to proceed to CloudStack. You will see the first section - Virtual Machines. 
+Push "Login" to proceed to CloudStack. You will see the first section - *Virtual Machines*. 
 
-To the left you can see the main navigation bar. It allows moving from section to section. It is configured by an Administrator in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#configure-sidenav>`_ by setting a list of left-sidebar sections there. The Administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#allow-reordering-sidenav>`_ for more information on configuring the navigation bar elements.
+To the left you can see the main navigation bar. It shows the user name and allows moving from section to section. 
 
-If the main navigation bar is set to adjustable, you will see a lock |lock| at the top. To change the section order in the menu click the lock to unlock it and change the section order by:
+.. figure:: _static/NavBar_AccDetails.png
 
-- dragging the section up and down the list,
-- enabling/disabling a section by ticking it in the list.
+When entering the system, a user sees the *Virtual Machines* section at the second level of the menu. 
+At the first level, the main navigation bar has two expandable sections with the following nested menu items:
 
-.. note:: You cannot disable the Virtual Machines section. You can only move it within the section list.
+- *Virtual Machines*
+    - Virtual machines
+    - Storage
+    - Images
+    - Snapshots
+    - Firewall
+    - SSH keys
+    - Logout
+- *Accounts*
+    - Accounts
+    - Activity log
+    - Settings
+    - Logout
 
-.. figure:: _static/NavBar_Adjust.png
+.. note:: The Logout section is placed at both levels.
 
-The navigation bar can be hidden or extended using the |hide menu| icon in the upper-left corner. The system remembers the main navigation bar position (collapsed/expanded) after login/logout, reloading a page, moving between sections and within the section.
+To move between levels, click |menu icon| and then one of the two levels.
+
+.. figure:: _static/NavBar_2level.png
 
 .. _Resource_Usage:
 
@@ -60,18 +74,16 @@ You can switch between used or free resources by clicking the option you need ab
 
 A user can see the resource usage statistics for his/her user only.
 
-.. figure:: _static/VMs_ResourceUsage_User.png
+.. figure:: _static/VMs_ResourceUsage_User1.png
    
 A Domain Administrator can view resources for his/her account and for the whole domain.
-
-.. figure:: _static/VMs_ResourceUsage.png
-   
+ 
 Notifications on Pending Operations 
 -----------------------------------------
 
 In the upper-right corner of the screen, you can see the list of pending operations by clicking a bell button |bell icon|. It informs you of the latest operations in the system. You can clear the list after its reviewing by deleting every notification one by one or by clicking "CLEAR ALL" at the list bottom.
 
-.. figure:: _static/VMs_Alerts1.png
+.. figure:: _static/VMs_Alerts2.png
 
 Alongside with the notification panel, the action completion confirmation additionally appears in the snackbar notification at the page bottom.
 
@@ -79,7 +91,7 @@ Alongside with the notification panel, the action completion confirmation additi
 
 In case of errors at data loading the snackbar also notifies of them. In this case it has a refresh button that refreshes the whole app.
 
-.. figure:: _static/VMs_Snackbar1.png
+.. figure:: _static/VMs_Snackbar2.png
 
 
 .. |bell icon| image:: _static/bell_icon.png
@@ -96,3 +108,4 @@ In case of errors at data loading the snackbar also notifies of them. In this ca
 .. |adv icon| image:: _static/adv_icon.png
 .. |lock| image:: _static/NavBar_Locked.png
 .. |hide menu| image:: _static/NavBar_HideIcon.png
+.. |menu icon| image:: _static/menu_icon.png

@@ -89,6 +89,13 @@ export const vmPulseAction = {
   canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running,
 };
 
+export const vmLogsAction = {
+  name: 'VM_PAGE.COMMANDS.LOGS',
+  command: VmActions.LOGS,
+  icon: 'mdi-text',
+  canActivate: () => true,
+};
+
 export class VmActionsService {
   public actions = [
     vmStartAction,
@@ -99,6 +106,7 @@ export class VmActionsService {
     vmResetPasswordAction,
     vmAccessAction,
     vmPulseAction,
+    vmLogsAction,
   ];
   public destroyedActions = [vmExpungeAction, vmRecoverAction];
 }

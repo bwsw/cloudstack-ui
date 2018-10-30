@@ -15,21 +15,23 @@ export const getDefaultUserTags = createSelector(
   getConfigState,
   (state: ConfigState): Tag[] => {
     const config = state.config;
-    return config ? [
-      { key: userTagKeys.askToCreateVM, value: `${config.askToCreateVM}` },
-      { key: userTagKeys.askToCreateVolume, value: `${config.askToCreateVolume}` },
-      {
-        key: userTagKeys.savePasswordForAllVMs,
-        value: config.savePasswordForAllVMs === null ? null : `${config.savePasswordForAllVMs}`
-      },
-      { key: userTagKeys.firstDayOfWeek, value: `${config.defaultFirstDayOfWeek}` },
-      { key: userTagKeys.lang, value: config.defaultInterfaceLanguage },
-      { key: userTagKeys.lastVMId, value: `${config.lastVMId}` },
-      { key: userTagKeys.sessionTimeout, value: `${config.sessionTimeout}` },
-      { key: userTagKeys.showSystemTags, value: `${config.showSystemTags}` },
-      { key: userTagKeys.timeFormat, value: config.defaultTimeFormat },
-      { key: userTagKeys.theme, value: config.defaultTheme },
-      { key: userTagKeys.keyboardLayoutForVms, value: config.keyboardLayoutForVms }
-    ] : [];
-  }
+    return config
+      ? [
+          { key: userTagKeys.askToCreateVM, value: `${config.askToCreateVM}` },
+          { key: userTagKeys.askToCreateVolume, value: `${config.askToCreateVolume}` },
+          {
+            key: userTagKeys.savePasswordForAllVMs,
+            value: config.savePasswordForAllVMs === null ? null : `${config.savePasswordForAllVMs}`,
+          },
+          { key: userTagKeys.firstDayOfWeek, value: `${config.defaultFirstDayOfWeek}` },
+          { key: userTagKeys.lang, value: config.defaultInterfaceLanguage },
+          { key: userTagKeys.lastVMId, value: `${config.lastVMId}` },
+          { key: userTagKeys.sessionTimeout, value: `${config.sessionTimeout}` },
+          { key: userTagKeys.showSystemTags, value: `${config.showSystemTags}` },
+          { key: userTagKeys.timeFormat, value: config.defaultTimeFormat },
+          { key: userTagKeys.theme, value: config.defaultTheme },
+          { key: userTagKeys.keyboardLayoutForVms, value: config.keyboardLayoutForVms },
+        ]
+      : [];
+  },
 );
