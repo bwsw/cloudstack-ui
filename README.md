@@ -128,7 +128,7 @@ We intensively use features like projects in our own CloudStack cloud to manage 
   - Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
   - Self registration for public cloud
   - RDP/VNC (guacamole)
-
+   
 ## Far Away To Dos
 
 - Plugins
@@ -161,7 +161,6 @@ We changed a new virtual machine screen a lot. Now it’s a one-step dialog and 
 Our team has made a big contribution to the improvement of UX when creating a virtual machine. First of all, a user now has an access to the list of all creation steps. Depending on installation source (ISO or a Template) system allows getting not only a login, password, and IP of the machine but also an access to VM interaction interface.
 
 Currently supported:
-
 - VNC console,
 - WebShell if VM has a csui.vm.auth-mode tag with SSH value. To configure access to VM using WebShell, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags),
 - Access via HTTP if VM has a csui.vm.auth-mode tag with HTTP value. To configure access to VM via HTTP, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags).
@@ -267,13 +266,13 @@ npm install
 To run docker container use:
 
 ```
-docker pull bitworks.software:8443/cloudstack-ui:1.411.23
+docker pull bitworks.software:8443/cloudstack-ui:1.411.23.1
 
 docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bitworks.software:8443/cloudstack-ui:1.411.23
+           bitworks.software:8443/cloudstack-ui:1.411.23.1
 ```
 
 `http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)

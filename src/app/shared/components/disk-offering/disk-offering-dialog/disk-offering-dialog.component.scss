@@ -4,27 +4,29 @@
 }
 
 mat-expansion-panel {
-  border-top: 1px solid rgba(0,0,0, .12);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
   box-shadow: inherit !important;
 
   &:last-child {
-    border-bottom: 1px solid rgba(0,0,0, .12);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   }
 }
 
 mat-panel-title {
-  flex: 1 1 auto;
+  flex: 1;
   width: 25%;
 }
 
 mat-panel-description {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   width: 75%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.disk-size, .custom-label {
+.disk-size,
+.custom-label {
   color: black;
   margin-left: 20px;
 }

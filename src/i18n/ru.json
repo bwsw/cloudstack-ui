@@ -571,8 +571,8 @@
     "OPEN_SHELL_CONSOLE": "Открыть WebShell",
     "OPEN_URL": "Открыть URL",
     "VNC_CONSOLE": "VNC консоль",
-    "SHELL_CONSOLE": "WebShell",
-    "URL": "URL",
+    "SHELL_CONSOLE": "SSH",
+    "HTTP": "HTTP",
     "VM_PASSWORD": "Пароль",
     "UNKNOWN": "Неизвестно",
     "LOGIN": "Логин",
@@ -735,8 +735,8 @@
       "IS_ROUTING": "Маршрутизация",
       "REQUIRES_HVM": "HVM",
       "BOOTABLE": "Загружаемый",
-      "SHOW_ADDITIONAL": "Показать дополнительные параметры",
-      "HIDE_ADDITIONAL": "Скрыть дополнительные параметры"
+      "SHOW_DETAILS": "Показать дополнительные параметры",
+      "HIDE_DETAILS": "Скрыть дополнительные параметры"
     }
   },
   "SNAPSHOT_PAGE": {
@@ -1552,8 +1552,8 @@
     "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
     "CPU_MHZ": "{{ count }}x{{ speed }} МГц",
     "VM_WILL_BE_RESTARTED": "Машина будет перезагружена",
-    "SHOW_ADDITIONAL_FIELDS": "Показать дополнительные параметры",
-    "HIDE_ADDITIONAL_FIELDS": "Скрыть дополнительные параметры",
+    "SHOW_DETAILS": "Показать дополнительные параметры",
+    "HIDE_DETAILS": "Скрыть дополнительные параметры",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Настраиваемое предложение",
       "CPU_NUMBER": "Ядра CPU",

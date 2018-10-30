@@ -7,6 +7,8 @@ interface RouterState {
 }
 
 export class Utils {
+  public static defaultPrecision = 0;
+
   public static getUniqueId(): string {
     return uuid.v4();
   }
@@ -15,12 +17,12 @@ export class Utils {
     enumerator: number,
     denominator: number,
     denominatorExponent?: number,
-    precision?: number,
+    precision: number = Utils.defaultPrecision,
   ): number {
     const calculatedExponent = denominatorExponent != null ? denominatorExponent : 1;
     const calculatedDenominator = Math.pow(denominator, calculatedExponent);
 
-    if (precision) {
+    if (precision != null) {
       return +(enumerator / calculatedDenominator).toFixed(precision);
     }
     return enumerator / calculatedDenominator;
