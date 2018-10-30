@@ -55,6 +55,7 @@
     "ng-dynamic-component": "^3.0.0",
     "ng2-dragula": "1.5.0",
     "ngx-clipboard": "^11.1.7",
+    "resize-observer-polyfill": "^1.5.0",
     "rxjs": "^6.3.2",
     "showdown": "^1.8.4",
     "uuid": "^3.1.0",

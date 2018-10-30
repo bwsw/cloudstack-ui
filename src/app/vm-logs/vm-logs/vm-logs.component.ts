@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, fromEvent, merge } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
+import { default as ResizeObserver } from 'resize-observer-polyfill';
 
 @Component({
   selector: 'cs-vm-logs',
@@ -18,7 +19,7 @@ import { map, filter } from 'rxjs/operators';
 })
 export class VmLogsComponent implements AfterViewInit, OnChanges {
   public updateFabPosition = new BehaviorSubject<void>(null);
-  public resizeObserver = new (window as any).ResizeObserver(() => {
+  public resizeObserver = new ResizeObserver(() => {
     this.updateFabPosition.next(null);
   });
   public fabPosition$ = merge(
