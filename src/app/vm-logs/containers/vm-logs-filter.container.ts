@@ -13,7 +13,6 @@ import * as fromVmLogsVm from '../redux/vm-logs-vm.reducers';
 import * as fromVmLogs from '../redux/vm-logs.reducers';
 import * as fromVmLogFiles from '../redux/vm-log-files.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import { Keyword } from '../models/keyword.model';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
 import { UserTagsSelectors } from '../../root-store';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
@@ -34,7 +33,7 @@ const FILTER_KEY = 'logsFilters';
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedVmId]="selectedVmId$ | async"
       [selectedLogFile]="selectedLogFile$ | async"
-      [keywords]="keywords$ | async"
+      [search]="search$ | async"
       [startDate]="startDate$ | async | csDateObjectToDate"
       [startTime]="startTime$ | async"
       [endDate]="endDate$ | async | csDateObjectToDate"
@@ -45,8 +44,7 @@ const FILTER_KEY = 'logsFilters';
       (vmChanged)="onVmChange($event)"
       (logFileChanged)="onLogFileChange($event)"
       (refreshed)="onRefresh()"
-      (keywordAdded)="onKeywordAdd($event)"
-      (keywordRemoved)="onKeywordRemove($event)"
+      (searchChanged)="onSearchChange($event)"
       (startDateChanged)="onStartDateChange($event)"
       (startTimeChanged)="onStartTimeChange($event)"
       (endDateChanged)="onEndDateChange($event)"
@@ -61,7 +59,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
   readonly selectedAccountIds$ = this.store.pipe(select(fromVmLogsVm.filterSelectedAccountIds));
   readonly vms$ = this.store.pipe(select(selectFilteredVMs));
   readonly selectedVmId$ = this.store.pipe(select(fromVmLogsVm.filterSelectedVmId));
-  readonly keywords$ = this.store.pipe(select(fromVmLogs.filterKeywords));
+  readonly search$ = this.store.pipe(select(fromVmLogs.filterSearch));
   readonly startDate$ = this.store.pipe(select(fromVmLogs.filterStartDate));
   readonly startTime$ = this.store.pipe(select(fromVmLogs.filterStartTime));
   readonly endDate$ = this.store.pipe(select(fromVmLogs.filterEndDate));
@@ -75,7 +73,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
     {
       vm: { type: 'string' },
       accounts: { type: 'array', defaultOption: [] },
-      keywords: { type: 'array', defaultOption: [] },
+      search: { type: 'string' },
       startDate: { type: 'string' },
       endDate: { type: 'string' },
       logFile: { type: 'string' },
@@ -109,12 +107,8 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
     this.store.dispatch(new vmLogActions.LoadVmLogsRequest());
   }
 
-  public onKeywordAdd(keyword: Keyword) {
-    this.store.dispatch(new vmLogActions.VmLogsAddKeyword(keyword));
-  }
-
-  public onKeywordRemove(keyword: Keyword) {
-    this.store.dispatch(new vmLogActions.VmLogsRemoveKeyword(keyword));
+  public onSearchChange(search: string) {
+    this.store.dispatch(new vmLogActions.VmLogsUpdateSearch(search));
   }
 
   public onStartDateChange(date: Date) {
@@ -147,7 +141,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
     this.initFilters();
 
     combineLatest(
-      this.keywords$,
+      this.search$,
       this.startDate$,
       this.endDate$,
       this.selectedVmId$,
@@ -159,13 +153,13 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
         takeUntil(this.unsubscribe$),
         debounceTime(100),
       )
-      .subscribe(([keywords, startDate, endDate, vm, accounts, logFile, newestFirst]) => {
+      .subscribe(([search, startDate, endDate, vm, accounts, logFile, newestFirst]) => {
         this.filterService.update({
           vm,
           accounts,
           logFile,
           newestFirst,
-          keywords: keywords.map(keyword => keyword.text),
+          search,
           startDate: moment(startDate).toISOString(),
           endDate: moment(endDate).toISOString(),
         });
@@ -179,7 +173,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
   private initFilters(): void {
     const {
       vm,
-      keywords,
+      search,
       accounts,
       startDate,
       endDate,
@@ -189,8 +183,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
 
     this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(vm));
 
-    const wrappedKeywords = (keywords || []).map(text => ({ text }));
-    this.store.dispatch(new vmLogActions.VmLogsUpdateKeywords(wrappedKeywords));
+    this.store.dispatch(new vmLogActions.VmLogsUpdateSearch(search));
     this.store.dispatch(new vmLogActions.VmLogsUpdateAccountIds(accounts || []));
     this.store.dispatch(new vmLogActions.VmLogsUpdateNewestFirst(newestFirst));
 

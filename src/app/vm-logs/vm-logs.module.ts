@@ -8,7 +8,6 @@ import { MaterialModule } from '../material/material.module';
 import { VmLogsComponent } from './vm-logs/vm-logs.component';
 import { VmLogsFilterComponent } from './vm-logs-filter/vm-logs-filter.component';
 import { VmLogsService } from './services/vm-logs.service';
-import { VmLogKeywordsComponent } from './vm-log-keywords/vm-log-keywords.component';
 import { VmLogsEffects } from './redux/vm-logs.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { VmLogsFilterContainerComponent } from './containers/vm-logs-filter.container';
@@ -44,7 +43,6 @@ import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
     VmLogsFilterContainerComponent,
     VmLogsTableComponent,
     VmLogsTableContainerComponent,
-    VmLogKeywordsComponent,
     BasePathPipe,
     ParseTimestampPipe,
     DateObjectToDatePipe,

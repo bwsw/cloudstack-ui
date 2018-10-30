@@ -89,12 +89,15 @@
 </div>
 
 <div class="filter-wrapper">
-  <cs-vm-log-keywords
-    class="keywords"
-    [keywords]="keywords"
-    (keywordAdded)="keywordAdded.emit($event)"
-    (keywordRemoved)="keywordRemoved.emit($event)"
-  ></cs-vm-log-keywords>
+  <mat-form-field class="search">
+    <input
+      matInput
+      name="search"
+      [ngModel]="search"
+      (ngModelChange)="searchChanged.emit($event)"
+      [placeholder]="'LOGS_PAGE.FILTERS.SEARCH' | translate"
+    >
+  </mat-form-field>
 
   <mat-checkbox
     [ngModel]="newestFirst"

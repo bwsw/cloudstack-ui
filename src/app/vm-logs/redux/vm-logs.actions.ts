@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { VmLog } from '../models/vm-log.model';
-import { Keyword } from '../models/keyword.model';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
 import { DateObject } from '../models/date-object.model';
 import { VmLogFile } from '../models/vm-log-file.model';
@@ -10,9 +9,7 @@ export enum VmLogsActionTypes {
   LOAD_VM_LOGS_RESPONSE = '[VM Logs] LOAD_VM_LOGS_RESPONSE',
   LOAD_VM_LOG_FILES_REQUEST = '[VM Logs] LOAD_VM_LOG_FILES_REQUEST',
   LOAD_VM_LOG_FILES_RESPONSE = '[VM Logs] LOAD_VM_LOG_FILES_RESPONSE',
-  VM_LOGS_UPDATE_KEYWORDS = '[VM Logs] VM_LOGS_UPDATE_KEYWORDS',
-  VM_LOGS_ADD_KEYWORD = '[VM Logs] VM_LOGS_ADD_KEYWORD',
-  VM_LOGS_REMOVE_KEYWORD = '[VM Logs] VM_LOGS_REMOVE_KEYWORD',
+  VM_LOGS_UPDATE_SEARCH = '[VM Logs] VM_LOGS_UPDATE_SEARCH',
   VM_LOGS_UPDATE_START_DATE_TIME = '[VM Logs] VM_LOGS_UPDATE_START_DATE_TIME',
   VM_LOGS_UPDATE_START_DATE = '[VM Logs] VM_LOGS_UPDATE_START_DATE',
   VM_LOGS_UPDATE_START_TIME = '[VM Logs] VM_LOGS_UPDATE_START_TIME',
@@ -48,22 +45,10 @@ export class LoadVmLogFilesResponse implements Action {
   constructor(public payload: VmLogFile[]) {}
 }
 
-export class VmLogsUpdateKeywords implements Action {
-  readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_KEYWORDS;
+export class VmLogsUpdateSearch implements Action {
+  readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_SEARCH;
 
-  constructor(public payload: any) {}
-}
-
-export class VmLogsAddKeyword implements Action {
-  readonly type = VmLogsActionTypes.VM_LOGS_ADD_KEYWORD;
-
-  constructor(readonly payload: Keyword) {}
-}
-
-export class VmLogsRemoveKeyword implements Action {
-  readonly type = VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD;
-
-  constructor(readonly payload: Keyword) {}
+  constructor(public payload: string) {}
 }
 
 export class VmLogsUpdateStartDateTime implements Action {
@@ -135,9 +120,7 @@ export type Actions =
   | LoadVmLogsRequest
   | LoadVmLogFilesRequest
   | LoadVmLogFilesResponse
-  | VmLogsUpdateKeywords
-  | VmLogsAddKeyword
-  | VmLogsRemoveKeyword
+  | VmLogsUpdateSearch
   | VmLogsUpdateVmId
   | VmLogsUpdateAccountIds
   | VmLogsUpdateStartDateTime

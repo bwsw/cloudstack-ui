@@ -3,7 +3,7 @@ import { filterSelectedVmId } from '../vm-logs-vm.reducers';
 import { LoadVmLogsRequestParams } from '../../models/load-vm-logs-request-params';
 import {
   filterEndDate,
-  filterKeywords,
+  filterSearch,
   filterNewestFirst,
   filterSelectedLogFile,
   filterStartDate,
@@ -13,16 +13,16 @@ import * as pickBy from 'lodash/pickBy';
 
 export const loadVmLogsRequestParams = createSelector(
   filterSelectedVmId,
-  filterKeywords,
+  filterSearch,
   filterStartDate,
   filterEndDate,
   filterSelectedLogFile,
   filterNewestFirst,
-  (id, keywords, startDate, endDate, logFile, newestFirst): LoadVmLogsRequestParams => {
+  (id, search, startDate, endDate, logFile, newestFirst): LoadVmLogsRequestParams => {
     const fields = {
       id,
       logFile,
-      keywords: keywords.map(keyword => keyword.text).join(','),
+      keywords: search,
       startDate: moment(startDate)
         .toISOString()
         .slice(0, -1),
