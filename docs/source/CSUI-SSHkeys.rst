@@ -4,7 +4,7 @@ SSH Keys
 -----------------
 .. Contents::
 
-In the *SSH keys* section you can create and manage SSH keys. 
+In the *Virtual Machines* -> *SSH keys* section you can create and manage SSH keys. 
 
 In addition to the username and password authentication, CloudStack supports using SSH keys to log in to the cloud infrastructure for additional security. Find more information in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/virtual_machines.html?highlight=keys#using-ssh-keys-for-authentication>`_.
 
@@ -15,7 +15,7 @@ SSH Key List
 
 SSH keys existing in the account are presented in this section. A user can see and manage SSH keys for his/her user only. 
 
-.. figure:: _static/SSH_List.png
+.. figure:: _static/SSH_List1.png
 
 Administrators can see and manage keys for all accounts in the domain.
 
@@ -74,9 +74,7 @@ It contains the following information:
 
 Click "CANCEL" to drop adding a description.
 
-You can edit the description of an SSH key by clicking |edit icon|. Change the existing description in the text field and save the edits.
-
-The description is saved to account tags if they are supported for the account. Account tags can be switched on in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_ by an Administrator.
+You can edit the description of an SSH key by clicking |edit icon|. Change the existing description in the text field and save the edits. The description is saved to account tags.
 
 SSH Key Action Box
 ~~~~~~~~~~~~~~~~~~~~

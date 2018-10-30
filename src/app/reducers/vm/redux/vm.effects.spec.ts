@@ -229,6 +229,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error from LoadVMRequest', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyGetList = spyOn(service, 'getList').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -241,7 +242,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.loadVM$).toBeObservable(expected);
     expect(spyGetList).toHaveBeenCalledWith('e10da283-06b1-4ac5-9888-b4f3717c2fe1');
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should change description', () => {
@@ -279,6 +280,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing description', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spySetDesc = spyOn(tagService, 'setDescription').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -294,7 +296,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.changeDescription$).toBeObservable(expected);
     expect(spySetDesc).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should change service offering for stopped vm', () => {
@@ -334,6 +336,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing service offering', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyChangeSO = spyOn(service, 'changeServiceOffering').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -353,14 +356,14 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.changeServiceOffering$).toBeObservable(expected);
     expect(spyChangeSO).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should change affinity group for stopped vm', () => {
     const spyChangeAG = spyOn(afGroupService, 'updateForVm').and.returnValue(of(list[1]));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: 'af1_id',
+      affinityGroupIds: ['af1_id'],
       vm: list[1],
     });
     const completion = new vmActions.UpdateVM(list[1]);
@@ -379,7 +382,7 @@ describe('Virtual machine Effects', () => {
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: 'af1_id',
+      affinityGroupIds: ['af1_id'],
       vm: list[0],
     });
     const completion = new vmActions.UpdateVM(list[0]);
@@ -399,7 +402,7 @@ describe('Virtual machine Effects', () => {
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(false));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: 'af1_id',
+      affinityGroupIds: ['af1_id'],
       vm: list[0],
     });
 
@@ -413,12 +416,13 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing affinity group', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyChangeAG = spyOn(afGroupService, 'updateForVm').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: 'af1_id',
+      affinityGroupIds: ['af1_id'],
       vm: list[1],
     });
     const completion = new vmActions.VMUpdateError({
@@ -432,7 +436,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.changeAffinityGroup$).toBeObservable(expected);
     expect(spyChangeAG).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should change instance group', () => {
@@ -453,6 +457,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing instance group', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyChangeGroup = spyOn(tagService, 'setGroup').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -468,7 +473,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.changeInstanceGroup$).toBeObservable(expected);
     expect(spyChangeGroup).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should remove instance group', () => {
@@ -486,6 +491,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during removing instance group', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyRemoveGroup = spyOn(tagService, 'removeGroup').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -498,7 +504,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.removeInstanceGroup$).toBeObservable(expected);
     expect(spyRemoveGroup).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should add secondary ip', () => {
@@ -559,6 +565,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing vm color', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyChangeColor = spyOn(tagService, 'setColor').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -574,7 +581,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.changeColor$).toBeObservable(expected);
     expect(spyChangeColor).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should stop vm', () => {
@@ -593,6 +600,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during stopping vm', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyCommand = spyOn(service, 'command').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -610,7 +618,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.stopVm$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should start vm', () => {
@@ -629,6 +637,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during starting vm', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyCommand = spyOn(service, 'command').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -646,7 +655,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.startVm$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should destroy vm without expunge', () => {
@@ -710,6 +719,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during destroying vm', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyCommand = spyOn(service, 'command').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -731,7 +741,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.destroyVm$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should reboot vm', () => {
@@ -764,6 +774,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during rebooting vm', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyCommand = spyOn(service, 'command').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -781,7 +792,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.rebootVm$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should restore vm', () => {
@@ -814,6 +825,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during restoring vm', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyCommand = spyOn(service, 'command').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -831,7 +843,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.restoreVm$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should recover vm', () => {
@@ -868,6 +880,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during recovering vm', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyCommand = spyOn(service, 'commandSync').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -885,7 +898,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.recoverVm$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should expunge vm', () => {
@@ -923,6 +936,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during expunging vm', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyCommand = spyOn(service, 'command').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -938,7 +952,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.expungeVm$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should attach Iso to vm', () => {
@@ -959,6 +973,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during attaching Iso', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyAttach = spyOn(isoService, 'attach').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -974,7 +989,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.attachIso$).toBeObservable(expected);
     expect(spyAttach).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should detach Iso', () => {
@@ -994,6 +1009,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during detaching Iso', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyDetach = spyOn(isoService, 'detach').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -1008,7 +1024,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.detachIso$).toBeObservable(expected);
     expect(spyDetach).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should change ssh-key for stopped vm', () => {
@@ -1068,6 +1084,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during changing ssh-key', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyChangeKey = spyOn(sshService, 'reset').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -1087,7 +1104,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.changeSshKey$).toBeObservable(expected);
     expect(spyChangeKey).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should reset password for stopped vm', () => {
@@ -1142,6 +1159,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during reseting password', () => {
+    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyCommand = spyOn(service, 'command').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
@@ -1159,7 +1177,7 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.resetPassword$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalledWith(list[1], 'resetPasswordFor');
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
+    expect(spyAlert).toHaveBeenCalled();
   });
 
   it('should update error with state', () => {

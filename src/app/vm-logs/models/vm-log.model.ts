@@ -1,5 +1,5 @@
 export interface VmLog {
   timestamp: string;
-  file: string,
+  file: string;
   log: string;
 }

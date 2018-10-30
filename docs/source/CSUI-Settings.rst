@@ -4,7 +4,7 @@ Settings
 -------------
 .. Contents::
 
-In the *Settings* section a user can modify the interface by changing settings.
+In the *Accounts* -> *Settings* section a user can modify the interface by changing settings.
 
 .. figure:: _static/Settings_List.png
    :scale: 80%
@@ -45,6 +45,7 @@ The maximum allowed value is 300 minutes. Please, note that a long time period o
 The session timeout can be set in the configuration file. You will find more information in the  `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#session-timeout>`_.
 
 .. _Settings_VMPass:
+
 Save VM passwords by default
 """""""""""""""""""""""""""""""
 This checkbox allows saving passwords to VM tags automatically for all created virtual machines requiring passwords.
@@ -92,6 +93,8 @@ The following options are available:
 - Simplified Chinese keyboard.
 
 .. figure:: _static/Settings_KeyboardLayout1.png
+
+The selected option will appear in the VNC console kayboard layout parameter when accessing a VM via concole. The selected option is also saved to account tags.
 
 Look and Feel
 ~~~~~~~~~~~~~~~~~~~~~~

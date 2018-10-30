@@ -4,7 +4,10 @@ Accounts
 -----------------
 .. Contents::
 
-In the *Accounts* section Administrators can manage accounts and users in them. For an account, details and resource limits can be viewed. Please, note that the account limits are shared by all users in the account. If you are facing the problem of the lack of resources, contact your Administrator. Administrators are able to edit the limits of an account. Besides, they can monitor resource usage having access to the resource statistics for each account.
+In the *Accounts* section Administrators can manage accounts and users in them, as well as user settings and activity logs. 
+For an account, details and resource limits can be viewed. Please, note that the account limits are shared by all users in the account. 
+If you are facing the problem of the lack of resources, contact your Administrator. Administrators are able to edit the limits of an account. 
+Besides, they can monitor resource usage having access to the resource statistics for each account.
 
 Administrators can see the list of accounts for the whole domain. They can create new users for an account, edit or delete a user. 
 
@@ -17,7 +20,7 @@ Clicking *Accounts* in the left-side navigation bar you open the *Accounts* sect
 
 You can switch the view from list to box using the switch tool |view icon|/|box icon| in the upper-right corner.
 
-.. figure:: _static/Accounts_ListSwitch.png
+.. figure:: _static/Accounts_ListSwitch1.png
    
 For each account in the list you can see the following information:
 

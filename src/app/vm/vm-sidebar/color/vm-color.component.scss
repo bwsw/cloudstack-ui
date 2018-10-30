@@ -1,7 +1,7 @@
 .color-picker {
   margin-bottom: 14px;
   margin-left: 5px;
-  //width: 330px;
+  width: 35px;
 }
 
 mat-card {
@@ -9,7 +9,6 @@ mat-card {
 }
 
 mat-card,
-mat-card-content
-{
+mat-card-content {
   overflow: visible;
 }
