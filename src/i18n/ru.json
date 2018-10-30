@@ -1452,6 +1452,10 @@
       "DATE": "Дата",
       "LOG_FILE": "Файл",
       "TEXT": "Текст"
+    },
+    "FAB": {
+      "FOLLOW_LOG": "Отслеживать",
+      "STOP_FOLLOWING": "Не отслеживать"
     }
   },
   "SETTINGS": {
