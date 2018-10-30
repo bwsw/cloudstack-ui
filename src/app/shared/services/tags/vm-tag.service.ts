@@ -9,17 +9,26 @@ import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
 import { virtualMachineTagKeys } from './vm-tag-keys';
+import { select, Store } from '@ngrx/store';
+import * as configSelectors from '../../../root-store/config/config.selectors';
+import { State } from '../../../root-store';
 
 const colorDelimeter = ';';
 
 @Injectable()
 export class VmTagService implements EntityTagService {
   public keys = virtualMachineTagKeys;
+  public enableColors: boolean;
 
   constructor(
     protected descriptionTagService: DescriptionTagService,
     protected tagService: TagService,
-  ) {}
+    private store: Store<State>,
+  ) {
+    this.store.pipe(select(configSelectors.get('vmColors'))).subscribe(colors => {
+      this.enableColors = colors.length !== 0;
+    });
+  }
 
   public getColorSync(vm: VirtualMachine): Color {
     const tag = vm.tags && vm.tags.find(_ => _.key === this.keys.color);
@@ -92,7 +101,7 @@ export class VmTagService implements EntityTagService {
   }
 
   private getColorFromColorTag(colorTag: Tag): Color {
-    if (colorTag) {
+    if (this.enableColors && colorTag) {
       const [backgroundColor, textColor] = colorTag.value.split(colorDelimeter);
       return new Color(backgroundColor, backgroundColor, textColor || '');
     }

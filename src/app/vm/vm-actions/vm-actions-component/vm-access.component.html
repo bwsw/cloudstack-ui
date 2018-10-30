@@ -49,7 +49,7 @@
     </div>
   </mat-tab>
 
-  <mat-tab [disabled]="!httpAccessService.isHttpAuthMode(vm)" [label]="'VM_POST_ACTION.URL' | translate">
+  <mat-tab [disabled]="!httpAccessService.isHttpAuthMode(vm)" [label]="'VM_POST_ACTION.HTTP' | translate">
     <div class="parameters-wrapper">
       <p><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}:</b> {{ httpAccessService.getLogin(vm) }}</p>
       <p><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ getUrlPassword(vm) }}</p>
