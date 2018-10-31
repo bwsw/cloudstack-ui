@@ -40,45 +40,21 @@ describe('VM logs reducer', () => {
     });
   });
 
-  it('should add keywords', () => {
-    const keyword = {
-      text: 'test-keyword',
-    };
+  it('should update search', () => {
+    const search = 'test-search';
 
     const state = reducer(undefined, {
-      type: VmLogsActionTypes.VM_LOGS_ADD_KEYWORD,
-      payload: keyword,
+      type: VmLogsActionTypes.VM_LOGS_UPDATE_SEARCH,
+      payload: search,
     });
 
     expect(state).toEqual({
       ...initialState,
       filters: {
         ...initialState.filters,
-        keywords: [keyword],
+        search,
       },
     });
-  });
-
-  it('should remove keywords', () => {
-    const keyword = {
-      text: 'test-keyword',
-    };
-
-    const state = reducer(
-      {
-        ...initialState,
-        filters: {
-          ...initialState.filters,
-          keywords: [keyword],
-        },
-      },
-      {
-        type: VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD,
-        payload: keyword,
-      },
-    );
-
-    expect(state).toEqual(initialState);
   });
 
   it('should toggle newest first', () => {

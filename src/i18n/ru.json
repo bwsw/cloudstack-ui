@@ -1440,7 +1440,7 @@
     "FILTERS": {
       "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_VM": "Выберите ВМ",
-      "KEYWORDS": "Ключевые слова",
+      "SEARCH": "Поиск",
       "SHOW_LOGS": "Показать логи",
       "START_DATE": "Начальная дата",
       "END_DATE": "Конечная дата",
