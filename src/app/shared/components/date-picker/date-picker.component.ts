@@ -49,6 +49,8 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   public dateTimeFormat = DateTimeFormat;
   @Input()
   public locale = Language.en;
+  @Input()
+  public disabled = false;
   @Output()
   public changed = new EventEmitter();
 
