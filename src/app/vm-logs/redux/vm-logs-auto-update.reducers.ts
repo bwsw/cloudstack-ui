@@ -2,11 +2,10 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as vmLogsActions from './vm-logs.actions';
 import { DateObject } from '../models/date-object.model';
 
-
 export interface State {
-  isAutoUpdateEnabled: boolean,
-  startDate: DateObject,
-  endDate: DateObject,
+  isAutoUpdateEnabled: boolean;
+  startDate: DateObject;
+  endDate: DateObject;
 }
 
 export const initialState: State = {
@@ -15,10 +14,7 @@ export const initialState: State = {
   endDate: null,
 };
 
-export function reducer(
-  state = initialState,
-  action: vmLogsActions.Actions
-): State {
+export function reducer(state = initialState, action: vmLogsActions.Actions): State {
   switch (action.type) {
     case vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE: {
       return {
@@ -54,20 +50,13 @@ export function reducer(
   }
 }
 
-
 export const getVmLogsAutoUpdateState = createFeatureSelector<State>('vmLogsAutoUpdate');
 
 export const selectIsAutoUpdateEnabled = createSelector(
   getVmLogsAutoUpdateState,
-  state => state.isAutoUpdateEnabled
+  state => state.isAutoUpdateEnabled,
 );
 
-export const selectStartDate = createSelector(
-  getVmLogsAutoUpdateState,
-  state => state.startDate
-);
+export const selectStartDate = createSelector(getVmLogsAutoUpdateState, state => state.startDate);
 
-export const selectEndDate = createSelector(
-  getVmLogsAutoUpdateState,
-  state => state.endDate
-);
+export const selectEndDate = createSelector(getVmLogsAutoUpdateState, state => state.endDate);

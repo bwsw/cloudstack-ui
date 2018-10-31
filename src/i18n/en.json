@@ -1439,7 +1439,7 @@
     "FILTERS": {
       "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_VM": "Select a VM",
-      "KEYWORDS": "Keywords",
+      "SEARCH": "Search",
       "SHOW_LOGS": "Show logs",
       "START_DATE": "Start date",
       "END_DATE": "End date",

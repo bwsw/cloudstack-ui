@@ -2,12 +2,11 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
-import { Keyword } from '../models/keyword.model';
 import { DateObject } from '../models/date-object.model';
 import moment = require('moment');
 
 export interface VmLogsFilters {
-  keywords: Keyword[];
+  search: string;
   startDate: DateObject;
   endDate: DateObject;
   selectedLogFile: string;
@@ -36,7 +35,7 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
   filters: {
     selectedLogFile: null,
-    keywords: [],
+    search: null,
     startDate: moment()
       .add(-1, 'days')
       .set({
@@ -72,32 +71,12 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
       };
     }
 
-    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_KEYWORDS: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_SEARCH: {
       return {
         ...state,
         filters: {
           ...state.filters,
-          keywords: action.payload,
-        },
-      };
-    }
-
-    case vmLogsActions.VmLogsActionTypes.VM_LOGS_ADD_KEYWORD: {
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          keywords: state.filters.keywords.concat(action.payload),
-        },
-      };
-    }
-
-    case vmLogsActions.VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD: {
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          keywords: state.filters.keywords.filter(keyword => keyword !== action.payload),
+          search: action.payload,
         },
       };
     }
@@ -256,7 +235,7 @@ export const isLoading = createSelector(getVmLogsEntitiesState, state => state.l
 
 export const filters = createSelector(getVmLogsEntitiesState, state => state.filters);
 
-export const filterKeywords = createSelector(filters, state => state.keywords);
+export const filterSearch = createSelector(filters, state => state.search);
 
 export const filterStartDate = createSelector(filters, state => state.startDate);
 
