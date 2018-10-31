@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { VmLog } from '../models/vm-log.model';
 import { MatTableDataSource } from '@angular/material';
 
@@ -11,6 +11,10 @@ export class VmLogsTableComponent implements OnChanges {
   public dataSource: MatTableDataSource<VmLog>;
   @Input()
   public vmLogs: VmLog[];
+  @Input()
+  public enableShowMore: boolean;
+  @Output()
+  public showMoreClicked = new EventEmitter();
 
   public tableColumns = ['date', 'logFile', 'text'];
 
@@ -23,5 +27,9 @@ export class VmLogsTableComponent implements OnChanges {
     if (vmLogs) {
       this.dataSource.data = vmLogs.currentValue;
     }
+  }
+
+  public onShowMore() {
+    this.showMoreClicked.emit();
   }
 }

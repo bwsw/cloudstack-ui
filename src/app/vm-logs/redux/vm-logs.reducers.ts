@@ -17,6 +17,7 @@ export interface VmLogsFilters {
 export interface State extends EntityState<VmLog> {
   loading: boolean;
   filters: VmLogsFilters;
+  uiPage: number;
 }
 
 export interface VmLogsState {
@@ -28,12 +29,13 @@ export const vmLogsReducers = {
 };
 
 export const adapter: EntityAdapter<VmLog> = createEntityAdapter<VmLog>({
-  selectId: () => Math.random(),
+  selectId: vmLog => vmLog.id,
   sortComparer: false,
 });
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  uiPage: 1,
   filters: {
     selectedLogFile: null,
     keywords: [],
@@ -62,7 +64,9 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
   switch (action.type) {
     case vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE:
     case vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE: {
-      return adapter.removeAll(state);
+      return {
+        ...adapter.removeAll(state),
+      };
     }
 
     case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST: {
@@ -238,6 +242,20 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
       };
     }
 
+    case vmLogsActions.VmLogsActionTypes.SCROLL_VM_LOGS: {
+      return {
+        ...state,
+        uiPage: state.uiPage + 1,
+      };
+    }
+
+    case vmLogsActions.VmLogsActionTypes.RESET_VM_LOGS_SCROLL: {
+      return {
+        ...state,
+        uiPage: 1,
+      };
+    }
+
     default: {
       return state;
     }
@@ -275,3 +293,17 @@ export const filterEndTime = createSelector(filters, state => ({
 export const filterNewestFirst = createSelector(filters, state => state.newestFirst);
 
 export const filterSelectedLogFile = createSelector(filters, state => state.selectedLogFile);
+
+export const selectUiPage = createSelector(getVmLogsEntitiesState, state => state.uiPage);
+
+const uiPageSize = 100;
+
+export const selectScrolledLogs = createSelector(selectAll, selectUiPage, (logs, uiPage) =>
+  logs.slice(0, uiPage * uiPageSize),
+);
+
+export const selectAreAllLogsShown = createSelector(
+  selectTotal,
+  selectUiPage,
+  (total, uiPage) => uiPage * uiPageSize >= total,
+);

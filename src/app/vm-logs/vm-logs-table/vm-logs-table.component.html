@@ -1,4 +1,4 @@
-<ng-container #vmIdSpecified *ngIf=" vmLogs?.length; then vmLogsTable else noVmLogs"></ng-container>
+<ng-container #vmIdSpecified *ngIf="vmLogs?.length; then vmLogsTable else noVmLogs"></ng-container>
 
 <ng-template #noVmLogs>
   <cs-no-results></cs-no-results>
@@ -41,6 +41,13 @@
       <mat-header-row *cdkHeaderRowDef="tableColumns"></mat-header-row>
       <mat-row *cdkRowDef="let row; columns: tableColumns;"></mat-row>
     </mat-table>
+    <button
+      class="show-more"
+      *ngIf="enableShowMore"
+      mat-button
+      (click)="onShowMore()"
+    >
+      {{ 'LOGS_PAGE.LIST.SHOW_MORE' | translate }}
+    </button>
   </div>
 </ng-template>
-
