@@ -32,6 +32,8 @@ import * as fromVolumes from './volumes.reducers';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 // tslint:disable-next-line
 import { VolumeDeleteDialogComponent } from '../../../shared/actions/volume-actions/volume-delete/volume-delete-dialog.component';
+import { isCustomized } from '../../../shared/models/offering.model';
+import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 
 @Injectable()
 export class VolumesEffects {
@@ -224,12 +226,12 @@ export class VolumesEffects {
   @Effect()
   resizeVolume$: Observable<Action> = this.actions$.pipe(
     ofType(volumeActions.RESIZE_VOLUME),
-    mergeMap((action: volumeActions.ResizeVolume) => {
+    withLatestFrom(this.store.pipe(select(fromDiskOfferings.selectEntities))),
+    switchMap(([action, diskOfferings]: [volumeActions.ResizeVolume, any]) => {
+      const volume = action.payload;
       return this.dialog
         .open(VolumeResizeContainerComponent, {
-          data: {
-            volume: action.payload,
-          },
+          data: { volume },
           width: '375px',
         })
         .afterClosed()
@@ -239,12 +241,22 @@ export class VolumesEffects {
             const notificationId = this.jobsNotificationService.add(
               'NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS',
             );
-            return this.volumeService.resize(params).pipe(
-              map((volume: Volume) => {
+
+            const selectedDiskOffering = diskOfferings[params.diskofferingid];
+            const diskOffering = !isRoot(volume) ? { diskofferingid: params.diskofferingid } : {};
+            const size = isCustomized(selectedDiskOffering) ? { size: params.size } : {};
+
+            const requestParams = {
+              ...size,
+              ...diskOffering,
+              id: params.id,
+            };
+            return this.volumeService.resize(requestParams).pipe(
+              map((changedVolume: Volume) => {
                 const message = 'NOTIFICATIONS.VOLUME.RESIZE_DONE';
                 this.showNotificationsOnFinish(message, notificationId);
                 this.dialog.closeAll();
-                return new volumeActions.ResizeVolumeSuccess(volume);
+                return new volumeActions.ResizeVolumeSuccess(changedVolume);
               }),
               catchError((error: Error) => {
                 const message = 'NOTIFICATIONS.VOLUME.RESIZE_FAILED';

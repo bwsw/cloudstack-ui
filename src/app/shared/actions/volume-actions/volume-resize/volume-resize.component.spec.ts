@@ -125,6 +125,7 @@ describe('volume resize for root disks', () => {
     expect(component.diskResized.emit).toHaveBeenCalledWith({
       id: '1',
       size: newVolumeSize,
+      diskofferingid: diskOffering.id,
     });
   });
 });
@@ -232,6 +233,7 @@ describe('volume resize for data disks', () => {
     expect(component.diskResized.emit).toHaveBeenCalledWith({
       id: '1',
       diskofferingid: component.diskOffering.id,
+      size: newVolumeSize,
     });
   });
 });
