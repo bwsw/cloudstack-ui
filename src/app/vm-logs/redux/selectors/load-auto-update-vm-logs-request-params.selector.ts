@@ -1,23 +1,23 @@
 import { createSelector } from '@ngrx/store';
 import { filterSelectedVmId } from '../vm-logs-vm.reducers';
 import { LoadVmLogsRequestParams } from '../../models/load-vm-logs-request-params';
-import { filterKeywords, filterNewestFirst, filterSelectedLogFile } from '../vm-logs.reducers';
+import { filterSearch, filterNewestFirst, filterSelectedLogFile } from '../vm-logs.reducers';
 import * as pickBy from 'lodash/pickBy';
 import { selectStartDate, selectEndDate } from '../vm-logs-auto-update.reducers';
 import moment = require('moment');
 
 export const loadAutoUpdateVmLogsRequestParams = createSelector(
   filterSelectedVmId,
-  filterKeywords,
+  filterSearch,
   selectStartDate,
   selectEndDate,
   filterSelectedLogFile,
   filterNewestFirst,
-  (id, keywords, startDate, endDate, logFile, newestFirst): LoadVmLogsRequestParams => {
+  (id, search, startDate, endDate, logFile, newestFirst): LoadVmLogsRequestParams => {
     const fields = {
       id,
       logFile,
-      keywords: keywords.map(keyword => keyword.text).join(','),
+      keywords: search,
       startDate:
         (startDate &&
           moment(startDate)
