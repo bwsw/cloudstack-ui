@@ -19,6 +19,7 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
 import { combineLatest } from 'rxjs';
 import moment = require('moment');
 import { selectFilteredVMs } from '../redux/selectors/filtered-vms.selector';
+import * as fromVmLogsAutoUpdate from '../redux/vm-logs-auto-update.reducers';
 
 const FILTER_KEY = 'logsFilters';
 
@@ -39,6 +40,7 @@ const FILTER_KEY = 'logsFilters';
       [endDate]="endDate$ | async | csDateObjectToDate"
       [endTime]="endTime$ | async"
       [newestFirst]="newestFirst$ | async"
+      [isAutoUpdateEnabled]="isAutoUpdateEnabled$ | async"
       [firstDayOfWeek]="firstDayOfWeek$ | async"
       (accountsChanged)="onAccountsChange($event)"
       (vmChanged)="onVmChange($event)"
@@ -68,6 +70,9 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
   readonly newestFirst$ = this.store.pipe(select(fromVmLogs.filterNewestFirst));
   readonly selectedLogFile$ = this.store.pipe(select(fromVmLogs.filterSelectedLogFile));
   readonly logFiles$ = this.store.pipe(select(fromVmLogFiles.selectAll));
+  readonly isAutoUpdateEnabled$ = this.store.pipe(
+    select(fromVmLogsAutoUpdate.selectIsAutoUpdateEnabled),
+  );
 
   private filterService = new FilterService(
     {
@@ -181,7 +186,9 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
       newestFirst,
     } = this.filterService.getParams();
 
-    this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(vm));
+    if (vm) {
+      this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(vm));
+    }
 
     this.store.dispatch(new vmLogActions.VmLogsUpdateSearch(search));
     this.store.dispatch(new vmLogActions.VmLogsUpdateAccountIds(accounts || []));

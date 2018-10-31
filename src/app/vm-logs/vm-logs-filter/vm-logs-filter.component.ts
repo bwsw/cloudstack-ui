@@ -38,6 +38,8 @@ export class VmLogsFilterComponent {
   public endTime: Time;
   @Input()
   public newestFirst: boolean;
+  @Input()
+  public isAutoUpdateEnabled: boolean;
   @Output()
   public accountsChanged = new EventEmitter<string[]>();
   @Output()

@@ -51,6 +51,7 @@
 
   <div class="date-time">
     <cs-date-picker
+      [disabled]="isAutoUpdateEnabled"
       [label]="'LOGS_PAGE.FILTERS.START_DATE' | translate"
       [okLabel]="'COMMON.OK' | translate"
       [locale]="locale"
@@ -62,6 +63,7 @@
     ></cs-date-picker>
 
     <cs-time-picker
+      [disabled]="isAutoUpdateEnabled"
       [timeFormat]="'hour24'"
       [ngModel]="startTime"
       (ngModelChange)="startTimeChanged.emit($event)"
@@ -70,6 +72,7 @@
 
   <div class="date-time">
     <cs-date-picker
+      [disabled]="isAutoUpdateEnabled"
       [label]="'LOGS_PAGE.FILTERS.END_DATE' | translate"
       [okLabel]="'COMMON.OK' | translate"
       [locale]="locale"
@@ -81,6 +84,7 @@
     ></cs-date-picker>
 
     <cs-time-picker
+      [disabled]="isAutoUpdateEnabled"
       [timeFormat]="'hour24'"
       [ngModel]="endTime"
       (ngModelChange)="endTimeChanged.emit($event)"
