@@ -659,6 +659,10 @@ export class VirtualMachineCreationEffects {
       }
     }
 
+    if (!state.name.length) {
+      delete params.name;
+    }
+
     return params;
   }
 

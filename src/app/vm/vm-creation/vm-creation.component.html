@@ -61,7 +61,8 @@
                       (ngModelChange)="displayNameChange.emit($event)"
                       [placeholder]="'VM_PAGE.VM_CREATION.DISPLAY_NAME' | translate"
                       [maxlength]="32"
-                      pattern="^[\S]{1}.{0,30}[\S]$"
+                      [minlength]="1"
+                      pattern="^[\S]{0}.{0,30}[\S]$"
                       required
                     >
                     <mat-hint align="end">
@@ -138,7 +139,7 @@
                       [ngModel]="vmCreationState.name"
                       (ngModelChange)="hostNameChange.emit($event)"
                       [placeholder]="'VM_PAGE.VM_CREATION.HOST_NAME' | translate"
-                      pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
+                      pattern="^[a-zA-Z]{0}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
                       [maxlength]="maxEntityNameLength"
                     >
                     <mat-hint align="end">

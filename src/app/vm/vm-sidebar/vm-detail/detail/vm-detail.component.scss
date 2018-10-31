@@ -7,10 +7,6 @@
 .grid.details {
   overflow: hidden;
   height: 3 * $sidebar-card-line-height;
-
-  &.open {
-    height: auto;
-  }
 }
 
 .ellipsis-overflow {
@@ -20,4 +16,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+:host /deep/ mat-card .mat-card-content-container {
+  margin-bottom: 0 !important;
 }
