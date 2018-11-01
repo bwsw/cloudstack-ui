@@ -16,7 +16,7 @@ export class FabComponent {
   constructor(private sidebarContainerService: SidebarContainerService) {}
 
   public get marginRight() {
-    return this.isOpen && this.sidebarContainerService.isOpen.getValue()
+    return this.sidebarContainerService.isOpen.getValue()
       ? this.sidebarContainerService.width.getValue()
       : 0;
   }
