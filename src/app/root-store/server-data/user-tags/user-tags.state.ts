@@ -29,6 +29,8 @@ const initialIds = [
   userTagKeys.showSystemTags,
   userTagKeys.timeFormat,
   userTagKeys.theme,
+  userTagKeys.vmLogsShowLastMessages,
+  userTagKeys.vmLogsShowLastMinutes,
 ];
 
 const initialEntities = {
@@ -78,6 +80,14 @@ const initialEntities = {
   [userTagKeys.keyboardLayoutForVms]: {
     key: userTagKeys.keyboardLayoutForVms,
     value: defaultConfig.keyboardLayoutForVms,
+  },
+  [userTagKeys.vmLogsShowLastMessages]: {
+    key: userTagKeys.vmLogsShowLastMessages,
+    value: defaultConfig.vmLogsShowLastMessages.toString(),
+  },
+  [userTagKeys.vmLogsShowLastMinutes]: {
+    key: userTagKeys.vmLogsShowLastMinutes,
+    value: defaultConfig.vmLogsShowLastMinutes.toString(),
   },
 };
 

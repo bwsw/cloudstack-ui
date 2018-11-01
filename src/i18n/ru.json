@@ -1490,6 +1490,11 @@
     "VM_PREFERENCES": {
       "TITLE": "Настройки ВМ",
       "KEYBOARD_LAYOUT": "Раскладка клавиатуры"
+    },
+    "VM_LOGS": {
+      "TITLE": "Просмотр логов",
+      "SHOW_LAST_MESSAGES": "Показывать последние (сообщений)",
+      "SHOW_LAST_MINUTES": "Показывать последние (минут)"
     }
   },
   "CLIPBOARD": {

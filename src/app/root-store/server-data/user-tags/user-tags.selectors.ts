@@ -102,3 +102,13 @@ export const getKeyboardLayout = createSelector(
   getUserTagsEntities,
   (entities): KeyboardLayout => entities[userTagKeys.keyboardLayoutForVms].value as KeyboardLayout,
 );
+
+export const getVmLogsShowLastMessages = createSelector(
+  getUserTagsEntities,
+  (entities): number => +entities[userTagKeys.vmLogsShowLastMessages].value as number,
+);
+
+export const getVmLogsShowLastMinutes = createSelector(
+  getUserTagsEntities,
+  (entites): number => +entites[userTagKeys.vmLogsShowLastMinutes].value as number,
+);

@@ -1,0 +1,27 @@
+<h3 class="no-margin nowrap">
+  {{ 'SETTINGS.VM_LOGS.SHOW_LAST_MINUTES' | translate }}
+</h3>
+
+<cs-update-button-field>
+  <mat-form-field>
+    <input
+      #minutesField
+      matInput
+      type="number"
+      [value]="minutes"
+      min="1"
+      csMinValue="1"
+      step="1"
+      required
+    >
+  </mat-form-field>
+
+  <button
+    mat-button
+    [disabled]="minutes == +minutesField.value"
+    (click)="minutesChanged.emit(+minutesField.value)"
+  >
+    {{ 'COMMON.UPDATE' | translate }}
+  </button>
+</cs-update-button-field>
+
