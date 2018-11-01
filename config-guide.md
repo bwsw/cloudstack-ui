@@ -27,6 +27,8 @@ You can see examples of the configurations in the [config-example.json](https://
   - [Compute Offering Classes](#compute-offering-classes)
   - [Service Offering Availability](#service-offering-availability)
 
+*Note*: We implement validation to all configuration parameter values. Please, make sure you provide correct and valid values in your `config.json`.
+
 ## General
 
 ### Default Domain
