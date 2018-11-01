@@ -1,5 +1,3 @@
-// todo: 1357
-/*
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
@@ -81,4 +79,3 @@ describe('Disk Offering Effects', () => {
     expect(effects.loadOfferings$).toBeObservable(expected);
   });
 });
-*/
