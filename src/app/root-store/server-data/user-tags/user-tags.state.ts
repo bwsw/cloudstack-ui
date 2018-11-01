@@ -79,6 +79,10 @@ const initialEntities = {
     key: userTagKeys.keyboardLayoutForVms,
     value: defaultConfig.keyboardLayoutForVms,
   },
+  [userTagKeys.sidebarWidth]: {
+    key: userTagKeys.sidebarWidth,
+    value: defaultConfig.sidebarWidth,
+  },
 };
 
 export const initialState: UserTagsState = adapter.getInitialState({

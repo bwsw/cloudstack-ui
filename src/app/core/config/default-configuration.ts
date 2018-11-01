@@ -127,7 +127,7 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
     },
   },
   keyboardLayoutForVms: 'us',
-  sidebarWidth: '330',
+  sidebarWidth: 330,
 };
 
 export const defaultConfig: Readonly<Config> = {

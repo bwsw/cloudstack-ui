@@ -74,7 +74,7 @@ export interface NonCustomizableConfig {
   customComputeOfferingHardwareValues: CustomComputeOfferingHardwareValues;
   defaultCustomComputeOfferingRestrictions: CustomComputeOfferingHardwareRestrictions;
   keyboardLayoutForVms: string;
-  sidebarWidth: string;
+  sidebarWidth: number;
 }
 
 export interface Config extends CustomizableConfig, NonCustomizableConfig {}
