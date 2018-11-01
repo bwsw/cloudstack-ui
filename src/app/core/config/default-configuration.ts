@@ -39,6 +39,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   extensions: {
     webShell: false,
     pulse: false,
+    vmLogs: false,
   },
   /*
    * Virtual machines settings
@@ -64,21 +65,6 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   defaultTimeFormat: 'hour24',
   defaultTheme: 'blue-red',
   sessionTimeout: 30,
-  /*
-   * Menu settings
-   */
-  allowReorderingSidenav: true,
-  configureSidenav: [
-    { id: 'VMS', visible: true },
-    { id: 'VOLUMES', visible: true },
-    { id: 'TEMPLATES', visible: true },
-    { id: 'SNAPSHOTS', visible: true },
-    { id: 'SGS', visible: true },
-    { id: 'EVENTS', visible: true },
-    { id: 'SSH', visible: true },
-    { id: 'ACCOUNTS', visible: true },
-    { id: 'SETTINGS', visible: true },
-  ],
   /*
    * Service offering setting
    */

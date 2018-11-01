@@ -1,4 +1,3 @@
-import { SidenavConfigElement } from './sidenav-config-element.interface';
 import { ServiceOfferingAvailability } from './service-offering-availability.interface';
 import { OfferingCompatibilityPolicy } from './offering-compatibility-policy.interface';
 import { ComputeOfferingClass } from './compute-offering-class.interface';
@@ -9,6 +8,12 @@ import { CustomComputeOfferingHardwareRestrictions } from './custom-compute-offe
 import { CustomComputeOfferingParameters } from './custom-compute-offering-parameters.interface';
 import { SecurityGroupTemplate } from '../../../security-group/sg.model';
 
+export interface ExtensionsConfig {
+  webShell: boolean;
+  pulse: boolean;
+  vmLogs: boolean;
+}
+
 export interface CustomizableConfig {
   /*
    * General
@@ -16,10 +21,7 @@ export interface CustomizableConfig {
   defaultDomain: string;
   sessionRefreshInterval: number;
   apiDocLink: string;
-  extensions: {
-    webShell: boolean;
-    pulse: boolean;
-  };
+  extensions: ExtensionsConfig;
   /*
    * Virtual machines settings
    */
@@ -41,11 +43,6 @@ export interface CustomizableConfig {
   defaultTimeFormat: string;
   defaultTheme: string;
   sessionTimeout: number;
-  /*
-   * Menu settings
-   */
-  allowReorderingSidenav: boolean;
-  configureSidenav: SidenavConfigElement[];
   /*
    * Service offering setting
    */

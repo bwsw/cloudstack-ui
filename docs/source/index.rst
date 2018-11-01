@@ -25,9 +25,12 @@ Contents:
 
    CS-UI_Overview
    CS-UI_Guide
+   CSUI-LogView
    CS-UI_Pulse
    CS-UI_Webshell
 
+   
+   
    
  
 Indices and tables

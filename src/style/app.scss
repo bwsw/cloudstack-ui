@@ -1,6 +1,6 @@
 // styles in src/style directory are applied to the whole page
-@import "~@angular/material/theming";
-@import "~dragula/dist/dragula.css";
+@import '~@angular/material/theming';
+@import '~dragula/dist/dragula.css';
 @import '__variables.scss';
 @import '../app/shared/styles/overlay';
 @import '../app/shared/styles/text-overflow-tooltip-fix';
@@ -8,9 +8,8 @@
 @import '../app/shared/styles/entity-cards';
 @import '../app/shared/styles/entity-list-item';
 @import '../app/shared/directives/badge/badge';
-@import "typography";
-@import "app-theme";
-
+@import 'typography';
+@import 'app-theme';
 
 @include mat-core();
 
@@ -85,7 +84,7 @@ mat-list-item {
 .mat-list-item-content {
   z-index: 0;
   line-height: normal;
-  height: 100% !important;
+  min-height: 100% !important;
   padding: 0 !important;
   margin: 0 15px;
   display: flex;
@@ -157,7 +156,7 @@ mat-card.custom-card {
   }
 
   & mat-card-actions {
-    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 
   & mat-card-title > h2 {
@@ -207,9 +206,8 @@ mat-card.custom-card {
 }
 
 .card-selected {
-  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12),
-  0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12),
+    0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
   transition: 0.25s, box-shadow 0.25s;
   z-index: 1;
   position: relative;
@@ -263,7 +261,7 @@ mat-form-field.form-select-control {
 
 .popover-actions {
   padding: 1rem;
-  color: rgba(0, 0, 0, .87);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .mat-icon-button mat-icon {
@@ -275,7 +273,7 @@ mat-form-field.form-select-control {
 }
 
 .mat-icon-button[disabled] mat-icon {
-  color: rgba(0, 0, 0, .26) !important;
+  color: rgba(0, 0, 0, 0.26) !important;
   cursor: default;
   background-color: transparent;
 }
@@ -395,7 +393,7 @@ mat-cell.mat-cell {
 
 .mat-dialog-content {
   &.notification {
-    color: rgba(0, 0, 0, .54);
+    color: rgba(0, 0, 0, 0.54);
     word-wrap: break-word;
   }
   font-size: 13pt;
@@ -431,11 +429,15 @@ mat-cell.mat-cell {
   font-size: 18px !important;
 }
 
-mat-radio-button, mat-checkbox, mat-dialog-content {
+mat-radio-button,
+mat-checkbox,
+mat-dialog-content {
   font-size: 11pt !important;
 }
 
-mat-button-toggle, mat-form-field, mat-option {
+mat-button-toggle,
+mat-form-field,
+mat-option {
   font-size: 14px !important;
 }
 
@@ -473,11 +475,22 @@ h3 {
 
 // !workaround ie11 alight-items: center bug
 // https://github.com/philipwalton/flexbugs/issues/231
-.mat-header-row, .mat-row {
+.mat-header-row,
+.mat-row {
   height: 0;
 }
 
 .icmp-autocomplete-width {
   width: 294px;
   left: -72px;
+}
+
+// cdk-overlay-container get stuck in display: none state
+// which causes popovers to become invisible.
+// this prevents display: none
+// todo: fix cs-popover component
+.cdk-overlay-container {
+  &:empty {
+    display: block;
+  }
 }

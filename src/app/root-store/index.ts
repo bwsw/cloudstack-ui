@@ -8,6 +8,4 @@ export { routerSelectors } from './router';
 import * as layoutStore from './layout';
 export * from './server-data';
 
-export {
-  layoutStore
-}
+export { layoutStore };

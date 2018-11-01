@@ -1,6 +1,4 @@
-import { Subroute } from '../models';
-
-export const virtualMachinesSubroutes: Subroute[] = [
+export const virtualMachinesSubroutes = [
   {
     text: 'NAVIGATION_SIDEBAR.VMS',
     path: '/instances',
@@ -36,5 +34,5 @@ export const virtualMachinesSubroutes: Subroute[] = [
     path: '/ssh-keys',
     icon: 'mdi-key',
     routeId: 'virtual-machines',
-  }
+  },
 ];
