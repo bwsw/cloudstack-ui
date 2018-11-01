@@ -19,7 +19,7 @@ export class DiskOfferingEffects {
     switchMap(
       ([action, storageAvailable]: [diskOfferingActions.LoadOfferingsRequest, number | null]) => {
         const params = {
-          zone: action.payload.zone,
+          zone: action.payload && action.payload.zone,
           maxSize: storageAvailable,
         };
         return this.offeringService.getList(params).pipe(
