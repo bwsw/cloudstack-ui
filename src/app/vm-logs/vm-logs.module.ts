@@ -26,6 +26,7 @@ import { reducer as vmLogsAutoUpdateReducers } from './redux/vm-logs-auto-update
 import { VmLogsContainerComponent } from './containers/vm-logs.container';
 import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ScrollToLastDirective } from './vm-logs-table/scroll-to-last.directive';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     ParseTimestampPipe,
     DateObjectToDatePipe,
     VmLogsContainerComponent,
+    ScrollToLastDirective,
   ],
   providers: [VmLogsService, VmLogFilesService, VmLogsEnabledGuard],
 })
