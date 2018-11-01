@@ -13,6 +13,7 @@ import { State } from '../../reducers';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 const FILTER_KEY = 'accountListFilters';
 
@@ -29,6 +30,7 @@ const FILTER_KEY = 'accountListFilters';
       [selectedRoleNames]="selectedRoleNames$ | async"
       [selectedRoleTypes]="selectedRoleTypes$ | async"
       [selectedStates]="selectedStates$ | async"
+      [sidebarWidth]="sidebarWidth$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings"
       (domainsChanged)="onDomainsChange($event)"
@@ -54,6 +56,7 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
   readonly selectedRoleNames$ = this.store.pipe(select(fromAccounts.filterSelectedRoleNames));
   readonly selectedStates$ = this.store.pipe(select(fromAccounts.filterSelectedStates));
   readonly selectedRoleTypes$ = this.store.pipe(select(fromAccounts.filterSelectedRoleTypes));
+  readonly sidebarWidth$ = this.sidebarContainerService.sidebarWidth;
 
   public states: string[] = ['enabled', 'disabled'];
 
@@ -76,6 +79,7 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private sidebarContainerService: SidebarContainerService,
   ) {
     super();
   }

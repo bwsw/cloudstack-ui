@@ -8,7 +8,6 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { ResourcesData, ResourceStats } from '../../services/resource-usage.service';
 import { Utils } from '../../services/utils/utils.service';
 import { Account } from '../../models';
-import { SidebarContainerService } from '../../services/sidebar-container.service';
 
 const showStatistics = 'showStatistics';
 const statisticsMode = 'statisticsMode';
@@ -49,6 +48,8 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
   public accounts: Account[];
   @Input()
   public user: Account;
+  @Input()
+  public sidebarWidth: number;
 
   public resourceUsage: ResourceStats;
   public isOpen = true;
@@ -116,7 +117,6 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
   private wasOpened = false;
 
   constructor(
-    private sidebarContainerService: SidebarContainerService,
     private authService: AuthService,
     private translateService: TranslateService,
     private storageService: LocalStorageService,
@@ -150,12 +150,6 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
 
   public get isAdmin(): boolean {
     return this.authService.isAdmin();
-  }
-
-  public get marginRight() {
-    return this.isOpen && this.sidebarContainerService.isOpen.getValue()
-      ? this.sidebarContainerService.width.getValue()
-      : 0;
   }
 
   public switchMode() {

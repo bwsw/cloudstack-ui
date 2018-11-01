@@ -38,6 +38,8 @@ export class TemplateFilterListSelectorComponent {
   public selectedGroups: string[];
   @Input()
   public selectedGroupings;
+  @Input()
+  public sidebarWidth: number;
 
   @Output()
   public selectedTemplateChange = new EventEmitter();

@@ -7,7 +7,6 @@ import { NgrxEntities } from '../../shared/interfaces';
 import { AuthService } from '../../shared/services/auth.service';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 import { Language } from '../../shared/types';
-import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 @Component({
   selector: 'cs-template-filters',
@@ -49,6 +48,8 @@ export class TemplateFiltersComponent implements OnInit {
   public query: string;
   @Input()
   public viewMode: string;
+  @Input()
+  public sidebarWidth: number;
 
   @Output()
   public queries = new EventEmitter();
@@ -90,17 +91,7 @@ export class TemplateFiltersComponent implements OnInit {
     templateFilters.community,
   ];
 
-  public get marginRight() {
-    return this.sidebarContainerService.isOpen.getValue()
-      ? this.sidebarContainerService.width.getValue()
-      : 0;
-  }
-
-  constructor(
-    private authService: AuthService,
-    private translate: TranslateService,
-    private sidebarContainerService: SidebarContainerService,
-  ) {}
+  constructor(private authService: AuthService, private translate: TranslateService) {}
 
   public ngOnInit(): void {
     if (this.dialogMode) {

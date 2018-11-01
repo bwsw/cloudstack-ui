@@ -13,7 +13,7 @@
   <div
     class="stat-list"
     [class.closed]="!isOpen"
-    [style.margin-right.px]="marginRight"
+    [style.margin-right.px]="sidebarWidth"
   >
     <ng-container *ngIf="isAdmin">
       <mat-button-toggle-group (change)="switchType()">

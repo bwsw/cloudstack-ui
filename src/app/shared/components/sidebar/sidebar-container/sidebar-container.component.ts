@@ -1,4 +1,13 @@
-import { Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarContainerService } from '../../../services/sidebar-container.service';
 import { IResizeEvent } from 'angular2-draggable/lib/models/resize-event';
@@ -12,7 +21,7 @@ import * as UserTagsActions from '../../../../root-store/server-data/user-tags/u
   templateUrl: 'sidebar-container.component.html',
   styleUrls: ['sidebar-container.component.scss'],
 })
-export class SidebarContainerComponent implements OnInit, OnChanges {
+export class SidebarContainerComponent implements OnInit, OnChanges, AfterViewInit {
   @Input()
   @HostBinding('class.open')
   public isOpen;
@@ -23,10 +32,15 @@ export class SidebarContainerComponent implements OnInit, OnChanges {
 
   constructor(
     public sidebarContainerService: SidebarContainerService,
+    public cd: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<State>,
   ) {}
+
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
 
   public ngOnChanges(changes: SimpleChanges) {
     const isOpen = changes.isOpen && changes.isOpen.currentValue;
@@ -54,8 +68,6 @@ export class SidebarContainerComponent implements OnInit, OnChanges {
   public onResizeStop(event: IResizeEvent): void {
     const newSize = Math.min(Math.max(event.size.width, this.minWidthSize), this.maxWidthSize);
     this.store.dispatch(new UserTagsActions.UpdateSidebarWidth({ value: newSize.toString() }));
-    this.sidebarContainerService.width.next(
-      Math.min(Math.max(event.size.width, this.minWidthSize), this.maxWidthSize),
-    );
+    this.sidebarContainerService.width.next(newSize);
   }
 }

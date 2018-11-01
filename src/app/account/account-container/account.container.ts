@@ -7,6 +7,7 @@ import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../shared/services/auth.service';
 import { Account, accountState } from '../../shared/models/account.model';
+import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 export const stateTranslations = {
   [accountState.disabled]: 'ACCOUNT_STATE.DISABLED',
@@ -21,6 +22,7 @@ export const stateTranslations = {
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
+      [sidebarWidth]="sidebarWidth$ | async "
     ></cs-account-page>`,
 })
 export class AccountPageContainerComponent extends WithUnsubscribe()
@@ -28,6 +30,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe()
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectFilteredAccounts));
   readonly loading$ = this.store.pipe(select(fromAccounts.isLoading));
   readonly selectedGroupings$ = this.store.pipe(select(fromAccounts.filterSelectedGroupings));
+  readonly sidebarWidth$ = this.sidebarContainerService.sidebarWidth;
 
   public groupings = [
     {
@@ -60,6 +63,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe()
     private store: Store<State>,
     private authService: AuthService,
     private cd: ChangeDetectorRef,
+    private sidebarContainerService: SidebarContainerService,
   ) {
     super();
   }

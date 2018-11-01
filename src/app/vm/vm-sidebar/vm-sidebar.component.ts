@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { SnackBarService } from '../../core/services';
@@ -10,7 +17,7 @@ import { VmService } from '../shared/vm.service';
   templateUrl: 'vm-sidebar.component.html',
   styleUrls: ['vm-sidebar.component.scss'],
 })
-export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
+export class VmSidebarComponent extends SidebarComponent<VirtualMachine> implements AfterViewInit {
   @Input()
   public entity: VirtualMachine;
   @Output()
@@ -18,10 +25,15 @@ export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
 
   constructor(
     protected vmService: VmService,
+    public cd: ChangeDetectorRef,
     protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
     protected router: Router,
   ) {
     super(vmService, notificationService, route, router);
+  }
+
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 }

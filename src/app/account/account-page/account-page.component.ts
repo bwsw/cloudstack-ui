@@ -21,18 +21,15 @@ export class AccountPageComponent {
   public isLoading: boolean;
   @Input()
   public selectedGroupings: any[] = [];
+  @Input()
+  public sidebarWidth: number;
 
   public mode: ViewMode;
   public viewModeKey = 'accountPageViewMode';
 
-  public get sidebarWidth() {
-    return this.sidebarContainerService.width.getValue();
-  }
-
   constructor(
     public listService: ListService,
     public authService: AuthService,
-    public sidebarContainerService: SidebarContainerService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
   ) {}

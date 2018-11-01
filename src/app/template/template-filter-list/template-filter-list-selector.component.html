@@ -11,6 +11,7 @@
   [selectedOsFamilies]="selectedOsFamilies"
   [selectedTypes]="selectedTypes"
   [query]="query"
+  [sidebarWidth]="sidebarWidth$ | async"
 
   (queryChange)="queryChanged.emit($event)"
   (selectedGroupsChange)="selectedGroupsChanged.emit($event)"

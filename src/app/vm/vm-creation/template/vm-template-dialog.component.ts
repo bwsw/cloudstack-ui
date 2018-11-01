@@ -13,38 +13,40 @@ import { ImageGroup } from '../../../shared/models/';
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
   @Input()
-  templates: BaseTemplateModel[];
+  public templates: BaseTemplateModel[];
   @Input()
-  selectedTypes: string[];
+  public selectedTypes: string[];
   @Input()
-  selectedOsFamilies: OsFamily[];
+  public selectedOsFamilies: OsFamily[];
   @Input()
-  selectedGroups: string[];
+  public selectedGroups: string[];
   @Input()
-  viewMode: string;
+  public viewMode: string;
   @Input()
-  query: string;
+  public query: string;
   @Input()
-  groups: ImageGroup[];
+  public groups: ImageGroup[];
   @Input()
-  isLoading: boolean;
+  public isLoading: boolean;
   @Input()
-  preselectedTemplate: BaseTemplateModel;
+  public preselectedTemplate: BaseTemplateModel;
+  @Input()
+  public sidebarWidth: number;
 
   @Output()
-  viewModeChange = new EventEmitter<string>();
+  public viewModeChange = new EventEmitter<string>();
   @Output()
-  selectedTypesChange = new EventEmitter<string[]>();
+  public selectedTypesChange = new EventEmitter<string[]>();
   @Output()
-  selectedOsFamiliesChange = new EventEmitter<string[]>();
+  public selectedOsFamiliesChange = new EventEmitter<string[]>();
   @Output()
-  selectedGroupsChange = new EventEmitter<string[]>();
+  public selectedGroupsChange = new EventEmitter<string[]>();
   @Output()
-  queryChange = new EventEmitter<string>();
+  public queryChange = new EventEmitter<string>();
   @Output()
-  cancel = new EventEmitter<boolean>();
+  public cancel = new EventEmitter<boolean>();
   @Output()
-  selectionChange = new EventEmitter<BaseTemplateModel>();
+  public selectionChange = new EventEmitter<BaseTemplateModel>();
 
   public selectedTemplate: BaseTemplateModel;
 

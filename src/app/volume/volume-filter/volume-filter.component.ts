@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Account, Grouping, VolumeType, volumeTypeNames, Zone } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
-import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 @Component({
   selector: 'cs-volume-filter',
@@ -29,6 +28,8 @@ export class VolumeFilterComponent implements OnInit {
   public selectedTypes: string[];
   @Input()
   public selectedAccountIds: string[];
+  @Input()
+  public sidebarWidth: number;
   @Output()
   public queryChanged = new EventEmitter();
   @Output()
@@ -42,16 +43,7 @@ export class VolumeFilterComponent implements OnInit {
   @Output()
   public groupingsChanged = new EventEmitter();
 
-  public get marginRight() {
-    return this.sidebarContainerService.isOpen.getValue()
-      ? this.sidebarContainerService.width.getValue()
-      : 0;
-  }
-
-  constructor(
-    private authService: AuthService,
-    private sidebarContainerService: SidebarContainerService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   public ngOnInit() {
     this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);

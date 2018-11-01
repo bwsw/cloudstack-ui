@@ -12,6 +12,7 @@ import { BaseTemplateModel } from '../shared';
 import { configSelectors, State } from '../../root-store';
 import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
 import * as templateActions from '../../reducers/templates/redux/template.actions';
+import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 @Component({
   selector: 'cs-iso-attachment-filter-selector-container',
@@ -27,6 +28,7 @@ import * as templateActions from '../../reducers/templates/redux/template.action
       [query]="query$ | async"
       [groups]="groups$ | async"
       [fetching]="isLoading$ | async"
+      [sidebarWidth]="sidebarWidth$ | async"
       [(selectedTemplate)]="selectedTemplate"
       (selectedTemplateChange)="selectedTemplateChange.emit($event)"
       (selectedTypesChanged)="onSelectedTypesChange($event)"
@@ -46,6 +48,7 @@ export class IsoAttachmentFilterSelectorContainerComponent implements AfterViewI
   );
   readonly selectedGroups$ = this.store.pipe(select(fromTemplates.vmCreationListSelectedGroups));
   readonly query$ = this.store.pipe(select(fromTemplates.vmCreationListQuery));
+  readonly sidebarWidth$ = this.sidebarContainerService.sidebarWidth;
 
   @Input()
   public selectedTemplate: BaseTemplateModel;
@@ -61,7 +64,11 @@ export class IsoAttachmentFilterSelectorContainerComponent implements AfterViewI
     },
   ];
 
-  constructor(private store: Store<State>, private cd: ChangeDetectorRef) {
+  constructor(
+    private store: Store<State>,
+    private cd: ChangeDetectorRef,
+    private sidebarContainerService: SidebarContainerService,
+  ) {
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
   }
 
