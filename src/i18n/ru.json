@@ -1435,7 +1435,7 @@
     "FILTERS": {
       "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_VM": "Выберите ВМ",
-      "KEYWORDS": "Ключевые слова",
+      "SEARCH": "Поиск",
       "SHOW_LOGS": "Показать логи",
       "START_DATE": "Начальная дата",
       "END_DATE": "Конечная дата",
@@ -1447,6 +1447,10 @@
       "DATE": "Дата",
       "LOG_FILE": "Файл",
       "TEXT": "Текст"
+    },
+    "FAB": {
+      "FOLLOW_LOG": "Отслеживать",
+      "STOP_FOLLOWING": "Не отслеживать"
     }
   },
   "SETTINGS": {

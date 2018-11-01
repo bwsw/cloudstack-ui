@@ -8,11 +8,11 @@ describe('loadVmLogsRequestParams selector', () => {
     jasmine.clock().mockDate(date.toDate());
   });
 
-  it('should select load logs request params without keywords', () => {
+  it('should select load logs request params without search', () => {
     const id = 'test-id';
-    const keywords = [];
+    const search = null;
 
-    const params = loadVmLogsRequestParams.projector(id, keywords);
+    const params = loadVmLogsRequestParams.projector(id, search);
 
     expect(params).toEqual({
       id,
@@ -22,15 +22,15 @@ describe('loadVmLogsRequestParams selector', () => {
     });
   });
 
-  it('should select load logs request params with keywords', () => {
+  it('should select load logs request params with search', () => {
     const id = 'test-id';
-    const keywords = [{ text: 'test-keyword1' }, { text: 'test-keyword2' }];
+    const search = 'test-search';
 
-    const params = loadVmLogsRequestParams.projector(id, keywords);
+    const params = loadVmLogsRequestParams.projector(id, search);
 
     expect(params).toEqual({
       id,
-      keywords: 'test-keyword1,test-keyword2',
+      keywords: search,
       startDate: '1970-01-01T00:00:00.000',
       endDate: '1970-01-01T00:00:00.000',
       sort: 'timestamp',
@@ -50,7 +50,7 @@ describe('loadVmLogsRequestParams selector', () => {
   it('should set sort: -timestamp if newest first = true', () => {
     const id = 'test-id';
 
-    const params = loadVmLogsRequestParams.projector(id, [], date, date, '', true);
+    const params = loadVmLogsRequestParams.projector(id, null, date, date, '', true);
 
     expect(params).toEqual({
       ...defaultRequestParams,
