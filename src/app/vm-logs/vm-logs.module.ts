@@ -25,6 +25,8 @@ import { reducer as vmLogsVmReducers } from './redux/vm-logs-vm.reducers';
 import { reducer as vmLogsAutoUpdateReducers } from './redux/vm-logs-auto-update.reducers';
 import { VmLogsContainerComponent } from './containers/vm-logs.container';
 import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ScrollToLastDirective } from './vm-logs-table/scroll-to-last.directive';
 
 @NgModule({
   imports: [
@@ -34,6 +36,7 @@ import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
     RouterModule,
     MatChipsModule,
     CdkTableModule,
+    InfiniteScrollModule,
     StoreModule.forFeature('vmLogs', vmLogsReducers),
     StoreModule.forFeature('vmLogFiles', vmLogFilesReducers),
     StoreModule.forFeature('vmLogsVm', vmLogsVmReducers),
@@ -50,6 +53,7 @@ import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
     ParseTimestampPipe,
     DateObjectToDatePipe,
     VmLogsContainerComponent,
+    ScrollToLastDirective,
   ],
   providers: [VmLogsService, VmLogFilesService, VmLogsEnabledGuard],
 })

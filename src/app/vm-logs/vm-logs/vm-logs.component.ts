@@ -1,4 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { State } from '../../root-store';
+import * as vmLogsActions from '../redux/vm-logs.actions';
+import { listScrollContainerId } from '../../shared/components';
 
 @Component({
   selector: 'cs-vm-logs',
@@ -6,6 +10,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['vm-logs.component.scss'],
 })
 export class VmLogsComponent {
+  readonly scrollContainerSelector = `#${listScrollContainerId}`;
+
   @Input()
   public isAutoUpdateEnabled: boolean;
   @Input()
@@ -14,4 +20,10 @@ export class VmLogsComponent {
   public autoUpdateStarted = new EventEmitter<void>();
   @Output()
   public autoUpdateStopped = new EventEmitter<void>();
+
+  constructor(private store: Store<State>) {}
+
+  public onScroll() {
+    this.store.dispatch(new vmLogsActions.ScrollVmLogs());
+  }
 }
