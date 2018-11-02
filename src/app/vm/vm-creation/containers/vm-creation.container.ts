@@ -36,6 +36,7 @@ import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -112,6 +113,7 @@ export class VmCreationContainerComponent implements OnInit {
   constructor(
     private store: Store<State>,
     private dialogRef: MatDialogRef<VmCreationContainerComponent>,
+    private authService: AuthService,
   ) {
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
@@ -127,7 +129,6 @@ export class VmCreationContainerComponent implements OnInit {
     this.isDiskOfferingAvailableByResources$ = this.store.pipe(
       select(fromDiskOfferings.isDiskOfferingAvailableByResources(this.minSize)),
     );
-    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());
   }
 
