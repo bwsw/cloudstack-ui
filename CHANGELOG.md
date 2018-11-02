@@ -1,3 +1,20 @@
+<a name="1.411.23.1"></a>
+## [1.411.23.1](https://github.com/wowshakhov/cloudstack-ui/compare/1.411.23...1.411.23.1) (2018-10-30)
+
+
+### Bug Fixes
+
+* **dialogs:** formatting and layout ([#1373](https://github.com/wowshakhov/cloudstack-ui/issues/1373)) ([7d3eec6](https://github.com/wowshakhov/cloudstack-ui/commit/7d3eec6))
+* **templates:** tabs Template/Iso for Image section are present and filters come to next row. ([#1386](https://github.com/wowshakhov/cloudstack-ui/issues/1386)) ([127a955](https://github.com/wowshakhov/cloudstack-ui/commit/127a955)), closes [#1378](https://github.com/wowshakhov/cloudstack-ui/issues/1378)
+* **vm:** hide color picker if the configuration of the "vmColors" is … ([#1367](https://github.com/wowshakhov/cloudstack-ui/issues/1367)) ([c5d7652](https://github.com/wowshakhov/cloudstack-ui/commit/c5d7652)), closes [#1336](https://github.com/wowshakhov/cloudstack-ui/issues/1336)
+
+
+### Features
+
+* **prettier:** ignore markdown ([#1388](https://github.com/wowshakhov/cloudstack-ui/issues/1388)) ([79c3dee](https://github.com/wowshakhov/cloudstack-ui/commit/79c3dee))
+
+
+
 <a name="1.411.23"></a>
 
 ## [1.411.23](https://github.com/wowshakhov/cloudstack-ui/compare/1.411.22...1.411.23) (2018-10-26)

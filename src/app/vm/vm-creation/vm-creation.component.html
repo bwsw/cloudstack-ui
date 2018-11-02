@@ -46,32 +46,29 @@
       <div class="container">
         <ng-container *ngIf="enoughResources && vmCreationState; then enoughResources else notEnoughResources">
         </ng-container>
-
         <ng-template #enoughResources>
           <mat-tab-group>
 
             <mat-tab [label]="'VM_PAGE.VM_CREATION.GENERAL' | translate">
               <div class="settings-column">
                 <div>
-                  <h4>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h4>
+                  <h4>{{ 'VM_PAGE.VM_CREATION.DISPLAY_NAME' | translate }}</h4>
                   <mat-form-field floatLabel="never" class="full-width-input">
                     <input
                       matInput
-                      name="name"
+                      name="displayName"
                       [ngModel]="vmCreationState.displayName"
                       (ngModelChange)="displayNameChange.emit($event)"
-                      [placeholder]="'VM_PAGE.VM_CREATION.NAME' | translate"
-                      pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
-                      [maxlength]="maxEntityNameLength"
+                      [placeholder]="'VM_PAGE.VM_CREATION.DISPLAY_NAME' | translate"
+                      [maxlength]="32"
+                      [minlength]="1"
+                      pattern="^[\S]{0}.{0,30}[\S]$"
                       required
                     >
-                    <mat-error *ngIf="takenName">
-                      {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
-                    </mat-error>
                     <mat-hint align="end">
                       <cs-character-count
                         [value]="vmCreationState.displayName"
-                        [maxLength]="maxEntityNameLength"
+                        [maxLength]="32"
                       ></cs-character-count>
                     </mat-hint>
                   </mat-form-field>
@@ -139,6 +136,30 @@
 
             <mat-tab [label]="'VM_PAGE.VM_CREATION.ADVANCED' | translate">
               <div class="settings-column">
+                <div>
+                  <h4>{{ 'VM_PAGE.VM_CREATION.HOST_NAME' | translate }}</h4>
+                  <mat-form-field floatLabel="never" class="full-width-input">
+                    <input
+                      matInput
+                      name="hostName"
+                      [ngModel]="vmCreationState.name"
+                      (ngModelChange)="hostNameChange.emit($event)"
+                      [placeholder]="'VM_PAGE.VM_CREATION.HOST_NAME' | translate"
+                      pattern="^[a-zA-Z]{0}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
+                      [maxlength]="maxEntityNameLength"
+                    >
+                    <mat-hint align="end">
+                      <cs-character-count
+                        [value]="vmCreationState.name"
+                        [maxLength]="maxEntityNameLength"
+                      ></cs-character-count>
+                    </mat-hint>
+                  </mat-form-field>
+                  <mat-error *ngIf="hostNameIsTaken()">
+                    {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
+                  </mat-error>
+                </div>
+
                 <div>
                   <h4>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h4>
                   <mat-form-field floatLabel="never">

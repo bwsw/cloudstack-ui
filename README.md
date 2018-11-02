@@ -103,11 +103,11 @@ WebShell is a CloudStack-UI extension designed to perform a clientless SSH conne
 
 This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on [the plugin page](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin#webshell-plugin-deployment).
 
-**View Logs Plugin**
+**LogView Plugin**
 
-This extension is an API plugin featured with the UI that our team has developed to process and view virtual machine logs which are handled by ELK and delivered by Filebeat. The extension is activated in the CloudStack-UI configuration file after installing it into CloudStack and deploying the required components. The version of the plugin matches Apache CloudStack version that it is built for. The plugin is developed and tested only with Apache CloudStack 4.11.1
+This extension allows users to view VM log files. It uses the LogView backend-plugin that extends the CloudStack API with additional requests providing access the VM log files storage. For the LogView UI-plugin operation, firstly, the LogView backend-plugin should be downloaded from [GitHub](https://github.com/bwsw/cloud-plugin-vm-logs) and deployed. The plugin uses the ELK stack to store machine log files and Filebeat to export log files from a VM to the storage. The plugin is developed and tested only with Apache CloudStack 4.11.1.
 
-After deployment, the _View logs_ section is available in the CloudStack-UI. There a user can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs. Optionally, you can specify a time period and keywords to filter the log files.
+Then, it is necessary to enable the LogView UI-plugin via the CloudStack-UI configuration file. After activation, the _View Logs_ section appears in CloudStack-UI. There a user can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs.
 
 Plugin deployment and configuration instructions can be found at the [plugin page](https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin).
 
@@ -128,7 +128,7 @@ We intensively use features like projects in our own CloudStack cloud to manage 
   - Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
   - Self registration for public cloud
   - RDP/VNC (guacamole)
-
+   
 ## Far Away To Dos
 
 - Plugins
@@ -161,7 +161,6 @@ We changed a new virtual machine screen a lot. Now it’s a one-step dialog and 
 Our team has made a big contribution to the improvement of UX when creating a virtual machine. First of all, a user now has an access to the list of all creation steps. Depending on installation source (ISO or a Template) system allows getting not only a login, password, and IP of the machine but also an access to VM interaction interface.
 
 Currently supported:
-
 - VNC console,
 - WebShell if VM has a csui.vm.auth-mode tag with SSH value. To configure access to VM using WebShell, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags),
 - Access via HTTP if VM has a csui.vm.auth-mode tag with HTTP value. To configure access to VM via HTTP, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags).
@@ -267,13 +266,13 @@ npm install
 To run docker container use:
 
 ```
-docker pull bitworks.software:8443/cloudstack-ui:1.411.23
+docker pull bitworks.software:8443/cloudstack-ui:1.411.23.1
 
 docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bitworks.software:8443/cloudstack-ui:1.411.23
+           bitworks.software:8443/cloudstack-ui:1.411.23.1
 ```
 
 `http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)
