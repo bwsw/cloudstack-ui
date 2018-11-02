@@ -127,6 +127,16 @@ export class VmLogsEffects {
     ),
   );
 
+  @Effect()
+  resetScroll$: Observable<Action> = this.actions$.pipe(
+    ofType(
+      vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE,
+      vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE,
+      vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST,
+    ),
+    map(() => new vmLogsActions.ResetVmLogsScroll()),
+  );
+
   constructor(
     private actions$: Actions,
     private router: Router,

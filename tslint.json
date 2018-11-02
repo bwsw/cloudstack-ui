@@ -70,7 +70,6 @@
     "restrict-plus-operands": true,
     "switch-default": true,
     "use-isnan": true,
-    "cyclomatic-complexity": true,
     "file-name-casing": [true, "kebab-case"],
     "interface-name": [true, "never-prefix"],
     "no-angle-bracket-type-assertion": true,

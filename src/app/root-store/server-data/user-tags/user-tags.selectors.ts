@@ -105,10 +105,10 @@ export const getKeyboardLayout = createSelector(
 
 export const getVmLogsShowLastMessages = createSelector(
   getUserTagsEntities,
-  (entities): number => +entities[userTagKeys.vmLogsShowLastMessages].value as number,
+  (entities): number => +entities[userTagKeys.vmLogsShowLastMessages].value,
 );
 
 export const getVmLogsShowLastMinutes = createSelector(
   getUserTagsEntities,
-  (entites): number => +entites[userTagKeys.vmLogsShowLastMinutes].value as number,
+  (entities): number => +entities[userTagKeys.vmLogsShowLastMinutes].value,
 );

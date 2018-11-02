@@ -17,11 +17,13 @@ describe('VM logs reducer', () => {
     ].forEach(type => {
       const logs = [
         {
+          id: 'test-id1',
           log: 'test-log1',
           timestamp: 'test-timestamp1',
           file: 'test-file1',
         },
         {
+          id: 'test-id2',
           log: 'test-log2',
           timestamp: 'test-timestamp2',
           file: 'test-file2',
@@ -85,6 +87,7 @@ describe('VM logs reducer', () => {
           ids: ['id1'],
           entities: {
             id1: {
+              id: 'id1',
               timestamp: 'test1',
               log: 'test1',
               file: 'test1',

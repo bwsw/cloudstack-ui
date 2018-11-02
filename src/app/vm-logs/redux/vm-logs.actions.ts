@@ -28,6 +28,8 @@ export enum VmLogsActionTypes {
   DISABLE_AUTO_UPDATE = '[VM Logs] DISABLE_AUTO_UPDATE',
   SET_AUTO_UPDATE_START_DATE = '[VM Logs] SET_AUTO_UPDATE_START_DATE',
   SET_AUTO_UPDATE_END_DATE = '[VM Logs] SET_AUTO_UPDATE_END_DATE',
+  SCROLL_VM_LOGS = '[VM Logs] SCROLL_VM_LOGS',
+  RESET_VM_LOGS_SCROLL = '[VM Logs] RESET_VM_LOGS_SCROLL',
 }
 
 export class LoadVmLogsRequest implements Action {
@@ -63,7 +65,7 @@ export class LoadVmLogFilesRequest implements Action {
 export class LoadVmLogFilesResponse implements Action {
   readonly type = VmLogsActionTypes.LOAD_VM_LOG_FILES_RESPONSE;
 
-  constructor(public payload: VmLogFile[]) {}
+  constructor(readonly payload: VmLogFile[]) {}
 }
 
 export class VmLogsUpdateSearch implements Action {
@@ -75,7 +77,7 @@ export class VmLogsUpdateSearch implements Action {
 export class VmLogsUpdateStartDateTime implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_START_DATE_TIME;
 
-  constructor(public payload: DateObject) {}
+  constructor(readonly payload: DateObject) {}
 }
 
 export class VmLogsUpdateStartDate implements Action {
@@ -93,7 +95,7 @@ export class VmLogsUpdateStartTime implements Action {
 export class VmLogsUpdateEndDateTime implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_END_DATE_TIME;
 
-  constructor(public payload: DateObject) {}
+  constructor(readonly payload: DateObject) {}
 }
 
 export class VmLogsUpdateEndDate implements Action {
@@ -111,7 +113,7 @@ export class VmLogsUpdateEndTime implements Action {
 export class VmLogsUpdateVmId implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID;
 
-  constructor(public payload: string) {}
+  constructor(readonly payload: string) {}
 }
 
 export class VmLogsUpdateAccountIds implements Action {
@@ -133,7 +135,15 @@ export class VmLogsToggleNewestFirst implements Action {
 export class VmLogsUpdateLogFile implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_LOG_FILE;
 
-  constructor(public payload: string) {}
+  constructor(readonly payload: string) {}
+}
+
+export class ScrollVmLogs implements Action {
+  readonly type = VmLogsActionTypes.SCROLL_VM_LOGS;
+}
+
+export class ResetVmLogsScroll implements Action {
+  readonly type = VmLogsActionTypes.RESET_VM_LOGS_SCROLL;
 }
 
 export class EnableAutoUpdate implements Action {
@@ -179,4 +189,6 @@ export type Actions =
   | EnableAutoUpdate
   | DisableAutoUpdate
   | SetAutoUpdateStartDate
-  | SetAutoUpdateEndDate;
+  | SetAutoUpdateEndDate
+  | ScrollVmLogs
+  | ResetVmLogsScroll;

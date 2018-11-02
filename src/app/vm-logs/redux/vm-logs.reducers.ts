@@ -18,6 +18,7 @@ export interface VmLogsFilters {
 export interface State extends EntityState<VmLog> {
   loading: boolean;
   filters: VmLogsFilters;
+  uiPage: number;
 }
 
 export interface VmLogsState {
@@ -29,12 +30,13 @@ export const vmLogsReducers = {
 };
 
 export const adapter: EntityAdapter<VmLog> = createEntityAdapter<VmLog>({
-  selectId: () => Math.random(),
+  selectId: vmLog => vmLog.id,
   sortComparer: false,
 });
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  uiPage: 1,
   filters: {
     selectedLogFile: null,
     search: null,
@@ -219,6 +221,20 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
       };
     }
 
+    case vmLogsActions.VmLogsActionTypes.SCROLL_VM_LOGS: {
+      return {
+        ...state,
+        uiPage: state.uiPage + 1,
+      };
+    }
+
+    case vmLogsActions.VmLogsActionTypes.RESET_VM_LOGS_SCROLL: {
+      return {
+        ...state,
+        uiPage: 1,
+      };
+    }
+
     default: {
       return state;
     }
@@ -257,28 +273,51 @@ export const filterNewestFirst = createSelector(filters, state => state.newestFi
 
 export const filterSelectedLogFile = createSelector(filters, state => state.selectedLogFile);
 
-export const selectAutoUpdateLogs = createSelector(
+export const selectUiPage = createSelector(getVmLogsEntitiesState, state => state.uiPage);
+
+const selectTotalScrollLogs = createSelector(selectUiPage, uiPage => uiPage * 100);
+
+const getVisibleScrollLogs = (logs, totalScrollLogs) => logs.slice(0, totalScrollLogs);
+const getLastLogs = (logs, limit, newestFirst) => {
+  if (newestFirst) {
+    return logs.slice(0, limit);
+  }
+
+  return logs.slice(-limit, logs.length);
+};
+
+export const selectVisibleStaticLogs = createSelector(
+  selectAll,
+  selectTotalScrollLogs,
+  getVisibleScrollLogs,
+);
+
+export const selectVisibleAutoUpdateLogs = createSelector(
   selectAll,
   UserTagsSelectors.getVmLogsShowLastMessages,
   filterNewestFirst,
-  (logs, showLastMessages, newestFirst) => {
-    if (newestFirst) {
-      return logs.slice(0, showLastMessages);
-    }
-
-    return logs.slice(-showLastMessages, logs.length);
+  selectTotalScrollLogs,
+  (logs, showLastMessages, newestFirst, totalScrollLogs) => {
+    const lastLogs = getLastLogs(logs, showLastMessages, newestFirst);
+    return getVisibleScrollLogs(lastLogs, totalScrollLogs);
   },
 );
 
-export const selectLogs = createSelector(
-  selectAll,
-  selectAutoUpdateLogs,
+export const selectVisibleLogs = createSelector(
+  selectVisibleStaticLogs,
+  selectVisibleAutoUpdateLogs,
   selectIsAutoUpdateEnabled,
-  (logs, autoUpdateLogs, isAutoUpdateEnabled) => {
+  (visibleStaticLogs, visibleAutoUpdateLogs, isAutoUpdateEnabled) => {
     if (isAutoUpdateEnabled) {
-      return autoUpdateLogs;
+      return visibleAutoUpdateLogs;
     }
 
-    return logs;
+    return visibleStaticLogs;
   },
+);
+
+export const selectAreAllLogsShown = createSelector(
+  selectVisibleLogs,
+  selectTotalScrollLogs,
+  (visibleLogs, totalScrollLogs) => totalScrollLogs >= visibleLogs.length,
 );

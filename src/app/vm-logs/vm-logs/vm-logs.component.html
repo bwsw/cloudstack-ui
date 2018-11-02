@@ -1,18 +1,28 @@
-<cs-list [creationEnabled]="false">
-  <ng-container cs-panels>
+<!-- todo: refactor scrollContainer -->
+<cs-list
+  class="list-container"
+  infiniteScroll
+  (scrolled)="onScroll()"
+  [infiniteScrollContainer]="scrollContainerSelector"
+  [immediateCheck]="true"
+  [scrollWindow]="false"
+  [creationEnabled]="false"
+>
+  <div #filterContainer cs-panels>
     <cs-top-bar>
       <cs-vm-logs-filter-container></cs-vm-logs-filter-container>
     </cs-top-bar>
-  </ng-container>
+  </div>
 
-  <ng-container cs-list>
+  <div class="table-container" #tableContainer cs-list>
     <cs-vm-logs-table-container></cs-vm-logs-table-container>
-  </ng-container>
+  </div>
 </cs-list>
 
 <div
   *ngIf="!isAutoUpdateEnabled"
   class="fab"
+  [style.top.px]="fabPosition$ | async"
   [matTooltip]="'LOGS_PAGE.FAB.FOLLOW_LOG' | translate"
   [matTooltipPosition]="'left'"
 >
@@ -21,13 +31,21 @@
     [disabled]="!selectedVmId"
     (click)="autoUpdateStarted.emit()"
   >
-    <mat-icon class="mdi-format-vertical-align-bottom"></mat-icon>
+    <mat-icon
+      *ngIf="newestFirst"
+      class="mdi-format-vertical-align-top"
+    ></mat-icon>
+    <mat-icon
+      *ngIf="!newestFirst"
+      class="mdi-format-vertical-align-bottom"
+    ></mat-icon>
   </button>
 </div>
 
 <div
   *ngIf="isAutoUpdateEnabled"
   class="fab"
+  [style.top.px]="fabPosition$ | async"
   [matTooltip]="'LOGS_PAGE.FAB.STOP_FOLLOWING' | translate"
   [matTooltipPosition]="'left'"
 >
