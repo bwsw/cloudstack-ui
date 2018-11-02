@@ -4,7 +4,7 @@
     <cs-volume-actions-sidebar [volume]="entity"></cs-volume-actions-sidebar>
   </div>
 
-  <nav mat-tab-nav-bar>
+  <nav #tabs [csUpdate]="tabs" mat-tab-nav-bar>
     <a
       matTabLink
       [routerLink]="['./volume']"

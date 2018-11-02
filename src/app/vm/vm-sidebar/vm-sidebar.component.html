@@ -21,7 +21,7 @@
       </button>
     </div>
   </div>
-  <nav mat-tab-nav-bar>
+  <nav #tabs [csUpdate]="tabs" mat-tab-nav-bar>
     <a
       matTabLink
       [routerLink]="['./vm']"

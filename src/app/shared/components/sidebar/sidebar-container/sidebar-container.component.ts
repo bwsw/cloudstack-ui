@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   HostBinding,
@@ -21,7 +20,7 @@ import * as UserTagsActions from '../../../../root-store/server-data/user-tags/u
   templateUrl: 'sidebar-container.component.html',
   styleUrls: ['sidebar-container.component.scss'],
 })
-export class SidebarContainerComponent implements OnInit, OnChanges, AfterViewInit {
+export class SidebarContainerComponent implements OnInit, OnChanges {
   @Input()
   @HostBinding('class.open')
   public isOpen;
@@ -37,10 +36,6 @@ export class SidebarContainerComponent implements OnInit, OnChanges, AfterViewIn
     private router: Router,
     private store: Store<State>,
   ) {}
-
-  public ngAfterViewInit() {
-    this.cd.detectChanges();
-  }
 
   public ngOnChanges(changes: SimpleChanges) {
     const isOpen = changes.isOpen && changes.isOpen.currentValue;

@@ -137,7 +137,7 @@ import {
   RoundStateIndicatorComponent,
   SquareStateIndicatorComponent,
 } from './components/state-indicator';
-import { UrlDirective } from './validators/directives';
+import { UrlDirective, UpdateDirective } from './validators/directives';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { DayPeriodComponent } from './components/day-period/day-period.component';
 import { SidebarContainerService } from './services/sidebar-container.service';
@@ -145,7 +145,7 @@ import { AngularDraggableModule } from 'angular2-draggable';
 
 // tslint:enable max-line-length
 
-const SHARED_DIRECTIVES = [UrlDirective, InputTypeNumberDirective];
+const SHARED_DIRECTIVES = [UrlDirective, UpdateDirective, InputTypeNumberDirective];
 
 const SHARED_COMPONENTS = [ClipboardButtonComponent];
 

@@ -1,10 +1,11 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { Volume } from '../../shared/models';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { SnackBarService } from '../../core/services';
 import { VolumeService } from '../../shared/services/volume.service';
+import { MatTabNav } from '@angular/material';
 
 @Component({
   selector: 'cs-volume-sidebar',
@@ -16,6 +17,8 @@ export class VolumeSidebarComponent extends SidebarComponent<Volume> {
   public entity: Volume;
   @HostBinding('class.grid')
   public grid = true;
+  @ViewChild('tabs')
+  public matTabs: MatTabNav;
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,

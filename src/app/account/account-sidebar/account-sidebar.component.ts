@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Account } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { isUserBelongsToAccount } from '../../shared/utils/account';
+import { MatTabNav } from '@angular/material';
 
 @Component({
   selector: 'cs-account-sidebar',
@@ -15,6 +16,8 @@ export class AccountSidebarComponent {
   public entity: Account;
   @Output()
   public accountChanged = new EventEmitter<Account>();
+  @ViewChild('tabs')
+  public matTabs: MatTabNav;
 
   public get isSelf() {
     return isUserBelongsToAccount(this.authService.user, this.entity);
