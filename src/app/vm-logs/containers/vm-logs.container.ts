@@ -5,6 +5,7 @@ import * as fromVmLogsAutoUpdate from '../redux/vm-logs-auto-update.reducers';
 import * as fromVmLogsVm from '../redux/vm-logs-vm.reducers';
 import * as vmLogsActions from '../redux/vm-logs.actions';
 import { debounceTime } from 'rxjs/internal/operators';
+import * as fromVmLogs from '../redux/vm-logs.reducers';
 
 @Component({
   selector: 'cs-vm-logs-container',
@@ -12,6 +13,7 @@ import { debounceTime } from 'rxjs/internal/operators';
     <cs-vm-logs
       [isAutoUpdateEnabled]="isAutoUpdateEnabled$ | async"
       [selectedVmId]="selectedVmId$ | async"
+      [newestFirst]="newestFirst$ | async"
       (autoUpdateStarted)="onAutoUpdate()"
       (autoUpdateStopped)="onAutoUpdateStop()"
     ></cs-vm-logs>
@@ -23,6 +25,10 @@ export class VmLogsContainerComponent {
   );
   readonly selectedVmId$ = this.store.pipe(
     select(fromVmLogsVm.filterSelectedVmId),
+    debounceTime(0),
+  );
+  readonly newestFirst$ = this.store.pipe(
+    select(fromVmLogs.filterNewestFirst),
     debounceTime(0),
   );
 
