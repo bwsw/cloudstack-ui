@@ -12,8 +12,8 @@
       [matTooltip]="stateTranslationToken | translate"
       class="entity-card-thumbnail"
     ></cs-round-state-indicator>
-    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
-      <span [innerHTML]="item.name | highlight:query"></span>
+    <mat-card-title [matTooltip]="item.displayname" class="entity-card-title">
+      <span [innerHTML]="item.displayname | highlight:query"></span>
     </mat-card-title>
     <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
       <mat-icon class="mdi-dots-vertical"></mat-icon>

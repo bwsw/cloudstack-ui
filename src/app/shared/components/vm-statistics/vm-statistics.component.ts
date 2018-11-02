@@ -172,7 +172,7 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     value: number,
     max: number,
     units?: string,
-    precision?: number,
+    precision: number = Utils.defaultPrecision,
   ): Observable<string> {
     if (max !== Infinity) {
       return this.getStatsStringWithRestrictions(value, max, units, precision);
@@ -181,10 +181,14 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     return this.getStatsStringWithNoRestrictions(value, units, precision);
   }
 
-  public getStatsStringFor(resource: keyof ResourcesData, units?: string): Observable<string> {
+  public getStatsStringFor(
+    resource: keyof ResourcesData,
+    units?: string,
+    precision: number = Utils.defaultPrecision,
+  ): Observable<string> {
     const consumed = this.resourceUsage[this.getModeKey()][resource];
     const max = this.resourceUsage.max[resource];
-    return this.getStatsString(consumed, max, units);
+    return this.getStatsString(consumed, max, units, precision);
   }
 
   public get memory(): Observable<string> {
@@ -199,13 +203,13 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
   public get primaryStorage(): Observable<string> {
     return this.translateService
       .get('UNITS.GB')
-      .pipe(switchMap(gb => this.getStatsStringFor('primaryStorage', gb)));
+      .pipe(switchMap(gb => this.getStatsStringFor('primaryStorage', gb, 1)));
   }
 
   public get secondaryStorage(): Observable<string> {
     return this.translateService
       .get('UNITS.GB')
-      .pipe(switchMap(gb => this.getStatsStringFor('secondaryStorage', gb)));
+      .pipe(switchMap(gb => this.getStatsStringFor('secondaryStorage', gb, 1)));
   }
 
   public progressFor(resource: keyof ResourcesData): number {
@@ -249,8 +253,8 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     precision?: number,
   ): Observable<string> {
     const percents = this.getPercents(value, max);
-    const val = precision ? value.toFixed(precision) : value;
-    const m = precision ? max.toFixed(precision) : max;
+    const val = precision != null ? value.toFixed(precision) : value;
+    const m = precision != null ? max.toFixed(precision) : max;
 
     return of(`${val}/${m} ${units || ''} (${percents}%)`);
   }
@@ -265,7 +269,7 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     }
 
     if (this.mode === StatsMode.Used) {
-      const val = precision ? value.toFixed(precision) : value;
+      const val = precision != null ? value.toFixed(precision) : value;
       return of(`${val} ${units || ''}`);
     }
   }

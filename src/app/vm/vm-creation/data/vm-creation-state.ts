@@ -19,6 +19,7 @@ export interface VmCreationState {
   affinityGroupNames: string[];
   diskOffering: DiskOffering;
   displayName: string;
+  name: string;
   doStartVm: boolean;
   instanceGroup: InstanceGroup;
   rootDiskSize: number;
