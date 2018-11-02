@@ -52,6 +52,7 @@ export class VolumeCreationDialogComponent {
 
   public updateDiskOffering(diskOffering: DiskOffering): void {
     this.newVolume.diskofferingid = diskOffering.id;
+    this.newVolume.size = diskOffering.disksize;
     this.diskOffering = diskOffering;
     this.showResizeSlider = this.diskOffering.iscustomized;
   }

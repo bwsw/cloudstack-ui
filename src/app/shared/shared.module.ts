@@ -140,6 +140,8 @@ import {
 import { UrlDirective } from './validators/directives';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { DayPeriodComponent } from './components/day-period/day-period.component';
+import { DiskOfferingSelectorChooserComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-chooser.component';
+import { DiskOfferingSelectorSliderComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-slider.component';
 
 // tslint:enable max-line-length
 
@@ -222,6 +224,8 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
+    DiskOfferingSelectorChooserComponent,
+    DiskOfferingSelectorSliderComponent,
     SHARED_DIRECTIVES,
     SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
@@ -312,6 +316,8 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
+    DiskOfferingSelectorChooserComponent,
+    DiskOfferingSelectorSliderComponent,
     DiskOfferingDialogComponent,
     SHARED_DIRECTIVES,
     SHARED_COMPONENTS,

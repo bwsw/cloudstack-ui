@@ -58,14 +58,26 @@ export class DiskOfferingDialogComponent {
     return this.resourcesLimitExceeded || isDiskOfferingNotSelected || isNoDiskOfferings;
   }
 
-  private checkResourcesLimit() {
-    const diskSize = this.selectedDiskOffering
-      ? isCustomized(this.selectedDiskOffering)
-        ? this.minSize
-        : this.selectedDiskOffering.disksize
-      : undefined;
+  private getDiskSize() {
+    if (this.selectedDiskOffering) {
+      if (isCustomized(this.selectedDiskOffering)) {
+        return this.minSize;
+      }
 
-    this.resourcesLimitExceeded =
-      !!this.storageAvailable && diskSize ? this.storageAvailable < Number(diskSize) : false;
+      return this.selectedDiskOffering.disksize;
+    }
+  }
+
+  private getResourceLimitExceeded(): boolean {
+    const diskSize = this.getDiskSize();
+    if (this.storageAvailable && diskSize) {
+      return Number(this.storageAvailable) < Number(diskSize);
+    }
+
+    return false;
+  }
+
+  private checkResourcesLimit() {
+    this.resourcesLimitExceeded = this.getResourceLimitExceeded();
   }
 }

@@ -113,7 +113,7 @@
                     [min]="minSize"
                     [diskOfferings]="diskOfferings"
                     [account]="account"
-                    [ngModel]="vmCreationState?.diskOffering"
+                    [diskOffering]="vmCreationState?.diskOffering"
                     (changed)="diskOfferingChange.emit($event)"
                   ></cs-disk-offering-selector>
                 </div>

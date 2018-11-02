@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  forwardRef,
   Input,
   OnChanges,
   OnInit,
@@ -9,24 +8,13 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { DiskOffering } from '../../../models/index';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-import { DiskOfferingDialogComponent } from '../disk-offering-dialog/disk-offering-dialog.component';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'cs-disk-offering-selector',
   templateUrl: 'disk-offering-selector.component.html',
-  styleUrls: ['disk-offering-selector.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DiskOfferingSelectorComponent),
-      multi: true,
-    },
-  ],
 })
-export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnChanges, OnInit {
+export class DiskOfferingSelectorComponent implements OnChanges, OnInit {
   @Input()
   public diskOfferings: DiskOffering[];
   @Input()
@@ -42,30 +30,16 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
   @Input()
   public newSize: number;
   @Input()
-  public availableStorage: string;
+  public availableStorage: number | 'Unlimited';
+  @Input()
+  public diskOffering: DiskOffering;
+
   @Output()
   public changed = new EventEmitter();
-  @Output()
-  public changedSize = new EventEmitter<number>();
+
   public max: number;
-  // tslint:disable-next-line
-  private _diskOffering: DiskOffering;
 
-  @Input()
-  public get diskOffering(): DiskOffering {
-    return this._diskOffering;
-  }
-
-  public set diskOffering(value: DiskOffering) {
-    if (value) {
-      this._diskOffering = value;
-      this.propagateChange(this.diskOffering);
-    }
-  }
-
-  constructor(private authService: AuthService, private dialog: MatDialog) {
-    this.changed = new EventEmitter();
-  }
+  constructor(private authService: AuthService) {}
 
   public ngOnInit() {
     this.setMaxSizeValue();
@@ -77,44 +51,42 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
     }
   }
 
-  public registerOnChange(fn): void {
-    this.propagateChange = fn;
+  public changedOffering(offering): void {
+    const disksize = offering.disksize === 0 ? this.min : offering.disksize;
+    const newOffering = { ...offering, disksize };
+    this.changed.next(newOffering);
   }
 
-  public registerOnTouched(): void {}
-
-  public propagateChange: any = () => {};
-
-  public writeValue(diskOffering: DiskOffering): void {
-    if (diskOffering) {
-      this._diskOffering = diskOffering;
-    }
-  }
-
-  public changeOffering(): void {
-    this.dialog
-      .open(DiskOfferingDialogComponent, {
-        width: '750px',
-        data: {
-          diskOfferings: this.diskOfferings,
-          diskOffering: this._diskOffering,
-          storageAvailable: this.availableStorage,
-        },
-      })
-      .afterClosed()
-      .subscribe((offering: DiskOffering) => {
-        if (offering) {
-          this.diskOffering = offering;
-          this.changed.next(offering);
-        }
-      });
-  }
-
-  private setMaxSizeValue() {
-    const customDiskOfferingMaxSize = this.authService.getCustomDiskOfferingMaxSize();
+  private setMaxSizeValue(): void {
+    // todo: create selector
     this.min = this.min ? this.min : this.authService.getCustomDiskOfferingMinSize();
-    this.max = isNaN(Number(this.availableStorage))
-      ? customDiskOfferingMaxSize
-      : Math.min(customDiskOfferingMaxSize, Number(this.availableStorage));
+    this.max = this.getMaxSizeValue();
+    this.newSize = this.newSize === 0 ? this.min : this.newSize;
+  }
+
+  private getMaxSizeValue() {
+    // todo: create selector
+    const customDiskOfferingMaxSize = this.authService.getCustomDiskOfferingMaxSize();
+    /** if availableStorage value is Unlimited then the get max value from capabilities
+     * else compare available
+     */
+
+    if (this.availableStorage === 'Unlimited') {
+      // if Unlimited then choose customDiskOfferingMaxSize
+      // because we don't have other restrictions on max size
+      return customDiskOfferingMaxSize;
+    }
+
+    if (this.availableStorage === 0) {
+      // can't go lower than min.
+      // todo: test that it works in all cases
+      return this.min;
+    }
+
+    if (this.availableStorage) {
+      // math min of two because we need to take the most strict
+      // limit of the two
+      return Math.min(customDiskOfferingMaxSize, Number(this.availableStorage));
+    }
   }
 }

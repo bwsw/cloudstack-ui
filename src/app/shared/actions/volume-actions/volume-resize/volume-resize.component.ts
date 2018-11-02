@@ -77,12 +77,9 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
     }
   }
 
-  public updateSize(value: number): void {
-    this.newSize = value;
-  }
-
   public updateDiskOffering(value: DiskOffering): void {
     this.diskOffering = value;
+    this.newSize = value.disksize;
   }
 
   public resizeVolume(): void {
