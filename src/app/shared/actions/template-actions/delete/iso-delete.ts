@@ -41,7 +41,7 @@ export class IsoDeleteAction extends BaseTemplateDeleteAction {
 
   protected onError(error: any): void {
     if (error.type === 'vmsInUse') {
-      const listOfUsedVms = error.vms.map(vm => vm.name).join(', ');
+      const listOfUsedVms = error.vms.map(vm => vm.displayname).join(', ');
       this.dialogService.alert({
         message: {
           translationToken: 'ERRORS.ISO.VMS_IN_USE',

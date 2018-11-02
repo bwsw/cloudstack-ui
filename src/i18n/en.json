@@ -359,7 +359,11 @@
     "VM_DETAILS": {
       "COLOR": "Color",
       "DESCRIPTION": "Description",
-      "ZONE": "Zone",
+      "DETAILS": {
+        "TITLE": "Details",
+        "ZONE": "Zone",
+        "HOST_NAME": "VM host name"
+      },
       "INSTANCE_GROUP": {
         "TITLE": "Group",
         "NO_GROUP": "No group",
@@ -528,7 +532,8 @@
     },
     "VM_CREATION": {
       "NEW_VM": "New virtual machine",
-      "NAME": "Name",
+      "HOST_NAME": "VM host name",
+      "DISPLAY_NAME": "VM display name",
       "THIS_NAME_IS_TAKEN": "This name is taken",
       "ZONE": "Zone",
       "SERVICE_OFFERING": "Service offering",

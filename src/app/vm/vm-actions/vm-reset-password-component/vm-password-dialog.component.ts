@@ -24,7 +24,7 @@ export class VmPasswordDialogComponent {
     this.message = {
       translationToken,
       interpolateParams: {
-        vmName: this.vm.name,
+        vmName: this.vm.displayname,
       },
     };
   }

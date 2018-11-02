@@ -59,9 +59,13 @@ export class VmCreationComponent {
   public enoughResources: boolean;
   @Input()
   public insufficientResources: string[];
+  @Input()
+  public virtualMachineList: VirtualMachine[];
 
   @Output()
   public displayNameChange = new EventEmitter<string>();
+  @Output()
+  public hostNameChange = new EventEmitter<string>();
   @Output()
   public serviceOfferingChange = new EventEmitter<ServiceOffering>();
   @Output()
@@ -92,8 +96,6 @@ export class VmCreationComponent {
   public deploy = new EventEmitter<VmCreationState>();
   @Output()
   public cancel = new EventEmitter();
-  @Output()
-  public errored = new EventEmitter();
 
   public insufficientResourcesErrorMap = {
     instances: 'VM_PAGE.VM_CREATION.INSTANCES',
@@ -104,7 +106,6 @@ export class VmCreationComponent {
     primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE',
   };
 
-  public takenName: string;
   public maxEntityNameLength = 63;
 
   public visibleAffinityGroups: AffinityGroup[];
@@ -115,8 +116,11 @@ export class VmCreationComponent {
     private auth: AuthService,
   ) {}
 
-  public nameIsTaken(): boolean {
-    return !!this.vmCreationState && this.vmCreationState.displayName === this.takenName;
+  public hostNameIsTaken(): boolean {
+    if (!!this.vmCreationState) {
+      return !!this.virtualMachineList.find(vm => vm.name === this.vmCreationState.name);
+    }
+    return false;
   }
 
   public diskOfferingsAreAllowed(): boolean {
@@ -189,7 +193,7 @@ export class VmCreationComponent {
   public isSubmitButtonDisabled(isFormValid: boolean): boolean {
     return (
       !isFormValid ||
-      this.nameIsTaken() ||
+      this.hostNameIsTaken() ||
       !this.vmCreationState.template ||
       !this.vmCreationState.serviceOffering.isAvailableByResources
     );
