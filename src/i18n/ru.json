@@ -359,7 +359,11 @@
     "VM_DETAILS": {
       "COLOR": "Цвет",
       "DESCRIPTION": "Описание",
-      "ZONE": "Зона",
+      "DETAILS": {
+        "TITLE": "Общая информация",
+        "ZONE": "Зона",
+        "HOST_NAME": "Имя хоста"
+      },
       "INSTANCE_GROUP": {
         "TITLE": "Группа",
         "NO_GROUP": "Без группы",
@@ -528,7 +532,8 @@
     },
     "VM_CREATION": {
       "NEW_VM": "Новая виртуальная машина",
-      "NAME": "Название",
+      "HOST_NAME": "Имя хоста",
+      "DISPLAY_NAME": "Отображаемое имя",
       "THIS_NAME_IS_TAKEN": "Это имя занято",
       "ZONE": "Зона",
       "SERVICE_OFFERING": "Вычислительное предложение",

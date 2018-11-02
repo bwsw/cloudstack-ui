@@ -291,8 +291,7 @@ export const selectFilteredVMs = createSelector(
     const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
-    const queryFilter = (vm: VirtualMachine) =>
-      !query || vm.name.toLowerCase().includes(queryLower);
+    const queryFilter = vm => !query || vm.displayname.toLowerCase().includes(queryLower);
 
     const selectedStatesFilter = (vm: VirtualMachine) =>
       !selectedStates.length || !!statesMap[vm.state];
@@ -341,6 +340,7 @@ export const initialFormState: FormState = {
     affinityGroupNames: [],
     diskOffering: null,
     displayName: '',
+    name: '',
     doStartVm: true,
     instanceGroup: null,
     rootDiskSize: null,
