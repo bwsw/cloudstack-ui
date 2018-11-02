@@ -1,6 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Directive, Input } from '@angular/core';
+import { ChangeDetectorRef, Directive, Input, OnInit } from '@angular/core';
 import { NG_VALIDATORS } from '@angular/forms';
 import { MatTabNav } from '@angular/material';
+import { SidebarContainerService } from '../../services/sidebar-container.service';
+import { debounceTime, filter } from 'rxjs/operators';
 
 @Directive({
   selector: '[csUpdate]',
@@ -12,17 +14,24 @@ import { MatTabNav } from '@angular/material';
     },
   ],
 })
-export class UpdateDirective implements AfterViewInit {
+export class UpdateDirective implements OnInit {
   // tslint:disable no-input-rename
   @Input('csUpdate')
   public matTabs: MatTabNav;
 
-  constructor(public cd: ChangeDetectorRef) {}
+  constructor(
+    public sidebarContainerService: SidebarContainerService,
+    public cd: ChangeDetectorRef,
+  ) {}
 
-  public ngAfterViewInit() {
-    this.cd.detectChanges();
-    setInterval(() => {
-      this.matTabs._alignInkBar();
-    }, 50);
+  public ngOnInit() {
+    this.sidebarContainerService.sidebarWidth
+      .pipe(
+        debounceTime(50),
+        filter(Boolean),
+      )
+      .subscribe(() => {
+        this.matTabs._alignInkBar();
+      });
   }
 }
