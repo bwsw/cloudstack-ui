@@ -4,6 +4,8 @@ import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
 import { DateObject } from '../models/date-object.model';
 import moment = require('moment');
+import { UserTagsSelectors } from '../../root-store';
+import { selectIsAutoUpdateEnabled } from './vm-logs-auto-update.reducers';
 
 export interface VmLogsFilters {
   search: string;
@@ -254,3 +256,29 @@ export const filterEndTime = createSelector(filters, state => ({
 export const filterNewestFirst = createSelector(filters, state => state.newestFirst);
 
 export const filterSelectedLogFile = createSelector(filters, state => state.selectedLogFile);
+
+export const selectAutoUpdateLogs = createSelector(
+  selectAll,
+  UserTagsSelectors.getVmLogsShowLastMessages,
+  filterNewestFirst,
+  (logs, showLastMessages, newestFirst) => {
+    if (newestFirst) {
+      return logs.slice(0, showLastMessages);
+    }
+
+    return logs.slice(-showLastMessages, logs.length);
+  },
+);
+
+export const selectLogs = createSelector(
+  selectAll,
+  selectAutoUpdateLogs,
+  selectIsAutoUpdateEnabled,
+  (logs, autoUpdateLogs, isAutoUpdateEnabled) => {
+    if (isAutoUpdateEnabled) {
+      return autoUpdateLogs;
+    }
+
+    return logs;
+  },
+);
