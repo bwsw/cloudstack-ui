@@ -11,6 +11,10 @@ import {
 import { BehaviorSubject, fromEvent, merge } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 import { default as ResizeObserver } from 'resize-observer-polyfill';
+import { Store } from '@ngrx/store';
+import { State } from '../../root-store';
+import * as vmLogsActions from '../redux/vm-logs.actions';
+import { listScrollContainerId } from '../../shared/components';
 
 @Component({
   selector: 'cs-vm-logs',
@@ -18,6 +22,8 @@ import { default as ResizeObserver } from 'resize-observer-polyfill';
   styleUrls: ['vm-logs.component.scss'],
 })
 export class VmLogsComponent implements AfterViewInit, OnChanges {
+  readonly scrollContainerSelector = `#${listScrollContainerId}`;
+
   public updateFabPosition = new BehaviorSubject<void>(null);
   public resizeObserver = new ResizeObserver(() => {
     this.updateFabPosition.next(null);
@@ -54,11 +60,17 @@ export class VmLogsComponent implements AfterViewInit, OnChanges {
   @ViewChild('filterContainer')
   private filterContainer: ElementRef<HTMLDivElement>;
 
+  constructor(private store: Store<State>) {}
+
   public ngAfterViewInit() {
     this.resizeObserver.observe(this.filterContainer.nativeElement);
   }
 
   public ngOnChanges() {
     this.updateFabPosition.next(null);
+  }
+
+  public onScroll() {
+    this.store.dispatch(new vmLogsActions.ScrollVmLogs());
   }
 }

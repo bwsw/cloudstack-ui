@@ -17,11 +17,13 @@ describe('VM logs reducer', () => {
     ].forEach(type => {
       const logs = [
         {
+          id: 'test-id1',
           log: 'test-log1',
           timestamp: 'test-timestamp1',
           file: 'test-file1',
         },
         {
+          id: 'test-id2',
           log: 'test-log2',
           timestamp: 'test-timestamp2',
           file: 'test-file2',
@@ -40,45 +42,21 @@ describe('VM logs reducer', () => {
     });
   });
 
-  it('should add keywords', () => {
-    const keyword = {
-      text: 'test-keyword',
-    };
+  it('should update search', () => {
+    const search = 'test-search';
 
     const state = reducer(undefined, {
-      type: VmLogsActionTypes.VM_LOGS_ADD_KEYWORD,
-      payload: keyword,
+      type: VmLogsActionTypes.VM_LOGS_UPDATE_SEARCH,
+      payload: search,
     });
 
     expect(state).toEqual({
       ...initialState,
       filters: {
         ...initialState.filters,
-        keywords: [keyword],
+        search,
       },
     });
-  });
-
-  it('should remove keywords', () => {
-    const keyword = {
-      text: 'test-keyword',
-    };
-
-    const state = reducer(
-      {
-        ...initialState,
-        filters: {
-          ...initialState.filters,
-          keywords: [keyword],
-        },
-      },
-      {
-        type: VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD,
-        payload: keyword,
-      },
-    );
-
-    expect(state).toEqual(initialState);
   });
 
   it('should toggle newest first', () => {
@@ -109,6 +87,7 @@ describe('VM logs reducer', () => {
           ids: ['id1'],
           entities: {
             id1: {
+              id: 'id1',
               timestamp: 'test1',
               log: 'test1',
               file: 'test1',

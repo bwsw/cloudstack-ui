@@ -1,4 +1,13 @@
-<cs-list class="list-container" [creationEnabled]="false">
+<!-- todo: refactor scrollContainer -->
+<cs-list
+  class="list-container"
+  infiniteScroll
+  (scrolled)="onScroll()"
+  [infiniteScrollContainer]="scrollContainerSelector"
+  [immediateCheck]="true"
+  [scrollWindow]="false"
+  [creationEnabled]="false"
+>
   <div #filterContainer cs-panels>
     <cs-top-bar>
       <cs-vm-logs-filter-container></cs-vm-logs-filter-container>

@@ -2,12 +2,11 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
-import { Keyword } from '../models/keyword.model';
 import { DateObject } from '../models/date-object.model';
 import moment = require('moment');
 
 export interface VmLogsFilters {
-  keywords: Keyword[];
+  search: string;
   startDate: DateObject;
   endDate: DateObject;
   selectedLogFile: string;
@@ -17,6 +16,7 @@ export interface VmLogsFilters {
 export interface State extends EntityState<VmLog> {
   loading: boolean;
   filters: VmLogsFilters;
+  uiPage: number;
 }
 
 export interface VmLogsState {
@@ -28,15 +28,16 @@ export const vmLogsReducers = {
 };
 
 export const adapter: EntityAdapter<VmLog> = createEntityAdapter<VmLog>({
-  selectId: () => Math.random(),
+  selectId: vmLog => vmLog.id,
   sortComparer: false,
 });
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  uiPage: 1,
   filters: {
     selectedLogFile: null,
-    keywords: [],
+    search: null,
     startDate: moment()
       .add(-1, 'days')
       .set({
@@ -62,7 +63,9 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
   switch (action.type) {
     case vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE:
     case vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE: {
-      return adapter.removeAll(state);
+      return {
+        ...adapter.removeAll(state),
+      };
     }
 
     case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST: {
@@ -72,32 +75,12 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
       };
     }
 
-    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_KEYWORDS: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_SEARCH: {
       return {
         ...state,
         filters: {
           ...state.filters,
-          keywords: action.payload,
-        },
-      };
-    }
-
-    case vmLogsActions.VmLogsActionTypes.VM_LOGS_ADD_KEYWORD: {
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          keywords: state.filters.keywords.concat(action.payload),
-        },
-      };
-    }
-
-    case vmLogsActions.VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD: {
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          keywords: state.filters.keywords.filter(keyword => keyword !== action.payload),
+          search: action.payload,
         },
       };
     }
@@ -238,6 +221,20 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
       };
     }
 
+    case vmLogsActions.VmLogsActionTypes.SCROLL_VM_LOGS: {
+      return {
+        ...state,
+        uiPage: state.uiPage + 1,
+      };
+    }
+
+    case vmLogsActions.VmLogsActionTypes.RESET_VM_LOGS_SCROLL: {
+      return {
+        ...state,
+        uiPage: 1,
+      };
+    }
+
     default: {
       return state;
     }
@@ -256,7 +253,7 @@ export const isLoading = createSelector(getVmLogsEntitiesState, state => state.l
 
 export const filters = createSelector(getVmLogsEntitiesState, state => state.filters);
 
-export const filterKeywords = createSelector(filters, state => state.keywords);
+export const filterSearch = createSelector(filters, state => state.search);
 
 export const filterStartDate = createSelector(filters, state => state.startDate);
 
@@ -275,3 +272,17 @@ export const filterEndTime = createSelector(filters, state => ({
 export const filterNewestFirst = createSelector(filters, state => state.newestFirst);
 
 export const filterSelectedLogFile = createSelector(filters, state => state.selectedLogFile);
+
+export const selectUiPage = createSelector(getVmLogsEntitiesState, state => state.uiPage);
+
+const uiPageSize = 100;
+
+export const selectScrolledLogs = createSelector(selectAll, selectUiPage, (logs, uiPage) =>
+  logs.slice(0, uiPage * uiPageSize),
+);
+
+export const selectAreAllLogsShown = createSelector(
+  selectTotal,
+  selectUiPage,
+  (total, uiPage) => uiPage * uiPageSize >= total,
+);
