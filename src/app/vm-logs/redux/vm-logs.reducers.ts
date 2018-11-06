@@ -275,10 +275,11 @@ export const filterSelectedLogFile = createSelector(filters, state => state.sele
 
 export const selectUiPage = createSelector(getVmLogsEntitiesState, state => state.uiPage);
 
-const selectTotalScrollLogs = createSelector(selectUiPage, uiPage => uiPage * 100);
+export const selectTotalScrollLogs = createSelector(selectUiPage, uiPage => uiPage * 100);
 
-const getVisibleScrollLogs = (logs, totalScrollLogs) => logs.slice(0, totalScrollLogs);
-const getLastLogs = (logs, limit, newestFirst) => {
+const getFirstLogs = <T>(logs: T[], length: number): T[] => logs.slice(0, length);
+
+const getLastLogs = <T>(logs: T[], limit: number, newestFirst: boolean) => {
   if (newestFirst) {
     return logs.slice(0, limit);
   }
@@ -289,7 +290,7 @@ const getLastLogs = (logs, limit, newestFirst) => {
 export const selectVisibleStaticLogs = createSelector(
   selectAll,
   selectTotalScrollLogs,
-  getVisibleScrollLogs,
+  getFirstLogs,
 );
 
 export const selectVisibleAutoUpdateLogs = createSelector(
@@ -299,7 +300,7 @@ export const selectVisibleAutoUpdateLogs = createSelector(
   selectTotalScrollLogs,
   (logs, showLastMessages, newestFirst, totalScrollLogs) => {
     const lastLogs = getLastLogs(logs, showLastMessages, newestFirst);
-    return getVisibleScrollLogs(lastLogs, totalScrollLogs);
+    return getFirstLogs(lastLogs, totalScrollLogs);
   },
 );
 
