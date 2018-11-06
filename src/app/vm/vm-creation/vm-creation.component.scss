@@ -21,7 +21,8 @@
     transform: none;
   }
 
-  mat-progress-bar, .overlay-content {
+  mat-progress-bar,
+  .overlay-content {
     width: 500px;
   }
 }
@@ -107,7 +108,6 @@ h4 {
   position: relative;
 }
 
-
 .sg-rules-manager {
   width: 100%;
 }
@@ -134,4 +134,8 @@ mat-progress-bar {
 
 mat-tab-group {
   width: 100% !important;
+}
+
+mat-error {
+  font-size: 12px;
 }

@@ -359,7 +359,11 @@
     "VM_DETAILS": {
       "COLOR": "Color",
       "DESCRIPTION": "Description",
-      "ZONE": "Zone",
+      "DETAILS": {
+        "TITLE": "Details",
+        "ZONE": "Zone",
+        "HOST_NAME": "VM host name"
+      },
       "INSTANCE_GROUP": {
         "TITLE": "Group",
         "NO_GROUP": "No group",
@@ -528,7 +532,8 @@
     },
     "VM_CREATION": {
       "NEW_VM": "New virtual machine",
-      "NAME": "Name",
+      "HOST_NAME": "VM host name",
+      "DISPLAY_NAME": "VM display name",
       "THIS_NAME_IS_TAKEN": "This name is taken",
       "ZONE": "Zone",
       "SERVICE_OFFERING": "Service offering",
@@ -1439,7 +1444,7 @@
     "FILTERS": {
       "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_VM": "Select a VM",
-      "KEYWORDS": "Keywords",
+      "SEARCH": "Search",
       "SHOW_LOGS": "Show logs",
       "START_DATE": "Start date",
       "END_DATE": "End date",
@@ -1450,7 +1455,12 @@
     "LIST": {
       "DATE": "Date",
       "LOG_FILE": "Log file",
-      "TEXT": "Text"
+      "TEXT": "Text",
+      "SHOW_MORE": "Show more"
+    },
+    "FAB": {
+      "FOLLOW_LOG": "Follow log",
+      "STOP_FOLLOWING": "Stop following"
     }
   },
   "SETTINGS": {

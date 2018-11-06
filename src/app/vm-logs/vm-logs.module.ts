@@ -8,7 +8,6 @@ import { MaterialModule } from '../material/material.module';
 import { VmLogsComponent } from './vm-logs/vm-logs.component';
 import { VmLogsFilterComponent } from './vm-logs-filter/vm-logs-filter.component';
 import { VmLogsService } from './services/vm-logs.service';
-import { VmLogKeywordsComponent } from './vm-log-keywords/vm-log-keywords.component';
 import { VmLogsEffects } from './redux/vm-logs.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { VmLogsFilterContainerComponent } from './containers/vm-logs-filter.container';
@@ -20,10 +19,14 @@ import { BasePathPipe } from './pipes/base-path.pipe';
 import { ParseTimestampPipe } from './pipes/parse-timestamp.pipe';
 import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
 import { VmLogFilesService } from './services/vm-log-files.service';
-import { reducer as vmLogsVm } from './redux/vm-logs-vm.reducers';
 import { vmLogsReducers } from './redux/vm-logs.reducers';
 import { vmLogFilesReducers } from './redux/vm-log-files.reducers';
+import { reducer as vmLogsVmReducers } from './redux/vm-logs-vm.reducers';
+import { reducer as vmLogsAutoUpdateReducers } from './redux/vm-logs-auto-update.reducers';
+import { VmLogsContainerComponent } from './containers/vm-logs.container';
 import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ScrollToLastDirective } from './vm-logs-table/scroll-to-last.directive';
 
 @NgModule({
   imports: [
@@ -33,9 +36,11 @@ import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
     RouterModule,
     MatChipsModule,
     CdkTableModule,
-    StoreModule.forFeature('vmLogsVm', vmLogsVm),
+    InfiniteScrollModule,
     StoreModule.forFeature('vmLogs', vmLogsReducers),
     StoreModule.forFeature('vmLogFiles', vmLogFilesReducers),
+    StoreModule.forFeature('vmLogsVm', vmLogsVmReducers),
+    StoreModule.forFeature('vmLogsAutoUpdate', vmLogsAutoUpdateReducers),
     EffectsModule.forFeature([VmLogsEffects]),
   ],
   declarations: [
@@ -44,10 +49,11 @@ import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
     VmLogsFilterContainerComponent,
     VmLogsTableComponent,
     VmLogsTableContainerComponent,
-    VmLogKeywordsComponent,
     BasePathPipe,
     ParseTimestampPipe,
     DateObjectToDatePipe,
+    VmLogsContainerComponent,
+    ScrollToLastDirective,
   ],
   providers: [VmLogsService, VmLogFilesService, VmLogsEnabledGuard],
 })

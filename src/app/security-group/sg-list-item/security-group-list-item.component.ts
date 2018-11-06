@@ -24,7 +24,7 @@ export class SecurityGroupListItemComponent implements OnChanges {
     const vmId = this.item.virtualmachineids[0];
     const vm = this.vmList[vmId];
 
-    return vm ? vm.name : '';
+    return vm ? vm.displayname : '';
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

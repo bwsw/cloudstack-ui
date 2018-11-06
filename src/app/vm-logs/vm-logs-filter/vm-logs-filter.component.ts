@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { VirtualMachine } from '../../vm';
-import { Keyword } from '../models/keyword.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../shared/types';
@@ -26,7 +25,7 @@ export class VmLogsFilterComponent {
   @Input()
   public selectedLogFile: string;
   @Input()
-  public keywords: Keyword[];
+  public search: string;
   @Input()
   public firstDayOfWeek: number;
   @Input()
@@ -39,6 +38,8 @@ export class VmLogsFilterComponent {
   public endTime: Time;
   @Input()
   public newestFirst: boolean;
+  @Input()
+  public isAutoUpdateEnabled: boolean;
   @Output()
   public accountsChanged = new EventEmitter<string[]>();
   @Output()
@@ -48,9 +49,7 @@ export class VmLogsFilterComponent {
   @Output()
   public refreshed = new EventEmitter<void>();
   @Output()
-  public keywordAdded = new EventEmitter<Keyword>();
-  @Output()
-  public keywordRemoved = new EventEmitter<Keyword>();
+  public searchChanged = new EventEmitter<string>();
   @Output()
   public startDateChanged = new EventEmitter<Date>();
   @Output()
