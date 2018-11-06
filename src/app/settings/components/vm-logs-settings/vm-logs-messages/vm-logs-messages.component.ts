@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'cs-vm-logs-messages',
   templateUrl: 'vm-logs-messages.component.html',
   styleUrls: ['../../../styles/settings-section.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VmLogsMessagesComponent {
   @Input()

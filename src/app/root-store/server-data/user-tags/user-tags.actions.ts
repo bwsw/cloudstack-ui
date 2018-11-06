@@ -56,12 +56,12 @@ export enum UserTagsActionTypes {
   UpdateKeyboardLayoutForVmsError = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag error',
 
   UpdateVmLogsShowLastMessages = '[Settings Page] Update "csui.user.vm-logs-show-last-messages" tag',
-  UpdateVmLogsShowLastMessagesSuccess = '[Settings Page] Update "csui.user.vm-logs-show-last-messages" tag success',
-  UpdateVmLogsShowLastMessagesError = '[Settings Page] Update "csui.user.vm-logs-show-last-messages" tag error',
+  UpdateVmLogsShowLastMessagesSuccess = '[Resource tags API] Update "csui.user.vm-logs-show-last-messages" tag success',
+  UpdateVmLogsShowLastMessagesError = '[Resource tags API] Update "csui.user.vm-logs-show-last-messages" tag error',
 
   UpdateVmLogsShowLastMinutes = '[Settings Page] Update "csui.user.vm-logs-show-last-minutes" tag',
-  UpdateVmLogsShowLastMinutesSuccess = '[Settings Page] Update "csui.user.vm-logs-show-last-minutes" tag success',
-  UpdateVmLogsShowLastMinutesError = '[Settings Page] Update "csui.user.vm-logs-show-last-minutes" tag error',
+  UpdateVmLogsShowLastMinutesSuccess = '[Resource tags API] Update "csui.user.vm-logs-show-last-minutes" tag success',
+  UpdateVmLogsShowLastMinutesError = '[Resource tags API] Update "csui.user.vm-logs-show-last-minutes" tag error',
 
   SetSPFAVM = '[Dialog] Set "csui.user.save-password-for-all-vms" tag',
   SetSPFAVMSuccess = '[Resource tags API] Set "csui.user.save-password-for-all-vms" tag success',
@@ -324,7 +324,7 @@ export class UpdateKeyboardLayoutForVmsError implements Action {
   constructor(readonly payload: { error: Error }) {}
 }
 
-// VM Logs
+// VM Logs show last messages
 
 export class UpdateVmLogsShowLastMessages implements Action {
   readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessages;
@@ -343,6 +343,8 @@ export class UpdateVmLogsShowLastMessagesError implements Action {
 
   constructor(readonly payload: { error: Error }) {}
 }
+
+// VM Logs show last minutes
 
 export class UpdateVmLogsShowLastMinutes implements Action {
   readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutes;

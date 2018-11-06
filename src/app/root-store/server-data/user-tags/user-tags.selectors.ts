@@ -55,7 +55,7 @@ export const getIsSavePasswordForVMs = createSelector(
 
 export const getFirstDayOfWeek = createSelector(
   getUserTagsEntities,
-  (entities): DayOfWeek => +entities[userTagKeys.firstDayOfWeek].value as DayOfWeek,
+  (entities): DayOfWeek => Number(entities[userTagKeys.firstDayOfWeek].value) as DayOfWeek,
 );
 
 export const getInterfaceLanguage = createSelector(
@@ -65,12 +65,12 @@ export const getInterfaceLanguage = createSelector(
 
 export const getLastVMId = createSelector(
   getUserTagsEntities,
-  (entities): number => +entities[userTagKeys.lastVMId].value,
+  (entities): number => Number(entities[userTagKeys.lastVMId].value),
 );
 
 export const getSessionTimeout = createSelector(
   getUserTagsEntities,
-  (entities): number => +entities[userTagKeys.sessionTimeout].value,
+  (entities): number => Number(entities[userTagKeys.sessionTimeout].value),
 );
 
 export const getIsShowSystemTags = createSelector(
@@ -105,10 +105,10 @@ export const getKeyboardLayout = createSelector(
 
 export const getVmLogsShowLastMessages = createSelector(
   getUserTagsEntities,
-  (entities): number => +entities[userTagKeys.vmLogsShowLastMessages].value,
+  (entities): number => Number(entities[userTagKeys.vmLogsShowLastMessages].value),
 );
 
 export const getVmLogsShowLastMinutes = createSelector(
   getUserTagsEntities,
-  (entities): number => +entities[userTagKeys.vmLogsShowLastMinutes].value,
+  (entities): number => Number(entities[userTagKeys.vmLogsShowLastMinutes].value),
 );

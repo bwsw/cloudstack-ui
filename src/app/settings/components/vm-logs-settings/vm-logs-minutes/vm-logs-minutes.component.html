@@ -2,7 +2,7 @@
   {{ 'SETTINGS.VM_LOGS.SHOW_LAST_MINUTES' | translate }}
 </h3>
 
-<cs-update-button-field>
+<cs-update-button-field-group>
   <mat-form-field>
     <input
       #minutesField
@@ -11,6 +11,8 @@
       [value]="minutes"
       min="1"
       csMinValue="1"
+      max="10"
+      csMaxValue="10"
       step="1"
       required
     >
@@ -23,5 +25,5 @@
   >
     {{ 'COMMON.UPDATE' | translate }}
   </button>
-</cs-update-button-field>
+</cs-update-button-field-group>
 
