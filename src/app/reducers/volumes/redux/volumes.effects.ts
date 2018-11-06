@@ -34,6 +34,7 @@ import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 import { VolumeDeleteDialogComponent } from '../../../shared/actions/volume-actions/volume-delete/volume-delete-dialog.component';
 import { isCustomized } from '../../../shared/models/offering.model';
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
+import * as pickBy from 'lodash/pickBy';
 
 @Injectable()
 export class VolumesEffects {
@@ -242,15 +243,26 @@ export class VolumesEffects {
               'NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS',
             );
 
-            const selectedDiskOffering = diskOfferings[params.diskofferingid];
-            const diskOffering = !isRoot(volume) ? { diskofferingid: params.diskofferingid } : {};
-            const size = isCustomized(selectedDiskOffering) ? { size: params.size } : {};
+            const diskofferingid = !isRoot(volume) && params.diskofferingid;
+            const size = (() => {
+              const selectedDiskOffering = diskOfferings[params.diskofferingid];
 
-            const requestParams = {
-              ...size,
-              ...diskOffering,
-              id: params.id,
-            };
+              if (isCustomized(selectedDiskOffering) || isRoot(volume)) {
+                return params.size;
+              }
+
+              return null;
+            })();
+
+            const requestParams = pickBy(
+              {
+                size,
+                diskofferingid,
+                id: params.id,
+              },
+              Boolean,
+            );
+
             return this.volumeService.resize(requestParams).pipe(
               map((changedVolume: Volume) => {
                 const message = 'NOTIFICATIONS.VOLUME.RESIZE_DONE';
