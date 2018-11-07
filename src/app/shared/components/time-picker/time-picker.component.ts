@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInput } from '@angular/material';
 import { Utils } from '../../services/utils/utils.service';
@@ -128,8 +128,8 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     const minute = value.minute || this.minMinuteValue;
     const period = value.period;
 
-    this.hour = hour.toString();
-    this.minute = minute.toString();
+    this.hour = String(hour);
+    this.minute = String(minute);
     this.period = period;
     this.hourField.value = this.hour;
     this.minuteField.value = this.minute;
@@ -157,7 +157,7 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  private formatTime(time: Time, format: TimeFormat) {
+  private formatTime(time: Time, format: TimeFormat): Time {
     if (format === TimeFormat.hour12) {
       return Utils.convert24ToAmPm(time);
     }
@@ -165,11 +165,11 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     return Utils.convertAmPmTo24(time);
   }
 
-  private inputFormatTime(time: Time) {
+  private inputFormatTime(time: Time): Time {
     return this.formatTime(time, this.timeFormat);
   }
 
-  private outputFormatTime(time: Time) {
+  private outputFormatTime(time: Time): Time {
     return this.formatTime(time, this.outputFormat || this.timeFormat);
   }
 }

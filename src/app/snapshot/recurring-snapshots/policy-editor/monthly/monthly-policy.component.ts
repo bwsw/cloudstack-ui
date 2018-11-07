@@ -28,7 +28,7 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
   public time: Time = {
     hour: 0,
     minute: 0,
-    period: 1,
+    period: 0,
   };
   public dayOfMonth = 1;
   public daysOfMonth: number[] = range(1, 29);
