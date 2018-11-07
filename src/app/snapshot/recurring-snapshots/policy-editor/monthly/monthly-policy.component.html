@@ -4,8 +4,8 @@
     name="time"
     [label]="'SNAPSHOT_POLICIES.TIME' | translate"
     [timeFormat]="timeFormat"
-    [time]="time"
-    (changed)="updateTime($event)"
+    [ngModel]="time"
+    (ngModelChange)="updateTime($event)"
   ></cs-time-picker>
 
   <mat-form-field class="column">
