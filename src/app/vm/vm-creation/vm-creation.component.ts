@@ -195,6 +195,7 @@ export class VmCreationComponent {
       !isFormValid ||
       this.hostNameIsTaken() ||
       !this.vmCreationState.template ||
+      !this.vmCreationState.serviceOffering ||
       !this.vmCreationState.serviceOffering.isAvailableByResources
     );
   }
