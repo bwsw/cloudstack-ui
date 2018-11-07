@@ -1,6 +1,7 @@
 <cs-time-picker
   name="time"
   [label]="'SNAPSHOT_POLICIES.TIME' | translate"
-  [(ngModel)]="policy"
+  [time]="policy"
+  (changed)="policy"
   [timeFormat]="timeFormat"
 ></cs-time-picker>

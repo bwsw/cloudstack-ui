@@ -1,4 +1,6 @@
 import * as uuid from 'uuid';
+import { Time } from '../../components/time-picker/time-picker.component';
+import { DayPeriod } from '../../components/day-period/day-period.component';
 
 interface RouterState {
   snapshot: {
@@ -95,4 +97,67 @@ export class Utils {
   public static sortByName = (a, b) => {
     return a.name && a.name.localeCompare(b.name);
   };
+
+  public static convertAmPmTo24(time: Time): Time {
+    if (time.period == null) {
+      return time;
+    }
+
+    if (time.period === DayPeriod.Am) {
+      if (time.hour === 12) {
+        return {
+          hour: 0,
+          minute: time.minute,
+        };
+      }
+      return time;
+    }
+
+    if (time.hour === 12) {
+      return {
+        hour: 12,
+        minute: time.minute,
+      };
+    }
+
+    return {
+      hour: time.hour + 12,
+      minute: time.minute,
+    };
+  }
+
+  public static convert24ToAmPm(time: Time): Time {
+    if (time.period != null) {
+      return time;
+    }
+
+    if (time.hour < 12) {
+      if (time.hour === 0) {
+        return {
+          hour: 12,
+          minute: time.minute,
+          period: DayPeriod.Am,
+        };
+      }
+      return {
+        hour: time.hour,
+        minute: time.minute,
+        period: DayPeriod.Am,
+      };
+    }
+
+    if (time.hour === 12) {
+      return {
+        hour: 12,
+        minute: time.minute,
+        period: DayPeriod.Pm,
+      };
+    }
+
+    return {
+      hour: time.hour - 12,
+      minute: time.minute,
+      period: DayPeriod.Pm,
+    };
+  }
 }

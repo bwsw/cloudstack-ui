@@ -4,6 +4,7 @@ import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
 import { DateObject } from '../models/date-object.model';
 import moment = require('moment');
+import { Utils } from '../../shared/services/utils/utils.service';
 
 export interface VmLogsFilters {
   search: string;
@@ -63,9 +64,7 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
   switch (action.type) {
     case vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE:
     case vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE: {
-      return {
-        ...adapter.removeAll(state),
-      };
+      return adapter.removeAll(state);
     }
 
     case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST: {
@@ -129,14 +128,16 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
         return state;
       }
 
+      const { hour, minute } = Utils.convertAmPmTo24(action.payload);
+
       return {
         ...state,
         filters: {
           ...state.filters,
           startDate: {
             ...state.filters.startDate,
-            hours: action.payload.hour,
-            minutes: action.payload.minute,
+            hours: hour,
+            minutes: minute,
           },
         },
       };
@@ -178,14 +179,16 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
         return state;
       }
 
+      const { hour, minute } = Utils.convertAmPmTo24(action.payload);
+
       return {
         ...state,
         filters: {
           ...state.filters,
           endDate: {
             ...state.filters.endDate,
-            hours: action.payload.hour,
-            minutes: action.payload.minute,
+            hours: hour,
+            minutes: minute,
           },
         },
       };

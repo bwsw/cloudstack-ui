@@ -64,7 +64,7 @@
 
     <cs-time-picker
       [disabled]="isAutoUpdateEnabled"
-      [timeFormat]="'hour24'"
+      [timeFormat]="timeFormat"
       [ngModel]="startTime"
       (ngModelChange)="startTimeChanged.emit($event)"
     ></cs-time-picker>
@@ -85,7 +85,7 @@
 
     <cs-time-picker
       [disabled]="isAutoUpdateEnabled"
-      [timeFormat]="'hour24'"
+      [timeFormat]="timeFormat"
       [ngModel]="endTime"
       (ngModelChange)="endTimeChanged.emit($event)"
     ></cs-time-picker>

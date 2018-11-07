@@ -4,8 +4,8 @@
     name="time"
     [label]="'SNAPSHOT_POLICIES.TIME' | translate"
     [timeFormat]="timeFormat"
-    [ngModel]="time"
-    (ngModelChange)="updateTime($event)"
+    [time]="time"
+    (changed)="updateTime($event)"
   ></cs-time-picker>
 
   <cs-day-of-week class="column"
