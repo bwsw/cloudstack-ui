@@ -99,7 +99,7 @@ export class Utils {
   };
 
   public static convertAmPmTo24(time: Time): Time {
-    if (time.period == null) {
+    if (time == null || time.period == null) {
       return time;
     }
 
@@ -110,7 +110,10 @@ export class Utils {
           minute: time.minute,
         };
       }
-      return time;
+      return {
+        hour: time.hour,
+        minute: time.minute,
+      };
     }
 
     if (time.hour === 12) {
@@ -127,7 +130,7 @@ export class Utils {
   }
 
   public static convert24ToAmPm(time: Time): Time {
-    if (time.period != null) {
+    if (time == null || time.period != null) {
       return time;
     }
 
