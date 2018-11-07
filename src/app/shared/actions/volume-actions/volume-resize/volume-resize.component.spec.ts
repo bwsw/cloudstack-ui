@@ -182,7 +182,7 @@ describe('volume resize for data disks', () => {
     component.newSize = newVolumeSize;
     spyOn(component.diskResized, 'emit').and.callThrough();
 
-    const diskOffering = {
+    component.diskOffering = {
       disksize: 1,
       id: 'diskofferingid',
       name: 'Disk Offering',
@@ -197,7 +197,6 @@ describe('volume resize for data disks', () => {
       storagetype: storageTypes.local,
       provisioningtype: '',
     };
-    component.diskOffering = diskOffering;
 
     component.resizeVolume();
     expect(component.diskResized.emit).toHaveBeenCalledWith({
