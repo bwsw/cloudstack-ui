@@ -1,0 +1,16 @@
+<section>
+  <h2 class="settings-section-name">
+    {{ 'SETTINGS.VM_LOGS.TITLE' | translate }}
+  </h2>
+  <div class="settings-section-content">
+    <cs-vm-logs-messages
+      [messages]="settings.vmLogsShowLastMessages"
+      (messagesChanged)="onMessagesChange($event)"
+    ></cs-vm-logs-messages>
+
+    <cs-vm-logs-minutes
+      [minutes]="settings.vmLogsShowLastMinutes"
+      (minutesChanged)="onMinutesChange($event)"
+    ></cs-vm-logs-minutes>
+  </div>
+</section>

@@ -68,6 +68,8 @@ export interface NonCustomizableConfig {
   customComputeOfferingHardwareValues: CustomComputeOfferingHardwareValues;
   defaultCustomComputeOfferingRestrictions: CustomComputeOfferingHardwareRestrictions;
   keyboardLayoutForVms: string;
+  vmLogsShowLastMessages: number;
+  vmLogsShowLastMinutes: number;
 }
 
 export interface Config extends CustomizableConfig, NonCustomizableConfig {}

@@ -1500,6 +1500,11 @@
     "VM_PREFERENCES": {
       "TITLE": "VM preferences",
       "KEYBOARD_LAYOUT": "Keyboard layout"
+    },
+    "VM_LOGS": {
+      "TITLE": "Log View (real-time mode)",
+      "SHOW_LAST_MESSAGES": "Show last (messages)",
+      "SHOW_LAST_MINUTES": "Show last (minutes)"
     }
   },
   "CLIPBOARD": {

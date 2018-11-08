@@ -111,6 +111,8 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
     },
   },
   keyboardLayoutForVms: 'us',
+  vmLogsShowLastMessages: 1000,
+  vmLogsShowLastMinutes: 1,
 };
 
 export const defaultConfig: Readonly<Config> = {

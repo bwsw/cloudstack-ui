@@ -19,7 +19,7 @@ import { selectIsAutoUpdateWithScroll } from '../redux/selectors/select-is-autou
 })
 export class VmLogsTableContainerComponent {
   readonly loading$ = this.store.pipe(select(fromVmLogs.isLoading));
-  readonly vmLogs$ = this.store.pipe(select(fromVmLogs.selectScrolledLogs));
+  readonly vmLogs$ = this.store.pipe(select(fromVmLogs.selectVisibleLogs));
   readonly enableShowMore$ = this.store.pipe(
     select(fromVmLogs.selectAreAllLogsShown),
     map(areAllLogsShown => !areAllLogsShown),
