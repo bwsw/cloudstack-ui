@@ -11,4 +11,5 @@ export const userTagKeys = {
   timeFormat: 'csui.user.time-format',
   theme: 'csui.user.theme',
   computeOfferingParam: 'csui.user.compute-offering.param',
+  vmLogsFilter: 'csui.user.vm-logs',
 };

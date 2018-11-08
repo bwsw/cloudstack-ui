@@ -63,6 +63,10 @@ export enum UserTagsActionTypes {
   IncrementLastVMIdSuccess = '[Resource tags API] Increment "csui.user.last-vm-id" tag success',
   IncrementLastVMIdError = '[Resource tags API] Increment "csui.user.last-vm-id" tag error',
 
+  UpdateVmLogsFilter = '[VM Logs] Update "csui.user.vm-logs.___" tag',
+  UpdateVmLogsFilterSuccess = '[Resource tags API] Update "csui.user.vm-logs.___" tag success',
+  UpdateVmLogsFilterError = '[Resource tags API] Update "csui.user.vm-logs.___" tag error',
+
   UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
 }
 
@@ -360,6 +364,24 @@ export class UpdateCustomServiceOfferingParams implements Action {
   constructor(readonly payload: { offering: ServiceOffering }) {}
 }
 
+export class UpdateVmLogsFilter implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsFilter;
+
+  constructor(readonly payload: { filter: string; value: string }) {}
+}
+
+export class UpdateVmLogsFilterSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsFilterSuccess;
+
+  constructor(readonly payload: { key: string; value: string }) {}
+}
+
+export class UpdateVmLogsFilterError implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsFilterError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
 export type UserTagsActionsUnion =
   | SetDefaultUserTagsAtStartup
   | SetDefaultUserTagsDueToLogout
@@ -405,4 +427,7 @@ export type UserTagsActionsUnion =
   | IncrementLastVMId
   | IncrementLastVMIdSuccess
   | IncrementLastVMIdError
+  | UpdateVmLogsFilter
+  | UpdateVmLogsFilterSuccess
+  | UpdateVmLogsFilterError
   | UpdateCustomServiceOfferingParams;
