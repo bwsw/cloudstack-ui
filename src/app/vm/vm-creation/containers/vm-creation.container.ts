@@ -36,6 +36,7 @@ import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -58,6 +59,8 @@ import { ComputeOfferingViewModel } from '../../view-models';
       [loggerStageList]="loggerStageList$ | async"
       [serviceOfferings]="serviceOfferings$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
+      [isDiskOfferingAvailableByResources]="isDiskOfferingAvailableByResources$ | async"
+      [minSize]="minSize"
       (displayNameChange)="onDisplayNameChange($event)"
       (hostNameChange)="onHostNameChange($event)"
       (templateChange)="onTemplateChange($event)"
@@ -104,20 +107,27 @@ export class VmCreationContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
+  public isDiskOfferingAvailableByResources$;
+  public minSize: number;
 
   constructor(
     private store: Store<State>,
     private dialogRef: MatDialogRef<VmCreationContainerComponent>,
+    private authService: AuthService,
   ) {
+    this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
-    this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(
       new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
+    );
+    this.minSize = this.authService.getCustomDiskOfferingMinSize();
+    this.isDiskOfferingAvailableByResources$ = this.store.pipe(
+      select(fromDiskOfferings.isDiskOfferingAvailableByResources(this.minSize)),
     );
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());
   }

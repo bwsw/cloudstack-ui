@@ -61,6 +61,10 @@ export class VmCreationComponent {
   public insufficientResources: string[];
   @Input()
   public virtualMachineList: VirtualMachine[];
+  @Input()
+  public minSize: number;
+  @Input()
+  public isDiskOfferingAvailableByResources: boolean;
 
   @Output()
   public displayNameChange = new EventEmitter<string>();
@@ -107,7 +111,6 @@ export class VmCreationComponent {
   };
 
   public maxEntityNameLength = 63;
-
   public visibleAffinityGroups: AffinityGroup[];
   public visibleInstanceGroups: InstanceGroup[];
 
@@ -196,7 +199,8 @@ export class VmCreationComponent {
       this.hostNameIsTaken() ||
       !this.vmCreationState.template ||
       !this.vmCreationState.serviceOffering ||
-      !this.vmCreationState.serviceOffering.isAvailableByResources
+      !this.vmCreationState.serviceOffering.isAvailableByResources ||
+      !this.isDiskOfferingAvailableByResources
     );
   }
 }

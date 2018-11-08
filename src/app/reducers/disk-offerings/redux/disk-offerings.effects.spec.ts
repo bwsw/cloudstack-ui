@@ -68,7 +68,6 @@ describe('Disk Offering Effects', () => {
 
     spyOn(service, 'getList').and.returnValue(of(diskOfferings));
   });
-
   it('should return a collection from LoadOfferingsResponse', () => {
     const action = new actions.LoadOfferingsRequest();
     const completion = new actions.LoadOfferingsResponse(diskOfferings);
