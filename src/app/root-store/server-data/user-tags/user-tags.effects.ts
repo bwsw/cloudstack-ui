@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, exhaustMap, first, map, mergeMap, switchMap } from 'rxjs/operators';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 import {
   IncrementLastVMId,
@@ -48,9 +49,9 @@ import {
   UpdateTimeFormat,
   UpdateTimeFormatError,
   UpdateTimeFormatSuccess,
-  UpdateVmLogsFilter,
-  UpdateVmLogsFilterError,
-  UpdateVmLogsFilterSuccess,
+  UpdateVmLogsFilters,
+  UpdateVmLogsFiltersError,
+  UpdateVmLogsFiltersSuccess,
   UserTagsActionTypes,
 } from './user-tags.actions';
 import { TagService } from '../../../shared/services/tags/tag.service';
@@ -270,14 +271,22 @@ export class UserTagsEffects {
   );
 
   @Effect()
-  updateVmLogsFilter$: Observable<Action> = this.actions$.pipe(
-    ofType<UpdateVmLogsFilter>(UserTagsActionTypes.UpdateVmLogsFilter),
-    map((action: UpdateVmLogsFilter) => action.payload),
-    mergeMap(({ filter, value }) => {
-      const key = `${userTagKeys.vmLogsFilter}.${filter}`;
-      return this.upsertTag({ key, value }).pipe(
-        map(() => new UpdateVmLogsFilterSuccess({ key, value })),
-        catchError(error => of(new UpdateVmLogsFilterError({ error }))),
+  updateVmLogsFilters$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateVmLogsFilters>(UserTagsActionTypes.UpdateVmLogsFilters),
+    map((action: UpdateVmLogsFilters) => action.payload),
+    mergeMap(filters => {
+      const tags = Object.keys(filters).map(tagKey => {
+        const filterNameKebabCase = Utils.convertCamelCaseToKebabCase(tagKey);
+
+        return {
+          key: `${userTagKeys.vmLogsFilter}.${filterNameKebabCase}`,
+          value: filters[tagKey],
+        };
+      });
+
+      return this.upsertTag(tags).pipe(
+        map(() => new UpdateVmLogsFiltersSuccess({ key, value })),
+        catchError(error => of(new UpdateVmLogsFiltersError({ error }))),
       );
     }),
   );

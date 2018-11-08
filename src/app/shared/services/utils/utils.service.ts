@@ -95,4 +95,8 @@ export class Utils {
   public static sortByName = (a, b) => {
     return a.name && a.name.localeCompare(b.name);
   };
+
+  public static convertCamelCaseToKebabCase(string: string) {
+    return string.replace(/([A-Z])/g, '-$1').toLowerCase();
+  }
 }

@@ -63,9 +63,9 @@ export enum UserTagsActionTypes {
   IncrementLastVMIdSuccess = '[Resource tags API] Increment "csui.user.last-vm-id" tag success',
   IncrementLastVMIdError = '[Resource tags API] Increment "csui.user.last-vm-id" tag error',
 
-  UpdateVmLogsFilter = '[VM Logs] Update "csui.user.vm-logs.___" tag',
-  UpdateVmLogsFilterSuccess = '[Resource tags API] Update "csui.user.vm-logs.___" tag success',
-  UpdateVmLogsFilterError = '[Resource tags API] Update "csui.user.vm-logs.___" tag error',
+  UpdateVmLogsFilters = '[VM Logs] Update "csui.user.vm-logs.___" tag',
+  UpdateVmLogsFiltersSuccess = '[Resource tags API] Update "csui.user.vm-logs.___" tag success',
+  UpdateVmLogsFiltersError = '[Resource tags API] Update "csui.user.vm-logs.___" tag error',
 
   UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
 }
@@ -364,20 +364,20 @@ export class UpdateCustomServiceOfferingParams implements Action {
   constructor(readonly payload: { offering: ServiceOffering }) {}
 }
 
-export class UpdateVmLogsFilter implements Action {
-  readonly type = UserTagsActionTypes.UpdateVmLogsFilter;
+export class UpdateVmLogsFilters implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsFilters;
 
-  constructor(readonly payload: { filter: string; value: string }) {}
+  constructor(readonly payload: Object) {}
 }
 
-export class UpdateVmLogsFilterSuccess implements Action {
-  readonly type = UserTagsActionTypes.UpdateVmLogsFilterSuccess;
+export class UpdateVmLogsFiltersSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsFiltersSuccess;
 
   constructor(readonly payload: { key: string; value: string }) {}
 }
 
-export class UpdateVmLogsFilterError implements Action {
-  readonly type = UserTagsActionTypes.UpdateVmLogsFilterError;
+export class UpdateVmLogsFiltersError implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsFiltersError;
 
   constructor(readonly payload: { error: Error }) {}
 }
@@ -427,7 +427,7 @@ export type UserTagsActionsUnion =
   | IncrementLastVMId
   | IncrementLastVMIdSuccess
   | IncrementLastVMIdError
-  | UpdateVmLogsFilter
-  | UpdateVmLogsFilterSuccess
-  | UpdateVmLogsFilterError
+  | UpdateVmLogsFilters
+  | UpdateVmLogsFiltersSuccess
+  | UpdateVmLogsFiltersError
   | UpdateCustomServiceOfferingParams;

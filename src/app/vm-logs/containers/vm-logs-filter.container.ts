@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { State } from '../../reducers';
+import { UpdateVmLogsFilters } from '../../root-store/server-data/user-tags/user-tags.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
@@ -159,7 +160,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
         debounceTime(100),
       )
       .subscribe(([search, startDate, endDate, vm, accounts, logFile, newestFirst]) => {
-        this.filterService.update({
+        const serializedFilters = {
           vm,
           accounts,
           logFile,
@@ -167,7 +168,10 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
           search,
           startDate: moment(startDate).toISOString(),
           endDate: moment(endDate).toISOString(),
-        });
+        };
+
+        this.store.dispatch(new UpdateVmLogsFilters(serializedFilters));
+        this.filterService.update(serializedFilters);
       });
   }
 
