@@ -2,7 +2,16 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, exhaustMap, first, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  first,
+  map,
+  mergeMap,
+  switchMap,
+  debounceTime,
+} from 'rxjs/operators';
+import kebabCase from 'lodash/kebabCase';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
 import {
@@ -273,19 +282,22 @@ export class UserTagsEffects {
   @Effect()
   updateVmLogsFilters$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateVmLogsFilters>(UserTagsActionTypes.UpdateVmLogsFilters),
+    debounceTime(3000),
     map((action: UpdateVmLogsFilters) => action.payload),
     mergeMap(filters => {
-      const tags = Object.keys(filters).map(tagKey => {
-        const filterNameKebabCase = Utils.convertCamelCaseToKebabCase(tagKey);
+      const tags = Object.keys(filters)
+        .map(tagKey => {
+          const filterNameKebabCase = kebabCase(tagKey);
 
-        return {
-          key: `${userTagKeys.vmLogsFilter}.${filterNameKebabCase}`,
-          value: filters[tagKey],
-        };
-      });
+          return {
+            key: `${userTagKeys.vmLogsFilter}.${filterNameKebabCase}`,
+            value: filters[tagKey],
+          };
+        })
+        .filter(tag => tag.value != null);
 
       return this.upsertTag(tags).pipe(
-        map(() => new UpdateVmLogsFiltersSuccess({ key, value })),
+        map(() => new UpdateVmLogsFiltersSuccess(tags)),
         catchError(error => of(new UpdateVmLogsFiltersError({ error }))),
       );
     }),
@@ -350,9 +362,9 @@ export class UserTagsEffects {
 
   private deleteTag(keys: { key: string }[]) {
     const tagsData = keys.reduce(
-      (acc, key, index) => ({
+      (acc, { key }, index) => ({
         ...acc,
-        [`tags[${index}.key]`]: key,
+        [`tags[${index}].key`]: key,
       }),
       {},
     );

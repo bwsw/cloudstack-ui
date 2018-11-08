@@ -373,7 +373,7 @@ export class UpdateVmLogsFilters implements Action {
 export class UpdateVmLogsFiltersSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateVmLogsFiltersSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: Object) {}
 }
 
 export class UpdateVmLogsFiltersError implements Action {

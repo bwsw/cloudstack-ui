@@ -137,33 +137,6 @@ export class VmLogsEffects {
     map(() => new vmLogsActions.ResetVmLogsScroll()),
   );
 
-  @Effect({ dispatch: false })
-  storeFilterInTags$ = this.actions$.pipe(
-    ofType(
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_SEARCH,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_START_DATE_TIME,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_START_DATE,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_START_TIME,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_END_DATE_TIME,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_END_DATE,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_END_TIME,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_ACCOUNT_IDS,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_NEWEST_FIRST,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_TOGGLE_NEWEST_FIRST,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID,
-      vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_LOG_FILE,
-    ),
-    withLatestFrom(
-      this.store.pipe(select(filters)),
-      this.store.pipe(select(filterSelectedVmId)),
-      this.store.pipe(select(filterSelectedAccountIds)),
-    ),
-    tap(a => {
-      debugger;
-      console.log(a);
-    }),
-  );
-
   constructor(
     private actions$: Actions,
     private router: Router,
