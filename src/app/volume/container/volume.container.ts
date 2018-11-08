@@ -4,8 +4,9 @@ import { State } from '../../reducers';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
-import { Grouping, Volume, volumeTypeNames } from '../../shared/models';
+import { Grouping, Volume, VolumeType, volumeTypeNames } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
+import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 
 @Component({
   selector: 'cs-volume-page-container',
@@ -59,6 +60,9 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
   public ngOnInit() {
     this.store.dispatch(new volumeActions.LoadVolumesRequest());
     this.store.dispatch(new snapshotActions.LoadSnapshotRequest());
+    this.store.dispatch(
+      new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }),
+    );
   }
 
   public ngAfterViewInit() {
