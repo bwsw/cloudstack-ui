@@ -55,6 +55,14 @@ export enum UserTagsActionTypes {
   UpdateKeyboardLayoutForVmsSuccess = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag success',
   UpdateKeyboardLayoutForVmsError = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag error',
 
+  UpdateVmLogsShowLastMessages = '[Settings Page] Update "csui.user.vm-logs-show-last-messages" tag',
+  UpdateVmLogsShowLastMessagesSuccess = '[Resource tags API] Update "csui.user.vm-logs-show-last-messages" tag success',
+  UpdateVmLogsShowLastMessagesError = '[Resource tags API] Update "csui.user.vm-logs-show-last-messages" tag error',
+
+  UpdateVmLogsShowLastMinutes = '[Settings Page] Update "csui.user.vm-logs-show-last-minutes" tag',
+  UpdateVmLogsShowLastMinutesSuccess = '[Resource tags API] Update "csui.user.vm-logs-show-last-minutes" tag success',
+  UpdateVmLogsShowLastMinutesError = '[Resource tags API] Update "csui.user.vm-logs-show-last-minutes" tag error',
+
   SetSPFAVM = '[Dialog] Set "csui.user.save-password-for-all-vms" tag',
   SetSPFAVMSuccess = '[Resource tags API] Set "csui.user.save-password-for-all-vms" tag success',
   SetSPFAVMError = '[Resource tags API] Set "csui.user.save-password-for-all-vms" tag error',
@@ -316,6 +324,46 @@ export class UpdateKeyboardLayoutForVmsError implements Action {
   constructor(readonly payload: { error: Error }) {}
 }
 
+// VM Logs show last messages
+
+export class UpdateVmLogsShowLastMessages implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessages;
+
+  constructor(readonly payload: { value: number }) {}
+}
+
+export class UpdateVmLogsShowLastMessagesSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessagesSuccess;
+
+  constructor(readonly payload: { key: string; value: string }) {}
+}
+
+export class UpdateVmLogsShowLastMessagesError implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessagesError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
+// VM Logs show last minutes
+
+export class UpdateVmLogsShowLastMinutes implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutes;
+
+  constructor(readonly payload: { value: number }) {}
+}
+
+export class UpdateVmLogsShowLastMinutesSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutesSuccess;
+
+  constructor(readonly payload: { key: string; value: string }) {}
+}
+
+export class UpdateVmLogsShowLastMinutesError implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutesError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
 // Save password for all VMs
 
 export class SetSavePasswordForAllVMs implements Action {
@@ -399,6 +447,12 @@ export type UserTagsActionsUnion =
   | UpdateKeyboardLayoutForVms
   | UpdateKeyboardLayoutForVmsSuccess
   | UpdateKeyboardLayoutForVmsError
+  | UpdateVmLogsShowLastMessages
+  | UpdateVmLogsShowLastMessagesSuccess
+  | UpdateVmLogsShowLastMessagesError
+  | UpdateVmLogsShowLastMinutes
+  | UpdateVmLogsShowLastMinutesSuccess
+  | UpdateVmLogsShowLastMinutesError
   | SetSavePasswordForAllVMs
   | SetSavePasswordForAllVMsSuccess
   | SetSavePasswordForAllVMsError

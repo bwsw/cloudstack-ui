@@ -203,6 +203,13 @@ export const selectUserAccount = createSelector(
   (accountsMap, accountId) => accountsMap[accountId],
 );
 
+export const selectStorageAvailable = createSelector(selectUserAccount, account => {
+  if (account) {
+    const available = Number(account.primarystorageavailable);
+    return !isNaN(available) ? available : null;
+  }
+});
+
 export const selectFilteredAccounts = createSelector(
   selectAll,
   filterSelectedRoleTypes,

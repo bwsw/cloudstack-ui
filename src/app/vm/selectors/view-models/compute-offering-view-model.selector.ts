@@ -257,6 +257,13 @@ const getComputeOfferingViewModel = (
   return [...fixedOfferingWithMeta, ...customOfferingsWithMetadata];
 };
 
+const getAvailableResources = (
+  resource: number | string,
+  usedResource: number,
+): number | string => {
+  return resource && resource === 'Unlimited' ? resource : Number(resource) + usedResource || 0;
+};
+
 export const getComputeOfferingForVmEditing = createSelector(
   fromAuth.getUserAccount,
   computeOffering.selectAll,
@@ -277,14 +284,8 @@ export const getComputeOfferingForVmEditing = createSelector(
     const memoryUsed = vm.memory;
     const cpuNumberUsed = vm.cpunumber;
 
-    const cpuNumber =
-      account && account.cpuavailable === 'Unlimited'
-        ? account.cpuavailable
-        : Number(account.cpuavailable) + cpuNumberUsed;
-    const memory =
-      account && account.memoryavailable === 'Unlimited'
-        ? account.memoryavailable
-        : Number(account.memoryavailable) + memoryUsed;
+    const cpuNumber = getAvailableResources(account.cpuavailable, cpuNumberUsed);
+    const memory = getAvailableResources(account.memoryavailable, memoryUsed);
 
     const availableResources: Resources = { cpuNumber, memory };
 

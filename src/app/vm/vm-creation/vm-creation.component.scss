@@ -1,3 +1,5 @@
+@import '../../../style/_variables';
+
 :host {
   display: block;
 
@@ -134,6 +136,10 @@ mat-progress-bar {
 
 mat-tab-group {
   width: 100% !important;
+}
+
+.error-message {
+  color: $error-message-color;
 }
 
 mat-error {

@@ -29,7 +29,7 @@ export class PasswordErrorStateMatcher implements ErrorStateMatcher {
   selector: 'cs-password-update-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './password-update-form.component.html',
-  styleUrls: ['./password-update-form.component.scss'],
+  styleUrls: ['../../styles/settings-section.scss'],
 })
 export class PasswordUpdateFormComponent {
   // Workaround for resetting form state. https://github.com/angular/material2/issues/4190

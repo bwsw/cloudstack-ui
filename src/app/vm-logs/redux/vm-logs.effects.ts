@@ -19,6 +19,7 @@ import * as fromVmLogsAutoUpdate from './vm-logs-auto-update.reducers';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Router } from '@angular/router';
 import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
+import { UserTagsSelectors } from '../../root-store';
 
 @Injectable()
 export class VmLogsEffects {
@@ -106,12 +107,13 @@ export class VmLogsEffects {
   @Effect()
   enableAutoUpdate$: Observable<Action> = this.actions$.pipe(
     ofType(vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE),
-    switchMap(() =>
-      timer(0, 10000).pipe(
+    withLatestFrom(this.store.pipe(select(UserTagsSelectors.getVmLogsShowLastMinutes))),
+    switchMap(([_, minutes]) =>
+      timer(0, 3000).pipe(
         takeUntil(this.actions$.pipe(ofType(vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE))),
         switchMap(() => {
           const startDate = moment()
-            .add(-1, 'minutes')
+            .add(-minutes, 'minutes')
             .toObject();
           const endDate = moment().toObject();
 

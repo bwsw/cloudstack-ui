@@ -97,6 +97,14 @@ export class SettingsComponent {
     this.store.dispatch(new UserTagsActions.UpdateKeyboardLayoutForVms({ value: keyboard }));
   }
 
+  public onVmLogsMessagesChange(messages: number) {
+    this.store.dispatch(new UserTagsActions.UpdateVmLogsShowLastMessages({ value: messages }));
+  }
+
+  public onVmLogsMinutesChange(minutes: number) {
+    this.store.dispatch(new UserTagsActions.UpdateVmLogsShowLastMinutes({ value: minutes }));
+  }
+
   private getApiUrl() {
     const origin = this.routerUtilsService.getLocationOrigin();
     const baseHref = this.routerUtilsService.getBaseHref();
