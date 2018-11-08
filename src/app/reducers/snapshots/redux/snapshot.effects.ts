@@ -175,7 +175,7 @@ export class SnapshotEffects {
   );
 
   @Effect()
-  CreateVolumeFromSnapshotSuccess$ = this.actions$.pipe(
+  createVolumeFromSnapshotSuccess$ = this.actions$.pipe(
     ofType<snapshotActions.RevertVolumeToSnapshotSuccess>(
       snapshotActions.REVERT_VOLUME_TO_SNAPSHOT_SUCCESS,
     ),

@@ -99,7 +99,7 @@ export class VolumesEffects {
   );
 
   @Effect()
-  CreateVolumeFromSnapshotSuccess$ = this.actions$.pipe(
+  createVolumeFromSnapshotSuccess$ = this.actions$.pipe(
     ofType<volumeActions.CreateVolumeFromSnapshotSuccess>(
       volumeActions.CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS,
     ),
