@@ -251,7 +251,7 @@ export class VolumesEffects {
               const requestParams: VolumeResizeData = pickBy(
                 {
                   id: params.id,
-                  size: needSize && params.size,
+                  size: needSize ? params.size : null,
                   diskofferingid: (!isRoot(volume) && params.diskofferingid) || null,
                 },
                 value => value != null,
