@@ -359,7 +359,7 @@ Click "Save" to save the password for this VM. It will activate the "Save VM pas
 
 - Access VM - Opens an "Access VM" dialog window which allows to view VM name and IP, view and save a password for the VM and access the VM via the VNC console. 
 
-.. figure:: _static/AccessVM_OpenConsole3.png
+.. figure:: _static/AccessVM_OpenConsole4.png
 
 In the :ref:`VM_Access` section you can find more information on accessing a VM.
 
@@ -382,7 +382,7 @@ For each virtual machine, you can get the details.
 
 By clicking a VM line or card you can open a sidebar to the right. Here and in all other sections the sidebar width is adjustable - you can change it by hovering over its edge and dragging to the width you wish.
 
-.. figure:: _static/VMs_Details2.png
+.. figure:: _static/VMs_Details3.png
    
 In the details sidebar you will find the information for the selected virtual machine:
 
@@ -400,17 +400,17 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
 
 The description can be edited. Click "Edit" |edit icon| to change the description. 
 
-.. figure:: _static/VMs_Details_EditDescription1.png
+.. figure:: _static/VMs_Details_EditDescription2.png
 
 It also can be edited from the Tags tab. Click Edit icon |edit icon| next to the ``csui.vm.description`` tag and change the description text in the appeared form.
 
 .. figure:: _static/VMs_Tags_EditDescription1.png
 
-2. Zone - A zone selected for the VM to be available in.
+2. Details - Displays the VM host name and a zone selected for the VM to be available in.
 
 #. Group - A custom group assigned to the VM. Edit this field by clicking the "Edit" button |edit icon|. In the appeared dialog window choose a group from the drop-down list. Click "Assign" to assign the chosen group to the VM. 
 
-.. figure:: _static/VMs_Details_EditGroup1.png
+.. figure:: _static/VMs_Details_EditGroup2.png
    
 Or you can create a new group right from this window selecting the "Create a new group" option. Click "ASSIGN" to assign the created group to the VM. 
 
@@ -418,7 +418,7 @@ Or you can create a new group right from this window selecting the "Create a new
    
 To remove the assigned group select the "Remove from the group" option and click "REMOVE" to eliminate the assigned group from the VM.
 
-.. figure:: _static/VMs_Details_RemoveGroup1.png
+.. figure:: _static/VMs_Details_RemoveGroup2.png
    
 The VM group is a custom group. It is saved to VM tags with ``csui.vm.group`` tag. From the Tags tab, it also can be edited or deleted.
 
@@ -428,13 +428,13 @@ Edit this field by clicking the "Edit" button |edit icon|. In the appeared windo
 
 The list consists of two sections - Fixed and Custom. In each section, offerings can be filtered by classes if classes are determined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#compute-offering-classes>`_. 
 
-.. figure:: _static/VMs_Create_SOClasses.png
+.. figure:: _static/VMs_Create_SOClasses1.png
 
 You can use the search tool to find an offering in the list by a name or a part of the name.
 
 Select an option from the list to change the service offering. 
 
-.. figure:: _static/VMs_Details_EditSO3.png
+.. figure:: _static/VMs_Details_EditSO4.png
 
 Click "Change" to implement the edits. 
 
@@ -458,7 +458,7 @@ A started virtual machine will be rebooted at editing the service offering.
 
 #. SSH key - Shows the SSH key of the virtual machine. Add the SSH key by clicking "+". In the appeared window select the SSH key in the drop-down list and click "CHANGE":
 
-.. figure:: _static/VMs_Details_AddSSH1.png
+.. figure:: _static/VMs_Details_AddSSH2.png
    
 At saving the new SSH key for a started VM you will see the warning: "You need to stop the virtual machine to reset SSH key." Click "OK" if you want to stop it right now. Click "Cancel" to drop the edits.
 
