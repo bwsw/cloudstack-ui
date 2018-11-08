@@ -29,6 +29,8 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   public label = '';
   @Input()
   public timeFormat: TimeFormat;
+  @Input()
+  public disabled: boolean;
   @ViewChild('hourField')
   public hourField: MatInput;
   @ViewChild('minuteField')

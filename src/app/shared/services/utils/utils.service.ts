@@ -1,5 +1,10 @@
-import { RouterState } from '@angular/router';
 import * as uuid from 'uuid';
+
+interface RouterState {
+  snapshot: {
+    url: string;
+  };
+}
 
 export class Utils {
   public static defaultPrecision = 0;

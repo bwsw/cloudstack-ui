@@ -1440,7 +1440,7 @@
     "FILTERS": {
       "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_VM": "Выберите ВМ",
-      "KEYWORDS": "Ключевые слова",
+      "SEARCH": "Поиск",
       "SHOW_LOGS": "Показать логи",
       "START_DATE": "Начальная дата",
       "END_DATE": "Конечная дата",
@@ -1451,7 +1451,12 @@
     "LIST": {
       "DATE": "Дата",
       "LOG_FILE": "Файл",
-      "TEXT": "Текст"
+      "TEXT": "Текст",
+      "SHOW_MORE": "Показать еще"
+    },
+    "FAB": {
+      "FOLLOW_LOG": "Отслеживать",
+      "STOP_FOLLOWING": "Не отслеживать"
     }
   },
   "SETTINGS": {
@@ -1491,6 +1496,11 @@
     "VM_PREFERENCES": {
       "TITLE": "Настройки ВМ",
       "KEYBOARD_LAYOUT": "Раскладка клавиатуры"
+    },
+    "VM_LOGS": {
+      "TITLE": "Просмотр логов (режим реального времени)",
+      "SHOW_LAST_MESSAGES": "Максимальное количество сообщений",
+      "SHOW_LAST_MINUTES": "Показывать последние (минут)"
     }
   },
   "CLIPBOARD": {

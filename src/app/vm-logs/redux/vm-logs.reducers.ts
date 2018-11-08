@@ -2,12 +2,13 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
-import { Keyword } from '../models/keyword.model';
 import { DateObject } from '../models/date-object.model';
 import moment = require('moment');
+import { UserTagsSelectors } from '../../root-store';
+import { selectIsAutoUpdateEnabled } from './vm-logs-auto-update.reducers';
 
 export interface VmLogsFilters {
-  keywords: Keyword[];
+  search: string;
   startDate: DateObject;
   endDate: DateObject;
   selectedLogFile: string;
@@ -17,6 +18,7 @@ export interface VmLogsFilters {
 export interface State extends EntityState<VmLog> {
   loading: boolean;
   filters: VmLogsFilters;
+  uiPage: number;
 }
 
 export interface VmLogsState {
@@ -28,15 +30,16 @@ export const vmLogsReducers = {
 };
 
 export const adapter: EntityAdapter<VmLog> = createEntityAdapter<VmLog>({
-  selectId: () => Math.random(),
+  selectId: vmLog => vmLog.id,
   sortComparer: false,
 });
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  uiPage: 1,
   filters: {
     selectedLogFile: null,
-    keywords: [],
+    search: null,
     startDate: moment()
       .add(-1, 'days')
       .set({
@@ -60,6 +63,11 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(state = initialState, action: vmLogsActions.Actions): State {
   switch (action.type) {
+    case vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE:
+    case vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE: {
+      return adapter.removeAll(state);
+    }
+
     case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST: {
       return {
         ...adapter.removeAll(state),
@@ -67,37 +75,18 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
       };
     }
 
-    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_KEYWORDS: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_SEARCH: {
       return {
         ...state,
         filters: {
           ...state.filters,
-          keywords: action.payload,
+          search: action.payload,
         },
       };
     }
 
-    case vmLogsActions.VmLogsActionTypes.VM_LOGS_ADD_KEYWORD: {
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          keywords: state.filters.keywords.concat(action.payload),
-        },
-      };
-    }
-
-    case vmLogsActions.VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD: {
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          keywords: state.filters.keywords.filter(keyword => keyword !== action.payload),
-        },
-      };
-    }
-
-    case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE: {
+    case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE:
+    case vmLogsActions.VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE: {
       return {
         ...adapter.addAll([...action.payload], state),
         loading: false,
@@ -232,6 +221,20 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
       };
     }
 
+    case vmLogsActions.VmLogsActionTypes.SCROLL_VM_LOGS: {
+      return {
+        ...state,
+        uiPage: state.uiPage + 1,
+      };
+    }
+
+    case vmLogsActions.VmLogsActionTypes.RESET_VM_LOGS_SCROLL: {
+      return {
+        ...state,
+        uiPage: 1,
+      };
+    }
+
     default: {
       return state;
     }
@@ -250,7 +253,7 @@ export const isLoading = createSelector(getVmLogsEntitiesState, state => state.l
 
 export const filters = createSelector(getVmLogsEntitiesState, state => state.filters);
 
-export const filterKeywords = createSelector(filters, state => state.keywords);
+export const filterSearch = createSelector(filters, state => state.search);
 
 export const filterStartDate = createSelector(filters, state => state.startDate);
 
@@ -269,3 +272,53 @@ export const filterEndTime = createSelector(filters, state => ({
 export const filterNewestFirst = createSelector(filters, state => state.newestFirst);
 
 export const filterSelectedLogFile = createSelector(filters, state => state.selectedLogFile);
+
+export const selectUiPage = createSelector(getVmLogsEntitiesState, state => state.uiPage);
+
+export const selectTotalScrollLogs = createSelector(selectUiPage, uiPage => uiPage * 100);
+
+const getFirstLogs = <T>(logs: T[], length: number): T[] => logs.slice(0, length);
+
+const getLastLogs = <T>(logs: T[], limit: number, newestFirst: boolean) => {
+  if (newestFirst) {
+    return logs.slice(0, limit);
+  }
+
+  return logs.slice(-limit, logs.length);
+};
+
+export const selectVisibleStaticLogs = createSelector(
+  selectAll,
+  selectTotalScrollLogs,
+  getFirstLogs,
+);
+
+export const selectVisibleAutoUpdateLogs = createSelector(
+  selectAll,
+  UserTagsSelectors.getVmLogsShowLastMessages,
+  filterNewestFirst,
+  selectTotalScrollLogs,
+  (logs, showLastMessages, newestFirst, totalScrollLogs) => {
+    const lastLogs = getLastLogs(logs, showLastMessages, newestFirst);
+    return getFirstLogs(lastLogs, totalScrollLogs);
+  },
+);
+
+export const selectVisibleLogs = createSelector(
+  selectVisibleStaticLogs,
+  selectVisibleAutoUpdateLogs,
+  selectIsAutoUpdateEnabled,
+  (visibleStaticLogs, visibleAutoUpdateLogs, isAutoUpdateEnabled) => {
+    if (isAutoUpdateEnabled) {
+      return visibleAutoUpdateLogs;
+    }
+
+    return visibleStaticLogs;
+  },
+);
+
+export const selectAreAllLogsShown = createSelector(
+  selectVisibleLogs,
+  selectTotalScrollLogs,
+  (visibleLogs, totalScrollLogs) => totalScrollLogs >= visibleLogs.length,
+);

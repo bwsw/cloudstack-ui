@@ -1,11 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
 
-import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material/material.module';
-
-import { SettingsComponent } from './containers';
+import { SharedModule } from '../shared/shared.module';
 import {
   ApiSettingsComponentComponent,
   InterfaceSettingsComponent,
@@ -13,8 +11,13 @@ import {
   SecuritySettingsComponent,
   SessionTimeoutComponent,
   ThemeSelectorComponent,
+  UpdateButtonFieldGroupComponent,
+  VmLogsMessagesComponent,
+  VmLogsMinutesComponent,
+  VmLogsSettingsComponent,
   VmSettingsComponent,
 } from './components';
+import { SettingsComponent } from './containers';
 
 @NgModule({
   imports: [CommonModule, SharedModule, MaterialModule, ClipboardModule],
@@ -29,6 +32,10 @@ import {
     ThemeSelectorComponent,
     PasswordUpdateFormComponent,
     SessionTimeoutComponent,
+    UpdateButtonFieldGroupComponent,
+    VmLogsMessagesComponent,
+    VmLogsMinutesComponent,
+    VmLogsSettingsComponent,
   ],
 })
 export class SettingsModule {}
