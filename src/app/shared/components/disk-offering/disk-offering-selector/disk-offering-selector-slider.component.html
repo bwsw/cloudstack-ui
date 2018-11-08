@@ -1,0 +1,9 @@
+<cs-slider
+  name="new-size"
+  [min]="min"
+  [max]="max"
+  [label]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NEW_SIZE' | translate"
+  [ngModel]="newSize"
+  (ngModelChange)="changeOffering($event)"
+  [units]="'UNITS.GB' | translate"
+></cs-slider>

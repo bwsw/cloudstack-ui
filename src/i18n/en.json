@@ -118,7 +118,7 @@
       "PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
       "UNABLE_TO_FIND_PRIMARY_STORAGE": "Unable to find suitable primary storage when creating volume {{ val1 }}",
       "VOLUME_BUSY": "There is other active snapshot tasks on the instance to which the volume is attached. Please try again later.",
-      "VOLUME_LIMIT_EXCEEDED": "Volume limit has been exceeded. You need to delete some of your volumes to create a new one."
+      "VOLUME_RESOURCES_LIMIT_EXCEEDED": "The disk offering cannot be selected because it doesn't fit the account resources available"
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Hourly schedule is turned off"
@@ -359,7 +359,11 @@
     "VM_DETAILS": {
       "COLOR": "Color",
       "DESCRIPTION": "Description",
-      "ZONE": "Zone",
+      "DETAILS": {
+        "TITLE": "Details",
+        "ZONE": "Zone",
+        "HOST_NAME": "VM host name"
+      },
       "INSTANCE_GROUP": {
         "TITLE": "Group",
         "NO_GROUP": "No group",
@@ -528,7 +532,8 @@
     },
     "VM_CREATION": {
       "NEW_VM": "New virtual machine",
-      "NAME": "Name",
+      "HOST_NAME": "VM host name",
+      "DISPLAY_NAME": "VM display name",
       "THIS_NAME_IS_TAKEN": "This name is taken",
       "ZONE": "Zone",
       "SERVICE_OFFERING": "Service offering",
@@ -571,8 +576,8 @@
     "OPEN_SHELL_CONSOLE": "Open WebShell",
     "OPEN_URL": "Open URL",
     "VNC_CONSOLE": "VNC console",
-    "SHELL_CONSOLE": "WebShell",
-    "URL": "URL",
+    "SHELL_CONSOLE": "SSH",
+    "HTTP": "HTTP",
     "VM_PASSWORD": "Password",
     "UNKNOWN": "Unknown",
     "LOGIN": "Login",
@@ -735,8 +740,8 @@
       "IS_ROUTING": "Routing",
       "REQUIRES_HVM": "Requires HVM",
       "BOOTABLE": "Bootable",
-      "SHOW_ADDITIONAL": "Show additional fields",
-      "HIDE_ADDITIONAL": "Hide additional fields"
+      "SHOW_DETAILS": "Show details",
+      "HIDE_DETAILS": "Hide details"
     }
   },
   "SNAPSHOT_PAGE": {
@@ -1439,7 +1444,7 @@
     "FILTERS": {
       "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_VM": "Select a VM",
-      "KEYWORDS": "Keywords",
+      "SEARCH": "Search",
       "SHOW_LOGS": "Show logs",
       "START_DATE": "Start date",
       "END_DATE": "End date",
@@ -1450,7 +1455,12 @@
     "LIST": {
       "DATE": "Date",
       "LOG_FILE": "Log file",
-      "TEXT": "Text"
+      "TEXT": "Text",
+      "SHOW_MORE": "Show more"
+    },
+    "FAB": {
+      "FOLLOW_LOG": "Follow log",
+      "STOP_FOLLOWING": "Stop following"
     }
   },
   "SETTINGS": {
@@ -1490,6 +1500,11 @@
     "VM_PREFERENCES": {
       "TITLE": "VM preferences",
       "KEYBOARD_LAYOUT": "Keyboard layout"
+    },
+    "VM_LOGS": {
+      "TITLE": "Log View (real-time mode)",
+      "SHOW_LAST_MESSAGES": "Show last (messages)",
+      "SHOW_LAST_MINUTES": "Show last (minutes)"
     }
   },
   "CLIPBOARD": {
@@ -1552,8 +1567,8 @@
     "NO_AVAILABLE_OFFERINGS": "No available offerings",
     "CPU_MHZ": "{{ count }}x{{ speed }} MHz",
     "VM_WILL_BE_RESTARTED": "Virtual machine will be restarted",
-    "SHOW_ADDITIONAL_FIELDS": "Show additional fields",
-    "HIDE_ADDITIONAL_FIELDS": "Hide additional fields",
+    "SHOW_DETAILS": "Show details",
+    "HIDE_DETAILS": "Hide details",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Custom offering",
       "CPU_NUMBER": "CPU cores",

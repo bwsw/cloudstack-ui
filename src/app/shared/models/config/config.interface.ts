@@ -1,4 +1,3 @@
-import { SidenavConfigElement } from './sidenav-config-element.interface';
 import { ServiceOfferingAvailability } from './service-offering-availability.interface';
 import { OfferingCompatibilityPolicy } from './offering-compatibility-policy.interface';
 import { ComputeOfferingClass } from './compute-offering-class.interface';
@@ -45,11 +44,6 @@ export interface CustomizableConfig {
   defaultTheme: string;
   sessionTimeout: number;
   /*
-   * Menu settings
-   */
-  allowReorderingSidenav: boolean;
-  configureSidenav: SidenavConfigElement[];
-  /*
    * Service offering setting
    */
   customComputeOfferingParameters: CustomComputeOfferingParameters[];
@@ -74,6 +68,8 @@ export interface NonCustomizableConfig {
   customComputeOfferingHardwareValues: CustomComputeOfferingHardwareValues;
   defaultCustomComputeOfferingRestrictions: CustomComputeOfferingHardwareRestrictions;
   keyboardLayoutForVms: string;
+  vmLogsShowLastMessages: number;
+  vmLogsShowLastMinutes: number;
 }
 
 export interface Config extends CustomizableConfig, NonCustomizableConfig {}

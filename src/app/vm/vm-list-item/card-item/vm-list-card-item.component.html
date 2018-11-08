@@ -12,8 +12,8 @@
       [matTooltip]="stateTranslationToken | translate"
       class="entity-card-thumbnail"
     ></cs-round-state-indicator>
-    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
-      <span [innerHTML]="item.name | highlight:query"></span>
+    <mat-card-title [matTooltip]="item.displayname" class="entity-card-title">
+      <span [innerHTML]="item.displayname | highlight:query"></span>
     </mat-card-title>
     <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
       <mat-icon class="mdi-dots-vertical"></mat-icon>
@@ -34,16 +34,24 @@
         </tr>
       </thead>
       <tr>
-        <td>{{ 'SERVICE_OFFERING.CPU_MHZ' | translate:({ count: item.cpunumber, speed: item.cpuspeed }) }}</td>
-        <td>
-          <ng-container *ngIf="item.memory < gigabyte">
-            {{ 'UNITS.MB_VALUE' | translate:({ value: getMemoryInMb() }) }}
-          </ng-container>
-          <ng-container *ngIf="item.memory >= gigabyte">
-            {{ 'UNITS.GB_VALUE' | translate:({ value: getMemoryInGb() }) }}
-          </ng-container>
+        <td class="entity-card-data-line"
+            [matTooltip]="'SERVICE_OFFERING.CPU_MHZ' | translate:({ count: item.cpunumber, speed: item.cpuspeed })">
+          {{ 'SERVICE_OFFERING.CPU_MHZ' | translate:({ count: item.cpunumber, speed: item.cpuspeed }) }}
         </td>
-        <td>{{ 'UNITS.GB_VALUE' | translate:({ value: getDisksSize.toFixed(2) }) }}</td>
+        <td class="entity-card-data-line">
+          <span *ngIf="item.memory < gigabyte"
+                [matTooltip]="'UNITS.MB_VALUE' | translate:({ value: getMemoryInMb() })">
+            {{ 'UNITS.MB_VALUE' | translate:({ value: getMemoryInMb() }) }}
+          </span>
+          <span *ngIf="item.memory >= gigabyte"
+                [matTooltip]="'UNITS.GB_VALUE' | translate:({ value: getMemoryInGb() })">
+            {{ 'UNITS.GB_VALUE' | translate:({ value: getMemoryInGb() }) }}
+          </span>
+        </td>
+        <td class="entity-card-data-line"
+            [matTooltip]="'UNITS.GB_VALUE' | translate:({ value: getDisksSize.toFixed(2) })">
+          {{ 'UNITS.GB_VALUE' | translate:({ value: getDisksSize.toFixed(2) }) }}
+        </td>
       </tr>
     </table>
   </mat-card-content>

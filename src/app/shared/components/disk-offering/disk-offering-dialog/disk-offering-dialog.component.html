@@ -12,11 +12,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-radio-button
-            [value]="offering"
-            [checked]="offering.id === selectedDiskOffering?.id"
-            (click)="selectOffering(offering); preventTriggerExpansionPanel($event)"
-            ></mat-radio-button>
-            {{ offering.name }}
+              [value]="offering"
+              [checked]="offering.id === selectedDiskOffering?.id"
+              (click)="selectOffering(offering); preventTriggerExpansionPanel($event)"
+            >
+              {{ offering.name }}
+            </mat-radio-button>
           </mat-panel-title>
           <mat-panel-description>
             <div
@@ -88,7 +89,9 @@
 <ng-template #noResults>
   <cs-no-results></cs-no-results>
 </ng-template>
-
+<mat-error *ngIf="resourcesLimitExceeded">
+  {{ "ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED" | translate }}
+</mat-error>
 <div class="mat-dialog-actions">
   <button
     mat-button

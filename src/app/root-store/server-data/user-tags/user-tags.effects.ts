@@ -48,6 +48,12 @@ import {
   UpdateTimeFormat,
   UpdateTimeFormatError,
   UpdateTimeFormatSuccess,
+  UpdateVmLogsShowLastMessages,
+  UpdateVmLogsShowLastMessagesError,
+  UpdateVmLogsShowLastMessagesSuccess,
+  UpdateVmLogsShowLastMinutes,
+  UpdateVmLogsShowLastMinutesError,
+  UpdateVmLogsShowLastMinutesSuccess,
   UserTagsActionTypes,
 } from './user-tags.actions';
 import { TagService } from '../../../shared/services/tags/tag.service';
@@ -257,6 +263,32 @@ export class UserTagsEffects {
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateKeyboardLayoutForVmsSuccess({ key, value })),
         catchError(error => of(new UpdateKeyboardLayoutForVmsError({ error }))),
+      );
+    }),
+  );
+
+  @Effect()
+  updateVmLogsShowLastMessages$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateVmLogsShowLastMessages>(UserTagsActionTypes.UpdateVmLogsShowLastMessages),
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
+      const key = userTagKeys.vmLogsShowLastMessages;
+      return this.upsertTag(key, value).pipe(
+        map(() => new UpdateVmLogsShowLastMessagesSuccess({ key, value })),
+        catchError(error => of(new UpdateVmLogsShowLastMessagesError({ error }))),
+      );
+    }),
+  );
+
+  @Effect()
+  updateVmLogsShowLastMinutes$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateVmLogsShowLastMinutes>(UserTagsActionTypes.UpdateVmLogsShowLastMinutes),
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
+      const key = userTagKeys.vmLogsShowLastMinutes;
+      return this.upsertTag(key, value).pipe(
+        map(() => new UpdateVmLogsShowLastMinutesSuccess({ key, value })),
+        catchError(error => of(new UpdateVmLogsShowLastMinutesError({ error }))),
       );
     }),
   );

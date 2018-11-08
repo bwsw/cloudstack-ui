@@ -51,6 +51,7 @@
 
   <div class="date-time">
     <cs-date-picker
+      [disabled]="isAutoUpdateEnabled"
       [label]="'LOGS_PAGE.FILTERS.START_DATE' | translate"
       [okLabel]="'COMMON.OK' | translate"
       [locale]="locale"
@@ -62,6 +63,7 @@
     ></cs-date-picker>
 
     <cs-time-picker
+      [disabled]="isAutoUpdateEnabled"
       [timeFormat]="'hour24'"
       [ngModel]="startTime"
       (ngModelChange)="startTimeChanged.emit($event)"
@@ -70,6 +72,7 @@
 
   <div class="date-time">
     <cs-date-picker
+      [disabled]="isAutoUpdateEnabled"
       [label]="'LOGS_PAGE.FILTERS.END_DATE' | translate"
       [okLabel]="'COMMON.OK' | translate"
       [locale]="locale"
@@ -81,6 +84,7 @@
     ></cs-date-picker>
 
     <cs-time-picker
+      [disabled]="isAutoUpdateEnabled"
       [timeFormat]="'hour24'"
       [ngModel]="endTime"
       (ngModelChange)="endTimeChanged.emit($event)"
@@ -89,12 +93,15 @@
 </div>
 
 <div class="filter-wrapper">
-  <cs-vm-log-keywords
-    class="keywords"
-    [keywords]="keywords"
-    (keywordAdded)="keywordAdded.emit($event)"
-    (keywordRemoved)="keywordRemoved.emit($event)"
-  ></cs-vm-log-keywords>
+  <mat-form-field class="search">
+    <input
+      matInput
+      name="search"
+      [ngModel]="search"
+      (ngModelChange)="searchChanged.emit($event)"
+      [placeholder]="'LOGS_PAGE.FILTERS.SEARCH' | translate"
+    >
+  </mat-form-field>
 
   <mat-checkbox
     [ngModel]="newestFirst"

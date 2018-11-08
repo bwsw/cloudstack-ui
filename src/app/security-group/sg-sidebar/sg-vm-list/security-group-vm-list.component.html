@@ -17,10 +17,10 @@
         <div *ngFor="let vm of vmList">
           <div class="vm-link">
             <ng-template [ngIf]="isModeShared">
-              <a routerLink="{{ getVmLink(vm) }}">{{ vm.name }}</a>
+              <a routerLink="{{ getVmLink(vm) }}">{{ vm.displayname }}</a>
             </ng-template>
             <ng-template [ngIf]="isModePrivate">
-              <span>{{ vm.name }}</span>
+              <span>{{ vm.displayname }}</span>
             </ng-template>
           </div>
         </div>

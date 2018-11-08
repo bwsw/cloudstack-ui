@@ -14,10 +14,25 @@ import { DiskOfferingDialogComponent } from './disk-offering-dialog.component';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { StringifyDatePipe } from '../../../pipes';
 import { DateTimeFormatterService } from '../../../services/date-time-formatter.service';
+import { User } from '../../../models/user.model';
+import { AuthService } from '../../../services/auth.service';
 
 class MockConfigServiceDateTimeFormatterService {
   public stringifyToTime() {
     return;
+  }
+}
+
+class MockAuthService {
+  // tslint:disable-next-line
+  _user: User;
+
+  get user() {
+    return this._user;
+  }
+
+  getCustomDiskOfferingMinSize() {
+    return 1;
   }
 }
 
@@ -71,6 +86,10 @@ describe('Disk Offering dialog', () => {
         {
           provide: DateTimeFormatterService,
           useClass: MockConfigServiceDateTimeFormatterService,
+        },
+        {
+          provide: AuthService,
+          useClass: MockAuthService,
         },
       ],
       schemas: [NO_ERRORS_SCHEMA],

@@ -118,7 +118,7 @@
       "PRIMARY_STORAGE_EXCEEDED": "Лимит основного хранилища превышен",
       "UNABLE_TO_FIND_PRIMARY_STORAGE": "Не удалось найти подходящее основное хранилище при создании диска {{ val1 }}",
       "VOLUME_BUSY": "На виртуальной машине, к которой прикреплен этот диск, уже выполняется другое действие над снимками. Повторите попытку позже.",
-      "VOLUME_LIMIT_EXCEEDED": "Лимит дисков превышен. Для создания новых дисков вам нужно удалить какие-либо из ранее созданных дисков."
+      "VOLUME_RESOURCES_LIMIT_EXCEEDED": "Диск не может быть выбран. Размер выбранного диска превышает доступные ресурсы аккаунта."
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Почасовое расписание отключено"
@@ -359,7 +359,11 @@
     "VM_DETAILS": {
       "COLOR": "Цвет",
       "DESCRIPTION": "Описание",
-      "ZONE": "Зона",
+      "DETAILS": {
+        "TITLE": "Общая информация",
+        "ZONE": "Зона",
+        "HOST_NAME": "Имя хоста"
+      },
       "INSTANCE_GROUP": {
         "TITLE": "Группа",
         "NO_GROUP": "Без группы",
@@ -528,7 +532,8 @@
     },
     "VM_CREATION": {
       "NEW_VM": "Новая виртуальная машина",
-      "NAME": "Название",
+      "HOST_NAME": "Имя хоста",
+      "DISPLAY_NAME": "Отображаемое имя",
       "THIS_NAME_IS_TAKEN": "Это имя занято",
       "ZONE": "Зона",
       "SERVICE_OFFERING": "Вычислительное предложение",
@@ -571,8 +576,8 @@
     "OPEN_SHELL_CONSOLE": "Открыть WebShell",
     "OPEN_URL": "Открыть URL",
     "VNC_CONSOLE": "VNC консоль",
-    "SHELL_CONSOLE": "WebShell",
-    "URL": "URL",
+    "SHELL_CONSOLE": "SSH",
+    "HTTP": "HTTP",
     "VM_PASSWORD": "Пароль",
     "UNKNOWN": "Неизвестно",
     "LOGIN": "Логин",
@@ -735,8 +740,8 @@
       "IS_ROUTING": "Маршрутизация",
       "REQUIRES_HVM": "HVM",
       "BOOTABLE": "Загружаемый",
-      "SHOW_ADDITIONAL": "Показать дополнительные параметры",
-      "HIDE_ADDITIONAL": "Скрыть дополнительные параметры"
+      "SHOW_DETAILS": "Показать дополнительные параметры",
+      "HIDE_DETAILS": "Скрыть дополнительные параметры"
     }
   },
   "SNAPSHOT_PAGE": {
@@ -1435,7 +1440,7 @@
     "FILTERS": {
       "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_VM": "Выберите ВМ",
-      "KEYWORDS": "Ключевые слова",
+      "SEARCH": "Поиск",
       "SHOW_LOGS": "Показать логи",
       "START_DATE": "Начальная дата",
       "END_DATE": "Конечная дата",
@@ -1446,7 +1451,12 @@
     "LIST": {
       "DATE": "Дата",
       "LOG_FILE": "Файл",
-      "TEXT": "Текст"
+      "TEXT": "Текст",
+      "SHOW_MORE": "Показать еще"
+    },
+    "FAB": {
+      "FOLLOW_LOG": "Отслеживать",
+      "STOP_FOLLOWING": "Не отслеживать"
     }
   },
   "SETTINGS": {
@@ -1486,6 +1496,11 @@
     "VM_PREFERENCES": {
       "TITLE": "Настройки ВМ",
       "KEYBOARD_LAYOUT": "Раскладка клавиатуры"
+    },
+    "VM_LOGS": {
+      "TITLE": "Просмотр логов (режим реального времени)",
+      "SHOW_LAST_MESSAGES": "Максимальное количество сообщений",
+      "SHOW_LAST_MINUTES": "Показывать последние (минут)"
     }
   },
   "CLIPBOARD": {
@@ -1548,8 +1563,8 @@
     "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
     "CPU_MHZ": "{{ count }}x{{ speed }} МГц",
     "VM_WILL_BE_RESTARTED": "Машина будет перезагружена",
-    "SHOW_ADDITIONAL_FIELDS": "Показать дополнительные параметры",
-    "HIDE_ADDITIONAL_FIELDS": "Скрыть дополнительные параметры",
+    "SHOW_DETAILS": "Показать дополнительные параметры",
+    "HIDE_DETAILS": "Скрыть дополнительные параметры",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Настраиваемое предложение",
       "CPU_NUMBER": "Ядра CPU",

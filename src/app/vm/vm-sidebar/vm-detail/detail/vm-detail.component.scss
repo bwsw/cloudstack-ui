@@ -1,0 +1,23 @@
+@import '../../../../../style/_variables';
+
+.details .row > div:nth-child(2n) {
+  text-align: right;
+}
+
+.grid.details {
+  overflow: hidden;
+  height: 3 * $sidebar-card-line-height;
+}
+
+.ellipsis-overflow {
+  user-select: text !important;
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:host /deep/ mat-card .mat-card-content-container {
+  margin-bottom: 0 !important;
+}
