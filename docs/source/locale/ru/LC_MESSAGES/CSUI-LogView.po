@@ -56,7 +56,7 @@ msgid ""
 "deployment instructions below."
 msgstr ""
 "Чтобы подключить раздел *Просмотр логов*, нужно сначала установить бэкенд-плагин "
-"Log View, а затем включить его через файл конфигурации ``config.json`` ."
+"Log View, а затем включить UI-плагин через файл конфигурации ``config.json`` ."
 
 #: ../../CSUI-LogView.rst:18
 msgid "Deployment Instructions"
