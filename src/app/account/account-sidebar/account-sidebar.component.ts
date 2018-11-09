@@ -8,11 +8,13 @@ import { isUserBelongsToAccount } from '../../shared/utils/account';
 @Component({
   selector: 'cs-account-sidebar',
   templateUrl: 'account-sidebar.component.html',
-  styleUrls: ['account-sidebar.component.scss']
+  styleUrls: ['account-sidebar.component.scss'],
 })
 export class AccountSidebarComponent {
-  @Input() public entity: Account;
-  @Output() public onAccountChanged = new EventEmitter<Account>();
+  @Input()
+  public entity: Account;
+  @Output()
+  public accountChanged = new EventEmitter<Account>();
 
   public get isSelf() {
     return isUserBelongsToAccount(this.authService.user, this.entity);
@@ -21,14 +23,13 @@ export class AccountSidebarComponent {
   constructor(
     protected route: ActivatedRoute,
     protected router: Router,
-    protected authService: AuthService
-  ) {
-  }
+    protected authService: AuthService,
+  ) {}
 
   public tabIsActive(tabId: string) {
     const path = this.route.snapshot;
     const pathLastChild = path.firstChild.routeConfig.path;
-    return (tabId === pathLastChild);
+    return tabId === pathLastChild;
   }
 
   public isAdmin() {

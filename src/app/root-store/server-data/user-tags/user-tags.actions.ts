@@ -3,7 +3,6 @@ import { Action } from '@ngrx/store';
 import { ServiceOffering, Tag } from '../../../shared/models';
 import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
 
-
 export enum UserTagsActionTypes {
   SetDefaultUserTagsAtStartup = '[App initializer] Set default user tags',
   SetDefaultUserTagsDueToLogout = '[Logout] Set default user tags',
@@ -52,13 +51,17 @@ export enum UserTagsActionTypes {
   UpdateThemeSuccess = '[Resource tags API] Update "csui.user.theme" tag success',
   UpdateThemeError = '[Resource tags API] Update "csui.user.theme" tag error',
 
-  UpdateNavigationOrder = '[Sidenav] Update "csui.user.navigation-order" tag',
-  UpdateNavigationOrderSuccess = '[Resource tags API] Update "csui.user.navigation-order" tag success',
-  UpdateNavigationOrderError = '[Resource tags API] Update "csui.user.navigation-order" tag error',
-
   UpdateKeyboardLayoutForVms = '[Settings Page] Update "csui.user.vm-keyboard-layout" tag',
   UpdateKeyboardLayoutForVmsSuccess = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag success',
   UpdateKeyboardLayoutForVmsError = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag error',
+
+  UpdateVmLogsShowLastMessages = '[Settings Page] Update "csui.user.vm-logs-show-last-messages" tag',
+  UpdateVmLogsShowLastMessagesSuccess = '[Resource tags API] Update "csui.user.vm-logs-show-last-messages" tag success',
+  UpdateVmLogsShowLastMessagesError = '[Resource tags API] Update "csui.user.vm-logs-show-last-messages" tag error',
+
+  UpdateVmLogsShowLastMinutes = '[Settings Page] Update "csui.user.vm-logs-show-last-minutes" tag',
+  UpdateVmLogsShowLastMinutesSuccess = '[Resource tags API] Update "csui.user.vm-logs-show-last-minutes" tag success',
+  UpdateVmLogsShowLastMinutesError = '[Resource tags API] Update "csui.user.vm-logs-show-last-minutes" tag error',
 
   SetSPFAVM = '[Dialog] Set "csui.user.save-password-for-all-vms" tag',
   SetSPFAVMSuccess = '[Resource tags API] Set "csui.user.save-password-for-all-vms" tag success',
@@ -68,12 +71,7 @@ export enum UserTagsActionTypes {
   IncrementLastVMIdSuccess = '[Resource tags API] Increment "csui.user.last-vm-id" tag success',
   IncrementLastVMIdError = '[Resource tags API] Increment "csui.user.last-vm-id" tag error',
 
-  // This Actions needed to be in the user tags because sidenav status works through user tags
-  // These actions will be exported through layoutActions
-  OpenSidenav = '[Layout] Open Sidenav',
-  CloseSidenav = '[Layout] Close Sidenav',
-
-  UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag'
+  UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs
@@ -81,15 +79,13 @@ export enum UserTagsActionTypes {
 export class SetDefaultUserTagsAtStartup implements Action {
   readonly type = UserTagsActionTypes.SetDefaultUserTagsAtStartup;
 
-  constructor(readonly payload: { tags: Tag[] }) {
-  }
+  constructor(readonly payload: { tags: Tag[] }) {}
 }
 
 export class SetDefaultUserTagsDueToLogout {
   readonly type = UserTagsActionTypes.SetDefaultUserTagsDueToLogout;
 
-  constructor(readonly payload: { tags: Tag[] }) {
-  }
+  constructor(readonly payload: { tags: Tag[] }) {}
 }
 
 export class LoadUserTags implements Action {
@@ -99,15 +95,13 @@ export class LoadUserTags implements Action {
 export class LoadUserTagsSuccess implements Action {
   readonly type = UserTagsActionTypes.LoadUserTagsSuccess;
 
-  constructor(readonly payload: { tags: Tag[] }) {
-  }
+  constructor(readonly payload: { tags: Tag[] }) {}
 }
 
 export class LoadUserTagsError implements Action {
   readonly type = UserTagsActionTypes.LoadUserTagsError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Ask to create VM
@@ -115,22 +109,19 @@ export class LoadUserTagsError implements Action {
 export class UpdateAskToCreateVM implements Action {
   readonly type = UserTagsActionTypes.UpdateAskToCreateVM;
 
-  constructor(readonly payload: { value: boolean }) {
-  }
+  constructor(readonly payload: { value: boolean }) {}
 }
 
 export class UpdateAskToCreateVMSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateAskToCreateVMSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateAskToCreateVMError implements Action {
   readonly type = UserTagsActionTypes.UpdateAskToCreateVMError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Ask to create volume
@@ -138,22 +129,19 @@ export class UpdateAskToCreateVMError implements Action {
 export class UpdateAskToCreateVolume implements Action {
   readonly type = UserTagsActionTypes.UpdateAskToCreateVolume;
 
-  constructor(readonly payload: { value: boolean }) {
-  }
+  constructor(readonly payload: { value: boolean }) {}
 }
 
 export class UpdateAskToCreateVolumeSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateAskToCreateVolumeSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateAskToCreateVolumeError implements Action {
   readonly type = UserTagsActionTypes.UpdateAskToCreateVolumeError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Save password for all VMs
@@ -161,22 +149,19 @@ export class UpdateAskToCreateVolumeError implements Action {
 export class UpdateSavePasswordForAllVMs implements Action {
   readonly type = UserTagsActionTypes.UpdateSPFAVM;
 
-  constructor(readonly payload: { value: boolean }) {
-  }
+  constructor(readonly payload: { value: boolean }) {}
 }
 
 export class UpdateSavePasswordForAllVMsSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateSPFAVMSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateSavePasswordForAllVMsError implements Action {
   readonly type = UserTagsActionTypes.UpdateSPFAVMError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // First day of week
@@ -184,22 +169,19 @@ export class UpdateSavePasswordForAllVMsError implements Action {
 export class UpdateFirstDayOfWeek implements Action {
   readonly type = UserTagsActionTypes.UpdateFirstDayOfWeek;
 
-  constructor(readonly payload: { value: DayOfWeek }) {
-  }
+  constructor(readonly payload: { value: DayOfWeek }) {}
 }
 
 export class UpdateFirstDayOfWeekSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateFirstDayOfWeekSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateFirstDayOfWeekError implements Action {
   readonly type = UserTagsActionTypes.UpdateFirstDayOfWeekError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Interface language
@@ -207,22 +189,19 @@ export class UpdateFirstDayOfWeekError implements Action {
 export class UpdateInterfaceLanguage implements Action {
   readonly type = UserTagsActionTypes.UpdateInterfaceLanguage;
 
-  constructor(readonly payload: { value: Language }) {
-  }
+  constructor(readonly payload: { value: Language }) {}
 }
 
 export class UpdateInterfaceLanguageSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateInterfaceLanguageSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateInterfaceLanguageError implements Action {
   readonly type = UserTagsActionTypes.UpdateInterfaceLanguageError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Last VM id
@@ -230,22 +209,19 @@ export class UpdateInterfaceLanguageError implements Action {
 export class UpdateLastVMId implements Action {
   readonly type = UserTagsActionTypes.UpdateLastVMId;
 
-  constructor(readonly payload: { value: number }) {
-  }
+  constructor(readonly payload: { value: number }) {}
 }
 
 export class UpdateLastVMIdSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateLastVMIdSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateLastVMIdError implements Action {
   readonly type = UserTagsActionTypes.UpdateLastVMIdError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Session timeout
@@ -253,22 +229,19 @@ export class UpdateLastVMIdError implements Action {
 export class UpdateSessionTimeout implements Action {
   readonly type = UserTagsActionTypes.UpdateSessionTimeout;
 
-  constructor(readonly payload: { value: number }) {
-  }
+  constructor(readonly payload: { value: number }) {}
 }
 
 export class UpdateSessionTimeoutSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateSessionTimeoutSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateSessionTimeoutError implements Action {
   readonly type = UserTagsActionTypes.UpdateSessionTimeoutError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Show system tags
@@ -276,22 +249,19 @@ export class UpdateSessionTimeoutError implements Action {
 export class UpdateShowSystemTags implements Action {
   readonly type = UserTagsActionTypes.UpdateShowSystemTags;
 
-  constructor(readonly payload: { value: boolean }) {
-  }
+  constructor(readonly payload: { value: boolean }) {}
 }
 
 export class UpdateShowSystemTagsSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateShowSystemTagsSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateShowSystemTagsError implements Action {
   readonly type = UserTagsActionTypes.UpdateShowSystemTagsError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Time format
@@ -299,22 +269,19 @@ export class UpdateShowSystemTagsError implements Action {
 export class UpdateTimeFormat implements Action {
   readonly type = UserTagsActionTypes.UpdateTimeFormat;
 
-  constructor(readonly payload: { value: TimeFormat }) {
-  }
+  constructor(readonly payload: { value: TimeFormat }) {}
 }
 
 export class UpdateTimeFormatSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateTimeFormatSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateTimeFormatError implements Action {
   readonly type = UserTagsActionTypes.UpdateTimeFormatError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Theme
@@ -322,45 +289,19 @@ export class UpdateTimeFormatError implements Action {
 export class UpdateTheme implements Action {
   readonly type = UserTagsActionTypes.UpdateTheme;
 
-  constructor(readonly payload: { value: string }) {
-  }
+  constructor(readonly payload: { value: string }) {}
 }
 
 export class UpdateThemeSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateThemeSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateThemeError implements Action {
   readonly type = UserTagsActionTypes.UpdateThemeError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
-}
-
-// Navigation order
-
-export class UpdateNavigationOrder implements Action {
-  readonly type = UserTagsActionTypes.UpdateNavigationOrder;
-
-  constructor(readonly payload: { value: string }) {
-  }
-}
-
-export class UpdateNavigationOrderSuccess implements Action {
-  readonly type = UserTagsActionTypes.UpdateNavigationOrderSuccess;
-
-  constructor(readonly payload: { key: string, value: string }) {
-  }
-}
-
-export class UpdateNavigationOrderError implements Action {
-  readonly type = UserTagsActionTypes.UpdateNavigationOrderError;
-
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Keyboard
@@ -368,22 +309,59 @@ export class UpdateNavigationOrderError implements Action {
 export class UpdateKeyboardLayoutForVms implements Action {
   readonly type = UserTagsActionTypes.UpdateKeyboardLayoutForVms;
 
-  constructor(readonly payload: { value: string }) {
-  }
+  constructor(readonly payload: { value: string }) {}
 }
 
 export class UpdateKeyboardLayoutForVmsSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateKeyboardLayoutForVmsSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class UpdateKeyboardLayoutForVmsError implements Action {
   readonly type = UserTagsActionTypes.UpdateKeyboardLayoutForVmsError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
+}
+
+// VM Logs show last messages
+
+export class UpdateVmLogsShowLastMessages implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessages;
+
+  constructor(readonly payload: { value: number }) {}
+}
+
+export class UpdateVmLogsShowLastMessagesSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessagesSuccess;
+
+  constructor(readonly payload: { key: string; value: string }) {}
+}
+
+export class UpdateVmLogsShowLastMessagesError implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessagesError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
+// VM Logs show last minutes
+
+export class UpdateVmLogsShowLastMinutes implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutes;
+
+  constructor(readonly payload: { value: number }) {}
+}
+
+export class UpdateVmLogsShowLastMinutesSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutesSuccess;
+
+  constructor(readonly payload: { key: string; value: string }) {}
+}
+
+export class UpdateVmLogsShowLastMinutesError implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutesError;
+
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Save password for all VMs
@@ -391,22 +369,19 @@ export class UpdateKeyboardLayoutForVmsError implements Action {
 export class SetSavePasswordForAllVMs implements Action {
   readonly type = UserTagsActionTypes.SetSPFAVM;
 
-  constructor(readonly payload: { value: boolean }) {
-  }
+  constructor(readonly payload: { value: boolean }) {}
 }
 
 export class SetSavePasswordForAllVMsSuccess implements Action {
   readonly type = UserTagsActionTypes.SetSPFAVMSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class SetSavePasswordForAllVMsError implements Action {
   readonly type = UserTagsActionTypes.SetSPFAVMError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
 // Increment last vm id
@@ -418,32 +393,19 @@ export class IncrementLastVMId implements Action {
 export class IncrementLastVMIdSuccess implements Action {
   readonly type = UserTagsActionTypes.IncrementLastVMIdSuccess;
 
-  constructor(readonly payload: { key: string, value: string }) {
-  }
+  constructor(readonly payload: { key: string; value: string }) {}
 }
 
 export class IncrementLastVMIdError implements Action {
   readonly type = UserTagsActionTypes.IncrementLastVMIdError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
-}
-
-// Sidenav actions
-
-export class OpenSidenav implements Action {
-  readonly type = UserTagsActionTypes.OpenSidenav;
-}
-
-export class CloseSidenav implements Action {
-  readonly type = UserTagsActionTypes.CloseSidenav;
+  constructor(readonly payload: { error: Error }) {}
 }
 
 export class UpdateCustomServiceOfferingParams implements Action {
   readonly type = UserTagsActionTypes.UpdateCustomServiceOfferingParams;
 
-  constructor(readonly payload: { offering: ServiceOffering }) {
-  }
+  constructor(readonly payload: { offering: ServiceOffering }) {}
 }
 
 export type UserTagsActionsUnion =
@@ -482,18 +444,19 @@ export type UserTagsActionsUnion =
   | UpdateTheme
   | UpdateThemeSuccess
   | UpdateThemeError
-  | UpdateNavigationOrder
-  | UpdateNavigationOrderSuccess
-  | UpdateNavigationOrderError
   | UpdateKeyboardLayoutForVms
   | UpdateKeyboardLayoutForVmsSuccess
   | UpdateKeyboardLayoutForVmsError
+  | UpdateVmLogsShowLastMessages
+  | UpdateVmLogsShowLastMessagesSuccess
+  | UpdateVmLogsShowLastMessagesError
+  | UpdateVmLogsShowLastMinutes
+  | UpdateVmLogsShowLastMinutesSuccess
+  | UpdateVmLogsShowLastMinutesError
   | SetSavePasswordForAllVMs
   | SetSavePasswordForAllVMsSuccess
   | SetSavePasswordForAllVMsError
   | IncrementLastVMId
   | IncrementLastVMIdSuccess
   | IncrementLastVMIdError
-  | OpenSidenav
-  | CloseSidenav
   | UpdateCustomServiceOfferingParams;

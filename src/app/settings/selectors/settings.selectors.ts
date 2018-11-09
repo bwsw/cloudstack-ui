@@ -3,6 +3,15 @@ import { createSelector } from '@ngrx/store';
 import { SettingsViewModel } from '../view-models';
 import * as userTags from '../../root-store/server-data/user-tags/user-tags.selectors';
 
+const getVmLogsSettings = createSelector(
+  userTags.getVmLogsShowLastMessages,
+  userTags.getVmLogsShowLastMinutes,
+  (vmLogsShowLastMessages, vmLogsShowLastMinutes) => ({
+    vmLogsShowLastMessages,
+    vmLogsShowLastMinutes,
+  }),
+);
+
 export const getSettingsViewModel = createSelector(
   userTags.getSessionTimeout,
   userTags.getIsSavePasswordForVMs,
@@ -11,6 +20,7 @@ export const getSettingsViewModel = createSelector(
   userTags.getTimeFormat,
   userTags.getTheme,
   userTags.getKeyboardLayout,
+  getVmLogsSettings,
   (
     sessionTimeout,
     isSavePasswordForVMs,
@@ -18,7 +28,8 @@ export const getSettingsViewModel = createSelector(
     firstDayOfWeek,
     timeFormat,
     theme,
-    keyboardLayout
+    keyboardLayout,
+    { vmLogsShowLastMessages, vmLogsShowLastMinutes },
   ): SettingsViewModel => {
     return {
       sessionTimeout,
@@ -27,7 +38,9 @@ export const getSettingsViewModel = createSelector(
       firstDayOfWeek,
       timeFormat,
       theme,
-      keyboardLayout
-    }
-  }
+      keyboardLayout,
+      vmLogsShowLastMessages,
+      vmLogsShowLastMinutes,
+    };
+  },
 );

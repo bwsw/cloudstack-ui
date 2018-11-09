@@ -72,7 +72,8 @@
       "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?",
       "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?",
-      "CONFIRM_SAVE_PASSWORD": "Do you want to always save passwords for newly created VMs?"
+      "CONFIRM_SAVE_PASSWORD": "Do you want to always save passwords for newly created VMs?",
+      "CONFIRM_AFFINITY_DELETION": "Are you sure you want to delete this affinity group?"
     },
     "SECURITY_GROUPS": {
       "CONFIRM_EDIT_FROM_VM": "This group is shared. Other VMs that use this group will also be affected. Are you sure you want to edit this group in the Security Group management area?",
@@ -108,13 +109,16 @@
     "VM": {
       "INSUFFICIENT_RESOURCES": "Insufficient resources"
     },
+    "VM_POST_ACTION": {
+      "INVALID_URL": "Invalid URL. Please check values in VM tags"
+    },
     "VOLUME": {
       "NAME_TOO_LONG": "Volume name cannot be longer than {{ val1 }} characters",
       "NEW_SIZE_IS_LOWER": "New size is lower than the current, you need to shrink the volume",
       "PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
       "UNABLE_TO_FIND_PRIMARY_STORAGE": "Unable to find suitable primary storage when creating volume {{ val1 }}",
       "VOLUME_BUSY": "There is other active snapshot tasks on the instance to which the volume is attached. Please try again later.",
-      "VOLUME_LIMIT_EXCEEDED": "Volume limit has been exceeded. You need to delete some of your volumes to create a new one."
+      "VOLUME_RESOURCES_LIMIT_EXCEEDED": "The disk offering cannot be selected because it doesn't fit the account resources available"
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Hourly schedule is turned off"
@@ -282,6 +286,7 @@
     "ACTIVITY_LOG": "Activity log",
     "SSH_KEYS": "SSH keys",
     "ACCOUNTS": "Accounts",
+    "LOGS": "View logs",
     "SETTINGS": "Settings",
     "LOGOUT": "Logout",
     "LICENSE": {
@@ -303,7 +308,8 @@
       "CONSOLE": "Console",
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Access VM",
-      "VM_ACCESS_TITLE": "Virtual Machine"
+      "VM_ACCESS_TITLE": "Virtual Machine",
+      "LOGS": "View logs"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Resource usage",
@@ -353,7 +359,11 @@
     "VM_DETAILS": {
       "COLOR": "Color",
       "DESCRIPTION": "Description",
-      "ZONE": "Zone",
+      "DETAILS": {
+        "TITLE": "Details",
+        "ZONE": "Zone",
+        "HOST_NAME": "VM host name"
+      },
       "INSTANCE_GROUP": {
         "TITLE": "Group",
         "NO_GROUP": "No group",
@@ -399,9 +409,10 @@
         "hosttags": "Host tags"
       },
       "AFFINITY_GROUP": {
-        "TITLE": "Affinity Group",
+        "TITLE": "Affinity Groups",
         "NO_AFFINITY_GROUP": "No affinity group",
         "NO_AFFINITY_GROUPS": "No affinity groups",
+        "TO_SELECT_AFFINITY_GROUP": "Select affinity group",
         "SELECT_AFFINITY_GROUP": "Select affinity group",
         "CREATE_NEW_GROUP": "Create a new group",
         "CHOOSE_EXISTING_GROUP": "Choose an existing group",
@@ -521,7 +532,8 @@
     },
     "VM_CREATION": {
       "NEW_VM": "New virtual machine",
-      "NAME": "Name",
+      "HOST_NAME": "VM host name",
+      "DISPLAY_NAME": "VM display name",
       "THIS_NAME_IS_TAKEN": "This name is taken",
       "ZONE": "Zone",
       "SERVICE_OFFERING": "Service offering",
@@ -546,7 +558,6 @@
       "IPS": "IPs",
       "VOLUMES": "Volumes",
       "PRIMARY_STORAGE": "Primary storage",
-      "CREATING_AG": "Creating an affinity group...",
       "CREATING_SG": "Creating a security group...",
       "DEPLOYING_VM": "Deploying the virtual machine...",
       "CREATING_INSTANCE_GROUP": "Creating an instance group...",
@@ -564,11 +575,21 @@
     "OPEN_VNC_CONSOLE": "Open VNC Console",
     "OPEN_SHELL_CONSOLE": "Open WebShell",
     "OPEN_URL": "Open URL",
+    "VNC_CONSOLE": "VNC console",
+    "SHELL_CONSOLE": "SSH",
+    "HTTP": "HTTP",
     "VM_PASSWORD": "Password",
     "UNKNOWN": "Unknown",
     "LOGIN": "Login",
     "VM": "Virtual machine name",
-    "VM_IP": "IP"
+    "VM_IP": "IP",
+    "SSH_KEY": "SSH key",
+    "PORT": "Port",
+    "IPv4": "IPv4",
+    "IPv6": "IPv6",
+    "CONNECTION_STRING_6": "Connection string (IPv6)",
+    "CONNECTION_STRING_4": "Connection string (IPv4)",
+    "NOT_SET": "Not Set"
   },
   "VOLUME_PAGE": {
     "FILTERS": {
@@ -719,8 +740,8 @@
       "IS_ROUTING": "Routing",
       "REQUIRES_HVM": "Requires HVM",
       "BOOTABLE": "Bootable",
-      "SHOW_ADDITIONAL": "Show additional fields",
-      "HIDE_ADDITIONAL": "Hide additional fields"
+      "SHOW_DETAILS": "Show details",
+      "HIDE_DETAILS": "Hide details"
     }
   },
   "SNAPSHOT_PAGE": {
@@ -745,7 +766,8 @@
       "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_TYPES": "Select types",
       "GROUP_BY_TYPES": "Types",
-      "GROUP_BY_ACCOUNTS": "Accounts"
+      "GROUP_BY_ACCOUNTS": "Accounts",
+      "SELECT_DATE": "Select a date"
     },
     "SIDEBAR": {
       "DETAILS": "Details",
@@ -1418,6 +1440,29 @@
       "SECRET_KEY": "Secret key"
     }
   },
+  "LOGS_PAGE": {
+    "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
+      "SELECT_VM": "Select a VM",
+      "SEARCH": "Search",
+      "SHOW_LOGS": "Show logs",
+      "START_DATE": "Start date",
+      "END_DATE": "End date",
+      "LOG_FILE": "Log file",
+      "LOG_FILE_NOT_SELECTED": "Not selected",
+      "NEWEST_FIRST": "Newest first"
+    },
+    "LIST": {
+      "DATE": "Date",
+      "LOG_FILE": "Log file",
+      "TEXT": "Text",
+      "SHOW_MORE": "Show more"
+    },
+    "FAB": {
+      "FOLLOW_LOG": "Follow log",
+      "STOP_FOLLOWING": "Stop following"
+    }
+  },
   "SETTINGS": {
     "SECURITY": {
       "TITLE": "Security",
@@ -1455,6 +1500,11 @@
     "VM_PREFERENCES": {
       "TITLE": "VM preferences",
       "KEYBOARD_LAYOUT": "Keyboard layout"
+    },
+    "VM_LOGS": {
+      "TITLE": "Log View (real-time mode)",
+      "SHOW_LAST_MESSAGES": "Show last (messages)",
+      "SHOW_LAST_MINUTES": "Show last (minutes)"
     }
   },
   "CLIPBOARD": {
@@ -1517,8 +1567,8 @@
     "NO_AVAILABLE_OFFERINGS": "No available offerings",
     "CPU_MHZ": "{{ count }}x{{ speed }} MHz",
     "VM_WILL_BE_RESTARTED": "Virtual machine will be restarted",
-    "SHOW_ADDITIONAL_FIELDS": "Show additional fields",
-    "HIDE_ADDITIONAL_FIELDS": "Hide additional fields",
+    "SHOW_DETAILS": "Show details",
+    "HIDE_DETAILS": "Hide details",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Custom offering",
       "CPU_NUMBER": "CPU cores",
@@ -1707,5 +1757,10 @@
     "VM_PASSWORD": "Virtual machine password",
     "PASSWORD_HAS_BEEN_RESET": "Password for {{ vmName }} has been reset",
     "PASSWORD_HAS_BEEN_SET": "Password for {{ vmName }} has been set"
+  },
+  "AFFINITY_GROUP": {
+    "NAME": "Name",
+    "TYPE": "Type",
+    "DESCRIPTION": "Description"
   }
 }

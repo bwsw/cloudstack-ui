@@ -6,6 +6,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import { hmrBootstrap } from './hmr';
 
+// tslint:disable:no-console
 if (environment.production) {
   enableProdMode();
 }

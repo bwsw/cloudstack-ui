@@ -1,9 +1,9 @@
 <div *ngIf="vm">
   <h3>{{ title | translate }}</h3>
   <h4 class="truncate">
-    <b>{{ 'VM_POST_ACTION.VM' | translate }}: </b> {{ vm.name }}
+    <b>{{ 'VM_POST_ACTION.VM' | translate }}: </b> {{ vm.displayname }}
   </h4>
-  <h4 *ngIf="!vm.isoId && vm.password">
+  <h4 *ngIf="!vm.isoid && vm.password">
     <cs-vm-password [vm]="vm"></cs-vm-password>
   </h4>
   <h4 *ngIf="vm.nic[0]?.ipaddress"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{ vm.nic[0].ipaddress }}</h4>

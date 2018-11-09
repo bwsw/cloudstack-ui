@@ -1,13 +1,15 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { isOfferingLocal } from '../../../shared/models/offering.model';
+import { isCustomized, isOfferingLocal } from '../../../shared/models/offering.model';
 import { DiskOffering, ServiceOfferingAvailability, Zone } from '../../../shared/models';
 import { configSelectors } from '../../../root-store';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as event from './disk-offerings.actions';
-
+import * as fromAuth from '../../auth/redux/auth.reducers';
+import * as fromVMs from '../../vm/redux/vm.reducers';
+import { isTemplate } from '../../../template/shared';
 
 export interface State extends EntityState<DiskOffering> {
   loading: boolean;
@@ -23,31 +25,27 @@ export const diskOfferingReducers = {
 
 export const adapter: EntityAdapter<DiskOffering> = createEntityAdapter<DiskOffering>({
   selectId: (item: DiskOffering) => item.id,
-  sortComparer: false
+  sortComparer: false,
 });
 
 export const initialState: State = adapter.getInitialState({
-  loading: false
+  loading: false,
 });
 
-export function reducer(
-  state = initialState,
-  action: event.Actions
-): State {
+export function reducer(state = initialState, action: event.Actions): State {
   switch (action.type) {
     case event.LOAD_DISK_OFFERINGS_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case event.LOAD_DISK_OFFERINGS_RESPONSE: {
-
       const offerings = action.payload;
 
       return {
         ...adapter.addAll(offerings, state),
-        loading: false
+        loading: false,
       };
     }
 
@@ -57,33 +55,24 @@ export function reducer(
   }
 }
 
-
 export const getOfferingsState = createFeatureSelector<OfferingsState>('disk-offerings');
 
-export const getOfferingsEntitiesState = createSelector(
-  getOfferingsState,
-  state => state.list
-);
+export const getOfferingsEntitiesState = createSelector(getOfferingsState, state => state.list);
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getOfferingsEntitiesState);
-
-export const isLoading = createSelector(
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getOfferingsEntitiesState,
-  state => state.loading
 );
+
+export const isLoading = createSelector(getOfferingsEntitiesState, state => state.loading);
 
 const isDiskOfferingAvailableInZone = (
   offering: DiskOffering,
   offeringAvailability: ServiceOfferingAvailability,
-  zone: Zone
+  zone: Zone,
 ) => {
   if (offeringAvailability.zones[zone.id]) {
-    const isOfferingExist = offeringAvailability.zones[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+    const isOfferingExist =
+      offeringAvailability.zones[zone.id].diskOfferings.indexOf(offering.id) !== -1;
     return isOfferingExist;
   }
   return false;
@@ -92,29 +81,27 @@ const isDiskOfferingAvailableInZone = (
 export const getSelectedOffering = createSelector(
   selectEntities,
   fromVolumes.getSelectedVolume,
-  (entities, volume) => volume && entities[volume.diskofferingid]
+  (entities, volume) => volume && entities[volume.diskofferingid],
 );
 
 const getOfferingsAvailableInZone = (
-  offeringList: Array<DiskOffering>,
+  offeringList: DiskOffering[],
   offeringAvailability: ServiceOfferingAvailability,
-  zone: Zone
+  zone: Zone,
 ) => {
   if (!offeringAvailability.filterOfferings) {
     return offeringList;
   }
 
-  return offeringList
-    .filter(offering => {
-      const offeringAvailableInZone = isDiskOfferingAvailableInZone(
-        offering,
-        offeringAvailability,
-        zone
-      );
-      const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(
-        offering);
-      return offeringAvailableInZone && localStorageCompatibility;
-    });
+  return offeringList.filter(offering => {
+    const offeringAvailableInZone = isDiskOfferingAvailableInZone(
+      offering,
+      offeringAvailability,
+      zone,
+    );
+    const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(offering);
+    return offeringAvailableInZone && localStorageCompatibility;
+  });
 };
 
 export const getAvailableOfferings = createSelector(
@@ -123,14 +110,23 @@ export const getAvailableOfferings = createSelector(
   fromZones.getSelectedZone,
   (diskOfferings, availability, zone) => {
     if (zone && availability) {
-      const availableOfferings = getOfferingsAvailableInZone(
-        diskOfferings,
-        availability,
-        zone
-      );
+      const availableOfferings = getOfferingsAvailableInZone(diskOfferings, availability, zone);
       return availableOfferings;
-    } else {
-      return [];
     }
-  }
+    return [];
+  },
 );
+
+export const isDiskOfferingAvailableByResources = (minSize: number) =>
+  createSelector(
+    fromAuth.getUserAccount,
+    fromVMs.getVmFormState,
+    (account, state): boolean => {
+      if (!isTemplate(state.template) && state.diskOffering) {
+        const storageAvailability = account.primarystorageavailable;
+        const size = isCustomized(state.diskOffering) ? minSize : state.diskOffering.disksize;
+        return size < Number(storageAvailability);
+      }
+      return true;
+    },
+  );

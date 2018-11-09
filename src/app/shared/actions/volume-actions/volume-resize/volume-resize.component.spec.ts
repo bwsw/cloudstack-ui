@@ -8,14 +8,13 @@ import { DialogService } from '../../../../dialog/dialog-service/dialog.service'
 import { OverlayLoadingComponent } from '../../../components/overlay-loading/overlay-loading.component';
 import { SliderComponent } from '../../../components/slider/slider.component';
 import { DiskOffering, Volume } from '../../../models';
-import { StorageTypes } from '../../../models/offering.model';
+import { storageTypes } from '../../../models/offering.model';
 import { VolumeType } from '../../../models/volume.model';
 import { DiskOfferingService } from '../../../services/disk-offering.service';
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
 import { ResourceUsageService } from '../../../services/resource-usage.service';
 import { VolumeResizeComponent } from './volume-resize.component';
 import { AuthService } from '../../../services/auth.service';
-
 
 @Injectable()
 class MockResourceUsageService {
@@ -24,8 +23,8 @@ class MockResourceUsageService {
   public getResourceUsage(): Observable<any> {
     return of({
       available: {
-        primaryStorage: this.availableStorage
-      }
+        primaryStorage: this.availableStorage,
+      },
     });
   }
 }
@@ -44,7 +43,7 @@ export class MockAuthService {
 
 @Pipe({
   // tslint:disable-next-line
-  name: 'division'
+  name: 'division',
 })
 export class MockDivisionPipe implements PipeTransform {
   public transform(): number | string {
@@ -60,10 +59,11 @@ describe('volume resize for root disks', () => {
 
     const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
-    const jobsNotificationService = jasmine.createSpyObj(
-      'JobsNotificationService',
-      ['add', 'finish', 'fail']
-    );
+    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', [
+      'add',
+      'finish',
+      'fail',
+    ]);
 
     const testVolume = {} as Volume;
     testVolume.id = '1';
@@ -71,15 +71,13 @@ describe('volume resize for root disks', () => {
     testVolume.type = VolumeType.ROOT;
 
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule
-      ],
+      imports: [FormsModule],
       declarations: [
         OverlayLoadingComponent,
         MockDivisionPipe,
         MockTranslatePipe,
         SliderComponent,
-        VolumeResizeComponent
+        VolumeResizeComponent,
       ],
       providers: [
         { provide: DialogService, useValue: dialogService },
@@ -87,13 +85,12 @@ describe('volume resize for root disks', () => {
         { provide: DiskOfferingService, useClass: MockDiskOfferingService },
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
-        { provide: MatDialogRef, useValue: dialog }
+        { provide: MatDialogRef, useValue: dialog },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
-    fixture = TestBed
-      .overrideComponent(OverlayLoadingComponent, { set: { template: '' } })
+    fixture = TestBed.overrideComponent(OverlayLoadingComponent, { set: { template: '' } })
       .overrideComponent(SliderComponent, { set: { template: '' } })
       .createComponent(VolumeResizeComponent);
 
@@ -104,7 +101,7 @@ describe('volume resize for root disks', () => {
   it('should not send disk offerings when resizing root disks', () => {
     const newVolumeSize = 100;
     component.newSize = newVolumeSize;
-    spyOn(component.onDiskResized, 'emit').and.callThrough();
+    spyOn(component.diskResized, 'emit').and.callThrough();
 
     const diskOffering: DiskOffering = {
       disksize: 1,
@@ -118,16 +115,17 @@ describe('volume resize for root disks', () => {
       iscustomized: true,
       miniops: 1,
       maxiops: 1,
-      storagetype: StorageTypes.local,
+      storagetype: storageTypes.local,
       provisioningtype: '',
     };
     diskOffering.id = 'diskofferingid';
     component.diskOffering = diskOffering;
 
     component.resizeVolume();
-    expect(component.onDiskResized.emit).toHaveBeenCalledWith({
+    expect(component.diskResized.emit).toHaveBeenCalledWith({
       id: '1',
-      size: newVolumeSize
+      size: newVolumeSize,
+      diskofferingid: diskOffering.id,
     });
   });
 });
@@ -140,10 +138,11 @@ describe('volume resize for data disks', () => {
 
     const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
-    const jobsNotificationService = jasmine.createSpyObj(
-      'JobsNotificationService',
-      ['add', 'finish', 'fail']
-    );
+    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', [
+      'add',
+      'finish',
+      'fail',
+    ]);
 
     const testVolume = {} as Volume;
     testVolume.id = '1';
@@ -151,15 +150,13 @@ describe('volume resize for data disks', () => {
     testVolume.type = VolumeType.DATADISK;
 
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule
-      ],
+      imports: [FormsModule],
       declarations: [
         OverlayLoadingComponent,
         MockDivisionPipe,
         MockTranslatePipe,
         SliderComponent,
-        VolumeResizeComponent
+        VolumeResizeComponent,
       ],
       providers: [
         { provide: DialogService, useValue: dialogService },
@@ -167,13 +164,12 @@ describe('volume resize for data disks', () => {
         { provide: DiskOfferingService, useClass: MockDiskOfferingService },
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
-        { provide: MatDialogRef, useValue: dialog }
+        { provide: MatDialogRef, useValue: dialog },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
-    fixture = TestBed
-      .overrideComponent(OverlayLoadingComponent, { set: { template: '' } })
+    fixture = TestBed.overrideComponent(OverlayLoadingComponent, { set: { template: '' } })
       .overrideComponent(SliderComponent, { set: { template: '' } })
       .createComponent(VolumeResizeComponent);
 
@@ -184,9 +180,9 @@ describe('volume resize for data disks', () => {
   it('should send disk offerings when resizing data disks', () => {
     const newVolumeSize = 100;
     component.newSize = newVolumeSize;
-    spyOn(component.onDiskResized, 'emit').and.callThrough();
+    spyOn(component.diskResized, 'emit').and.callThrough();
 
-    const diskOffering = {
+    component.diskOffering = {
       disksize: 1,
       id: 'diskofferingid',
       name: 'Disk Offering',
@@ -198,17 +194,45 @@ describe('volume resize for data disks', () => {
       iscustomized: true,
       miniops: 1,
       maxiops: 1,
-      storagetype: StorageTypes.local,
+      storagetype: storageTypes.local,
       provisioningtype: '',
-    }
+    };
+
+    component.resizeVolume();
+    expect(component.diskResized.emit).toHaveBeenCalledWith({
+      id: '1',
+      size: newVolumeSize,
+      diskofferingid: component.diskOffering.id,
+    });
+  });
+
+  it('should send uncustomized disk offerings without size when resizing data disks', () => {
+    const newVolumeSize = 100;
+    component.newSize = newVolumeSize;
+    spyOn(component.diskResized, 'emit').and.callThrough();
+
+    const diskOffering = {
+      disksize: 1,
+      id: 'diskofferingid',
+      name: 'Disk Offering',
+      displaytext: 'About disk offering',
+      diskBytesReadRate: 1,
+      diskBytesWriteRate: 1,
+      diskIopsReadRate: 1,
+      diskIopsWriteRate: 1,
+      iscustomized: false,
+      miniops: 1,
+      maxiops: 1,
+      storagetype: storageTypes.local,
+      provisioningtype: '',
+    };
     component.diskOffering = diskOffering;
 
     component.resizeVolume();
-    expect(component.onDiskResized.emit).toHaveBeenCalledWith({
+    expect(component.diskResized.emit).toHaveBeenCalledWith({
       id: '1',
+      diskofferingid: component.diskOffering.id,
       size: newVolumeSize,
-      diskOfferingId: component.diskOffering.id
     });
   });
 });
-

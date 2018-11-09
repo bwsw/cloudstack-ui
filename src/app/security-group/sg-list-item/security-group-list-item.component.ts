@@ -1,7 +1,7 @@
 import { EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 
-import { getType, SecurityGroup } from '../sg.model';
+import { getType, isSecurityGroupNative, SecurityGroup } from '../sg.model';
 import { VirtualMachine } from '../../vm';
 import { SecurityGroupViewMode } from '../sg-view-mode';
 import { NgrxEntities } from '../../shared/interfaces';
@@ -17,10 +17,14 @@ export class SecurityGroupListItemComponent implements OnChanges {
   public query: string;
 
   public get sgVmName() {
+    if (!isSecurityGroupNative(this.item)) {
+      return '';
+    }
+
     const vmId = this.item.virtualmachineids[0];
     const vm = this.vmList[vmId];
 
-    return vm ? vm.name : '';
+    return vm ? vm.displayname : '';
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -40,5 +44,4 @@ export class SecurityGroupListItemComponent implements OnChanges {
   public get isPrivate(): boolean {
     return getType(this.item) === SecurityGroupViewMode.Private.toString();
   }
-
 }

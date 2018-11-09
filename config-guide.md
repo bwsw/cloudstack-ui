@@ -2,71 +2,78 @@
 
 You can see examples of the configurations in the [config-example.json](https://github.com/bwsw/cloudstack-ui/blob/master/src/config/config-example.json)
 
-* [General](#general)
-  * [Default Domain](#default-domain)
-  * [Session Refresh Interval](#session-refresh-interval)
-  * [API Doc Link](#api-doc-link)
-  * [Extensions](#extensions)
-* [Virtual Machines Settings](#virtual-machines-settings)
-  * [VM Colors](#vm-colors)
-* [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
-  * [Security Group Templates](#security-group-templates)
-  * [Default Security Group Name](#default-security-group-name)
-* [Images Settings](#images-settings)
-  * [Image Groups](#image-groups)
-* [User App Settings](#user-app-settings)
-  * [Default First Day Of Week](#default-first-day-of-week)
-  * [Default Interface Language](#default-interface-language)
-  * [Default Time Format](#default-time-format)
-  * [Default Theme](#default-theme)
-  * [Session Timeout](#session-timeout)
-* [Menu Settings](#menu-settings)
-  * [Allow Reordering Sidenav](#allow-reordering-sidenav)
-  * [Configure Sidenav](#configure-sidenav)
-* [Service Offering Setting](#service-offering-setting)
-  * [Custom Compute Offering Parameters](#custom-compute-offering-parameters)
-  * [Default Compute Offering](#default-compute-offering)
-  * [Offering Compatibility Policy](#offering-compatibility-policy)
-  * [Compute Offering Classes](#compute-offering-classes)
-  * [Service Offering Availability](#service-offering-availability)
+- [General](#general)
+  - [Default Domain](#default-domain)
+  - [Session Refresh Interval](#session-refresh-interval)
+  - [API Doc Link](#api-doc-link)
+  - [Extensions](#extensions)
+- [Virtual Machines Settings](#virtual-machines-settings)
+  - [VM Colors](#vm-colors)
+- [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
+  - [Security Group Templates](#security-group-templates)
+  - [Default Security Group Name](#default-security-group-name)
+- [Images Settings](#images-settings)
+  - [Image Groups](#image-groups)
+- [User App Settings](#user-app-settings)
+  - [Default First Day Of Week](#default-first-day-of-week)
+  - [Default Interface Language](#default-interface-language)
+  - [Default Time Format](#default-time-format)
+  - [Default Theme](#default-theme)
+  - [Session Timeout](#session-timeout)
+- [Service Offering Setting](#service-offering-setting)
+  - [Custom Compute Offering Parameters](#custom-compute-offering-parameters)
+  - [Default Compute Offering](#default-compute-offering)
+  - [Offering Compatibility Policy](#offering-compatibility-policy)
+  - [Compute Offering Classes](#compute-offering-classes)
+  - [Service Offering Availability](#service-offering-availability)
 
+*Note*: We implement validation to all configuration parameter values. Please, make sure you provide correct and valid values in your `config.json`.
 
 ## General
 
 ### Default Domain
+
 A default domain is used to fill in the 'Domain' field in the login form. The default value is an empty value.
 
 For example,
+
 ```
 "defaultDomain": "domain"
 ```
 
 ### Session Refresh Interval
+
 The session refresh interval sends a request to the server at the specified interval (_in seconds_) to maintain an active session.
 The default value is `60`.
 
 For example,
+
 ```
 "sessionRefreshInterval": 60
 ```
 
 ### API Doc Link
+
 A URL address to the API documentation. This address is displayed in the "Settings" section.
 The default value is a link to the Apache Cloudstack API.
 
 For example,
+
 ```
 "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.11/"
 ```
 
 ### Extensions
+
 Allows you to enable plugins. By default, all plugins are disabled.
 
 For example,
+
 ```
 "extensions": {
   "webShell": true,
-  "pulse": false
+  "pulse": false,
+  "vmLogs": false
 }
 ```
 
@@ -75,10 +82,12 @@ Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for a de
 ## Virtual Machines Settings
 
 ### VM Colors
-Allows you to predefine a set of colors for virtual machines in the hexadecimal format. 
+
+Allows you to predefine a set of colors for virtual machines in the hexadecimal format.
 You can specify any colors you like.
 
 For example,
+
 ```
 "vmColors": [
   { "value": "#F44336" },
@@ -92,11 +101,13 @@ For example,
 ## Firewall (Security Groups) Settings
 
 ### Security Group Templates
-Predefined templates for security groups. You can define your own security groups that will be available for all users by default. 
+
+Predefined templates for security groups. You can define your own security groups that will be available for all users by default.
 
 By default, there are no predefined templates.
 
 For example,
+
 ```
 "securityGroupTemplates": [
   {
@@ -144,16 +155,16 @@ For example,
 
 Parameters:
 
-* id
-* name
-* description
-* preselected (true or false) - specifies whether network rules from this template will be automatically selected in the VM creation form
-* ingress and egress rules (ingressrule and egressrule respectively):
-   * ruleid: a unique identifier
-   * protocol: either 'tcp', 'udp' or 'icmp'
-   * cidr: subnet mask (e.g. 0.0.0.0/0)
-   * For TCP and UDP: startport and endport
-   * For ICMP: icmpcode and icmptype
+- id
+- name
+- description
+- preselected (true or false) - specifies whether network rules from this template will be automatically selected in the VM creation form
+- ingress and egress rules (ingressrule and egressrule respectively):
+  - ruleid: a unique identifier
+  - protocol: either 'tcp', 'udp' or 'icmp'
+  - cidr: subnet mask (e.g. 0.0.0.0/0)
+  - For TCP and UDP: startport and endport
+  - For ICMP: icmpcode and icmptype
 
 ### Default Security Group Name
 
@@ -161,6 +172,7 @@ Allow you to rename the Default Firewall group.
 The default name is `default` for both languages.
 
 For example,
+
 ```
 "defaultSecurityGroupName": {
   "en": "default name",
@@ -171,14 +183,16 @@ For example,
 ## Images Settings
 
 ### Image Groups
-Allows you to define groups for installation sources (templates and ISOs). 
 
-An image group has a required `id` parameter and an optional `translations` parameter. 
+Allows you to define groups for installation sources (templates and ISOs).
+
+An image group has a required `id` parameter and an optional `translations` parameter.
 If there are no translations defined for the template group, the group ID will be used.
 
 By default, there are no predefined image groups.
 
 For example,
+
 ```
 "imageGroups": [
   {
@@ -194,97 +208,83 @@ For example,
 ## User App Settings
 
 ### Default First Day Of Week
-Allows you to predefine the setting of the first day in the app. Possible values: 
+
+Allows you to predefine the setting of the first day in the app. Possible values:
+
 - 0 - Sunday
 - 1 - Monday (default)
 
-For example, 
+For example,
+
 ```
 "defaultFirstDayOfWeek": 0
 ```
 
 ### Default Interface Language
-Allows you to predefine the setting of the app interface language. Possible values: 
+
+Allows you to predefine the setting of the app interface language. Possible values:
+
 - "en" (default)
 - "ru"
 
-For example, 
+For example,
+
 ```
 "defaultInterfaceLanguage": "en"
 ```
 
 ### Default Time Format
+
 Allows you to predefine the setting of the time format. Possible values:
+
 - "auto" - value depends on the interface language (default)
 - "hour12" - 12-hour time
 - "hour24" - 24-hour time
 
-For example, 
+For example,
+
 ```
 "defaultTimeFormat": "hour24"
 ```
 
 ### Default Theme
+
 Allows you to predefine the setting of the theme. Available themes are:
+
 - "blue-red" (default)
 - "indigo-pink"
 
 For example,
+
 ```
 "defaultTheme": "blue-red"
 ```
 
 ### Session Timeout
-Allows you to predefine the setting of the session timeout. 
+
+Allows you to predefine the setting of the session timeout.
 This setting determines the number of minutes the user's session should stay active.
-After this time passes a user is logged out. 
+After this time passes a user is logged out.
 You can set it to `0` to turn it off, although in this case the session is likely to expire on the server side.
 
 The default value is `30`.
 
 For example,
+
 ```
 "sessionTimeout": 30
-```
-
-## Menu Settings
-
-### Allow Reordering Sidenav
-A boolean value which allows or forbids a user to reorder links in the left-side menu. 
-```
- "allowReorderingSidenav": false
-```
-
-### Configure Sidenav
-Allows you to predefine the order and visibility of menu elements. 
-The order and the presence of the left-side menu elements is determined by the order of the elements in the array. 
-The VMS menu element can not be made invisible, the visibility property will be ignored.
-For the configuration, you must specify all menu elements and the "allowReorderingSidenav" parameter must be true.
-
-For example (default values),
-```
-"allowReorderingSidenav": true,
-"configureSidenav": [
-    { "id": "VMS", "visible": true },
-    { "id": "VOLUMES", "visible": true },
-    { "id": "TEMPLATES", "visible": true },
-    { "id": "SNAPSHOTS", "visible": true },
-    { "id": "SGS", "visible": true },
-    { "id": "EVENTS", "visible": true },
-    { "id": "SSH", "visible": true },
-    { "id": "ACCOUNTS", "visible": true },
-    { "id": "SETTINGS", "visible": true }
-  ]
 ```
 
 ## Service Offering Setting
 
 ### Custom Compute Offering Parameters
+
 Allows you to specify default values and limits for custom compute offering hardware parameters in VM creation.
-By default, all compute offerings have the minimum restrictions of "1" CPU number, "1000" CPU speed, "512" memory 
-and the maximum values are not limited, default values are equal to minimum restrictions.  
+By default, all compute offerings have the minimum restrictions of "1" CPU number, "1000" CPU speed, "512" memory
+and the maximum values are not limited, default values are equal to minimum restrictions.
 
 For example,
+
 ```
 "customComputeOfferingParameters": [
   {
@@ -309,9 +309,11 @@ For example,
 ```
 
 ### Default Compute Offering
+
 Allows you to specify compute offering that will be automatically preselected in the VM creation form for each zone.
 
 For example,
+
 ```
 "defaultComputeOffering": [
   {
@@ -322,6 +324,7 @@ For example,
 ```
 
 ### Offering Compatibility Policy
+
 This configuration allows you to restrict compute offering change based on the compute offering host tags.
 
 This is very useful when you have several clusters in one zone and you want to protect a user from converting
@@ -329,8 +332,9 @@ offerings between incompatible states because it might happen that selected offe
 current VM relates to.
 
 Available change policies:
+
 - "contains-all" - exact tags match
-- "exactly-match" -  old offering tags are subset new offering tags
+- "exactly-match" - old offering tags are subset new offering tags
 - "no-restrictions" (default)
 
 You can ignore tags that don't influence compatibility with `offeringChangePolicyIgnoreTags` property.
@@ -343,11 +347,13 @@ You can ignore tags that don't influence compatibility with `offeringChangePolic
 ```
 
 ### Compute Offering Classes
+
 Allows you to group compute offerings into classes when choosing a compute offering in the VM creation form.
 
 By default, there are no predefined compute offering classes.
 
 For example,
+
 ```
 "computeOfferingClasses": [
     {
@@ -382,12 +388,14 @@ For example,
 ```
 
 ### Service Offering Availability
+
 Allows you to specify which service offerings will be available for which zones.
 If `filterOfferings` is set to `false`, all offerings will be available for all zones.
 
 By default, `filterOfferings` is set to `false`.
 
 For example,
+
 ```
 "serviceOfferingAvailability": {
   "filterOfferings": true,

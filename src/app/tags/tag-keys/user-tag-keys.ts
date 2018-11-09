@@ -7,10 +7,10 @@ export const userTagKeys = {
   lang: 'csui.user.lang',
   lastVMId: 'csui.user.last-vm-id',
   sessionTimeout: 'csui.user.session-timeout',
-  sidenavVisible: 'csui.user.show-sidenav',
   showSystemTags: 'csui.user.show-system-tags',
   timeFormat: 'csui.user.time-format',
   theme: 'csui.user.theme',
-  navigationOrder: 'csui.user.navigation-order',
   computeOfferingParam: 'csui.user.compute-offering.param',
+  vmLogsShowLastMessages: 'csui.user.vm-logs-show-last-messages',
+  vmLogsShowLastMinutes: 'csui.user.vm-logs-show-last-minutes',
 };

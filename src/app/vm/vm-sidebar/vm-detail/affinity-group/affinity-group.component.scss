@@ -1,0 +1,40 @@
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 32px;
+}
+
+.button-18px {
+  display: none;
+}
+
+.row:hover .button-18px {
+  display: inline-block;
+}
+
+.key {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  margin-right: 15px;
+  max-width: 60%;
+}
+
+.value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  text-align: right;
+  white-space: nowrap;
+}

@@ -44,6 +44,7 @@ import {
   FabComponent,
   FancySelectComponent,
   InputGroupComponent,
+  KeyboardsComponent,
   ListComponent,
   NoResultsComponent,
   NotificationBoxComponent,
@@ -53,7 +54,6 @@ import {
   SliderComponent,
   TopBarComponent,
   VmStatisticsComponent,
-  KeyboardsComponent
 } from './components';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
@@ -86,7 +86,8 @@ import {
   StringifyDatePipe,
   StringifyTimePipe,
   ViewValuePipe,
-  VolumeSortPipe
+  VolumeSortPipe,
+  AffinityGroupTypePipe,
 } from './pipes';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
@@ -117,7 +118,6 @@ import { SSHKeyPairService } from './services/ssh-keypair.service';
 import { StyleService } from './services/style.service';
 import { AccountTagService } from './services/tags/account-tag.service';
 import { DescriptionTagService } from './services/tags/description-tag.service';
-import { MarkForRemovalService } from './services/tags/mark-for-removal.service';
 import { SecurityGroupTagService } from './services/tags/security-group-tag.service';
 import { SnapshotTagService } from './services/tags/snapshot-tag.service';
 import { TagService } from './services/tags/tag.service';
@@ -133,19 +133,21 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
 import { BadgeDirective } from './directives/badge/badge.directive';
 import { MaterialModule } from '../material/material.module';
 import { InputTypeNumberDirective } from './directives/input-type-number.directive';
-import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
+import {
+  RoundStateIndicatorComponent,
+  SquareStateIndicatorComponent,
+} from './components/state-indicator';
 import { UrlDirective } from './validators/directives';
+import { TimePickerComponent } from './components/time-picker/time-picker.component';
+import { DayPeriodComponent } from './components/day-period/day-period.component';
+import { DiskOfferingSelectorChooserComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-chooser.component';
+import { DiskOfferingSelectorSliderComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-slider.component';
 
 // tslint:enable max-line-length
 
-const SHARED_DIRECTIVES = [
-  UrlDirective,
-  InputTypeNumberDirective
-];
+const SHARED_DIRECTIVES = [UrlDirective, InputTypeNumberDirective];
 
-const SHARED_COMPONENTS = [
-  ClipboardButtonComponent
-];
+const SHARED_COMPONENTS = [ClipboardButtonComponent];
 
 @NgModule({
   imports: [
@@ -182,6 +184,7 @@ const SHARED_COMPONENTS = [
     ForbiddenValuesDirective,
     GroupedListComponent,
     HighLightPipe,
+    AffinityGroupTypePipe,
     InlineEditComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
@@ -221,11 +224,15 @@ const SHARED_COMPONENTS = [
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
+    DiskOfferingSelectorChooserComponent,
+    DiskOfferingSelectorSliderComponent,
     SHARED_DIRECTIVES,
     SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent,
-    KeyboardsComponent
+    KeyboardsComponent,
+    TimePickerComponent,
+    DayPeriodComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -235,7 +242,7 @@ const SHARED_COMPONENTS = [
     VolumeResizeComponent,
     VolumeDeleteDialogComponent,
     SecurityGroupBuilderComponent,
-    DiskOfferingDialogComponent
+    DiskOfferingDialogComponent,
   ],
   declarations: [
     AccountActionsComponent,
@@ -258,6 +265,7 @@ const SHARED_COMPONENTS = [
     ForbiddenValuesDirective,
     GroupedListComponent,
     HighLightPipe,
+    AffinityGroupTypePipe,
     InlineEditComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
@@ -308,12 +316,16 @@ const SHARED_COMPONENTS = [
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
+    DiskOfferingSelectorChooserComponent,
+    DiskOfferingSelectorSliderComponent,
     DiskOfferingDialogComponent,
     SHARED_DIRECTIVES,
     SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent,
-    KeyboardsComponent
+    KeyboardsComponent,
+    TimePickerComponent,
+    DayPeriodComponent,
   ],
   providers: [
     AccountService,
@@ -333,7 +345,6 @@ const SHARED_COMPONENTS = [
     JobsNotificationService,
     LocalStorageService,
     LoginGuard,
-    MarkForRemovalService,
     MemoryStorageService,
     OsTypeService,
     ResourceCountService,
@@ -363,8 +374,7 @@ const SHARED_COMPONENTS = [
     ZoneService,
     HypervisorService,
     TimeZoneService,
-    AccountUserActionsService
-  ]
+    AccountUserActionsService,
+  ],
 })
-export class SharedModule {
-}
+export class SharedModule {}

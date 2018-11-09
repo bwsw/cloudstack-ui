@@ -6,20 +6,41 @@
   </mat-card-header>
   <mat-card-content class="mat-card-content-with-actions">
     <div class="mat-card-content-container">
-      <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
-      <div *ngIf="!vm.affinityGroup.length">
+      <div  class="row" *ngFor="let affinityGroup of vm.affinitygroup">
+        <div class="flex-container left">
+          <span
+            *ngIf="affinityGroup.description; else noDescription"
+            class="key"
+            [innerHTML]="affinityGroup.name"
+            [matTooltip]="affinityGroup.description">
+          </span>
+          <ng-template #noDescription><span class="key">{{ affinityGroup.name }}</span></ng-template>
+          <button
+            class="button-18px"
+            mat-icon-button
+            [disabled]="!canActivate"
+            (click)="showRemoveDialog(affinityGroup.id)"
+          >
+            <mat-icon class="mdi-delete"></mat-icon>
+          </button>
+        </div>
+        <span class="value">
+          {{ getAffinityGroupType(affinityGroup.id) }}
+        </span>
+      </div>
+      <div *ngIf="!vm.affinitygroup.length">
         {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.NO_AFFINITY_GROUP' | translate }}
       </div>
     </div>
     <mat-card-actions>
       <button
-        [matTooltip]="'COMMON.EDIT' | translate"
+        [matTooltip]="'COMMON.ADD' | translate"
         matTooltipPosition="above"
         mat-icon-button
         [disabled]="!canActivate"
         (click)="changeAffinityGroup()"
       >
-        <mat-icon class="mdi-pencil"></mat-icon>
+        <mat-icon class="mdi-plus"></mat-icon>
       </button>
     </mat-card-actions>
   </mat-card-content>

@@ -72,7 +72,8 @@
       "CONFIRM_RECOVER": "Вы уверены, что хотите восстановить эту виртуальную машину?",
       "CONFIRM_RESET_PASSWORD": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
       "CONFIRM_DRIVES_DELETION": "Удалить диски с данными этой ВМ?",
-      "CONFIRM_SAVE_PASSWORD": "Вы бы хотели автоматически сохранять пароли для всех ВМ?"
+      "CONFIRM_SAVE_PASSWORD": "Вы бы хотели автоматически сохранять пароли для всех ВМ?",
+      "CONFIRM_AFFINITY_DELETION": "Вы уверены, что хотите удалить аффинитетную группу?"
     },
     "SECURITY_GROUPS": {
       "CONFIRM_EDIT_FROM_VM": "Эта группа - разделяемая. Другие виртуальные машины, которые её используют, так же будут затронуты. Вы уверены, что хотите изменить правила группы в разделе Брандмауэр?",
@@ -108,13 +109,16 @@
     "VM": {
       "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов"
     },
+    "VM_POST_ACTION": {
+      "INVALID_URL": "Неподдерживаемый URL. Проверьте значения, задаваемые в тэгах ВМ"
+    },
     "VOLUME": {
       "NAME_TOO_LONG": "Имя диска не может быть длиннее {{ val1 }} символов",
       "NEW_SIZE_IS_LOWER": "Новый размер меньше текущего, необходимо сжать диск",
       "PRIMARY_STORAGE_EXCEEDED": "Лимит основного хранилища превышен",
       "UNABLE_TO_FIND_PRIMARY_STORAGE": "Не удалось найти подходящее основное хранилище при создании диска {{ val1 }}",
       "VOLUME_BUSY": "На виртуальной машине, к которой прикреплен этот диск, уже выполняется другое действие над снимками. Повторите попытку позже.",
-      "VOLUME_LIMIT_EXCEEDED": "Лимит дисков превышен. Для создания новых дисков вам нужно удалить какие-либо из ранее созданных дисков."
+      "VOLUME_RESOURCES_LIMIT_EXCEEDED": "Диск не может быть выбран. Размер выбранного диска превышает доступные ресурсы аккаунта."
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Почасовое расписание отключено"
@@ -274,7 +278,7 @@
   },
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Здравствуйте, {{ name }}",
-    "VMS": "Виртуальные<br>машины",
+    "VMS": "Виртуальные машины",
     "STORAGE": "Хранилище",
     "IMAGES": "Образы",
     "SNAPSHOTS": "Снимки",
@@ -282,6 +286,7 @@
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
     "ACCOUNTS": "Аккаунты",
+    "LOGS": "Просмотр логов",
     "SETTINGS": "Настройки",
     "LOGOUT": "Выйти",
     "LICENSE": {
@@ -303,7 +308,8 @@
       "CONSOLE": "Консоль",
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
-      "VM_ACCESS_TITLE": "Виртуальная машина"
+      "VM_ACCESS_TITLE": "Виртуальная машина",
+      "LOGS": "Просмотр логов"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",
@@ -353,7 +359,11 @@
     "VM_DETAILS": {
       "COLOR": "Цвет",
       "DESCRIPTION": "Описание",
-      "ZONE": "Зона",
+      "DETAILS": {
+        "TITLE": "Общая информация",
+        "ZONE": "Зона",
+        "HOST_NAME": "Имя хоста"
+      },
       "INSTANCE_GROUP": {
         "TITLE": "Группа",
         "NO_GROUP": "Без группы",
@@ -399,10 +409,11 @@
         "hosttags": "Теги хоста"
       },
       "AFFINITY_GROUP": {
-        "TITLE": "Аффинитетная группа",
-        "NO_AFFINITY_GROUP": "Нет аффинитетных групп",
+        "TITLE": "Аффинитетные группы",
+        "NO_AFFINITY_GROUP": "Нет аффинитетной группы",
         "NO_AFFINITY_GROUPS": "Нет аффинитетных групп",
-        "SELECT_AFFINITY_GROUP": "Изменение группы",
+        "TO_SELECT_AFFINITY_GROUP": "Выберите аффинитетную группу",
+        "SELECT_AFFINITY_GROUP": "Выбор аффинитетной группы",
         "CREATE_NEW_GROUP": "Создать новую",
         "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
         "CHOOSE_GROUP": "Выберите группу",
@@ -521,7 +532,8 @@
     },
     "VM_CREATION": {
       "NEW_VM": "Новая виртуальная машина",
-      "NAME": "Название",
+      "HOST_NAME": "Имя хоста",
+      "DISPLAY_NAME": "Отображаемое имя",
       "THIS_NAME_IS_TAKEN": "Это имя занято",
       "ZONE": "Зона",
       "SERVICE_OFFERING": "Вычислительное предложение",
@@ -546,7 +558,6 @@
       "IPS": "IP",
       "VOLUMES": "Дисков",
       "PRIMARY_STORAGE": "Основного хранилища",
-      "CREATING_AG": "Создание аффинитетной группы...",
       "CREATING_SG": "Создание группы безопасности...",
       "DEPLOYING_VM": "Создание виртуальной машины...",
       "CREATING_INSTANCE_GROUP": "Создание группы...",
@@ -564,11 +575,21 @@
     "OPEN_VNC_CONSOLE": "Открыть VNC консоль",
     "OPEN_SHELL_CONSOLE": "Открыть WebShell",
     "OPEN_URL": "Открыть URL",
+    "VNC_CONSOLE": "VNC консоль",
+    "SHELL_CONSOLE": "SSH",
+    "HTTP": "HTTP",
     "VM_PASSWORD": "Пароль",
     "UNKNOWN": "Неизвестно",
     "LOGIN": "Логин",
     "VM": "Имя машины",
-    "VM_IP": "IP адрес"
+    "VM_IP": "IP адрес",
+    "SSH_KEY": "SSH ключ",
+    "PORT": "Порт",
+    "IPv4": "IPv4",
+    "IPv6": "IPv6",
+    "CONNECTION_STRING_6": "Строка подключения (IPv6)",
+    "CONNECTION_STRING_4": "Строка подключения (IPv4)",
+    "NOT_SET": "Не задано"
   },
   "VOLUME_PAGE": {
     "FILTERS": {
@@ -719,8 +740,8 @@
       "IS_ROUTING": "Маршрутизация",
       "REQUIRES_HVM": "HVM",
       "BOOTABLE": "Загружаемый",
-      "SHOW_ADDITIONAL": "Показать дополнительные параметры",
-      "HIDE_ADDITIONAL": "Скрыть дополнительные параметры"
+      "SHOW_DETAILS": "Показать дополнительные параметры",
+      "HIDE_DETAILS": "Скрыть дополнительные параметры"
     }
   },
   "SNAPSHOT_PAGE": {
@@ -745,7 +766,8 @@
       "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_TYPES": "Выберите типы",
       "GROUP_BY_TYPES": "Типам",
-      "GROUP_BY_ACCOUNTS": "Аккаунтам"
+      "GROUP_BY_ACCOUNTS": "Аккаунтам",
+      "SELECT_DATE": "Выберите дату"
     },
     "SIDEBAR": {
       "DETAILS": "Детали",
@@ -1414,6 +1436,29 @@
       "SECRET_KEY": "Секретный ключ"
     }
   },
+  "LOGS_PAGE": {
+    "FILTERS": {
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
+      "SELECT_VM": "Выберите ВМ",
+      "SEARCH": "Поиск",
+      "SHOW_LOGS": "Показать логи",
+      "START_DATE": "Начальная дата",
+      "END_DATE": "Конечная дата",
+      "LOG_FILE": "Журнал",
+      "LOG_FILE_NOT_SELECTED": "Не выбран",
+      "NEWEST_FIRST": "Новые сверху"
+    },
+    "LIST": {
+      "DATE": "Дата",
+      "LOG_FILE": "Файл",
+      "TEXT": "Текст",
+      "SHOW_MORE": "Показать еще"
+    },
+    "FAB": {
+      "FOLLOW_LOG": "Отслеживать",
+      "STOP_FOLLOWING": "Не отслеживать"
+    }
+  },
   "SETTINGS": {
     "SECURITY": {
       "TITLE": "Безопасность",
@@ -1451,6 +1496,11 @@
     "VM_PREFERENCES": {
       "TITLE": "Настройки ВМ",
       "KEYBOARD_LAYOUT": "Раскладка клавиатуры"
+    },
+    "VM_LOGS": {
+      "TITLE": "Просмотр логов (режим реального времени)",
+      "SHOW_LAST_MESSAGES": "Максимальное количество сообщений",
+      "SHOW_LAST_MINUTES": "Показывать последние (минут)"
     }
   },
   "CLIPBOARD": {
@@ -1513,8 +1563,8 @@
     "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
     "CPU_MHZ": "{{ count }}x{{ speed }} МГц",
     "VM_WILL_BE_RESTARTED": "Машина будет перезагружена",
-    "SHOW_ADDITIONAL_FIELDS": "Показать дополнительные параметры",
-    "HIDE_ADDITIONAL_FIELDS": "Скрыть дополнительные параметры",
+    "SHOW_DETAILS": "Показать детали",
+    "HIDE_DETAILS": "Скрыть детали",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Настраиваемое предложение",
       "CPU_NUMBER": "Ядра CPU",
@@ -1703,5 +1753,10 @@
     "VM_PASSWORD": "Пароль виртуальной машины",
     "PASSWORD_HAS_BEEN_RESET": "Пароль для машины {{ vmName }} был сброшен",
     "PASSWORD_HAS_BEEN_SET": "Пароль для машины {{ vmName }} установлен"
+  },
+  "AFFINITY_GROUP": {
+    "NAME": "Имя",
+    "TYPE": "Тип",
+    "DESCRIPTION": "Описание"
   }
 }

@@ -1,0 +1,26 @@
+<h3 class="no-margin nowrap">
+  {{ 'SETTINGS.VM_LOGS.SHOW_LAST_MESSAGES' | translate }}
+</h3>
+
+<cs-update-button-field-group>
+  <mat-form-field>
+    <input
+      #messagesField
+      matInput
+      type="number"
+      [value]="messages"
+      min="1"
+      csMinValue="1"
+      step="1"
+      required
+    >
+  </mat-form-field>
+
+  <button
+    mat-button
+    [disabled]="messages == +messagesField.value"
+    (click)="messagesChanged.emit(+messagesField.value)"
+  >
+    {{ 'COMMON.UPDATE' | translate }}
+  </button>
+</cs-update-button-field-group>

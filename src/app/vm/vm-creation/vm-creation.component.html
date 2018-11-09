@@ -27,7 +27,7 @@
       type="button"
       color="primary"
       *ngIf="!deploymentInProgress && !deployedVm"
-      (click)="onVmDeploymentFailed.emit()"
+      (click)="vmDeploymentFailed.emit()"
     >
       {{ 'COMMON.CLOSE' | translate }}
     </button>
@@ -46,32 +46,29 @@
       <div class="container">
         <ng-container *ngIf="enoughResources && vmCreationState; then enoughResources else notEnoughResources">
         </ng-container>
-
         <ng-template #enoughResources>
           <mat-tab-group>
 
             <mat-tab [label]="'VM_PAGE.VM_CREATION.GENERAL' | translate">
               <div class="settings-column">
                 <div>
-                  <h4>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h4>
+                  <h4>{{ 'VM_PAGE.VM_CREATION.DISPLAY_NAME' | translate }}</h4>
                   <mat-form-field floatLabel="never" class="full-width-input">
                     <input
                       matInput
-                      name="name"
+                      name="displayName"
                       [ngModel]="vmCreationState.displayName"
                       (ngModelChange)="displayNameChange.emit($event)"
-                      [placeholder]="'VM_PAGE.VM_CREATION.NAME' | translate"
-                      pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
-                      [maxlength]="maxEntityNameLength"
+                      [placeholder]="'VM_PAGE.VM_CREATION.DISPLAY_NAME' | translate"
+                      [maxlength]="32"
+                      [minlength]="1"
+                      pattern="^[\S]{0}.{0,30}[\S]$"
                       required
                     >
-                    <mat-error *ngIf="takenName">
-                      {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
-                    </mat-error>
                     <mat-hint align="end">
                       <cs-character-count
                         [value]="vmCreationState.displayName"
-                        [maxLength]="maxEntityNameLength"
+                        [maxLength]="32"
                       ></cs-character-count>
                     </mat-hint>
                   </mat-form-field>
@@ -93,28 +90,31 @@
                 </div>
 
                 <div
-                  *ngIf="vmCreationState.zone && serviceOfferings?.length"
+                  *ngIf="vmCreationState.zone"
                   class="dialog-select-wrapper"
                 >
                   <cs-service-offering-selector
                     name="serviceOffering"
                     [serviceOffering]="vmCreationState.serviceOffering"
-                    (change)="serviceOfferingChange.emit($event)"
+                    (changed)="serviceOfferingChange.emit($event)"
                   ></cs-service-offering-selector>
                 </div>
                 <div class="dialog-select-wrapper" *ngIf="vmCreationState.zone">
                   <cs-vm-creation-template-container
                     [template]="vmCreationState.template"
-                    (change)="changeTemplate($event)"
+                    (changed)="changeTemplate($event)"
                   ></cs-vm-creation-template-container>
                 </div>
 
                 <div *ngIf="diskOfferingsAreAllowed()">
                   <cs-disk-offering-selector
                     name="diskOffering"
+                    [availableStorage]="account.primarystorageavailable"
+                    [min]="minSize"
                     [diskOfferings]="diskOfferings"
-                    [ngModel]="vmCreationState?.diskOffering"
-                    (change)="diskOfferingChange.emit($event)"
+                    [account]="account"
+                    [diskOffering]="vmCreationState?.diskOffering"
+                    (changed)="diskOfferingChange.emit($event)"
                   ></cs-disk-offering-selector>
                 </div>
                 <div *ngIf="showResizeSlider()">
@@ -128,11 +128,38 @@
                     [units]="'UNITS.GB' | translate"
                   ></cs-slider>
                 </div>
+                <span *ngIf="!isDiskOfferingAvailableByResources" class="error-message">
+                  {{ 'ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED' | translate }}
+                </span>
               </div>
             </mat-tab>
 
             <mat-tab [label]="'VM_PAGE.VM_CREATION.ADVANCED' | translate">
               <div class="settings-column">
+                <div>
+                  <h4>{{ 'VM_PAGE.VM_CREATION.HOST_NAME' | translate }}</h4>
+                  <mat-form-field floatLabel="never" class="full-width-input">
+                    <input
+                      matInput
+                      name="hostName"
+                      [ngModel]="vmCreationState.name"
+                      (ngModelChange)="hostNameChange.emit($event)"
+                      [placeholder]="'VM_PAGE.VM_CREATION.HOST_NAME' | translate"
+                      pattern="^[a-zA-Z]{0}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
+                      [maxlength]="maxEntityNameLength"
+                    >
+                    <mat-hint align="end">
+                      <cs-character-count
+                        [value]="vmCreationState.name"
+                        [maxLength]="maxEntityNameLength"
+                      ></cs-character-count>
+                    </mat-hint>
+                  </mat-form-field>
+                  <mat-error *ngIf="hostNameIsTaken()">
+                    {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
+                  </mat-error>
+                </div>
+
                 <div>
                   <h4>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h4>
                   <mat-form-field floatLabel="never">
@@ -156,33 +183,10 @@
                 </div>
 
                 <div>
-                  <h4>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUP' | translate }}</h4>
-                  <mat-form-field floatLabel="never">
-                    <input
-                      name="affinityGroup"
-                      matInput
-                      pattern="^[a-zA-ZА-яЁё]{1}[^,]*$"
-                      [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-                      [matAutocomplete]="affinityGroups"
-                      [maxlength]="maxEntityNameLength"
-                      [ngModel]="vmCreationState.affinityGroup?.name"
-                      (ngModelChange)="changeAffinityGroup($event)"
-                    >
-                    <mat-hint align="end">
-                      <cs-character-count
-                        [value]="vmCreationState.affinityGroup?.name"
-                        [maxLength]="maxEntityNameLength"
-                      ></cs-character-count>
-                    </mat-hint>
-                  </mat-form-field>
-                  <mat-autocomplete #affinityGroups>
-                    <mat-option
-                      *ngFor="let group of (visibleAffinityGroups || affinityGroupList)"
-                      [value]="group.name"
-                    >
-                      {{ group.name }}
-                    </mat-option>
-                  </mat-autocomplete>
+                  <cs-vm-creation-affinity-group-manager
+                    [affinityGroup]="vmCreationState.affinityGroup"
+                    (affinityGroupChanged)="changeAffinityGroup($event)"
+                  ></cs-vm-creation-affinity-group-manager>
                 </div>
 
                 <div>
@@ -200,7 +204,7 @@
                   <cs-vm-creation-ssh-key-selector
                     [sshKeyPair]="vmCreationState.sshKeyPair"
                     [sshKeyPairs]="sshKeyPairs"
-                    (sshKeyPairChange)="onSshKeyPairChange.emit($event)"
+                    (sshKeyPairChange)="sshKeyPairChanged.emit($event)"
                   ></cs-vm-creation-ssh-key-selector>
                 </div>
 

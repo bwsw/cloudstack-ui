@@ -1,11 +1,10 @@
 import { Observable } from 'rxjs';
-import { BaseModelInterface } from '../models';
+import { BaseModel } from '../models';
 
-
-export interface Action<M extends BaseModelInterface> {
+export interface Action<M extends BaseModel> {
   name: string;
   icon?: string;
   hidden?(model: M): boolean;
   canActivate?(model: M): boolean;
-  activate?(model: M, ...rest: Array<any>): Observable<any>;
+  activate?(model: M, ...rest: any[]): Observable<any>;
 }

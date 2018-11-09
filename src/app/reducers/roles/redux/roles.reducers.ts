@@ -1,12 +1,5 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as event from './roles.actions';
 import { Role } from '../../../shared/models/role.model';
 
@@ -18,7 +11,7 @@ import { Role } from '../../../shared/models/role.model';
  * any additional interface properties.
  */
 export interface State extends EntityState<Role> {
-  loading: boolean
+  loading: boolean;
 }
 
 export interface RolesState {
@@ -39,7 +32,7 @@ export const roleReducers = {
  */
 export const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({
   selectId: (item: Role) => item.id,
-  sortComparer: false
+  sortComparer: false,
 });
 
 /** getInitialState returns the default initial state
@@ -47,22 +40,18 @@ export const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false
+  loading: false,
 });
 
-export function reducer(
-  state = initialState,
-  action: event.Actions
-): State {
+export function reducer(state = initialState, action: event.Actions): State {
   switch (action.type) {
     case event.LOAD_ROLES_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case event.LOAD_ROLES_RESPONSE: {
-
       const roles = action.payload;
 
       return {
@@ -74,10 +63,9 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll(roles, state),
-        loading: false
+        loading: false,
       };
     }
-
 
     default: {
       return state;
@@ -85,29 +73,16 @@ export function reducer(
   }
 }
 
-
 export const getRolesState = createFeatureSelector<RolesState>('roles');
 
-export const getRolesEntitiesState = createSelector(
-  getRolesState,
-  state => state.list
-);
+export const getRolesEntitiesState = createSelector(getRolesState, state => state.list);
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getRolesEntitiesState);
-
-export const isLoading = createSelector(
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getRolesEntitiesState,
-  state => state.loading
 );
 
-export const roleTypes = createSelector(
-  selectAll,
-  roles => Array.from(new Set(roles.map(role => role.type)))
+export const isLoading = createSelector(getRolesEntitiesState, state => state.loading);
+
+export const roleTypes = createSelector(selectAll, roles =>
+  Array.from(new Set(roles.map(role => role.type))),
 );
-
-

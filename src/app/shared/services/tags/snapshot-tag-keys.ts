@@ -1,3 +1,3 @@
-export const SnapshotTagKeys = {
-  description: 'csui.snapshot.description'
+export const snapshotTagKeys = {
+  description: 'csui.snapshot.description',
 };

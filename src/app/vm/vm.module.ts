@@ -38,7 +38,6 @@ import { VmVolumeDetailsContainerComponent } from './container/vm-volume-details
 import { VirtualMachinePageContainerComponent } from './container/vm.container';
 import { VmActionsService } from './shared/vm-actions.service';
 import { VmDestroyDialogComponent } from './shared/vm-destroy-dialog/vm-destroy-dialog.component';
-import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
@@ -63,6 +62,7 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
 import { VmListComponent } from './vm-list/vm-list.component';
 import { VmPageComponent } from './vm-page/vm-page.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import { AffinityGroupSelectorContainerComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector-container.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
@@ -90,13 +90,18 @@ import { InstanceGroupComponent } from './vm-sidebar/vm-detail/instance-group/in
 import { ServiceOfferingDetailsComponent } from './vm-sidebar/vm-detail/service-offering-details/service-offering-details.component';
 import { SshKeypairComponent } from './vm-sidebar/vm-detail/ssh/ssh-keypair.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-detail-template.component';
-import { VmDetailZoneComponent } from './vm-sidebar/vm-detail/zone/zone.component';
+import { VmDetailComponent } from './vm-sidebar/vm-detail/detail/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
 import { InstallationSourceDialogComponent } from './vm-creation/template/containers/installation-source-dialog.component';
 import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
 import { HttpAccessService, SshAccessService, VncAccessService } from './services';
+import {
+  VmDetailsAffinityGroupListComponent,
+  VmCreationAffinityGroupListComponent,
+} from './vm-sidebar/affinity-group-selector';
+import { VmCreationAffinityGroupManagerComponent } from './vm-creation/components/affinity-group-manager/vm-creation-affinity-group-manager.component';
 
 // tslint:enable max-line-length
 
@@ -132,6 +137,9 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
   declarations: [
     AffinityGroupComponent,
     AffinityGroupSelectorComponent,
+    AffinityGroupSelectorContainerComponent,
+    VmDetailsAffinityGroupListComponent,
+    VmCreationAffinityGroupListComponent,
     FirewallRulesDetailComponent,
     FirewallRulesDetailContainerComponent,
     NetworkDetailContainerComponent,
@@ -146,7 +154,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     SshKeypairComponent,
     SshKeypairResetComponent,
     VmDetailTemplateComponent,
-    VmDetailZoneComponent,
+    VmDetailComponent,
     VirtualMachinePageContainerComponent,
     VmPageComponent,
     VmListComponent,
@@ -188,6 +196,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     VmCreationSecurityGroupContainerComponent,
     SecurityGroupManagerExistingGroupComponent,
     VmCreationSecurityGroupRulesManagerComponent,
+    VmCreationAffinityGroupManagerComponent,
     NicComponent,
     NicListComponent,
     SecondaryIpComponent,
@@ -199,16 +208,11 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     InstallationSourceDialogComponent,
     VmPasswordComponent,
   ],
-  providers: [
-    VmActionsService,
-    VmEntityDeletionService,
-    VmService,
-    SshAccessService,
-    HttpAccessService,
-    VncAccessService
-  ],
+  providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
-    AffinityGroupSelectorComponent,
+    AffinityGroupSelectorContainerComponent,
+    VmDetailsAffinityGroupListComponent,
+    VmCreationAffinityGroupListComponent,
     InstanceGroupSelectorComponent,
     VmCreationContainerComponent,
     VmDestroyDialogComponent,
@@ -223,8 +227,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     PostdeploymentComponent,
     VmPasswordDialogComponent,
     VmAccessComponent,
-    ServiceOfferingDialogContainerComponent
-  ]
+    ServiceOfferingDialogContainerComponent,
+  ],
 })
-export class VmModule {
-}
+export class VmModule {}

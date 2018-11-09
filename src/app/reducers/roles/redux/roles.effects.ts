@@ -10,7 +10,6 @@ import { Role } from '../../../shared/models/role.model';
 
 @Injectable()
 export class RolesEffects {
-
   @Effect()
   loadRoles$: Observable<Action> = this.actions$.pipe(
     ofType(roleActions.LOAD_ROLES_REQUEST),
@@ -19,12 +18,10 @@ export class RolesEffects {
         map((roles: Role[]) => {
           return new roleActions.LoadRolesResponse(roles);
         }),
-        catchError(() => of(new roleActions.LoadRolesResponse([]))));
-    }));
+        catchError(() => of(new roleActions.LoadRolesResponse([]))),
+      );
+    }),
+  );
 
-  constructor(
-    private actions$: Actions,
-    private roleService: RoleService
-  ) {
-  }
+  constructor(private actions$: Actions, private roleService: RoleService) {}
 }

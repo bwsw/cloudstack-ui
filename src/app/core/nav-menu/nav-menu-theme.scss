@@ -1,0 +1,18 @@
+@mixin nav-menu-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  cs-menu-header {
+    background-color: mat-color($primary, 800);
+  }
+
+  cs-app-nav,
+  cs-section-nav {
+    color: mat-color($primary, '500-contrast');
+    background-color: mat-color($primary);
+
+    .nav-link:hover,
+    .link-active {
+      background-color: mat-color($primary, 300);
+    }
+  }
+}

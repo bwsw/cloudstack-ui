@@ -15,7 +15,7 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.LoadUserTags: {
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     }
 
@@ -26,7 +26,7 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.LoadUserTagsError: {
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
       };
     }
 
@@ -36,16 +36,16 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
       const updates = [
         {
           key: `${id}.cpunumber`,
-          value: offering.cpunumber.toString()
+          value: offering.cpunumber.toString(),
         },
         {
           key: `${id}.cpuspeed`,
-          value: offering.cpuspeed.toString()
+          value: offering.cpuspeed.toString(),
         },
         {
           key: `${id}.memory`,
-          value: offering.memory.toString()
-        }
+          value: offering.memory.toString(),
+        },
       ];
       return adapter.upsertMany(updates, state);
     }
@@ -60,21 +60,12 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.UpdateShowSystemTagsSuccess:
     case UserTagsActionTypes.UpdateTimeFormatSuccess:
     case UserTagsActionTypes.UpdateThemeSuccess:
-    case UserTagsActionTypes.UpdateNavigationOrderSuccess:
     case UserTagsActionTypes.SetSPFAVMSuccess:
     case UserTagsActionTypes.UpdateKeyboardLayoutForVmsSuccess:
+    case UserTagsActionTypes.UpdateVmLogsShowLastMessagesSuccess:
+    case UserTagsActionTypes.UpdateVmLogsShowLastMinutesSuccess:
     case UserTagsActionTypes.IncrementLastVMIdSuccess: {
       const update: Update<Tag> = { id: action.payload.key, changes: action.payload };
-      return adapter.updateOne(update, state);
-    }
-
-    case UserTagsActionTypes.OpenSidenav: {
-      const update: Update<Tag> = { id: userTagKeys.sidenavVisible, changes: { value: 'true' } };
-      return adapter.updateOne(update, state);
-    }
-
-    case UserTagsActionTypes.CloseSidenav: {
-      const update: Update<Tag> = { id: userTagKeys.sidenavVisible, changes: { value: 'false ' } };
       return adapter.updateOne(update, state);
     }
 

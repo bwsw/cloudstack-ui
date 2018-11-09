@@ -1,12 +1,5 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Domain } from '../../../shared/models/domain.model';
 
 import * as event from './domains.actions';
@@ -19,7 +12,7 @@ import * as event from './domains.actions';
  * any additional interface properties.
  */
 export interface State extends EntityState<Domain> {
-  loading: boolean
+  loading: boolean;
 }
 
 export interface DomainsState {
@@ -40,7 +33,7 @@ export const domainReducers = {
  */
 export const adapter: EntityAdapter<Domain> = createEntityAdapter<Domain>({
   selectId: (item: Domain) => item.id,
-  sortComparer: false
+  sortComparer: false,
 });
 
 /** getInitialState returns the default initial state
@@ -48,22 +41,18 @@ export const adapter: EntityAdapter<Domain> = createEntityAdapter<Domain>({
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false
+  loading: false,
 });
 
-export function reducer(
-  state = initialState,
-  action: event.Actions
-): State {
+export function reducer(state = initialState, action: event.Actions): State {
   switch (action.type) {
     case event.LOAD_DOMAINS_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case event.LOAD_DOMAINS_RESPONSE: {
-
       const domains = action.payload;
 
       return {
@@ -75,7 +64,7 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll(domains, state),
-        loading: false
+        loading: false,
       };
     }
     default: {
@@ -84,22 +73,12 @@ export function reducer(
   }
 }
 
-
 export const getDomainsState = createFeatureSelector<DomainsState>('domains');
 
-export const getDomainsEntitiesState = createSelector(
-  getDomainsState,
-  state => state.list
-);
+export const getDomainsEntitiesState = createSelector(getDomainsState, state => state.list);
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getDomainsEntitiesState);
-
-export const isLoading = createSelector(
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getDomainsEntitiesState,
-  state => state.loading
 );
+
+export const isLoading = createSelector(getDomainsEntitiesState, state => state.loading);

@@ -1,7 +1,14 @@
-import { RouterState } from '@angular/router';
 import * as uuid from 'uuid';
 
+interface RouterState {
+  snapshot: {
+    url: string;
+  };
+}
+
 export class Utils {
+  public static defaultPrecision = 0;
+
   public static getUniqueId(): string {
     return uuid.v4();
   }
@@ -10,16 +17,15 @@ export class Utils {
     enumerator: number,
     denominator: number,
     denominatorExponent?: number,
-    precision?: number
+    precision: number = Utils.defaultPrecision,
   ): number {
     const calculatedExponent = denominatorExponent != null ? denominatorExponent : 1;
     const calculatedDenominator = Math.pow(denominator, calculatedExponent);
 
-    if (precision) {
+    if (precision != null) {
       return +(enumerator / calculatedDenominator).toFixed(precision);
-    } else {
-      return enumerator / calculatedDenominator;
     }
+    return enumerator / calculatedDenominator;
   }
 
   public static convertToGb(value?: number): number {
@@ -58,15 +64,13 @@ export class Utils {
   }
 
   public static convertBooleanToBooleanString(boolean: boolean): string {
-    if (boolean === true) {
+    if (boolean) {
       return 'true';
     }
 
-    if (boolean === false) {
+    if (!boolean) {
       return 'false';
     }
-
-    throw new Error('Invalid argument');
   }
 
   public static parseJsonString(string): any {

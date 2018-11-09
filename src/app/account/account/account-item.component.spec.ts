@@ -5,6 +5,7 @@ import { User } from '../../shared/models/user.model';
 import { Account } from '../../shared/models';
 
 class MockAuthService {
+  // tslint:disable-next-line:variable-name
   _user: User;
 
   get user() {
@@ -21,7 +22,7 @@ describe('AccountItemComponent class only', () => {
     authServiceStub = new MockAuthService();
 
     TestBed.configureTestingModule({
-      providers: [{provide: AuthService, useValue: authServiceStub}]
+      providers: [{ provide: AuthService, useValue: authServiceStub }],
     });
 
     authService = TestBed.get(AuthService);
@@ -35,12 +36,12 @@ describe('AccountItemComponent class only', () => {
     comp.item = { id: '2', name: account1 } as Account;
 
     spy.and.returnValue({
-      account: account1
+      account: account1,
     });
     expect(comp.isSelf).toBe(true);
 
     spy.and.returnValue({
-      account: account2
+      account: account2,
     });
     expect(comp.isSelf).toBe(false);
   });

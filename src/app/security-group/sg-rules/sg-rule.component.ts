@@ -2,34 +2,42 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { TranslateService } from '@ngx-translate/core';
 
 import {
-  GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken,
-  GetICMPV6CodeTranslationToken,
-  GetICMPV6TypeTranslationToken
+  getICMPCodeTranslationToken,
+  getICMPTypeTranslationToken,
+  getICMPV6CodeTranslationToken,
+  getICMPV6TypeTranslationToken,
 } from '../../shared/icmp/icmp-types';
 import { IPVersion, NetworkRuleType } from '../sg.model';
-import { IcmpNetworkRule, NetworkProtocol, NetworkRule, PortNetworkRule } from '../network-rule.model';
+import {
+  IcmpNetworkRule,
+  NetworkProtocol,
+  NetworkRule,
+  PortNetworkRule,
+} from '../network-rule.model';
 import { CidrUtils } from '../../shared/utils/cidr-utils';
 
 @Component({
   selector: 'cs-security-group-rule',
   templateUrl: 'sg-rule.component.html',
   styleUrls: ['sg-rule.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SgRuleComponent {
-  @Input() public item: NetworkRule;
-  @Input() public canRemove: boolean;
-  @Output() public onRemove = new EventEmitter();
+  @Input()
+  public item: NetworkRule;
+  @Input()
+  public canRemove: boolean;
+  @Output()
+  public removed = new EventEmitter();
 
   public deleting = false;
-  public NetworkProtocols = NetworkProtocol;
-  public NetworkRuleTypes = NetworkRuleType;
+  public networkProtocol = NetworkProtocol;
+  public networkRuleType = NetworkRuleType;
 
   public get typeTranslationToken(): string {
     const typeTranslations = {
-      'INGRESS': 'SECURITY_GROUP_PAGE.RULES.INGRESS_DISPLAY',
-      'EGRESS': 'SECURITY_GROUP_PAGE.RULES.EGRESS_DISPLAY'
+      INGRESS: 'SECURITY_GROUP_PAGE.RULES.INGRESS_DISPLAY',
+      EGRESS: 'SECURITY_GROUP_PAGE.RULES.EGRESS_DISPLAY',
     };
 
     return typeTranslations[this.item.type.toUpperCase()];
@@ -37,9 +45,9 @@ export class SgRuleComponent {
 
   public get protocolTranslationToken(): string {
     const protocolTranslations = {
-      'TCP': 'SECURITY_GROUP_PAGE.RULES.TCP',
-      'UDP': 'SECURITY_GROUP_PAGE.RULES.UDP',
-      'ICMP': 'SECURITY_GROUP_PAGE.RULES.ICMP'
+      TCP: 'SECURITY_GROUP_PAGE.RULES.TCP',
+      UDP: 'SECURITY_GROUP_PAGE.RULES.UDP',
+      ICMP: 'SECURITY_GROUP_PAGE.RULES.ICMP',
     };
 
     return protocolTranslations[this.item.protocol.toUpperCase()];
@@ -48,27 +56,28 @@ export class SgRuleComponent {
   public get icmpTypeTranslationToken(): string {
     const icmpRule: IcmpNetworkRule = this.item as IcmpNetworkRule;
     return CidrUtils.getCidrIpVersion(icmpRule.cidr) === IPVersion.ipv4
-      ? GetICMPTypeTranslationToken(icmpRule.icmptype)
-      : GetICMPV6TypeTranslationToken(icmpRule.icmptype);
+      ? getICMPTypeTranslationToken(icmpRule.icmptype)
+      : getICMPV6TypeTranslationToken(icmpRule.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
     const icmpRule: IcmpNetworkRule = this.item as IcmpNetworkRule;
     return CidrUtils.getCidrIpVersion(icmpRule.cidr) === IPVersion.ipv4
-      ? GetICMPCodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode)
-      : GetICMPV6CodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode);
+      ? getICMPCodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode)
+      : getICMPV6CodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode);
   }
 
   public get ruleParams(): Object {
-    const ipVersion = CidrUtils.getCidrIpVersion(this.item.cidr) === IPVersion.ipv4
-      ? IPVersion.ipv4
-      : IPVersion.ipv6;
+    const ipVersion =
+      CidrUtils.getCidrIpVersion(this.item.cidr) === IPVersion.ipv4
+        ? IPVersion.ipv4
+        : IPVersion.ipv6;
 
     const params = {
+      ipVersion,
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
       cidr: this.item.cidr,
-      ipVersion
     };
 
     let ruleParams;
@@ -89,28 +98,27 @@ export class SgRuleComponent {
         icmpType: icmpRule.icmptype,
         icmpCode: icmpRule.icmpcode,
         icmpTypeText: typeTranslation,
-        icmpCodeText: codeTranslation
-      }
+        icmpCodeText: codeTranslation,
+      };
     } else {
       const portRule: PortNetworkRule = this.item as PortNetworkRule;
       ruleParams = {
         ...params,
         startPort: portRule.startport,
-        endPort: portRule.endport
-      }
+        endPort: portRule.endport,
+      };
     }
 
     return ruleParams;
   }
 
-  constructor(private translateService: TranslateService) {
-  }
+  constructor(private translateService: TranslateService) {}
 
   public handleRemoveClicked(e: Event): void {
     e.stopPropagation();
 
     this.deleting = true;
-    this.onRemove.emit({ type: this.item.type, id: this.item.ruleid });
+    this.removed.emit({ type: this.item.type, id: this.item.ruleid });
   }
 
   public get startPort(): number | null {

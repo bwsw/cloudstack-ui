@@ -9,6 +9,8 @@ import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
 import * as fromSshKeys from '../../reducers/ssh-keys/redux/ssh-key.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
+import * as fromAffinityGroups from '../../reducers/affinity-groups/redux/affinity-groups.reducers';
+import * as fromAffinityGroupsActions from '../../reducers/affinity-groups/redux/affinity-groups.actions';
 import { VirtualMachine } from '../shared/vm.model';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
@@ -22,11 +24,11 @@ const vmDescriptionKey = 'csui.vm.description';
       (descriptionChange)="changeDescription($event)"
     >
     </cs-description>
-    <cs-zone [vm]="vm$ | async"></cs-zone>
+    <cs-vm-detail [vm]="vm$ | async"></cs-vm-detail>
     <cs-instance-group
       [vm]="vm$ | async"
       [groups]="groups$ | async"
-      (onGroupChange)=changeGroup($event)
+      (groupChanged)="changeGroup($event)"
     >
     </cs-instance-group>
     <cs-service-offering-details
@@ -36,24 +38,25 @@ const vmDescriptionKey = 'csui.vm.description';
     </cs-service-offering-details>
     <cs-affinity-group
       [vm]="vm$ | async"
-      (onAffinityGroupChange)="changeAffinityGroup($event)"
+      [affinityGroups]="affinityGroups$ | async"
+      (affinityGroupRemoved)="removeAffinityGroup($event)"
+      (affinityGroupChanged)="changeAffinityGroup($event)"
     >
     </cs-affinity-group>
     <cs-vm-detail-template [vm]="vm$ | async"></cs-vm-detail-template>
     <cs-vm-ssh-keypair
       [vm]="vm$ | async"
       [keys]="sshKeys$ | async"
-      (onSshKeyChange)="changeSshKey($event)"
+      (sshKeyChanged)="changeSshKey($event)"
     >
     </cs-vm-ssh-keypair>
     <cs-statistics
       [vm]="vm$ | async"
-      (onStatsUpdate)="updateStats($event)"
+      (statsUpdated)="updateStats($event)"
     ></cs-statistics>
-  `
+  `,
 })
 export class VmDetailContainerComponent implements OnInit {
-
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
   readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
   readonly offering$ = this.store.pipe(select(fromServiceOfferings.getSelectedOffering));
@@ -63,12 +66,11 @@ export class VmDetailContainerComponent implements OnInit {
     map((vm: VirtualMachine) => {
       const descriptionTag = vm.tags.find(tag => tag.key === vmDescriptionKey);
       return descriptionTag && descriptionTag.value;
-    }));
+    }),
+  );
+  readonly affinityGroups$ = this.store.pipe(select(fromAffinityGroups.selectAll));
 
-  constructor(
-    private store: Store<State>
-  ) {
-  }
+  constructor(private store: Store<State>) {}
 
   public changeDescription(description) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
@@ -79,31 +81,51 @@ export class VmDetailContainerComponent implements OnInit {
   public changeGroup(group) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       if (group.name !== '') {
-        this.store.dispatch(new vmActions.ChangeInstanceGroup({
-          vm,
-          group
-        }));
+        this.store.dispatch(
+          new vmActions.ChangeInstanceGroup({
+            vm,
+            group,
+          }),
+        );
       } else {
         this.store.dispatch(new vmActions.RemoveInstanceGroup(vm));
       }
     });
   }
 
-  public changeAffinityGroup(affinityGroupId: string) {
+  public changeAffinityGroup(affinityGroupIds: string[]) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      this.store.dispatch(new vmActions.ChangeAffinityGroup({
-        vm,
-        affinityGroupId
-      }));
+      this.store.dispatch(
+        new vmActions.ChangeAffinityGroup({
+          vm,
+          affinityGroupIds,
+        }),
+      );
+    });
+  }
+
+  public removeAffinityGroup(affinityGroupId: string) {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
+      const affinityGroupIds = vm.affinitygroup
+        .map(g => g.id)
+        .filter(groupId => groupId !== affinityGroupId);
+      this.store.dispatch(
+        new vmActions.ChangeAffinityGroup({
+          vm,
+          affinityGroupIds,
+        }),
+      );
     });
   }
 
   public changeSshKey(keyPair: SSHKeyPair) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      this.store.dispatch(new vmActions.ChangeSshKey({
-        vm,
-        keyPair
-      }));
+      this.store.dispatch(
+        new vmActions.ChangeSshKey({
+          vm,
+          keyPair,
+        }),
+      );
     });
   }
 
@@ -114,5 +136,6 @@ export class VmDetailContainerComponent implements OnInit {
   public ngOnInit() {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
+    this.store.dispatch(new fromAffinityGroupsActions.LoadAffinityGroupsRequest());
   }
 }

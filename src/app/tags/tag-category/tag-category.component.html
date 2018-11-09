@@ -13,8 +13,8 @@
         [tag]="tag"
         [query]="query"
         [hasPermissions]="hasPermissions"
-        (onTagEdit)="editTag($event)"
-        (onTagRemove)="removeTag($event)"
+        (tagEdited)="editTag($event)"
+        (tagRemoved)="removeTag($event)"
       ></cs-tag>
     </div>
     <mat-card-actions *ngIf="hasPermissions">

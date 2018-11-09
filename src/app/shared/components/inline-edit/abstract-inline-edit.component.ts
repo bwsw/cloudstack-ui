@@ -1,13 +1,16 @@
 import { ChangeDetectorRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-
 export abstract class AbstractInlineEditComponent implements OnInit {
-  @Input() public content: string;
+  @Input()
+  public content: string;
 
-  @Input() public contentPlaceholder: string;
-  @Input() public inputPlaceholder: string;
+  @Input()
+  public contentPlaceholder: string;
+  @Input()
+  public inputPlaceholder: string;
 
-  @Output() public textChange: EventEmitter<string>;
+  @Output()
+  public textChange: EventEmitter<string>;
 
   public textFieldText: string;
   public editing: boolean;

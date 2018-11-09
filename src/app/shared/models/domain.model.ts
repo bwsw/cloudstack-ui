@@ -1,6 +1,6 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
-export interface Domain extends BaseModelInterface {
+export interface Domain extends BaseModel {
   cpuavailable: number;
   cpulimit: number;
   cputotal: number;
@@ -50,5 +50,5 @@ export interface Domain extends BaseModelInterface {
 }
 
 export const getPath = (domain: Domain) => {
-  return domain.path === 'ROOT' ? '' : domain.path.replace('ROOT/', '') + '/';
-}
+  return domain.path === 'ROOT' ? '' : `${domain.path.replace('ROOT/', '')}/`;
+};

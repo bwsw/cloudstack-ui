@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-
 
 @Component({
   selector: 'cs-slider',
@@ -10,28 +9,32 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SliderComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class SliderComponent implements OnInit, ControlValueAccessor {
-  @Input() public label: string;
-  @Input() public min: number;
-  @Input() public max: number;
-  @Input() public units: string;
+  @Input()
+  public label: string;
+  @Input()
+  public min: number;
+  @Input()
+  public max: number;
+  @Input()
+  public units: string;
 
+  // tslint:disable-next-line:variable-name
   public _size: number;
 
-  constructor() {
-  }
+  constructor() {}
 
   public ngOnInit(): void {
     if (this.min == null) {
-      throw new Error('Attribute \'min\' is required');
+      throw new Error("Attribute 'min' is required");
     }
 
     if (this.max == null) {
-      throw new Error('Attribute \'max\' is required');
+      throw new Error("Attribute 'max' is required");
     }
   }
 
@@ -55,7 +58,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
     if (newValue > this.max) {
       this.size = this.max + 1;
       // setTimeout is used to force rerendering
-      setTimeout(() => this.size = this.max);
+      setTimeout(() => (this.size = this.max));
       return;
     }
     this.size = newValue;
@@ -71,7 +74,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {}
 
   public onBlur(e: Event): void {
     const sliderElementValue = +(e.currentTarget as HTMLInputElement).value;
@@ -80,7 +83,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
       this.size = this.size + 1;
 
       // setTimeout is used to force rerendering
-      setTimeout(() => this.size = this.min);
+      setTimeout(() => (this.size = this.min));
     }
   }
 }

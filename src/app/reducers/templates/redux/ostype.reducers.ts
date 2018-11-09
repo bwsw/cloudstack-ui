@@ -1,12 +1,5 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import * as event from './ostype.actions';
 import { OsType } from '../../../shared/models/os-type.model';
@@ -19,7 +12,7 @@ import { OsType } from '../../../shared/models/os-type.model';
  * any additional interface properties.
  */
 export interface State extends EntityState<OsType> {
-  loading: boolean
+  loading: boolean;
 }
 
 export interface OsTypeState {
@@ -40,7 +33,7 @@ export const osTypeReducers = {
  */
 export const adapter: EntityAdapter<OsType> = createEntityAdapter<OsType>({
   selectId: (item: OsType) => item.id,
-  sortComparer: false
+  sortComparer: false,
 });
 
 /** getInitialState returns the default initial state
@@ -48,18 +41,15 @@ export const adapter: EntityAdapter<OsType> = createEntityAdapter<OsType>({
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false
+  loading: false,
 });
 
-export function reducer(
-  state = initialState,
-  action: event.Actions
-): State {
+export function reducer(state = initialState, action: event.Actions): State {
   switch (action.type) {
     case event.LOAD_OS_TYPES_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case event.LOAD_OS_TYPES_RESPONSE: {
@@ -72,7 +62,7 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll(action.payload, state),
-        loading: false
+        loading: false,
       };
     }
     default: {
@@ -81,22 +71,12 @@ export function reducer(
   }
 }
 
-
 export const getOsTypesState = createFeatureSelector<OsTypeState>('osTypes');
 
-export const getOsTypesEntitiesState = createSelector(
-  getOsTypesState,
-  state => state.list
-);
+export const getOsTypesEntitiesState = createSelector(getOsTypesState, state => state.list);
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getOsTypesEntitiesState);
-
-export const isLoading = createSelector(
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getOsTypesEntitiesState,
-  state => state.loading
 );
+
+export const isLoading = createSelector(getOsTypesEntitiesState, state => state.loading);

@@ -23,4 +23,9 @@
     (timeFormatChange)="onTimeFormatChange($event)"
     (themeChange)="onThemeChange($event)"
   ></cs-interface-settings>
+  <cs-vm-logs-settings
+    [settings]="settings$ | async"
+    (messagesChange)="onVmLogsMessagesChange($event)"
+    (minutesChange)="onVmLogsMinutesChange($event)"
+  ></cs-vm-logs-settings>
 </div>

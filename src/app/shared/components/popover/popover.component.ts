@@ -9,8 +9,9 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
  */
 @Component({
   selector: 'cs-popover',
-  templateUrl: './popover.component.html'
+  templateUrl: './popover.component.html',
 })
 export class PopoverComponent {
-  @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+  @ViewChild(TemplateRef)
+  templateRef: TemplateRef<any>;
 }

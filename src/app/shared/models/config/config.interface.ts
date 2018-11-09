@@ -1,12 +1,18 @@
-import { SidenavConfigElement } from './sidenav-config-element.interface';
 import { ServiceOfferingAvailability } from './service-offering-availability.interface';
 import { OfferingCompatibilityPolicy } from './offering-compatibility-policy.interface';
-import { ComputeOfferingClass } from './compute-offering-class.interface'
+import { ComputeOfferingClass } from './compute-offering-class.interface';
 import { ImageGroup } from './image-group.model';
 import { CustomComputeOfferingHardwareValues } from './custom-compute-offering-hardware-values.interface';
 import { DefaultComputeOffering } from './default-compute-offering.interface';
 import { CustomComputeOfferingHardwareRestrictions } from './custom-compute-offering-hardware-restrictions.interface';
 import { CustomComputeOfferingParameters } from './custom-compute-offering-parameters.interface';
+import { SecurityGroupTemplate } from '../../../security-group/sg.model';
+
+export interface ExtensionsConfig {
+  webShell: boolean;
+  pulse: boolean;
+  vmLogs: boolean;
+}
 
 export interface CustomizableConfig {
   /*
@@ -15,19 +21,16 @@ export interface CustomizableConfig {
   defaultDomain: string;
   sessionRefreshInterval: number;
   apiDocLink: string;
-  extensions: {
-    webShell: boolean,
-    pulse: boolean
-  };
+  extensions: ExtensionsConfig;
   /*
    * Virtual machines settings
    */
-  vmColors: Array<{ value: string }>;
+  vmColors: { value: string }[];
   /*
    * Firewall (Security groups) settings
    */
-  securityGroupTemplates: Array<any>;
-  defaultSecurityGroupName: { en: string, ru: string };
+  securityGroupTemplates: SecurityGroupTemplate[];
+  defaultSecurityGroupName: { en: string; ru: string };
   /*
    * Images settings
    */
@@ -40,11 +43,6 @@ export interface CustomizableConfig {
   defaultTimeFormat: string;
   defaultTheme: string;
   sessionTimeout: number;
-  /*
-   * Menu settings
-   */
-  allowReorderingSidenav: boolean;
-  configureSidenav: SidenavConfigElement[];
   /*
    * Service offering setting
    */
@@ -63,16 +61,15 @@ export interface NonCustomizableConfig {
   askToCreateVolume: boolean;
   savePasswordForAllVMs: boolean | null;
   lastVMId: number;
-  isSidenavVisible: boolean;
   showSystemTags: boolean;
-  navigationOrder: string;
   /*
    * Offerings
    */
   customComputeOfferingHardwareValues: CustomComputeOfferingHardwareValues;
   defaultCustomComputeOfferingRestrictions: CustomComputeOfferingHardwareRestrictions;
   keyboardLayoutForVms: string;
+  vmLogsShowLastMessages: number;
+  vmLogsShowLastMinutes: number;
 }
 
-export interface Config extends CustomizableConfig, NonCustomizableConfig {
-}
+export interface Config extends CustomizableConfig, NonCustomizableConfig {}

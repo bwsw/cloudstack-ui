@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import {
-  AccountResourceType,
+  accountResourceType,
   AffinityGroup,
   DiskOffering,
   InstanceGroup,
   SSHKeyPair,
-  Zone
+  Zone,
 } from '../../../shared/models';
-import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
-import { VmService } from '../../shared/vm.service';
 import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
@@ -38,6 +36,7 @@ import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -49,6 +48,7 @@ import { ComputeOfferingViewModel } from '../../view-models';
       [instanceGroupList]="instanceGroups$ | async"
       [affinityGroupList]="affinityGroups$ | async"
       [diskOfferings]="diskOfferings$ | async"
+      [virtualMachineList]="vms$ | async"
       [diskOfferingsAreLoading]="diskOfferingsAreLoading$ | async"
       [zones]="zones$ | async"
       [showOverlay]="showOverlay$ | async"
@@ -59,7 +59,10 @@ import { ComputeOfferingViewModel } from '../../view-models';
       [loggerStageList]="loggerStageList$ | async"
       [serviceOfferings]="serviceOfferings$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
+      [isDiskOfferingAvailableByResources]="isDiskOfferingAvailableByResources$ | async"
+      [minSize]="minSize"
       (displayNameChange)="onDisplayNameChange($event)"
+      (hostNameChange)="onHostNameChange($event)"
       (templateChange)="onTemplateChange($event)"
       (serviceOfferingChange)="onServiceOfferingChange($event)"
       (diskOfferingChange)="onDiskOfferingChange($event)"
@@ -68,18 +71,18 @@ import { ComputeOfferingViewModel } from '../../view-models';
       (securityRulesChange)="onSecurityRulesChange($event)"
       (affinityGroupChange)="onAffinityGroupChange($event)"
       (instanceGroupChange)="onInstanceGroupChange($event)"
-      (onSshKeyPairChange)="onSshKeyPairChange($event)"
+      (sshKeyPairChanged)="onSshKeyPairChange($event)"
       (zoneChange)="onZoneChange($event)"
       (doStartVmChange)="onDoStartVmChange($event)"
       (agreementChange)="onAgreementChange($event)"
       (cancel)="onCancel()"
       (deploy)="onDeploy($event)"
-      (onVmDeploymentFailed)="showOverlayChange()"
+      (vmDeploymentFailed)="showOverlayChange()"
     ></cs-vm-creation>
-  `
+  `,
 })
 export class VmCreationContainerComponent implements OnInit {
-  readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
+  readonly vmFormState$ = this.store.pipe(select(fromVMs.getVmFormState));
   readonly isLoading$ = combineLatest(
     this.store.pipe(select(fromVMs.formIsLoading)),
     this.store.pipe(select(fromZones.isLoading)),
@@ -87,12 +90,11 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
     this.store.pipe(select(fromAffinityGroups.isLoading)),
-    this.store.pipe(select(UserTagsSelectors.getIsLoading))
-  ).pipe(
-    map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
-  );
+    this.store.pipe(select(UserTagsSelectors.getIsLoading)),
+  ).pipe(map((loadings: boolean[]) => !!loadings.find(loading => loading)));
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));
+  readonly vms$ = this.store.pipe(select(fromVMs.selectAll));
   readonly deploymentInProgress$ = this.store.pipe(select(fromVMs.deploymentInProgress));
   readonly diskOfferings$ = this.store.pipe(select(fromDiskOfferings.selectAll));
   readonly diskOfferingsAreLoading$ = this.store.pipe(select(fromDiskOfferings.isLoading));
@@ -105,33 +107,41 @@ export class VmCreationContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
+  public isDiskOfferingAvailableByResources$;
+  public minSize: number;
 
   constructor(
     private store: Store<State>,
-    private virtualMachineService: VmService,
+    private dialogRef: MatDialogRef<VmCreationContainerComponent>,
     private authService: AuthService,
-    private dialogRef: MatDialogRef<VmCreationContainerComponent>
   ) {
+    this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
-    this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
-    this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
-
-    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
-
+    this.store.dispatch(
+      new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
+    );
+    this.minSize = this.authService.getCustomDiskOfferingMinSize();
+    this.isDiskOfferingAvailableByResources$ = this.store.pipe(
+      select(fromDiskOfferings.isDiskOfferingAvailableByResources(this.minSize)),
+    );
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());
   }
 
   public ngOnInit() {
-    this.store.dispatch(new vmActions.VmCreationFormInit())
+    this.store.dispatch(new vmActions.VmCreationFormInit());
   }
 
   public onDisplayNameChange(displayName: string) {
     this.store.dispatch(new vmActions.VmFormUpdate({ displayName }));
+  }
+
+  public onHostNameChange(name: string) {
+    this.store.dispatch(new vmActions.VmFormUpdate({ name }));
   }
 
   public onServiceOfferingChange(serviceOffering: ComputeOfferingViewModel) {
@@ -192,11 +202,5 @@ export class VmCreationContainerComponent implements OnInit {
 
   public showOverlayChange() {
     this.store.dispatch(new vmActions.VmCreationStateUpdate({ showOverlay: false }));
-  }
-
-  private getDefaultVmName(): Observable<string> {
-    return this.store.pipe(
-      select(UserTagsSelectors.getLastVMId),
-      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`));
   }
 }

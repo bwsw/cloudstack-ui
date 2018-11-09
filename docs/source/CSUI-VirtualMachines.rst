@@ -862,4 +862,4 @@ To close the modal window click "CLOSE".
 .. |copy icon| image:: _static/copy_icon.png
 .. |color picker| image:: _static/color-picker_icon.png
 .. |adv icon| image:: _static/adv_icon.png
-
+.. |delete icon| image:: _static/delete_icon.png

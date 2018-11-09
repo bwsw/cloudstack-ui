@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
 
 import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
@@ -9,11 +9,10 @@ import * as fromTemplates from '../../../reducers/templates/redux/template.reduc
   template: `
     <cs-iso-zones
       [entity]="template$ | async"
-    ></cs-iso-zones>`
+    ></cs-iso-zones>`,
 })
 export class IsoZonesContainerComponent {
-  public template$ = this.store.select(fromTemplates.getSelectedTemplate);
+  public template$ = this.store.pipe(select(fromTemplates.getSelectedTemplate));
 
-  constructor(private store: Store<State>) {
-  }
+  constructor(private store: Store<State>) {}
 }
