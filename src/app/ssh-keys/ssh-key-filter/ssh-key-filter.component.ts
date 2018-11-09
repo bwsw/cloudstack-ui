@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Grouping } from '../../shared/models';
+import { Account, Grouping } from '../../shared/models';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 
 @Component({
@@ -15,8 +15,6 @@ export class ShhKeyFilterComponent implements OnInit {
   public selectedGroupings: Grouping[] = [];
   @Input()
   public groupings: Grouping[];
-  @Input()
-  public sidebarWidth: number;
   @Output()
   public groupingsChanged = new EventEmitter<Grouping[]>();
   @Output()

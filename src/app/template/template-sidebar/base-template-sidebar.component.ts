@@ -1,12 +1,8 @@
 import { ActivatedRoute } from '@angular/router';
-import { BaseTemplateModel } from '../shared/base-template.model';
 import { AuthService } from '../../shared/services/auth.service';
-import { ViewChild } from '@angular/core';
-import { MatTabNav } from '@angular/material';
+import { BaseTemplateModel } from '../shared/base-template.model';
 
 export abstract class BaseTemplateSidebarComponent {
-  @ViewChild('tabs')
-  public matTabs: MatTabNav;
   public entity: BaseTemplateModel;
 
   public get notFound(): boolean {

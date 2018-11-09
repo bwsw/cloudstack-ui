@@ -20,7 +20,6 @@ import * as accountsActions from '../../reducers/accounts/redux/accounts.actions
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
-import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 const FILTER_KEY = 'templateListFilters';
 
@@ -38,7 +37,6 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly query$ = this.store.pipe(select(fromTemplates.filterQuery));
   readonly groups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
-  readonly sidebarWidth$ = this.sidebarContainerService.sidebarWidth;
 
   readonly selectedAccountIds$ = this.store.pipe(select(fromTemplates.filterSelectedAccountIds));
   readonly selectedOsFamilies$ = this.store.pipe(select(fromTemplates.filterSelectedOsFamilies));
@@ -91,7 +89,6 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private sidebarContainerService: SidebarContainerService,
   ) {
     super();
   }

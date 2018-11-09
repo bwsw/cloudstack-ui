@@ -20,9 +20,6 @@ export class AccountPageComponent {
   public isLoading: boolean;
   @Input()
   public selectedGroupings: any[] = [];
-  @Input()
-  public sidebarWidth: number;
-
   public mode: ViewMode;
   public viewModeKey = 'accountPageViewMode';
 

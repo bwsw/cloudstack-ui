@@ -6,7 +6,6 @@ import { BaseTemplateModel } from '../../../../template/shared';
 import { configSelectors, State } from '../../../../root-store';
 import * as fromTemplates from '../../../../reducers/templates/redux/template.reducers';
 import * as templateActions from '../../../../reducers/templates/redux/template.actions';
-import { SidebarContainerService } from '../../../../shared/services/sidebar-container.service';
 
 @Component({
   selector: 'cs-installation-source-dialog',
@@ -20,7 +19,6 @@ import { SidebarContainerService } from '../../../../shared/services/sidebar-con
       [query]="query$  | async"
       [groups]="groups$  | async"
       [isLoading]="isLoading$  | async"
-      [sidebarWidth]="sidebarWidth$ | async"
       [preselectedTemplate]="preselectedTemplate"
       (viewModeChange)="onViewModeChange($event)"
       (selectedTypesChange)="onSelectedTypesChange($event)"
@@ -43,14 +41,12 @@ export class InstallationSourceDialogComponent {
   );
   readonly selectedGroups$ = this.store.pipe(select(fromTemplates.vmCreationListSelectedGroups));
   readonly query$ = this.store.pipe(select(fromTemplates.vmCreationListQuery));
-  readonly sidebarWidth$ = this.sidebarContainerService.sidebarWidth;
 
   public preselectedTemplate: BaseTemplateModel;
 
   constructor(
     private store: Store<State>,
     private dialogRef: MatDialogRef<InstallationSourceDialogComponent>,
-    private sidebarContainerService: SidebarContainerService,
     @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.preselectedTemplate = data.template;

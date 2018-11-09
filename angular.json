@@ -94,6 +94,7 @@
             "sourceMap": true,
             "styles": [
               "node_modules/@mdi/font/css/materialdesignicons.min.css",
+              "node_modules/angular2-draggable/css/resizable.min.css",
               "src/style/app.scss"
             ],
             "scripts": [],

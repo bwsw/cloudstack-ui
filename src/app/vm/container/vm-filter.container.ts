@@ -17,7 +17,6 @@ import { VmState } from '../shared/vm.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { Grouping } from '../../shared/models';
-import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 const FILTER_KEY = 'vmListFilters';
 
@@ -37,7 +36,6 @@ const FILTER_KEY = 'vmListFilters';
       [selectedGroupNames]="selectedGroupNames$ | async"
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedStates]="selectedStates$ | async"
-      [sidebarWidth]="sidebarWidth$ | async"
       (queryChanged)="onQueryChange($event)"
       (zonesChanged)="onZonesChange($event)"
       (groupNamesChanged)="onGroupNamesChange($event)"
@@ -58,7 +56,6 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
   readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
-  readonly sidebarWidth$ = this.sidebarContainerService.sidebarWidth;
 
   readonly selectedZoneIds$ = this.store.pipe(select(fromVMs.filterSelectedZoneIds));
   readonly selectedGroupNames$ = this.store.pipe(select(fromVMs.filterSelectedGroupNames));
@@ -107,7 +104,6 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private sidebarContainerService: SidebarContainerService,
   ) {
     super();
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);

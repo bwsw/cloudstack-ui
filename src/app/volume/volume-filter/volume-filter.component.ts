@@ -28,8 +28,6 @@ export class VolumeFilterComponent implements OnInit {
   public selectedTypes: string[];
   @Input()
   public selectedAccountIds: string[];
-  @Input()
-  public sidebarWidth: number;
   @Output()
   public queryChanged = new EventEmitter();
   @Output()

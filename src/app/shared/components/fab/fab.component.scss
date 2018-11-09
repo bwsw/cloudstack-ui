@@ -1,7 +1,6 @@
 @import '../../../../style/__variables';
 
-.fab {
-  transition: margin 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+:host {
   position: fixed;
   right: 32px;
   bottom: 32px;

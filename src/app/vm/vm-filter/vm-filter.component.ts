@@ -33,8 +33,6 @@ export class VmFilterComponent implements OnInit {
   public selectedAccountIds: string[];
   @Input()
   public selectedStates: any[];
-  @Input()
-  public sidebarWidth: number;
   @Output()
   public queryChanged = new EventEmitter();
   @Output()

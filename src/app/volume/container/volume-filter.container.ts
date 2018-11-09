@@ -15,7 +15,6 @@ import { Grouping, VolumeType } from '../../shared/models';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 const FILTER_KEY = 'volumeListFilters';
 
@@ -34,7 +33,6 @@ const FILTER_KEY = 'volumeListFilters';
       [selectedZoneIds]="selectedZoneIds$ | async"
       [selectedTypes]="selectedTypes$ | async"
       [selectedAccountIds]="selectedAccountIds$ | async"
-      [sidebarWidth]="sidebarWidth$ | async"
       (queryChanged)="onQueryChange($event)"
       (spareOnlyChanged)="onSpareOnlyChange($event)"
       (zonesChanged)="onZonesChange($event)"
@@ -60,7 +58,6 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe()
   readonly selectedZoneIds$ = this.store.pipe(select(fromVolumes.filterSelectedZoneIds));
   readonly selectedTypes$ = this.store.pipe(select(fromVolumes.filterSelectedTypes));
   readonly selectedAccountIds$ = this.store.pipe(select(fromVolumes.filterSelectedAccountIds));
-  readonly sidebarWidth$ = this.sidebarContainerService.sidebarWidth;
 
   public types = [VolumeType.ROOT, VolumeType.DATADISK];
 
@@ -85,7 +82,6 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe()
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private sidebarContainerService: SidebarContainerService,
   ) {
     super();
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);

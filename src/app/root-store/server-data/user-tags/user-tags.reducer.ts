@@ -1,9 +1,8 @@
 import { Update } from '@ngrx/entity';
-
-import { UserTagsActionsUnion, UserTagsActionTypes } from './user-tags.actions';
-import { adapter, initialState, UserTagsState } from './user-tags.state';
 import { Tag } from '../../../shared/models';
 import { userTagKeys } from '../../../tags/tag-keys';
+import { UserTagsActionsUnion, UserTagsActionTypes } from './user-tags.actions';
+import { adapter, initialState, UserTagsState } from './user-tags.state';
 
 export function reducer(state = initialState, action: UserTagsActionsUnion): UserTagsState {
   switch (action.type) {
@@ -62,9 +61,17 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.UpdateThemeSuccess:
     case UserTagsActionTypes.SetSPFAVMSuccess:
     case UserTagsActionTypes.UpdateKeyboardLayoutForVmsSuccess:
-    case UserTagsActionTypes.UpdateSidebarWidthSuccess:
     case UserTagsActionTypes.IncrementLastVMIdSuccess: {
       const update: Update<Tag> = { id: action.payload.key, changes: action.payload };
+      return adapter.updateOne(update, state);
+    }
+
+    /**
+     * We skip confirmation from the server that a value successfully changed,
+     * so we do not slow down UI interaction.
+     */
+    case UserTagsActionTypes.UpdateSidebarWidth: {
+      const update: Update<Tag> = { id: userTagKeys.sidebarWidth, changes: action.payload };
       return adapter.updateOne(update, state);
     }
 

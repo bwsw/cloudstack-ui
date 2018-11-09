@@ -3,17 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 
-import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
-import * as domainActions from '../../reducers/domains/redux/domains.actions';
-import * as roleActions from '../../reducers/roles/redux/roles.actions';
-import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
-import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
 import { State } from '../../reducers';
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import * as domainActions from '../../reducers/domains/redux/domains.actions';
+import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
+import * as roleActions from '../../reducers/roles/redux/roles.actions';
+import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { SidebarContainerService } from '../../shared/services/sidebar-container.service';
 
 const FILTER_KEY = 'accountListFilters';
 
@@ -30,7 +29,6 @@ const FILTER_KEY = 'accountListFilters';
       [selectedRoleNames]="selectedRoleNames$ | async"
       [selectedRoleTypes]="selectedRoleTypes$ | async"
       [selectedStates]="selectedStates$ | async"
-      [sidebarWidth]="sidebarWidth$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings"
       (domainsChanged)="onDomainsChange($event)"
@@ -56,7 +54,6 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
   readonly selectedRoleNames$ = this.store.pipe(select(fromAccounts.filterSelectedRoleNames));
   readonly selectedStates$ = this.store.pipe(select(fromAccounts.filterSelectedStates));
   readonly selectedRoleTypes$ = this.store.pipe(select(fromAccounts.filterSelectedRoleTypes));
-  readonly sidebarWidth$ = this.sidebarContainerService.sidebarWidth;
 
   public states: string[] = ['enabled', 'disabled'];
 
@@ -79,7 +76,6 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private sidebarContainerService: SidebarContainerService,
   ) {
     super();
   }

@@ -7,6 +7,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { ClipboardModule } from 'ngx-clipboard';
+import {
+  SidebarTabNavDirective,
+  BadgeDirective,
+  ForbiddenValuesDirective,
+  InputTypeNumberDirective,
+  IntegerValidatorDirective,
+  LoadingDirective,
+} from './directives';
 // tslint:disable max-line-length
 import { MemoryStorageService } from './services/memory-storage.service';
 import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
@@ -77,9 +85,6 @@ import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
 import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
-import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
-import { IntegerValidatorDirective } from './directives/integer-value.directive';
-import { LoadingDirective } from './directives/loading.directive';
 import {
   DivisionPipe,
   HighLightPipe,
@@ -130,22 +135,19 @@ import { ZoneService } from './services/zone.service';
 import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
-import { BadgeDirective } from './directives/badge/badge.directive';
 import { MaterialModule } from '../material/material.module';
-import { InputTypeNumberDirective } from './directives/input-type-number.directive';
 import {
   RoundStateIndicatorComponent,
   SquareStateIndicatorComponent,
 } from './components/state-indicator';
-import { UrlDirective, UpdateDirective } from './validators/directives';
+import { UrlDirective } from './validators/directives';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { DayPeriodComponent } from './components/day-period/day-period.component';
-import { SidebarContainerService } from './services/sidebar-container.service';
 import { AngularDraggableModule } from 'angular2-draggable';
 
 // tslint:enable max-line-length
 
-const SHARED_DIRECTIVES = [UrlDirective, UpdateDirective, InputTypeNumberDirective];
+const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
 
 const SHARED_COMPONENTS = [ClipboardButtonComponent];
 
@@ -354,7 +356,6 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     SecurityGroupTagService,
     ServiceOfferingService,
     SessionStorageService,
-    SidebarContainerService,
     SnapshotService,
     SnapshotTagService,
     VolumeActionsService,

@@ -21,8 +21,6 @@ export class SnapshotFilterComponent implements OnInit {
   public availableGroupings: any[] = [];
   @Input()
   public firstDayOfWeek: number;
-  @Input()
-  public sidebarWidth: number;
 
   @Input()
   public selectedAccounts: string[];

@@ -2,7 +2,6 @@ import { Component, Optional } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ListService } from '../list/list.service';
-import { SidebarContainerService } from '../../services/sidebar-container.service';
 
 @Component({
   selector: 'cs-top-bar',
@@ -11,17 +10,12 @@ import { SidebarContainerService } from '../../services/sidebar-container.servic
 })
 export class TopBarComponent {
   constructor(
-    private sidebarContainerService: SidebarContainerService,
     private activatedRoute: ActivatedRoute,
     @Optional() private listService: ListService,
   ) {}
 
   public get sidebarOpen(): boolean {
     return this.listService ? this.listService.hasSelected() && this.showSidebarForSG() : false;
-  }
-
-  public get right() {
-    return this.sidebarOpen ? this.sidebarContainerService.width.getValue() : 0;
   }
 
   private showSidebarForSG(): boolean {

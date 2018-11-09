@@ -7,8 +7,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ListComponent {
   @Input()
-  public isOpen = false;
-  @Input()
   public creationEnabled = true;
   @Output()
   public action = new EventEmitter();

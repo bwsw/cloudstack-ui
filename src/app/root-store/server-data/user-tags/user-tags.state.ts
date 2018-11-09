@@ -29,6 +29,8 @@ const initialIds = [
   userTagKeys.showSystemTags,
   userTagKeys.timeFormat,
   userTagKeys.theme,
+  userTagKeys.keyboardLayoutForVms,
+  userTagKeys.sidebarWidth,
 ];
 
 const initialEntities = {

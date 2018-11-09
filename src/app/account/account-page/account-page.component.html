@@ -1,7 +1,4 @@
-<cs-list *ngIf="isAdmin()"
-  (action)="showCreationDialog()"
-         [isOpen]="listService?.hasSelected()"
->
+<cs-list *ngIf="isAdmin()" (action)="showCreationDialog()">
   <ng-container cs-panels>
     <cs-top-bar>
       <cs-account-filter-container
@@ -30,10 +27,7 @@
   </ng-container>
 
   <ng-container cs-sidebar>
-    <cs-sidebar
-      [isOpen]="listService?.hasSelected()"
-      [style.width.px]="sidebarWidth"
-    >
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
       <router-outlet></router-outlet>
     </cs-sidebar>
   </ng-container>

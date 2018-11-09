@@ -30,8 +30,6 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
   public isLoading: boolean;
   @Input()
   public preselectedTemplate: BaseTemplateModel;
-  @Input()
-  public sidebarWidth: number;
 
   @Output()
   public viewModeChange = new EventEmitter<string>();

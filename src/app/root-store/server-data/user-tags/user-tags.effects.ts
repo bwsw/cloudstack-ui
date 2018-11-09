@@ -42,8 +42,7 @@ import {
   UpdateShowSystemTags,
   UpdateShowSystemTagsError,
   UpdateShowSystemTagsSuccess,
-  UpdateSidebarWidthError,
-  UpdateSidebarWidthSuccess,
+  UpdateSidebarWidth,
   UpdateTheme,
   UpdateThemeError,
   UpdateThemeSuccess,
@@ -263,16 +262,16 @@ export class UserTagsEffects {
     }),
   );
 
-  @Effect()
+  /**
+   * We omit the result of setting the value on the server, because we have already changed the value in the store.
+   * This is required so that the UI reacts instantly and does not wait until an answer comes from the server.
+   * Downsides: if the tag is not set, the user selected state will not be saved.
+   */
+  @Effect({ dispatch: false })
   updateSidebarWidth$: Observable<Action> = this.actions$.pipe(
-    ofType<UpdateKeyboardLayoutForVms>(UserTagsActionTypes.UpdateSidebarWidth),
-    map(action => action.payload.value),
-    mergeMap((value: string) => {
-      const key = userTagKeys.sidebarWidth;
-      return this.upsertTag(key, value).pipe(
-        map(() => new UpdateSidebarWidthSuccess({ key, value })),
-        catchError(error => of(new UpdateSidebarWidthError({ error }))),
-      );
+    ofType<UpdateSidebarWidth>(UserTagsActionTypes.UpdateSidebarWidth),
+    mergeMap(action => {
+      return this.upsertTag(userTagKeys.sidebarWidth, action.payload.value);
     }),
   );
 

@@ -1,18 +1,9 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SidebarContainerService } from '../../../services/sidebar-container.service';
-import { IResizeEvent } from 'angular2-draggable/lib/models/resize-event';
 import { select, Store } from '@ngrx/store';
-import { State } from '../../../../reducers';
-import * as UserTagsSelectors from '../../../../root-store/server-data/user-tags/user-tags.selectors';
+import { IResizeEvent } from 'angular2-draggable/lib/models/resize-event';
+import { SidebarWidthService } from '../../../../core/services';
+import { layoutStore, State, UserTagsSelectors } from '../../../../root-store';
 import * as UserTagsActions from '../../../../root-store/server-data/user-tags/user-tags.actions';
 
 @Component({
@@ -20,33 +11,27 @@ import * as UserTagsActions from '../../../../root-store/server-data/user-tags/u
   templateUrl: 'sidebar-container.component.html',
   styleUrls: ['sidebar-container.component.scss'],
 })
-export class SidebarContainerComponent implements OnInit, OnChanges {
+export class SidebarContainerComponent implements OnChanges {
   @Input()
   @HostBinding('class.open')
   public isOpen;
-  readonly sidebarWidth$ = this.store.pipe(select(UserTagsSelectors.getSidebarWidth));
-  public sliderWidth: number;
-  public minWidthSize = 330;
-  public maxWidthSize = 660;
+  public sidebarWidth$ = this.store.pipe(select(UserTagsSelectors.getSidebarWidth));
 
   constructor(
-    public sidebarContainerService: SidebarContainerService,
-    public cd: ChangeDetectorRef,
+    private sidebarWidthService: SidebarWidthService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<State>,
   ) {}
 
   public ngOnChanges(changes: SimpleChanges) {
-    const isOpen = changes.isOpen && changes.isOpen.currentValue;
-    this.sidebarContainerService.isOpen.next(isOpen);
-  }
-
-  public ngOnInit(): void {
-    this.sidebarWidth$.subscribe(result => {
-      this.sliderWidth = result;
-      this.sidebarContainerService.width.next(this.sliderWidth);
-    });
+    if (changes.isOpen) {
+      if (changes.isOpen.currentValue === true) {
+        this.store.dispatch(new layoutStore.actions.OpenSidebar());
+      } else {
+        this.store.dispatch(new layoutStore.actions.CloseSidebar());
+      }
+    }
   }
 
   public onDetailsHide(): void {
@@ -56,13 +41,12 @@ export class SidebarContainerComponent implements OnInit, OnChanges {
   }
 
   public onResize(event: IResizeEvent): void {
-    const newSize = Math.min(Math.max(event.size.width, this.minWidthSize), this.maxWidthSize);
-    this.sidebarContainerService.width.next(newSize);
+    this.sidebarWidthService.setWidth(event.size.width);
   }
 
   public onResizeStop(event: IResizeEvent): void {
-    const newSize = Math.min(Math.max(event.size.width, this.minWidthSize), this.maxWidthSize);
-    this.store.dispatch(new UserTagsActions.UpdateSidebarWidth({ value: newSize.toString() }));
-    this.sidebarContainerService.width.next(newSize);
+    const width = event.size.width;
+    this.sidebarWidthService.setWidth(width);
+    this.store.dispatch(new UserTagsActions.UpdateSidebarWidth({ value: String(width) }));
   }
 }

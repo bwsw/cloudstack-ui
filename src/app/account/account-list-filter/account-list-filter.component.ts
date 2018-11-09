@@ -28,8 +28,6 @@ export class AccountListFilterComponent implements OnInit {
   public selectedStates: string[] = [];
   @Input()
   public selectedGroupings: any[] = [];
-  @Input()
-  public sidebarWidth: number;
   @Output()
   public domainsChanged = new EventEmitter();
   @Output()

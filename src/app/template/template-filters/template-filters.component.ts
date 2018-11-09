@@ -48,8 +48,6 @@ export class TemplateFiltersComponent implements OnInit {
   public query: string;
   @Input()
   public viewMode: string;
-  @Input()
-  public sidebarWidth: number;
 
   @Output()
   public queries = new EventEmitter();

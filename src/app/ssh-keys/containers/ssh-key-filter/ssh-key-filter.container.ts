@@ -15,7 +15,6 @@ import * as accountAction from '../../../reducers/accounts/redux/accounts.action
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
 import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
-import { SidebarContainerService } from '../../../shared/services/sidebar-container.service';
 
 const FILTER_KEY = 'sshKeyListFilters';
 
@@ -28,7 +27,6 @@ const FILTER_KEY = 'sshKeyListFilters';
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedGroupings]="selectedGroupings$ | async"
       [groupings]="groupings"
-      [sidebarWidth]="sidebarWidth$ | async"
       (groupingsChanged)="onGroupingsChange($event)"
       (accountsChanged)="onAccountsChange($event)"
     ></cs-ssh-key-filter>`,
@@ -41,7 +39,6 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
   readonly selectedGroupings$ = this.store.pipe(select(fromSshKeys.filterSelectedGroupings));
   readonly selectedAccountIds$ = this.store.pipe(select(fromSshKeys.filterSelectedAccountIds));
-  readonly sidebarWidth$ = this.sidebarContainerService.sidebarWidth;
 
   private filterService = new FilterService(
     {
@@ -60,7 +57,6 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private sessionStorage: SessionStorageService,
-    private sidebarContainerService: SidebarContainerService,
   ) {
     super();
   }

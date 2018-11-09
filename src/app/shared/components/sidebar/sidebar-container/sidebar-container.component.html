@@ -1,13 +1,14 @@
 <div
-  #sidebarContainer
-  ngResizable
-  [rzHandles]="'w'"
-  (rzStop)="onResizeStop($event)"
-  (rzResizing)="onResize($event)"
-  cdk-scrollable
   class="sidebar"
   [class.open]="isOpen"
-  [style.width.px]="sliderWidth"
+  [style.width.px]="sidebarWidth$ | async"
+  cdk-scrollable
+  ngResizable
+  [rzHandles]="'w'"
+  [rzMinWidth]="330"
+  [rzMaxWidth]="660"
+  (rzStop)="onResizeStop($event)"
+  (rzResizing)="onResize($event)"
 >
   <ng-content></ng-content>
 </div>

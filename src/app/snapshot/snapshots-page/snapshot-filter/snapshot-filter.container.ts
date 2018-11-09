@@ -11,7 +11,6 @@ import { FilterService } from '../../../shared/services/filter.service';
 import { SessionStorageService } from '../../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { UserTagsSelectors } from '../../../root-store';
-import { SidebarContainerService } from '../../../shared/services/sidebar-container.service';
 
 import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
@@ -39,7 +38,6 @@ const FILTER_KEY = 'snapshotFilters';
       [selectedDate]="selectedDate$ | async"
       [selectedGroupings]="selectedGroupings$ | async"
       [query]="query$ | async"
-      [sidebarWidth]="sidebarWidth$ | async"
       (selectedAccountsChange)="onAccountsChange($event)"
       (selectedTypesChange)="onTypesChange($event)"
       (selectedDateChange)="onDateChange($event)"
@@ -57,7 +55,6 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
   readonly isLoading$ = this.store.pipe(select(fromSnapshots.isLoading));
   readonly firstDayOfWeek = this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek));
-  readonly sidebarWidth$ = this.sidebarContainerService.sidebarWidth;
 
   public types = [
     {
@@ -119,7 +116,6 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     private storage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private sidebarContainerService: SidebarContainerService,
   ) {
     super();
   }

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
-import { SidebarContainerService } from '../../services/sidebar-container.service';
+import { Component, EventEmitter, HostBinding, Output } from '@angular/core';
+import { SidebarWidthService } from '../../../core/services';
 
 @Component({
   selector: 'cs-fab',
@@ -7,18 +7,13 @@ import { SidebarContainerService } from '../../services/sidebar-container.servic
   styleUrls: ['fab.component.scss'],
 })
 export class FabComponent {
-  @Input()
-  @HostBinding('class.open')
-  public isOpen: boolean;
+  @HostBinding('style.margin-right.px')
+  public rightIndent: number;
   @Output()
   public clicked = new EventEmitter<Event>();
 
-  constructor(private sidebarContainerService: SidebarContainerService) {}
-
-  public get marginRight() {
-    return this.sidebarContainerService.isOpen.getValue()
-      ? this.sidebarContainerService.width.getValue()
-      : 0;
+  constructor(private sidebarWidthService: SidebarWidthService) {
+    this.sidebarWidthService.width.subscribe(width => (this.rightIndent = width));
   }
 
   public onClick(e: Event): void {

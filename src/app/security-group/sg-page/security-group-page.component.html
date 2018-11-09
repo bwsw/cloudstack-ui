@@ -1,8 +1,4 @@
-<cs-list
-  (action)="showCreationDialog()"
-  [isOpen]="listService.hasSelected() && showSidebarDetails"
-  [creationEnabled]="isCreationEnabled"
->
+<cs-list (action)="showCreationDialog()" [creationEnabled]="isCreationEnabled">
   <ng-container cs-panels>
     <cs-top-bar>
       <cs-sg-filter-container></cs-sg-filter-container>
