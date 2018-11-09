@@ -191,7 +191,8 @@ If the selected disk offering has a custom disk size (it is set by Administrator
 
 .. figure:: _static/VMs_Create_DO_ChangeSize2.png
 
-.. note:: The system checks the amount of available account resources. In case a selected disk offering does not fit the amount of available account resources, a warning message appears saying the offering cannot be selected. 
+If you do not have enough account resources, you will not be able to select the disk that does not fit the available amount of resources - an error will display.
+.. The system checks the amount of available account resources. In case a selected disk offering does not fit the amount of available account resources, a warning message appears saying the offering cannot be selected. 
 
 Find more about disk offerings in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/service_offerings.html?highlight=disk%20offerings#compute-and-disk-service-offerings>`_.
 
