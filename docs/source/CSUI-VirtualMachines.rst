@@ -86,7 +86,7 @@ In the *General* tab the following fields should be filled in:
 
 Click "SELECT" in the Service Offerings block and choose any other option you wish in the modal window. 
 
-.. figure:: _static/VMs_Create_SO_Custom_Change5.png
+.. figure:: _static/VMs_Create_SO_Custom_Change6.png
 
 The list of available service offerings is managed by an Administrator. Service offering availability is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_. The list of service offerings can be of two types: Fixed and Custom.
 
@@ -191,7 +191,7 @@ If the selected disk offering has a custom disk size (it is set by Administrator
 
 .. figure:: _static/VMs_Create_DO_ChangeSize2.png
 
-If you do not have enough account resources, you will not be able to select the disk that does not fit the available amount of resources - an error will display.
+.. note:: If you do not have enough account resources, you will not be able to select the disk that does not fit the available amount of resources - an error will display.
 
 .. The system checks the amount of available account resources. In case a selected disk offering does not fit the amount of available account resources, a warning message appears saying the offering cannot be selected. 
 
