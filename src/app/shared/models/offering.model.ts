@@ -22,4 +22,4 @@ export interface Offering extends BaseModel {
 
 export const isOfferingLocal = (offering: Offering) => offering.storagetype === storageTypes.local;
 
-export const isCustomized = (offering: Offering) => offering.iscustomized;
+export const isCustomized = (offering: Offering) => offering && offering.iscustomized;

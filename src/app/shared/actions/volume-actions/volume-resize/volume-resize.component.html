@@ -9,23 +9,17 @@
     novalidate
   >
     <div class="mat-dialog-content">
-      <div *ngIf="!volumeIsRoot && diskOfferings?.length">
-        <cs-disk-offering-selector
-          name="diskOffering"
-          [diskOfferings]="diskOfferings"
-          [ngModel]="diskOffering"
-          (changed)="updateDiskOffering($event)"
-        ></cs-disk-offering-selector>
-        </div>
-      <cs-slider
-        *ngIf="isCustomizedForVolume(diskOffering) || volumeIsRoot"
+      <cs-disk-offering-selector
+        name="diskOffering"
+        [enableSelector]="!volumeIsRoot && diskOfferings?.length"
+        [enableSlider]="isCustomizedForVolume(diskOffering) || volumeIsRoot"
         [min]="volume.size | division:2:30"
-        [max]="rootDiskSizeLimit"
-        [label]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NEW_SIZE' | translate"
-        [(ngModel)]="newSize"
-        name="new-size"
-        [units]="'UNITS.GB' | translate"
-      ></cs-slider>
+        [newSize]="newSize"
+        [availableStorage]="availableStorage"
+        [diskOfferings]="diskOfferings"
+        [diskOffering]="diskOffering"
+        (changed)="updateDiskOffering($event)"
+      ></cs-disk-offering-selector>
     </div>
     <div class="mat-dialog-actions">
       <button mat-button color="primary" matDialogClose type="button">

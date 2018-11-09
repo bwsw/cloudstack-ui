@@ -4,6 +4,8 @@ import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
 import { DateObject } from '../models/date-object.model';
 import moment = require('moment');
+import { UserTagsSelectors } from '../../root-store';
+import { selectIsAutoUpdateEnabled } from './vm-logs-auto-update.reducers';
 
 export interface VmLogsFilters {
   search: string;
@@ -63,9 +65,7 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
   switch (action.type) {
     case vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE:
     case vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE: {
-      return {
-        ...adapter.removeAll(state),
-      };
+      return adapter.removeAll(state);
     }
 
     case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST: {
@@ -275,14 +275,50 @@ export const filterSelectedLogFile = createSelector(filters, state => state.sele
 
 export const selectUiPage = createSelector(getVmLogsEntitiesState, state => state.uiPage);
 
-const uiPageSize = 100;
+export const selectTotalScrollLogs = createSelector(selectUiPage, uiPage => uiPage * 100);
 
-export const selectScrolledLogs = createSelector(selectAll, selectUiPage, (logs, uiPage) =>
-  logs.slice(0, uiPage * uiPageSize),
+const getFirstLogs = <T>(logs: T[], length: number): T[] => logs.slice(0, length);
+
+const getLastLogs = <T>(logs: T[], limit: number, newestFirst: boolean) => {
+  if (newestFirst) {
+    return logs.slice(0, limit);
+  }
+
+  return logs.slice(-limit, logs.length);
+};
+
+export const selectVisibleStaticLogs = createSelector(
+  selectAll,
+  selectTotalScrollLogs,
+  getFirstLogs,
+);
+
+export const selectVisibleAutoUpdateLogs = createSelector(
+  selectAll,
+  UserTagsSelectors.getVmLogsShowLastMessages,
+  filterNewestFirst,
+  selectTotalScrollLogs,
+  (logs, showLastMessages, newestFirst, totalScrollLogs) => {
+    const lastLogs = getLastLogs(logs, showLastMessages, newestFirst);
+    return getFirstLogs(lastLogs, totalScrollLogs);
+  },
+);
+
+export const selectVisibleLogs = createSelector(
+  selectVisibleStaticLogs,
+  selectVisibleAutoUpdateLogs,
+  selectIsAutoUpdateEnabled,
+  (visibleStaticLogs, visibleAutoUpdateLogs, isAutoUpdateEnabled) => {
+    if (isAutoUpdateEnabled) {
+      return visibleAutoUpdateLogs;
+    }
+
+    return visibleStaticLogs;
+  },
 );
 
 export const selectAreAllLogsShown = createSelector(
-  selectTotal,
-  selectUiPage,
-  (total, uiPage) => uiPage * uiPageSize >= total,
+  selectVisibleLogs,
+  selectTotalScrollLogs,
+  (visibleLogs, totalScrollLogs) => totalScrollLogs >= visibleLogs.length,
 );

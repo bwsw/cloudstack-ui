@@ -8,4 +8,6 @@ export interface SettingsViewModel {
   timeFormat: TimeFormat;
   theme: string;
   keyboardLayout: KeyboardLayout;
+  vmLogsShowLastMessages: number;
+  vmLogsShowLastMinutes: number;
 }

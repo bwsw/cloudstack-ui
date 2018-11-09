@@ -112,6 +112,8 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
       max: Number.POSITIVE_INFINITY,
     },
   },
+  vmLogsShowLastMessages: 1000,
+  vmLogsShowLastMinutes: 1,
 };
 
 export const defaultConfig: Readonly<Config> = {

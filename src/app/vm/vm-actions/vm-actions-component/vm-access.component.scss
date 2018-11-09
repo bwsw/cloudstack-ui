@@ -1,3 +1,5 @@
+@import '../../../../style/_variables';
+
 h3 {
   margin-top: 12px;
   margin-bottom: 12px;
@@ -20,6 +22,6 @@ p {
 }
 
 .error-message {
-  color: #f44336;
+  color: $error-message-color;
   display: block;
 }

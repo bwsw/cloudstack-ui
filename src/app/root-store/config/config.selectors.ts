@@ -32,6 +32,8 @@ export const getDefaultUserTags = createSelector(
           { key: userTagKeys.timeFormat, value: config.defaultTimeFormat },
           { key: userTagKeys.theme, value: config.defaultTheme },
           { key: userTagKeys.keyboardLayoutForVms, value: config.keyboardLayoutForVms },
+          { key: userTagKeys.vmLogsShowLastMessages, value: String(config.vmLogsShowLastMessages) },
+          { key: userTagKeys.vmLogsShowLastMinutes, value: String(config.vmLogsShowLastMinutes) },
           { key: userTagKeys.sidebarWidth, value: String(config.sidebarWidth) },
         ]
       : [];
