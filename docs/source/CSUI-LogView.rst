@@ -17,9 +17,9 @@ To make the *View logs* section available, first deploy the backend API plugin a
 Deployment Instructions
 -------------------------
 
-Full instructions on the View Logs plugin deployment is presented at the `plugin page <https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin>`_. 
+Full instructions on the Log View plugin deployment is presented at the `plugin page <https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin>`_. 
 
-To enable the View Logs plugin you need to:
+To enable the Log View plugin you need to:
 
 1. Install the backend API plugin into CloudStack.
 2. Deploy the necessary components: ElasticSearch, Filebeat, Logstash, Curator.
@@ -48,11 +48,11 @@ Select the following parameters in the provided order from drop-down lists:
 
 - Time - Allows selecting logs for a specific time period within the selected dates. By default, 00:00 is defined for the start time and 23:59 is defined for the end time. Enter start and end time you wish into the fields to set a custom time period. 
 
-.. figure:: _static/Logs_Timepicker.png
+.. figure:: _static/Logs_Timepicker1.png
 
 Click "Show logs" to implement the filtering settings. 
 
-.. figure:: _static/Logs_Filtering.png
+.. figure:: _static/Logs_Filtering1.png
 
 The logs will be displayed in accordance with the chosen period.
 
@@ -107,7 +107,7 @@ If too many entries are to be displayed in the list, the system loads them by pa
 You can set up parameters of log following in the "Log View Plugin Settings" section:
 
 - **Show last (minutes)** - allows viewing logs for the last set period. You can set the number of minutes from 1 (default) to 10.
-- **Show last (messages)** - allows viewing the set amount of latest logs per each refresh. You can set from 1 to any number of log records. By default, the last 1000 messages are shown.
+- **Show last (messages)** - allows setting a maximum amount of logs to display. You can set from 1 to any number of log records. By default, 1000 messages are shown.
 
 Click "Update" to apply the settings.
 
