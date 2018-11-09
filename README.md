@@ -103,9 +103,9 @@ WebShell is a CloudStack-UI extension designed to perform a clientless SSH conne
 
 This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on [the plugin page](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin#webshell-plugin-deployment).
 
-**LogView Plugin**
+**Log View Plugin**
 
-This extension allows users to view VM log files. It uses the LogView backend-plugin that extends the CloudStack API with additional requests providing access the VM log files storage. For the LogView UI-plugin operation, firstly, the LogView backend-plugin should be downloaded from [GitHub](https://github.com/bwsw/cloud-plugin-vm-logs) and deployed. The plugin uses the ELK stack to store machine log files and Filebeat to export log files from a VM to the storage. The plugin is developed and tested only with Apache CloudStack 4.11.1.
+This extension allows users to view VM log files. It uses the Log View backend-plugin that extends the CloudStack API with additional requests providing access the VM log files storage. For the Log View UI-plugin operation, firstly, the Log View backend-plugin should be downloaded from [GitHub](https://github.com/bwsw/cloud-plugin-vm-logs) and deployed. The plugin uses the ELK stack to store machine log files and Filebeat to export log files from a VM to the storage. The plugin is developed and tested only with Apache CloudStack 4.11.1.
 
 Then, it is necessary to enable the LogView UI-plugin via the CloudStack-UI configuration file. After activation, the _View Logs_ section appears in CloudStack-UI. There a user can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs.
 
@@ -156,13 +156,15 @@ From the system behavior standpoint, we have changed it sometimes, e.g. when the
 
 #### New virtual machine form
 
-We changed a new virtual machine screen a lot. Now it’s a one-step dialog and it allows selecting everything from one screen without additional steps. We believe it’s much better for a regular user than the one used with the native UI. It also generates meaningful VM names from usernames like `vm-<username>-<counter>`. Another important thing is that the form checks that a user has a required amount of resources to create the virtual machine immediately and thus it doesn’t allow him launching creation that will fail for sure.
+We changed a new virtual machine screen a lot. Now it’s a one-step dialog and it allows selecting everything from one screen without additional steps. We believe it’s much better for a regular user than the one used with the native UI. We also allow users to define any VM name - a VM display name - to make it more convenient to manage a VM. Alogside with a display name a user can define a host name for the VM that should be unique within the domain. If no host name defined, the system generates a meaningful unique VM name like `vm-<UID>`. 
+
+Another important thing is that the form checks that a user has the required amount of resources to create the virtual machine immediately and thus it doesn’t allow him launching creation that will fail for sure.
 
 Our team has made a big contribution to the improvement of UX when creating a virtual machine. First of all, a user now has an access to the list of all creation steps. Depending on installation source (ISO or a Template) system allows getting not only a login, password, and IP of the machine but also an access to VM interaction interface.
 
 Currently supported:
 - VNC console,
-- WebShell if VM has a csui.vm.auth-mode tag with SSH value. To configure access to VM using WebShell, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags),
+- Access via SSH if VM has a csui.vm.auth-mode tag with SSH value. To configure access to VM using WebShell, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags),
 - Access via HTTP if VM has a csui.vm.auth-mode tag with HTTP value. To configure access to VM via HTTP, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags).
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVM_View.png" target="_blank">![New Virtual Machine View](./screens/newVM_View_mini.png)</a>

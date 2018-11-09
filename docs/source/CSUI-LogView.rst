@@ -1,6 +1,6 @@
 .. _Log_View:
 
-View Logs Plugin
+Log View Plugin
 ===================
 
 .. warning:: The section is under development!
@@ -10,77 +10,63 @@ View Logs Plugin
 Overview
 ----------------
 
-In the *Virtual Machines*-*View Logs* section a user can see VM logs. This is a UI for the API plugin our team has developed to process and view virtual machine logs which are handled by ELK and delivered by Filebeat. The version of the plugin matches Apache CloudStack version that it is built for. The plugin is developed and tested only with Apache CloudStack 4.11.1
- 
-Under this UI section you can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs. Optionally, you can specify a time period and keywords to filter the log files.
+In the *Virtual Machines*-*View Logs* section a user can see VM logs. This section appears if the UI-plugin - Log View - is activated. This UI-plugin works together with the backend API plugin developed to process and view virtual machine logs which are handled by ELK and delivered by Filebeat. The version of the backend API plugin matches Apache CloudStack version that it is built for. The plugin is developed and tested only with Apache CloudStack 4.11.1
 
-To make the *View logs* section available, first deploy the View Logs plugin and then activate it via the ```config.json``` file. 
+To make the *View logs* section available, first deploy the backend API plugin and then activate the Log View UI-plugin via the ``config.json`` file. See deployment instructions below.
 
 Deployment Instructions
 -------------------------
 
-Full instructions on the View Logs plugin deployment is presented at the `plugin page <https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin>`_. 
+Full instructions on the Log View plugin deployment is presented at the `plugin page <https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin>`_. 
 
-To enable the View Logs plugin you need to:
+To enable the Log View plugin you need to:
 
-1. Install the plugin into CloudStack.
-2. Deploy necessary components: ElasticSearch, Filebeat, Logstash, Curator.
-3. Enable the extension via the ```config.json``` file.
+1. Install the backend API plugin into CloudStack.
+2. Deploy the necessary components: ElasticSearch, Filebeat, Logstash, Curator.
+3. Enable the UI extension via the ``config.json`` file.
 
-View Logs UI
+View Logs 
 -------------------------
 
-After successful deployment you can see the *View logs* section under the *Virtual Machines* menu in UI. In this section you can view the log files and sort the logs by keywords. To view logs you should specify an account (for Administrators), a VM for which you wish to see the logs, and a log file to view the logs from. More details are provided below.
+After successful deployment you can see the *View logs* section under the *Virtual Machines* menu in UI. In this section you can view the log files for a defined period of time or in a real-time mode. To view logs you should specify an account (for Administrators), a VM for which you wish to see the logs, and a log file to view the logs from. More details are provided below.
 
-Filtering of Logs
------------------------
+Filtering Logs
+'''''''''''''''''''''''''
 To view logs in the list, please, set up the filtering parameters.
 
 Select the following parameters in the provided order from drop-down lists:
 
-- Accounts * - Allows Administrators to further select a VM in a specific account/accounts. Select in the drop-down list an account or a number of accounts.
+- Accounts * - Allows Administrators to further select a VM in a specific account/accounts. Select an account or a number of accounts in the drop-down list.
 
-- VM * - Allows selecting logs for a specific VM. Choose a VM you wish in the drop-down list. The list of available VMs is determined by the account(s) selected at the previous step, if you are an Administrator. If you are a user, you can see the machines belonging to your user only.
+- VM * - Allows selecting logs for a specific VM. Choose a machine you wish in the drop-down list. The list of available VMs is determined by the account(s) selected at the previous step, if you are an Administrator. If you are a user, you can see the machines belonging to your user only.
  
-- Log file * - Allows viewing logs by a log file available for the selected VM. Choose a log file in the drop-down list.
+- Log file - Allows viewing logs by a log file available for the selected VM. Choose a log file in the drop-down list. If no log file selected, all machine logs will display in the list.
 
-- Date - Allows selecting logs for a specific period. Click |date icon| and in the appeared calendar choose the start and end dates to see the logs for. By default, the system shows logs for the last day.
+- Date * - Allows selecting logs for a specific period. Click |date icon| and in the appeared calendar choose the start and end dates to see the logs for. By default, the system shows logs for the last day.
 
 .. figure:: _static/Logs_Datepicker.png 
 
-- Time - Allows selecting logs for a specific time period within the selected dates. By default, the current time is active for start and end time. Enter start and end time in the fields to set a custom time period. 
+- Time - Allows selecting logs for a specific time period within the selected dates. By default, 00:00 is defined for the start time and 23:59 is defined for the end time. Enter start and end time you wish into the fields to set a custom time period. 
 
-.. figure:: _static/Logs_Timepicker.png
+.. figure:: _static/Logs_Timepicker1.png
 
 Click "Show logs" to implement the filtering settings. 
 
-.. figure:: _static/Logs_Filtering.png
+.. figure:: _static/Logs_Filtering1.png
 
 The logs will be displayed in accordance with the chosen period.
 
 You can change filtering parameters and refresh the list of logs by clicking "SHOW LOGS".
 
-Sorting of Logs
----------------------------
-The sorting tool allows viewing the newest logs first in the list. Enable the checkbox to the right.
-
-.. figure:: _static/Logs_Newest.png
-
-Use the search tool to find logs by keywords. Enter keywords one by one delimiting them by a space or by pushing "Enter".
-
-.. figure:: _static/Logs_Search.png
-
-To delete any word in the list click |remove icon| next to it.
-
 View Logs List
---------------------------
-By clicking "SHOW LOGS", a user can view log files corresponding to the filtering parameters. Logs in the *View Logs* are listed in a chronological order from the earliest till the latest. 
+''''''''''''''''''''''''
+By clicking "SHOW LOGS", a user can view log files corresponding to the filtering parameters. Logs are listed in a chronological order from the earliest till the latest. 
 
 By default, the system shows logs for the last day. 
 
 A user can view logs for his/her VMs only. An Administrator can see logs for all accounts in the domain. 
 
-.. figure:: _static/Logs_List.png
+.. figure:: _static/Logs_List1.png
 
 The following information for each log file is presented in the list:
 
@@ -90,21 +76,44 @@ The following information for each log file is presented in the list:
 
 You can change filtering parameters and refresh the list of logs by clicking "SHOW LOGS".
 
-.. Refresh the List of Logs - To update the list of logs click "Refresh" to see the latest logs for the selected filtering parameters.
+Sorting Logs
+~~~~~~~~~~~~~~~~~~~~~~
+The sorting tool allows viewing the newest logs first in the list. Enable the checkbox to the right and click on "Show logs" to refresh the list.
 
-.. Follow Logs
-.. """"""""""""""""""
+.. figure:: _static/Logs_Newest1.png
 
-.. After setting filtering parameters and clicking "Show logs", a user can set up log tracing, that is monitoring the logs online.
+Searching Logs
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Use the search tool to find logs by a word or a text. Enter the text in the search field above the list and click on "Show logs" to refresh the list.
 
-.. Click "Follow logs", you will see the list is getting refreshed every minute automatically.
+.. figure:: _static/Logs_Search2.png
 
-.. By default, the list contains up to 1000 log records showing logs for the last minute.
+Following Logs
+'''''''''''''''''''''''''
+After setting filtering parameters and clicking "Show logs", a user can start following logs, in other words, start monitoring the logs online.
 
-.. You can set parameters of log tracing in the "Log View Plugin Settings" section:
+Click "Follow log" |follow icon| for the uploaded log files, you will see the list is automatically getting refreshed per every second.
 
-.. - set the number of minutes from 1 (default) to 10.
-.. - set the number of log records (up to 1000).
+.. figure:: _static/Logs_Follow.png
+
+The "Follow logs" button changes its position depending on the applied sorting mode. If the "Newest first" option is disabled the button stands in the bottom-right corner, like at the screenshot above. If "Newest first" is enabled, the button goes to the upper-right corner and the latest logs will be displayed at the top of the list.
+
+.. figure:: _static/Logs_FollowUp.png
+
+By default, the list contains up to 1000 log records showing logs for the last minute.
+
+If too many entries are to be displayed in the list, the system loads them by parts when a user scrolls the list down.
+
+You can set up parameters of log following in the "Log View Plugin Settings" section:
+
+- **Show last (minutes)** - allows viewing logs for the last set period. You can set the number of minutes from 1 (default) to 10.
+- **Show last (messages)** - allows setting a maximum amount of logs to display. You can set from 1 to any number of log records. By default, 1000 messages are shown.
+
+Click "Update" to apply the settings.
+
+.. figure:: _static/RN_Logs_ViewOnlineSettings.png
+
+To stop following logs click on |unfollow icon|.
 
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
@@ -119,4 +128,5 @@ You can change filtering parameters and refresh the list of logs by clicking "SH
 .. |adv icon| image:: _static/adv_icon.png
 .. |date icon| image:: _static/date_icon.png
 .. |remove icon| image:: _static/remove_icon.png
-
+.. |follow icon| image:: _static/follow_icon.png
+.. |unfollow icon| image:: _static/unfollow_icon.png
