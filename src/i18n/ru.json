@@ -1563,8 +1563,8 @@
     "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
     "CPU_MHZ": "{{ count }}x{{ speed }} МГц",
     "VM_WILL_BE_RESTARTED": "Машина будет перезагружена",
-    "SHOW_DETAILS": "Показать дополнительные параметры",
-    "HIDE_DETAILS": "Скрыть дополнительные параметры",
+    "SHOW_DETAILS": "Показать детали",
+    "HIDE_DETAILS": "Скрыть детали",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Настраиваемое предложение",
       "CPU_NUMBER": "Ядра CPU",
