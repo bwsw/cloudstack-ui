@@ -1,4 +1,3 @@
-import { st } from '@angular/core/src/render3';
 import { LayoutActionsUnion, LayoutActionTypes } from './layout.actions';
 
 export const featureStoreName = 'layout';

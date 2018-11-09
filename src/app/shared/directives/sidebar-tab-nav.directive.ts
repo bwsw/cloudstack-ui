@@ -1,5 +1,4 @@
-import { Directive, ElementRef, Input, OnInit } from '@angular/core';
-import { NG_VALIDATORS } from '@angular/forms';
+import { Directive, Input, OnInit } from '@angular/core';
 import { MatTabNav } from '@angular/material';
 import { debounceTime, filter } from 'rxjs/operators';
 import { SidebarWidthService } from '../../core/services';
