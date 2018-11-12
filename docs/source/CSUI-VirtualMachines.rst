@@ -201,7 +201,7 @@ In the *Advanced* tab you will find the following fields:
 
 .. figure:: _static/VMs_Create_Advanced1.png
 
-1. **VM host name** - This is a hostname for the machine. It will be shown only in the Virtual Machine tab of the VM details sidebar. The field is optional. You can enter any name you wish but it should start with a Latin letter, contain figures, Latin letters and  ‘-’ (up to 63 symbols) and be unique within the domain. If the field is left empty, the system auto-generates a name in the following form: ``vm-<UID>``. 
+1. **VM host name** - This is a hostname for the machine. It will be shown only in the Virtual Machine tab of the VM details sidebar. The field is optional. You can enter any name you wish but it should start with a Latin letter, contain figures, Latin letters and  ‘-’ (up to 63 symbols) and be unique within the zone. If the field is left empty, the system auto-generates a name in the following form: ``vm-<UID>``. 
 2. **Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field. The group will be saved to the machine `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
 3. **Affinity group** - Select an affinity group in the list or create a new group filling in the form. By clicking "SELECT" in the block you open a form with the list of existing groups and a creation block above the list.
 
@@ -309,9 +309,9 @@ You can face the following issues when creating a virtual machine:
  
 .. If there are insufficient resources you will not be allowed to create a new VM and start it upon creation. You will be able to create a new VM with the unchecked "Start VM" option. No IP is assigned to the VM in this case.
 
-- VM name is not unique.
+- VM host name you specified is not unique.
 
-  If the name specified for the virtual machine is not unique within a domain, the dialog window after VM creation will show an error. The VM will not be created. The creation form will be closed. You will have to open the VM creation form and fill it in again. You will have to specify another name for your VM.
+  If the name specified for the virtual machine is not unique within a zone, the dialog window after VM creation will show an error. The VM will not be created. The creation form will be closed. You will have to open the VM creation form and fill it in again. You will have to specify another host name for your VM or leave it empty to let the system autogenerate a correct unique host name in the form of ```vm-<UID>```.
 
 .. _VM_Actions:
 
