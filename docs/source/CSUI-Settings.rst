@@ -135,6 +135,19 @@ Click the field and select another color if you wish.
 
 A theme color can be set in the configuration JSON file. You will find more information in the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-theme-name>`_. 
 
+Log View (real-time mode) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This section is available if the LogView UI-plugin is activated. See the `plugin page <https://github.com/bwsw/cloudstack-ui/wiki/Log-View-Plugin>`_ for installation instructions.
+
+In this settings block you can configure viewing VM logs in a real-time mode. The following parameters can be set:
+
+* Show last (minutes) - allows viewing logs for the last set period. You can set the number of minutes from 1 (default) to 10.
+* Show last (messages) - allows setting a maximum amount of logs to display. You can set from 1 to any number of log records. By default, 1000 messages are shown.
+
+Click "Update" to apply the set parameters.
+
+.. figure:: _static/Settings_LogView.png
+
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
 .. |view icon| image:: _static/view_list_icon.png
