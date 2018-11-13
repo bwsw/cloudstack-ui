@@ -26,8 +26,8 @@ export class SidebarWidthService {
   private initializeSidebarWidthFromTag() {
     this.store
       .pipe(
-        select(UserTagsSelectors.getIsLoading),
-        filter(loading => !loading),
+        select(UserTagsSelectors.getIsLoaded),
+        filter(Boolean),
         delay(1),
         first(),
       )

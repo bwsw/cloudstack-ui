@@ -657,10 +657,10 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
-angular2-draggable@^2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/angular2-draggable/-/angular2-draggable-2.1.4.tgz#5691aed0902912226852d3a885a7cb97f6318758"
-  integrity sha512-M59L+HJsrj6qADbfrIzg7v68Q48Hn/zh1NeX8bIZtWhzx6vjIgvEaI414FbO/rJMyTr0kfjH6RlsXNXl7EfCLA==
+angular2-draggable@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/angular2-draggable/-/angular2-draggable-2.1.8.tgz#1c865c11458fb92d2db09a4bb9cbe8ef6a9124d6"
+  integrity sha512-NOi8FRXoS9m7ZnzgRD6zGjxObwRAbdEzzSZsUxK0k17+m6hK1eDh+LyeCR4PrRJkqHhiJpE8Qupv2S9tusoeBw==
   dependencies:
     tslib "^1.9.0"
 

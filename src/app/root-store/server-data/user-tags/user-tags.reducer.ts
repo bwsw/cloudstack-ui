@@ -11,22 +11,8 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
       return adapter.addAll(action.payload.tags, state);
     }
 
-    case UserTagsActionTypes.LoadUserTags: {
-      return {
-        ...state,
-        isLoading: true,
-      };
-    }
-
     case UserTagsActionTypes.LoadUserTagsSuccess: {
-      return adapter.upsertMany(action.payload.tags, { ...state, isLoading: false });
-    }
-
-    case UserTagsActionTypes.LoadUserTagsError: {
-      return {
-        ...state,
-        isLoading: false,
-      };
+      return adapter.upsertMany(action.payload.tags, { ...state, isLoaded: true });
     }
 
     case UserTagsActionTypes.UpdateCustomServiceOfferingParams: {

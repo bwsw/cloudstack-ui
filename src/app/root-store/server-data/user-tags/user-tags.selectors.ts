@@ -19,9 +19,9 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getUserTagsState,
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoaded = createSelector(
   getUserTagsState,
-  (state: UserTagsState) => state.isLoading,
+  (state: UserTagsState) => state.isLoaded,
 );
 
 const { selectEntities: getUserTagsEntities } = adapter.getSelectors(getUserTagsState);
