@@ -25,6 +25,7 @@ exports.config = {
 
   suites: {
     login: './e2e/login.e2e-spec.ts',
+    vm_creation: './e2e/vm-creation.e2e-spec.ts',
   },
   directConnect: true,
   baseUrl: 'http://localhost:8081',
