@@ -43,15 +43,15 @@ export class VolumeFilterComponent implements OnInit {
 
   constructor(private authService: AuthService) {}
 
+  public ngOnInit() {
+    this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);
+  }
+
   public getVolumeTypeName(type: VolumeType): string {
     return volumeTypeNames[type];
   }
 
   public showAccountFilter(): boolean {
     return this.authService.isAdmin();
-  }
-
-  public ngOnInit() {
-    this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);
   }
 }

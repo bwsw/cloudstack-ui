@@ -39,11 +39,11 @@ export class AccountListFilterComponent implements OnInit {
   @Output()
   public groupingsChanged = new EventEmitter();
 
-  public stateTranslationToken(state): string {
-    return stateTranslations[state];
-  }
-
   public ngOnInit() {
     this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);
+  }
+
+  public stateTranslationToken(state): string {
+    return stateTranslations[state];
   }
 }

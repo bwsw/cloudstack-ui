@@ -1,8 +1,4 @@
-<cs-list
-  (action)="showCreationDialog()"
-  [isOpen]="listService?.hasSelected()"
->
-
+<cs-list (action)="showCreationDialog()">
   <cs-template-filter-list-container cs-panels></cs-template-filter-list-container>
 
   <ng-container *loading="!templates?.length && fetching" cs-list>

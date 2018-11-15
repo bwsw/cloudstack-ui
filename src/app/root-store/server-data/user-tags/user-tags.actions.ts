@@ -72,6 +72,8 @@ export enum UserTagsActionTypes {
   IncrementLastVMIdError = '[Resource tags API] Increment "csui.user.last-vm-id" tag error',
 
   UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
+
+  UpdateSidebarWidth = '[Sidebar resize] Update "csui.user.sidebar-width" tag',
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs
@@ -408,6 +410,14 @@ export class UpdateCustomServiceOfferingParams implements Action {
   constructor(readonly payload: { offering: ServiceOffering }) {}
 }
 
+// Sidebar
+
+export class UpdateSidebarWidth implements Action {
+  readonly type = UserTagsActionTypes.UpdateSidebarWidth;
+
+  constructor(readonly payload: { value: string }) {}
+}
+
 export type UserTagsActionsUnion =
   | SetDefaultUserTagsAtStartup
   | SetDefaultUserTagsDueToLogout
@@ -459,4 +469,5 @@ export type UserTagsActionsUnion =
   | IncrementLastVMId
   | IncrementLastVMIdSuccess
   | IncrementLastVMIdError
-  | UpdateCustomServiceOfferingParams;
+  | UpdateCustomServiceOfferingParams
+  | UpdateSidebarWidth;

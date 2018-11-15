@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
-import { BaseTemplateModel } from '../shared';
-import { configSelectors, State } from '../../root-store';
-import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
 import * as templateActions from '../../reducers/templates/redux/template.actions';
+import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
+import { configSelectors, State } from '../../root-store';
+import { BaseTemplateModel } from '../shared';
 
 @Component({
   selector: 'cs-iso-attachment-filter-selector-container',

@@ -62,12 +62,13 @@ export interface NonCustomizableConfig {
   savePasswordForAllVMs: boolean | null;
   lastVMId: number;
   showSystemTags: boolean;
+  keyboardLayoutForVms: string;
+  sidebarWidth: number;
   /*
    * Offerings
    */
   customComputeOfferingHardwareValues: CustomComputeOfferingHardwareValues;
   defaultCustomComputeOfferingRestrictions: CustomComputeOfferingHardwareRestrictions;
-  keyboardLayoutForVms: string;
   vmLogsShowLastMessages: number;
   vmLogsShowLastMinutes: number;
 }

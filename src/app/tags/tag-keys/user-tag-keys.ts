@@ -13,4 +13,5 @@ export const userTagKeys = {
   computeOfferingParam: 'csui.user.compute-offering.param',
   vmLogsShowLastMessages: 'csui.user.vm-logs-show-last-messages',
   vmLogsShowLastMinutes: 'csui.user.vm-logs-show-last-minutes',
+  sidebarWidth: 'csui.user.sidebar-width',
 };

@@ -1,7 +1,4 @@
-<cs-list
-  (action)="showCreationDialog()"
-  [isOpen]="listService?.hasSelected()"
->
+<cs-list (action)="showCreationDialog()">
   <ng-container cs-panels>
     <cs-top-bar>
       <cs-ssh-key-filter-container cs-list></cs-ssh-key-filter-container>

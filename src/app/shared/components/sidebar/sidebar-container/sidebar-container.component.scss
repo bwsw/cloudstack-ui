@@ -1,18 +1,22 @@
-@import '../../../../../style/_variables';
-
 .sidebar {
   height: 100%;
   position: absolute;
   top: 0;
   right: 0;
-  width: $sidebar-width;
+  /**
+   * We need to unset left value provided by library during resize.
+   * Otherwise, the sidebar will be fixed relative to the left edge and when the browser window is resized,
+   * the sidebar will not be attached to the right edge.
+   * For details, see https://github.com/bwsw/cloudstack-ui/issues/1308
+   */
+  left: auto !important;
   box-sizing: border-box;
   transition: transform 0.3s;
   overflow-y: auto;
   overflow-x: hidden;
   background: #fafafa;
-  padding: 10px 5px;
-  border-left: 1px solid #E0E0E0;
+  padding: 10px 5px 10px 8px;
+  border-left: 1px solid #e0e0e0;
   transform: translateX(100%);
   z-index: 2;
 
@@ -71,6 +75,6 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   z-index: 1;
 }

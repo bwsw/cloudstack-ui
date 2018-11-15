@@ -8,6 +8,7 @@ export const noGroup: noGroup = '-1';
 @Component({
   selector: 'cs-vm-filter',
   templateUrl: 'vm-filter.component.html',
+  styleUrls: ['vm-filter.component.scss'],
 })
 export class VmFilterComponent implements OnInit {
   @Input()

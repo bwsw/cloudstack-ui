@@ -19,9 +19,9 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getUserTagsState,
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoaded = createSelector(
   getUserTagsState,
-  (state: UserTagsState) => state.isLoading,
+  (state: UserTagsState) => state.isLoaded,
 );
 
 const { selectEntities: getUserTagsEntities } = adapter.getSelectors(getUserTagsState);
@@ -111,4 +111,9 @@ export const getVmLogsShowLastMessages = createSelector(
 export const getVmLogsShowLastMinutes = createSelector(
   getUserTagsEntities,
   (entities): number => Number(entities[userTagKeys.vmLogsShowLastMinutes].value),
+);
+
+export const getSidebarWidth = createSelector(
+  getUserTagsEntities,
+  (entities): number => Number(entities[userTagKeys.sidebarWidth].value),
 );
