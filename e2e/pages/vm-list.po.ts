@@ -13,10 +13,25 @@ export class VMList extends CloudstackUiPage {
       });
   }
 
+  confirmVMPropose() {
+    element(by.css('.cdk-overlay-pane'))
+      .isPresent()
+      .then(() => {
+        return element
+          .all(by.css('.mat-button.mat-primary.ng-star-inserted'))
+          .get(0)
+          .click();
+      });
+  }
+
   waitVMPropose() {
     return browser.wait(
       protractor.ExpectedConditions.presenceOf(element(by.css('.cdk-overlay-pane'))),
       5000,
     );
+  }
+
+  checkVMPropose() {
+    return expect(element(by.css('.cdk-overlay-pane')).isPresent()).toBeTruthy();
   }
 }

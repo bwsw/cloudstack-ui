@@ -22,14 +22,13 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
   },
-
+  directConnect: true,
+  baseUrl: 'http://localhost:8081',
+  framework: 'jasmine',
   suites: {
     login: './e2e/login.e2e-spec.ts',
     vm_creation: './e2e/vm-creation.e2e-spec.ts',
   },
-  directConnect: true,
-  baseUrl: 'http://localhost:8081',
-  framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
