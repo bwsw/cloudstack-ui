@@ -12,10 +12,11 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { SnackBarService } from '../../../core/services';
+import { SnackBarService } from '../../../core/services/snack-bar.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import * as fromVolumes from '../../../reducers/volumes/redux/volumes.reducers';
-import { VolumeSnapshotFromVmSnapshotDialogComponent } from '../../../shared/components';
+// tslint:disable-next-line
+import { VolumeSnapshotFromVmSnapshotDialogComponent } from '../../../shared/components/volume-snapshot-from-vm-snapshot-dialog/volume-snapshot-from-vm-snapshot-dialog.component';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { VmSnapshotService } from '../../../shared/services/vm-snapshot.service';
 import { State } from '../../state';
