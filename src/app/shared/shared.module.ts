@@ -54,6 +54,7 @@ import {
   SliderComponent,
   TopBarComponent,
   VmStatisticsComponent,
+  VolumeSnapshotFromVmSnapshotDialogComponent,
 } from './components';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
@@ -125,6 +126,7 @@ import { TemplateTagService } from './services/tags/template-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
+import { VmSnapshotService } from './services/vm-snapshot.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
@@ -243,6 +245,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     VolumeDeleteDialogComponent,
     SecurityGroupBuilderComponent,
     DiskOfferingDialogComponent,
+    VolumeSnapshotFromVmSnapshotDialogComponent,
   ],
   declarations: [
     AccountActionsComponent,
@@ -326,6 +329,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     KeyboardsComponent,
     TimePickerComponent,
     DayPeriodComponent,
+    VolumeSnapshotFromVmSnapshotDialogComponent,
   ],
   providers: [
     AccountService,
@@ -368,6 +372,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     AccountTagService,
     VmTagService,
     ZoneService,
+    VmSnapshotService,
     VmCreationSecurityGroupService,
     VolumeService,
     VolumeTagService,

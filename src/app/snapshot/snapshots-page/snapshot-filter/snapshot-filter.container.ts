@@ -4,19 +4,20 @@ import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { State } from '../../../reducers';
 import { Snapshot, SnapshotType } from '../../../shared/models';
 import { AuthService } from '../../../shared/services/auth.service';
 import { FilterService } from '../../../shared/services/filter.service';
 import { SessionStorageService } from '../../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
-import { UserTagsSelectors } from '../../../root-store';
+import { UserTagsSelectors, State } from '../../../root-store';
+import { snapshotPageActions, snapshotPageSelectors } from '../../store';
 
 import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
 import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.actions';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
+import { SnapshotPageViewMode } from '../../types';
 
 const getGroupName = (snapshot: Snapshot) => {
   return snapshot.domain !== 'ROOT' ? `${snapshot.domain}/${snapshot.account}` : snapshot.account;
@@ -32,17 +33,19 @@ const FILTER_KEY = 'snapshotFilters';
       [types]="types"
       [availableGroupings]="groupings"
       [isLoading]="isLoading$ | async"
-      [firstDayOfWeek]="firstDayOfWeek | async"
+      [firstDayOfWeek]="firstDayOfWeek$ | async"
       [selectedAccounts]="selectedAccounts$ | async"
       [selectedTypes]="selectedTypes$ | async"
       [selectedDate]="selectedDate$ | async"
       [selectedGroupings]="selectedGroupings$ | async"
       [query]="query$ | async"
+      [viewMode]="viewMode$ | async"
       (selectedAccountsChange)="onAccountsChange($event)"
       (selectedTypesChange)="onTypesChange($event)"
       (selectedDateChange)="onDateChange($event)"
       (selectedGroupingsChange)="onGroupingsChange($event)"
       (queryChange)="onQueryChange($event)"
+      (viewModeChange)="onViewModeChange($event)"
     ></cs-snapshots-filter>`,
 })
 export class SnapshotFilterContainerComponent extends WithUnsubscribe() implements OnInit {
@@ -54,7 +57,8 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
   readonly query$ = this.store.pipe(select(fromSnapshots.filterQuery));
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
   readonly isLoading$ = this.store.pipe(select(fromSnapshots.isLoading));
-  readonly firstDayOfWeek = this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek));
+  readonly firstDayOfWeek$ = this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek));
+  readonly viewMode$ = this.store.pipe(select(snapshotPageSelectors.getViewMode));
 
   public types = [
     {
@@ -98,6 +102,11 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
 
   private filterService = new FilterService(
     {
+      viewMode: {
+        type: 'string',
+        options: [SnapshotPageViewMode.Volume, SnapshotPageViewMode.VM],
+        defaultOption: SnapshotPageViewMode.Volume,
+      },
       accounts: { type: 'array', defaultOption: [] },
       types: { type: 'array', defaultOption: [] },
       date: { type: 'string', defaultOption: moment().toString() },
@@ -153,6 +162,10 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
 
   public onQueryChange(query) {
     this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ query }));
+  }
+
+  public onViewModeChange(mode: SnapshotPageViewMode) {
+    this.store.dispatch(new snapshotPageActions.UpdateViewMode({ mode }));
   }
 
   private initFilters(): void {

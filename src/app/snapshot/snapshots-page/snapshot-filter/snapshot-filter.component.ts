@@ -5,6 +5,7 @@ import { Account } from '../../../shared/models';
 import { Language } from '../../../shared/types';
 import { DateTimeFormatterService } from '../../../shared/services/date-time-formatter.service';
 import { reorderAvailableGroupings } from '../../../shared/utils/reorder-groupings';
+import { SnapshotPageViewMode } from '../../types';
 
 @Component({
   selector: 'cs-snapshots-filter',
@@ -13,6 +14,8 @@ import { reorderAvailableGroupings } from '../../../shared/utils/reorder-groupin
 export class SnapshotFilterComponent implements OnInit {
   @Input()
   public isLoading: boolean;
+  @Input()
+  public viewMode: SnapshotPageViewMode;
   @Input()
   public accounts: Account[] = [];
   @Input()
@@ -43,10 +46,14 @@ export class SnapshotFilterComponent implements OnInit {
   public selectedGroupingsChange = new EventEmitter();
   @Output()
   public queryChange = new EventEmitter();
+  @Output()
+  public viewModeChange = new EventEmitter<SnapshotPageViewMode>();
 
   public get locale(): Language {
     return this.translate.currentLang as Language;
   }
+
+  public snapshotPageViewMode = SnapshotPageViewMode;
 
   constructor(
     private translate: TranslateService,
@@ -58,5 +65,9 @@ export class SnapshotFilterComponent implements OnInit {
       this.availableGroupings,
       this.selectedGroupings,
     );
+  }
+
+  public onViewModeChange(mode: SnapshotPageViewMode) {
+    this.viewModeChange.emit(mode);
   }
 }
