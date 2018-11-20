@@ -90,7 +90,10 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
     this.store.pipe(select(fromAffinityGroups.isLoading)),
-    this.store.pipe(select(UserTagsSelectors.getIsLoading)),
+    this.store.pipe(
+      select(UserTagsSelectors.getIsLoaded),
+      map(loaded => !loaded),
+    ),
   ).pipe(map((loadings: boolean[]) => !!loadings.find(loading => loading)));
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));

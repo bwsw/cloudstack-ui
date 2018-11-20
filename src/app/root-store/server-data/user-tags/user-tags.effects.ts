@@ -42,6 +42,7 @@ import {
   UpdateShowSystemTags,
   UpdateShowSystemTagsError,
   UpdateShowSystemTagsSuccess,
+  UpdateSidebarWidth,
   UpdateTheme,
   UpdateThemeError,
   UpdateThemeSuccess,
@@ -290,6 +291,19 @@ export class UserTagsEffects {
         map(() => new UpdateVmLogsShowLastMinutesSuccess({ key, value })),
         catchError(error => of(new UpdateVmLogsShowLastMinutesError({ error }))),
       );
+    }),
+  );
+
+  /**
+   * We omit the result of setting the value on the server, because we have already changed the value in the store.
+   * This is required so that the UI reacts instantly and does not wait until an answer comes from the server.
+   * Downsides: if the tag is not set, the user selected state will not be saved.
+   */
+  @Effect({ dispatch: false })
+  updateSidebarWidth$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateSidebarWidth>(UserTagsActionTypes.UpdateSidebarWidth),
+    mergeMap(action => {
+      return this.upsertTag(userTagKeys.sidebarWidth, action.payload.value);
     }),
   );
 

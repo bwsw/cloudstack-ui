@@ -1,12 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { State } from '../../reducers/index';
 import { select, Store } from '@ngrx/store';
-import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { State } from '../../reducers/index';
+import { Account, accountState } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
-import { Account, accountState } from '../../shared/models/account.model';
+import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
 export const stateTranslations = {
   [accountState.disabled]: 'ACCOUNT_STATE.DISABLED',
