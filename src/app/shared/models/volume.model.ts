@@ -33,7 +33,6 @@ export interface Volume extends BaseModel {
   created: Date;
   domain: string;
   domainid: string;
-  diskOffering: DiskOffering;
   diskofferingid: string;
   loading: boolean;
   name: string;
