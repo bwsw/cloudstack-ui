@@ -1,6 +1,5 @@
 import { volumeTagKeys } from '../services/tags/volume-tag-keys';
 import { BaseModel } from './base.model';
-import { DiskOffering } from './disk-offering.model';
 import { ServiceOffering } from './service-offering.model';
 import { Snapshot } from './snapshot.model';
 import { deletionMark, Tag } from './tag.model';
