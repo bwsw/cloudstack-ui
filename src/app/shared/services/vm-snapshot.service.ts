@@ -19,8 +19,9 @@ export class VmSnapshotService extends BaseBackendService<VmSnapshot> {
   }
 
   public getList(params?: {}): Observable<VmSnapshot[]> {
+    const extendedParams = { ...params, listall: true };
     return super
-      .sendCommand('list', params)
+      .sendCommand('list', extendedParams)
       .pipe(map(data => (data.vmSnapshot ? data.vmSnapshot : [])));
   }
 
