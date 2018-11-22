@@ -12,7 +12,8 @@ export interface SnapshotPageState {
 export const initialState: SnapshotPageState = {
   viewMode: SnapshotPageViewMode.Volume,
   filters: {
-    accountsIds: [],
+    accounts: [],
+    vmIds: [],
     date: moment().toDate(),
     query: undefined,
     volumeSnapshotTypes: [],
@@ -35,9 +36,13 @@ export function snapshotPageReducer(
     }
 
     case SnapshotPageActionTypes.UpdateFilters: {
+      const updatedFilters: Filters = {
+        ...state.filters,
+        ...action.payload,
+      };
       return {
         ...state,
-        filters: action.payload.filters,
+        filters: updatedFilters,
       };
     }
 

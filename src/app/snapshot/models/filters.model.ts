@@ -1,7 +1,8 @@
 import { SnapshotType } from '../../shared/models';
 
 export interface Filters {
-  accountsIds: string[];
+  accounts: string[];
+  vmIds: string[];
   date: Date;
   query: string | undefined;
   volumeSnapshotTypes: SnapshotType[];

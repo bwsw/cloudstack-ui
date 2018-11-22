@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
+import { combineLatest } from 'rxjs';
+
+import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
+import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
+import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
+import * as fromVm from '../../../reducers/vm/redux/vm.reducers';
+import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
+import { State, UserTagsSelectors } from '../../../root-store';
 
 import { Snapshot, SnapshotType } from '../../../shared/models';
 import { AuthService } from '../../../shared/services/auth.service';
 import { FilterService } from '../../../shared/services/filter.service';
 import { SessionStorageService } from '../../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
-import { UserTagsSelectors, State } from '../../../root-store';
+import { VmSnapshotViewModel } from '../../models/vm-snapshot.view-model';
 import { snapshotPageActions, snapshotPageSelectors } from '../../store';
-
-import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
-import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
-import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
-import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.actions';
-import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import { SnapshotPageViewMode } from '../../types';
 
-const getGroupName = (snapshot: Snapshot) => {
+const getGroupName = (snapshot: Snapshot | VmSnapshotViewModel) => {
   return snapshot.domain !== 'ROOT' ? `${snapshot.domain}/${snapshot.account}` : snapshot.account;
 };
 
@@ -30,17 +31,20 @@ const FILTER_KEY = 'snapshotFilters';
   template: `
     <cs-snapshots-filter
       [accounts]="accounts$ | async"
+      [vms]="vms$ | async"
       [types]="types"
       [availableGroupings]="groupings"
       [isLoading]="isLoading$ | async"
       [firstDayOfWeek]="firstDayOfWeek$ | async"
       [selectedAccounts]="selectedAccounts$ | async"
+      [selectedVms]="(filters$ | async).vmIds"
       [selectedTypes]="selectedTypes$ | async"
       [selectedDate]="selectedDate$ | async"
       [selectedGroupings]="selectedGroupings$ | async"
       [query]="query$ | async"
       [viewMode]="viewMode$ | async"
       (selectedAccountsChange)="onAccountsChange($event)"
+      (selectedVmsChange)="onSelectedVmsChange($event)"
       (selectedTypesChange)="onTypesChange($event)"
       (selectedDateChange)="onDateChange($event)"
       (selectedGroupingsChange)="onGroupingsChange($event)"
@@ -49,8 +53,9 @@ const FILTER_KEY = 'snapshotFilters';
     ></cs-snapshots-filter>`,
 })
 export class SnapshotFilterContainerComponent extends WithUnsubscribe() implements OnInit {
-  readonly filters$ = this.store.pipe(select(fromSnapshots.filters));
+  readonly filters$ = this.store.pipe(select(snapshotPageSelectors.getFilters));
   readonly selectedAccounts$ = this.store.pipe(select(fromSnapshots.filterSelectedAccounts));
+  readonly vms$ = this.store.pipe(select(fromVm.selectAll));
   readonly selectedTypes$ = this.store.pipe(select(fromSnapshots.filterSelectedTypes));
   readonly selectedDate$ = this.store.pipe(select(fromSnapshots.filterSelectedDate));
   readonly selectedGroupings$ = this.store.pipe(select(fromSnapshots.filterSelectedGroupings));
@@ -87,7 +92,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     {
       key: 'accounts',
       label: 'SNAPSHOT_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
-      selector: (item: Snapshot) => item.account,
+      selector: (item: Snapshot | VmSnapshotViewModel) => item.account,
       name: getGroupName,
       hidden: () => !this.authService.isAdmin(),
     },
@@ -96,9 +101,18 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
       label: 'SNAPSHOT_PAGE.FILTERS.GROUP_BY_TYPES',
       selector: (item: Snapshot) => item.snapshottype,
       name: (item: Snapshot) => `SNAPSHOT_PAGE.TYPES.${item.snapshottype}`,
-      hidden: () => false,
+      hidden: () => this.viewMode !== SnapshotPageViewMode.Volume,
+    },
+    {
+      key: 'vms',
+      label: 'SNAPSHOT_PAGE.FILTERS.GROUP_BY_VMS',
+      selector: (item: VmSnapshotViewModel) => item.vmName,
+      name: (item: VmSnapshotViewModel) => item.vmName,
+      hidden: () => this.viewMode !== SnapshotPageViewMode.VM,
     },
   ];
+
+  private viewMode: SnapshotPageViewMode;
 
   private filterService = new FilterService(
     {
@@ -109,6 +123,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
       },
       accounts: { type: 'array', defaultOption: [] },
       types: { type: 'array', defaultOption: [] },
+      vms: { type: 'array', defaultOption: [] },
       date: { type: 'string', defaultOption: moment().toString() },
       groupings: { type: 'array', defaultOption: [] },
       query: { type: 'string' },
@@ -133,35 +148,50 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
-    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
+
+    this.viewMode$.subscribe(mode => (this.viewMode = mode));
+
+    combineLatest(
+      this.filters$,
+      this.store.pipe(select(snapshotPageSelectors.getViewMode)),
+      this.store.pipe(select(snapshotPageSelectors.getGroupings)),
+    ).subscribe(([filters, viewMode, groupings]) => {
       this.filterService.update({
-        accounts: filters.selectedAccounts,
-        types: filters.selectedTypes,
-        date: moment(filters.selectedDate).format('YYYY-MM-DD'),
-        groupings: filters.selectedGroupings.map(_ => _.key),
+        viewMode,
+        accounts: filters.accounts,
+        types: filters.volumeSnapshotTypes,
+        vms: filters.vmIds,
+        date: moment(filters.date).format('YYYY-MM-DD'),
         query: filters.query,
+        groupings: groupings.map(grouping => grouping.key),
       });
     });
   }
 
   public onAccountsChange(selectedAccounts) {
-    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedAccounts }));
+    this.store.dispatch(new snapshotPageActions.UpdateFilters({ accounts: selectedAccounts }));
+  }
+
+  public onSelectedVmsChange(vmIds: string[]) {
+    this.store.dispatch(new snapshotPageActions.UpdateFilters({ vmIds }));
   }
 
   public onTypesChange(selectedTypes) {
-    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedTypes }));
+    this.store.dispatch(
+      new snapshotPageActions.UpdateFilters({ volumeSnapshotTypes: selectedTypes }),
+    );
   }
 
   public onDateChange(selectedDate) {
-    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedDate }));
+    this.store.dispatch(new snapshotPageActions.UpdateFilters({ date: selectedDate }));
   }
 
   public onGroupingsChange(selectedGroupings) {
-    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedGroupings }));
+    this.store.dispatch(new snapshotPageActions.UpdateGroupings({ groupings: selectedGroupings }));
   }
 
   public onQueryChange(query) {
-    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ query }));
+    this.store.dispatch(new snapshotPageActions.UpdateFilters({ query }));
   }
 
   public onViewModeChange(mode: SnapshotPageViewMode) {
@@ -170,10 +200,12 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
 
   private initFilters(): void {
     const params = this.filterService.getParams();
-    const selectedAccounts = params['accounts'];
-    const selectedTypes = params['types'];
-    const selectedDate = params['date'];
-    const selectedGroupings = params['groupings'].reduce((acc, _) => {
+    const mode = params['viewMode'];
+    const accounts = params['accounts'];
+    const vms = params['vms'];
+    const volumeSnapshotTypes = params['types'];
+    const date = params['date'];
+    const groupings = params['groupings'].reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
       if (grouping) {
         acc.push(grouping);
@@ -182,13 +214,15 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     }, []);
     const query = params.query;
 
+    this.store.dispatch(new snapshotPageActions.UpdateViewMode({ mode }));
+    this.store.dispatch(new snapshotPageActions.UpdateGroupings({ groupings }));
     this.store.dispatch(
-      new snapshotActions.SnapshotFilterUpdate({
-        selectedAccounts,
-        selectedTypes,
-        selectedDate,
-        selectedGroupings,
+      new snapshotPageActions.UpdateFilters({
+        accounts,
+        volumeSnapshotTypes,
+        date,
         query,
+        vmIds: vms,
       }),
     );
   }

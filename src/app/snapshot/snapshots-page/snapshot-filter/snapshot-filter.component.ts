@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Account } from '../../../shared/models';
-import { Language } from '../../../shared/types';
 import { DateTimeFormatterService } from '../../../shared/services/date-time-formatter.service';
+import { Language } from '../../../shared/types';
 import { reorderAvailableGroupings } from '../../../shared/utils/reorder-groupings';
+import { VirtualMachine } from '../../../vm';
 import { SnapshotPageViewMode } from '../../types';
 
 @Component({
@@ -19,6 +20,8 @@ export class SnapshotFilterComponent implements OnInit {
   @Input()
   public accounts: Account[] = [];
   @Input()
+  public vms: VirtualMachine[] = [];
+  @Input()
   public types: any[] = [];
   @Input()
   public availableGroupings: any[] = [];
@@ -27,6 +30,8 @@ export class SnapshotFilterComponent implements OnInit {
 
   @Input()
   public selectedAccounts: string[];
+  @Input()
+  public selectedVms: string[];
   @Input()
   public selectedTypes: string[];
   @Input()
@@ -38,6 +43,8 @@ export class SnapshotFilterComponent implements OnInit {
 
   @Output()
   public selectedAccountsChange = new EventEmitter();
+  @Output()
+  public selectedVmsChange = new EventEmitter<string[]>();
   @Output()
   public selectedTypesChange = new EventEmitter();
   @Output()

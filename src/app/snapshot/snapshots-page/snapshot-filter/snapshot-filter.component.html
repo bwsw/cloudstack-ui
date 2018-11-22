@@ -11,7 +11,7 @@
     </mat-button-toggle>
   </mat-button-toggle-group>
 
-  <mat-form-field *ngIf="accounts.length > 1 && viewMode === snapshotPageViewMode.Volume">
+  <mat-form-field *ngIf="accounts.length > 1">
     <mat-select
       multiple="true"
       [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
@@ -39,7 +39,20 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.Volume">
+  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.VM">
+    <mat-select
+      multiple="true"
+      [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_VMS' | translate"
+      [ngModel]="selectedVms"
+      (selectionChange)="selectedVmsChange.emit($event.value)"
+    >
+      <mat-option *ngFor="let vm of vms" [value]="vm.id">
+        {{ vm.displayname }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
     <cs-draggable-select
       multiple="true"
       [placeholder]="'SNAPSHOT_PAGE.FILTERS.GROUP_BY' | translate"

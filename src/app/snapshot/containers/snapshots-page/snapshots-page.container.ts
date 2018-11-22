@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.actions';
 import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
@@ -28,7 +29,12 @@ export class SnapshotsPageContainerComponent implements OnInit, AfterViewInit {
   readonly volumes$ = this.store.pipe(select(fromVolumes.selectEntities));
   readonly virtualMachines$ = this.store.pipe(select(fromVMs.selectEntities));
   readonly isLoading$ = this.store.pipe(select(fromSnapshots.isLoading));
-  readonly groupings$ = this.store.pipe(select(fromSnapshots.filterSelectedGroupings));
+  readonly groupings$ = this.store.pipe(
+    select(snapshotPageSelectors.getGroupings),
+    tap(a => {
+      console.log('qw', a);
+    }),
+  );
   readonly query$ = this.store.pipe(select(fromSnapshots.filterQuery));
   readonly vmSnapshots$ = this.store.pipe(select(vmSnapshotsSelectors.getVmSnapshots));
   readonly viewMode$ = this.store.pipe(select(snapshotPageSelectors.getViewMode));

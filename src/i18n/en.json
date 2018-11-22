@@ -782,9 +782,11 @@
       "GROUP_BY": "Group by",
       "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_TYPES": "Select types",
+      "SELECT_VMS": "Select VMs",
+      "SELECT_DATE": "Select a date",
       "GROUP_BY_TYPES": "Types",
-      "GROUP_BY_ACCOUNTS": "Accounts",
-      "SELECT_DATE": "Select a date"
+      "GROUP_BY_VMS": "VMs",
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "SIDEBAR": {
       "DETAILS": "Details",

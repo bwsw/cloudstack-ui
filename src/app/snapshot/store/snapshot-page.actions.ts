@@ -17,7 +17,7 @@ export class UpdateViewMode implements Action {
 export class UpdateFilters implements Action {
   readonly type = SnapshotPageActionTypes.UpdateFilters;
 
-  constructor(readonly payload: { filters: Filters }) {}
+  constructor(readonly payload: Partial<Filters>) {}
 }
 
 export class UpdateGroupings implements Action {

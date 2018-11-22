@@ -7,4 +7,7 @@ export interface VmSnapshotViewModel {
   vmName: string;
   vmState: VmState;
   created: Date;
+  // necessary for grouping
+  account: string;
+  domain: string;
 }
