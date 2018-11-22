@@ -134,7 +134,7 @@ export class VmCreationContainerComponent implements OnInit {
 
     this.minSize = this.authService.getCustomDiskOfferingMinSize();
     this.isDiskOfferingAvailableByResources$ = this.store.pipe(
-      select(fromDiskOfferings.isDiskOfferingAvailableByResources(this.minSize)),
+      select(fromDiskOfferings.isVmCreationDiskOfferingAvailableByResources(this.minSize)),
     );
 
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());

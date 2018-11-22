@@ -7,7 +7,7 @@ import { configSelectors } from '../../../root-store';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as event from './disk-offerings.actions';
-import * as fromAuth from '../../auth/redux/auth.reducers';
+import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import { isTemplate } from '../../../template/shared';
 
@@ -117,15 +117,30 @@ export const getAvailableOfferings = createSelector(
   },
 );
 
-export const isDiskOfferingAvailableByResources = (minSize: number) =>
+export const isDiskOfferingAvailableByResources = ({
+  diskOffering,
+  minSize,
+  primaryStorageAvailable,
+}: {
+  diskOffering: DiskOffering;
+  minSize: number;
+  primaryStorageAvailable: number;
+}): boolean => {
+  const size = isCustomized(diskOffering) ? minSize : diskOffering.disksize;
+  return size < primaryStorageAvailable;
+};
+
+export const isVmCreationDiskOfferingAvailableByResources = (minSize: number) =>
   createSelector(
-    fromAuth.getUserAccount,
+    fromAccounts.selectUserAccount,
     fromVMs.getVmFormState,
     (account, state): boolean => {
       if (!isTemplate(state.template) && state.diskOffering) {
-        const storageAvailability = account.primarystorageavailable;
-        const size = isCustomized(state.diskOffering) ? minSize : state.diskOffering.disksize;
-        return size < Number(storageAvailability);
+        return isDiskOfferingAvailableByResources({
+          minSize,
+          diskOffering: state.diskOffering,
+          primaryStorageAvailable: Number(account.primarystorageavailable),
+        });
       }
       return true;
     },
