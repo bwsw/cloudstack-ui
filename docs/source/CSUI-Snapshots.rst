@@ -1,15 +1,35 @@
+.. _Snapshots:
+
 Snapshots
 =============
 .. Contents::
 
-The *Virtual Machines* -> *Snapshots* section contains the information on snapshots existing in the system.
+The *Virtual Machines* -> *Snapshots* section contains the information on snapshots - Volume snapshots and Virtual Machine snapshots - existing in the system.
 
-.. figure:: _static/Snapshots1.png
+.. figure:: _static/Snapshots3.png
+
+A Volume snapshot is a capture of virtual machine disks. You can find more information on volume snapshots in the Apache CloudStack `documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/storage.html#working-with-volume-snapshots>`_.
+
+Virtual Machine snapshots allow users to preserve the VM data volumes and its CPU/memory state. Currently we support VM snapshots for the KVM hypervisor only. For more information about Virtual Machine snapshots check out the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/virtual_machines.html?highlight=snapshots#virtual-machine-snapshots>`_.
+
+.. warning:: Virtual Machine snapshots are currently under development!
 
 Snapshots List
 -------------------
+
+All snapshots existing in the system are presented in the list format. There are two lists in the section - Volume snapshots and Virtual Machine snapshots. To move between lists use the switch button at the top.
+
+.. figure:: _static/Snapshots_Switch.png
+ 
 The list of snapshots can be presented in the box view or in the list view. Change the view using |view icon|/|box icon| button.
 
+For each snapshot in the list the following information is presented:
+
+- State bullet - green for a backed up snapshot, red for any error behavior, yellow for a snapshot being created, grey for allocated.
+- Name of the snapshot.
+- Volume/VM name the snapshot is created for.
+- Date and time of creation.
+- Actions button |actions icon|.
 
 Filtering of Snapshots
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -19,40 +39,40 @@ Filtering of snapshots is available above the list.
 
 You can filter the list by the following parameters:
 
-- by Accounts (for Administrators);
-- by Type - Hourly, Daily, Weekly, Monthly, Manual depending on the schedule of snapshotting.
-- by Creation Date - Select a date using a date picker.
+- by Accounts (available to Administrators).
+- by Type - Hourly, Daily, Weekly, Monthly, Manual depending on the schedule of snapshotting (available for Volume snapshots).
+- by Virtual Machine (available for VM snapshots).
+- by creation date - Select a date using a date picker to filter the list for the snapshots created within the specified period.
 
-Group snapshots by accounts (available for Administrators) and/or by type.
+You can group snapshots:
+
+- by Accounts (available for Administrators) and/or 
+- by Type (for Volume snapshots) or
+- by VM (for VM snapshots).
 
 The searching tool allows to find a snapshot by:
 
 - its name or a part of the name;
 - snapshot description.
 
-For each snapshot in the list the following information is presented:
-
-- State bullet - green for backed up, red for any error behavior, yellow for creating, grey for allocated.
-- Name of the snapshot.
-- Volume the snapshot is created for.
-- Date and time of creation.
-- Actions button |actions icon|.
-
 Snapshot Details Sidebar
 -----------------------------------
 A details sidebar presents the information on a snapshot. It appears to the right by clicking a snapshot in the list. 
 
+For a Volume snapshot the following information is presented in the details sidebar:
+
+- Snapshot name and Actions under the |actions icon| button;
+- Date and time of creation;
+- Type - Presents the snapshot type - Hourly, Daily, Weekly, Monthly, Manual;
+- Volume information and a virtual machine it is assigned to.
+ 
 .. figure:: _static/Snapshots_Details.png
 
-The following information is presented in the details sidebar:
-
-- Date and time of creation;
-- Type - Presents the snapshot type;
-- Volume information and a virtual machine it is assigned to.
 
 Snapshot Actions Box
 -----------------------------------
-The following actions are available for snapshots:
+
+The following actions are available for Volume snapshots:
 
 - Create template;
 - Create volume;
@@ -61,13 +81,20 @@ The following actions are available for snapshots:
 
 .. figure:: _static/Snapshots_Actions.png
 
+The following actions are available for Virtual Machine snapshots:
+
+- Revert VM to snapshot; 
+- Delete.
+
+.. figure:: _static/Snapshots_VM_Actions.png
+
 .. note:: For a newly created snapshot the "Delete" action is available only till the snapshot is backed up to the Secondary Storage that may take some time. Once it is backed up (marked with a green state icon), a full range of actions is available to a user.
 
 Below you will find details for each action.
 
 **Create Template**
 
-Open a creation form to register a new template from the snapshot.
+Open a creation form to register a new template from a Volume snapshot.
 
 Fill in the fields:
 
@@ -90,7 +117,7 @@ Click "Cancel" to cancel the template creation.
 
 **Create Volume**
 
-This action allows creating a volume from the snapshot.
+This action allows creating a volume from a Volume snapshot.
 
 Type a name for a new volume into the Name field in the modal window. Click "CREATE" to register a new volume.
 
@@ -100,11 +127,19 @@ Click "CANCEL" to cancel the volume creation.
 
 **Revert Volume to Snapshot**
 
-This action allows turning the volume back to the state of the snapshot. It is available to those snapshots that have a volume.
+This action is available for Volume snapshots. It allows turning the volume back to the state of the snapshot. It is available to those snapshots that have a volume.
 
 In the dialog window confirm your action. Please, note, the virtual machine the volume is assigned to will be rebooted.
 
 .. figure:: _static/Snapshots_Actions_Revert.png
+
+**Revert VM to Snapshot**
+
+This action is available for Virtual Machine snapshots. It allows turning the VM back to the state of the snapshot. It is useful if you implemented any changes to the VM and they went wrong so this action allows quick restoring of a VM to its previous state.
+
+Select "Revert VM to Snapshot" from the actions list and confirm your action in the dialog window. The VM state will be reverted to the snapshot.
+
+.. figure:: _static/Snapshots_Actions_RevertVM.png
 
 **Delete**
 

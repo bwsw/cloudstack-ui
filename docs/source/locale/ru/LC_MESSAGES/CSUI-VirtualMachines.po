@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-12 14:30+0700\n"
-"PO-Revision-Date: 2018-11-12 14:33+0700\n"
+"POT-Creation-Date: 2018-11-22 10:21+0700\n"
+"PO-Revision-Date: 2018-11-22 10:26+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -1218,6 +1218,14 @@ msgstr ""
 #: ../../CSUI-VirtualMachines.rst:385
 msgid "By clicking a VM line or card you can open a sidebar to the right."
 msgstr "Кликом на ВМ в списке или на карточку ВМ откроется панель справа."
+
+#: ../../CSUI-VirtualMachines.rst:387
+msgid ""
+"Here and in all other sections the sidebar width is adjustable - you can change "
+"it by hovering over its edge and dragging to the width you wish."
+msgstr ""
+"Здесь и во всех остальных разделах ширина боковой панели редактируется. Ширину "
+"панели можно изменить, если навести мышь на ее край и потянуть до нужной ширины."
 
 #: ../../CSUI-VirtualMachines.rst:391
 msgid ""
