@@ -2,13 +2,6 @@ mat-icon {
   line-height: 48px;
 }
 
-h3 {
-  max-width: 280px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 16px !important;
-}
-
 :host /deep/ .mat-tab-links {
   width: 100%;
   display: flex;
@@ -16,7 +9,8 @@ h3 {
 }
 
 :host /deep/ .mat-tab-link {
-  min-width: 75px !important;
+  min-width: 0 !important;
+  flex: 1 1 auto;
 }
 
 :host /deep/ .security-group {

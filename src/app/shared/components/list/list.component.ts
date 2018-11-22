@@ -9,9 +9,7 @@ export const listScrollContainerId = 'list-scroll-container';
 })
 export class ListComponent {
   @Input()
-  isOpen = false;
-  @Input()
-  creationEnabled = true;
+  public creationEnabled = true;
   @Output()
-  action = new EventEmitter();
+  public action = new EventEmitter();
 }

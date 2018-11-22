@@ -20,7 +20,6 @@ export class AccountPageComponent {
   public isLoading: boolean;
   @Input()
   public selectedGroupings: any[] = [];
-
   public mode: ViewMode;
   public viewModeKey = 'accountPageViewMode';
 

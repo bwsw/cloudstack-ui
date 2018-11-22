@@ -39,10 +39,6 @@
   transition: margin 0.3s;
   align-self: flex-start;
 
-  &.open {
-    margin-right: $sidebar-width;
-  }
-
   & .stat-list-container {
     min-height: 156px;
     max-width: 100%;
@@ -119,4 +115,5 @@ cs-divider-vertical {
 
 :host /deep/ .mat-button-toggle-group {
   margin-left: 15px;
+  margin-bottom: 5px;
 }

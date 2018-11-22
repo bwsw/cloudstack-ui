@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
   selector: 'cs-session-timeout',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'session-timeout.component.html',
-  styleUrls: ['./session-timeout.component.scss'],
+  styleUrls: ['../../styles/settings-section.scss'],
 })
 export class SessionTimeoutComponent {
   @Input()

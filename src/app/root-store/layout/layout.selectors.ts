@@ -8,3 +8,8 @@ export const getShowAppNav = createSelector(
   getLayoutState,
   (state: LayoutState) => state.showAppNav,
 );
+
+export const getShowSidebar = createSelector(
+  getLayoutState,
+  (state: LayoutState) => state.showSidebar,
+);

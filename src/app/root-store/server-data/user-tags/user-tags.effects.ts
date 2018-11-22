@@ -42,12 +42,19 @@ import {
   UpdateShowSystemTags,
   UpdateShowSystemTagsError,
   UpdateShowSystemTagsSuccess,
+  UpdateSidebarWidth,
   UpdateTheme,
   UpdateThemeError,
   UpdateThemeSuccess,
   UpdateTimeFormat,
   UpdateTimeFormatError,
   UpdateTimeFormatSuccess,
+  UpdateVmLogsShowLastMessages,
+  UpdateVmLogsShowLastMessagesError,
+  UpdateVmLogsShowLastMessagesSuccess,
+  UpdateVmLogsShowLastMinutes,
+  UpdateVmLogsShowLastMinutesError,
+  UpdateVmLogsShowLastMinutesSuccess,
   UserTagsActionTypes,
 } from './user-tags.actions';
 import { TagService } from '../../../shared/services/tags/tag.service';
@@ -258,6 +265,45 @@ export class UserTagsEffects {
         map(() => new UpdateKeyboardLayoutForVmsSuccess({ key, value })),
         catchError(error => of(new UpdateKeyboardLayoutForVmsError({ error }))),
       );
+    }),
+  );
+
+  @Effect()
+  updateVmLogsShowLastMessages$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateVmLogsShowLastMessages>(UserTagsActionTypes.UpdateVmLogsShowLastMessages),
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
+      const key = userTagKeys.vmLogsShowLastMessages;
+      return this.upsertTag(key, value).pipe(
+        map(() => new UpdateVmLogsShowLastMessagesSuccess({ key, value })),
+        catchError(error => of(new UpdateVmLogsShowLastMessagesError({ error }))),
+      );
+    }),
+  );
+
+  @Effect()
+  updateVmLogsShowLastMinutes$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateVmLogsShowLastMinutes>(UserTagsActionTypes.UpdateVmLogsShowLastMinutes),
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
+      const key = userTagKeys.vmLogsShowLastMinutes;
+      return this.upsertTag(key, value).pipe(
+        map(() => new UpdateVmLogsShowLastMinutesSuccess({ key, value })),
+        catchError(error => of(new UpdateVmLogsShowLastMinutesError({ error }))),
+      );
+    }),
+  );
+
+  /**
+   * We omit the result of setting the value on the server, because we have already changed the value in the store.
+   * This is required so that the UI reacts instantly and does not wait until an answer comes from the server.
+   * Downsides: if the tag is not set, the user selected state will not be saved.
+   */
+  @Effect({ dispatch: false })
+  updateSidebarWidth$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateSidebarWidth>(UserTagsActionTypes.UpdateSidebarWidth),
+    mergeMap(action => {
+      return this.upsertTag(userTagKeys.sidebarWidth, action.payload.value);
     }),
   );
 

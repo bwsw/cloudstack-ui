@@ -5,19 +5,20 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version:  CSUI\n"
+"Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-24 17:18+0700\n"
-"PO-Revision-Date: 2018-10-10 17:47+0700\n"
+"POT-Creation-Date: 2018-11-12 15:13+0700\n"
+"PO-Revision-Date: 2018-11-12 15:14+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.4.0\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../../CSUI-Settings.rst:4
 msgid "Settings"
@@ -25,9 +26,11 @@ msgstr "Настройки"
 
 #: ../../CSUI-Settings.rst:7
 msgid ""
-"In the *Settings* section a user can modify the interface by changing "
-"settings."
-msgstr "В разделе *Настройки* пользователь может вносить изменения в интерфейс."
+"In the *Accounts* -> *Settings* section a user can modify the interface by "
+"changing settings."
+msgstr ""
+"В разделе *Аккаунты* -> *Настройки* пользователь может менять настройки "
+"интерфейса."
 
 #: ../../CSUI-Settings.rst:13
 msgid "Security"
@@ -55,11 +58,11 @@ msgstr "Изменение пароля"
 
 #: ../../CSUI-Settings.rst:22
 msgid ""
-"Here you can change the password provided by your Administrator to the "
-"one you like. This will improve the account security."
+"Here you can change the password provided by your Administrator to the one you "
+"like. This will improve the account security."
 msgstr ""
-"В данной секции можно изменить пароль, предоставленный Администратором, "
-"на желаемый пароль, что может улучшить безопасность аккаунта."
+"В данной секции можно изменить пароль, предоставленный Администратором, на "
+"желаемый пароль, что может улучшить безопасность аккаунта."
 
 #: ../../CSUI-Settings.rst:24
 msgid "Enter a new password and re-enter it in the next field to confirm it:"
@@ -71,8 +74,7 @@ msgstr "Нажмите \"ОБНОВИТЬ\" и сохраните новый п�
 
 #: ../../CSUI-Settings.rst:30
 msgid ""
-"In case you have lost or forgotten your password, contact your "
-"Administrator."
+"In case you have lost or forgotten your password, contact your Administrator."
 msgstr "Если Вы забыли или потеряли пароль, обратитесь к Администратору."
 
 #: ../../CSUI-Settings.rst:33
@@ -81,24 +83,24 @@ msgstr "Лимит времени сеанса"
 
 #: ../../CSUI-Settings.rst:35
 msgid ""
-"Here you can specify the maximum amount of time that an active session "
-"can be idle (without user activity) before it automatically closes. The "
-"default interval is 30 minutes."
+"Here you can specify the maximum amount of time that an active session can be "
+"idle (without user activity) before it automatically closes. The default "
+"interval is 30 minutes."
 msgstr ""
-"В данной секции можно установить максимальное количество времени в "
-"минутах, в течение которого сессия будет оставаться активной в отсутствие"
-" действий пользователя. По истечение установленного времени сессия будет "
-"автоматически завершена. По умолчанию установлен интервал 30 минут."
+"В данной секции можно установить максимальное количество времени в минутах, в "
+"течение которого сессия будет оставаться активной в отсутствие действий "
+"пользователя. По истечение установленного времени сессия будет автоматически "
+"завершена. По умолчанию установлен интервал 30 минут."
 
 #: ../../CSUI-Settings.rst:37
 msgid ""
-"Set the desired time limit in minutes using the switch button |switch "
-"icon| to the right or typing it just into the field. Then click "
-"\"UPDATE\" to save the changes."
+"Set the desired time limit in minutes using the switch button |switch icon| to "
+"the right or typing it just into the field. Then click \"UPDATE\" to save the "
+"changes."
 msgstr ""
-"Установите желаемый лимит вермени в минутах, используя  переключатель "
-"|switch icon| справа или посредством ввода значения в поле. Затем нажмите"
-" \"ОБНОВИТЬ\", чтобы сохранить изменения."
+"Установите желаемый лимит вермени в минутах, используя  переключатель |switch "
+"icon| справа или посредством ввода значения в поле. Затем нажмите \"ОБНОВИТЬ"
+"\", чтобы сохранить изменения."
 
 #: ../../CSUI-Settings.rst:41
 msgid "The value is stored in user’s tags."
@@ -106,21 +108,21 @@ msgstr "Установленное значение сохраняется в т
 
 #: ../../CSUI-Settings.rst:43
 msgid ""
-"The maximum allowed value is 300 minutes. Please, note that a long time "
-"period of an idle session decreases the account security."
+"The maximum allowed value is 300 minutes. Please, note that a long time period "
+"of an idle session decreases the account security."
 msgstr ""
-"Максимальное разрешенное значение - 300 минут. Обратите внимание, что "
-"более длительный период сессии снижает безопасность аккаунта. "
+"Максимальное разрешенное значение - 300 минут. Обратите внимание, что более "
+"длительный период сессии снижает безопасность аккаунта. "
 
 #: ../../CSUI-Settings.rst:45
 msgid ""
-"The session timeout can be set in the configuration file. You will find "
-"more information in the  `configuration guide <https://github.com/bwsw"
-"/cloudstack-ui/blob/master/config-guide.md#session-timeout>`_."
+"The session timeout can be set in the configuration file. You will find more "
+"information in the  `configuration guide <https://github.com/bwsw/cloudstack-"
+"ui/blob/master/config-guide.md#session-timeout>`_."
 msgstr ""
-"Лимит времени сеанса можно установить в конфигурационном файле. См. "
-"подробнее `руководство по конфигурациям <https://github.com/bwsw"
-"/cloudstack-ui/blob/master/config-guide.md#session-timeout>`_."
+"Лимит времени сеанса можно установить в конфигурационном файле. См. подробнее "
+"`руководство по конфигурациям <https://github.com/bwsw/cloudstack-ui/blob/"
+"master/config-guide.md#session-timeout>`_."
 
 #: ../../CSUI-Settings.rst:50
 msgid "Save VM passwords by default"
@@ -128,43 +130,41 @@ msgstr "Сохранять пароли ВМ по умолчанию"
 
 #: ../../CSUI-Settings.rst:51
 msgid ""
-"This checkbox allows saving passwords to VM tags automatically for all "
-"created virtual machines requiring passwords."
+"This checkbox allows saving passwords to VM tags automatically for all created "
+"virtual machines requiring passwords."
 msgstr ""
-"Данная опция позволяет автоматически сохранять пароли в теги ВМ при "
-"создании машин, для которых необходимы пароли."
+"Данная опция позволяет автоматически сохранять пароли в теги ВМ при создании "
+"машин, для которых необходимы пароли."
 
 #: ../../CSUI-Settings.rst:53
 msgid ""
-"Tick this option here. The passwords will be saved to VM tags right at "
-"the moment VMs are created. You will see a password (if it is required "
-"for the VM) is marked as saved in a dialog window after the new VM is "
-"deployed:"
+"Tick this option here. The passwords will be saved to VM tags right at the "
+"moment VMs are created. You will see a password (if it is required for the VM) "
+"is marked as saved in a dialog window after the new VM is deployed:"
 msgstr ""
-"Активируйте опцию в данной секции. При создании машины пароли сразу будут"
-" сохранятся в теги ВМ. В диалоговом окне создания ВМ пароль (если он "
-"требуется для данной ВМ) будет отмечен как сохраненный:"
+"Активируйте опцию в данной секции. При создании машины пароли сразу будут "
+"сохранятся в теги ВМ. В диалоговом окне создания ВМ пароль (если он требуется "
+"для данной ВМ) будет отмечен как сохраненный:"
 
 #: ../../CSUI-Settings.rst:57
 msgid ""
-"If this option is not activated, every time when creating a machine the "
-"system will ask you to save the password by clicking \"SAVE\" next to it:"
+"If this option is not activated, every time when creating a machine the system "
+"will ask you to save the password by clicking \"SAVE\" next to it:"
 msgstr ""
-"Если данная опция не активирована, каждый раз при создании ВМ система "
-"будет спрашивать о необходимости сохранить пароль, нажав \"СОХРАНИТЬ\" "
-"рядом с паролем:"
+"Если данная опция не активирована, каждый раз при создании ВМ система будет "
+"спрашивать о необходимости сохранить пароль, нажав \"СОХРАНИТЬ\" рядом с "
+"паролем:"
 
 #: ../../CSUI-Settings.rst:61
 msgid ""
 "Then the system will ask you if you wish to save passwords to VM tags "
-"automatically. If you click \"Yes\", the \"Save VM passwords by default\""
-" option will be activated in *Settings*. You will find more information "
-"about VM creation in the :ref:`Create_VM` section."
+"automatically. If you click \"Yes\", the \"Save VM passwords by default\" "
+"option will be activated in *Settings*. You will find more information about "
+"VM creation in the :ref:`Create_VM` section."
 msgstr ""
-"Затем система спросит, нужно ли автоматически сохранять пароли ВМ. "
-"Кликнув \"Да\", Вы активируете опцию \"Сохранять пароли ВМ по умолчанию\""
-" в разделе *Настройки*. См.подробнее о создании ВМ в разделе "
-":ref:`Create_VM`."
+"Затем система спросит, нужно ли автоматически сохранять пароли ВМ. Кликнув \"Да"
+"\", Вы активируете опцию \"Сохранять пароли ВМ по умолчанию\" в разделе "
+"*Настройки*. См.подробнее о создании ВМ в разделе :ref:`Create_VM`."
 
 #: ../../CSUI-Settings.rst:64
 msgid "API Configuration"
@@ -180,16 +180,16 @@ msgstr ""
 
 #: ../../CSUI-Settings.rst:68
 msgid ""
-"You can see an API key and a Secret key in corresponding fields. You can "
-"copy any of them clicking |copy icon| to the right."
+"You can see an API key and a Secret key in corresponding fields. You can copy "
+"any of them clicking |copy icon| to the right."
 msgstr ""
 "Ключ API и Секретный ключ отображаются в соответствующих полях. Их можно "
 "скопировать нажатием на |copy icon| справа."
 
 #: ../../CSUI-Settings.rst:72
 msgid ""
-"Regenerate the keys by clicking |refresh icon| above the fields. New keys"
-" will be generated."
+"Regenerate the keys by clicking |refresh icon| above the fields. New keys will "
+"be generated."
 msgstr ""
 "Для генерации нового ключа нажмите |refresh icon| вверху блока. В "
 "соответствующих полях появятся новые открытый и закрытый ключи."
@@ -197,13 +197,13 @@ msgstr ""
 #: ../../CSUI-Settings.rst:76
 msgid ""
 "Below you can view a connection URL which is used to send requests to "
-"CloudStack API. All requests are listed in the Apache CloudStack "
-"documentation available by the link."
+"CloudStack API. All requests are listed in the Apache CloudStack documentation "
+"available by the link."
 msgstr ""
-"В поле ниже отображается URL подключения, используемая для отправки "
-"запросов в CloudStack API. С полным перечнем используемых запросов можно "
-"ознакомиться в официальной документации Apache CloudStack, доступной по "
-"предоставленной ссылке."
+"В поле ниже отображается URL подключения, используемая для отправки запросов в "
+"CloudStack API. С полным перечнем используемых запросов можно ознакомиться в "
+"официальной документации Apache CloudStack, доступной по предоставленной "
+"ссылке."
 
 #: ../../CSUI-Settings.rst:81
 msgid "VM preferences"
@@ -243,10 +243,12 @@ msgstr "Упрощенная китайская раскладка"
 
 #: ../../CSUI-Settings.rst:97
 msgid ""
-"The selected option will appear in the VNC console kayboard layout "
-"parameter when accessing a VM via concole. The selected option is also "
-"saved to account tags."
+"The selected option will appear in the VNC console kayboard layout parameter "
+"when accessing a VM via concole. The selected option is also saved to user "
+"tags."
 msgstr ""
+"Выбранная опция появится в параметрах раскладки клавиатуры в консоли VNC  при "
+"доступе к ВМ через консоль. Заданные настройки сохраняются в теги пользователя."
 
 #: ../../CSUI-Settings.rst:100
 msgid "Look and Feel"
@@ -255,8 +257,8 @@ msgstr "Настройки интерфейса"
 #: ../../CSUI-Settings.rst:101
 msgid "In this block you can adjust the interface look."
 msgstr ""
-"В данном блоке можно выбрать один из типов недели: воскресенье - суббота "
-"или понедельник - воскресенье. "
+"В данном блоке можно выбрать один из типов недели: воскресенье - суббота или "
+"понедельник - воскресенье. "
 
 #: ../../CSUI-Settings.rst:104
 msgid "Interface Language"
@@ -264,11 +266,11 @@ msgstr "Язык интерфейса"
 
 #: ../../CSUI-Settings.rst:105
 msgid ""
-"Select the language of your interface. Currently two options are "
-"available in the drop-down list: Russian and English."
+"Select the language of your interface. Currently two options are available in "
+"the drop-down list: Russian and English."
 msgstr ""
-"Выберите язык интерфейса из представленных в списке вариантов: русский "
-"или английский."
+"Выберите язык интерфейса из представленных в списке вариантов: русский или "
+"английский."
 
 #: ../../CSUI-Settings.rst:111
 msgid "First Day of Week"
@@ -276,19 +278,18 @@ msgstr "Первый день недели"
 
 #: ../../CSUI-Settings.rst:112
 msgid ""
-"In this block, you have the opportunity to choose between two types of "
-"weeks: Sunday - Saturday or Monday - Sunday."
+"In this block, you have the opportunity to choose between two types of weeks: "
+"Sunday - Saturday or Monday - Sunday."
 msgstr ""
-"В данном блоке можно выбрать один из типов недели: воскресенье - суббота "
-"или понедельник - воскресенье. "
+"В данном блоке можно выбрать один из типов недели: воскресенье - суббота или "
+"понедельник - воскресенье. "
 
 #: ../../CSUI-Settings.rst:114
 msgid ""
-"From the drop-down list select the day when a week starts: Monday or "
-"Sanday."
+"From the drop-down list select the day when a week starts: Monday or Sanday."
 msgstr ""
-"Выберите из ниспадающего списка день, с которого будет начинаться неделя:"
-" понедельник или воскресенье. "
+"Выберите из ниспадающего списка день, с которого будет начинаться неделя: "
+"понедельник или воскресенье. "
 
 #: ../../CSUI-Settings.rst:121
 msgid "Time Format"
@@ -296,16 +297,15 @@ msgstr "Формат времени"
 
 #: ../../CSUI-Settings.rst:122
 msgid ""
-"Here you have the opportunity to switch the time format from AM/PM to "
-"24H. You can set it to \"Auto\" and the time format will be set in "
-"correspondence to the interface language: AM/PM if you select English and"
-" 24H if you select Russian."
+"Here you have the opportunity to switch the time format from AM/PM to 24H. You "
+"can set it to \"Auto\" and the time format will be set in correspondence to "
+"the interface language: AM/PM if you select English and 24H if you select "
+"Russian."
 msgstr ""
-"В данном блоке можно переключить формат времени с 12-часового на "
-"24-часовой. При выборе варианта \"Автоматически\"  формат времени будет "
-"установлен в зависимости от выбранного языка интерфейса: если язык "
-"интерфейса английский - 12-часовой формат; если язык интерфейса русский -"
-" 24-часовой формат. "
+"В данном блоке можно переключить формат времени с 12-часового на 24-часовой. "
+"При выборе варианта \"Автоматически\"  формат времени будет установлен в "
+"зависимости от выбранного языка интерфейса: если язык интерфейса английский - "
+"12-часовой формат; если язык интерфейса русский - 24-часовой формат. "
 
 #: ../../CSUI-Settings.rst:129
 msgid "Theme Color"
@@ -313,12 +313,11 @@ msgstr "Цвет темы"
 
 #: ../../CSUI-Settings.rst:130
 msgid ""
-"Select a preferred theme color. Currently two options are available: "
-"\"blue-red\" and \"indigo-pink\". The blue-red one is used by default."
+"Select a preferred theme color. Currently two options are available: \"blue-red"
+"\" and \"indigo-pink\". The blue-red one is used by default."
 msgstr ""
-"Выберите желаемый цвет темы. В текущей реализации доступны два варианта: "
-"сине-красный или индиго-розовый. Сине-красный цвет темы используется по "
-"умолчанию. "
+"Выберите желаемый цвет темы. В текущей реализации доступны два варианта: сине-"
+"красный или индиго-розовый. Сине-красный цвет темы используется по умолчанию. "
 
 #: ../../CSUI-Settings.rst:132
 msgid "Click the field and select another color if you wish."
@@ -326,11 +325,54 @@ msgstr "Кликните на поле и выберите желаемый цв
 
 #: ../../CSUI-Settings.rst:136
 msgid ""
-"A theme color can be set in the configuration JSON file. You will find "
-"more information in the `configuration guide <https://github.com/bwsw"
-"/cloudstack-ui/blob/master/config-guide.md#default-theme-name>`_."
+"A theme color can be set in the configuration JSON file. You will find more "
+"information in the `configuration guide <https://github.com/bwsw/cloudstack-ui/"
+"blob/master/config-guide.md#default-theme-name>`_."
 msgstr ""
 "Цвет темы можно установить в конфигурационном файле JSON. См.подробнее "
-"`руководство по конфигурациям <https://github.com/bwsw/cloudstack-"
-"ui/blob/master/config-guide.md#default-theme-name>`_."
+"`руководство по конфигурациям <https://github.com/bwsw/cloudstack-ui/blob/"
+"master/config-guide.md#default-theme-name>`_."
 
+#: ../../CSUI-Settings.rst:139
+msgid "Log View (real-time mode)"
+msgstr "Просмотр журналов в режиме реального времени"
+
+#: ../../CSUI-Settings.rst:140
+msgid ""
+"This section is available if the LogView UI-plugin is activated. See the "
+"`plugin page <https://github.com/bwsw/cloudstack-ui/wiki/Log-View-Plugin>`_ "
+"for installation instructions."
+msgstr ""
+"Данный раздел доступен, если подключен плагин LogView. Инструкцию по установке "
+"плагина можно найти на `странице плагина <https://github.com/bwsw/cloudstack-"
+"ui/wiki/Log-View-Plugin>`_."
+
+#: ../../CSUI-Settings.rst:142
+msgid ""
+"In this settings block you can configure viewing VM logs in a real-time mode. "
+"The following parameters can be set:"
+msgstr ""
+" В данном разделе настроек можно задать параметра просмотра журналов ВМ в "
+"режиме реального времени. Можно задать следующие параметры:"
+
+#: ../../CSUI-Settings.rst:144
+msgid ""
+"Show last (minutes) - allows viewing logs for the last set period. You can set "
+"the number of minutes from 1 (default) to 10."
+msgstr ""
+"Показывать за последние (минуты) - время, за которое вы желаете видеть записи; "
+"допустимые значения - от 1 (по умолчанию) до 10 минут."
+
+#: ../../CSUI-Settings.rst:145
+msgid ""
+"Show last (messages) - allows setting a maximum amount of logs to display. You "
+"can set from 1 to any number of log records. By default, 1000 messages are "
+"shown."
+msgstr ""
+"Максимальное количество отображаемых записей - позволяет задать максимальное "
+"число записей для показа; допустимые значения - от 1 до бесконечности. По "
+"умолчанию, показываются 1000 записей."
+
+#: ../../CSUI-Settings.rst:147
+msgid "Click \"Update\" to apply the set parameters."
+msgstr "Нажмите «Обновить» для применения заданных значений."

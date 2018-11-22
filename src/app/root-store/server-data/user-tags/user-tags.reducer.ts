@@ -1,9 +1,8 @@
 import { Update } from '@ngrx/entity';
-
-import { UserTagsActionsUnion, UserTagsActionTypes } from './user-tags.actions';
-import { adapter, initialState, UserTagsState } from './user-tags.state';
 import { Tag } from '../../../shared/models';
 import { userTagKeys } from '../../../tags/tag-keys';
+import { UserTagsActionsUnion, UserTagsActionTypes } from './user-tags.actions';
+import { adapter, initialState, UserTagsState } from './user-tags.state';
 
 export function reducer(state = initialState, action: UserTagsActionsUnion): UserTagsState {
   switch (action.type) {
@@ -12,22 +11,8 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
       return adapter.addAll(action.payload.tags, state);
     }
 
-    case UserTagsActionTypes.LoadUserTags: {
-      return {
-        ...state,
-        isLoading: true,
-      };
-    }
-
     case UserTagsActionTypes.LoadUserTagsSuccess: {
-      return adapter.upsertMany(action.payload.tags, { ...state, isLoading: false });
-    }
-
-    case UserTagsActionTypes.LoadUserTagsError: {
-      return {
-        ...state,
-        isLoading: false,
-      };
+      return adapter.upsertMany(action.payload.tags, { ...state, isLoaded: true });
     }
 
     case UserTagsActionTypes.UpdateCustomServiceOfferingParams: {
@@ -62,8 +47,19 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.UpdateThemeSuccess:
     case UserTagsActionTypes.SetSPFAVMSuccess:
     case UserTagsActionTypes.UpdateKeyboardLayoutForVmsSuccess:
+    case UserTagsActionTypes.UpdateVmLogsShowLastMessagesSuccess:
+    case UserTagsActionTypes.UpdateVmLogsShowLastMinutesSuccess:
     case UserTagsActionTypes.IncrementLastVMIdSuccess: {
       const update: Update<Tag> = { id: action.payload.key, changes: action.payload };
+      return adapter.updateOne(update, state);
+    }
+
+    /**
+     * We skip confirmation from the server that a value successfully changed,
+     * so we do not slow down UI interaction.
+     */
+    case UserTagsActionTypes.UpdateSidebarWidth: {
+      const update: Update<Tag> = { id: userTagKeys.sidebarWidth, changes: action.payload };
       return adapter.updateOne(update, state);
     }
 

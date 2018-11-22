@@ -1,6 +1,6 @@
 {
   "name": "cloudstack-ui",
-  "version": "1.411.23.1",
+  "version": "1.411.24",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
@@ -47,6 +47,7 @@
     "ajv": "^6.5.2",
     "ajv-errors": "^1.0.0",
     "ajv-keywords": "^3.2.0",
+    "angular2-draggable": "^2.1.8",
     "chart.js": "2.7.0",
     "core-js": "^2.4.1",
     "hammerjs": "^2.0.8",
@@ -55,8 +56,8 @@
     "ng-dynamic-component": "^3.0.0",
     "ng2-dragula": "1.5.0",
     "ngx-clipboard": "^11.1.7",
-    "resize-observer-polyfill": "^1.5.0",
     "ngx-infinite-scroll": "^6.0.1",
+    "resize-observer-polyfill": "^1.5.0",
     "rxjs": "^6.3.2",
     "showdown": "^1.8.4",
     "uuid": "^3.1.0",

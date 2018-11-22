@@ -88,6 +88,8 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
   savePasswordForAllVMs: null,
   lastVMId: 0,
   showSystemTags: false,
+  keyboardLayoutForVms: 'us',
+  sidebarWidth: 330,
   /*
    * Offerings
    */
@@ -110,7 +112,8 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
       max: Number.POSITIVE_INFINITY,
     },
   },
-  keyboardLayoutForVms: 'us',
+  vmLogsShowLastMessages: 1000,
+  vmLogsShowLastMinutes: 1,
 };
 
 export const defaultConfig: Readonly<Config> = {

@@ -1,3 +1,5 @@
+@import '../../../style/_variables';
+
 :host .mat-dialog-content {
   overflow: hidden !important;
 }
@@ -11,6 +13,6 @@ h5 {
 }
 
 .error-message {
-  color: #f44336;
+  color: $error-message-color;
   font-size: 13px;
 }

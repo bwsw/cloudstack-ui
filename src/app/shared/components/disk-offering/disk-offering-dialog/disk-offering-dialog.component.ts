@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
-
 import { DiskOffering } from '../../../models';
+import { AuthService } from '../../../services/auth.service';
 import { Utils } from '../../../services/utils/utils.service';
+import { isCustomized } from '../../../models/offering.model';
 
 @Component({
   selector: 'cs-disk-offering-dialog',
@@ -13,13 +14,20 @@ import { Utils } from '../../../services/utils/utils.service';
 export class DiskOfferingDialogComponent {
   public diskOfferings: DiskOffering[];
   public selectedDiskOffering: DiskOffering;
+  public storageAvailable: number | null;
+  public resourcesLimitExceeded = false;
+  public minSize: number = null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
+    public authService: AuthService,
   ) {
     this.diskOfferings = data.diskOfferings;
     this.selectedDiskOffering = data.diskOffering;
+    this.storageAvailable = data.storageAvailable;
+    this.minSize = this.authService.getCustomDiskOfferingMinSize();
+    this.checkResourcesLimit();
   }
 
   public offeringCreated(date: string): Date {
@@ -33,6 +41,7 @@ export class DiskOfferingDialogComponent {
 
   public selectOffering(offering: DiskOffering) {
     this.selectedDiskOffering = offering;
+    this.checkResourcesLimit();
   }
 
   public preventTriggerExpansionPanel(e: Event) {
@@ -46,6 +55,29 @@ export class DiskOfferingDialogComponent {
   public isSubmitButtonDisabled() {
     const isDiskOfferingNotSelected = !this.selectedDiskOffering;
     const isNoDiskOfferings = !this.diskOfferings.length;
-    return isDiskOfferingNotSelected || isNoDiskOfferings;
+    return this.resourcesLimitExceeded || isDiskOfferingNotSelected || isNoDiskOfferings;
+  }
+
+  private getDiskSize() {
+    if (this.selectedDiskOffering) {
+      if (isCustomized(this.selectedDiskOffering)) {
+        return this.minSize;
+      }
+
+      return this.selectedDiskOffering.disksize;
+    }
+  }
+
+  private getResourceLimitExceeded(): boolean {
+    const diskSize = this.getDiskSize();
+    if (this.storageAvailable && diskSize) {
+      return Number(this.storageAvailable) < Number(diskSize);
+    }
+
+    return false;
+  }
+
+  private checkResourcesLimit() {
+    this.resourcesLimitExceeded = this.getResourceLimitExceeded();
   }
 }

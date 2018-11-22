@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Grouping } from '../../shared/models';
+import { Account, Grouping } from '../../shared/models';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 
 @Component({
