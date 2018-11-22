@@ -1,6 +1,6 @@
 import { RouterState } from '@angular/router';
 import { Utils } from './utils.service';
-import timeExamples from './time-examples';
+import timeFormatConverterExamples from './time-format-converter-examples';
 
 const divideFixture = [
   {
@@ -128,8 +128,23 @@ describe('Utils service', () => {
   });
 
   it('should convert AM/PM to 24 and 24 to AM/PM', () => {
-    timeExamples.forEach(({ hour12, hour24 }) => {
+    timeFormatConverterExamples.forEach(({ hour12, hour24 }) => {
       expect(Utils.convertAmPmTo24(hour12)).toEqual(hour24);
+    });
+
+    expect(
+      Utils.convertAmPmTo24({
+        hour: 20,
+        minute: 0,
+      }),
+    ).toEqual({
+      hour: 20,
+      minute: 0,
+    });
+  });
+
+  it('should convert 24 to AM/PM', () => {
+    timeFormatConverterExamples.forEach(({ hour12, hour24 }) => {
       expect(Utils.convert24ToAmPm(hour24)).toEqual(hour12);
     });
 
@@ -143,16 +158,6 @@ describe('Utils service', () => {
       hour: 8,
       minute: 0,
       period: 1,
-    });
-
-    expect(
-      Utils.convertAmPmTo24({
-        hour: 20,
-        minute: 0,
-      }),
-    ).toEqual({
-      hour: 20,
-      minute: 0,
     });
   });
 });
