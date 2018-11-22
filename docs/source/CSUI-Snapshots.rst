@@ -35,7 +35,7 @@ Filtering of Snapshots
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Filtering of snapshots is available above the list. 
 
-.. figure:: _static/Snapshots_Filtering.png
+.. figure:: _static/Snapshots_Filtering1.png
 
 You can filter the list by the following parameters:
 
@@ -66,7 +66,7 @@ For a Volume snapshot the following information is presented in the details side
 - Type - Presents the snapshot type - Hourly, Daily, Weekly, Monthly, Manual;
 - Volume information and a virtual machine it is assigned to.
  
-.. figure:: _static/Snapshots_Details.png
+.. figure:: _static/Snapshots_Details1.png
 
 
 Snapshot Actions Box
