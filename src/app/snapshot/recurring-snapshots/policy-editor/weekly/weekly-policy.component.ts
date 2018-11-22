@@ -23,8 +23,11 @@ export interface WeeklyPolicy extends Time {
 export class WeeklyPolicyComponent implements ControlValueAccessor {
   @Input()
   public timeFormat: TimeFormat;
-
-  public time: Time;
+  public time: Time = {
+    hour: 0,
+    minute: 0,
+    period: 0,
+  };
   public dayOfWeek: DayOfWeek = DayOfWeek.Monday;
 
   public updateTime(value: Time): void {

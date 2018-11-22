@@ -6,11 +6,10 @@ import { map } from 'rxjs/operators';
 import { BackendResource } from '../../shared/decorators';
 import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { padStart } from '../../shared/utils/pad-start';
-import { DayPeriod } from '../../shared/components/day-period/day-period.component';
 import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { SnapshotPolicy } from './snapshot-policy.model';
-import { Time } from '../../shared/components/time-picker/time-picker.component';
 import { PolicyType } from './snapshot-policy-type';
+import { Utils } from '../../shared/services/utils/utils.service';
 
 export interface SnapshotPolicyCreationParams {
   policy: Policy<TimePolicy>;
@@ -51,32 +50,6 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     return super.remove({ id }, { entity: 'SnapshotPolicies' });
   }
 
-  private convertAmPmTo24(time: Time): Time {
-    if (time.period == null) {
-      return time;
-    }
-
-    if (time.period === DayPeriod.Am) {
-      if (time.hour === 12) {
-        return {
-          hour: 0,
-          minute: time.minute,
-        };
-      }
-      return time;
-    }
-    if (time.hour === 12) {
-      return {
-        hour: 12,
-        minute: time.minute,
-      };
-    }
-    return {
-      hour: time.hour + 12,
-      minute: time.minute,
-    };
-  }
-
   private transformPolicyTypeToString(type: PolicyType): string {
     const policyTypes = {
       [PolicyType.Hourly]: 'hourly',
@@ -93,7 +66,7 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
       return policy.timePolicy.minute.toString();
     }
 
-    const timePolicy24 = this.convertAmPmTo24(policy.timePolicy);
+    const timePolicy24 = Utils.convertAmPmTo24(policy.timePolicy);
 
     const hours = timePolicy24.hour;
     const minutes = padStart(timePolicy24.minute, 2);
