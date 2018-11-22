@@ -10,6 +10,7 @@ import * as fromServiceOfferings from '../../../reducers/service-offerings/redux
 // tslint:disable-next-line
 import { ServiceOfferingFromMode } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
+import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 
 @Component({
   selector: 'cs-vm-creation-service-offering-container',
@@ -56,6 +57,7 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
     this.store.dispatch(
       new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters),
     );
+    this.store.dispatch(new accountActions.LoadAccountsRequest());
   }
 
   ngAfterViewInit() {

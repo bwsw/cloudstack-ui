@@ -36,6 +36,7 @@ import { State } from '../../index';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 import * as volumeActions from './volumes.actions';
 import * as fromVolumes from './volumes.reducers';
+import * as accountActions from '../../accounts/redux/accounts.actions';
 
 @Injectable()
 export class VolumesEffects {
@@ -99,6 +100,14 @@ export class VolumesEffects {
         }),
       );
     }),
+  );
+
+  @Effect()
+  createVolumeFromSnapshotSuccess$ = this.actions$.pipe(
+    ofType<volumeActions.CreateVolumeFromSnapshotSuccess>(
+      volumeActions.CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS,
+    ),
+    map(() => new accountActions.LoadAccountsRequest()),
   );
 
   @Effect()

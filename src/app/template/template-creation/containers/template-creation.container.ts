@@ -9,7 +9,7 @@ import { configSelectors, State } from '../../../root-store';
 import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
 import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
 import * as osTypeActions from '../../../reducers/templates/redux/ostype.actions';
-import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
+import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as fromZones from '../../../reducers/templates/redux/zone.reducers';
 import * as zoneActions from '../../../reducers/templates/redux/zone.actions';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
@@ -29,7 +29,7 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
 })
 export class TemplateCreationContainerComponent {
   readonly viewMode$ = this.store.pipe(select(fromTemplates.filterSelectedViewMode));
-  readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
+  readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
   readonly osTypes$ = this.store.pipe(select(fromOsTypes.selectAll));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly groups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
