@@ -9,7 +9,6 @@ import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate
 import { MockTranslateService } from '../../../../../testutils/mocks/mock-translate.service.spec';
 import { ErrorMessageComponent } from '../../../../shared/components';
 import { ServiceOffering } from '../../../../shared/models';
-import { SharedModule } from '../../../../shared/shared.module';
 import { ServiceOfferingSelectorComponent } from './service-offering-selector.component';
 
 const serviceOfferingsRaw = require('../../../../../testutils/mocks/model-services/fixtures/serviceOfferings.json');
