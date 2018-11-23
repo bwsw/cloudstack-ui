@@ -84,7 +84,7 @@ export class SetDefaultUserTagsAtStartup implements Action {
   constructor(readonly payload: { tags: Tag[] }) {}
 }
 
-export class SetDefaultUserTagsDueToLogout {
+export class SetDefaultUserTagsDueToLogout implements Action {
   readonly type = UserTagsActionTypes.SetDefaultUserTagsDueToLogout;
 
   constructor(readonly payload: { tags: Tag[] }) {}

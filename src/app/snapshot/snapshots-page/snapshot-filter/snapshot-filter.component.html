@@ -1,4 +1,16 @@
 <div class="filter-wrapper">
+  <mat-button-toggle-group
+    [value]="viewMode"
+    (change)="onViewModeChange($event.value)"
+  >
+    <mat-button-toggle [value]="snapshotPageViewMode.Volume">
+      {{ 'SNAPSHOT_PAGE.FILTERS.VOLUME' | translate }}
+    </mat-button-toggle>
+    <mat-button-toggle [value]="snapshotPageViewMode.VM">
+      {{ 'SNAPSHOT_PAGE.FILTERS.VM' | translate }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+
   <mat-form-field *ngIf="accounts.length > 1">
     <mat-select
       multiple="true"
@@ -13,7 +25,8 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+
+  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.Volume">
     <mat-select
       multiple="true"
       [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_TYPES' | translate"
@@ -25,7 +38,21 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+
+  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.VM">
+    <mat-select
+      multiple="true"
+      [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_VMS' | translate"
+      [ngModel]="selectedVms"
+      (selectionChange)="selectedVmsChange.emit($event.value)"
+    >
+      <mat-option *ngFor="let vm of vms" [value]="vm.id">
+        {{ vm.displayname }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.Volume">
     <cs-draggable-select
       multiple="true"
       [placeholder]="'SNAPSHOT_PAGE.FILTERS.GROUP_BY' | translate"
@@ -34,7 +61,7 @@
       (selectionChange)="selectedGroupingsChange.emit($event.value)"
     >
       <ng-container *ngFor="let g of availableGroupings">
-        <mat-option *ngIf="!(g.hidden())" [value]="g">
+        <mat-option *ngIf="!(g.enabled())" [value]="g">
           {{ g.label | translate }}
         </mat-option>
       </ng-container>
@@ -53,7 +80,7 @@
   ></cs-date-picker>
 </div>
 
-<div class="filter-wrapper">
+<div class="filter-wrapper" *ngIf="viewMode === snapshotPageViewMode.Volume">
   <cs-search
     [ngModel]="query"
     (ngModelChange)="queryChange.emit($event)"

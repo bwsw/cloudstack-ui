@@ -10,12 +10,12 @@ import { EMPTY, Observable, of, Subject, throwError } from 'rxjs';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
 import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
 import { MockSnapshotTagService } from '../../../../testutils/mocks/tag-services/mock-snapshot-tag.service';
+import { SnackBarService } from '../../../core/services';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Snapshot, SnapshotStates, SnapshotType, Volume } from '../../../shared/models';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { SnackBarService } from '../../../core/services';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
@@ -27,12 +27,13 @@ import * as fromSnapshots from './snapshot.reducers';
 
 const snapshots: Snapshot[] = [
   {
-    description: 'test snapshot',
     id: 'test-id',
+    account: 'test',
     created: '2016-01-10T15:59:42+0700',
+    domain: 'test-domain',
+    domainid: 'test-domain-id',
     physicalsize: 100,
     volumeid: 'volume-id',
-    virtualmachineid: undefined,
     name: 'snapshot for testing',
     tags: [],
     state: SnapshotStates.BackedUp,
@@ -168,11 +169,12 @@ describe('Snapshot Effects', () => {
   it('should add new snapshot', () => {
     const newSnapshot: Snapshot = {
       id: 'new-snapshot',
-      description: 'new snapshot',
+      account: 'test',
       created: '2018-01-10T15:59:42+0700',
+      domain: 'test-domain',
+      domainid: 'id1',
       physicalsize: 100,
       volumeid: 'volume-id',
-      virtualmachineid: undefined,
       name: 'new snapshot for testing',
       tags: [],
       state: SnapshotStates.BackedUp,

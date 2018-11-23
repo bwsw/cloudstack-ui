@@ -13,7 +13,8 @@ import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as securityGroupActions from './sg.actions';
 import { Utils } from '../../../shared/services/utils/utils.service';
-import { configSelectors, UserTagsSelectors } from '../../../root-store';
+import { configSelectors } from '../../../root-store/config';
+import { UserTagsSelectors } from '../../../root-store/server-data/user-tags';
 
 export interface State {
   list: ListState;
