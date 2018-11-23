@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.actions';
 import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';

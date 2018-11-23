@@ -98,8 +98,7 @@ export const getSelectedSnapshot = createSelector(
 export const selectFilteredSnapshots = createSelector(
   selectAll,
   snapshotPageSelectors.getFilters,
-  snapshotPageSelectors.getViewMode,
-  (snapshots, filter, viewMode) => {
+  (snapshots, filter) => {
     const filterByTypes = (snapshot: Snapshot) =>
       !filter.volumeSnapshotTypes.length ||
       !!filter.volumeSnapshotTypes.find(type => type === snapshot.snapshottype);
