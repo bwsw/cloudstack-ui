@@ -6,7 +6,7 @@ import { SnapshotPageActionsUnion, SnapshotPageActionTypes } from './snapshot-pa
 export interface SnapshotPageState {
   viewMode: SnapshotPageViewMode;
   filters: Filters;
-  groupings: any; // todo
+  groupings: any[];
 }
 
 export const initialState: SnapshotPageState = {

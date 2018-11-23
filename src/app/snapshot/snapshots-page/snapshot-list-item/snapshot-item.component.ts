@@ -46,6 +46,10 @@ export class SnapshotItemComponent {
   }
 
   public get volumeName() {
+    /**
+     * Volumes used to check if volume still exist.
+     * When volume was removed snapshot.volumename still have name
+     */
     return (
       (this.volumes && this.volumes[this.item.volumeid] && this.volumes[this.item.volumeid].name) ||
       this.translate.instant('SNAPSHOT_PAGE.CARD.VOLUME_DELETED')

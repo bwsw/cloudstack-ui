@@ -1,11 +1,10 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import * as moment from 'moment';
 import { getSnapshotDescription, Snapshot } from '../../../shared/models';
 import * as snapshotPageSelectors from '../../../snapshot/store/snapshot-page.selectors';
-import * as snapshotActions from './snapshot.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
-import * as moment from 'moment';
-import { SnapshotPageViewMode } from '../../../snapshot/types';
+import * as snapshotActions from './snapshot.actions';
 
 export interface State {
   list: ListState;
@@ -101,10 +100,6 @@ export const selectFilteredSnapshots = createSelector(
   snapshotPageSelectors.getFilters,
   snapshotPageSelectors.getViewMode,
   (snapshots, filter, viewMode) => {
-    const filterByViewMode = (snapshot: Snapshot) =>
-      (viewMode === SnapshotPageViewMode.Volume && !!snapshot.volumeid) ||
-      (viewMode === SnapshotPageViewMode.VM && !!snapshot.virtualmachineid);
-
     const filterByTypes = (snapshot: Snapshot) =>
       !filter.volumeSnapshotTypes.length ||
       !!filter.volumeSnapshotTypes.find(type => type === snapshot.snapshottype);
@@ -133,7 +128,6 @@ export const selectFilteredSnapshots = createSelector(
 
     return snapshots.filter(
       (snapshot: Snapshot) =>
-        filterByViewMode(snapshot) &&
         filterByAccount(snapshot) &&
         filterByTypes(snapshot) &&
         filterByDate(snapshot) &&

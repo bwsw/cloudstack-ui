@@ -61,7 +61,7 @@
       (selectionChange)="selectedGroupingsChange.emit($event.value)"
     >
       <ng-container *ngFor="let g of availableGroupings">
-        <mat-option *ngIf="!(g.hidden())" [value]="g">
+        <mat-option *ngIf="!(g.enabled())" [value]="g">
           {{ g.label | translate }}
         </mat-option>
       </ng-container>

@@ -90,21 +90,21 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
       label: 'SNAPSHOT_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: Snapshot | VmSnapshotViewModel) => item.account,
       name: getGroupName,
-      hidden: () => !this.authService.isAdmin(),
+      enabled: () => !this.authService.isAdmin(),
     },
     {
       key: 'types',
       label: 'SNAPSHOT_PAGE.FILTERS.GROUP_BY_TYPES',
       selector: (item: Snapshot) => item.snapshottype,
-      name: (item: Snapshot) => `SNAPSHOT_PAGE.TYPES.${item.snapshottype}`,
-      hidden: () => this.viewMode !== SnapshotPageViewMode.Volume,
+      name: (item: Snapshot) => item.snapshottype && `SNAPSHOT_PAGE.TYPES.${item.snapshottype}`,
+      enabled: () => this.viewMode !== SnapshotPageViewMode.Volume,
     },
     {
       key: 'vms',
       label: 'SNAPSHOT_PAGE.FILTERS.GROUP_BY_VMS',
       selector: (item: VmSnapshotViewModel) => item.vmName,
       name: (item: VmSnapshotViewModel) => item.vmName,
-      hidden: () => this.viewMode !== SnapshotPageViewMode.VM,
+      enabled: () => this.viewMode !== SnapshotPageViewMode.VM,
     },
   ];
 
