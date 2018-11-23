@@ -54,6 +54,7 @@ const vmDescriptionKey = 'csui.vm.description';
       [vm]="vm$ | async"
       (statsUpdated)="updateStats($event)"
     ></cs-statistics>
+    <cs-vm-logs-secret-key></cs-vm-logs-secret-key>
   `,
 })
 export class VmDetailContainerComponent implements OnInit {
