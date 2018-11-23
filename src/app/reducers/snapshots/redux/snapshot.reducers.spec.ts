@@ -93,89 +93,66 @@ describe('Snapshot Reducer', () => {
     expect(state.entities).toEqual({ 2: snapshots[1] });
   });
 
-  // it('should select filtered snapshots', () => {
-  //   const differentSnapshots: Snapshot[] = [
-  //     {
-  //       id: '1',
-  //       domain: 'test-domain',
-  //       domainid: 'test-domain-id',
-  //       created: '2016-01-11T15:59:42+0700',
-  //       physicalsize: 100,
-  //       volumeid: undefined,
-  //       name: 'snapshot for testing',
-  //       tags: [],
-  //       state: SnapshotStates.BackedUp,
-  //       revertable: true,
-  //       snapshottype: SnapshotType.Daily,
-  //       account: 'develop',
-  //     },
-  //     {
-  //       id: '1',
-  //       domain: 'test-domain',
-  //       domainid: 'test-domain-id',
-  //       created: '2016-01-11T15:59:42+0700',
-  //       physicalsize: 100,
-  //       volumeid: 'volume-id-2',
-  //       name: 'snapshot for testing',
-  //       tags: [],
-  //       state: SnapshotStates.BackedUp,
-  //       revertable: true,
-  //       snapshottype: SnapshotType.Daily,
-  //       account: 'develop',
-  //     },
-  //     {
-  //       id: '2',
-  //       domain: 'test-domain',
-  //       domainid: 'test-domain-id',
-  //       created: '2017-10-15T15:59:42+0700',
-  //       physicalsize: 100,
-  //       volumeid: 'volume-id-3',
-  //       name: 'snapshot for testing',
-  //       tags: [],
-  //       state: SnapshotStates.BackedUp,
-  //       revertable: false,
-  //       snapshottype: SnapshotType.Manual,
-  //       account: 'test',
-  //     },
-  //   ];
-  //   let slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
-  //     accounts: [],
-  //     vmIds: [],
-  //     date: null,
-  //     query: undefined,
-  //     volumeSnapshotTypes: [],
-  //   });
-  //
-  //   expect(slice).toEqual([differentSnapshots[1], differentSnapshots[2]]);
-  //
-  //   slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
-  //     accounts: [],
-  //     vmIds: [],
-  //     date: '2017-10-15T00:00:00.000Z',
-  //     query: undefined,
-  //     volumeSnapshotTypes: [],
-  //   });
-  //
-  //   expect(slice).toEqual([differentSnapshots[2]]);
-  //
-  //   slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
-  //     accounts: [],
-  //     vmIds: [],
-  //     date: null,
-  //     query: undefined,
-  //     volumeSnapshotTypes: [SnapshotType.Daily],
-  //   });
-  //
-  //   expect(slice).toEqual([differentSnapshots[1]]);
-  //
-  //   slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
-  //     accounts: ['develop'],
-  //     vmIds: [],
-  //     date: null,
-  //     query: undefined,
-  //     volumeSnapshotTypes: [],
-  //   });
-  //
-  //   expect(slice).toEqual([differentSnapshots[1]]);
-  // });
+  it('should select filtered snapshots', () => {
+    const differentSnapshots: Snapshot[] = [
+      {
+        id: '1',
+        domain: 'test-domain',
+        domainid: 'test-domain-id',
+        created: '2016-01-11T15:59:42+0700',
+        physicalsize: 100,
+        volumeid: 'volume-id-2',
+        name: 'snapshot for testing',
+        tags: [],
+        state: SnapshotStates.BackedUp,
+        revertable: true,
+        snapshottype: SnapshotType.Daily,
+        account: 'develop',
+      },
+      {
+        id: '2',
+        domain: 'test-domain',
+        domainid: 'test-domain-id',
+        created: '2017-10-15T15:59:42+0700',
+        physicalsize: 100,
+        volumeid: 'volume-id-3',
+        name: 'snapshot for testing',
+        tags: [],
+        state: SnapshotStates.BackedUp,
+        revertable: false,
+        snapshottype: SnapshotType.Manual,
+        account: 'test',
+      },
+    ];
+
+    let slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
+      accounts: [],
+      vmIds: [],
+      date: '2017-10-15T00:00:00.000Z',
+      query: undefined,
+      volumeSnapshotTypes: [],
+    });
+
+    expect(slice).toEqual([differentSnapshots[1]]);
+
+    slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
+      accounts: [],
+      vmIds: [],
+      date: null,
+      query: undefined,
+      volumeSnapshotTypes: [SnapshotType.Daily],
+    });
+
+    expect(slice).toEqual([differentSnapshots[0]]);
+
+    slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
+      accounts: ['develop'],
+      vmIds: [],
+      date: null,
+      query: undefined,
+      volumeSnapshotTypes: [],
+    });
+
+    expect(slice).toEqual([differentSnapshots[0]]);
+  });
 });

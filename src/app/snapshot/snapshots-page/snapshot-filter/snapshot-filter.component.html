@@ -52,7 +52,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.Volume">
     <cs-draggable-select
       multiple="true"
       [placeholder]="'SNAPSHOT_PAGE.FILTERS.GROUP_BY' | translate"

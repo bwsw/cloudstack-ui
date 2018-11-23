@@ -11,11 +11,6 @@ export enum SnapshotStates {
   Error = 'Error',
 }
 
-export enum SnapshotPageMode {
-  Volume = 'volume',
-  VM = 'vm',
-}
-
 export enum SnapshotType {
   Manual = 'MANUAL',
   Hourly = 'HOURLY',
