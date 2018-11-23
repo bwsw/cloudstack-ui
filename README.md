@@ -193,11 +193,11 @@ We changed the templates and ISOs view making it more obvious and neat to use. A
 
 #### Snapshots
 
-We have added a section - Snapshots - that makes it easier for a user to manage snapshots created for volumes in the system. A user can view the list of snapshots and filter or group it by type or account (available to Administrators). We also added filtering snapshots by date.
+We have added a section - Snapshots - that makes it easier for a user to manage snapshots created for volumes and virtual machines in the system. A user can view the list of snapshots and filter or group it by type/VM or account (available to Administrators). We also added filtering snapshots by creation date.
 
-In the details sidebar a user can see the snapshot general information and the volume that the snapshot is created for.
+In the details sidebar a user can see the snapshot general information and the volume/VM that the snapshot is created for.
 
-Here the action box also allows a user to create template or volume from the snapshot, revert a volume to the snapshot, or delete a snapshot.
+Here the action box also allows a user to create template or volume from a volume snapshot, revert a volume/VM to the snapshot, or delete a snapshot.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/snapshotsView.png" target="_blank">![Snapshots view](./screens/snapshotsView_mini.png)</a>&nbsp;&nbsp;
 
@@ -207,7 +207,7 @@ Here the action box also allows a user to create template or volume from the sna
 
 Firewall section includes three views: Firewall templates, Shared security groups and Private security groups.
 
-It is important to understand the concept of Firewall _templates_. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in the json configuration file. Upon VM creation the system uses a default security group defined in the configuration file, or a user can create a new security group right in the VM creation form. Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a _private_ security group used for that virtual machine only.
+It is important to understand the concept of Firewall _templates_. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in the json configuration file. Upon VM creation the system uses a default security group created by CloudStack, or a user can create a new security group right in the VM creation form. Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a _private_ security group used for that virtual machine only.
 
 The second way is to use a _shared_ security group - a group that is used by other VMs.
 
@@ -268,8 +268,6 @@ npm install
 To run docker container use:
 
 ```
-docker pull bitworks.software:8443/cloudstack-ui:1.411.24
-
 docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \

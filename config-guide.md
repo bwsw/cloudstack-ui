@@ -168,7 +168,7 @@ Parameters:
 
 ### Default Security Group Name
 
-Allow you to rename the Default Firewall group.
+A Default Firewall group is created by CloudStack. This parameter allows you to rename this group.
 The default name is `default` for both languages.
 
 For example,
