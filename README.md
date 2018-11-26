@@ -121,14 +121,12 @@ We intensively use features like projects in our own CloudStack cloud to manage 
 ## Current To Dos
 
 - Responsive interface for smart devices
+- SAML2 authentication support
+- CloudStack projects
+- JivoChat integration
+- Resources request/release plugin
+- OTA/KVS integration for VM automation
 
-## Long Term To Dos
-
-- Plugins
-  - Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
-  - Self registration for public cloud
-  - RDP/VNC (guacamole)
-   
 ## Far Away To Dos
 
 - Plugins
