@@ -1,4 +1,5 @@
 @import '../../../style/_variables';
+@import '../../../style/app';
 
 .fab {
   transition: margin 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -10,20 +11,6 @@
   width: 50px;
 }
 
-// todo: merge with cs-fab
 /deep/ .mat-fab {
-  width: 50px;
-  height: 50px;
-
-  & .mat-button-wrapper {
-    padding: calc(50 / 56 * 16px) 0;
-    line-height: calc(50 / 56 * 24px);
-  }
-
-  & .mat-icon {
-    width: calc(50 / 56 * 24px);
-    height: calc(50 / 56 * 24px);
-    line-height: calc(50 / 56 * 24px);
-    font-size: calc(50 / 56 * 24px);
-  }
+  @include mat-fab-shrunk;
 }
