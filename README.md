@@ -9,8 +9,6 @@
   - [Plugins Supported](#plugins-supported)
   - [Features Yet Unsupported](#features-yet-unsupported)
   - [Current To Do's](#current-to-dos)
-  - [Long Term To Do's](#long-term-to-dos)
-  - [Far Away To Do's](#far-away-to-dos)
   - [Screenshots and Features descriptions](#screenshots--features-descriptions)
     - [Login view](#login-view)
     - [Virtual machines](#virtual-machines-view)
@@ -123,14 +121,10 @@ We intensively use features like projects in our own CloudStack cloud to manage 
 - Responsive interface for smart devices
 - SAML2 authentication support
 - CloudStack projects
-- JivoChat integration
+- JivoChat widget integration
 - Resources request/release plugin
 - OTA/KVS integration for VM automation
-
-## Far Away To Dos
-
-- Plugins
-  - Applications a.k.a. Roller (Docker swarm or Ansible, tbd)
+- Docker stack library support
 
 ## Screenshots & Features Descriptions
 
