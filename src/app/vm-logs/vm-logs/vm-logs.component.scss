@@ -10,11 +10,20 @@
   width: 50px;
 }
 
-.mat-fab {
+// todo: merge with cs-fab
+/deep/ .mat-fab {
   width: 50px;
   height: 50px;
-}
 
-/deep/ .mat-fab .mat-button-wrapper {
-  padding: 14px 0 !important;
+  & .mat-button-wrapper {
+    padding: calc(50 / 56 * 16px) 0;
+    line-height: calc(50 / 56 * 24px);
+  }
+
+  & .mat-icon {
+    width: calc(50 / 56 * 24px);
+    height: calc(50 / 56 * 24px);
+    line-height: calc(50 / 56 * 24px);
+    font-size: calc(50 / 56 * 24px);
+  }
 }
