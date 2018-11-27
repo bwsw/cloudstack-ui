@@ -316,7 +316,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.vmLogsShowLastMessages;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateVmLogsShowLastMessagesSuccess({ key, value })),
         catchError(error => of(new UpdateVmLogsShowLastMessagesError({ error }))),
       );
@@ -329,7 +329,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.vmLogsShowLastMinutes;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateVmLogsShowLastMinutesSuccess({ key, value })),
         catchError(error => of(new UpdateVmLogsShowLastMinutesError({ error }))),
       );
@@ -345,7 +345,10 @@ export class UserTagsEffects {
   updateSidebarWidth$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateSidebarWidth>(UserTagsActionTypes.UpdateSidebarWidth),
     mergeMap(action => {
-      return this.upsertTag(userTagKeys.sidebarWidth, action.payload.value);
+      return this.upsertTag({
+        key: userTagKeys.sidebarWidth,
+        value: action.payload.value,
+      });
     }),
   );
 

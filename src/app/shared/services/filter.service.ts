@@ -44,8 +44,6 @@ export class FilterService {
       this.storage.remove(this.key);
     }
 
-    debugger;
-
     return Serializer.decode([queryParams, storage], this.config);
   }
 }

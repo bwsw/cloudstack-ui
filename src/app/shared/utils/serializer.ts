@@ -1,5 +1,5 @@
-import pickBy from 'lodash/pickBy';
-import assign from 'lodash/assign';
+import * as assign from 'lodash/assign';
+import * as pickBy from 'lodash/pickBy';
 
 export interface FilterConfig {
   [propName: string]: FilterItemConfig;
@@ -27,16 +27,19 @@ export class Serializer {
   public static decode(encodedObjects, config: FilterConfig): Object {
     const keys = Object.keys(config);
 
-    debugger;
-
     const parsedObjects = encodedObjects.map(encodedObject => {
-      return keys.reduce(
-        (memo, filter) => ({
-          ...memo,
-          [filter]: Serializer.getValue(encodedObject[filter], config[filter]),
-        }),
-        {},
-      );
+      return keys.reduce((memo, filter) => {
+        const value = Serializer.getValue(encodedObject[filter], config[filter]);
+
+        if (value != null) {
+          return {
+            ...memo,
+            [filter]: value,
+          };
+        }
+
+        return memo;
+      }, {});
     });
 
     const defaultValues = keys.reduce(
@@ -47,7 +50,7 @@ export class Serializer {
       {},
     );
 
-    const merged = assign(...parsedObjects, defaultValues);
+    const merged = assign({}, defaultValues, ...parsedObjects.reverse());
 
     return pickBy(merged, Boolean);
   }
