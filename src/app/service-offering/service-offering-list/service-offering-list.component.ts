@@ -88,7 +88,7 @@ export class ServiceOfferingListComponent implements OnChanges {
   }
 
   public getName(soClass: ComputeOfferingClass) {
-    if (soClass.id === 'common') {
+    if (soClass && soClass.id === 'common') {
       return 'SERVICE_OFFERING.FILTERS.COMMON';
     }
     return (soClass && soClass.name && soClass.name[this.locale]) || 'empty';

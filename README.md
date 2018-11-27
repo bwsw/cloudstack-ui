@@ -9,8 +9,6 @@
   - [Plugins Supported](#plugins-supported)
   - [Features Yet Unsupported](#features-yet-unsupported)
   - [Current To Do's](#current-to-dos)
-  - [Long Term To Do's](#long-term-to-dos)
-  - [Far Away To Do's](#far-away-to-dos)
   - [Screenshots and Features descriptions](#screenshots--features-descriptions)
     - [Login view](#login-view)
     - [Virtual machines](#virtual-machines-view)
@@ -103,9 +101,9 @@ WebShell is a CloudStack-UI extension designed to perform a clientless SSH conne
 
 This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on [the plugin page](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin#webshell-plugin-deployment).
 
-**LogView Plugin**
+**Log View Plugin**
 
-This extension allows users to view VM log files. It uses the LogView backend-plugin that extends the CloudStack API with additional requests providing access the VM log files storage. For the LogView UI-plugin operation, firstly, the LogView backend-plugin should be downloaded from [GitHub](https://github.com/bwsw/cloud-plugin-vm-logs) and deployed. The plugin uses the ELK stack to store machine log files and Filebeat to export log files from a VM to the storage. The plugin is developed and tested only with Apache CloudStack 4.11.1.
+This extension allows users to view VM log files. It uses the Log View backend-plugin that extends the CloudStack API with additional requests providing access the VM log files storage. For the Log View UI-plugin operation, firstly, the Log View backend-plugin should be downloaded from [GitHub](https://github.com/bwsw/cloud-plugin-vm-logs) and deployed. The plugin uses the ELK stack to store machine log files and Filebeat to export log files from a VM to the storage. The plugin is developed and tested only with Apache CloudStack 4.11.1.
 
 Then, it is necessary to enable the LogView UI-plugin via the CloudStack-UI configuration file. After activation, the _View Logs_ section appears in CloudStack-UI. There a user can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs.
 
@@ -121,18 +119,12 @@ We intensively use features like projects in our own CloudStack cloud to manage 
 ## Current To Dos
 
 - Responsive interface for smart devices
-
-## Long Term To Dos
-
-- Plugins
-  - Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
-  - Self registration for public cloud
-  - RDP/VNC (guacamole)
-   
-## Far Away To Dos
-
-- Plugins
-  - Applications a.k.a. Roller (Docker swarm or Ansible, tbd)
+- SAML2 authentication support
+- CloudStack projects
+- JivoChat widget integration
+- Resources request/release plugin
+- OTA/KVS integration for VM automation
+- Docker stack library support
 
 ## Screenshots & Features Descriptions
 
@@ -156,13 +148,15 @@ From the system behavior standpoint, we have changed it sometimes, e.g. when the
 
 #### New virtual machine form
 
-We changed a new virtual machine screen a lot. Now it’s a one-step dialog and it allows selecting everything from one screen without additional steps. We believe it’s much better for a regular user than the one used with the native UI. It also generates meaningful VM names from usernames like `vm-<username>-<counter>`. Another important thing is that the form checks that a user has a required amount of resources to create the virtual machine immediately and thus it doesn’t allow him launching creation that will fail for sure.
+We changed a new virtual machine screen a lot. Now it’s a one-step dialog and it allows selecting everything from one screen without additional steps. We believe it’s much better for a regular user than the one used with the native UI. We also allow users to define any VM name - a VM display name - to make it more convenient to manage a VM. Alogside with a display name a user can define a host name for the VM that should be unique within the domain. If no host name defined, the system generates a meaningful unique VM name like `vm-<UID>`. 
+
+Another important thing is that the form checks that a user has the required amount of resources to create the virtual machine immediately and thus it doesn’t allow him launching creation that will fail for sure.
 
 Our team has made a big contribution to the improvement of UX when creating a virtual machine. First of all, a user now has an access to the list of all creation steps. Depending on installation source (ISO or a Template) system allows getting not only a login, password, and IP of the machine but also an access to VM interaction interface.
 
 Currently supported:
 - VNC console,
-- WebShell if VM has a csui.vm.auth-mode tag with SSH value. To configure access to VM using WebShell, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags),
+- Access via SSH if VM has a csui.vm.auth-mode tag with SSH value. To configure access to VM using WebShell, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags),
 - Access via HTTP if VM has a csui.vm.auth-mode tag with HTTP value. To configure access to VM via HTTP, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags).
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVM_View.png" target="_blank">![New Virtual Machine View](./screens/newVM_View_mini.png)</a>
@@ -191,11 +185,11 @@ We changed the templates and ISOs view making it more obvious and neat to use. A
 
 #### Snapshots
 
-We have added a section - Snapshots - that makes it easier for a user to manage snapshots created for volumes in the system. A user can view the list of snapshots and filter or group it by type or account (available to Administrators). We also added filtering snapshots by date.
+We have added a section - Snapshots - that makes it easier for a user to manage snapshots created for volumes and virtual machines in the system. A user can view the list of snapshots and filter or group it by type/VM or account (available to Administrators). We also added filtering snapshots by creation date.
 
-In the details sidebar a user can see the snapshot general information and the volume that the snapshot is created for.
+In the details sidebar a user can see the snapshot general information and the volume/VM that the snapshot is created for.
 
-Here the action box also allows a user to create template or volume from the snapshot, revert a volume to the snapshot, or delete a snapshot.
+Here the action box also allows a user to create template or volume from a volume snapshot, revert a volume/VM to the snapshot, or delete a snapshot.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/snapshotsView.png" target="_blank">![Snapshots view](./screens/snapshotsView_mini.png)</a>&nbsp;&nbsp;
 
@@ -205,7 +199,7 @@ Here the action box also allows a user to create template or volume from the sna
 
 Firewall section includes three views: Firewall templates, Shared security groups and Private security groups.
 
-It is important to understand the concept of Firewall _templates_. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in the json configuration file. Upon VM creation the system uses a default security group defined in the configuration file, or a user can create a new security group right in the VM creation form. Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a _private_ security group used for that virtual machine only.
+It is important to understand the concept of Firewall _templates_. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in the json configuration file. Upon VM creation the system uses a default security group created by CloudStack, or a user can create a new security group right in the VM creation form. Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a _private_ security group used for that virtual machine only.
 
 The second way is to use a _shared_ security group - a group that is used by other VMs.
 
@@ -266,13 +260,11 @@ npm install
 To run docker container use:
 
 ```
-docker pull bitworks.software:8443/cloudstack-ui:1.411.23.1
-
 docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bitworks.software:8443/cloudstack-ui:1.411.23.1
+           bitworks.software:8443/cloudstack-ui:1.411.25
 ```
 
 `http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)

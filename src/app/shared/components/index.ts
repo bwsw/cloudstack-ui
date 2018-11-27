@@ -13,3 +13,4 @@ export * from './vm-statistics/vm-statistics.component';
 export * from './slider/slider.component';
 export * from './clipboard-button/clipboard-button.component';
 export * from './keyboards/keyboards.component';
+export * from './volume-snapshot-from-vm-snapshot-dialog/volume-snapshot-from-vm-snapshot-dialog.component';

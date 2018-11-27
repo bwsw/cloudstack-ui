@@ -7,8 +7,7 @@ Settings
 In the *Accounts* -> *Settings* section a user can modify the interface by changing settings.
 
 .. figure:: _static/Settings_List.png
-   :scale: 80%
-
+   
 Security
 ~~~~~~~~~~~~~~~~~~
 A user can manage the following security settings:
@@ -94,7 +93,7 @@ The following options are available:
 
 .. figure:: _static/Settings_KeyboardLayout1.png
 
-The selected option will appear in the VNC console kayboard layout parameter when accessing a VM via concole. The selected option is also saved to account tags.
+The selected option will appear in the VNC console kayboard layout parameter when accessing a VM via concole. The selected option is also saved to user tags.
 
 Look and Feel
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -134,6 +133,19 @@ Click the field and select another color if you wish.
 .. figure:: _static/Settings_Theme.png
 
 A theme color can be set in the configuration JSON file. You will find more information in the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-theme-name>`_. 
+
+Log View (real-time mode) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This section is available if the LogView UI-plugin is activated. See the `plugin page <https://github.com/bwsw/cloudstack-ui/wiki/Log-View-Plugin>`_ for installation instructions.
+
+In this settings block you can configure viewing VM logs in a real-time mode. The following parameters can be set:
+
+* Show last (minutes) - allows viewing logs for the last set period. You can set the number of minutes from 1 (default) to 10.
+* Show last (messages) - allows setting a maximum amount of logs to display. You can set from 1 to any number of log records. By default, 1000 messages are shown.
+
+Click "Update" to apply the set parameters.
+
+.. figure:: _static/Settings_LogView.png
 
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png

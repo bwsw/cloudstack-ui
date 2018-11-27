@@ -43,6 +43,7 @@ const FILTER_KEY = 'logsFilters';
       [newestFirst]="newestFirst$ | async"
       [isAutoUpdateEnabled]="isAutoUpdateEnabled$ | async"
       [firstDayOfWeek]="firstDayOfWeek$ | async"
+      [timeFormat]="timeFormat$ | async"
       (accountsChanged)="onAccountsChange($event)"
       (vmChanged)="onVmChange($event)"
       (logFileChanged)="onLogFileChange($event)"
@@ -74,6 +75,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
   readonly isAutoUpdateEnabled$ = this.store.pipe(
     select(fromVmLogsAutoUpdate.selectIsAutoUpdateEnabled),
   );
+  readonly timeFormat$ = this.store.pipe(select(UserTagsSelectors.getTimeFormat));
 
   private filterService = new FilterService(
     {

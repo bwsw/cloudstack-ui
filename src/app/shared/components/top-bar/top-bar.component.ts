@@ -10,8 +10,8 @@ import { ListService } from '../list/list.service';
 })
 export class TopBarComponent {
   constructor(
-    @Optional() private listService: ListService,
     private activatedRoute: ActivatedRoute,
+    @Optional() private listService: ListService,
   ) {}
 
   public get sidebarOpen(): boolean {

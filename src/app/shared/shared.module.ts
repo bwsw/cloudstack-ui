@@ -7,6 +7,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { ClipboardModule } from 'ngx-clipboard';
+import {
+  SidebarTabNavDirective,
+  BadgeDirective,
+  ForbiddenValuesDirective,
+  InputTypeNumberDirective,
+  IntegerValidatorDirective,
+  LoadingDirective,
+} from './directives';
 // tslint:disable max-line-length
 import { MemoryStorageService } from './services/memory-storage.service';
 import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
@@ -54,6 +62,7 @@ import {
   SliderComponent,
   TopBarComponent,
   VmStatisticsComponent,
+  VolumeSnapshotFromVmSnapshotDialogComponent,
 } from './components';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
@@ -77,9 +86,6 @@ import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
 import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
-import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
-import { IntegerValidatorDirective } from './directives/integer-value.directive';
-import { LoadingDirective } from './directives/loading.directive';
 import {
   DivisionPipe,
   HighLightPipe,
@@ -125,14 +131,13 @@ import { TemplateTagService } from './services/tags/template-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
+import { VmSnapshotService } from './services/vm-snapshot.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
-import { BadgeDirective } from './directives/badge/badge.directive';
 import { MaterialModule } from '../material/material.module';
-import { InputTypeNumberDirective } from './directives/input-type-number.directive';
 import {
   RoundStateIndicatorComponent,
   SquareStateIndicatorComponent,
@@ -140,10 +145,13 @@ import {
 import { UrlDirective } from './validators/directives';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { DayPeriodComponent } from './components/day-period/day-period.component';
+import { DiskOfferingSelectorChooserComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-chooser.component';
+import { DiskOfferingSelectorSliderComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-slider.component';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 // tslint:enable max-line-length
 
-const SHARED_DIRECTIVES = [UrlDirective, InputTypeNumberDirective];
+const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
 
 const SHARED_COMPONENTS = [ClipboardButtonComponent];
 
@@ -157,6 +165,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     ClipboardModule,
     DragulaModule,
     PopoverModule,
+    AngularDraggableModule,
     TranslateModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
@@ -222,6 +231,8 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
+    DiskOfferingSelectorChooserComponent,
+    DiskOfferingSelectorSliderComponent,
     SHARED_DIRECTIVES,
     SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
@@ -239,6 +250,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     VolumeDeleteDialogComponent,
     SecurityGroupBuilderComponent,
     DiskOfferingDialogComponent,
+    VolumeSnapshotFromVmSnapshotDialogComponent,
   ],
   declarations: [
     AccountActionsComponent,
@@ -312,6 +324,8 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
+    DiskOfferingSelectorChooserComponent,
+    DiskOfferingSelectorSliderComponent,
     DiskOfferingDialogComponent,
     SHARED_DIRECTIVES,
     SHARED_COMPONENTS,
@@ -320,6 +334,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     KeyboardsComponent,
     TimePickerComponent,
     DayPeriodComponent,
+    VolumeSnapshotFromVmSnapshotDialogComponent,
   ],
   providers: [
     AccountService,
@@ -362,6 +377,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     AccountTagService,
     VmTagService,
     ZoneService,
+    VmSnapshotService,
     VmCreationSecurityGroupService,
     VolumeService,
     VolumeTagService,

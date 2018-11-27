@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, Type } from '@angular/core';
+import * as groupBy from 'lodash/groupBy';
 import { BaseModel } from '../../models/base.model';
 import { Grouping } from '../../models/grouping.model';
-import * as groupBy from 'lodash/groupBy';
 
 @Component({
   selector: 'cs-grouped-list',
@@ -16,7 +16,7 @@ export class GroupedListComponent implements OnChanges {
   @Input()
   public level = 0;
   @Input()
-  public groupings: Grouping[];
+  public groupings: Grouping[] = [];
   @Input()
   dynamicInputs: { [k: string]: any } = {};
   @Input()

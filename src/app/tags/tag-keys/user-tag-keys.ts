@@ -12,4 +12,7 @@ export const userTagKeys = {
   theme: 'csui.user.theme',
   computeOfferingParam: 'csui.user.compute-offering.param',
   vmLogsFilter: 'csui.user.vm-logs',
+  vmLogsShowLastMessages: 'csui.user.vm-logs-show-last-messages',
+  vmLogsShowLastMinutes: 'csui.user.vm-logs-show-last-minutes',
+  sidebarWidth: 'csui.user.sidebar-width',
 };

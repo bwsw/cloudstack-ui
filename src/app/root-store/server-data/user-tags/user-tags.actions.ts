@@ -55,6 +55,14 @@ export enum UserTagsActionTypes {
   UpdateKeyboardLayoutForVmsSuccess = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag success',
   UpdateKeyboardLayoutForVmsError = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag error',
 
+  UpdateVmLogsShowLastMessages = '[Settings Page] Update "csui.user.vm-logs-show-last-messages" tag',
+  UpdateVmLogsShowLastMessagesSuccess = '[Resource tags API] Update "csui.user.vm-logs-show-last-messages" tag success',
+  UpdateVmLogsShowLastMessagesError = '[Resource tags API] Update "csui.user.vm-logs-show-last-messages" tag error',
+
+  UpdateVmLogsShowLastMinutes = '[Settings Page] Update "csui.user.vm-logs-show-last-minutes" tag',
+  UpdateVmLogsShowLastMinutesSuccess = '[Resource tags API] Update "csui.user.vm-logs-show-last-minutes" tag success',
+  UpdateVmLogsShowLastMinutesError = '[Resource tags API] Update "csui.user.vm-logs-show-last-minutes" tag error',
+
   SetSPFAVM = '[Dialog] Set "csui.user.save-password-for-all-vms" tag',
   SetSPFAVMSuccess = '[Resource tags API] Set "csui.user.save-password-for-all-vms" tag success',
   SetSPFAVMError = '[Resource tags API] Set "csui.user.save-password-for-all-vms" tag error',
@@ -68,6 +76,8 @@ export enum UserTagsActionTypes {
   UpdateVmLogsFiltersError = '[Resource tags API] Update "csui.user.vm-logs.___" tag error',
 
   UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
+
+  UpdateSidebarWidth = '[Sidebar resize] Update "csui.user.sidebar-width" tag',
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs
@@ -78,7 +88,7 @@ export class SetDefaultUserTagsAtStartup implements Action {
   constructor(readonly payload: { tags: Tag[] }) {}
 }
 
-export class SetDefaultUserTagsDueToLogout {
+export class SetDefaultUserTagsDueToLogout implements Action {
   readonly type = UserTagsActionTypes.SetDefaultUserTagsDueToLogout;
 
   constructor(readonly payload: { tags: Tag[] }) {}
@@ -320,6 +330,46 @@ export class UpdateKeyboardLayoutForVmsError implements Action {
   constructor(readonly payload: { error: Error }) {}
 }
 
+// VM Logs show last messages
+
+export class UpdateVmLogsShowLastMessages implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessages;
+
+  constructor(readonly payload: { value: number }) {}
+}
+
+export class UpdateVmLogsShowLastMessagesSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessagesSuccess;
+
+  constructor(readonly payload: { key: string; value: string }) {}
+}
+
+export class UpdateVmLogsShowLastMessagesError implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessagesError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
+// VM Logs show last minutes
+
+export class UpdateVmLogsShowLastMinutes implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutes;
+
+  constructor(readonly payload: { value: number }) {}
+}
+
+export class UpdateVmLogsShowLastMinutesSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutesSuccess;
+
+  constructor(readonly payload: { key: string; value: string }) {}
+}
+
+export class UpdateVmLogsShowLastMinutesError implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutesError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
 // Save password for all VMs
 
 export class SetSavePasswordForAllVMs implements Action {
@@ -382,6 +432,14 @@ export class UpdateVmLogsFiltersError implements Action {
   constructor(readonly payload: { error: Error }) {}
 }
 
+// Sidebar
+
+export class UpdateSidebarWidth implements Action {
+  readonly type = UserTagsActionTypes.UpdateSidebarWidth;
+
+  constructor(readonly payload: { value: string }) {}
+}
+
 export type UserTagsActionsUnion =
   | SetDefaultUserTagsAtStartup
   | SetDefaultUserTagsDueToLogout
@@ -421,6 +479,12 @@ export type UserTagsActionsUnion =
   | UpdateKeyboardLayoutForVms
   | UpdateKeyboardLayoutForVmsSuccess
   | UpdateKeyboardLayoutForVmsError
+  | UpdateVmLogsShowLastMessages
+  | UpdateVmLogsShowLastMessagesSuccess
+  | UpdateVmLogsShowLastMessagesError
+  | UpdateVmLogsShowLastMinutes
+  | UpdateVmLogsShowLastMinutesSuccess
+  | UpdateVmLogsShowLastMinutesError
   | SetSavePasswordForAllVMs
   | SetSavePasswordForAllVMsSuccess
   | SetSavePasswordForAllVMsError
@@ -430,4 +494,5 @@ export type UserTagsActionsUnion =
   | UpdateVmLogsFilters
   | UpdateVmLogsFiltersSuccess
   | UpdateVmLogsFiltersError
-  | UpdateCustomServiceOfferingParams;
+  | UpdateCustomServiceOfferingParams
+  | UpdateSidebarWidth;

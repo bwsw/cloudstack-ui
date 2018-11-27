@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { filter, take } from 'rxjs/operators';
 
 import { State } from '../../reducers/index';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
@@ -22,8 +21,9 @@ import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model
     <cs-volume-creation-dialog
       [isLoading]="loading$ | async"
       [diskOfferings]="offerings$ | async"
-      [maxSize]="maxSize"
+      [storageAvailable]="storageAvailable$ | async"
       [zones]="zones$ | async"
+      [account]="account$ | async"
       (volumeCreated)="createVolume($event)"
       (zoneUpdated)="updateZone($event)"
     >
@@ -32,13 +32,11 @@ import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model
 export class VolumeCreationContainerComponent extends WithUnsubscribe() implements OnInit {
   @ViewChild(VolumeCreationDialogComponent)
   public volumeCreationDialogComponent: VolumeCreationDialogComponent;
-
-  public loading$ = this.store.pipe(select(fromVolumes.isLoading));
+  readonly loading$ = this.store.pipe(select(fromVolumes.isLoading));
   readonly offerings$ = this.store.pipe(select(fromDiskOfferings.selectAll));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
-
-  public maxSize = 2;
+  readonly storageAvailable$ = this.store.pipe(select(fromAccounts.selectStorageAvailable));
 
   constructor(
     public dialogService: DialogService,
@@ -59,28 +57,10 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   }
 
   public updateZone(zone: Zone) {
-    this.account$
-      .pipe(
-        take(1),
-        filter(Boolean),
-      )
-      .subscribe(account => {
-        if (account.volumeavailable <= 0 || Number(account.primarystorageavailable) <= 0) {
-          this.handleInsufficientResources();
-          return;
-        }
-        this.maxSize = Number(account.primarystorageavailable);
-        this.store.dispatch(
-          new diskOfferingActions.LoadOfferingsRequest({
-            zone,
-            maxSize: this.maxSize,
-          }),
-        );
-      });
-  }
-
-  private handleInsufficientResources(): void {
-    this.volumeCreationDialogComponent.dialogRef.close();
-    this.dialogService.alert({ message: 'ERRORS.VOLUME.VOLUME_LIMIT_EXCEEDED' });
+    this.store.dispatch(
+      new diskOfferingActions.LoadOfferingsRequest({
+        zone,
+      }),
+    );
   }
 }

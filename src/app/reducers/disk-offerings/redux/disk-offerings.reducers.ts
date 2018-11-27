@@ -1,12 +1,15 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { isOfferingLocal } from '../../../shared/models/offering.model';
+import { isCustomized, isOfferingLocal } from '../../../shared/models/offering.model';
 import { DiskOffering, ServiceOfferingAvailability, Zone } from '../../../shared/models';
 import { configSelectors } from '../../../root-store';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as event from './disk-offerings.actions';
+import * as fromAuth from '../../auth/redux/auth.reducers';
+import * as fromVMs from '../../vm/redux/vm.reducers';
+import { isTemplate } from '../../../template/shared';
 
 export interface State extends EntityState<DiskOffering> {
   loading: boolean;
@@ -113,3 +116,17 @@ export const getAvailableOfferings = createSelector(
     return [];
   },
 );
+
+export const isDiskOfferingAvailableByResources = (minSize: number) =>
+  createSelector(
+    fromAuth.getUserAccount,
+    fromVMs.getVmFormState,
+    (account, state): boolean => {
+      if (!isTemplate(state.template) && state.diskOffering) {
+        const storageAvailability = account.primarystorageavailable;
+        const size = isCustomized(state.diskOffering) ? minSize : state.diskOffering.disksize;
+        return size < Number(storageAvailability);
+      }
+      return true;
+    },
+  );

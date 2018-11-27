@@ -1,0 +1,27 @@
+<mat-list-item  class="entity-list-item">
+  <cs-square-state-indicator
+    class="entity-list-item-status-indicator"
+    [state]="item.state.toLowerCase()"
+    [matTooltip]="'VM_SNAPSHOT_STATE.' + item.state.toUpperCase() | translate"
+  ></cs-square-state-indicator>
+
+  <h2 class="entity-list-item-title">
+    <span [matTooltip]="item.name">{{ item.name }}</span>
+  </h2>
+
+  <div class="entity-list-item-data">
+    {{ 'SNAPSHOT_PAGE.CARD.VM_NAME' | translate }}: {{ item.vmName }}
+  </div>
+
+  <div class="entity-list-item-data">
+    {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}: {{ item.created | csStringifyDate }}
+  </div>
+
+  <button mat-icon-button [mat-menu-trigger-for]="actionsMenu">
+    <mat-icon class="mdi-dots-vertical"></mat-icon>
+  </button>
+
+  <mat-menu #actionsMenu="matMenu">
+    <cs-vm-snapshot-action-menu [snapshot]="item"></cs-vm-snapshot-action-menu>
+  </mat-menu>
+</mat-list-item>
