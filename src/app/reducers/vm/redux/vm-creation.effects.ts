@@ -136,7 +136,7 @@ export class VirtualMachineCreationEffects {
   );
 
   @Effect()
-  setDefaultSecurityGroupVmCreation$: Observable<Action> = this.actions$.pipe(
+  setDefaultSecurityGroup$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.VM_SECURITY_GROUPS_SELECT),
     switchMap(() =>
       this.store.pipe(
