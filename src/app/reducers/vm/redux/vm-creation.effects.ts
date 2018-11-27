@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { Action, select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap, withLatestFrom, skipWhile } from 'rxjs/operators';
 
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
@@ -138,24 +138,17 @@ export class VirtualMachineCreationEffects {
   @Effect()
   vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.VM_SECURITY_GROUPS_SELECT),
-    withLatestFrom(
+    switchMap(() =>
       this.store.pipe(
-        select(fromSecurityGroups.selectPredefinedSecurityGroups),
-        filter(groups => !!groups.length),
+        select(fromSecurityGroups.selectDefaultSecurityGroup),
+        skipWhile(value => !value || !value.id),
       ),
-      this.store.pipe(select(fromSecurityGroups.selectDefaultSecurityGroup)),
     ),
-    map(
-      ([action, securityGroups, defaultSecurityGroup]: [
-        vmActions.VmInitialSecurityGroupsSelect,
-        SecurityGroup[],
-        SecurityGroup
-      ]) => {
-        return new vmActions.VmFormUpdate({
-          securityGroupData: VmCreationSecurityGroupData.fromSecurityGroup([defaultSecurityGroup]),
-        });
-      },
-    ),
+    map((defaultSecurityGroup: SecurityGroup) => {
+      return new vmActions.VmFormUpdate({
+        securityGroupData: VmCreationSecurityGroupData.fromSecurityGroup([defaultSecurityGroup]),
+      });
+    }),
   );
 
   @Effect()

@@ -276,12 +276,6 @@ export const selectSecurityGroupsForVmCreation = createSelector(
   },
 );
 
-export const selectPredefinedSecurityGroups = createSelector(
-  selectAll,
-  (securityGroups: SecurityGroup[]) =>
-    securityGroups.filter(securityGroup => securityGroup.preselected),
-);
-
 export const selectDefaultSecurityGroup = createSelector(
   selectAll,
   selectDefaultSecurityGroupName,
