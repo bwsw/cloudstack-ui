@@ -9,11 +9,3 @@
   height: 50px;
   width: 50px;
 }
-
-/deep/ .mat-fab {
-  @include mat-fab-shrunk;
-}
-
-/deep/ .mat-mini-fab {
-  @include mat-mini-fab-shrunk;
-}

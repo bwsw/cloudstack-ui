@@ -495,7 +495,7 @@ h3 {
   }
 }
 
-@mixin mat-fab-shrunk {
+/deep/ .mat-fab {
   // original fab size = 56px
   // original padding = 16px
   // original line height = 24px
@@ -520,7 +520,7 @@ h3 {
   }
 }
 
-@mixin mat-mini-fab-shrunk {
+/deep/ .mat-mini-fab {
   $mat-mini-fab-ratio: 36 / 40;
 
   width: 36px;
