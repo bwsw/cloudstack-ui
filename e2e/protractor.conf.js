@@ -21,12 +21,12 @@ exports.config = {
   */
   capabilities: {
     browserName: 'chrome',
-    /*'chromeOptions': {
-      args: ['--headless', '--disable-gpu', '--window-size=800,600', '--no-sandbox']
-    }*/
+    chromeOptions: {
+      args: ['--headless', '--disable-gpu', '--window-size=800,600', '--no-sandbox'],
+    },
   },
   directConnect: true,
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'http://localhost:8081',
   framework: 'jasmine',
   suites: {
     login: './e2e/login.e2e-spec.ts',

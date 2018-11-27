@@ -9,7 +9,7 @@ describe('e2e-test-login', () => {
   beforeEach(() => {
     page = new Login();
     vmlist = new VMList();
-    page.navigateTo();
+    page.navigateTo('/');
   });
 
   it('Show/Hide options: domain', () => {

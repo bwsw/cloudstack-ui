@@ -52,9 +52,11 @@ export class VmPageComponent implements OnInit {
         filter(Boolean),
         // This delay is needed as a workaround for https://github.com/angular/angular/issues/15634
         // Otherwise you will get an 'ExpressionChangedAfterItHasBeenCheckedError' error
-        delay(1),
+        // delay(1),
       )
-      .subscribe(() => this.showSuggestionDialog());
+      .subscribe(() => {
+        setTimeout(() => this.showSuggestionDialog(), 100);
+      });
   }
 
   public changeMode(mode) {
