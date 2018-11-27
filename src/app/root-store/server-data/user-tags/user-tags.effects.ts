@@ -11,8 +11,8 @@ import {
   switchMap,
   debounceTime,
 } from 'rxjs/operators';
-import kebabCase from 'lodash/kebabCase';
-import { Utils } from '../../../shared/services/utils/utils.service';
+import * as kebabCase from 'lodash/kebabCase';
+import * as pickBy from 'lodash/pickBy';
 
 import {
   IncrementLastVMId,
@@ -80,6 +80,8 @@ import {
   StartIdleMonitor,
   UpdateIdleMonitorTimeout,
 } from '../../idle-monitor/idle-monitor.actions';
+import { Serializer } from '../../../shared/utils/serializer';
+import removeNullsAndEmptyArrays from '../../../vm-logs/pick-by-null-or-empty-array';
 
 interface TagCreationParams {
   key: string;
@@ -292,15 +294,14 @@ export class UserTagsEffects {
     debounceTime(3000),
     map((action: UpdateVmLogsFilters) => action.payload),
     mergeMap(filters => {
-      const tags = Object.keys(filters)
-        .map(tagKey => {
-          const filterNameKebabCase = kebabCase(tagKey);
-
-          return {
-            key: `${userTagKeys.vmLogsFilter}.${filterNameKebabCase}`,
-            value: filters[tagKey],
-          };
-        })
+      const nonNullFilters = removeNullsAndEmptyArrays(filters);
+      const encodedFilters = Serializer.encode(nonNullFilters);
+      const tags = Object.keys(encodedFilters)
+        .filter(key => encodedFilters[key] != null)
+        .map(tagKey => ({
+          key: `${userTagKeys.vmLogsFilter}.${kebabCase(tagKey)}`,
+          value: String(encodedFilters[tagKey]),
+        }))
         .filter(tag => tag.value != null);
 
       return this.upsertTag(tags).pipe(

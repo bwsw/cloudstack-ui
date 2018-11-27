@@ -30,6 +30,7 @@ export enum VmLogsActionTypes {
   SET_AUTO_UPDATE_END_DATE = '[VM Logs] SET_AUTO_UPDATE_END_DATE',
   SCROLL_VM_LOGS = '[VM Logs] SCROLL_VM_LOGS',
   RESET_VM_LOGS_SCROLL = '[VM Logs] RESET_VM_LOGS_SCROLL',
+  UPDATE_FILTERS = '[VM Logs] UPDATE_FILTERS',
 }
 
 export class LoadVmLogsRequest implements Action {
@@ -166,6 +167,22 @@ export class SetAutoUpdateEndDate implements Action {
   constructor(readonly payload: DateObject) {}
 }
 
+export class UpdateFilters implements Action {
+  readonly type = VmLogsActionTypes.UPDATE_FILTERS;
+
+  constructor(
+    readonly payload: Partial<{
+      vm: string;
+      search: string;
+      accounts: string[];
+      newestFirst: boolean;
+      logFile: string;
+      startDate: DateObject;
+      endDate: DateObject;
+    }>,
+  ) {}
+}
+
 export type Actions =
   | LoadVmLogsResponse
   | LoadVmLogsRequest
@@ -191,4 +208,5 @@ export type Actions =
   | SetAutoUpdateStartDate
   | SetAutoUpdateEndDate
   | ScrollVmLogs
-  | ResetVmLogsScroll;
+  | ResetVmLogsScroll
+  | UpdateFilters;

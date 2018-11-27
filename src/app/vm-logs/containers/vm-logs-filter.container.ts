@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { State } from '../../reducers';
-import { UpdateVmLogsFilters } from '../../root-store/server-data/user-tags/user-tags.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
@@ -18,9 +17,11 @@ import { Time } from '../../shared/components/time-picker/time-picker.component'
 import { UserTagsSelectors } from '../../root-store';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import { combineLatest } from 'rxjs';
-import moment = require('moment');
 import { selectFilteredVMs } from '../redux/selectors/filtered-vms.selector';
 import * as fromVmLogsAutoUpdate from '../redux/vm-logs-auto-update.reducers';
+import { parseVmLogsFilters, vmLogsFilters } from '../vm-logs-filters';
+import { UpdateVmLogsFilters } from '../../root-store/server-data/user-tags/user-tags.actions';
+import moment = require('moment');
 
 const FILTER_KEY = 'logsFilters';
 
@@ -78,15 +79,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
   readonly timeFormat$ = this.store.pipe(select(UserTagsSelectors.getTimeFormat));
 
   private filterService = new FilterService(
-    {
-      vm: { type: 'string' },
-      accounts: { type: 'array', defaultOption: [] },
-      search: { type: 'string' },
-      startDate: { type: 'string' },
-      endDate: { type: 'string' },
-      logFile: { type: 'string' },
-      newestFirst: { type: 'boolean' },
-    },
+    vmLogsFilters,
     this.router,
     this.sessionStorage,
     FILTER_KEY,
@@ -182,34 +175,8 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
   }
 
   private initFilters(): void {
-    const {
-      vm,
-      search,
-      accounts,
-      startDate,
-      endDate,
-      logFile,
-      newestFirst,
-    } = this.filterService.getParams();
-
-    if (vm) {
-      this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(vm));
-    }
-
-    this.store.dispatch(new vmLogActions.VmLogsUpdateSearch(search));
-    this.store.dispatch(new vmLogActions.VmLogsUpdateAccountIds(accounts || []));
-    this.store.dispatch(new vmLogActions.VmLogsUpdateNewestFirst(newestFirst));
-
-    if (logFile) {
-      this.store.dispatch(new vmLogActions.VmLogsUpdateLogFile(logFile));
-    }
-
-    if (startDate) {
-      this.store.dispatch(new vmLogActions.VmLogsUpdateStartDateTime(moment(startDate).toObject()));
-    }
-
-    if (endDate) {
-      this.store.dispatch(new vmLogActions.VmLogsUpdateEndDateTime(moment(endDate).toObject()));
-    }
+    const filters = this.filterService.getParams();
+    const parsedFilters = parseVmLogsFilters(filters);
+    this.store.dispatch(new vmLogActions.UpdateFilters(parsedFilters));
   }
 }

@@ -23,12 +23,16 @@ export const loadVmLogsRequestParams = createSelector(
       id,
       logFile,
       keywords: search,
-      startDate: moment(startDate)
-        .toISOString()
-        .slice(0, -1),
-      endDate: moment(endDate)
-        .toISOString()
-        .slice(0, -1),
+      startDate:
+        startDate &&
+        moment(startDate)
+          .toISOString()
+          .slice(0, -1),
+      endDate:
+        endDate &&
+        moment(endDate)
+          .toISOString()
+          .slice(0, -1),
       sort: newestFirst ? '-timestamp' : 'timestamp',
     };
 

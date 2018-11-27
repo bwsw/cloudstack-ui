@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { concat, Observable, of, timer } from 'rxjs';
-import { catchError, map, tap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import { VmLogsService } from '../services/vm-logs.service';
 import { VmLog } from '../models/vm-log.model';
-import { filterSelectedAccountIds, filterSelectedVmId } from './vm-logs-vm.reducers';
 import * as vmLogsActions from './vm-logs.actions';
 import { State } from '../../reducers';
 import { VmLogFilesService } from '../services/vm-log-files.service';
@@ -15,13 +14,19 @@ import { loadVmLogFilesRequestParams } from './selectors/load-vm-log-files-reque
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { filter, takeUntil } from 'rxjs/internal/operators';
 import { loadAutoUpdateVmLogsRequestParams } from './selectors/load-auto-update-vm-logs-request-params.selector';
-import moment = require('moment');
 import * as fromVmLogsAutoUpdate from './vm-logs-auto-update.reducers';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Router } from '@angular/router';
 import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
 import { UserTagsSelectors } from '../../root-store';
-import { filters, getVmLogsState } from './vm-logs.reducers';
+import { UserTagsActionTypes } from '../../root-store/server-data/user-tags/user-tags.actions';
+import { filters as vmLogsFilters } from './vm-logs.reducers';
+import * as assign from 'lodash/assign';
+import * as pickBy from 'lodash/pickBy';
+import { getVmLogsFiltersDefaultValues, parseVmLogsFilters } from '../vm-logs-filters';
+import moment = require('moment');
+import { filterSelectedAccountIds, filterSelectedVmId } from './vm-logs-vm.reducers';
+import removeNullsAndEmptyArrays from '../pick-by-null-or-empty-array';
 
 @Injectable()
 export class VmLogsEffects {
@@ -137,6 +142,60 @@ export class VmLogsEffects {
       vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST,
     ),
     map(() => new vmLogsActions.ResetVmLogsScroll()),
+  );
+
+  @Effect()
+  setFiltersFromUserTags$: Observable<Action> = this.actions$.pipe(
+    ofType(UserTagsActionTypes.LoadUserTagsSuccess),
+    take(1),
+    withLatestFrom(
+      this.store.pipe(select(UserTagsSelectors.getVmLogsParams)),
+      this.store.pipe(select(vmLogsFilters)),
+      this.store.pipe(select(filterSelectedVmId)),
+      this.store.pipe(select(filterSelectedAccountIds)),
+    ),
+    map(([_, filterParams, filters, vm, accounts]) => {
+      const currentParams = {
+        vm,
+        accounts,
+        ...filters,
+      };
+      const nonNullCurrentParams = removeNullsAndEmptyArrays(currentParams);
+      const mergedParams = assign(
+        getVmLogsFiltersDefaultValues(),
+        parseVmLogsFilters(filterParams),
+        nonNullCurrentParams,
+      );
+
+      return new vmLogsActions.UpdateFilters(mergedParams);
+    }),
+  );
+
+  @Effect()
+  updateVmLogFilters$: Observable<Action> = this.actions$.pipe(
+    ofType<vmLogsActions.UpdateFilters>(vmLogsActions.VmLogsActionTypes.UPDATE_FILTERS),
+    map(action => action.payload),
+    switchMap(params => {
+      const paramsActionsMap = {
+        vm: vmLogsActions.VmLogsUpdateVmId,
+        search: vmLogsActions.VmLogsUpdateSearch,
+        accounts: vmLogsActions.VmLogsUpdateAccountIds,
+        newestFirst: vmLogsActions.VmLogsUpdateNewestFirst,
+        logFile: vmLogsActions.VmLogsUpdateLogFile,
+        startDate: vmLogsActions.VmLogsUpdateStartDateTime,
+        endDate: vmLogsActions.VmLogsUpdateEndDateTime,
+      };
+
+      const dispatchedActions = Object.keys(paramsActionsMap).reduce((acc, param) => {
+        if (params.hasOwnProperty(param)) {
+          return [...acc, new paramsActionsMap[param](params[param])];
+        }
+
+        return acc;
+      }, []);
+
+      return of(...dispatchedActions);
+    }),
   );
 
   constructor(

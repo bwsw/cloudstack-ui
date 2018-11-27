@@ -40,23 +40,8 @@ export const initialState: State = adapter.getInitialState({
   filters: {
     selectedLogFile: null,
     search: null,
-    startDate: moment()
-      .add(-1, 'days')
-      .set({
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-        milliseconds: 0,
-      })
-      .toObject(),
-    endDate: moment()
-      .set({
-        hours: 23,
-        minutes: 59,
-        seconds: 59,
-        milliseconds: 999,
-      })
-      .toObject(),
+    startDate: null,
+    endDate: null,
     newestFirst: false,
   },
 });
