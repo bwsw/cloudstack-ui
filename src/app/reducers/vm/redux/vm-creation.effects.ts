@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { Action, select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap, tap, withLatestFrom, skipWhile } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
@@ -136,12 +136,12 @@ export class VirtualMachineCreationEffects {
   );
 
   @Effect()
-  vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$.pipe(
+  setDefaultSecurityGroupVmCreation$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.VM_SECURITY_GROUPS_SELECT),
     switchMap(() =>
       this.store.pipe(
         select(fromSecurityGroups.selectDefaultSecurityGroup),
-        skipWhile(value => !value || !value.id),
+        filter(value => Boolean(value && value.id)),
       ),
     ),
     map((defaultSecurityGroup: SecurityGroup) => {
