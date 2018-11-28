@@ -19,7 +19,8 @@ import * as fromVmLogsAutoUpdate from './vm-logs-auto-update.reducers';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Router } from '@angular/router';
 import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
-import { UserTagsSelectors } from '../../root-store';
+import { configSelectors, UserTagsSelectors } from '../../root-store';
+import { selectAll as selectVmLogs } from './vm-logs.reducers';
 
 @Injectable()
 export class VmLogsEffects {
@@ -105,26 +106,63 @@ export class VmLogsEffects {
   );
 
   @Effect()
+  updateAutoUpdateVmLogs$: Observable<Action> = this.actions$.pipe(
+    ofType(vmLogsActions.VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE),
+    withLatestFrom(
+      this.store.pipe(select(selectVmLogs)),
+      this.store.pipe(select(UserTagsSelectors.getVmLogsShowLastMinutes)),
+    ),
+    map(([_, logs, minutes]) => {
+      const nowTime = moment();
+      const filteredLogs = logs.filter(log => {
+        const logTime = moment(log.timestamp);
+        const diff = nowTime.diff(logTime);
+        const diffInMinutes = moment.duration(diff).asMinutes();
+        return diffInMinutes <= minutes;
+      });
+      return new vmLogsActions.UpdateAutoUpdateVmLogs(filteredLogs);
+    }),
+  );
+
+  @Effect()
   enableAutoUpdate$: Observable<Action> = this.actions$.pipe(
     ofType(vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE),
-    withLatestFrom(this.store.pipe(select(UserTagsSelectors.getVmLogsShowLastMinutes))),
-    switchMap(([_, minutes]) =>
-      timer(0, 3000).pipe(
-        takeUntil(this.actions$.pipe(ofType(vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE))),
-        switchMap(() => {
-          const startDate = moment()
-            .add(-minutes, 'minutes')
-            .toObject();
-          const endDate = moment().toObject();
-
-          return concat(
-            of(new vmLogsActions.SetAutoUpdateStartDate(startDate)),
-            of(new vmLogsActions.SetAutoUpdateEndDate(endDate)),
-            of(new vmLogsActions.LoadAutoUpdateVmLogsRequest()),
-          );
-        }),
-      ),
+    withLatestFrom(
+      this.store.pipe(select(UserTagsSelectors.getVmLogsShowLastMinutes)),
+      this.store.pipe(select(configSelectors.get('vmLogs'))),
     ),
+    switchMap(([_, minutes, { autoUpdateRefreshFrequency, autoUpdateRequestedInterval }]) => {
+      const refreshFrequency = autoUpdateRefreshFrequency * 1000;
+      const firstStartDate = moment()
+        .add(-minutes, 'minutes')
+        .toObject();
+      const firstEndDate = moment().toObject();
+
+      return concat(
+        of(
+          new vmLogsActions.SetAutoUpdateStartDate(firstStartDate),
+          new vmLogsActions.SetAutoUpdateEndDate(firstEndDate),
+          new vmLogsActions.LoadAutoUpdateVmLogsRequest(),
+        ),
+        timer(refreshFrequency, refreshFrequency).pipe(
+          takeUntil(
+            this.actions$.pipe(ofType(vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE)),
+          ),
+          switchMap(() => {
+            const startDate = moment()
+              .add(-autoUpdateRequestedInterval, 'seconds')
+              .toObject();
+            const endDate = moment().toObject();
+
+            return of(
+              new vmLogsActions.SetAutoUpdateStartDate(startDate),
+              new vmLogsActions.SetAutoUpdateEndDate(endDate),
+              new vmLogsActions.LoadAutoUpdateVmLogsRequest(),
+            );
+          }),
+        ),
+      );
+    }),
   );
 
   @Effect()

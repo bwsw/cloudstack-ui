@@ -23,6 +23,13 @@ export interface CustomizableConfig {
   apiDocLink: string;
   extensions: ExtensionsConfig;
   /*
+  *  Log View settings
+  * */
+  vmLogs: {
+    autoUpdateRefreshFrequency: number;
+    autoUpdateRequestedInterval: number;
+  };
+  /*
    * Virtual machines settings
    */
   vmColors: { value: string }[];
