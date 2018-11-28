@@ -29,18 +29,6 @@
   margin: 0 5px;
 }
 
-.sidebar /deep/ .grid {
-  .row {
-    display: flex;
-    flex-flow: row wrap;
-
-    & > div {
-      width: 50%;
-      padding: 2px;
-    }
-  }
-}
-
 .sidebar /deep/ button {
   transition: transform 0.3s;
 }
@@ -50,17 +38,12 @@
 }
 
 .sidebar /deep/ mat-card-content {
-  width: 100%;
   line-height: 18px;
 
   & .mat-card-content-container {
     padding-bottom: 0;
     margin-bottom: 16px;
   }
-}
-
-.details-header {
-  width: 340px;
 }
 
 .sidebar /deep/ .collapsed-panel .row,

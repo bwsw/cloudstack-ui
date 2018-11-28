@@ -193,9 +193,10 @@ mat-card.custom-card {
   .row {
     display: flex;
     flex-flow: row wrap;
+    justify-content: space-between;
 
     & > div {
-      width: 50%;
+      max-width: 50%;
       padding: 2px 2px 2px 0 !important;
     }
 
@@ -342,10 +343,10 @@ mat-card-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden;
 }
 
 .details-header {
-  width: 340px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
