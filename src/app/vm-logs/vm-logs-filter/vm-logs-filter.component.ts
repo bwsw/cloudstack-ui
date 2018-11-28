@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { VirtualMachine } from '../../vm';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Language } from '../../shared/types';
+import { Language, TimeFormat } from '../../shared/types';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
 import { VmLogFile } from '../models/vm-log-file.model';
 
@@ -40,6 +40,8 @@ export class VmLogsFilterComponent {
   public newestFirst: boolean;
   @Input()
   public isAutoUpdateEnabled: boolean;
+  @Input()
+  public timeFormat: TimeFormat;
   @Output()
   public accountsChanged = new EventEmitter<string[]>();
   @Output()

@@ -121,14 +121,6 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
     }
 
     case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_START_TIME: {
-      // todo: remove
-      if (
-        action.payload.hour === state.filters.startDate.hours &&
-        action.payload.minute === state.filters.startDate.minutes
-      ) {
-        return state;
-      }
-
       return {
         ...state,
         filters: {
@@ -170,14 +162,6 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
     }
 
     case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_END_TIME: {
-      // todo: remove
-      if (
-        action.payload.hour === state.filters.endDate.hours &&
-        action.payload.minute === state.filters.endDate.minutes
-      ) {
-        return state;
-      }
-
       return {
         ...state,
         filters: {

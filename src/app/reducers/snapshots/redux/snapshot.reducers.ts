@@ -1,15 +1,10 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import {
-  getSnapshotDescription,
-  Snapshot,
-  SnapshotPageMode,
-  SnapshotType,
-} from '../../../shared/models';
-
-import * as snapshotActions from './snapshot.actions';
-import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as moment from 'moment';
+import { getSnapshotDescription, Snapshot } from '../../../shared/models';
+import * as snapshotPageSelectors from '../../../snapshot/store/snapshot-page.selectors';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
+import * as snapshotActions from './snapshot.actions';
 
 export interface State {
   list: ListState;
@@ -17,14 +12,6 @@ export interface State {
 
 export interface ListState extends EntityState<Snapshot> {
   loading: boolean;
-  filters: {
-    mode: SnapshotPageMode;
-    selectedAccounts: string[];
-    selectedTypes: SnapshotType[];
-    selectedDate: Date;
-    selectedGroupings: any[];
-    query: string;
-  };
   selectedSnapshotId: string | null;
 }
 
@@ -41,14 +28,6 @@ export const adapter: EntityAdapter<Snapshot> = createEntityAdapter<Snapshot>({
 
 export const initialListState: ListState = adapter.getInitialState({
   loading: false,
-  filters: {
-    mode: SnapshotPageMode.Volume,
-    selectedAccounts: [],
-    selectedTypes: [],
-    selectedDate: moment().toDate(),
-    selectedGroupings: [],
-    query: '',
-  },
   snapshotIdsByVolumeId: {},
   selectedSnapshotId: '',
 });
@@ -79,10 +58,6 @@ export function listReducer(
         loading: false,
       };
       return adapter.addAll([...action.payload], newState);
-    }
-
-    case snapshotActions.SNAPSHOT_FILTER_UPDATE: {
-      return { ...state, filters: { ...state.filters, ...action.payload } };
     }
 
     case snapshotActions.LOAD_SELECTED_SNAPSHOT: {
@@ -120,57 +95,42 @@ export const getSelectedSnapshot = createSelector(
   state => state.entities[state.selectedSnapshotId],
 );
 
-export const filters = createSelector(getSnapshotEntitiesState, state => state.filters);
+export const selectFilteredSnapshots = createSelector(
+  selectAll,
+  snapshotPageSelectors.getFilters,
+  (snapshots, filter) => {
+    const filterByTypes = (snapshot: Snapshot) =>
+      !filter.volumeSnapshotTypes.length ||
+      !!filter.volumeSnapshotTypes.find(type => type === snapshot.snapshottype);
 
-export const viewMode = createSelector(filters, state => state.mode);
-export const filterSelectedAccounts = createSelector(filters, state => state.selectedAccounts);
+    const filterByAccount = (snapshot: Snapshot) =>
+      !filter.accounts.length || !!filter.accounts.find(id => id === snapshot.account);
 
-export const filterSelectedTypes = createSelector(filters, state => state.selectedTypes);
+    const filterByDate = (snapshot: Snapshot) =>
+      !filter.date ||
+      moment(snapshot.created).isBetween(
+        moment(filter.date).startOf('day'),
+        moment(filter.date).endOf('day'),
+      );
 
-export const filterSelectedDate = createSelector(filters, state => state.selectedDate);
+    const queryLower = filter.query && filter.query.toLowerCase();
+    const filterByQuery = (snapshot: Snapshot) => {
+      return (
+        !filter.query ||
+        snapshot.name.toLowerCase().indexOf(queryLower) > -1 ||
+        (getSnapshotDescription(snapshot) &&
+          getSnapshotDescription(snapshot)
+            .toLowerCase()
+            .indexOf(queryLower) > -1)
+      );
+    };
 
-export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
-
-export const filterQuery = createSelector(filters, state => state.query);
-
-export const selectFilteredSnapshots = createSelector(selectAll, filters, (snapshots, filter) => {
-  const filterByViewMode = (snapshot: Snapshot) =>
-    (filter.mode === SnapshotPageMode.Volume && !!snapshot.volumeid) ||
-    (filter.mode === SnapshotPageMode.VM && !!snapshot.virtualmachineid);
-
-  const filterByTypes = (snapshot: Snapshot) =>
-    !filter.selectedTypes.length ||
-    !!filter.selectedTypes.find(type => type === snapshot.snapshottype);
-
-  const filterByAccount = (snapshot: Snapshot) =>
-    !filter.selectedAccounts.length ||
-    !!filter.selectedAccounts.find(id => id === snapshot.account);
-
-  const filterByDate = (snapshot: Snapshot) =>
-    !filter.selectedDate ||
-    moment(snapshot.created).isBetween(
-      moment(filter.selectedDate).startOf('day'),
-      moment(filter.selectedDate).endOf('day'),
+    return snapshots.filter(
+      (snapshot: Snapshot) =>
+        filterByAccount(snapshot) &&
+        filterByTypes(snapshot) &&
+        filterByDate(snapshot) &&
+        filterByQuery(snapshot),
     );
-
-  const queryLower = filter.query && filter.query.toLowerCase();
-  const filterByQuery = (snapshot: Snapshot) => {
-    return (
-      !filter.query ||
-      snapshot.name.toLowerCase().indexOf(queryLower) > -1 ||
-      (getSnapshotDescription(snapshot) &&
-        getSnapshotDescription(snapshot)
-          .toLowerCase()
-          .indexOf(queryLower) > -1)
-    );
-  };
-
-  return snapshots.filter(
-    (snapshot: Snapshot) =>
-      filterByViewMode(snapshot) &&
-      filterByAccount(snapshot) &&
-      filterByTypes(snapshot) &&
-      filterByDate(snapshot) &&
-      filterByQuery(snapshot),
-  );
-});
+  },
+);

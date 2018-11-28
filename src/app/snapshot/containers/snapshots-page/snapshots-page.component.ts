@@ -1,12 +1,16 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { ListService } from '../../shared/components/list/list.service';
-import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
-import { Grouping, Snapshot, Volume } from '../../shared/models';
-import { NgrxEntities } from '../../shared/interfaces';
-import { VirtualMachine } from '../../vm';
-import { SnapshotCardItemComponent } from './snapshot-list-item/snapshot-card-item.component';
-import { SnapshotListItemComponent } from './snapshot-list-item/snapshot-list-item.component';
+import { ListService } from '../../../shared/components/list/list.service';
+import { ViewMode } from '../../../shared/components/view-mode-switch/view-mode-switch.component';
+import { Grouping, Snapshot, Volume } from '../../../shared/models';
+import { NgrxEntities } from '../../../shared/interfaces';
+import { VirtualMachine } from '../../../vm';
+import { VmSnapshotCardViewComponent } from '../../components/vm-snapshot-card-view/vm-snapshot-card-view.component';
+import { VmSnapshotListViewComponent } from '../../components/vm-snapshot-list-view/vm-snapshot-list-view.component';
+import { VmSnapshotViewModel } from '../../models/vm-snapshot.view-model';
+import { SnapshotCardItemComponent } from '../../snapshots-page/snapshot-list-item/snapshot-card-item.component';
+import { SnapshotListItemComponent } from '../../snapshots-page/snapshot-list-item/snapshot-list-item.component';
+import { SnapshotPageViewMode } from '../../types';
 
 @Component({
   selector: 'cs-snapshots-page',
@@ -16,6 +20,10 @@ import { SnapshotListItemComponent } from './snapshot-list-item/snapshot-list-it
 export class SnapshotsPageComponent implements OnChanges {
   @Input()
   public snapshots: Snapshot[];
+  @Input()
+  public vmSnapshots: VmSnapshotViewModel[];
+  @Input()
+  public viewMode: SnapshotPageViewMode;
   @Input()
   public volumes: NgrxEntities<Volume>;
   @Input()
@@ -29,6 +37,7 @@ export class SnapshotsPageComponent implements OnChanges {
 
   public mode: ViewMode;
   public viewModeKey = 'volumePageViewMode';
+  public snapshotPageViewMode = SnapshotPageViewMode;
 
   @Output()
   public viewModeChange = new EventEmitter();
@@ -60,6 +69,10 @@ export class SnapshotsPageComponent implements OnChanges {
 
   public get itemComponent() {
     return this.mode === ViewMode.BOX ? SnapshotCardItemComponent : SnapshotListItemComponent;
+  }
+
+  public get vmSnapshotComponent() {
+    return this.mode === ViewMode.BOX ? VmSnapshotCardViewComponent : VmSnapshotListViewComponent;
   }
 
   public changeMode(mode) {

@@ -1,16 +1,17 @@
-import { SnapshotPageMode, SnapshotStates, SnapshotType } from '../../../shared/models';
-import * as fromSnapshots from './snapshot.reducers';
+import { Snapshot, SnapshotStates, SnapshotType } from '../../../shared/models';
 import * as snapshotActions from './snapshot.actions';
+import * as fromSnapshots from './snapshot.reducers';
 
 describe('Snapshot Reducer', () => {
-  const snapshots = [
+  const snapshots: Snapshot[] = [
     {
-      description: 'test snapshot #1',
       id: '1',
+      account: 'test',
       created: '2016-01-11T15:59:42+0700',
+      domain: 'test-domain',
+      domainid: 'test-domain-id',
       physicalsize: 100,
       volumeid: 'volume-id',
-      virtualmachineid: undefined,
       name: 'snapshot for testing',
       tags: [],
       state: SnapshotStates.BackedUp,
@@ -18,12 +19,13 @@ describe('Snapshot Reducer', () => {
       snapshottype: SnapshotType.Manual,
     },
     {
-      description: 'test snapshot #2',
       id: '2',
+      account: 'test',
       created: '2018-01-10T15:59:42+0700',
+      domain: 'test-domain',
+      domainid: 'test-domain-id',
       physicalsize: 100,
       volumeid: 'volume-id-1',
-      virtualmachineid: undefined,
       name: 'snapshot for testing',
       tags: [],
       state: SnapshotStates.BackedUp,
@@ -92,28 +94,14 @@ describe('Snapshot Reducer', () => {
   });
 
   it('should select filtered snapshots', () => {
-    const differentSnapshots = [
+    const differentSnapshots: Snapshot[] = [
       {
-        description: 'test snapshot #1',
         id: '1',
-        created: '2016-01-11T15:59:42+0700',
-        physicalsize: 100,
-        volumeid: undefined,
-        virtualmachineid: 'virtual-machine-id',
-        name: 'snapshot for testing',
-        tags: [],
-        state: SnapshotStates.BackedUp,
-        revertable: true,
-        snapshottype: SnapshotType.Daily,
-        account: 'develop',
-      },
-      {
-        description: 'test snapshot #2',
-        id: '1',
+        domain: 'test-domain',
+        domainid: 'test-domain-id',
         created: '2016-01-11T15:59:42+0700',
         physicalsize: 100,
         volumeid: 'volume-id-2',
-        virtualmachineid: undefined,
         name: 'snapshot for testing',
         tags: [],
         state: SnapshotStates.BackedUp,
@@ -122,12 +110,12 @@ describe('Snapshot Reducer', () => {
         account: 'develop',
       },
       {
-        description: 'test snapshot #3',
         id: '2',
+        domain: 'test-domain',
+        domainid: 'test-domain-id',
         created: '2017-10-15T15:59:42+0700',
         physicalsize: 100,
         volumeid: 'volume-id-3',
-        virtualmachineid: undefined,
         name: 'snapshot for testing',
         tags: [],
         state: SnapshotStates.BackedUp,
@@ -136,40 +124,35 @@ describe('Snapshot Reducer', () => {
         account: 'test',
       },
     ];
+
     let slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
-      mode: SnapshotPageMode.Volume,
-      selectedDate: null,
-      selectedAccounts: [],
-      selectedTypes: [],
-    });
-
-    expect(slice).toEqual([differentSnapshots[1], differentSnapshots[2]]);
-
-    slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
-      mode: SnapshotPageMode.Volume,
-      selectedDate: '2017-10-15T00:00:00.000Z',
-      selectedAccounts: [],
-      selectedTypes: [],
-    });
-
-    expect(slice).toEqual([differentSnapshots[2]]);
-
-    slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
-      mode: SnapshotPageMode.Volume,
-      selectedDate: null,
-      selectedAccounts: [],
-      selectedTypes: [SnapshotType.Daily],
+      accounts: [],
+      vmIds: [],
+      date: '2017-10-15T00:00:00.000Z',
+      query: undefined,
+      volumeSnapshotTypes: [],
     });
 
     expect(slice).toEqual([differentSnapshots[1]]);
 
     slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
-      mode: SnapshotPageMode.Volume,
-      selectedDate: null,
-      selectedTypes: [],
-      selectedAccounts: ['develop'],
+      accounts: [],
+      vmIds: [],
+      date: null,
+      query: undefined,
+      volumeSnapshotTypes: [SnapshotType.Daily],
     });
 
-    expect(slice).toEqual([differentSnapshots[1]]);
+    expect(slice).toEqual([differentSnapshots[0]]);
+
+    slice = fromSnapshots.selectFilteredSnapshots.projector(differentSnapshots, {
+      accounts: ['develop'],
+      vmIds: [],
+      date: null,
+      query: undefined,
+      volumeSnapshotTypes: [],
+    });
+
+    expect(slice).toEqual([differentSnapshots[0]]);
   });
 });

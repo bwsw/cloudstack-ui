@@ -119,8 +119,6 @@ Create a User
 """""""""""""""""""""
 Administrators can create a new user from the *Users* tab of the Account Details sidebar by clicking "Create" |create icon|. 
 
-.. figure:: _static/Accounts_CreateUser.png
-
 In the appeared form fill in the following fields:
 
 .. note:: Required fields are marked with asterisks (*).

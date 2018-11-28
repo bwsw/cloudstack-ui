@@ -31,7 +31,9 @@
     "YES": "Да",
     "SEARCH": "Поиск",
     "CONTINUE": "Продолжить",
-    "AGREE": "Принимаю"
+    "AGREE": "Принимаю",
+    "NAME": "Имя",
+    "VOLUME": "Диск"
   },
   "DIALOG_MESSAGES": {
     "ACCOUNT": {
@@ -55,6 +57,10 @@
       "CONFIRM_REVERTING": "Вы уверены, что хотите вернуть владеющий диск к состоянию этого снимка?",
       "CONFIRM_REVERTING_WITH_VM_REBOOT": "Вы уверены, что хотите вернуть владеющий диск к состоянию этого снимка? <b>Виртуальная машина, к которой прикреплен диск, будет перезагружена.</b>",
       "CONFIRM_ALL_DELETION": "Удалить снимки этого диска?"
+    },
+    "VM_SNAPSHOT": {
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот снимок?",
+      "CONFIRM_REVERTING": "Вы уверены, что хотите вернуть владеющую ВМ к состоянию этого снимка?"
     },
     "TAG": {
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот тег?"
@@ -167,6 +173,17 @@
       "REVERT_IN_PROGRESS": "Возвращение диска к снимку",
       "REVERT_DONE": "Диск возвращен к снимку",
       "REVERT_FAILED": "Не удалось вернуть диск к снимку"
+    },
+    "VM_SNAPSHOTS": {
+      "TAKE_SNAP_FROM_VM_SNAP_IN_PROGRESS": "Создание снимка",
+      "TAKE_SNAP_FROM_VM_SNAP_DONE": "Снимок создан",
+      "TAKE_SNAP_FROM_VM_SNAP_FAILED": "Не удалось создать снимок",
+      "DELETION_IN_PROGRESS": "Удаление снимка ВМ",
+      "DELETION_DONE": "Снимок ВМ удален",
+      "DELETION_FAILED": "Не удалось удалить снимок ВМ",
+      "REVERT_IN_PROGRESS": "Возвращение ВМ к снимку",
+      "REVERT_DONE": "ВМ возвращена к снимку",
+      "REVERT_FAILED": "Не удалось вернуть ВМ к снимку"
     },
     "TEMPLATE": {
       "REGISTER_DONE": "Шаблон зарегистрирован",
@@ -747,7 +764,7 @@
   "SNAPSHOT_PAGE": {
     "CARD": {
       "VOLUME": "Диск",
-      "VM": "Виртуальная машина",
+      "VM_NAME": "Имя ВМ",
       "VOLUME_DELETED": "Удален",
       "VM_DELETED": "Удалена",
       "CREATED": "Создан"
@@ -761,13 +778,15 @@
     },
     "FILTERS": {
       "VOLUME": "Диск",
-      "VM": "Виртуальные машины",
+      "VM": "ВМ",
       "GROUP_BY": "Группировать по",
       "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_TYPES": "Выберите типы",
+      "SELECT_VMS": "Выберете ВМ",
+      "SELECT_DATE": "Выберите дату",
       "GROUP_BY_TYPES": "Типам",
-      "GROUP_BY_ACCOUNTS": "Аккаунтам",
-      "SELECT_DATE": "Выберите дату"
+      "GROUP_BY_VMS": "ВМ",
+      "GROUP_BY_ACCOUNTS": "Аккаунтам"
     },
     "SIDEBAR": {
       "DETAILS": "Детали",
@@ -792,7 +811,12 @@
       "CREATE_TEMPLATE": "Создать шаблон",
       "CREATE_VOLUME": "Создать диск",
       "REVERT_TO_SNAPSHOT": "Вернуть диск к снимку",
-      "DELETE_SNAPSHOT": "Удалить"
+      "DELETE_SNAPSHOT": "Удалить",
+      "CREATE_SNAP_FROM_VM_SNAP": "Создать шаблон диска",
+      "REVERT_VM_TO_SNAPSHOT": "Вернуть ВМ к снимку"
+    },
+    "MODALS": {
+      "TAKE_A_SNAPSHOT": "Создание снимка"
     }
   },
   "SECURITY_GROUP_PAGE": {
@@ -1643,6 +1667,9 @@
     "BACKINGUP": "Создается резервная копия",
     "ALLOCATED": "Аллоцирован",
     "ERROR": "Ошибка"
+  },
+  "VM_SNAPSHOT_STATE": {
+    "READY": "Готов"
   },
   "VM_STATE": {
     "RUNNING": "Запущена",

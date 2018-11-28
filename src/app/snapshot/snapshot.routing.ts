@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
 import { SnapshotSidebarContainerComponent } from './snapshots-page/snapshot-sidebar/snapshot-sidebar.container';
-import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page.container';
+import { SnapshotsPageContainerComponent } from './containers/snapshots-page/snapshots-page.container';
 
 export const snapshotRoutes: Routes = [
   {

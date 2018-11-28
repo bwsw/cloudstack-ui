@@ -326,3 +326,9 @@ export const selectFilteredVolumes = createSelector(
     });
   },
 );
+
+export const getVmVolumes = (vmId: string) =>
+  createSelector(
+    selectAll,
+    (volumes): Volume[] => volumes.filter(volume => volume.virtualmachineid === vmId),
+  );

@@ -46,7 +46,7 @@ Select the following parameters in the provided order from drop-down lists:
 
 .. figure:: _static/Logs_Datepicker.png 
 
-- Time - Allows selecting logs for a specific time period within the selected dates. By default, 00:00 is defined for the start time and 23:59 is defined for the end time. Enter start and end time you wish into the fields to set a custom time period. 
+- Time - Allows filtering logs for a specific time period within the selected dates. The time format is determined by the time format setting specified under the "Settings" section.  Enter start and end time you wish into the fields to set a custom time period. 
 
 .. figure:: _static/Logs_Timepicker1.png
 

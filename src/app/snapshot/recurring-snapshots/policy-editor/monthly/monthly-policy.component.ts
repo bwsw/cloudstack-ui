@@ -25,7 +25,11 @@ export interface MonthlyPolicy extends Time {
 export class MonthlyPolicyComponent implements ControlValueAccessor {
   @Input()
   public timeFormat: TimeFormat;
-  public time: Time;
+  public time: Time = {
+    hour: 0,
+    minute: 0,
+    period: 0,
+  };
   public dayOfMonth = 1;
   public daysOfMonth: number[] = range(1, 29);
 

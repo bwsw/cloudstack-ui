@@ -1,4 +1,5 @@
 @import '../../../../style/__variables';
+@import '../../../../style/mat-fab-resize';
 
 :host {
   position: fixed;
@@ -7,22 +8,4 @@
   z-index: 99;
   height: 50px;
   width: 50px;
-}
-
-.mat-fab {
-  width: 50px;
-  height: 50px;
-}
-
-/deep/ .mat-fab .mat-button-wrapper {
-  padding: 14px 0 !important;
-}
-
-/deep/ .mat-mini-fab {
-  width: 36px;
-  height: 36px;
-}
-
-/deep/ .mat-mini-fab .mat-button-wrapper {
-  padding: 7px 0 !important;
 }
