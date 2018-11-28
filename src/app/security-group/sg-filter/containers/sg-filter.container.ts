@@ -10,7 +10,6 @@ import { State } from '../../../reducers';
 import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
 import * as fromSecurityGroups from '../../../reducers/security-groups/redux/sg.reducers';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
-import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import { SecurityGroupViewMode } from '../../sg-view-mode';
 import { SessionStorageService } from '../../../shared/services/session-storage.service';
 
@@ -59,7 +58,6 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
   }
 
   public ngOnInit(): void {
-    this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
   }
 

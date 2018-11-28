@@ -17,6 +17,7 @@ import * as vmActions from '../../vm/redux/vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 import * as accountActions from './accounts.actions';
+import { LOAD_USER_ACCOUNT_RESPONSE } from '../../auth/redux/auth.actions';
 
 @Injectable()
 export class AccountsEffects {
@@ -34,6 +35,12 @@ export class AccountsEffects {
   );
 
   @Effect()
+  loadAccountsOnLogin$: Observable<Action> = this.actions$.pipe(
+    ofType(LOAD_USER_ACCOUNT_RESPONSE),
+    map(() => new accountActions.LoadAccountsRequest()),
+  );
+
+  @Effect()
   updateAccounts$: Observable<Action> = this.actions$.pipe(
     ofType(
       vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS,
@@ -41,12 +48,12 @@ export class AccountsEffects {
       volumeActions.VOLUME_DELETE_SUCCESS,
       volumeActions.VOLUME_CREATE_SUCCESS,
       volumeActions.RESIZE_VOLUME_SUCCESS,
+      volumeActions.CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS,
       snapshotActions.ADD_SNAPSHOT_SUCCESS,
       snapshotActions.DELETE_SNAPSHOT_SUCCESS,
+      snapshotActions.REVERT_VOLUME_TO_SNAPSHOT_SUCCESS,
     ),
-    map(() => {
-      return new accountActions.LoadAccountsRequest();
-    }),
+    map(() => new accountActions.LoadAccountsRequest()),
   );
 
   @Effect()

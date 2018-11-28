@@ -5,7 +5,6 @@ import { takeUntil } from 'rxjs/operators';
 import * as debounce from 'lodash/debounce';
 
 import { State } from '../../reducers';
-import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
@@ -89,7 +88,6 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe()
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadZonesRequest());
-    this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
     this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
       this.filterService.update({

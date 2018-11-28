@@ -119,25 +119,25 @@ export const getAvailableOfferings = createSelector(
 
 export const isDiskOfferingAvailableByResources = ({
   diskOffering,
-  minSize,
+  customOfferingMinSize,
   primaryStorageAvailable,
 }: {
   diskOffering: DiskOffering;
-  minSize: number;
+  customOfferingMinSize: number;
   primaryStorageAvailable: number;
 }): boolean => {
-  const size = isCustomized(diskOffering) ? minSize : diskOffering.disksize;
+  const size = isCustomized(diskOffering) ? customOfferingMinSize : diskOffering.disksize;
   return size < primaryStorageAvailable;
 };
 
-export const isVmCreationDiskOfferingAvailableByResources = (minSize: number) =>
+export const isVmCreationDiskOfferingAvailableByResources = (customOfferingMinSize: number) =>
   createSelector(
     fromAccounts.selectUserAccount,
     fromVMs.getVmFormState,
     (account, state): boolean => {
       if (!isTemplate(state.template) && state.diskOffering) {
         return isDiskOfferingAvailableByResources({
-          minSize,
+          customOfferingMinSize,
           diskOffering: state.diskOffering,
           primaryStorageAvailable: Number(account.primarystorageavailable),
         });

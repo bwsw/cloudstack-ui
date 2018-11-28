@@ -34,7 +34,6 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
-import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
@@ -130,8 +129,6 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(
       new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
     );
-    this.store.dispatch(new accountActions.LoadAccountsRequest());
-
     this.minSize = this.authService.getCustomDiskOfferingMinSize();
     this.isDiskOfferingAvailableByResources$ = this.store.pipe(
       select(fromDiskOfferings.isVmCreationDiskOfferingAvailableByResources(this.minSize)),

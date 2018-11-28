@@ -16,7 +16,6 @@ import * as fromOsTypes from '../../reducers/templates/redux/ostype.reducers';
 import * as osTypesActions from '../../reducers/templates/redux/ostype.actions';
 import * as zonesActions from '../../reducers/templates/redux/zone.actions';
 import * as fromZones from '../../reducers/templates/redux/zone.reducers';
-import * as accountsActions from '../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
@@ -96,7 +95,6 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
   public ngOnInit() {
     this.store.dispatch(new zonesActions.LoadZonesRequest());
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
-    this.store.dispatch(new accountsActions.LoadAccountsRequest());
     this.store.dispatch(new domainActions.LoadDomainsRequest());
 
     this.initFilters();
