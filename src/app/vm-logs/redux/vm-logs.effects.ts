@@ -20,13 +20,13 @@ import { Router } from '@angular/router';
 import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
 import { UserTagsSelectors } from '../../root-store';
 import { UserTagsActionTypes } from '../../root-store/server-data/user-tags/user-tags.actions';
-import { filters as vmLogsFilters } from './vm-logs.reducers';
+import { filters as vmLogsFilters, filterSelectedLogFile } from './vm-logs.reducers';
 import * as assign from 'lodash/assign';
-import * as pickBy from 'lodash/pickBy';
 import { getVmLogsFiltersDefaultValues, parseVmLogsFilters } from '../vm-logs-filters';
 import moment = require('moment');
 import { filterSelectedAccountIds, filterSelectedVmId } from './vm-logs-vm.reducers';
-import removeNullsAndEmptyArrays from '../pick-by-null-or-empty-array';
+import removeNullsAndEmptyArrays from '../remove-nulls-and-empty-arrays';
+import { selectAll as logFiles } from './vm-log-files.reducers';
 
 @Injectable()
 export class VmLogsEffects {
@@ -66,8 +66,18 @@ export class VmLogsEffects {
 
   @Effect()
   resetLogFileOnVmChange$: Observable<Action> = this.actions$.pipe(
-    ofType(vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID),
-    switchMap(() => of(new vmLogsActions.VmLogsUpdateLogFile(null))),
+    ofType(vmLogsActions.VmLogsActionTypes.LOAD_VM_LOG_FILES_RESPONSE),
+    withLatestFrom(
+      this.store.pipe(select(filterSelectedLogFile)),
+      this.store.pipe(select(logFiles)),
+    ),
+    map(([_, logFile, currentLogFiles]) => {
+      if (!currentLogFiles.find(lf => lf.file === logFile)) {
+        return new vmLogsActions.VmLogsUpdateLogFile(null);
+      }
+
+      return new vmLogsActions.VmLogsUpdateLogFile(logFile);
+    }),
   );
 
   @Effect()

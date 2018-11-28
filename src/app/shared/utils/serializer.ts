@@ -52,7 +52,7 @@ export class Serializer {
 
     const merged = assign({}, defaultValues, ...parsedObjects.reverse());
 
-    return pickBy(merged, Boolean);
+    return pickBy(merged, value => value != null);
   }
 
   private static getValue(param, conf: FilterItemConfig): any {

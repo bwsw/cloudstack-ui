@@ -12,7 +12,6 @@ import {
   debounceTime,
 } from 'rxjs/operators';
 import * as kebabCase from 'lodash/kebabCase';
-import * as pickBy from 'lodash/pickBy';
 
 import {
   IncrementLastVMId,
@@ -81,7 +80,7 @@ import {
   UpdateIdleMonitorTimeout,
 } from '../../idle-monitor/idle-monitor.actions';
 import { Serializer } from '../../../shared/utils/serializer';
-import removeNullsAndEmptyArrays from '../../../vm-logs/pick-by-null-or-empty-array';
+import removeNullsAndEmptyArrays from '../../../vm-logs/remove-nulls-and-empty-arrays';
 
 interface TagCreationParams {
   key: string;
