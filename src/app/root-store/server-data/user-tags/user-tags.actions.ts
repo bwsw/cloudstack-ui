@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { ServiceOffering, Tag } from '../../../shared/models';
 import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
+import { TagCreationParams } from './tag-creation-params';
 
 export enum UserTagsActionTypes {
   SetDefaultUserTagsAtStartup = '[App initializer] Set default user tags',
@@ -71,9 +72,9 @@ export enum UserTagsActionTypes {
   IncrementLastVMIdSuccess = '[Resource tags API] Increment "csui.user.last-vm-id" tag success',
   IncrementLastVMIdError = '[Resource tags API] Increment "csui.user.last-vm-id" tag error',
 
-  UpdateVmLogsFilters = '[VM Logs] Update "csui.user.vm-logs.___" tag',
-  UpdateVmLogsFiltersSuccess = '[Resource tags API] Update "csui.user.vm-logs.___" tag success',
-  UpdateVmLogsFiltersError = '[Resource tags API] Update "csui.user.vm-logs.___" tag error',
+  UpdateVmLogsFilters = '[VM Logs] Update "csui.user.vm-logs.___" tags',
+  UpdateVmLogsFiltersSuccess = '[Resource tags API] Update "csui.user.vm-logs.___" tags success',
+  UpdateVmLogsFiltersError = '[Resource tags API] Update "csui.user.vm-logs.___" tags error',
 
   UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
 
@@ -417,13 +418,13 @@ export class UpdateCustomServiceOfferingParams implements Action {
 export class UpdateVmLogsFilters implements Action {
   readonly type = UserTagsActionTypes.UpdateVmLogsFilters;
 
-  constructor(readonly payload: Object) {}
+  constructor(readonly payload: { [key: string]: string }) {}
 }
 
 export class UpdateVmLogsFiltersSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateVmLogsFiltersSuccess;
 
-  constructor(readonly payload: Object) {}
+  constructor(readonly payload: TagCreationParams[]) {}
 }
 
 export class UpdateVmLogsFiltersError implements Action {

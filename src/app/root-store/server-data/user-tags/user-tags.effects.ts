@@ -81,11 +81,7 @@ import {
 } from '../../idle-monitor/idle-monitor.actions';
 import { Serializer } from '../../../shared/utils/serializer';
 import removeNullsAndEmptyArrays from '../../../vm-logs/remove-nulls-and-empty-arrays';
-
-interface TagCreationParams {
-  key: string;
-  value: string;
-}
+import { TagCreationParams } from './tag-creation-params';
 
 @Injectable()
 export class UserTagsEffects {
@@ -421,7 +417,6 @@ export class UserTagsEffects {
     return this.tagService.remove({
       resourceids: this.resourceId,
       resourcetype: this.resourceType,
-      // 'tags[0].key': key,
       ...tagsData,
     });
   }
@@ -440,8 +435,6 @@ export class UserTagsEffects {
     return this.tagService.create({
       resourceids: this.resourceId,
       resourcetype: this.resourceType,
-      // 'tags[0].key': key,
-      // 'tags[0].value': value,
       ...tagsData,
     });
   }

@@ -198,7 +198,10 @@ export class VmLogsEffects {
 
       const dispatchedActions = Object.keys(paramsActionsMap).reduce((acc, param) => {
         if (params.hasOwnProperty(param)) {
-          return [...acc, new paramsActionsMap[param](params[param])];
+          const action = paramsActionsMap[param];
+          const value = params[param];
+
+          return [...acc, new action(value)];
         }
 
         return acc;
