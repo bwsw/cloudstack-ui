@@ -37,8 +37,6 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   clickClose() {
-    element(
-      by.css('.cdk-overlay-backdrop.cdk-overlay-dark-backdrop.cdk-overlay-backdrop-showing'),
-    ).click();
+    element(by.css('.backdrop.ng-star-inserted')).click();
   }
 }

@@ -10,7 +10,10 @@ export class CloudstackUiPage {
   }
 
   clickVMMenu() {
-    element(by.css('.mat-icon.mdi-cloud.mdi')).click();
+    element
+      .all(by.css('.mat-icon.mdi-cloud.mdi'))
+      .last()
+      .click();
   }
 
   waitDialogModal() {

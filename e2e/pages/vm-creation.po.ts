@@ -47,6 +47,10 @@ export class VMCreation extends CloudstackUiPage {
     browser.waitForAngular();
   }
 
+  getYesDialogButton() {
+    return element.all(by.css('.mat-button.mat-primary')).last();
+  }
+
   clickNoDialogButton() {
     element
       .all(by.css('.mat-button.mat-primary'))
@@ -80,7 +84,10 @@ export class VMCreation extends CloudstackUiPage {
   }
 
   clickAdvancedTab() {
-    element(by.css('#mat-tab-label-0-1')).click();
+    element
+      .all(by.css('.mat-tab-label.mat-ripple.ng-star-inserted'))
+      .last()
+      .click();
     const EC = protractor.ExpectedConditions;
     const group = EC.visibilityOf(element(by.name('instanceGroup')));
     const start = EC.visibilityOf(element(by.name('startVm')));
@@ -136,9 +143,12 @@ export class VMCreation extends CloudstackUiPage {
       .last()
       .click();
     this.waitDialogModal();
-    element(by.css('#mat-button-toggle-8')).click();
+    element
+      .all(by.css('.mat-button-toggle-button'))
+      .last()
+      .click();
     const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element(by.tagName('mat-list-item'))), 2000);
+    browser.wait(EC.visibilityOf(element(by.tagName('mat-list-item'))), 3000);
     element(by.tagName('mat-list-item')).click();
     element
       .all(by.css('.mat-button.mat-primary'))
@@ -172,5 +182,9 @@ export class VMCreation extends CloudstackUiPage {
     return element(by.name('sgm'))
       .element(by.css('.ellipsis-overflow.ng-star-inserted'))
       .getText();
+  }
+
+  getErrorHostName() {
+    return element(by.cssContainingText('.mat-error.ng-star-inserted', 'This name is taken'));
   }
 }

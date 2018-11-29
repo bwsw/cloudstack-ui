@@ -55,6 +55,8 @@ export class VMList extends CloudstackUiPage {
 
   clickCreateVM() {
     element(by.css('.mat-fab.mat-accent')).click();
+    // const EC = protractor.ExpectedConditions;
+    // browser.wait(EC.visibilityOf( element(by.css('#mat-tab-label-0-1'))), 5000);
   }
 
   clickOpenSidebar() {

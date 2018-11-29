@@ -20,6 +20,10 @@ describe('e2e-test-vm-creation', () => {
   let sgsidebar: SGSidebar;
 
   beforeAll(() => {
+    browser.driver
+      .manage()
+      .window()
+      .maximize();
     login = new Login();
     login.navigateTo('/');
     login.login();
@@ -78,7 +82,7 @@ describe('e2e-test-vm-creation', () => {
     expect(deploy.getProgressText()).toEqual(deploy.progressText);
     deploy.clickClose();
   });
-  /*
+
   it('Verify card: name, ip, status, template', () => {
     expect(vmlist.getVMNameCard()).toEqual(page.name);
     expect(vmlist.getStateRunning().isPresent()).toBeTruthy();
@@ -86,7 +90,7 @@ describe('e2e-test-vm-creation', () => {
     expect(vmlist.getVMIPCard().isPresent()).toBeTruthy();
   });
 
-  it ('Verify access VM: title, console', () => {
+  it('Verify access VM: title, console', () => {
     vmlist.clickOpenAccessVM();
     expect(accessVM.getTitle()).toEqual('Access VM');
     expect(accessVM.getConsoleButton().isPresent).toBeTruthy();
@@ -95,19 +99,20 @@ describe('e2e-test-vm-creation', () => {
 
   it('Verify sidebar: name, group, affinity group, template', () => {
     vmlist.clickOpenSidebar();
-    expect (sidebar.getVMName()).toEqual(page.name);
+    expect(sidebar.getVMName()).toEqual(page.name);
     expect(sidebar.getGroup()).toEqual(page.group);
     expect(sidebar.getSOName()).toEqual(page.so);
     expect(sidebar.getTemplate()).toContain(page.template);
     expect(sidebar.getAffGroup()).toEqual(page.aff);
-    // sidebar.clickClose();
-  }); */
+    sidebar.clickClose();
+  });
 
   it('Verify VM in default security group', () => {
     vmlist.clickFirewallMenu();
     sglist.clickSharedTab();
     sglist.clickOpenSidebar();
     expect(sgsidebar.getVMbyName(page.name).isPresent()).toBeTruthy();
+    sgsidebar.clickClose();
     sglist.clickVMMenu();
     sglist.waitRedirect('instances');
   });
@@ -119,8 +124,7 @@ describe('e2e-test-vm-creation', () => {
     page.clickAdvancedTab();
     page.setHostName(page.name);
     page.setDefaultSGRule();
-    page.clickYesDialogButton();
-    deploy.waitVMDeploy();
-    expect(deploy.getDeployText()).toEqual(deploy.deployText);
+    expect(page.getYesDialogButton().isEnabled()).toBeFalsy();
+    expect(page.getErrorHostName().isPresent()).toBeTruthy();
   });
 });
