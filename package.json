@@ -2,6 +2,7 @@
   "name": "cloudstack-ui",
   "version": "1.411.25",
   "license": "Apache-2.0",
+  "repository": "github:bwsw/cloudstack-ui",
   "scripts": {
     "ng": "ng",
     "start": "npm run build-themes && ng serve",
