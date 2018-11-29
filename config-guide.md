@@ -7,6 +7,7 @@ You can see examples of the configurations in the [config-example.json](https://
   - [Session Refresh Interval](#session-refresh-interval)
   - [API Doc Link](#api-doc-link)
 - [Extensions](#extensions)
+  - [Log View Plugin](#log-view-plugin)
 - [Virtual Machines Settings](#virtual-machines-settings)
   - [VM Colors](#vm-colors)
 - [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
@@ -79,12 +80,14 @@ For example,
 
 Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for a detailed information about plugins.
 
-### Log View plugin
+### Log View Plugin
 
-Refresh frequency - a period of time in seconds between two log requests in auto update mode.
+Allows you to configure Log View plugin.
+
+`autoUpdateRefreshFrequency` - a period of time in seconds between two log requests in the auto update mode.
 Smaller values are faster, but use more network traffic.
 
-Requested interval - a period of time in seconds that is requested each time in auto update mode.
+`autoUpdateRequestedInterval` - get last `autoUpdateRequestedInterval` seconds of logs each time in the auto update mode.
 The value depends on the time it takes to process logs on the backend: longer processing time should correspond to larger
 values. Smaller values save traffic, but some logs may be missed.
 
