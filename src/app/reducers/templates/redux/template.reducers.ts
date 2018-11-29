@@ -6,7 +6,6 @@ import {
 } from '../../../template/shared/base-template.service';
 import { BaseTemplateModel, resourceType } from '../../../template/shared/base-template.model';
 import { templateTagKeys } from '../../../shared/services/tags/template-tag-keys';
-import * as fromAuth from '../../auth/redux/auth.reducers';
 import { defaultTemplateGroupId } from '../../../shared/models/config/image-group.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
@@ -288,7 +287,7 @@ export const selectFilteredTemplates = createSelector(
   selectByViewModeAndAccounts,
   fromOsTypes.selectEntities,
   filters,
-  fromAuth.getUserAccount,
+  fromAccounts.selectUserAccount,
   configSelectors.get('imageGroups'),
   (templates, osTypesEntities, listFilters, user, imageGroups) => {
     const osFamiliesMap = listFilters.selectedOsFamilies.reduce(
@@ -353,7 +352,7 @@ export const selectFilteredTemplates = createSelector(
 
 export const selectTemplatesForAction = createSelector(
   selectAll,
-  fromAuth.getUserAccount,
+  fromAccounts.selectUserAccount,
   fromOsTypes.selectEntities,
   vmCreationListFilters,
   configSelectors.get('imageGroups'),
@@ -411,7 +410,7 @@ export const selectTemplatesForAction = createSelector(
 
 export const selectTemplatesForIsoAttachment = createSelector(
   selectTemplatesForAction,
-  fromAuth.getUserAccount,
+  fromAccounts.selectUserAccount,
   fromVMs.getSelectedVM,
   (templates, account, vm) => {
     const selectedZoneFilter = (template: BaseTemplateModel) => {
@@ -468,7 +467,7 @@ const filterForVmCreationWithFilter = (templates, zoneId, account, filter) => {
 export const selectFilteredTemplatesForVmCreation = createSelector(
   selectTemplatesForAction,
   fromVMs.getVmCreationZoneId,
-  fromAuth.getUserAccount,
+  fromAccounts.selectUserAccount,
   vmCreationListFilters,
   filterForVmCreationWithFilter,
 );
@@ -476,6 +475,6 @@ export const selectFilteredTemplatesForVmCreation = createSelector(
 export const numOfTemplatesReadyForVmCreation = createSelector(
   selectAll,
   fromVMs.getVmCreationZoneId,
-  fromAuth.getUserAccount,
+  fromAccounts.selectUserAccount,
   (templates, zoneId, account) => filterForVmCreation(templates, zoneId, account).length,
 );

@@ -10,7 +10,7 @@ import { isRootAdmin } from '../../../shared/models/account.model';
 import { Configuration } from '../../../shared/models/configuration.model';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { State } from '../../index';
-import * as fromAuth from '../../auth/redux/auth.reducers';
+import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as configurationActions from './configurations.actions';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class ConfigurationEffects {
   @Effect()
   loadConfigurations$: Observable<Action> = this.actions$.pipe(
     ofType(configurationActions.LOAD_CONFIGURATIONS_REQUEST),
-    withLatestFrom(this.store.pipe(select(fromAuth.getUserAccount))),
+    withLatestFrom(this.store.pipe(select(fromAccounts.selectUserAccount))),
     switchMap(([action, account]: [configurationActions.LoadConfigurationsRequest, Account]) => {
       return account && isRootAdmin(account)
         ? this.configurationService.getList(action.payload).pipe(

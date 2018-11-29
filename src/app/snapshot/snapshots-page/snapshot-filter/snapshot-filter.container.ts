@@ -4,7 +4,6 @@ import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { combineLatest } from 'rxjs';
 
-import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
 import * as fromVm from '../../../reducers/vm/redux/vm.reducers';
@@ -142,7 +141,6 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadZonesRequest());
-    this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
 
     this.viewMode$.subscribe(mode => (this.viewMode = mode));

@@ -49,6 +49,7 @@ import {
   DateDisplayComponent,
   DatePickerComponent,
   DatePickerDialogComponent,
+  ErrorMessageComponent,
   FabComponent,
   FancySelectComponent,
   InputGroupComponent,
@@ -240,6 +241,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     KeyboardsComponent,
     TimePickerComponent,
     DayPeriodComponent,
+    ErrorMessageComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -334,6 +336,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     KeyboardsComponent,
     TimePickerComponent,
     DayPeriodComponent,
+    ErrorMessageComponent,
     VolumeSnapshotFromVmSnapshotDialogComponent,
   ],
   providers: [

@@ -9,7 +9,6 @@ import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
-import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
@@ -111,7 +110,6 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadZonesRequest());
-    this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
     this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
       this.filterService.update({

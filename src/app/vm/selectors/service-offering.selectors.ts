@@ -11,7 +11,7 @@ import {
 import { ServiceOffering, serviceOfferingType, Zone } from '../../shared/models';
 import { configSelectors } from '../../root-store';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
-import * as fromAuths from '../../reducers/auth/redux/auth.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import {
   filterQuery,
@@ -57,7 +57,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(
   getComputeOfferingForVmCreation,
   configSelectors.get('serviceOfferingAvailability'),
   fromVMs.getVMCreationZone,
-  fromAuths.getUserAccount,
+  fromAccounts.selectUserAccount,
   (serviceOfferings, availability, zone, user) => {
     if (!zone || !user) {
       return [];
@@ -73,7 +73,7 @@ export const getAvailableOfferings = createSelector(
   configSelectors.get('serviceOfferingAvailability'),
   configSelectors.get('offeringCompatibilityPolicy'),
   fromZones.getSelectedZone,
-  fromAuths.getUserAccount,
+  fromAccounts.selectUserAccount,
   (serviceOfferings, currentOffering, availability, compatibilityPolicy, zone, user) => {
     if (!zone || !user) {
       return [];
