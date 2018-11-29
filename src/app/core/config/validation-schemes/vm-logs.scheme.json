@@ -3,6 +3,7 @@
   "$id": "vmLogs",
   "type": "object",
   "additionalProperties": false,
+  "required": ["autoUpdateRefreshFrequency", "autoUpdateRequestedInterval"],
   "properties": {
     "autoUpdateRefreshFrequency": {
       "type": "number",
