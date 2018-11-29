@@ -20,7 +20,7 @@ import { Utils } from '../../shared/services/utils/utils.service';
 import { Router } from '@angular/router';
 import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
 import { configSelectors, UserTagsSelectors } from '../../root-store';
-import { selectAll as selectVmLogs } from './vm-logs.reducers';
+import { filterNewestFirst, selectAll as selectVmLogs } from './vm-logs.reducers';
 
 @Injectable()
 export class VmLogsEffects {
@@ -111,8 +111,9 @@ export class VmLogsEffects {
     withLatestFrom(
       this.store.pipe(select(selectVmLogs)),
       this.store.pipe(select(UserTagsSelectors.getVmLogsShowLastMinutes)),
+      this.store.pipe(select(filterNewestFirst)),
     ),
-    map(([_, logs, minutes]) => {
+    map(([_, logs, minutes, newestFirst]) => {
       const nowTime = moment();
       const filteredLogs = logs.filter(log => {
         const logTime = moment(log.timestamp);
@@ -120,7 +121,15 @@ export class VmLogsEffects {
         const diffInMinutes = moment.duration(diff).asMinutes();
         return diffInMinutes <= minutes;
       });
-      return new vmLogsActions.UpdateAutoUpdateVmLogs(filteredLogs);
+      const sortedLogs = filteredLogs.sort((a, b) => {
+        if (newestFirst) {
+          return b.timestamp.localeCompare(a.timestamp);
+        }
+
+        return a.timestamp.localeCompare(b.timestamp);
+      });
+
+      return new vmLogsActions.UpdateAutoUpdateVmLogs(sortedLogs);
     }),
   );
 
