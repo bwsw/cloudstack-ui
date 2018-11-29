@@ -21,7 +21,7 @@ export interface VmCreationState {
   displayName: string;
   name: string;
   doStartVm: boolean;
-  instanceGroup: InstanceGroup;
+  instanceGroup: string;
   rootDiskSize: number;
   rootDiskMinSize: number;
   securityGroupData: VmCreationSecurityGroupData;

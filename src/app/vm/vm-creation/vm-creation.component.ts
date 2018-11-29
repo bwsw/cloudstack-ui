@@ -31,7 +31,7 @@ export class VmCreationComponent {
   @Input()
   public vmCreationState: VmCreationState;
   @Input()
-  public instanceGroupList: InstanceGroup[];
+  public instanceGroupNames: string[];
   @Input()
   public affinityGroupList: AffinityGroup[];
   @Input()
@@ -111,8 +111,7 @@ export class VmCreationComponent {
   };
 
   public maxEntityNameLength = 63;
-  public visibleAffinityGroups: AffinityGroup[];
-  public visibleInstanceGroups: InstanceGroup[];
+  public visibleInstanceGroups: string[];
 
   constructor(
     public dialogRef: MatDialogRef<VmCreationContainerComponent>,
@@ -170,17 +169,17 @@ export class VmCreationComponent {
 
   public changeInstanceGroup(groupName: string): void {
     const val = groupName.toLowerCase();
-    this.visibleInstanceGroups = this.instanceGroupList.filter(
-      g => g.name.toLowerCase().indexOf(val) === 0,
+    this.visibleInstanceGroups = this.instanceGroupNames.filter(gn =>
+      gn.toLowerCase().includes(val),
     );
 
     const existingGroup = this.getInstanceGroup(groupName);
-    const instanceGroup = clone(existingGroup) || new InstanceGroup(groupName);
+    const instanceGroup = clone(existingGroup) || groupName;
     this.instanceGroupChange.emit(instanceGroup);
   }
 
-  public getInstanceGroup(name: string): InstanceGroup {
-    return this.instanceGroupList.find(group => group.name === name);
+  public getInstanceGroup(name: string): string {
+    return this.instanceGroupNames.find(groupName => groupName === name);
   }
 
   public changeAffinityGroup(groupId: string): void {

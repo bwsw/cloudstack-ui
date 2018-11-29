@@ -102,6 +102,8 @@ import {
   VmCreationAffinityGroupListComponent,
 } from './vm-sidebar/affinity-group-selector';
 import { VmCreationAffinityGroupManagerComponent } from './vm-creation/components/affinity-group-manager/vm-creation-affinity-group-manager.component';
+import { instanceGroupReducers } from '../reducers/instance-group/redux/instance-group.reducers';
+import { InstanceGroupsEffects } from '../reducers/instance-group/redux/instance-group.effects';
 
 // tslint:enable max-line-length
 
@@ -125,6 +127,7 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
     StoreModule.forFeature('tags', accountTagsReducers),
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('service-offerings', serviceOfferingReducers),
+    StoreModule.forFeature('instanceGroups', instanceGroupReducers),
     EffectsModule.forFeature([
       VirtualMachinesEffects,
       VirtualMachineCreationEffects,
@@ -132,6 +135,7 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
       AccountsEffects,
       AccountTagsEffects,
       ServiceOfferingEffects,
+      InstanceGroupsEffects,
     ]),
   ],
   declarations: [

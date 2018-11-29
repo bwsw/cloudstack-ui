@@ -246,9 +246,6 @@
       "CHANGE_INSTANCE_GROUP_IN_PROGRESS": "Changing an instance group",
       "CHANGE_INSTANCE_GROUP_DONE": "Instance group changed",
       "CHANGE_INSTANCE_GROUP_FAILED": "Failed to change an instance group",
-      "REMOVE_INSTANCE_GROUP_IN_PROGRESS": "Removing an instance group",
-      "REMOVE_INSTANCE_GROUP_DONE": "Instance group removed",
-      "REMOVE_INSTANCE_GROUP_FAILED": "Failed to remove an instance group",
       "ADD_SECONDARY_IP_DONE": "Secondary IP added",
       "REMOVE_SECONDARY_IP_DONE": "Secondary IP removed",
       "COLOR_CHANGE_DONE": "VM color changed",
@@ -388,8 +385,7 @@
         "CREATE_NEW_GROUP": "Create a new group",
         "CHOOSE_EXISTING_GROUP": "Choose an existing group",
         "CHOOSE_GROUP": "Choose a group",
-        "ENTER_GROUP_NAME": "Enter group name",
-        "REMOVE_FROM_GROUP": "Remove from the group \"{{ value }}\""
+        "ENTER_GROUP_NAME": "Enter group name"
       },
       "SERVICE_OFFERING": {
         "TITLE": "Service offering",

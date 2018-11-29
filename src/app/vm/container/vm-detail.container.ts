@@ -11,6 +11,7 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromAffinityGroups from '../../reducers/affinity-groups/redux/affinity-groups.reducers';
 import * as fromAffinityGroupsActions from '../../reducers/affinity-groups/redux/affinity-groups.actions';
+import * as fromInstanceGroups from '../../reducers/instance-group/redux/instance-group.reducers';
 import { VirtualMachine } from '../shared/vm.model';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
@@ -27,7 +28,7 @@ const vmDescriptionKey = 'csui.vm.description';
     <cs-vm-detail [vm]="vm$ | async"></cs-vm-detail>
     <cs-instance-group
       [vm]="vm$ | async"
-      [groups]="groups$ | async"
+      [groupNames]="groupNames$ | async"
       (groupChanged)="changeGroup($event)"
     >
     </cs-instance-group>
@@ -58,7 +59,7 @@ const vmDescriptionKey = 'csui.vm.description';
 })
 export class VmDetailContainerComponent implements OnInit {
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
-  readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
+  readonly groupNames$ = this.store.pipe(select(fromInstanceGroups.selectInstanceGroupNames));
   readonly offering$ = this.store.pipe(select(fromServiceOfferings.getSelectedOffering));
   readonly sshKeys$ = this.store.pipe(select(fromSshKeys.selectSSHKeys));
   readonly description$ = this.vm$.pipe(
@@ -78,19 +79,15 @@ export class VmDetailContainerComponent implements OnInit {
     });
   }
 
-  public changeGroup(group) {
-    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      if (group.name !== '') {
-        this.store.dispatch(
-          new vmActions.ChangeInstanceGroup({
-            vm,
-            group,
-          }),
-        );
-      } else {
-        this.store.dispatch(new vmActions.RemoveInstanceGroup(vm));
-      }
-    });
+  public changeGroup(group: string) {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) =>
+      this.store.dispatch(
+        new vmActions.ChangeInstanceGroup({
+          vm,
+          group,
+        }),
+      ),
+    );
   }
 
   public changeAffinityGroup(affinityGroupIds: string[]) {

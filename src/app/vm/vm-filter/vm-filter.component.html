@@ -34,10 +34,10 @@
         <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
       </mat-option>
       <mat-option
-        *ngFor="let group of groups"
-        [value]="group.name"
+        *ngFor="let group of groupNames"
+        [value]="group"
       >
-        {{ group.name }}
+        {{ group }}
       </mat-option>
     </mat-select>
   </mat-form-field>

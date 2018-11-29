@@ -440,10 +440,10 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should change instance group', () => {
-    const spyChangeGroup = spyOn(tagService, 'setGroup').and.returnValue(of(list[0]));
+    const spyChangeGroup = spyOn(service, 'updateGroup').and.returnValue(of(list[0]));
 
     const action = new vmActions.ChangeInstanceGroup({
-      group: {} as InstanceGroup,
+      group: 'group',
       vm: list[0],
     });
     const completion = new vmActions.UpdateVM(list[0]);
@@ -458,12 +458,12 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during changing instance group', () => {
     const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
-    const spyChangeGroup = spyOn(tagService, 'setGroup').and.returnValue(
+    const spyChangeGroup = spyOn(service, 'updateGroup').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
 
     const action = new vmActions.ChangeInstanceGroup({
-      group: {} as InstanceGroup,
+      group: 'group',
       vm: list[0],
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
@@ -473,37 +473,6 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.changeInstanceGroup$).toBeObservable(expected);
     expect(spyChangeGroup).toHaveBeenCalled();
-    expect(spyAlert).toHaveBeenCalled();
-  });
-
-  it('should remove instance group', () => {
-    const spyRemoveGroup = spyOn(tagService, 'removeGroup').and.returnValue(of(list[0]));
-
-    const action = new vmActions.RemoveInstanceGroup(list[0]);
-    const completion = new vmActions.UpdateVM({ ...list[0], tags: [] });
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('-b', { b: completion });
-
-    expect(effects.removeInstanceGroup$).toBeObservable(expected);
-    expect(spyRemoveGroup).toHaveBeenCalled();
-    expect(jobsNotificationService.add).toHaveBeenCalled();
-  });
-
-  it('should return an error during removing instance group', () => {
-    const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
-    const spyRemoveGroup = spyOn(tagService, 'removeGroup').and.returnValue(
-      throwError(new Error('Error occurred!')),
-    );
-
-    const action = new vmActions.RemoveInstanceGroup(list[0]);
-    const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
-
-    actions$.stream = cold('a', { a: action });
-    const expected = cold('a', { a: completion });
-
-    expect(effects.removeInstanceGroup$).toBeObservable(expected);
-    expect(spyRemoveGroup).toHaveBeenCalled();
     expect(spyAlert).toHaveBeenCalled();
   });
 

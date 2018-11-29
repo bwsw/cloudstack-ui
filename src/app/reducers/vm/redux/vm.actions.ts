@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessageData } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { Color, InstanceGroup, ServiceOffering, SSHKeyPair, Tag } from '../../../shared/models';
+import { Color, ServiceOffering, SSHKeyPair, Tag } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm';
 import { VmState } from '../../../vm/shared/vm.model';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
@@ -21,7 +21,6 @@ export const VM_CHANGE_DESCRIPTION = '[VM] VM_CHANGE_DESCRIPTION';
 export const VM_CHANGE_SERVICE_OFFERING = '[VM] VM_CHANGE_SERVICE_OFFERING';
 export const VM_CHANGE_AFFINITY_GROUP = '[VM] VM_CHANGE_AFFINITY_GROUP';
 export const VM_CHANGE_INSTANCE_GROUP = '[VM] VM_CHANGE_INSTANCE_GROUP';
-export const VM_REMOVE_INSTANCE_GROUP = '[VM] VM_REMOVE_INSTANCE_GROUP';
 export const VM_ADD_SECONDARY_IP = '[VM] VM_ADD_SECONDARY_IP';
 export const VM_REMOVE_SECONDARY_IP = '[VM] VM_REMOVE_SECONDARY_IP';
 export const VM_CHANGE_COLOR = '[VM] VM_CHANGE_COLOR';
@@ -159,15 +158,9 @@ export class ChangeInstanceGroup implements Action {
   constructor(
     public payload: {
       vm: VirtualMachine;
-      group: InstanceGroup;
+      group: string;
     },
   ) {}
-}
-
-export class RemoveInstanceGroup implements Action {
-  type = VM_REMOVE_INSTANCE_GROUP;
-
-  constructor(public payload: VirtualMachine) {}
 }
 
 export class AddSecondaryIp implements Action {
@@ -491,7 +484,6 @@ export type Actions =
   | ChangeServiceOffering
   | ChangeAffinityGroup
   | ChangeInstanceGroup
-  | RemoveInstanceGroup
   | AddSecondaryIp
   | RemoveSecondaryIp
   | ChangeVmColor

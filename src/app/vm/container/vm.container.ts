@@ -10,7 +10,7 @@ import * as osTypesActions from '../../reducers/templates/redux/ostype.actions';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
 import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.actions';
 import { AuthService } from '../../shared/services/auth.service';
-import { getInstanceGroupName, VirtualMachine } from '../shared/vm.model';
+import { VirtualMachine } from '../shared/vm.model';
 
 import { noGroup } from '../vm-filter/vm-filter.component';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
@@ -52,8 +52,9 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     {
       key: 'groups',
       label: 'VM_PAGE.FILTERS.GROUP_BY_GROUPS',
-      selector: (item: VirtualMachine) => getInstanceGroupName(item) || noGroup,
-      name: (item: VirtualMachine) => getInstanceGroupName(item) || 'VM_PAGE.FILTERS.NO_GROUP',
+      selector: (item: VirtualMachine) => (item.group != null ? item.group : noGroup),
+      name: (item: VirtualMachine) =>
+        item.group != null ? item.group : 'VM_PAGE.FILTERS.NO_GROUP',
     },
     {
       key: 'accounts',

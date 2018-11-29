@@ -7,6 +7,7 @@ import * as debounce from 'lodash/debounce';
 import { State } from '../../reducers';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import * as fromInstanceGroups from '../../reducers/instance-group/redux/instance-group.reducers';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
@@ -27,7 +28,7 @@ const FILTER_KEY = 'vmListFilters';
       *loading="loading$ | async"
       [zones]="zones$ | async"
       [accounts]="accounts$ | async"
-      [groups]="groups$ | async"
+      [groupNames]="groupNames$ | async"
       [states]="states"
       [groupings]="groupings"
       [query]="query$ | async"
@@ -54,7 +55,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
   readonly query$ = this.store.pipe(select(fromVMs.filterQuery));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
-  readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
+  readonly groupNames$ = this.store.pipe(select(fromInstanceGroups.selectInstanceGroupNames));
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
 
   readonly selectedZoneIds$ = this.store.pipe(select(fromVMs.filterSelectedZoneIds));

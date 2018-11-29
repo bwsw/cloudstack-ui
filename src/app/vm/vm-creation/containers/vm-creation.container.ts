@@ -34,6 +34,7 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
+import * as fromInstanceGroups from '../../../reducers/instance-group/redux/instance-group.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -45,7 +46,7 @@ import { AuthService } from '../../../shared/services/auth.service';
       [account]="account$ | async"
       [vmCreationState]="vmFormState$ | async"
       [fetching]="isLoading$ | async"
-      [instanceGroupList]="instanceGroups$ | async"
+      [instanceGroupNames]="instanceGroupNames$ | async"
       [affinityGroupList]="affinityGroups$ | async"
       [diskOfferings]="diskOfferings$ | async"
       [virtualMachineList]="vms$ | async"
@@ -105,7 +106,9 @@ export class VmCreationContainerComponent implements OnInit {
   readonly enoughResources$ = this.store.pipe(select(fromVMs.enoughResources));
   readonly insufficientResources$ = this.store.pipe(select(fromVMs.insufficientResources));
   readonly loggerStageList$ = this.store.pipe(select(fromVMs.loggerStageList));
-  readonly instanceGroups$ = this.store.pipe(select(fromVMs.selectVmGroups));
+  readonly instanceGroupNames$ = this.store.pipe(
+    select(fromInstanceGroups.selectInstanceGroupNames),
+  );
   readonly affinityGroups$ = this.store.pipe(select(fromAffinityGroups.selectAll));
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
@@ -167,7 +170,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new vmActions.VmFormUpdate({ template }));
   }
 
-  public onInstanceGroupChange(instanceGroup: InstanceGroup) {
+  public onInstanceGroupChange(instanceGroup: string) {
     this.store.dispatch(new vmActions.VmFormUpdate({ instanceGroup }));
   }
 

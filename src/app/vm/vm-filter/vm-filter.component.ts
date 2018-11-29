@@ -16,7 +16,7 @@ export class VmFilterComponent implements OnInit {
   @Input()
   public groupings: Grouping[];
   @Input()
-  public groups: any[];
+  public groupNames: string[];
   @Input()
   public states: any[];
   @Input()

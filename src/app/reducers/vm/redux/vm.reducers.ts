@@ -3,8 +3,8 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { virtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
-import { getInstanceGroupName, VirtualMachine } from '../../../vm/shared/vm.model';
-import { InstanceGroup, Tag, Zone } from '../../../shared/models';
+import { VirtualMachine } from '../../../vm/shared/vm.model';
+import { Tag, Zone } from '../../../shared/models';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { Utils } from '../../../shared/services/utils/utils.service';
@@ -235,18 +235,7 @@ export const filterSelectedAccountIds = createSelector(filters, state => state.s
 
 export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
 
-export const selectVmGroups = createSelector(selectAll, vms => {
-  const groups = vms.reduce((groupsMap, vm) => {
-    const group = vm.tags.find(tag => tag.key === virtualMachineTagKeys.group);
-
-    if (group && group.value && !groupsMap[group.value]) {
-      groupsMap[group.value] = new InstanceGroup(group.value);
-    }
-    return groupsMap;
-  }, {});
-  return groups ? Object.values(groups) : [];
-});
-
+// todo: rename
 export const getUsingSGVMs = createSelector(
   selectAll,
   fromSGroup.getSelectedId,
@@ -302,8 +291,7 @@ export const selectFilteredVMs = createSelector(
         return true;
       }
 
-      const instanceGroupName =
-        getInstanceGroupName(vm) != null ? getInstanceGroupName(vm) : noGroup;
+      const instanceGroupName = vm.group != null ? vm.group : noGroup;
       const isIstanceGroupNameOneOfSelected = groupNamesMap[instanceGroupName] != null;
 
       return isIstanceGroupNameOneOfSelected;

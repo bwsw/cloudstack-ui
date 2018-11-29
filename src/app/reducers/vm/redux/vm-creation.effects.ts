@@ -335,10 +335,10 @@ export class VirtualMachineCreationEffects {
               this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
 
               return this.doCreateInstanceGroup(deployedVm, action.payload).pipe(
-                switchMap(virtualMachine => this.doCopyTags(virtualMachine, action.payload)),
+                switchMap((vm: VirtualMachine) => this.doCopyTags(vm, action.payload)),
               );
             }),
-            map(vmWithTags => {
+            map((vmWithTags: VirtualMachine) => {
               if (action.payload.doStartVm) {
                 vmWithTags.state = VmState.Running;
               }
@@ -549,8 +549,7 @@ export class VirtualMachineCreationEffects {
     state.securityGroupData.mode === VmCreationSecurityGroupMode.Builder &&
     !!state.securityGroupData.rules.templates.length;
 
-  private createInstanceGroup = (state: VmCreationState) =>
-    state.instanceGroup && !!state.instanceGroup.name;
+  private createInstanceGroup = (state: VmCreationState) => Boolean(state.instanceGroup);
 
   private doCreateSecurityGroup(state: VmCreationState) {
     if (this.createSecurityGroup(state)) {
@@ -565,7 +564,7 @@ export class VirtualMachineCreationEffects {
     if (this.createInstanceGroup(state)) {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.INSTANCE_GROUP_CREATION });
 
-      return this.instanceGroupService.add(vm, state.instanceGroup).pipe(
+      return this.vmService.updateGroup(vm, state.instanceGroup).pipe(
         map((virtualMachine: VirtualMachine) => {
           this.store.dispatch(
             new vmActions.DeploymentChangeStatus({

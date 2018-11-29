@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { getInstanceGroupName, VirtualMachine, vmResourceType } from '../../../vm/shared/vm.model';
-import { Color, InstanceGroup, Tag } from '../../models';
+import { VirtualMachine, vmResourceType } from '../../../vm/shared/vm.model';
+import { Color, Tag } from '../../models';
 import { Taggable } from '../../interfaces';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
@@ -60,27 +59,6 @@ export class VmTagService implements EntityTagService {
 
   public setPassword(vm: VirtualMachine, password: string): Observable<VirtualMachine> {
     return this.tagService.update(vm, vmResourceType, virtualMachineTagKeys.passwordTag, password);
-  }
-
-  public setGroup(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
-    return this.tagService.update(vm, vmResourceType, this.keys.group, group && group.name);
-  }
-
-  public removeGroup(vm: VirtualMachine): Observable<VirtualMachine> {
-    const newVm: VirtualMachine = { ...vm };
-    return this.tagService
-      .remove({
-        resourceIds: vm.id,
-        resourceType: vmResourceType,
-        'tags[0].key': this.keys.group,
-        'tags[0].value': getInstanceGroupName(vm),
-      })
-      .pipe(
-        map(() => {
-          newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
-          return newVm;
-        }),
-      );
   }
 
   public setAgreement(vm: VirtualMachine): Observable<VirtualMachine> {

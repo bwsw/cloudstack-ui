@@ -246,9 +246,6 @@
       "CHANGE_INSTANCE_GROUP_IN_PROGRESS": "Изменение группы",
       "CHANGE_INSTANCE_GROUP_DONE": "Группа изменена",
       "CHANGE_INSTANCE_GROUP_FAILED": "Не удалось изменить группу",
-      "REMOVE_INSTANCE_GROUP_IN_PROGRESS": "Удаление группы",
-      "REMOVE_INSTANCE_GROUP_DONE": "Группа удалена",
-      "REMOVE_INSTANCE_GROUP_FAILED": "Не удалось удалить группу",
       "ADD_SECONDARY_IP_DONE": "Дополнительный IPv4 добавлен",
       "REMOVE_SECONDARY_IP_DONE": "Дополнительный IPv4 удален",
       "COLOR_CHANGE_DONE": "Цвет ВМ изменен",
@@ -388,8 +385,7 @@
         "CREATE_NEW_GROUP": "Создать новую",
         "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
         "CHOOSE_GROUP": "Выберите группу",
-        "ENTER_GROUP_NAME": "Введите имя",
-        "REMOVE_FROM_GROUP": "Удалить из группы \"{{ value }}\""
+        "ENTER_GROUP_NAME": "Введите имя"
       },
       "SERVICE_OFFERING": {
         "TITLE": "Вычислительное предложение",

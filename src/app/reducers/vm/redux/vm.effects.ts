@@ -215,7 +215,7 @@ export class VirtualMachinesEffects {
         'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_IN_PROGRESS',
       );
 
-      return this.vmTagService.setGroup(newVm, action.payload.group).pipe(
+      return this.vmService.updateGroup(newVm, action.payload.group).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_DONE';
           this.showNotificationsOnFinish(message, notificationId);
@@ -223,32 +223,6 @@ export class VirtualMachinesEffects {
         map(vm => new vmActions.UpdateVM(vm)),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_FAILED';
-          this.dialogService.showNotificationsOnFail(error, message, notificationId);
-          return of(new vmActions.VMUpdateError({ error }));
-        }),
-      );
-    }),
-  );
-
-  @Effect()
-  removeInstanceGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(vmActions.VM_REMOVE_INSTANCE_GROUP),
-    mergeMap((action: vmActions.RemoveInstanceGroup) => {
-      const notificationId = this.jobsNotificationService.add(
-        'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_IN_PROGRESS',
-      );
-
-      return this.vmTagService.removeGroup(action.payload).pipe(
-        tap(() => {
-          const message = 'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_DONE';
-          this.showNotificationsOnFinish(message, notificationId);
-        }),
-        map(vm => {
-          const newVm: VirtualMachine = { ...vm };
-          return new vmActions.UpdateVM(newVm);
-        }),
-        catchError((error: Error) => {
-          const message = 'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_FAILED';
           this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new vmActions.VMUpdateError({ error }));
         }),
