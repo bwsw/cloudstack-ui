@@ -11,7 +11,6 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromAffinityGroups from '../../reducers/affinity-groups/redux/affinity-groups.reducers';
 import * as fromAffinityGroupsActions from '../../reducers/affinity-groups/redux/affinity-groups.actions';
-import * as fromInstanceGroups from '../../reducers/instance-group/redux/instance-group.reducers';
 import { VirtualMachine } from '../shared/vm.model';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
@@ -59,7 +58,7 @@ const vmDescriptionKey = 'csui.vm.description';
 })
 export class VmDetailContainerComponent implements OnInit {
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
-  readonly groupNames$ = this.store.pipe(select(fromInstanceGroups.selectInstanceGroupNames));
+  readonly groupNames$ = this.store.pipe(select(fromVMs.selectVmGroups));
   readonly offering$ = this.store.pipe(select(fromServiceOfferings.getSelectedOffering));
   readonly sshKeys$ = this.store.pipe(select(fromSshKeys.selectSSHKeys));
   readonly description$ = this.vm$.pipe(

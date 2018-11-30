@@ -32,7 +32,6 @@ import { IsoService } from '../../../template/shared/iso.service';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { Router } from '@angular/router';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { Color } from '../../../shared/models/color.model';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 // tslint:disable-next-line
@@ -217,14 +216,14 @@ describe('Virtual machine Effects', () => {
   it('should return a object from LoadVMRequest', () => {
     const spyGetList = spyOn(service, 'getList').and.returnValue(of([list[0]]));
 
-    const action = new vmActions.LoadVMRequest('e10da283-06b1-4ac5-9888-b4f3717c2fe1');
+    const action = new vmActions.LoadVMRequest({ id: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1' });
     const completion = new vmActions.UpdateVM(list[0]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(effects.loadVM$).toBeObservable(expected);
-    expect(spyGetList).toHaveBeenCalledWith('e10da283-06b1-4ac5-9888-b4f3717c2fe1');
+    expect(spyGetList).toHaveBeenCalledWith({ id: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1' });
     expect(jobsNotificationService.add).toHaveBeenCalled();
   });
 
@@ -234,7 +233,7 @@ describe('Virtual machine Effects', () => {
       throwError(new Error('Error occurred!')),
     );
 
-    const action = new vmActions.LoadVMRequest('e10da283-06b1-4ac5-9888-b4f3717c2fe1');
+    const action = new vmActions.LoadVMRequest({ id: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1' });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 
     actions$.stream = cold('a', { a: action });

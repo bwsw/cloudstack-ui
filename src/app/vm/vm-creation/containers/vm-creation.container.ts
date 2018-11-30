@@ -8,7 +8,6 @@ import {
   accountResourceType,
   AffinityGroup,
   DiskOffering,
-  InstanceGroup,
   SSHKeyPair,
   Zone,
 } from '../../../shared/models';
@@ -34,7 +33,6 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
-import * as fromInstanceGroups from '../../../reducers/instance-group/redux/instance-group.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -106,9 +104,7 @@ export class VmCreationContainerComponent implements OnInit {
   readonly enoughResources$ = this.store.pipe(select(fromVMs.enoughResources));
   readonly insufficientResources$ = this.store.pipe(select(fromVMs.insufficientResources));
   readonly loggerStageList$ = this.store.pipe(select(fromVMs.loggerStageList));
-  readonly instanceGroupNames$ = this.store.pipe(
-    select(fromInstanceGroups.selectInstanceGroupNames),
-  );
+  readonly instanceGroupNames$ = this.store.pipe(select(fromVMs.selectVmGroups));
   readonly affinityGroups$ = this.store.pipe(select(fromAffinityGroups.selectAll));
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));

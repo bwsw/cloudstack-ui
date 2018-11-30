@@ -155,7 +155,8 @@ export function listReducer(state = initialListState, action: templateActions.Ac
 
 export function vmCreationListReducer(
   state = initialVmCreationTemplatesState,
-  action: templateActions.Actions | vmActions.Actions,
+  // todo: remove any
+  action: templateActions.Actions | vmActions.Actions & any,
 ): VmCreationTemplatesState {
   switch (action.type) {
     case templateActions.DIALOG_TEMPLATE_FILTER_UPDATE: {

@@ -6,7 +6,6 @@ import {
   Account,
   AffinityGroup,
   DiskOffering,
-  InstanceGroup,
   ServiceOffering,
   SSHKeyPair,
   Zone,
@@ -81,7 +80,7 @@ export class VmCreationComponent {
   @Output()
   public affinityGroupChange = new EventEmitter<AffinityGroup>();
   @Output()
-  public instanceGroupChange = new EventEmitter<InstanceGroup>();
+  public instanceGroupChange = new EventEmitter<string>();
   @Output()
   public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
   @Output()
@@ -172,14 +171,7 @@ export class VmCreationComponent {
     this.visibleInstanceGroups = this.instanceGroupNames.filter(gn =>
       gn.toLowerCase().includes(val),
     );
-
-    const existingGroup = this.getInstanceGroup(groupName);
-    const instanceGroup = clone(existingGroup) || groupName;
-    this.instanceGroupChange.emit(instanceGroup);
-  }
-
-  public getInstanceGroup(name: string): string {
-    return this.instanceGroupNames.find(groupName => groupName === name);
+    this.instanceGroupChange.emit(groupName);
   }
 
   public changeAffinityGroup(groupId: string): void {

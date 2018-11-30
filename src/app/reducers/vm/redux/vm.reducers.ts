@@ -21,6 +21,7 @@ import * as vmActions from './vm.actions';
 import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import * as affinityGroupActions from '../../affinity-groups/redux/affinity-groups.actions';
 import * as fromZones from '../../zones/redux/zones.reducers';
+import * as uniq from 'lodash/uniq';
 
 export interface State extends EntityState<VirtualMachine> {
   loading: boolean;
@@ -235,6 +236,11 @@ export const filterSelectedGroupNames = createSelector(filters, state => state.s
 export const filterSelectedAccountIds = createSelector(filters, state => state.selectedAccountIds);
 
 export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
+
+export const selectVmGroups = createSelector(selectAll, vms => {
+  const groups = vms.map(vm => vm.group);
+  return uniq(groups);
+});
 
 // todo: rename
 export const getUsingSGVMs = createSelector(
