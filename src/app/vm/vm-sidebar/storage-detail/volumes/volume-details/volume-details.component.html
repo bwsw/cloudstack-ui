@@ -19,13 +19,12 @@
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.STORAGE_TYPE' | translate }}</div>
       <div>{{ storageTypeTranslationToken | translate }}</div>
     </div>
-    <div class="row"
-         *ngIf="diskOffering?.name"
-         [matTooltip]="diskOffering?.displaytext"
-         matTooltipPosition="above"
+    <div
+      class="row"
+      *ngIf="diskOffering?.name"
     >
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.DISK_OFFERING' | translate }}</div>
-      <div>{{ diskOffering.name }}</div>
+      <div [matTooltip]="diskOffering?.displaytext">{{ diskOffering.name }}</div>
     </div>
   </div>
 

@@ -1,9 +1,11 @@
 <div *ngIf="entity">
   <div class="title-container">
-    <cs-template-os-icon-container
-      [template]="entity"
-    ></cs-template-os-icon-container>
-    <h4 class="details-header">{{ entity.name }}</h4>
+    <div class="title-container">
+      <cs-template-os-icon-container
+        [template]="entity"
+      ></cs-template-os-icon-container>
+      <h4 class="details-header">{{ entity.name }}</h4>
+    </div>
     <cs-template-actions-sidebar-container
       *ngIf="isSelf"
       [template]="entity"

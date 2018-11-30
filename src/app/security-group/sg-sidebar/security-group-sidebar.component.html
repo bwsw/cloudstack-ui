@@ -8,7 +8,12 @@
     </button>
   </div>
 
-  <nav mat-tab-nav-bar *ngIf="!isPredefinedTemplate">
+  <nav
+    #tabs
+    [csSidebarTabNav]="tabs"
+    mat-tab-nav-bar
+    *ngIf="!isPredefinedTemplate"
+  >
     <a
       matTabLink
       [routerLink]="['./sg']"
