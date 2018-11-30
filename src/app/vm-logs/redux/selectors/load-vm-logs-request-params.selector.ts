@@ -1,5 +1,4 @@
 import { createSelector } from '@ngrx/store';
-import { filterSelectedVmId } from '../vm-logs-vm.reducers';
 import { LoadVmLogsRequestParams } from '../../models/load-vm-logs-request-params';
 import {
   filterEndDate,
@@ -7,6 +6,7 @@ import {
   filterNewestFirst,
   filterSelectedLogFile,
   filterStartDate,
+  filterSelectedVmId,
 } from '../vm-logs.reducers';
 import moment = require('moment');
 import * as pickBy from 'lodash/pickBy';

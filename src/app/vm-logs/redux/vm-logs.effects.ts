@@ -20,11 +20,10 @@ import { Router } from '@angular/router';
 import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
 import { UserTagsSelectors } from '../../root-store';
 import { UserTagsActionTypes } from '../../root-store/server-data/user-tags/user-tags.actions';
-import { filters as vmLogsFilters, filterSelectedLogFile } from './vm-logs.reducers';
 import * as assign from 'lodash/assign';
 import { getVmLogsFiltersDefaultValues, parseVmLogsFilters } from '../vm-logs-filters';
 import moment = require('moment');
-import { filterSelectedAccountIds, filterSelectedVmId } from './vm-logs-vm.reducers';
+import { filters as vmLogsFilters, filterSelectedLogFile } from './vm-logs.reducers';
 import removeNullsAndEmptyArrays from '../remove-nulls-and-empty-arrays';
 import { selectAll as logFiles } from './vm-log-files.reducers';
 
@@ -159,23 +158,15 @@ export class VmLogsEffects {
     ofType(UserTagsActionTypes.LoadUserTagsSuccess),
     take(1),
     withLatestFrom(
-      this.store.pipe(select(UserTagsSelectors.getVmLogsParams)),
+      this.store.pipe(select(UserTagsSelectors.getVmLogsFilters)),
       this.store.pipe(select(vmLogsFilters)),
-      this.store.pipe(select(filterSelectedVmId)),
-      this.store.pipe(select(filterSelectedAccountIds)),
     ),
-    map(([_, filterParams, filters, vm, accounts]) => {
-      const currentParams = {
-        vm,
-        accounts,
-        ...filters,
-      };
-      const nonNullCurrentParams = removeNullsAndEmptyArrays(currentParams);
-      const mergedParams = assign(
-        getVmLogsFiltersDefaultValues(),
-        parseVmLogsFilters(filterParams),
-        nonNullCurrentParams,
-      );
+    map(([_, tagFilters, currentFilters]) => {
+      const defaultFilters = getVmLogsFiltersDefaultValues();
+      const parsedTagFilters = parseVmLogsFilters(tagFilters);
+      const nonNullCurrentFilters = removeNullsAndEmptyArrays(currentFilters);
+
+      const mergedParams = assign(defaultFilters, parsedTagFilters, nonNullCurrentFilters);
 
       return new vmLogsActions.UpdateFilters(mergedParams);
     }),

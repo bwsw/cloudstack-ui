@@ -11,7 +11,9 @@ export const userTagKeys = {
   timeFormat: 'csui.user.time-format',
   theme: 'csui.user.theme',
   computeOfferingParam: 'csui.user.compute-offering.param',
-  vmLogsFilter: 'csui.user.vm-logs',
+  // "csui.user.vm-logs-filter" is not a single tag but rather a prefix of Log View filter tags
+  // (e.g. "csui.user.vm-logs-filter.vm", "csui.user.vm-logs-filter.startDate")
+  vmLogsFilter: 'csui.user.vm-logs-filter',
   vmLogsShowLastMessages: 'csui.user.vm-logs-show-last-messages',
   vmLogsShowLastMinutes: 'csui.user.vm-logs-show-last-minutes',
   sidebarWidth: 'csui.user.sidebar-width',

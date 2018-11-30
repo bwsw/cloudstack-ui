@@ -133,7 +133,7 @@ const getVmLogsFilterKey = (tagKey: string) => {
   return camelCase(parts.pop());
 };
 
-export const getVmLogsParams = createSelector(
+export const getVmLogsFilters = createSelector(
   getUserTagsEntities,
   (entities): Object => {
     const params = Object.keys(entities).reduce((acc, key) => {

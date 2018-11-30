@@ -24,4 +24,16 @@ describe('removeNullsAndEmptyArrays', () => {
       a: 1,
     });
   });
+
+  it('should remove nulls and arrays', () => {
+    expect(
+      removeNullsAndEmptyArrays({
+        a: 1,
+        b: [],
+        c: null,
+      }),
+    ).toEqual({
+      a: 1,
+    });
+  });
 });

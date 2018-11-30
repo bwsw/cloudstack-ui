@@ -377,15 +377,15 @@ export class UserTagsEffects {
     return forkJoin(
       this.upsertTag({
         key: cpuNumberKey,
-        value: offering.cpunumber && offering.cpunumber.toString(),
+        value: offering.cpunumber && String(offering.cpunumber),
       }),
       this.upsertTag({
         key: cpuSpeedKey,
-        value: offering.cpuspeed && offering.cpuspeed.toString(),
+        value: offering.cpuspeed && String(offering.cpuspeed),
       }),
       this.upsertTag({
         key: memoryKey,
-        value: offering.memory && offering.memory.toString(),
+        value: offering.memory && String(offering.memory),
       }),
     );
   }

@@ -9,7 +9,6 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as vmLogActions from '../redux/vm-logs.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
-import * as fromVmLogsVm from '../redux/vm-logs-vm.reducers';
 import * as fromVmLogs from '../redux/vm-logs.reducers';
 import * as fromVmLogFiles from '../redux/vm-log-files.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
@@ -61,9 +60,9 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
   implements OnInit, AfterViewInit {
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
-  readonly selectedAccountIds$ = this.store.pipe(select(fromVmLogsVm.filterSelectedAccountIds));
+  readonly selectedAccountIds$ = this.store.pipe(select(fromVmLogs.filterSelectedAccountIds));
   readonly vms$ = this.store.pipe(select(selectFilteredVMs));
-  readonly selectedVmId$ = this.store.pipe(select(fromVmLogsVm.filterSelectedVmId));
+  readonly selectedVmId$ = this.store.pipe(select(fromVmLogs.filterSelectedVmId));
   readonly search$ = this.store.pipe(select(fromVmLogs.filterSearch));
   readonly startDate$ = this.store.pipe(select(fromVmLogs.filterStartDate));
   readonly startTime$ = this.store.pipe(select(fromVmLogs.filterStartTime));

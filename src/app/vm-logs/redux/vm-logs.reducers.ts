@@ -8,10 +8,12 @@ import { UserTagsSelectors } from '../../root-store';
 import { selectIsAutoUpdateEnabled } from './vm-logs-auto-update.reducers';
 
 export interface VmLogsFilters {
+  vm: string;
+  accounts: string[];
   search: string;
   startDate: DateObject;
   endDate: DateObject;
-  selectedLogFile: string;
+  logFile: string;
   newestFirst: boolean;
 }
 
@@ -38,16 +40,38 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
   uiPage: 1,
   filters: {
-    selectedLogFile: null,
+    vm: null,
+    accounts: [],
+    logFile: null,
     search: null,
     startDate: null,
     endDate: null,
-    newestFirst: false,
+    newestFirst: null,
   },
 });
 
 export function reducer(state = initialState, action: vmLogsActions.Actions): State {
   switch (action.type) {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          vm: action.payload,
+        },
+      };
+    }
+
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_ACCOUNT_IDS: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          accounts: action.payload,
+        },
+      };
+    }
+
     case vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE:
     case vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE: {
       return adapter.removeAll(state);
@@ -165,7 +189,7 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
         ...state,
         filters: {
           ...state.filters,
-          selectedLogFile: action.payload,
+          logFile: action.payload,
         },
       };
     }
@@ -222,6 +246,10 @@ export const isLoading = createSelector(getVmLogsEntitiesState, state => state.l
 
 export const filters = createSelector(getVmLogsEntitiesState, state => state.filters);
 
+export const filterSelectedVmId = createSelector(filters, state => state.vm);
+
+export const filterSelectedAccountIds = createSelector(filters, state => state.accounts);
+
 export const filterSearch = createSelector(filters, state => state.search);
 
 export const filterStartDate = createSelector(filters, state => state.startDate);
@@ -238,9 +266,9 @@ export const filterEndTime = createSelector(filters, state => ({
   minute: state.endDate.minutes,
 }));
 
-export const filterNewestFirst = createSelector(filters, state => state.newestFirst);
+export const filterNewestFirst = createSelector(filters, state => Boolean(state.newestFirst));
 
-export const filterSelectedLogFile = createSelector(filters, state => state.selectedLogFile);
+export const filterSelectedLogFile = createSelector(filters, state => state.logFile);
 
 export const selectUiPage = createSelector(getVmLogsEntitiesState, state => state.uiPage);
 

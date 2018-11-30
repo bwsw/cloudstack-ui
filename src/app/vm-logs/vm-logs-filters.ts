@@ -12,7 +12,15 @@ export const vmLogsFilters: FilterConfig = {
   newestFirst: { type: 'boolean' },
 };
 
-export const parseVmLogsFilters = params => pickBy(params, param => param != null);
+export const parseVmLogsFilters = params => {
+  const convertedParams = {
+    ...params,
+    startDate: params.startDate && moment(params.startDate).toObject(),
+    endDate: params.endDate && moment(params.endDate).toObject(),
+  };
+
+  return pickBy(convertedParams, param => param != null);
+};
 
 export const getVmLogsFiltersDefaultValues = () => ({
   startDate: moment()
