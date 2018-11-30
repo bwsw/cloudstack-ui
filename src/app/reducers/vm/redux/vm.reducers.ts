@@ -237,7 +237,7 @@ export const filterSelectedAccountIds = createSelector(filters, state => state.s
 export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
 
 export const selectVmGroups = createSelector(selectAll, vms => {
-  const groups = vms.map(vm => vm.group);
+  const groups = vms.map(vm => vm.group).filter(Boolean);
   return uniq(groups);
 });
 

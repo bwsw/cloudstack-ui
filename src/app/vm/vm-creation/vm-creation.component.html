@@ -175,9 +175,9 @@
                   <mat-autocomplete #instanceGroups>
                     <mat-option
                       *ngFor="let group of (visibleInstanceGroups || instanceGroupList)"
-                      [value]="group.name"
+                      [value]="group"
                     >
-                      {{ group.name }}
+                      {{ group }}
                     </mat-option>
                   </mat-autocomplete>
                 </div>
