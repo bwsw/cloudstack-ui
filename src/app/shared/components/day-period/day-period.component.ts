@@ -42,6 +42,9 @@ export class DayPeriodComponent implements ControlValueAccessor, OnInit {
     return this._period;
   }
 
+  @Input()
+  public disabled: boolean;
+
   public set period(value) {
     this._period = value;
     this.propagateChange(this.period);
