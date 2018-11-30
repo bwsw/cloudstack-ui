@@ -2,9 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { filter } from 'rxjs/operators';
 
-import { getInstanceGroupName, VirtualMachine } from '../../../shared/vm.model';
+import { VirtualMachine } from '../../../shared/vm.model';
 import { InstanceGroupSelectorComponent } from '../../instance-group-selector/instance-group-selector.component';
-import { InstanceGroup } from '../../../../shared/models/instance-group.model';
 
 @Component({
   selector: 'cs-instance-group',
@@ -15,22 +14,17 @@ export class InstanceGroupComponent {
   @Input()
   public vm: VirtualMachine;
   @Input()
-  public groups: InstanceGroup[];
+  public groups: string[];
   @Output()
   public groupChanged = new EventEmitter();
 
   constructor(private dialog: MatDialog) {}
 
-  public get groupName(): string {
-    return getInstanceGroupName(this.vm);
-  }
-
   public changeGroup(): void {
-    const groupNames = this.groups.map(group => group.name);
     this.dialog
       .open(InstanceGroupSelectorComponent, {
         width: '400px',
-        data: { vm: this.vm, groups: groupNames },
+        data: { vm: this.vm, groups: this.groups },
       })
       .afterClosed()
       .pipe(filter(Boolean))

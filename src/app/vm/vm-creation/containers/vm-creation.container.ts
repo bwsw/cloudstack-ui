@@ -8,7 +8,6 @@ import {
   accountResourceType,
   AffinityGroup,
   DiskOffering,
-  InstanceGroup,
   SSHKeyPair,
   Zone,
 } from '../../../shared/models';
@@ -167,7 +166,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new vmActions.VmFormUpdate({ template }));
   }
 
-  public onInstanceGroupChange(instanceGroup: InstanceGroup) {
+  public onInstanceGroupChange(instanceGroup: string) {
     this.store.dispatch(new vmActions.VmFormUpdate({ instanceGroup }));
   }
 

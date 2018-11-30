@@ -24,7 +24,6 @@ import { JobsNotificationService } from '../../../shared/services/jobs-notificat
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services/vm-creation-security-group.service';
-import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
@@ -401,7 +400,6 @@ export class VirtualMachineCreationEffects {
     private auth: AuthService,
     private resourceUsageService: ResourceUsageService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
-    private instanceGroupService: InstanceGroupService,
     private vmTagService: VmTagService,
     private snackBar: SnackBarService,
   ) {}
@@ -549,8 +547,7 @@ export class VirtualMachineCreationEffects {
     state.securityGroupData.mode === VmCreationSecurityGroupMode.Builder &&
     !!state.securityGroupData.rules.templates.length;
 
-  private createInstanceGroup = (state: VmCreationState) =>
-    state.instanceGroup && !!state.instanceGroup.name;
+  private createInstanceGroup = (state: VmCreationState) => Boolean(state.instanceGroup);
 
   private doCreateSecurityGroup(state: VmCreationState) {
     if (this.createSecurityGroup(state)) {
@@ -565,7 +562,7 @@ export class VirtualMachineCreationEffects {
     if (this.createInstanceGroup(state)) {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.INSTANCE_GROUP_CREATION });
 
-      return this.instanceGroupService.add(vm, state.instanceGroup).pipe(
+      return this.vmService.updateGroup(vm, state.instanceGroup).pipe(
         map((virtualMachine: VirtualMachine) => {
           this.store.dispatch(
             new vmActions.DeploymentChangeStatus({

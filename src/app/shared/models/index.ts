@@ -5,7 +5,6 @@ export * from './affinity-group.model';
 export * from './async-job.model';
 export * from './color.model';
 export * from './disk-offering.model';
-export * from './instance-group.model';
 export * from './nic.model';
 export * from './os-type.model';
 export * from './resource-limit.model';

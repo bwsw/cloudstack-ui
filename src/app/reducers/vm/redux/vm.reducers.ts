@@ -3,8 +3,8 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { virtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
-import { getInstanceGroupName, VirtualMachine } from '../../../vm/shared/vm.model';
-import { InstanceGroup, Tag, Zone } from '../../../shared/models';
+import { VirtualMachine } from '../../../vm/shared/vm.model';
+import { Tag, Zone } from '../../../shared/models';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { Utils } from '../../../shared/services/utils/utils.service';
@@ -21,6 +21,7 @@ import * as vmActions from './vm.actions';
 import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import * as affinityGroupActions from '../../affinity-groups/redux/affinity-groups.actions';
 import * as fromZones from '../../zones/redux/zones.reducers';
+import * as uniq from 'lodash/uniq';
 
 export interface State extends EntityState<VirtualMachine> {
   loading: boolean;
@@ -236,15 +237,8 @@ export const filterSelectedAccountIds = createSelector(filters, state => state.s
 export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
 
 export const selectVmGroups = createSelector(selectAll, vms => {
-  const groups = vms.reduce((groupsMap, vm) => {
-    const group = vm.tags.find(tag => tag.key === virtualMachineTagKeys.group);
-
-    if (group && group.value && !groupsMap[group.value]) {
-      groupsMap[group.value] = new InstanceGroup(group.value);
-    }
-    return groupsMap;
-  }, {});
-  return groups ? Object.values(groups) : [];
+  const groups = vms.map(vm => vm.group);
+  return uniq(groups);
 });
 
 export const getUsingSGVMs = createSelector(
@@ -302,8 +296,7 @@ export const selectFilteredVMs = createSelector(
         return true;
       }
 
-      const instanceGroupName =
-        getInstanceGroupName(vm) != null ? getInstanceGroupName(vm) : noGroup;
+      const instanceGroupName = vm.group != null ? vm.group : noGroup;
       const isIstanceGroupNameOneOfSelected = groupNamesMap[instanceGroupName] != null;
 
       return isIstanceGroupNameOneOfSelected;

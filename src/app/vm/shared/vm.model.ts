@@ -27,6 +27,7 @@ export interface VirtualMachine extends BaseModel, Taggable {
   account: string;
   domain: string;
   domainid: string;
+  group: string;
   // Status
   state: VmState;
   // Service Offering
@@ -68,8 +69,3 @@ export interface VirtualMachine extends BaseModel, Taggable {
   password: string;
   passwordenabled: boolean;
 }
-
-export const getInstanceGroupName = (vm: VirtualMachine): string | undefined => {
-  const instanceGroup = vm && vm.tags.find(tag => tag.key === virtualMachineTagKeys.group);
-  return instanceGroup && instanceGroup.value;
-};

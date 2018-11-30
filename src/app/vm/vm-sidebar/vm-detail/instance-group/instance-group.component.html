@@ -6,10 +6,10 @@
   </mat-card-header>
   <mat-card-content class="overflow-card mat-card-content-with-actions">
     <div class="mat-card-content-container">
-      <div *ngIf="groupName">
-        {{ groupName }}
+      <div *ngIf="vm?.group != null">
+        {{ vm.group }}
       </div>
-      <div *ngIf="!groupName">
+      <div *ngIf="vm?.group == null">
         {{ 'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.NO_GROUP' | translate }}
       </div>
     </div>

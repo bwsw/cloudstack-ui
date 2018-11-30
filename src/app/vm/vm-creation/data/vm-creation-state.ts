@@ -1,10 +1,4 @@
-import {
-  AffinityGroup,
-  DiskOffering,
-  InstanceGroup,
-  SSHKeyPair,
-  Zone,
-} from '../../../shared/models';
+import { AffinityGroup, DiskOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 import { ComputeOfferingViewModel } from '../../view-models';
@@ -21,7 +15,7 @@ export interface VmCreationState {
   displayName: string;
   name: string;
   doStartVm: boolean;
-  instanceGroup: InstanceGroup;
+  instanceGroup: string;
   rootDiskSize: number;
   rootDiskMinSize: number;
   securityGroupData: VmCreationSecurityGroupData;

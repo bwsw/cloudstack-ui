@@ -32,7 +32,6 @@ import { IsoService } from '../../../template/shared/iso.service';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { Router } from '@angular/router';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { Color } from '../../../shared/models/color.model';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 // tslint:disable-next-line
@@ -440,10 +439,10 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should change instance group', () => {
-    const spyChangeGroup = spyOn(tagService, 'setGroup').and.returnValue(of(list[0]));
+    const spyChangeGroup = spyOn(service, 'updateGroup').and.returnValue(of(list[0]));
 
     const action = new vmActions.ChangeInstanceGroup({
-      group: {} as InstanceGroup,
+      group: 'group',
       vm: list[0],
     });
     const completion = new vmActions.UpdateVM(list[0]);
@@ -458,12 +457,12 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during changing instance group', () => {
     const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
-    const spyChangeGroup = spyOn(tagService, 'setGroup').and.returnValue(
+    const spyChangeGroup = spyOn(service, 'updateGroup').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
 
     const action = new vmActions.ChangeInstanceGroup({
-      group: {} as InstanceGroup,
+      group: 'group',
       vm: list[0],
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
