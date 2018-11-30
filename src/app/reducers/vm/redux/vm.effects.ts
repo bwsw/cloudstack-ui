@@ -47,8 +47,8 @@ export class VirtualMachinesEffects {
   @Effect()
   loadVMs$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.LOAD_VMS_REQUEST),
-    switchMap((action: vmActions.LoadVMsRequest) => {
-      return this.vmService.getList(action.payload).pipe(
+    switchMap(() => {
+      return this.vmService.getList().pipe(
         map((vms: VirtualMachine[]) => new vmActions.LoadVMsResponse(vms)),
         catchError(() => of(new vmActions.LoadVMsResponse([]))),
       );
@@ -62,7 +62,7 @@ export class VirtualMachinesEffects {
       const notificationId = this.jobsNotificationService.add(
         'NOTIFICATIONS.VM.FETCH_STATISTICS_IN_PROGRESS',
       );
-      return this.vmService.getList(action.payload).pipe(
+      return this.vmService.getList().pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.VM.FETCH_STATISTICS_DONE';
           this.showNotificationsOnFinish(message, notificationId);
@@ -208,8 +208,8 @@ export class VirtualMachinesEffects {
 
   @Effect()
   changeInstanceGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(vmActions.VM_CHANGE_INSTANCE_GROUP),
-    mergeMap((action: vmActions.ChangeInstanceGroup) => {
+    ofType(vmActions.VM_CHANGE_INSTANCE_GROUP_REQUEST),
+    mergeMap((action: vmActions.ChangeInstanceGroupRequest) => {
       const newVm: VirtualMachine = { ...action.payload.vm };
       const notificationId = this.jobsNotificationService.add(
         'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_IN_PROGRESS',
@@ -220,7 +220,9 @@ export class VirtualMachinesEffects {
           const message = 'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_DONE';
           this.showNotificationsOnFinish(message, notificationId);
         }),
-        map(vm => new vmActions.UpdateVM(vm)),
+        switchMap(vm =>
+          of(new vmActions.UpdateVM(vm), new vmActions.ChangeInstanceGroupResponse()),
+        ),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_FAILED';
           this.dialogService.showNotificationsOnFail(error, message, notificationId);

@@ -127,7 +127,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.sendCommand(CSCommands.Update, {
       group,
       id: virtualMachine.id,
-    });
+    }).pipe(map(result => result.virtualmachine));
   }
 
   private commandInternal(vm: VirtualMachine, command: string, params?: {}): Observable<any> {

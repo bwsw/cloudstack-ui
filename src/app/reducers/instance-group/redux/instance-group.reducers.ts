@@ -1,8 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Utils } from '../../../shared/services/utils/utils.service';
-import { InstanceGroupActionTypes, Actions } from './instance-group.actions';
+import { Actions, InstanceGroupActionTypes } from './instance-group.actions';
 import { InstanceGroup } from '../../../shared/models';
+import * as values from 'lodash/values';
 
 export interface State extends EntityState<InstanceGroup> {
   loading: boolean;
@@ -17,7 +18,7 @@ export const instanceGroupReducers = {
 };
 
 export const adapter: EntityAdapter<InstanceGroup> = createEntityAdapter<InstanceGroup>({
-  selectId: (item: InstanceGroup) => item.id,
+  selectId: (item: InstanceGroup) => item.name,
   sortComparer: Utils.sortByName,
 });
 
@@ -58,8 +59,10 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getInstanceGroupsEntitiesState,
 );
 
-export const selectInstanceGroupNames = createSelector(selectAll, groups =>
-  groups.map(group => group.name),
+export const selectInstanceGroupNames = createSelector(selectEntities, groupsMap =>
+  values(groupsMap, 'name')
+    .map(group => group.name)
+    .filter(Boolean),
 );
 
 export const isLoading = createSelector(getInstanceGroupsEntitiesState, state => state.loading);

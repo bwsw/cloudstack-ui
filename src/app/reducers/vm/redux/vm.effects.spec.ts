@@ -442,7 +442,7 @@ describe('Virtual machine Effects', () => {
   it('should change instance group', () => {
     const spyChangeGroup = spyOn(service, 'updateGroup').and.returnValue(of(list[0]));
 
-    const action = new vmActions.ChangeInstanceGroup({
+    const action = new vmActions.ChangeInstanceGroupRequest({
       group: 'group',
       vm: list[0],
     });
@@ -462,7 +462,7 @@ describe('Virtual machine Effects', () => {
       throwError(new Error('Error occurred!')),
     );
 
-    const action = new vmActions.ChangeInstanceGroup({
+    const action = new vmActions.ChangeInstanceGroupRequest({
       group: 'group',
       vm: list[0],
     });

@@ -2,6 +2,7 @@
   <ng-container *ngIf="!loading">
     <cs-create-update-delete-dialog
       [enableAssign]="groupNames?.length"
+      [enableRemove]="false"
       [defaultValue]="vm?.group"
       [options]="groupNames"
       [assignLabel]="'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.CHOOSE_EXISTING_GROUP'"

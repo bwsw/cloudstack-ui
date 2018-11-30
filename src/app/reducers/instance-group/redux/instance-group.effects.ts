@@ -11,6 +11,7 @@ import {
   LoadInstanceGroupsRequest,
 } from './instance-group.actions';
 import { LOAD_USER_ACCOUNT_RESPONSE } from '../../auth/redux/auth.actions';
+import { VM_CHANGE_INSTANCE_GROUP_RESPONSE } from '../../vm/redux/vm.actions';
 
 @Injectable()
 export class InstanceGroupsEffects {
@@ -26,8 +27,8 @@ export class InstanceGroupsEffects {
   );
 
   @Effect()
-  loadInstanceGroupsOnLogin$: Observable<Action> = this.actions$.pipe(
-    ofType(LOAD_USER_ACCOUNT_RESPONSE),
+  reloadInstanceGroups$: Observable<Action> = this.actions$.pipe(
+    ofType(LOAD_USER_ACCOUNT_RESPONSE, VM_CHANGE_INSTANCE_GROUP_RESPONSE),
     map(() => new LoadInstanceGroupsRequest()),
   );
 

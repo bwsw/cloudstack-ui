@@ -96,7 +96,8 @@ export const initialListState: State = adapter.getInitialState({
   },
 });
 
-export function listReducer(state = initialListState, action: vmActions.Actions): State {
+// todo: remove any
+export function listReducer(state = initialListState, action: vmActions.Actions & any): State {
   switch (action.type) {
     case vmActions.LOAD_VMS_REQUEST: {
       return {
@@ -342,9 +343,10 @@ export const initialFormState: FormState = {
   },
 };
 
+// todo remove any
 export function formReducer(
   state = initialFormState,
-  action: vmActions.Actions | affinityGroupActions.Actions,
+  action: vmActions.Actions | affinityGroupActions.Actions & any,
 ): FormState {
   switch (action.type) {
     case vmActions.VM_FORM_INIT: {
