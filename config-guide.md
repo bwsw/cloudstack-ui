@@ -89,7 +89,9 @@ Smaller values are faster, but use more network traffic.
 
 `autoUpdateRequestedInterval` - get last `autoUpdateRequestedInterval` seconds of logs each time in the auto update mode.
 The value depends on the time it takes to process logs on the backend: longer processing time should correspond to larger
-values. Smaller values save traffic, but some logs may be missed.
+values. Smaller values save traffic, but some logs may be missed. In any case, `autoUpdateRequestedInterval` should be 
+greater than `autoUpdateRefreshFrequency`.
+
 
 For example,
 
