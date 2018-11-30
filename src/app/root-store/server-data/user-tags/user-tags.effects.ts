@@ -286,7 +286,7 @@ export class UserTagsEffects {
   @Effect()
   updateVmLogsFilters$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateVmLogsFilters>(UserTagsActionTypes.UpdateVmLogsFilters),
-    debounceTime(3000),
+    debounceTime(2000),
     map((action: UpdateVmLogsFilters) => action.payload),
     mergeMap(filters => {
       const nonNullFilters = removeNullsAndEmptyArrays(filters);

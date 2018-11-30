@@ -3,6 +3,7 @@ import { VmLog } from '../models/vm-log.model';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
 import { DateObject } from '../models/date-object.model';
 import { VmLogFile } from '../models/vm-log-file.model';
+import { VmLogsFilters } from '../models/vm-log-filters';
 
 export enum VmLogsActionTypes {
   LOAD_VM_LOGS_REQUEST = '[VM Logs] LOAD_VM_LOGS_REQUEST',
@@ -170,17 +171,7 @@ export class SetAutoUpdateEndDate implements Action {
 export class UpdateFilters implements Action {
   readonly type = VmLogsActionTypes.UPDATE_FILTERS;
 
-  constructor(
-    readonly payload: Partial<{
-      vm: string;
-      search: string;
-      accounts: string[];
-      newestFirst: boolean;
-      logFile: string;
-      startDate: DateObject;
-      endDate: DateObject;
-    }>,
-  ) {}
+  constructor(readonly payload: Partial<VmLogsFilters>) {}
 }
 
 export type Actions =
