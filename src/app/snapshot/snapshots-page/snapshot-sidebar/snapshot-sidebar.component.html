@@ -1,12 +1,13 @@
 <div *ngIf="snapshot">
   <div class="title-container">
     <h4 class="details-header">
-      <span
+      <cs-round-state-indicator
         class="state-icon"
+        [state]="statusClass"
         [matTooltip]="stateTranslations[snapshot.state] | translate"
-        [ngClass]="statusClass"
-      ></span>
-      <span>{{ snapshot.name }}</span></h4>
+      ></cs-round-state-indicator>
+      <span>{{ snapshot.name }}</span>
+    </h4>
     <div class="vm-actions-container">
       <button
         class="vm-actions-button"

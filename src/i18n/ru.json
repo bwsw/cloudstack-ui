@@ -790,7 +790,9 @@
     },
     "SIDEBAR": {
       "DETAILS": "Детали",
+      "DESCRIPTION": "Описание",
       "CREATED": "Создан",
+      "CURRENT": "Текущий",
       "TYPE": "Тип",
       "TYPES": {
         "HOURLY": "Ежечасный",
@@ -799,12 +801,13 @@
         "MONTHLY": "Ежемесячный",
         "MANUAL": "Создан вручную"
       },
-      "DESCRIPTION": "Описание",
+      "PARENT": "Родитель",
       "VOLUME_INFORMATION": {
         "TITLE": "Информация о диске",
         "VM": "Виртуальная машина",
         "VOLUME": "Диск"
       },
+      "VM_INFORMATION": "Информация о ВМ",
       "SNAPSHOT_NOT_FOUND": "Снимок не найден"
     },
     "ACTIONS": {

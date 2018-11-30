@@ -8,7 +8,7 @@ import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
 import * as fromVolumes from '../../../reducers/volumes/redux/volumes.reducers';
 import { State, vmSnapshotsActions } from '../../../root-store';
-import { snapshotPageSelectors, vmSnapshotsSelectors } from '../../store';
+import { snapshotPageSelectors } from '../../store';
 
 @Component({
   selector: 'cs-snapshots-page-container',
@@ -25,7 +25,7 @@ import { snapshotPageSelectors, vmSnapshotsSelectors } from '../../store';
     ></cs-snapshots-page>`,
 })
 export class SnapshotsPageContainerComponent implements OnInit, AfterViewInit {
-  readonly snapshots$ = this.store.pipe(select(fromSnapshots.selectFilteredSnapshots));
+  readonly snapshots$ = this.store.pipe(select(snapshotPageSelectors.getFilteredSnapshots));
   readonly volumes$ = this.store.pipe(select(fromVolumes.selectEntities));
   readonly virtualMachines$ = this.store.pipe(select(fromVMs.selectEntities));
   readonly isLoading$ = this.store.pipe(select(fromSnapshots.isLoading));
@@ -34,7 +34,7 @@ export class SnapshotsPageContainerComponent implements OnInit, AfterViewInit {
     select(snapshotPageSelectors.getFilters),
     map(filters => filters.query),
   );
-  readonly vmSnapshots$ = this.store.pipe(select(vmSnapshotsSelectors.getVmSnapshots));
+  readonly vmSnapshots$ = this.store.pipe(select(snapshotPageSelectors.getVmSnapshots));
   readonly viewMode$ = this.store.pipe(select(snapshotPageSelectors.getViewMode));
 
   constructor(private store: Store<State>, private cd: ChangeDetectorRef) {}

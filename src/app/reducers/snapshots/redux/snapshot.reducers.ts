@@ -1,8 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as moment from 'moment';
-import { getSnapshotDescription, Snapshot } from '../../../shared/models';
-import * as snapshotPageSelectors from '../../../snapshot/store/snapshot-page.selectors';
+import { Snapshot } from '../../../shared/models';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as snapshotActions from './snapshot.actions';
 
@@ -89,48 +88,3 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
 );
 
 export const isLoading = createSelector(getSnapshotEntitiesState, state => state.loading);
-
-export const getSelectedSnapshot = createSelector(
-  getSnapshotEntitiesState,
-  state => state.entities[state.selectedSnapshotId],
-);
-
-export const selectFilteredSnapshots = createSelector(
-  selectAll,
-  snapshotPageSelectors.getFilters,
-  (snapshots, filter) => {
-    const filterByTypes = (snapshot: Snapshot) =>
-      !filter.volumeSnapshotTypes.length ||
-      !!filter.volumeSnapshotTypes.find(type => type === snapshot.snapshottype);
-
-    const filterByAccount = (snapshot: Snapshot) =>
-      !filter.accounts.length || !!filter.accounts.find(id => id === snapshot.account);
-
-    const filterByDate = (snapshot: Snapshot) =>
-      !filter.date ||
-      moment(snapshot.created).isBetween(
-        moment(filter.date).startOf('day'),
-        moment(filter.date).endOf('day'),
-      );
-
-    const queryLower = filter.query && filter.query.toLowerCase();
-    const filterByQuery = (snapshot: Snapshot) => {
-      return (
-        !filter.query ||
-        snapshot.name.toLowerCase().indexOf(queryLower) > -1 ||
-        (getSnapshotDescription(snapshot) &&
-          getSnapshotDescription(snapshot)
-            .toLowerCase()
-            .indexOf(queryLower) > -1)
-      );
-    };
-
-    return snapshots.filter(
-      (snapshot: Snapshot) =>
-        filterByAccount(snapshot) &&
-        filterByTypes(snapshot) &&
-        filterByDate(snapshot) &&
-        filterByQuery(snapshot),
-    );
-  },
-);

@@ -1,4 +1,8 @@
-<mat-list-item  class="entity-list-item">
+<mat-list-item
+  class="entity-list-item"
+  [class.card-selected]="isSelected(item)"
+  (click)="onSelect($event)"
+>
   <cs-square-state-indicator
     class="entity-list-item-status-indicator"
     [state]="item.state.toLowerCase()"

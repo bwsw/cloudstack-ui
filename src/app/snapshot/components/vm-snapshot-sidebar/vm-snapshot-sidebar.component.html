@@ -1,0 +1,66 @@
+<div *ngIf="vmSnapshot">
+  <div class="title-container">
+    <h4 class="details-header">
+      <cs-round-state-indicator
+        class="state-icon"
+        [state]="vmSnapshot.state.toLowerCase()"
+        [matTooltip]="'VM_SNAPSHOT_STATE.' + vmSnapshot.state.toUpperCase() | translate"
+      ></cs-round-state-indicator>
+      <span>{{ vmSnapshot.name }}</span>
+    </h4>
+    <button mat-icon-button [mat-menu-trigger-for]="actionsMenu" class="vm-actions-container">
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
+    </button>
+  </div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="mat-card-title-text">{{ 'SNAPSHOT_PAGE.SIDEBAR.DETAILS' | translate }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <cs-parameters-pair
+        [name]="'SNAPSHOT_PAGE.SIDEBAR.CREATED'"
+        [value]="vmSnapshot.created | csStringifyDate"
+      ></cs-parameters-pair>
+      <cs-parameters-pair
+        [name]="'SNAPSHOT_PAGE.SIDEBAR.TYPE'"
+        [value]="vmSnapshot.type"
+      ></cs-parameters-pair>
+      <cs-parameters-pair
+        [name]="'SNAPSHOT_PAGE.SIDEBAR.CURRENT'"
+        [value]="vmSnapshot.current"
+      ></cs-parameters-pair>
+      <cs-parameters-pair
+        [name]="'SNAPSHOT_PAGE.SIDEBAR.PARENT'"
+        [value]="vmSnapshot.parentName ? vmSnapshot.parentName : '-'"
+      ></cs-parameters-pair>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="vmSnapshot.description">
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="mat-card-title-text">{{ 'COMMON.DESCRIPTION' | translate }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      {{ vmSnapshot.description }}
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="mat-card-title-text">{{ 'SNAPSHOT_PAGE.SIDEBAR.VM_INFORMATION' | translate }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <a routerLink="{{ '/instances/' + vmSnapshot.vmId + '/vm' }}">{{ vmSnapshot.vmName }}</a>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<mat-menu #actionsMenu="matMenu">
+  <cs-vm-snapshot-action-menu [snapshot]="vmSnapshot"></cs-vm-snapshot-action-menu>
+</mat-menu>

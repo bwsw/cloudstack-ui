@@ -1,4 +1,8 @@
-<mat-card class="entity-card">
+<mat-card
+  class="entity-card"
+  [class.card-selected]="isSelected(item)"
+  (click)="onSelect($event)"
+>
   <mat-card-header class="entity-card-header">
     <cs-round-state-indicator
       class="entity-card-thumbnail"
