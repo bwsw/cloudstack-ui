@@ -54,8 +54,6 @@ class MockAsyncJobService {
 class MockVMTagService {
   public setDescription(): void {}
   public removeDescription(): void {}
-  public setGroup(): void {}
-  public removeGroup(): void {}
   public setColor(): void {}
   public setSavePasswordForAllVms(): void {}
   public setPassword(): void {}
@@ -475,23 +473,9 @@ describe('Virtual machine Effects', () => {
     expect(spyAlert).toHaveBeenCalled();
   });
 
-  it('should remove instance group', () => {
-    const spyRemoveGroup = spyOn(tagService, 'removeGroup').and.returnValue(of(list[0]));
-
-    const action = new vmActions.RemoveInstanceGroup(list[0]);
-    const completion = new vmActions.UpdateVM({ ...list[0], tags: [] });
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('-b', { b: completion });
-
-    expect(effects.removeInstanceGroup$).toBeObservable(expected);
-    expect(spyRemoveGroup).toHaveBeenCalled();
-    expect(jobsNotificationService.add).toHaveBeenCalled();
-  });
-
   it('should return an error during removing instance group', () => {
     const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
-    const spyRemoveGroup = spyOn(tagService, 'removeGroup').and.returnValue(
+    const spyRemoveGroup = spyOn(service, 'updateGroup').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
 

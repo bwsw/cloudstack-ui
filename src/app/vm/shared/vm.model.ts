@@ -3,7 +3,6 @@ import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { BaseModel, NIC, OsType, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { BaseTemplateModel } from '../../template/shared';
-import { virtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 export enum VmState {
   Running = 'Running',

@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Account, Grouping, Zone } from '../../shared/models';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 
-export type noGroup = '-1';
-export const noGroup: noGroup = '-1';
+export type noGroup = '';
+export const noGroup: noGroup = '';
 
 @Component({
   selector: 'cs-vm-filter',

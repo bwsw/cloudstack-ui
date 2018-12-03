@@ -52,9 +52,8 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     {
       key: 'groups',
       label: 'VM_PAGE.FILTERS.GROUP_BY_GROUPS',
-      selector: (item: VirtualMachine) => (item.group != null ? item.group : noGroup),
-      name: (item: VirtualMachine) =>
-        item.group != null ? item.group : 'VM_PAGE.FILTERS.NO_GROUP',
+      selector: (item: VirtualMachine) => item.group || noGroup,
+      name: (item: VirtualMachine) => item.group || 'VM_PAGE.FILTERS.NO_GROUP',
     },
     {
       key: 'accounts',
@@ -66,7 +65,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
       key: 'colors',
       label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
       selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
-      name: (item: VirtualMachine) => '',
+      name: () => '',
     },
   ];
 

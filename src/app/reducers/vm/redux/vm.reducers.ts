@@ -296,10 +296,10 @@ export const selectFilteredVMs = createSelector(
         return true;
       }
 
-      const instanceGroupName = vm.group != null ? vm.group : noGroup;
-      const isIstanceGroupNameOneOfSelected = groupNamesMap[instanceGroupName] != null;
+      const instanceGroupName = vm.group || noGroup;
+      const isInstanceGroupNameOneOfSelected = groupNamesMap[instanceGroupName] != null;
 
-      return isIstanceGroupNameOneOfSelected;
+      return isInstanceGroupNameOneOfSelected;
     };
 
     const selectedZoneIdsFilter = (vm: VirtualMachine) =>
