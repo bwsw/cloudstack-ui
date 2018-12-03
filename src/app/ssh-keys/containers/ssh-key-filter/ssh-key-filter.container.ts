@@ -11,7 +11,6 @@ import { sshKeyGroupings } from '../ssh-key-page/ssh-key-page.container';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Grouping } from '../../../shared/models';
 
-import * as accountAction from '../../../reducers/accounts/redux/accounts.actions';
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
 import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
@@ -73,7 +72,6 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
     if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     }
-    this.store.dispatch(new accountAction.LoadAccountsRequest());
     this.initFilters();
   }
 

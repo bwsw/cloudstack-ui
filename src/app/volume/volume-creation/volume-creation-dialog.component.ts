@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
-import { Zone } from '../../shared/models';
+import { Account, Zone } from '../../shared/models';
 import { VolumeCreationData } from '../../shared/models/volume.model';
 import { AuthService } from '../../shared/services/auth.service';
 
