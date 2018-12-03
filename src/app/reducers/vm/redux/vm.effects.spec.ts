@@ -453,20 +453,6 @@ describe('Virtual machine Effects', () => {
     expect(jobsNotificationService.add).toHaveBeenCalled();
   });
 
-  it('should remove instance group', () => {
-    const spyRemoveGroup = spyOn(service, 'updateGroup').and.returnValue(of(list[0]));
-
-    const action = new vmActions.RemoveInstanceGroup(list[0]);
-    const completion = new vmActions.UpdateVM(list[0]);
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('-b', { b: completion });
-
-    expect(effects.removeInstanceGroup$).toBeObservable(expected);
-    expect(spyRemoveGroup).toHaveBeenCalled();
-    expect(jobsNotificationService.add).toHaveBeenCalled();
-  });
-
   it('should return an error during changing instance group', () => {
     const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
     const spyChangeGroup = spyOn(service, 'updateGroup').and.returnValue(
@@ -485,6 +471,20 @@ describe('Virtual machine Effects', () => {
     expect(effects.changeInstanceGroup$).toBeObservable(expected);
     expect(spyChangeGroup).toHaveBeenCalled();
     expect(spyAlert).toHaveBeenCalled();
+  });
+
+  it('should remove instance group', () => {
+    const spyRemoveGroup = spyOn(service, 'updateGroup').and.returnValue(of(list[0]));
+
+    const action = new vmActions.RemoveInstanceGroup(list[0]);
+    const completion = new vmActions.UpdateVM(list[0]);
+
+    actions$.stream = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+
+    expect(effects.removeInstanceGroup$).toBeObservable(expected);
+    expect(spyRemoveGroup).toHaveBeenCalled();
+    expect(jobsNotificationService.add).toHaveBeenCalled();
   });
 
   it('should return an error during removing instance group', () => {
