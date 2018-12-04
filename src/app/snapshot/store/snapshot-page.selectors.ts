@@ -26,14 +26,8 @@ export const getSelectedSnapshot = createSelector(
   getSelectedId,
   vmSnapshotsSelectors.selectAll,
   volumeSnapshotsSelectors.selectAll,
-  (selectedId, vmSnapsots, volumeSnapshots): Snapshot | VmSnapshot => {
-    const volumeSnapshot = volumeSnapshots.find(snap => snap.id === selectedId);
-    if (volumeSnapshot != null) {
-      return volumeSnapshot;
-    }
-
-    return vmSnapsots.find(snap => snap.id === selectedId);
-  },
+  (selectedId, vmSnapsots, volumeSnapshots): Snapshot | VmSnapshot =>
+    [...vmSnapsots, ...volumeSnapshots].find(snap => snap.id === selectedId),
 );
 
 export const getSelectedSnapshotForSidebar = createSelector(
@@ -42,14 +36,17 @@ export const getSelectedSnapshotForSidebar = createSelector(
   (snapshot, vmEntities): Snapshot | VmSnapshotSidebarViewModel => {
     if (getSnapshotType(snapshot) === SnapshotType.VM) {
       const vmSnapshot: VmSnapshot = snapshot as VmSnapshot;
+      const vm: VirtualMachine = vmEntities[vmSnapshot.virtualmachineid];
+      const vmName: string = vm ? vm.displayname : '';
+      const vmState: VmState = vm ? vm.state : undefined;
       const viewModel: VmSnapshotSidebarViewModel = {
+        vmName,
+        vmState,
         id: vmSnapshot.id,
         state: vmSnapshot.state,
         name: vmSnapshot.displayname,
         description: vmSnapshot.description,
         vmId: vmSnapshot.virtualmachineid,
-        vmName: vmEntities[vmSnapshot.virtualmachineid].displayname,
-        vmState: vmEntities[vmSnapshot.virtualmachineid].state,
         created: moment(vmSnapshot.created).toDate(),
         type: vmSnapshot.type,
         current: vmSnapshot.current,
@@ -58,6 +55,7 @@ export const getSelectedSnapshotForSidebar = createSelector(
       return viewModel;
     }
 
+    // todo: volume snapshot view model
     return snapshot as Snapshot;
   },
 );
@@ -71,7 +69,7 @@ const getFilteredVmSnapshots = createSelector(
       if (!filterEnabled) {
         return true;
       }
-      return filters.accounts.findIndex(account => account === snapshot.account) >= 0;
+      return filters.accounts.includes(snapshot.account);
     };
 
     const filterByDate = (snapshot: VmSnapshot) => {
@@ -89,7 +87,7 @@ const getFilteredVmSnapshots = createSelector(
       if (!filterEnabled) {
         return true;
       }
-      return filters.vmIds.findIndex(id => id === snapshot.virtualmachineid) >= 0;
+      return filters.vmIds.includes(snapshot.virtualmachineid);
     };
 
     return snapshots.filter(
@@ -102,10 +100,6 @@ export const getVmSnapshots = createSelector(
   getFilteredVmSnapshots,
   vmSelectors.selectEntities,
   (snapshots, vmEntities): VmSnapshotViewModel[] => {
-    if (snapshots.length === 0) {
-      return [];
-    }
-
     return snapshots.map(snapshot => {
       const vm: VirtualMachine = vmEntities[snapshot.virtualmachineid];
       const vmName: string = vm ? vm.displayname : '';
@@ -117,7 +111,7 @@ export const getVmSnapshots = createSelector(
         state: snapshot.state,
         name: snapshot.displayname,
         created: moment(snapshot.created).toDate(),
-        // necessary for grouping
+        // account and domain necessary for grouping
         account: snapshot.account,
         domain: snapshot.domain,
       };
@@ -132,7 +126,7 @@ export const getFilteredSnapshots = createSelector(
   (snapshots, filter) => {
     const filterByTypes = (snapshot: Snapshot) =>
       !filter.volumeSnapshotTypes.length ||
-      !!filter.volumeSnapshotTypes.find(type => type === snapshot.snapshottype);
+      filter.volumeSnapshotTypes.includes(snapshot.snapshottype);
 
     const filterByAccount = (snapshot: Snapshot) =>
       !filter.accounts.length || !!filter.accounts.find(id => id === snapshot.account);
@@ -146,13 +140,11 @@ export const getFilteredSnapshots = createSelector(
 
     const queryLower = filter.query && filter.query.toLowerCase();
     const filterByQuery = (snapshot: Snapshot) => {
+      const snapshotDescription = getSnapshotDescription(snapshot);
       return (
         !filter.query ||
-        snapshot.name.toLowerCase().indexOf(queryLower) > -1 ||
-        (getSnapshotDescription(snapshot) &&
-          getSnapshotDescription(snapshot)
-            .toLowerCase()
-            .indexOf(queryLower) > -1)
+        snapshot.name.toLowerCase().includes(queryLower) ||
+        (snapshotDescription && snapshotDescription.toLowerCase().includes(queryLower))
       );
     };
 

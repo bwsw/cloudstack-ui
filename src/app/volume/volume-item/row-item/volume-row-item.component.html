@@ -1,6 +1,6 @@
 <mat-list-item
   class="entity-list-item"
-  (click)="handleClick($event)"
+  (click)="handleClick()"
   [class.card-selected]="isSelected(item)"
   [class.root-disk]="isRoot"
 >
@@ -20,7 +20,7 @@
     <span>{{ stateTranslationToken | translate }}</span>
   </div>
 
-  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+  <button mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
     <mat-icon class="mdi-dots-vertical"></mat-icon>
   </button>
 

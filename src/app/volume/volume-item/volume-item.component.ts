@@ -46,10 +46,7 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
     return stateTranslations[this.item.state.toUpperCase()];
   }
 
-  public handleClick(e: MouseEvent): void {
-    e.stopPropagation();
-    if (!this.matMenuTrigger.menuOpen) {
-      this.onClick.emit(this.item);
-    }
+  public handleClick(): void {
+    this.onClick.emit(this.item);
   }
 }

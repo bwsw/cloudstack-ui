@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 
 import { State } from '../../../reducers';
 import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
-import * as fromVm from '../../../reducers/vm/redux/vm.reducers';
 import * as fromVolumes from '../../../reducers/volumes/redux/volumes.reducers';
 import { vmSnapshotsSelectors } from '../../../root-store/server-data/vm-snapshots';
 import { Snapshot } from '../../../shared/models';
@@ -44,8 +43,6 @@ export class SnapshotSidebarContainerComponent implements OnInit {
   readonly isLoading$ = combineLatest(
     this.store.pipe(select(fromSnapshots.isLoading)),
     this.store.pipe(select(vmSnapshotsSelectors.getIsLoading)),
-    // you need to wait for virtual machines to load for vmSnapshot selectors
-    this.store.pipe(select(fromVm.isLoading)),
   ).pipe(map((loadings: boolean[]) => loadings.some(value => value)));
 
   public readonly viewModeType = SnapshotPageViewMode;

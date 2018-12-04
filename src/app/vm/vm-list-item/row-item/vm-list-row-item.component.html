@@ -1,7 +1,7 @@
 <mat-list-item
   class="entity-list-item"
   [ngClass]="itemClass"
-  (click)="handleClick($event)"
+  (click)="handleClick()"
   [style.background-color]="color.value"
   [style.color]="color?.textColor"
 >
@@ -43,7 +43,7 @@
 
   <div class="entity-list-item-data">OS {{ getOsDescription }} </div>
 
-  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+  <button mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
     <mat-icon class="mdi-dots-vertical"></mat-icon>
   </button>
 

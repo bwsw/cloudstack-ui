@@ -1,5 +1,5 @@
 <mat-card
-  (click)="handleClick($event)"
+  (click)="handleClick()"
   [class.card-selected]="isSelected(item)"
   [class.root-disk]="isRoot"
   class="entity-card"
@@ -9,7 +9,7 @@
     <mat-card-title [matTooltip]="item.name" class="entity-card-title">
       <span [innerHTML]="item.name | highlight:query"></span>
     </mat-card-title>
-    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu" (click)="$event.stopPropagation()">
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>

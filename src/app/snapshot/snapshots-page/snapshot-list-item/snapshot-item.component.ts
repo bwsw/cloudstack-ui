@@ -11,7 +11,7 @@ export class SnapshotItemComponent {
   public virtualMachines: Dictionary<VirtualMachine>;
   public isSelected: (snapshot: Snapshot) => boolean;
   public query: string;
-  public onClick = new EventEmitter<Snapshot>();
+  public clicked = new EventEmitter<Snapshot>();
   public matMenuTrigger: MatMenuTrigger;
 
   public stateTranslations = {
@@ -58,10 +58,7 @@ export class SnapshotItemComponent {
 
   constructor(private translate: TranslateService) {}
 
-  public handleClick(e: MouseEvent): void {
-    e.stopPropagation();
-    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
-      this.onClick.emit(this.item);
-    }
+  public handleClick(): void {
+    this.clicked.emit(this.item);
   }
 }

@@ -23,11 +23,8 @@ export class TemplateComponent implements OnChanges {
     }
   }
 
-  public handleClick(e: MouseEvent): void {
-    e.stopPropagation();
-    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
-      this.onClick.emit(this.item);
-    }
+  public handleClick(): void {
+    this.onClick.emit(this.item);
   }
 
   public get isSelf(): boolean {

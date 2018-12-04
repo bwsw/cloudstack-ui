@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { NgrxEntities } from '../../../shared/interfaces';
 
 import { Snapshot, Volume } from '../../../shared/models';
-import { NgrxEntities } from '../../../shared/interfaces';
 import { VirtualMachine } from '../../../vm';
 import { SnapshotItemComponent } from './snapshot-item.component';
 
@@ -23,9 +23,8 @@ export class SnapshotCardItemComponent extends SnapshotItemComponent {
   public isSelected: (snapshot: Snapshot) => boolean;
   @Input()
   public query: string;
-  // tslint:disable-next-line:no-output-on-prefix
   @Output()
-  public onClick = new EventEmitter<Snapshot>();
+  public clicked = new EventEmitter<Snapshot>();
   @ViewChild(MatMenuTrigger)
   public matMenuTrigger: MatMenuTrigger;
 

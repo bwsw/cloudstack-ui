@@ -1,4 +1,4 @@
-<mat-list-item (click)="onClicked($event)" class="entity-list-item">
+<mat-list-item (click)="onClicked()" class="entity-list-item">
   <mat-icon class="mdi-key"></mat-icon>
 
   <h2 class="entity-list-item-title" [matTooltip]="item.name">
@@ -9,7 +9,7 @@
     {{ item.fingerprint }}
   </div>
 
-  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+  <button mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
     <mat-icon class="mdi-dots-vertical"></mat-icon>
   </button>
 

@@ -2,7 +2,6 @@
   <div class="title-container">
     <h4 class="details-header">
       <cs-round-state-indicator
-        class="state-icon"
         [state]="vmSnapshot.state.toLowerCase()"
         [matTooltip]="'VM_SNAPSHOT_STATE.' + vmSnapshot.state.toUpperCase() | translate"
       ></cs-round-state-indicator>
@@ -33,7 +32,7 @@
       ></cs-parameters-pair>
       <cs-parameters-pair
         [name]="'SNAPSHOT_PAGE.SIDEBAR.PARENT'"
-        [value]="vmSnapshot.parentName ? vmSnapshot.parentName : '-'"
+        [value]="vmSnapshot.parentName || '-'"
       ></cs-parameters-pair>
     </mat-card-content>
   </mat-card>

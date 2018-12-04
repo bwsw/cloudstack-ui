@@ -12,16 +12,12 @@ export class VmSnapshotListViewComponent {
   public item: VmSnapshotViewModel;
   @Input()
   public isSelected: (vmSnapshot: VmSnapshotViewModel) => boolean;
-  // tslint:disable-next-line:no-output-on-prefix
   @Output()
-  public onClick = new EventEmitter<VmSnapshotViewModel>();
+  public clicked = new EventEmitter<VmSnapshotViewModel>();
   @ViewChild(MatMenuTrigger)
   public matMenuTrigger: MatMenuTrigger;
 
-  public onSelect(e: MouseEvent) {
-    e.stopPropagation();
-    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
-      this.onClick.emit(this.item);
-    }
+  public onSelect() {
+    this.clicked.emit(this.item);
   }
 }
