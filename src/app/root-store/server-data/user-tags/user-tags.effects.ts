@@ -292,7 +292,10 @@ export class UserTagsEffects {
     mergeMap(filters => {
       const nonNullFilters = removeNullsAndEmptyArrays(filters);
       const encodedFilters = Serializer.encode(nonNullFilters);
-      const tags = Object.keys(encodedFilters)
+      const tags = Object.keys(filters).map(tagKey => ({
+        key: `${userTagKeys.vmLogsFilter}.${kebabCase(tagKey)}`,
+      }));
+      const filteredTags = Object.keys(encodedFilters)
         .filter(key => encodedFilters[key] != null)
         .map(tagKey => ({
           key: `${userTagKeys.vmLogsFilter}.${kebabCase(tagKey)}`,
@@ -300,8 +303,9 @@ export class UserTagsEffects {
         }))
         .filter(tag => tag.value != null);
 
-      return this.upsertTag(tags).pipe(
-        map(() => new UpdateVmLogsFiltersSuccess(tags)),
+      return this.deleteTag(tags).pipe(
+        switchMap(() => this.createTag(filteredTags)),
+        map(() => new UpdateVmLogsFiltersSuccess(filteredTags)),
         catchError(error => of(new UpdateVmLogsFiltersError({ error }))),
       );
     }),
