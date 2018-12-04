@@ -13,7 +13,7 @@ export class FabComponent {
   public clicked = new EventEmitter<Event>();
 
   constructor(private sidebarWidthService: SidebarWidthService) {
-    this.sidebarWidthService.width.subscribe(width => (this.rightIndent = width));
+    this.sidebarWidthService.width$.subscribe(width => (this.rightIndent = width));
   }
 
   public onClick(e: Event): void {

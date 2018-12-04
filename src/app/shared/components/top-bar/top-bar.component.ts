@@ -25,7 +25,7 @@ export class TopBarComponent {
       return 0;
     }
 
-    return this.sidebarWidthService.widthBehaviorSubject.value;
+    return this.sidebarWidthService.getWidth();
   }
 
   // todo: refactor
