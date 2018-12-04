@@ -129,7 +129,7 @@ export const getFilteredSnapshots = createSelector(
       filter.volumeSnapshotTypes.includes(snapshot.snapshottype);
 
     const filterByAccount = (snapshot: Snapshot) =>
-      !filter.accounts.length || !!filter.accounts.find(id => id === snapshot.account);
+      !filter.accounts.length || filter.accounts.find(id => id === snapshot.account);
 
     const filterByDate = (snapshot: Snapshot) =>
       !filter.date ||
