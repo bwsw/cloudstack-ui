@@ -577,7 +577,6 @@
       "PRIMARY_STORAGE": "Основного хранилища",
       "CREATING_SG": "Создание группы безопасности...",
       "DEPLOYING_VM": "Создание виртуальной машины...",
-      "CREATING_INSTANCE_GROUP": "Создание группы...",
       "TAG_COPYING": "Копирование тегов из шаблона...",
       "DEPLOYMENT_FINISHED": "Развертывание завершено",
       "OS_TEMPLATE": "ОС шаблон",

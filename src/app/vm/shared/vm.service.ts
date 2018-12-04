@@ -130,6 +130,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     }).pipe(map(result => result.virtualmachine));
   }
 
+  public removeGroup(virtualMachine: VirtualMachine): Observable<VirtualMachine> {
+    return this.updateGroup(virtualMachine, '');
+  }
+
   private commandInternal(vm: VirtualMachine, command: string, params?: {}): Observable<any> {
     const commandName = command;
     return this.sendCommand(commandName, this.buildCommandParams(vm.id, commandName, params));

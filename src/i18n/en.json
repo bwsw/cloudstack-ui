@@ -577,7 +577,6 @@
       "PRIMARY_STORAGE": "Primary storage",
       "CREATING_SG": "Creating a security group...",
       "DEPLOYING_VM": "Deploying the virtual machine...",
-      "CREATING_INSTANCE_GROUP": "Creating an instance group...",
       "TAG_COPYING": "Copying template tags...",
       "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template",

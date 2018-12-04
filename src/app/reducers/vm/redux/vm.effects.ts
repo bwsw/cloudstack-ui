@@ -238,7 +238,7 @@ export class VirtualMachinesEffects {
         'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_IN_PROGRESS',
       );
 
-      return this.vmService.updateGroup(action.payload, '').pipe(
+      return this.vmService.removeGroup(action.payload).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_DONE';
           this.showNotificationsOnFinish(message, notificationId);

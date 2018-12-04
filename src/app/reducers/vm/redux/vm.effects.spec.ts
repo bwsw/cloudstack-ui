@@ -474,7 +474,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should remove instance group', () => {
-    const spyRemoveGroup = spyOn(service, 'updateGroup').and.returnValue(of(list[0]));
+    const spyRemoveGroup = spyOn(service, 'removeGroup').and.returnValue(of(list[0]));
 
     const action = new vmActions.RemoveInstanceGroup(list[0]);
     const completion = new vmActions.UpdateVM(list[0]);
