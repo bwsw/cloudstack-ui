@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Volume } from '../../../shared/models';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
 import { ZoneService } from '../../../shared/services/zone.service';
@@ -20,8 +19,6 @@ export class VolumeRowItemComponent extends VolumeItemComponent {
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter();
-  @ViewChild(MatMenuTrigger)
-  public matMenuTrigger: MatMenuTrigger;
 
   constructor(
     protected diskOfferingService: DiskOfferingService,

@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NgrxEntities } from '../../../shared/interfaces';
 
@@ -25,8 +24,6 @@ export class SnapshotListItemComponent extends SnapshotItemComponent {
   public query: string;
   @Output()
   public clicked = new EventEmitter<Snapshot>();
-  @ViewChild(MatMenuTrigger)
-  public matMenuTrigger: MatMenuTrigger;
 
   constructor(translateService: TranslateService) {
     super(translateService);

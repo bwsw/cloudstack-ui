@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgrxEntities } from '../../../shared/interfaces';
+import { VirtualMachine } from '../../../vm';
 
 import { SecurityGroup } from '../../sg.model';
 import { SecurityGroupListItemComponent } from '../security-group-list-item.component';
-import { VirtualMachine } from '../../../vm';
-import { NgrxEntities } from '../../../shared/interfaces';
 
 @Component({
   selector: 'cs-security-group-row-item',
@@ -23,6 +22,4 @@ export class SecurityGroupRowItemComponent extends SecurityGroupListItemComponen
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter();
-  @ViewChild(MatMenuTrigger)
-  public matMenuTrigger: MatMenuTrigger;
 }

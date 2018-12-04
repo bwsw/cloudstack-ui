@@ -1,5 +1,4 @@
 import { EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
 import { NgrxEntities } from '../../shared/interfaces';
 import { VirtualMachine } from '../../vm';
 import { SecurityGroupViewMode } from '../sg-view-mode';
@@ -10,7 +9,6 @@ export class SecurityGroupListItemComponent implements OnChanges {
   public item: SecurityGroup;
   public searchQuery: () => string;
   public onClick = new EventEmitter();
-  public matMenuTrigger: MatMenuTrigger;
   public isSelected: (securityGroup) => boolean;
   public vmList: NgrxEntities<VirtualMachine>;
 

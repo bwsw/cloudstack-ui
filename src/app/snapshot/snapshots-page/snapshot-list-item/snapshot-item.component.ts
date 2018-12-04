@@ -1,5 +1,4 @@
 import { EventEmitter } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { TranslateService } from '@ngx-translate/core';
 import { getDateSnapshotCreated, Snapshot, SnapshotStates, Volume } from '../../../shared/models';
@@ -12,7 +11,6 @@ export class SnapshotItemComponent {
   public isSelected: (snapshot: Snapshot) => boolean;
   public query: string;
   public clicked = new EventEmitter<Snapshot>();
-  public matMenuTrigger: MatMenuTrigger;
 
   public stateTranslations = {
     [SnapshotStates.BackedUp]: 'SNAPSHOT_STATE.BACKEDUP',

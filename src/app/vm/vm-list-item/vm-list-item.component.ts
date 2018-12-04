@@ -1,5 +1,4 @@
 import { EventEmitter, OnInit } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { Color } from '../../shared/models';
 import { OsType } from '../../shared/models/os-type.model';
@@ -34,7 +33,6 @@ export abstract class VmListItemComponent implements OnInit {
   public osTypesMap: Dictionary<OsType>;
   public isSelected: (vm: VirtualMachine) => boolean;
   public onClick = new EventEmitter();
-  public matMenuTrigger: MatMenuTrigger;
   public query: string;
 
   public color: Color;

@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { VmSnapshotViewModel } from '../../models/vm-snapshot.view-model';
 
 @Component({
@@ -14,8 +13,6 @@ export class VmSnapshotListViewComponent {
   public isSelected: (vmSnapshot: VmSnapshotViewModel) => boolean;
   @Output()
   public clicked = new EventEmitter<VmSnapshotViewModel>();
-  @ViewChild(MatMenuTrigger)
-  public matMenuTrigger: MatMenuTrigger;
 
   public onSelect() {
     this.clicked.emit(this.item);

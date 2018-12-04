@@ -1,5 +1,4 @@
 import { EventEmitter } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
 import { Account } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { isUserBelongsToAccount } from '../../shared/utils/account';
@@ -9,7 +8,6 @@ export class AccountItemComponent {
   public item: Account;
   public isSelected: (account) => boolean;
   public onClick = new EventEmitter<Account>();
-  public matMenuTrigger: MatMenuTrigger;
 
   readonly stateTranslations = stateTranslations;
 

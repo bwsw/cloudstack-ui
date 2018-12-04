@@ -111,7 +111,7 @@ export const getVmSnapshots = createSelector(
         state: snapshot.state,
         name: snapshot.displayname,
         created: moment(snapshot.created).toDate(),
-        // account and domain necessary for grouping
+        // account and domain are necessary for grouping
         account: snapshot.account,
         domain: snapshot.domain,
       };
