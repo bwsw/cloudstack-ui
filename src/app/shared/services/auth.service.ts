@@ -12,24 +12,7 @@ import { BaseBackendService, CSCommands } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
 import { JobsNotificationService } from './jobs-notification.service';
-
-export interface Capabilities {
-  allowusercreateprojects: boolean;
-  allowuserexpungerecovervm: boolean;
-  allowuserviewdestroyedvm: boolean;
-  apilimitinterval: number;
-  apilimitmax: number;
-  cloudstackversion: string;
-  customdiskofferingmaxsize: number;
-  customdiskofferingminsize: number;
-  dynamicrolesenabled: boolean;
-  kvmsnapshotenabled: boolean;
-  projectinviterequired: boolean;
-  regionsecondaryenabled: boolean;
-  securitygroupsenabled: boolean;
-  supportELB: string; // boolean string
-  userpublictemplateenabled: boolean;
-}
+import { Capabilities } from '../models/capabilities.model';
 
 @Injectable()
 @BackendResource({
