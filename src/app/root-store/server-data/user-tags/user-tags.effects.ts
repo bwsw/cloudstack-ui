@@ -10,6 +10,7 @@ import {
   mergeMap,
   switchMap,
   debounceTime,
+  filter,
 } from 'rxjs/operators';
 import * as kebabCase from 'lodash/kebabCase';
 
@@ -358,8 +359,11 @@ export class UserTagsEffects {
 
   private readonly resourceType = 'User';
 
-  private get resourceId(): string | null {
-    return this.authService.user.userid;
+  private get resourceId(): Observable<string> {
+    return this.authService.userSubject.pipe(
+      filter(Boolean),
+      map(user => user.userid),
+    );
   }
 
   constructor(
@@ -391,9 +395,13 @@ export class UserTagsEffects {
   }
 
   private loadTags() {
-    return this.tagService.getList({
-      resourceid: this.resourceId,
-    });
+    return this.resourceId.pipe(
+      switchMap(resourceId => {
+        return this.tagService.getList({
+          resourceid: resourceId,
+        });
+      }),
+    );
   }
 
   private upsertTag(tag: TagCreationParams | TagCreationParams[]) {
@@ -414,11 +422,15 @@ export class UserTagsEffects {
       {},
     );
 
-    return this.tagService.remove({
-      resourceids: this.resourceId,
-      resourcetype: this.resourceType,
-      ...tagsData,
-    });
+    return this.resourceId.pipe(
+      switchMap(resourceId => {
+        return this.tagService.remove({
+          resourceids: resourceId,
+          resourcetype: this.resourceType,
+          ...tagsData,
+        });
+      }),
+    );
   }
 
   private createTag(tag: TagCreationParams | TagCreationParams[]) {
@@ -432,10 +444,14 @@ export class UserTagsEffects {
       {},
     );
 
-    return this.tagService.create({
-      resourceids: this.resourceId,
-      resourcetype: this.resourceType,
-      ...tagsData,
-    });
+    return this.resourceId.pipe(
+      switchMap(resourceId => {
+        return this.tagService.create({
+          resourceids: resourceId,
+          resourcetype: this.resourceType,
+          ...tagsData,
+        });
+      }),
+    );
   }
 }

@@ -36,9 +36,12 @@ function createTagServiceStub(listResponse: any, createRespone: any, removeRespo
 }
 
 function createAuthServiceStub() {
-  const service = jasmine.createSpyObj('authService', ['user']);
-  service.user.and.returnValue({ userid: '100' });
-  return service;
+  const spyObj = {
+    userSubject: {
+      pipe: () => of({ userid: '100 ' }),
+    },
+  };
+  return spyObj as any;
 }
 
 describe('User tags effects', () => {

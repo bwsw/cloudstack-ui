@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { concat, Observable, of, timer } from 'rxjs';
-import { catchError, map, switchMap, take, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { VmLogsService } from '../services/vm-logs.service';
 import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
@@ -156,7 +156,6 @@ export class VmLogsEffects {
   @Effect()
   setFiltersFromUserTags$: Observable<Action> = this.actions$.pipe(
     ofType(UserTagsActionTypes.LoadUserTagsSuccess),
-    take(1),
     withLatestFrom(
       this.store.pipe(select(UserTagsSelectors.getVmLogsFilters)),
       this.store.pipe(select(vmLogsFilters)),

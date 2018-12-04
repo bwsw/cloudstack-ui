@@ -244,17 +244,29 @@ export const filterSearch = createSelector(filters, state => state.search);
 
 export const filterStartDate = createSelector(filters, state => state.startDate);
 
-export const filterStartTime = createSelector(filters, state => ({
-  hour: state.startDate.hours,
-  minute: state.startDate.minutes,
-}));
+export const filterStartTime = createSelector(filters, state => {
+  if (state.startDate == null) {
+    return null;
+  }
+
+  return {
+    hour: state.startDate.hours,
+    minute: state.startDate.minutes,
+  };
+});
 
 export const filterEndDate = createSelector(filters, state => state.endDate);
 
-export const filterEndTime = createSelector(filters, state => ({
-  hour: state.endDate.hours,
-  minute: state.endDate.minutes,
-}));
+export const filterEndTime = createSelector(filters, state => {
+  if (state.endDate == null) {
+    return null;
+  }
+
+  return {
+    hour: state.endDate.hours,
+    minute: state.endDate.minutes,
+  };
+});
 
 export const filterNewestFirst = createSelector(filters, state => Boolean(state.newestFirst));
 
