@@ -3,9 +3,16 @@ import { Filters } from '../models/filters.model';
 import { SnapshotPageViewMode } from '../types';
 
 export enum SnapshotPageActionTypes {
+  Select = '[Snapshot page] Select snapshot',
   UpdateViewMode = '[Snapshot page] Update snapshot page view mode',
   UpdateFilters = '[Snapshot page] Update snapshot filters',
   UpdateGroupings = '[Snapshot page] Update snapshots groupings',
+}
+
+export class Select implements Action {
+  readonly type = SnapshotPageActionTypes.Select;
+
+  constructor(readonly payload: { id: string }) {}
 }
 
 export class UpdateViewMode implements Action {
@@ -26,4 +33,4 @@ export class UpdateGroupings implements Action {
   constructor(readonly payload: { groupings: any }) {}
 }
 
-export type SnapshotPageActionsUnion = UpdateViewMode | UpdateFilters | UpdateGroupings;
+export type SnapshotPageActionsUnion = Select | UpdateViewMode | UpdateFilters | UpdateGroupings;

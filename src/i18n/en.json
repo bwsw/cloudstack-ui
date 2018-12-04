@@ -790,7 +790,9 @@
     },
     "SIDEBAR": {
       "DETAILS": "Details",
+      "DESCRIPTION": "Description",
       "CREATED": "Created",
+      "CURRENT": "Current",
       "TYPE": "Type",
       "TYPES": {
         "HOURLY": "Hourly",
@@ -799,12 +801,13 @@
         "MONTHLY": "Monthly",
         "MANUAL": "Manual"
       },
-      "DESCRIPTION": "Description",
+      "PARENT": "Parent",
       "VOLUME_INFORMATION": {
         "TITLE": "Volume information",
         "VM": "Virtual Machine",
         "VOLUME": "Volume"
       },
+      "VM_INFORMATION": "VM information",
       "SNAPSHOT_NOT_FOUND": "Snapshot not found"
     },
     "ACTIONS": {

@@ -1,16 +1,14 @@
 import { EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
-
-import { getType, isSecurityGroupNative, SecurityGroup } from '../sg.model';
+import { NgrxEntities } from '../../shared/interfaces';
 import { VirtualMachine } from '../../vm';
 import { SecurityGroupViewMode } from '../sg-view-mode';
-import { NgrxEntities } from '../../shared/interfaces';
+
+import { getType, isSecurityGroupNative, SecurityGroup } from '../sg.model';
 
 export class SecurityGroupListItemComponent implements OnChanges {
   public item: SecurityGroup;
   public searchQuery: () => string;
   public onClick = new EventEmitter();
-  public matMenuTrigger: MatMenuTrigger;
   public isSelected: (securityGroup) => boolean;
   public vmList: NgrxEntities<VirtualMachine>;
 
@@ -34,11 +32,8 @@ export class SecurityGroupListItemComponent implements OnChanges {
     }
   }
 
-  public handleClick(e: MouseEvent): void {
-    e.stopPropagation();
-    if (!this.matMenuTrigger.menuOpen) {
-      this.onClick.emit(this.item);
-    }
+  public handleClick(): void {
+    this.onClick.emit(this.item);
   }
 
   public get isPrivate(): boolean {

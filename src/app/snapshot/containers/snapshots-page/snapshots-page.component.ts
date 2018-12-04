@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 
 import { ListService } from '../../../shared/components/list/list.service';
 import { ViewMode } from '../../../shared/components/view-mode-switch/view-mode-switch.component';
-import { Grouping, Snapshot, Volume } from '../../../shared/models';
 import { NgrxEntities } from '../../../shared/interfaces';
+import { Grouping, Snapshot, Volume } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm';
 import { VmSnapshotCardViewComponent } from '../../components/vm-snapshot-card-view/vm-snapshot-card-view.component';
 import { VmSnapshotListViewComponent } from '../../components/vm-snapshot-list-view/vm-snapshot-list-view.component';
@@ -51,7 +51,7 @@ export class SnapshotsPageComponent implements OnChanges {
     };
 
     this.outputs = {
-      onClick: this.selectSnapshot.bind(this),
+      clicked: this.selectSnapshot.bind(this),
     };
   }
 

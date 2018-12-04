@@ -4,12 +4,14 @@ import { SnapshotPageViewMode } from '../types';
 import { SnapshotPageActionsUnion, SnapshotPageActionTypes } from './snapshot-page.actions';
 
 export interface SnapshotPageState {
+  selectedId: string;
   viewMode: SnapshotPageViewMode;
   filters: Filters;
   groupings: any[];
 }
 
 export const initialState: SnapshotPageState = {
+  selectedId: undefined,
   viewMode: SnapshotPageViewMode.Volume,
   filters: {
     accounts: [],
@@ -28,6 +30,13 @@ export function snapshotPageReducer(
   action: SnapshotPageActionsUnion,
 ): SnapshotPageState {
   switch (action.type) {
+    case SnapshotPageActionTypes.Select: {
+      return {
+        ...state,
+        selectedId: action.payload.id,
+      };
+    }
+
     case SnapshotPageActionTypes.UpdateViewMode: {
       return {
         ...state,

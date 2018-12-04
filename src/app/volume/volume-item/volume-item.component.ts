@@ -1,5 +1,4 @@
 import { EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
 import { DiskOffering, Volume, VolumeType } from '../../shared/models';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
@@ -10,7 +9,6 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
   public searchQuery: () => string;
   public item: Volume;
   public onClick = new EventEmitter();
-  public matMenuTrigger: MatMenuTrigger;
 
   public diskOfferings: DiskOffering[];
   public query: string;
@@ -46,10 +44,7 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
     return stateTranslations[this.item.state.toUpperCase()];
   }
 
-  public handleClick(e: MouseEvent): void {
-    e.stopPropagation();
-    if (!this.matMenuTrigger.menuOpen) {
-      this.onClick.emit(this.item);
-    }
+  public handleClick(): void {
+    this.onClick.emit(this.item);
   }
 }

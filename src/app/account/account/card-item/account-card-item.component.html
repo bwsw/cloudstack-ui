@@ -1,5 +1,5 @@
 <mat-card
-  (click)="handleClick($event)"
+  (click)="handleClick()"
   [class.card-selected]="isSelected(item)"
   class="entity-card"
 >
@@ -18,7 +18,9 @@
         [style.visibility]="!isSelf ? 'visible' : 'hidden'"
         mat-icon-button
         [matMenuTriggerFor]="actionsMenu"
-        class="entity-card-menu">
+        class="entity-card-menu"
+        (click)="$event.stopPropagation()"
+      >
         <mat-icon class="mdi-dots-vertical"></mat-icon>
       </button>
     </ng-container>

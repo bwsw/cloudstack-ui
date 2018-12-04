@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { VmSnapshotViewModel } from '../../models/vm-snapshot.view-model';
 
 @Component({
@@ -6,11 +6,15 @@ import { VmSnapshotViewModel } from '../../models/vm-snapshot.view-model';
   templateUrl: './vm-snapshot-card-view.component.html',
   styleUrls: ['./vm-snapshot-card-view.component.scss'],
 })
-export class VmSnapshotCardViewComponent implements OnInit {
+export class VmSnapshotCardViewComponent {
   @Input()
   public item: VmSnapshotViewModel;
+  @Input()
+  public isSelected: (vmSnapshot: VmSnapshotViewModel) => boolean;
+  @Output()
+  public clicked = new EventEmitter<VmSnapshotViewModel>();
 
-  constructor() {}
-
-  ngOnInit() {}
+  public onSelect() {
+    this.clicked.emit(this.item);
+  }
 }

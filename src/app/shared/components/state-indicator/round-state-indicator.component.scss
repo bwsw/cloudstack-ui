@@ -1,5 +1,9 @@
 $circle-size: 14px;
 
+:host {
+  margin-right: 5px;
+}
+
 mat-icon {
   font-size: $circle-size;
   width: $circle-size;

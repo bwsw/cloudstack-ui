@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgrxEntities } from '../../../shared/interfaces';
+import { OsType, Volume } from '../../../shared/models';
+import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmListItemComponent } from '../vm-list-item.component';
-import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
-import { OsType, Volume } from '../../../shared/models';
-import { NgrxEntities } from '../../../shared/interfaces';
 
 @Component({
   selector: 'cs-vm-card-list-item',
@@ -26,8 +25,6 @@ export class VmListCardItemComponent extends VmListItemComponent {
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter();
-  @ViewChild(MatMenuTrigger)
-  public matMenuTrigger: MatMenuTrigger;
 
   constructor(vmTagService: VmTagService) {
     super(vmTagService);

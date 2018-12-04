@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 import { SshKeyItemComponent } from '../ssh-key-item.component';
 
@@ -17,6 +16,4 @@ export class SshKeyCardItemComponent extends SshKeyItemComponent {
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onRemove = new EventEmitter<SSHKeyPair>();
-  @ViewChild(MatMenuTrigger)
-  public matMenuTrigger: MatMenuTrigger;
 }

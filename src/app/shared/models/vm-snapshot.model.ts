@@ -1,4 +1,6 @@
+import { SnapshotType } from '../types';
 import { BaseModel } from './base.model';
+import { Snapshot } from './snapshot.model';
 
 export interface VmSnapshot extends BaseModel {
   account: string;
@@ -15,4 +17,11 @@ export interface VmSnapshot extends BaseModel {
   type: string;
   virtualmachineid: string;
   zoneid: string;
+}
+
+export function getSnapshotType(snapshot: VmSnapshot | Snapshot): SnapshotType {
+  if (!snapshot) {
+    return undefined;
+  }
+  return (snapshot as VmSnapshot).virtualmachineid == null ? SnapshotType.Volume : SnapshotType.VM;
 }

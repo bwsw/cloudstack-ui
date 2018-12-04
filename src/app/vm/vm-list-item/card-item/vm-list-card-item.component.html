@@ -1,6 +1,6 @@
 <mat-card
   [ngClass]="itemClass"
-  (click)="handleClick($event)"
+  (click)="handleClick()"
   [style.background-color]="color.value"
   [style.color]="color?.textColor"
   class="entity-card"
@@ -15,7 +15,7 @@
     <mat-card-title [matTooltip]="item.displayname" class="entity-card-title">
       <span [innerHTML]="item.displayname | highlight:query"></span>
     </mat-card-title>
-    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu" (click)="$event.stopPropagation()">
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>

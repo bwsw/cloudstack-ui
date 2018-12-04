@@ -1,5 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../shared';
 import { TemplateComponent } from '../template.component';
@@ -24,8 +23,6 @@ export class TemplateRowItemComponent extends TemplateComponent {
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter();
-  @ViewChild(MatMenuTrigger)
-  public matMenuTrigger: MatMenuTrigger;
 
   public query: string;
 

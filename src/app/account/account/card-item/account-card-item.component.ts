@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Account } from '../../../shared/models/account.model';
-import { AccountItemComponent } from '../account-item.component';
 import { AuthService } from '../../../shared/services/auth.service';
+import { AccountItemComponent } from '../account-item.component';
 
 @Component({
   selector: 'cs-account-card-item',
@@ -17,8 +16,6 @@ export class AccountCardItemComponent extends AccountItemComponent {
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter<Account>();
-  @ViewChild(MatMenuTrigger)
-  public matMenuTrigger: MatMenuTrigger;
 
   constructor(protected authService: AuthService) {
     super(authService);
