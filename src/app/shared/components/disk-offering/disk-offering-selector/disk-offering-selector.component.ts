@@ -46,7 +46,7 @@ export class DiskOfferingSelectorComponent implements OnChanges, OnInit {
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.storageAvailable && changes.storageAvailable.currentValue) {
+    if (changes.availableStorage && changes.availableStorage.currentValue) {
       this.setMaxSizeValue();
     }
   }

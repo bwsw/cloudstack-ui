@@ -5,7 +5,6 @@ import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
-import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as sshKeyActions from './ssh-key.actions';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 
@@ -192,7 +191,7 @@ export const selectSSHKeys = createSelector(selectAll, fromVMs.getSelectedVM, (s
 
 export const selectSshKeysForAccount = createSelector(
   selectAll,
-  fromAuth.getUserAccount,
+  fromAccounts.selectUserAccount,
   (sshKeys, account) => {
     const filterSshKeysByAccount = (sshKey: SSHKeyPair) =>
       account && account.name === sshKey.account && account.domainid === sshKey.domainid;

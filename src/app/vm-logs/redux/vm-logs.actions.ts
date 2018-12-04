@@ -11,6 +11,7 @@ export enum VmLogsActionTypes {
   LOAD_AUTO_UPDATE_VM_LOGS_REQUEST = '[VM Logs] LOAD_AUTO_UPDATE_VM_LOGS_REQUEST',
   LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE = '[VM Logs] LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE',
   LOAD_AUTO_UPDATE_VM_LOGS_ERROR = '[VM Logs] LOAD_AUTO_UPDATE_VM_LOGS_ERROR',
+  UPDATE_AUTO_UPDATE_VM_LOGS = '[VM Logs] UPDATE_AUTO_UPDATE_VM_LOGS',
   LOAD_VM_LOG_FILES_REQUEST = '[VM Logs] LOAD_VM_LOG_FILES_REQUEST',
   LOAD_VM_LOG_FILES_RESPONSE = '[VM Logs] LOAD_VM_LOG_FILES_RESPONSE',
   VM_LOGS_UPDATE_SEARCH = '[VM Logs] VM_LOGS_UPDATE_SEARCH',
@@ -58,6 +59,12 @@ export class LoadAutoUpdateVmLogsError implements Action {
   readonly type = VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_ERROR;
 
   constructor(readonly payload: Error) {}
+}
+
+export class UpdateAutoUpdateVmLogs implements Action {
+  readonly type = VmLogsActionTypes.UPDATE_AUTO_UPDATE_VM_LOGS;
+
+  constructor(readonly payload: VmLog[]) {}
 }
 
 export class LoadVmLogFilesRequest implements Action {
@@ -180,6 +187,7 @@ export type Actions =
   | LoadAutoUpdateVmLogsRequest
   | LoadAutoUpdateVmLogsResponse
   | LoadAutoUpdateVmLogsError
+  | UpdateAutoUpdateVmLogs
   | LoadVmLogFilesRequest
   | LoadVmLogFilesResponse
   | VmLogsUpdateSearch

@@ -70,7 +70,7 @@ export class DiskOfferingDialogComponent {
 
   private getResourceLimitExceeded(): boolean {
     const diskSize = this.getDiskSize();
-    if (this.storageAvailable && diskSize) {
+    if (this.storageAvailable != null && diskSize != null) {
       return Number(this.storageAvailable) < Number(diskSize);
     }
 

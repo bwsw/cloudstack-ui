@@ -136,26 +136,19 @@ export class VirtualMachineCreationEffects {
   );
 
   @Effect()
-  vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$.pipe(
+  setDefaultSecurityGroup$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.VM_SECURITY_GROUPS_SELECT),
-    withLatestFrom(
+    switchMap(() =>
       this.store.pipe(
-        select(fromSecurityGroups.selectPredefinedSecurityGroups),
-        filter(groups => !!groups.length),
+        select(fromSecurityGroups.selectDefaultSecurityGroup),
+        filter(value => Boolean(value && value.id)),
       ),
-      this.store.pipe(select(fromSecurityGroups.selectDefaultSecurityGroup)),
     ),
-    map(
-      ([action, securityGroups, defaultSecurityGroup]: [
-        vmActions.VmInitialSecurityGroupsSelect,
-        SecurityGroup[],
-        SecurityGroup
-      ]) => {
-        return new vmActions.VmFormUpdate({
-          securityGroupData: VmCreationSecurityGroupData.fromSecurityGroup([defaultSecurityGroup]),
-        });
-      },
-    ),
+    map((defaultSecurityGroup: SecurityGroup) => {
+      return new vmActions.VmFormUpdate({
+        securityGroupData: VmCreationSecurityGroupData.fromSecurityGroup([defaultSecurityGroup]),
+      });
+    }),
   );
 
   @Effect()

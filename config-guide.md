@@ -6,7 +6,8 @@ You can see examples of the configurations in the [config-example.json](https://
   - [Default Domain](#default-domain)
   - [Session Refresh Interval](#session-refresh-interval)
   - [API Doc Link](#api-doc-link)
-  - [Extensions](#extensions)
+- [Extensions](#extensions)
+  - [Log View Plugin](#log-view-plugin)
 - [Virtual Machines Settings](#virtual-machines-settings)
   - [VM Colors](#vm-colors)
 - [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
@@ -63,7 +64,7 @@ For example,
 "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.11/"
 ```
 
-### Extensions
+## Extensions
 
 Allows you to enable plugins. By default, all plugins are disabled.
 
@@ -78,6 +79,28 @@ For example,
 ```
 
 Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for a detailed information about plugins.
+
+### Log View Plugin
+
+Allows you to configure Log View plugin.
+
+`autoUpdateRefreshFrequency` - a period of time in seconds between two log requests in the auto update mode.
+Smaller values are faster, but use more network traffic.
+
+`autoUpdateRequestedInterval` - get last `autoUpdateRequestedInterval` seconds of logs each time in the auto update mode.
+The value depends on the time it takes to process logs on the backend: longer processing time should correspond to larger
+values. Smaller values save traffic, but some logs may be missed. In any case, `autoUpdateRequestedInterval` should be 
+greater than `autoUpdateRefreshFrequency`.
+
+
+For example,
+
+```
+"vmLogs": {
+  "autoUpdateRefreshFrequency": 1,
+  "autoUpdateRequestedInterval": 30
+}
+```
 
 ## Virtual Machines Settings
 

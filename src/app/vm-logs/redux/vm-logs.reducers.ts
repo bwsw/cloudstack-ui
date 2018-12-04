@@ -85,9 +85,16 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
     }
 
     case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE:
-    case vmLogsActions.VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE: {
+    case vmLogsActions.VmLogsActionTypes.UPDATE_AUTO_UPDATE_VM_LOGS: {
       return {
         ...adapter.addAll([...action.payload], state),
+        loading: false,
+      };
+    }
+
+    case vmLogsActions.VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE: {
+      return {
+        ...adapter.addMany([...action.payload], state),
         loading: false,
       };
     }

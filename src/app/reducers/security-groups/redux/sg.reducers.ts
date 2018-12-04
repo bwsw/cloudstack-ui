@@ -10,7 +10,6 @@ import {
 } from '../../../security-group/sg.model';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
-import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as securityGroupActions from './sg.actions';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { configSelectors } from '../../../root-store/config';
@@ -258,7 +257,7 @@ export const selectFilteredSecurityGroups = createSelector(
 
 export const selectSecurityGroupsForVmCreation = createSelector(
   selectAll,
-  fromAuth.getUserAccount,
+  fromAccounts.selectUserAccount,
   selectDefaultSecurityGroupName,
   (securityGroups, account, defaultSecurityGroupName) => {
     const accountFilter = (securityGroup: SecurityGroup) =>
@@ -274,12 +273,6 @@ export const selectSecurityGroupsForVmCreation = createSelector(
       .map(renameDefaultSG)
       .filter(securityGroup => accountFilter(securityGroup) && onlySharedFilter(securityGroup));
   },
-);
-
-export const selectPredefinedSecurityGroups = createSelector(
-  selectAll,
-  (securityGroups: SecurityGroup[]) =>
-    securityGroups.filter(securityGroup => securityGroup.preselected),
 );
 
 export const selectDefaultSecurityGroup = createSelector(

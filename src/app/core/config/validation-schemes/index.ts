@@ -2,6 +2,7 @@ import * as sessionRefreshInterval from './session-refresh-interval.scheme.json'
 import * as defaultDomain from './default-domain.scheme.json';
 import * as apiDocLink from './api-doc-link.scheme.json';
 import * as extensions from './extensions.scheme.json';
+import * as vmLogs from './vm-logs.scheme.json';
 
 import * as vmColors from './vm-colors.scheme.json';
 
@@ -28,6 +29,8 @@ export {
   sessionRefreshInterval,
   apiDocLink,
   extensions,
+  // Log View settings
+  vmLogs,
   // Virtual machines settings
   vmColors,
   // User app settings

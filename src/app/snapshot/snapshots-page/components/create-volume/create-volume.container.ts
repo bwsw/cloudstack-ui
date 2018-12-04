@@ -21,9 +21,6 @@ export class CreateVolumeFromSnapshotContainerComponent {
 
   constructor(private store: Store<State>, @Inject(MAT_DIALOG_DATA) data: any) {
     this.snapshot = data.snapshot;
-
-    if (data.snapshot) {
-    }
   }
 
   public onVolumeCreate(name: string) {

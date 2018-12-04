@@ -31,6 +31,9 @@ export class DayPeriodComponent implements ControlValueAccessor, OnInit {
     { value: DayPeriod.Pm, name: 'DATE_TIME.PM' },
   ];
 
+  @Input()
+  public disabled: boolean;
+
   public ngOnInit(): void {
     this.period = this.periods[0].value;
   }

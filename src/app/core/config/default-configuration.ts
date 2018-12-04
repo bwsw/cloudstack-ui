@@ -42,6 +42,13 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     vmLogs: false,
   },
   /*
+  * Log View settings
+  * */
+  vmLogs: {
+    autoUpdateRefreshFrequency: 1,
+    autoUpdateRequestedInterval: 30,
+  },
+  /*
    * Virtual machines settings
    */
   vmColors: COLORS,

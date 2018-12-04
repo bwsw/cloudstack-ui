@@ -6,7 +6,6 @@ import * as debounce from 'lodash/debounce';
 
 import { State, UserTagsSelectors } from '../../root-store';
 import * as eventAction from '../redux/events.actions';
-import * as accountAction from '../../reducers/accounts/redux/accounts.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import * as fromEvents from '../redux/events.reducers';
@@ -112,8 +111,6 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
   }
 
   public ngOnInit() {
-    this.store.dispatch(new accountAction.LoadAccountsRequest());
-
     this.initFilters();
     this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
       this.filterService.update({

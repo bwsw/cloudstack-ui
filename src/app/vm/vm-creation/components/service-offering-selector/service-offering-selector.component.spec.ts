@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../../../testutils/mocks/mock-translate.service.spec';
+import { ErrorMessageComponent } from '../../../../shared/components';
 import { ServiceOffering } from '../../../../shared/models';
 import { ServiceOfferingSelectorComponent } from './service-offering-selector.component';
 
@@ -51,7 +52,12 @@ describe('Test Service offering selector component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, MatTooltipModule],
-      declarations: [ServiceOfferingSelectorComponent, TestComponent, MockTranslatePipe],
+      declarations: [
+        ErrorMessageComponent,
+        ServiceOfferingSelectorComponent,
+        TestComponent,
+        MockTranslatePipe,
+      ],
       providers: [
         { provide: MatDialog, useValue: mockDialog },
         { provide: TranslateService, useClass: MockTranslateService },

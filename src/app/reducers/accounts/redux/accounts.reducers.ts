@@ -246,7 +246,7 @@ export const selectFilteredAccounts = createSelector(
 
 export const selectDomainAccounts = createSelector(
   selectAll,
-  fromAuth.getUserAccount,
+  selectUserAccount,
   (accounts, userAccount) => {
     const userDomainFilter = account => !!userAccount && account.domainid === userAccount.domainid;
 

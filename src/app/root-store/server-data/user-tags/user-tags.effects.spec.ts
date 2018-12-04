@@ -13,6 +13,7 @@ import {
 } from './user-tags.actions';
 import { UserTagsEffects } from './user-tags.effects';
 import { userTagKeys } from '../../../tags/tag-keys';
+import { AuthService } from '../../../shared/services/auth.service';
 
 class StoreStub {}
 
@@ -36,12 +37,13 @@ function createTagServiceStub(listResponse: any, createRespone: any, removeRespo
 }
 
 function createAuthServiceStub() {
-  const spyObj = {
+  const authService = {
     userSubject: {
       pipe: () => of({ userid: '100 ' }),
     },
   };
-  return spyObj as any;
+
+  return authService as AuthService;
 }
 
 describe('User tags effects', () => {
