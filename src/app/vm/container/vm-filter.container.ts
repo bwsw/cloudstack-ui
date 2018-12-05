@@ -13,7 +13,6 @@ import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { VmState } from '../shared/vm.model';
-import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { Grouping } from '../../shared/models';
 
@@ -104,7 +103,6 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private authService: AuthService,
   ) {
     super();
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);

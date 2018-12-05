@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { State } from '../../index';
 import * as capabilitiesActions from './capabilities.actions';
 import { Capabilities } from '../../../shared/models/capabilities.model';
 import { CapabilityService } from '../../../shared/services/capability.service';
@@ -19,14 +18,16 @@ export class CapabilitiesEffects {
         map((capabilities: Capabilities) => {
           return new capabilitiesActions.LoadCapabilitiesResponse(capabilities);
         }),
-        catchError(() => of(new authActions.Logout())),
+        catchError(() => of(new capabilitiesActions.LoadCapabilitiesError())),
       );
     }),
   );
 
-  constructor(
-    private store: Store<State>,
-    private actions$: Actions,
-    private capabilityService: CapabilityService,
-  ) {}
+  @Effect()
+  logoutOnError$: Observable<Action> = this.actions$.pipe(
+    ofType(capabilitiesActions.ActionTypes.LOAD_CAPABILITIES_ERROR),
+    map(() => new authActions.Logout()),
+  );
+
+  constructor(private actions$: Actions, private capabilityService: CapabilityService) {}
 }

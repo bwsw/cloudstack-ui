@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 
 import { VmActionsService } from '../../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
-import { AuthService } from '../../../shared/services/auth.service';
 import { VmActions } from '../vm-action';
 import { configSelectors, State } from '../../../root-store';
 import { ExtensionsConfig } from '../../../shared/models/config';

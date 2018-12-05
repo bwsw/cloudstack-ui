@@ -18,7 +18,6 @@ import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-gr
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
 import { VmService } from '../../../vm/shared/vm.service';
-import { AuthService } from '../../../shared/services/auth.service';
 import { State } from '../../index';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
@@ -402,7 +401,6 @@ export class VirtualMachineCreationEffects {
     private jobsNotificationService: JobsNotificationService,
     private templateTagService: TemplateTagService,
     private dialog: MatDialog,
-    private auth: AuthService,
     private resourceUsageService: ResourceUsageService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private instanceGroupService: InstanceGroupService,

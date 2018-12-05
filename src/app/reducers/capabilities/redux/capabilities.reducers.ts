@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as capabilityActions from './capabilities.actions';
 import { Capabilities } from '../../../shared/models/capabilities.model';
-import { create } from 'domain';
 
 export interface CapabilitiesState {
   loading: boolean;
@@ -70,5 +69,5 @@ export const getCustomDiskOfferingMinSize = createSelector(
 
 export const getCustomDiskOfferingMaxSize = createSelector(
   getCapabilities,
-  capabilities => capabilities && capabilities.customdiskofferingmaxsize,
+  capabilities => !!capabilities && capabilities.customdiskofferingmaxsize,
 );

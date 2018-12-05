@@ -32,6 +32,8 @@ import { AppComponent } from './app.component';
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { VmLogsModule } from './vm-logs/vm-logs.module';
+import { Actions, ofType } from '@ngrx/effects';
+import * as capabilityActions from './reducers/capabilities/redux/capabilities.actions';
 
 // tslint:disable-next-line:function-name
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -44,6 +46,7 @@ export function InitAppFactory(
   http: HttpClient,
   translateService: TranslateService,
   store: Store<State>,
+  actions$: Actions,
 ) {
   return () =>
     store
@@ -62,6 +65,26 @@ export function InitAppFactory(
           .subscribe(lang => translateService.setDefaultLang(lang)),
       )
       .then(() => auth.initUser())
+      .then(
+        () =>
+          new Promise(resolve => {
+            auth.isLoggedIn().subscribe(value => {
+              if (!value) {
+                resolve();
+              } else {
+                store.dispatch(new capabilityActions.LoadCapabilitiesRequest());
+                actions$
+                  .pipe(
+                    ofType(
+                      capabilityActions.ActionTypes.LOAD_CAPABILITIES_RESPONSE,
+                      capabilityActions.ActionTypes.LOAD_CAPABILITIES_ERROR,
+                    ),
+                  )
+                  .subscribe(resolve);
+              }
+            });
+          }),
+      )
       .then(() =>
         store
           .pipe(
@@ -115,7 +138,7 @@ export function InitAppFactory(
     {
       provide: APP_INITIALIZER,
       useFactory: InitAppFactory,
-      deps: [AuthService, HttpClient, TranslateService, Store],
+      deps: [AuthService, HttpClient, TranslateService, Store, Actions],
       multi: true,
     },
     {

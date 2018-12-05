@@ -16,7 +16,6 @@ import { VirtualMachine } from '../shared/vm.model';
 import { NotSelected, VmCreationState } from './data/vm-creation-state';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 import { VmCreationContainerComponent } from './containers/vm-creation.container';
-import { AuthService } from '../../shared/services/auth.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
@@ -117,10 +116,7 @@ export class VmCreationComponent {
   public maxEntityNameLength = 63;
   public visibleInstanceGroups: InstanceGroup[];
 
-  constructor(
-    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
-    private auth: AuthService,
-  ) {}
+  constructor(public dialogRef: MatDialogRef<VmCreationContainerComponent>) {}
 
   public hostNameIsTaken(): boolean {
     if (!!this.vmCreationState) {

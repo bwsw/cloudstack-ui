@@ -3,7 +3,8 @@ import { Capabilities } from '../../../shared/models/capabilities.model';
 
 export enum ActionTypes {
   LOAD_CAPABILITIES_REQUEST = '[CAPABILITIES] LOAD_CAPABILITIES_REQUEST',
-  LOAD_CAPABILITIES_RESPONSE = '[CONFIGURATIONS] LOAD_CAPABILITIES_RESPONSE',
+  LOAD_CAPABILITIES_RESPONSE = '[CAPABILITIES] LOAD_CAPABILITIES_RESPONSE',
+  LOAD_CAPABILITIES_ERROR = '[CAPABILITIES] LOAD_CAPABILITIES_ERROR',
 }
 
 export class LoadCapabilitiesRequest implements Action {
@@ -16,4 +17,8 @@ export class LoadCapabilitiesResponse implements Action {
   constructor(public payload: Capabilities) {}
 }
 
-export type Actions = LoadCapabilitiesRequest | LoadCapabilitiesResponse;
+export class LoadCapabilitiesError implements Action {
+  readonly type = ActionTypes.LOAD_CAPABILITIES_ERROR;
+}
+
+export type Actions = LoadCapabilitiesRequest | LoadCapabilitiesResponse | LoadCapabilitiesError;

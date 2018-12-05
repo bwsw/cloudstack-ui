@@ -8,7 +8,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { DiskOffering } from '../../../models/index';
-import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'cs-disk-offering-selector',
