@@ -36,9 +36,9 @@ export interface Capabilities {
   entity: '',
 })
 export class AuthService extends BaseBackendService<BaseModel> {
-  public loggedIn: BehaviorSubject<boolean>;
-  // tslint:disable-next-line:variable-name
-  private _user: User | null;
+  public loggedIn = new BehaviorSubject<boolean>(false);
+  public user$: Observable<User>;
+  private userSubject = new BehaviorSubject<User>(null);
   private capabilities: Capabilities | null;
 
   constructor(
@@ -48,23 +48,24 @@ export class AuthService extends BaseBackendService<BaseModel> {
     protected jobsNotificationService: JobsNotificationService,
   ) {
     super(http);
+    this.user$ = this.userSubject.asObservable();
   }
 
   public initUser(): Promise<any> {
     try {
       const userRaw = this.storage.read('user');
       const user: User = Utils.parseJsonString(userRaw);
-      this._user = user;
+      this.userSubject.next(user);
     } catch (e) {}
 
-    this.loggedIn = new BehaviorSubject<boolean>(!!(this._user && this._user.userid));
+    this.loggedIn.next(!!(this.user && this.user.userid));
     this.jobsNotificationService.reset();
 
-    return this._user && this._user.userid ? this.getCapabilities().toPromise() : Promise.resolve();
+    return this.user && this.user.userid ? this.getCapabilities().toPromise() : Promise.resolve();
   }
 
-  public get user(): User | null {
-    return this._user;
+  public get user(): User {
+    return this.userSubject.value;
   }
 
   public login(username: string, password: string, domain?: string): Observable<void> {
@@ -80,12 +81,12 @@ export class AuthService extends BaseBackendService<BaseModel> {
   public logout(): Observable<void> {
     return this.postRequest('logout').pipe(
       tap(() => this.setLoggedOut()),
-      catchError(error => throwError('Unable to log out.')),
+      catchError(() => throwError('Unable to log out.')),
     );
   }
 
   public isLoggedIn(): Observable<boolean> {
-    return of(!!(this._user && this._user.userid));
+    return of(!!(this.user && this.user.userid));
   }
 
   public isAdmin(): boolean {
@@ -113,12 +114,12 @@ export class AuthService extends BaseBackendService<BaseModel> {
   }
 
   private saveUserDataToLocalStorage(loginRes: User): void {
-    this._user = loginRes;
-    this.storage.write('user', JSON.stringify(this._user));
+    this.userSubject.next(loginRes);
+    this.storage.write('user', JSON.stringify(this.user));
   }
 
   private setLoggedOut(): void {
-    this._user = null;
+    this.userSubject.next(null);
     this.storage.remove('user');
     this.loggedIn.next(false);
   }

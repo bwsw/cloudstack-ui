@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
-import { filterSelectedAccountIds, filterSelectedVmId } from '../vm-logs-vm.reducers';
+import { filterSelectedAccountIds, filterSelectedVmId } from '../vm-logs.reducers';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 
 export const selectFilteredVMs = createSelector(

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { State } from '../../reducers';
 import * as fromVmLogsAutoUpdate from '../redux/vm-logs-auto-update.reducers';
-import * as fromVmLogsVm from '../redux/vm-logs-vm.reducers';
 import * as vmLogsActions from '../redux/vm-logs.actions';
 import { debounceTime } from 'rxjs/internal/operators';
 import * as fromVmLogs from '../redux/vm-logs.reducers';
@@ -24,7 +23,7 @@ export class VmLogsContainerComponent {
     select(fromVmLogsAutoUpdate.selectIsAutoUpdateEnabled),
   );
   readonly selectedVmId$ = this.store.pipe(
-    select(fromVmLogsVm.filterSelectedVmId),
+    select(fromVmLogs.filterSelectedVmId),
     debounceTime(0),
   );
   readonly newestFirst$ = this.store.pipe(

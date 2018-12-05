@@ -6,7 +6,6 @@ import {
   Account,
   AffinityGroup,
   DiskOffering,
-  InstanceGroup,
   ServiceOffering,
   SSHKeyPair,
   Zone,
@@ -31,7 +30,7 @@ export class VmCreationComponent {
   @Input()
   public vmCreationState: VmCreationState;
   @Input()
-  public instanceGroupList: InstanceGroup[];
+  public instanceGroupList: string[];
   @Input()
   public affinityGroupList: AffinityGroup[];
   @Input()
@@ -81,7 +80,7 @@ export class VmCreationComponent {
   @Output()
   public affinityGroupChange = new EventEmitter<AffinityGroup>();
   @Output()
-  public instanceGroupChange = new EventEmitter<InstanceGroup>();
+  public instanceGroupChange = new EventEmitter<string>();
   @Output()
   public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
   @Output()
@@ -112,7 +111,7 @@ export class VmCreationComponent {
 
   public maxEntityNameLength = 63;
   public visibleAffinityGroups: AffinityGroup[];
-  public visibleInstanceGroups: InstanceGroup[];
+  public visibleInstanceGroups: string[];
 
   constructor(
     public dialogRef: MatDialogRef<VmCreationContainerComponent>,
@@ -170,17 +169,8 @@ export class VmCreationComponent {
 
   public changeInstanceGroup(groupName: string): void {
     const val = groupName.toLowerCase();
-    this.visibleInstanceGroups = this.instanceGroupList.filter(
-      g => g.name.toLowerCase().indexOf(val) === 0,
-    );
-
-    const existingGroup = this.getInstanceGroup(groupName);
-    const instanceGroup = clone(existingGroup) || new InstanceGroup(groupName);
-    this.instanceGroupChange.emit(instanceGroup);
-  }
-
-  public getInstanceGroup(name: string): InstanceGroup {
-    return this.instanceGroupList.find(group => group.name === name);
+    this.visibleInstanceGroups = this.instanceGroupList.filter(g => g.toLowerCase().includes(val));
+    this.instanceGroupChange.emit(groupName);
   }
 
   public changeAffinityGroup(groupId: string): void {

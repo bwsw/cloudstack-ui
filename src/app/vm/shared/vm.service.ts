@@ -123,6 +123,17 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     );
   }
 
+  public updateGroup(virtualMachine: VirtualMachine, group: string): Observable<VirtualMachine> {
+    return this.sendCommand(CSCommands.Update, {
+      group,
+      id: virtualMachine.id,
+    }).pipe(map(result => result.virtualmachine));
+  }
+
+  public removeGroup(virtualMachine: VirtualMachine): Observable<VirtualMachine> {
+    return this.updateGroup(virtualMachine, '');
+  }
+
   private commandInternal(vm: VirtualMachine, command: string, params?: {}): Observable<any> {
     const commandName = command;
     return this.sendCommand(commandName, this.buildCommandParams(vm.id, commandName, params));

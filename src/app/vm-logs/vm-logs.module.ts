@@ -21,7 +21,6 @@ import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
 import { VmLogFilesService } from './services/vm-log-files.service';
 import { vmLogsReducers } from './redux/vm-logs.reducers';
 import { vmLogFilesReducers } from './redux/vm-log-files.reducers';
-import { reducer as vmLogsVmReducers } from './redux/vm-logs-vm.reducers';
 import { reducer as vmLogsAutoUpdateReducers } from './redux/vm-logs-auto-update.reducers';
 import { VmLogsContainerComponent } from './containers/vm-logs.container';
 import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
@@ -39,7 +38,6 @@ import { ScrollToLastDirective } from './vm-logs-table/scroll-to-last.directive'
     InfiniteScrollModule,
     StoreModule.forFeature('vmLogs', vmLogsReducers),
     StoreModule.forFeature('vmLogFiles', vmLogFilesReducers),
-    StoreModule.forFeature('vmLogsVm', vmLogsVmReducers),
     StoreModule.forFeature('vmLogsAutoUpdate', vmLogsAutoUpdateReducers),
     EffectsModule.forFeature([VmLogsEffects]),
   ],
