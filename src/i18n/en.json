@@ -379,7 +379,8 @@
       "DETAILS": {
         "TITLE": "Details",
         "ZONE": "Zone",
-        "HOST_NAME": "VM host name"
+        "HOST_NAME": "VM host name",
+        "ID": "ID"
       },
       "INSTANCE_GROUP": {
         "TITLE": "Group",

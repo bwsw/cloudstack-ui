@@ -379,7 +379,8 @@
       "DETAILS": {
         "TITLE": "Общая информация",
         "ZONE": "Зона",
-        "HOST_NAME": "Имя хоста"
+        "HOST_NAME": "Имя хоста",
+        "ID": "ID"
       },
       "INSTANCE_GROUP": {
         "TITLE": "Группа",
