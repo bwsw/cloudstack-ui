@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import {
   accountResourceType,
@@ -37,7 +37,7 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
-import { AuthService } from '../../../shared/services/auth.service';
+import * as fromCapabilities from '../../../reducers/capabilities/redux/capabilities.reducers';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -61,7 +61,9 @@ import { AuthService } from '../../../shared/services/auth.service';
       [serviceOfferings]="serviceOfferings$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
       [isDiskOfferingAvailableByResources]="isDiskOfferingAvailableByResources$ | async"
-      [minSize]="minSize"
+      [isSecurityGroupEnabled]="isSecurityGroupEnabled$ | async"
+      [minSize]="minSize$ | async"
+      [maxRootSize]="maxRootSize$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
       (hostNameChange)="onHostNameChange($event)"
       (templateChange)="onTemplateChange($event)"
@@ -111,13 +113,18 @@ export class VmCreationContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
-  public isDiskOfferingAvailableByResources$;
-  public minSize: number;
+  readonly minSize$ = this.store.pipe(select(fromCapabilities.getCustomDiskOfferingMinSize));
+  readonly maxRootSize$ = this.store.pipe(select(fromCapabilities.getCustomDiskOfferingMaxSize));
+  readonly isDiskOfferingAvailableByResources$ = this.store.pipe(
+    select(fromDiskOfferings.isVmCreationDiskOfferingAvailableByResources),
+  );
+  readonly isSecurityGroupEnabled$ = this.store.pipe(
+    select(fromCapabilities.getIsSecurityGroupEnabled),
+  );
 
   constructor(
     private store: Store<State>,
     private dialogRef: MatDialogRef<VmCreationContainerComponent>,
-    private authService: AuthService,
   ) {
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
@@ -128,10 +135,6 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(
       new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
-    );
-    this.minSize = this.authService.getCustomDiskOfferingMinSize();
-    this.isDiskOfferingAvailableByResources$ = this.store.pipe(
-      select(fromDiskOfferings.isVmCreationDiskOfferingAvailableByResources(this.minSize)),
     );
 
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());

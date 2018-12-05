@@ -16,7 +16,6 @@ import * as authActions from '../reducers/auth/redux/auth.actions';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
-  public disableSecurityGroups = false;
   public routes$: Observable<Route[]> = this.store.pipe(select(getRoutes));
   public currentRoute$: Observable<Route> = this.store.pipe(select(getCurrentRoute));
   public subroutes$: Observable<Subroute[]> = this.store.pipe(select(getSubroutes));
@@ -45,7 +44,6 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
             domainid: this.auth.user.domainid,
           }),
         );
-        this.disableSecurityGroups = this.auth.isSecurityGroupEnabled();
       });
   }
 

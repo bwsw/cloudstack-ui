@@ -1,5 +1,5 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector, select } from '@ngrx/store';
 
 import { isCustomized, isOfferingLocal } from '../../../shared/models/offering.model';
 import { DiskOffering, ServiceOfferingAvailability, Zone } from '../../../shared/models';
@@ -10,6 +10,7 @@ import * as event from './disk-offerings.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import { isTemplate } from '../../../template/shared';
+import * as fromCapabilities from '../../capabilities/redux/capabilities.reducers';
 
 export interface State extends EntityState<DiskOffering> {
   loading: boolean;
@@ -130,18 +131,18 @@ export const isDiskOfferingAvailableByResources = ({
   return size < primaryStorageAvailable;
 };
 
-export const isVmCreationDiskOfferingAvailableByResources = (customOfferingMinSize: number) =>
-  createSelector(
-    fromAccounts.selectUserAccount,
-    fromVMs.getVmFormState,
-    (account, state): boolean => {
-      if (!isTemplate(state.template) && state.diskOffering) {
-        return isDiskOfferingAvailableByResources({
-          customOfferingMinSize,
-          diskOffering: state.diskOffering,
-          primaryStorageAvailable: Number(account.primarystorageavailable),
-        });
-      }
-      return true;
-    },
-  );
+export const isVmCreationDiskOfferingAvailableByResources = createSelector(
+  fromAccounts.selectUserAccount,
+  fromVMs.getVmFormState,
+  fromCapabilities.getCustomDiskOfferingMinSize,
+  (account, state, customOfferingMinSize): boolean => {
+    if (!isTemplate(state.template) && state.diskOffering) {
+      return isDiskOfferingAvailableByResources({
+        customOfferingMinSize,
+        diskOffering: state.diskOffering,
+        primaryStorageAvailable: Number(account.primarystorageavailable),
+      });
+    }
+    return true;
+  },
+);

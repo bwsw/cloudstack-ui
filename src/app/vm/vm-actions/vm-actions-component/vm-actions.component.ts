@@ -17,6 +17,8 @@ import { ExtensionsConfig } from '../../../shared/models/config';
 export class VmActionsComponent {
   @Input()
   public vm: VirtualMachine;
+  @Input()
+  public canExpungeOrRecoverVm: boolean;
   @Output()
   public vmStarted = new EventEmitter<VirtualMachine>();
   @Output()
@@ -43,11 +45,7 @@ export class VmActionsComponent {
   public vmActions$: Observable<any[]>;
   public destroyedVmActions: any[];
 
-  constructor(
-    store: Store<State>,
-    private vmActionsService: VmActionsService,
-    private authService: AuthService,
-  ) {
+  constructor(store: Store<State>, private vmActionsService: VmActionsService) {
     this.vmActions$ = store.pipe(
       select(configSelectors.get('extensions')),
       map(extensions => this.actionListDependingOnExtension(extensions)),
@@ -108,10 +106,6 @@ export class VmActionsComponent {
 
   public get vmIsDestroyed(): boolean {
     return this.vm.state === VmState.Destroyed;
-  }
-
-  public get canExpungeOrRecoverVm(): boolean {
-    return this.authService.canExpungeOrRecoverVm();
   }
 
   private actionListDependingOnExtension(extensions: ExtensionsConfig) {

@@ -65,6 +65,10 @@ export class VmCreationComponent {
   public minSize: number;
   @Input()
   public isDiskOfferingAvailableByResources: boolean;
+  @Input()
+  public maxRootSize: number;
+  @Input()
+  public isSecurityGroupEnabled: boolean;
 
   @Output()
   public displayNameChange = new EventEmitter<string>();
@@ -111,7 +115,6 @@ export class VmCreationComponent {
   };
 
   public maxEntityNameLength = 63;
-  public visibleAffinityGroups: AffinityGroup[];
   public visibleInstanceGroups: InstanceGroup[];
 
   constructor(
@@ -138,14 +141,13 @@ export class VmCreationComponent {
   public rootDiskSizeLimit(): number {
     const primaryStorageAvailable = this.account && this.account.primarystorageavailable;
     const storageAvailable = Number(primaryStorageAvailable);
-    const maxRootSize = this.auth.getCustomDiskOfferingMaxSize();
     if (primaryStorageAvailable === 'Unlimited' || isNaN(storageAvailable)) {
-      return maxRootSize;
+      return this.maxRootSize;
     }
-    if (storageAvailable < maxRootSize) {
+    if (storageAvailable < this.maxRootSize) {
       return storageAvailable;
     }
-    return maxRootSize;
+    return this.maxRootSize;
   }
 
   public isCustomizedDiskOffering(): boolean {
@@ -159,7 +161,7 @@ export class VmCreationComponent {
     return (
       this.vmCreationState.zone &&
       this.vmCreationState.zone.securitygroupsenabled &&
-      this.auth.isSecurityGroupEnabled()
+      this.isSecurityGroupEnabled
     );
   }
 

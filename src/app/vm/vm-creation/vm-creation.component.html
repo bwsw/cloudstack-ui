@@ -114,6 +114,8 @@
                     [diskOfferings]="diskOfferings"
                     [account]="account"
                     [diskOffering]="vmCreationState?.diskOffering"
+                    [customDiskOfferingMinSize]="minSize"
+                    [customDiskOfferingMaxSize]="maxRootSize"
                     (changed)="diskOfferingChange.emit($event)"
                   ></cs-disk-offering-selector>
                 </div>

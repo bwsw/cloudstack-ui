@@ -6,14 +6,14 @@ export enum ActionTypes {
   LOAD_CAPABILITIES_RESPONSE = '[CONFIGURATIONS] LOAD_CAPABILITIES_RESPONSE',
 }
 
-export class LoadConfigurationsRequest implements Action {
+export class LoadCapabilitiesRequest implements Action {
   readonly type = ActionTypes.LOAD_CAPABILITIES_REQUEST;
 }
 
-export class LoadConfigurationsResponse implements Action {
+export class LoadCapabilitiesResponse implements Action {
   readonly type = ActionTypes.LOAD_CAPABILITIES_RESPONSE;
 
   constructor(public payload: Capabilities) {}
 }
 
-export type Actions = LoadConfigurationsRequest | LoadConfigurationsResponse;
+export type Actions = LoadCapabilitiesRequest | LoadCapabilitiesResponse;

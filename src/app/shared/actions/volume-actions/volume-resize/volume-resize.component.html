@@ -18,6 +18,8 @@
         [availableStorage]="availableStorage"
         [diskOfferings]="diskOfferings"
         [diskOffering]="diskOffering"
+        [customDiskOfferingMinSize]="minSize"
+        [customDiskOfferingMaxSize]="maxRootCapability"
         (changed)="updateDiskOffering($event)"
       ></cs-disk-offering-selector>
     </div>

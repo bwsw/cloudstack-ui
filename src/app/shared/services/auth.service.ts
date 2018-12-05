@@ -1,18 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { BackendResource } from '../decorators';
 import { BaseModel } from '../models';
 import { AccountType } from '../models/account.model';
 import { User } from '../models/user.model';
 import { AsyncJobService } from './async-job.service';
-import { BaseBackendService, CSCommands } from './base-backend.service';
+import { BaseBackendService } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
 import { JobsNotificationService } from './jobs-notification.service';
-import { Capabilities } from '../models/capabilities.model';
+import { select, Store } from '@ngrx/store';
+import { State } from '../../root-store';
+import * as fromCapabilities from '../../reducers/capabilities/redux/capabilities.reducers';
+import * as capabilityActions from '../../reducers/capabilities/redux/capabilities.actions';
 
 @Injectable()
 @BackendResource({
@@ -22,11 +25,11 @@ export class AuthService extends BaseBackendService<BaseModel> {
   public loggedIn: BehaviorSubject<boolean>;
   // tslint:disable-next-line:variable-name
   private _user: User | null;
-  private capabilities: Capabilities | null;
 
   constructor(
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
+    protected store: Store<State>,
     protected http: HttpClient,
     protected jobsNotificationService: JobsNotificationService,
   ) {
@@ -43,7 +46,19 @@ export class AuthService extends BaseBackendService<BaseModel> {
     this.loggedIn = new BehaviorSubject<boolean>(!!(this._user && this._user.userid));
     this.jobsNotificationService.reset();
 
-    return this._user && this._user.userid ? this.getCapabilities().toPromise() : Promise.resolve();
+    if (!this._user || !this._user.userid) {
+      return Promise.resolve();
+    }
+
+    debugger;
+
+    this.store.dispatch(new capabilityActions.LoadCapabilitiesRequest());
+    return this.store
+      .pipe(
+        select(fromCapabilities.getCapabilities),
+        filter(Boolean),
+      )
+      .toPromise();
   }
 
   public get user(): User | null {
@@ -54,7 +69,16 @@ export class AuthService extends BaseBackendService<BaseModel> {
     return this.postRequest('login', { username, password, domain }).pipe(
       map(res => this.getResponse(res)),
       tap(res => this.saveUserDataToLocalStorage(res)),
-      switchMap(() => this.getCapabilities()),
+      map(() => {
+        debugger;
+        return this.store.dispatch(new capabilityActions.LoadCapabilitiesRequest());
+      }),
+      switchMap(() => {
+        return this.store.pipe(
+          select(fromCapabilities.getCapabilities),
+          filter(Boolean),
+        );
+      }),
       tap(() => this.loggedIn.next(true)),
       catchError(error => this.handleCommandError(error.error)),
     );
@@ -63,7 +87,7 @@ export class AuthService extends BaseBackendService<BaseModel> {
   public logout(): Observable<void> {
     return this.postRequest('logout').pipe(
       tap(() => this.setLoggedOut()),
-      catchError(error => throwError('Unable to log out.')),
+      catchError(() => throwError('Unable to log out.')),
     );
   }
 
@@ -75,26 +99,6 @@ export class AuthService extends BaseBackendService<BaseModel> {
     return !!this.user && this.user.type !== AccountType.User;
   }
 
-  public allowedToViewDestroyedVms(): boolean {
-    return !!this.capabilities && this.capabilities.allowuserviewdestroyedvm;
-  }
-
-  public canExpungeOrRecoverVm(): boolean {
-    return !!this.capabilities && this.capabilities.allowuserexpungerecovervm;
-  }
-
-  public isSecurityGroupEnabled(): boolean {
-    return !!this.capabilities && this.capabilities.securitygroupsenabled;
-  }
-
-  public getCustomDiskOfferingMinSize(): number | null {
-    return this.capabilities && this.capabilities.customdiskofferingminsize;
-  }
-
-  public getCustomDiskOfferingMaxSize(): number | null {
-    return this.capabilities && this.capabilities.customdiskofferingmaxsize;
-  }
-
   private saveUserDataToLocalStorage(loginRes: User): void {
     this._user = loginRes;
     this.storage.write('user', JSON.stringify(this._user));
@@ -104,12 +108,5 @@ export class AuthService extends BaseBackendService<BaseModel> {
     this._user = null;
     this.storage.remove('user');
     this.loggedIn.next(false);
-  }
-
-  private getCapabilities(): Observable<void> {
-    return this.sendCommand(CSCommands.ListCapabilities, {}, '').pipe(
-      map(({ capability }) => (this.capabilities = capability)),
-      catchError(() => this.logout()),
-    );
   }
 }

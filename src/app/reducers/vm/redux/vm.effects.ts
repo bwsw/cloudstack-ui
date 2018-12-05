@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -13,6 +13,7 @@ import {
   onErrorResumeNext,
   switchMap,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
@@ -41,6 +42,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from '../../../
 
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
+import * as fromCapabilities from '../../../reducers/capabilities/redux/capabilities.reducers';
 
 @Injectable()
 export class VirtualMachinesEffects {
@@ -347,11 +349,12 @@ export class VirtualMachinesEffects {
 
   @Effect()
   destroyVm$: Observable<Action> = this.actions$.pipe(
-    ofType(vmActions.DESTROY_VM),
-    mergeMap((action: vmActions.DestroyVm) => {
+    ofType<vmActions.DestroyVm>(vmActions.DESTROY_VM),
+    withLatestFrom(this.store.pipe(select(fromCapabilities.getCanExpungeOrRecoverVm))),
+    mergeMap(([action, canExpungeOrRecoverVm]) => {
       return this.dialog
         .open(VmDestroyDialogComponent, {
-          data: this.authService.canExpungeOrRecoverVm(),
+          data: canExpungeOrRecoverVm,
         })
         .afterClosed()
         .pipe(

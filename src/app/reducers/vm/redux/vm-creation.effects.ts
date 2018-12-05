@@ -42,6 +42,7 @@ import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
 import * as fromVMModule from '../../../vm/selectors';
+import * as fromCapabilities from '../../../reducers/capabilities/redux/capabilities.reducers';
 import { KeyboardLayout } from '../../../shared/types';
 import { ComputeOfferingViewModel } from '../../../vm/view-models';
 
@@ -175,6 +176,7 @@ export class VirtualMachineCreationEffects {
       this.store.pipe(select(fromVMModule.getAvailableOfferingsForVmCreation)),
       this.store.pipe(select(fromDiskOfferings.selectAll)),
       this.store.pipe(select(configSelectors.get('defaultComputeOffering'))),
+      this.store.pipe(select(fromCapabilities.getCustomDiskOfferingMinSize)),
     ),
     map(
       ([
@@ -185,6 +187,7 @@ export class VirtualMachineCreationEffects {
         serviceOfferings,
         diskOfferings,
         defaultComputeOfferings,
+        customDiskOfferingMinSize,
       ]: [
         vmActions.VmFormUpdate,
         VmCreationState,
@@ -192,7 +195,8 @@ export class VirtualMachineCreationEffects {
         BaseTemplateModel[],
         ComputeOfferingViewModel[],
         DiskOffering[],
-        DefaultComputeOffering[]
+        DefaultComputeOffering[],
+        number
       ]) => {
         if (action.payload.zone) {
           let updates = {};
@@ -225,7 +229,7 @@ export class VirtualMachineCreationEffects {
           }
 
           if (isTemplate(action.payload.template)) {
-            const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
+            const defaultDiskSize = customDiskOfferingMinSize || 1;
             // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
             const minSize =
               Math.ceil(Utils.convertToGb(vmCreationState.template.size)) || defaultDiskSize;
@@ -236,7 +240,7 @@ export class VirtualMachineCreationEffects {
 
         if (action.payload.diskOffering) {
           if (action.payload.diskOffering.iscustomized) {
-            const minSize = this.auth.getCustomDiskOfferingMinSize() || 10;
+            const minSize = customDiskOfferingMinSize || 10;
             return new vmActions.VmFormUpdate({ rootDiskMinSize: minSize, rootDiskSize: minSize });
           }
 

@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as capabilities from './capabilities.actions';
+import * as capabilityActions from './capabilities.actions';
 import { Capabilities } from '../../../shared/models/capabilities.model';
+import { create } from 'domain';
 
 export interface CapabilitiesState {
   loading: boolean;
@@ -11,21 +12,24 @@ export const capabilitiesReducers = {
   list: reducer,
 };
 
-export const initialState = {
+export const initialState: CapabilitiesState = {
   loading: false,
   capabilities: null,
 };
 
-export function reducer(state = initialState, action: capabilities.Actions): State {
+export function reducer(
+  state = initialState,
+  action: capabilityActions.Actions,
+): CapabilitiesState {
   switch (action.type) {
-    case capabilities.ActionTypes.LOAD_CAPABILITIES_REQUEST: {
+    case capabilityActions.ActionTypes.LOAD_CAPABILITIES_REQUEST: {
       return {
         ...state,
         loading: true,
       };
     }
 
-    case capabilities.ActionTypes.LOAD_CAPABILITIES_RESPONSE: {
+    case capabilityActions.ActionTypes.LOAD_CAPABILITIES_RESPONSE: {
       return {
         loading: false,
         capabilities: action.payload,
@@ -43,3 +47,28 @@ export const getCapabilitiesState = createFeatureSelector<CapabilitiesState>('ca
 export const getCapabilities = createSelector(getCapabilitiesState, state => state.capabilities);
 
 export const isLoading = createSelector(getCapabilitiesState, state => state.loading);
+
+export const getIsAllowedToViewDestroyedVms = createSelector(
+  getCapabilities,
+  capabilities => !!capabilities && capabilities.allowuserviewdestroyedvm,
+);
+
+export const getCanExpungeOrRecoverVm = createSelector(
+  getCapabilities,
+  capabilities => !!capabilities && capabilities.allowuserexpungerecovervm,
+);
+
+export const getIsSecurityGroupEnabled = createSelector(
+  getCapabilities,
+  capabilities => !!capabilities && capabilities.securitygroupsenabled,
+);
+
+export const getCustomDiskOfferingMinSize = createSelector(
+  getCapabilities,
+  capabilities => !!capabilities && capabilities.customdiskofferingminsize,
+);
+
+export const getCustomDiskOfferingMaxSize = createSelector(
+  getCapabilities,
+  capabilities => capabilities && capabilities.customdiskofferingmaxsize,
+);

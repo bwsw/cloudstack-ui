@@ -48,6 +48,8 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
   groupings: Grouping[];
   @Input()
   selectedGroupings: Grouping[];
+  @Input()
+  allowedToViewDestroyedVms: boolean;
 
   readonly filters$ = this.store.pipe(select(fromVMs.filters));
   readonly query$ = this.store.pipe(select(fromVMs.filterQuery));
@@ -73,7 +75,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     {
       state: VmState.Destroyed,
       name: 'VM_PAGE.FILTERS.STATE_DESTROYED',
-      access: this.authService.allowedToViewDestroyedVms(),
+      access: this.allowedToViewDestroyedVms,
     },
     {
       state: VmState.Error,
