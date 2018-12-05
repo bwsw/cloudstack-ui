@@ -13,7 +13,7 @@ import * as fromVmLogs from '../redux/vm-logs.reducers';
 import * as fromVmLogFiles from '../redux/vm-log-files.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
-import { UserTagsActions, UserTagsSelectors } from '../../root-store';
+import { UserTagsSelectors } from '../../root-store';
 import { combineLatest } from 'rxjs';
 import { selectFilteredVMs } from '../redux/selectors/filtered-vms.selector';
 import * as fromVmLogsAutoUpdate from '../redux/vm-logs-auto-update.reducers';
@@ -136,7 +136,6 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe()
 
   public ngOnInit() {
     this.store.dispatch(new vmActions.LoadVMsRequest());
-    this.store.dispatch(new UserTagsActions.LoadUserTags());
     this.initFilters();
 
     combineLatest(

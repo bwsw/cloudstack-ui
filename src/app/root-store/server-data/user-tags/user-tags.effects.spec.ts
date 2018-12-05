@@ -38,7 +38,7 @@ function createTagServiceStub(listResponse: any, createRespone: any, removeRespo
 
 function createAuthServiceStub() {
   const authService = {
-    userSubject: {
+    user$: {
       pipe: () => of({ userid: '100 ' }),
     },
   };

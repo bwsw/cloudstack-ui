@@ -76,8 +76,8 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
     return this._date;
   }
 
-  public set date(newDate) {
-    if (newDate instanceof Date && isFinite(newDate.getTime())) {
+  public set date(newDate: Date) {
+    if (newDate != null && isFinite(newDate.getTime())) {
       this._date = new Date(newDate);
       this.displayDate = this.formatDate();
       this.propagateChange(this.date);

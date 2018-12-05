@@ -37,8 +37,8 @@ export interface Capabilities {
 })
 export class AuthService extends BaseBackendService<BaseModel> {
   public loggedIn = new BehaviorSubject<boolean>(false);
-  // tslint:disable-next-line:variable-name
-  public userSubject = new BehaviorSubject<User>(null);
+  public user$: Observable<User>;
+  private userSubject = new BehaviorSubject<User>(null);
   private capabilities: Capabilities | null;
 
   constructor(
@@ -48,6 +48,7 @@ export class AuthService extends BaseBackendService<BaseModel> {
     protected jobsNotificationService: JobsNotificationService,
   ) {
     super(http);
+    this.user$ = this.userSubject.asObservable();
   }
 
   public initUser(): Promise<any> {
@@ -57,13 +58,13 @@ export class AuthService extends BaseBackendService<BaseModel> {
       this.userSubject.next(user);
     } catch (e) {}
 
-    this.loggedIn.next(Boolean(this.user && this.user.userid));
+    this.loggedIn.next(!!(this.user && this.user.userid));
     this.jobsNotificationService.reset();
 
     return this.user && this.user.userid ? this.getCapabilities().toPromise() : Promise.resolve();
   }
 
-  public get user(): User | null {
+  public get user(): User {
     return this.userSubject.value;
   }
 

@@ -363,8 +363,9 @@ export class UserTagsEffects {
 
   private readonly resourceType = 'User';
 
+  // todo: make sure it's loaded before app starts
   private get resourceId(): Observable<string> {
-    return this.authService.userSubject.pipe(
+    return this.authService.user$.pipe(
       filter(Boolean),
       map(user => user.userid),
     );
