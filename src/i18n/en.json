@@ -380,7 +380,7 @@
         "TITLE": "Details",
         "ZONE": "Zone",
         "HOST_NAME": "VM host name",
-        "UUID": "UUID"
+        "ID": "ID"
       },
       "INSTANCE_GROUP": {
         "TITLE": "Group",
