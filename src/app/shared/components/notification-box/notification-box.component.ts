@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Component, OnDestroy } from '@angular/core';
+import { combineLatest } from 'rxjs';
 import { delay, filter, map, tap } from 'rxjs/operators';
 import { JobsNotificationService } from '../../services/jobs-notification.service';
 
@@ -8,27 +8,23 @@ import { JobsNotificationService } from '../../services/jobs-notification.servic
   templateUrl: 'notification-box.component.html',
   styleUrls: ['notification-box.component.scss'],
 })
-export class NotificationBoxComponent implements OnInit, OnDestroy {
-  public notificationCount$: Observable<number>;
+export class NotificationBoxComponent implements OnDestroy {
+  readonly notificationCount$ = combineLatest(
+    this.jobsNotificationService.unseenCompletedJobsCount$,
+    this.jobsNotificationService.pendingJobsCount$,
+  ).pipe(map(([unseenCount, pendingCount]) => unseenCount + pendingCount));
+  readonly hideNotifications$ = this.notificationCount$.pipe(map(count => count === 0));
+
   private isOpen = false;
-  private autoResetCompletedNotification: Subscription;
+  private autoResetCompletedNotification = this.jobsNotificationService.unseenCompletedJobsCount$
+    .pipe(
+      filter(count => count > 0 && this.isOpen),
+      delay(1),
+      tap(() => this.resetCompletedNotificationCount()),
+    )
+    .subscribe();
 
   constructor(public jobsNotificationService: JobsNotificationService) {}
-
-  public ngOnInit(): void {
-    this.notificationCount$ = combineLatest(
-      this.jobsNotificationService.unseenCompletedJobsCount$,
-      this.jobsNotificationService.pendingJobsCount$,
-    ).pipe(map(([unseenCount, pendingCount]) => unseenCount + pendingCount));
-
-    this.autoResetCompletedNotification = this.jobsNotificationService.unseenCompletedJobsCount$
-      .pipe(
-        filter(count => count > 0 && this.isOpen),
-        delay(1),
-        tap(() => this.resetCompletedNotificationCount()),
-      )
-      .subscribe();
-  }
 
   public ngOnDestroy() {
     this.autoResetCompletedNotification.unsubscribe();
