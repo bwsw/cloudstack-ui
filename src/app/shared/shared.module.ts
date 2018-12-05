@@ -108,7 +108,6 @@ import { DiskOfferingService } from './services/disk-offering.service';
 import { DomainService } from './services/domain.service';
 import { ErrorService } from './services/error.service';
 import { HypervisorService } from './services/hypervisor.service';
-import { InstanceGroupService } from './services/instance-group.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LoginGuard } from './services/login-guard.service';
@@ -363,7 +362,6 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     DiskOfferingService,
     DomainService,
     ErrorService,
-    InstanceGroupService,
     JobsNotificationService,
     LocalStorageService,
     LoginGuard,

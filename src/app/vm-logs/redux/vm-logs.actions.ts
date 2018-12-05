@@ -3,6 +3,7 @@ import { VmLog } from '../models/vm-log.model';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
 import { DateObject } from '../models/date-object.model';
 import { VmLogFile } from '../models/vm-log-file.model';
+import { VmLogsFilters } from '../models/vm-log-filters';
 
 export enum VmLogsActionTypes {
   LOAD_VM_LOGS_REQUEST = '[VM Logs] LOAD_VM_LOGS_REQUEST',
@@ -31,6 +32,7 @@ export enum VmLogsActionTypes {
   SET_AUTO_UPDATE_END_DATE = '[VM Logs] SET_AUTO_UPDATE_END_DATE',
   SCROLL_VM_LOGS = '[VM Logs] SCROLL_VM_LOGS',
   RESET_VM_LOGS_SCROLL = '[VM Logs] RESET_VM_LOGS_SCROLL',
+  UPDATE_FILTERS = '[VM Logs] UPDATE_FILTERS',
 }
 
 export class LoadVmLogsRequest implements Action {
@@ -173,6 +175,12 @@ export class SetAutoUpdateEndDate implements Action {
   constructor(readonly payload: DateObject) {}
 }
 
+export class UpdateFilters implements Action {
+  readonly type = VmLogsActionTypes.UPDATE_FILTERS;
+
+  constructor(readonly payload: Partial<VmLogsFilters>) {}
+}
+
 export type Actions =
   | LoadVmLogsResponse
   | LoadVmLogsRequest
@@ -199,4 +207,5 @@ export type Actions =
   | SetAutoUpdateStartDate
   | SetAutoUpdateEndDate
   | ScrollVmLogs
-  | ResetVmLogsScroll;
+  | ResetVmLogsScroll
+  | UpdateFilters;

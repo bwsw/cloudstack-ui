@@ -172,16 +172,16 @@
                       matInput
                       [matAutocomplete]="instanceGroups"
                       [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-                      [ngModel]="vmCreationState.instanceGroup?.name"
+                      [ngModel]="vmCreationState.instanceGroup"
                       (ngModelChange)="changeInstanceGroup($event)"
                     >
                   </mat-form-field>
                   <mat-autocomplete #instanceGroups>
                     <mat-option
                       *ngFor="let group of (visibleInstanceGroups || instanceGroupList)"
-                      [value]="group.name"
+                      [value]="group"
                     >
-                      {{ group.name }}
+                      {{ group }}
                     </mat-option>
                   </mat-autocomplete>
                 </div>

@@ -23,7 +23,6 @@ import { JobsNotificationService } from '../../../shared/services/jobs-notificat
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services/vm-creation-security-group.service';
-import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
@@ -49,6 +48,7 @@ interface VmCreationParams {
   affinityGroupNames?: string;
   details?: any[];
   diskofferingid?: string;
+  group?: string;
   startVm?: string;
   hypervisor?: string;
   ingress?: NetworkRule[];
@@ -74,8 +74,6 @@ export enum VmDeploymentStage {
   FINISHED = 'FINISHED',
   ERROR = 'ERROR',
   TEMP_VM = 'TEMP_VM',
-  INSTANCE_GROUP_CREATION = 'INSTANCE_GROUP_CREATION',
-  INSTANCE_GROUP_CREATION_FINISHED = 'INSTANCE_GROUP_CREATION_FINISHED',
   TAG_COPYING = 'TAG_COPYING',
   TAG_COPYING_FINISHED = 'TAG_COPYING_FINISHED',
 }
@@ -337,9 +335,7 @@ export class VirtualMachineCreationEffects {
             switchMap((deployedVm: VirtualMachine) => {
               this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
 
-              return this.doCreateInstanceGroup(deployedVm, action.payload).pipe(
-                switchMap(virtualMachine => this.doCopyTags(virtualMachine, action.payload)),
-              );
+              return this.doCopyTags(deployedVm, action.payload);
             }),
             map(vmWithTags => {
               if (action.payload.doStartVm) {
@@ -403,7 +399,6 @@ export class VirtualMachineCreationEffects {
     private dialog: MatDialog,
     private resourceUsageService: ResourceUsageService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
-    private instanceGroupService: InstanceGroupService,
     private vmTagService: VmTagService,
     private snackBar: SnackBarService,
   ) {}
@@ -421,12 +416,6 @@ export class VirtualMachineCreationEffects {
         break;
       case VmDeploymentStage.FINISHED:
         this.onDeployDone();
-        break;
-      case VmDeploymentStage.INSTANCE_GROUP_CREATION:
-        this.onInstanceGroupCreation();
-        break;
-      case VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED:
-        this.onInstanceGroupCreationFinished();
         break;
       case VmDeploymentStage.TAG_COPYING:
         this.onTagCopying();
@@ -448,7 +437,6 @@ export class VirtualMachineCreationEffects {
     return [
       this.createSecurityGroup(state) ? VmDeploymentStage.SG_GROUP_CREATION : null,
       VmDeploymentStage.VM_CREATION_IN_PROGRESS,
-      this.createInstanceGroup(state) ? VmDeploymentStage.INSTANCE_GROUP_CREATION : null,
       doCopyTags ? VmDeploymentStage.TAG_COPYING : null,
     ].filter(_ => _);
   }
@@ -457,7 +445,6 @@ export class VirtualMachineCreationEffects {
     const translations = {
       [VmDeploymentStage.SG_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_SG',
       [VmDeploymentStage.VM_CREATION_IN_PROGRESS]: 'VM_PAGE.VM_CREATION.DEPLOYING_VM',
-      [VmDeploymentStage.INSTANCE_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP',
       [VmDeploymentStage.TAG_COPYING]: 'VM_PAGE.VM_CREATION.TAG_COPYING',
     };
 
@@ -490,19 +477,6 @@ export class VirtualMachineCreationEffects {
 
   private onVmCreationFinished(): void {
     this.updateLoggerMessage('VM_PAGE.VM_CREATION.DEPLOYING_VM', [
-      ProgressLoggerMessageStatus.Done,
-    ]);
-  }
-
-  private onInstanceGroupCreation(): void {
-    this.updateLoggerMessage('VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP', [
-      ProgressLoggerMessageStatus.Highlighted,
-      ProgressLoggerMessageStatus.InProgress,
-    ]);
-  }
-
-  private onInstanceGroupCreationFinished(): void {
-    this.updateLoggerMessage('VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP', [
       ProgressLoggerMessageStatus.Done,
     ]);
   }
@@ -551,9 +525,6 @@ export class VirtualMachineCreationEffects {
     state.securityGroupData.mode === VmCreationSecurityGroupMode.Builder &&
     !!state.securityGroupData.rules.templates.length;
 
-  private createInstanceGroup = (state: VmCreationState) =>
-    state.instanceGroup && !!state.instanceGroup.name;
-
   private doCreateSecurityGroup(state: VmCreationState) {
     if (this.createSecurityGroup(state)) {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.SG_GROUP_CREATION });
@@ -561,24 +532,6 @@ export class VirtualMachineCreationEffects {
       return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state);
     }
     return of(state.securityGroupData.securityGroups);
-  }
-
-  private doCreateInstanceGroup(vm: VirtualMachine, state: VmCreationState) {
-    if (this.createInstanceGroup(state)) {
-      this.handleDeploymentMessages({ stage: VmDeploymentStage.INSTANCE_GROUP_CREATION });
-
-      return this.instanceGroupService.add(vm, state.instanceGroup).pipe(
-        map((virtualMachine: VirtualMachine) => {
-          this.store.dispatch(
-            new vmActions.DeploymentChangeStatus({
-              stage: VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED,
-            }),
-          );
-          return virtualMachine;
-        }),
-      );
-    }
-    return of(vm);
   }
 
   private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
@@ -610,6 +563,10 @@ export class VirtualMachineCreationEffects {
 
     if (state.affinityGroup) {
       params.affinityGroupNames = state.affinityGroup.name;
+    }
+
+    if (state.instanceGroup) {
+      params.group = state.instanceGroup;
     }
 
     params.startVm = state.doStartVm.toString();

@@ -14,13 +14,23 @@ import { loadVmLogFilesRequestParams } from './selectors/load-vm-log-files-reque
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { filter, takeUntil } from 'rxjs/internal/operators';
 import { loadAutoUpdateVmLogsRequestParams } from './selectors/load-auto-update-vm-logs-request-params.selector';
-import moment = require('moment');
 import * as fromVmLogsAutoUpdate from './vm-logs-auto-update.reducers';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Router } from '@angular/router';
 import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
 import { configSelectors, UserTagsSelectors } from '../../root-store';
-import { filterNewestFirst, selectAll as selectVmLogs } from './vm-logs.reducers';
+import { UserTagsActionTypes } from '../../root-store/server-data/user-tags/user-tags.actions';
+import * as assign from 'lodash/assign';
+import { getVmLogsFiltersDefaultValues, parseVmLogsFilters } from '../vm-logs-filters';
+import {
+  filterNewestFirst,
+  filters as vmLogsFilters,
+  filterSelectedLogFile,
+  selectAll as selectVmLogs,
+} from './vm-logs.reducers';
+import removeNullsAndEmptyArrays from '../remove-nulls-and-empty-arrays';
+import { selectAll as logFiles } from './vm-log-files.reducers';
+import moment = require('moment');
 
 @Injectable()
 export class VmLogsEffects {
@@ -60,8 +70,18 @@ export class VmLogsEffects {
 
   @Effect()
   resetLogFileOnVmChange$: Observable<Action> = this.actions$.pipe(
-    ofType(vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID),
-    switchMap(() => of(new vmLogsActions.VmLogsUpdateLogFile(null))),
+    ofType(vmLogsActions.VmLogsActionTypes.LOAD_VM_LOG_FILES_RESPONSE),
+    withLatestFrom(
+      this.store.pipe(select(filterSelectedLogFile)),
+      this.store.pipe(select(logFiles)),
+    ),
+    map(([_, logFile, currentLogFiles]) => {
+      if (!currentLogFiles.find(lf => lf.file === logFile)) {
+        return new vmLogsActions.VmLogsUpdateLogFile(null);
+      }
+
+      return new vmLogsActions.VmLogsUpdateLogFile(logFile);
+    }),
   );
 
   @Effect()
@@ -182,6 +202,54 @@ export class VmLogsEffects {
       vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST,
     ),
     map(() => new vmLogsActions.ResetVmLogsScroll()),
+  );
+
+  @Effect()
+  setFiltersFromUserTags$: Observable<Action> = this.actions$.pipe(
+    ofType(UserTagsActionTypes.LoadUserTagsSuccess),
+    withLatestFrom(
+      this.store.pipe(select(UserTagsSelectors.getVmLogsFilters)),
+      this.store.pipe(select(vmLogsFilters)),
+    ),
+    map(([_, tagFilters, currentFilters]) => {
+      const defaultFilters = getVmLogsFiltersDefaultValues();
+      const parsedTagFilters = parseVmLogsFilters(tagFilters);
+      const nonNullCurrentFilters = removeNullsAndEmptyArrays(currentFilters);
+
+      const mergedParams = assign(defaultFilters, parsedTagFilters, nonNullCurrentFilters);
+
+      return new vmLogsActions.UpdateFilters(mergedParams);
+    }),
+  );
+
+  @Effect()
+  updateVmLogFilters$: Observable<Action> = this.actions$.pipe(
+    ofType<vmLogsActions.UpdateFilters>(vmLogsActions.VmLogsActionTypes.UPDATE_FILTERS),
+    map(action => action.payload),
+    switchMap(params => {
+      const paramsActionsMap = {
+        vm: vmLogsActions.VmLogsUpdateVmId,
+        search: vmLogsActions.VmLogsUpdateSearch,
+        accounts: vmLogsActions.VmLogsUpdateAccountIds,
+        newestFirst: vmLogsActions.VmLogsUpdateNewestFirst,
+        logFile: vmLogsActions.VmLogsUpdateLogFile,
+        startDate: vmLogsActions.VmLogsUpdateStartDateTime,
+        endDate: vmLogsActions.VmLogsUpdateEndDateTime,
+      };
+
+      const dispatchedActions = Object.keys(paramsActionsMap).reduce((acc, param) => {
+        if (params.hasOwnProperty(param)) {
+          const action = paramsActionsMap[param];
+          const value = params[param];
+
+          return [...acc, new action(value)];
+        }
+
+        return acc;
+      }, []);
+
+      return of(...dispatchedActions);
+    }),
   );
 
   constructor(

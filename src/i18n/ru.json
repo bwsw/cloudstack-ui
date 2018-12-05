@@ -350,7 +350,7 @@
       "SELECT_ZONES": "Выберите зоны",
       "SELECT_GROUPS": "Выберите группы",
       "SELECT_STATES": "Выберите статусы",
-      "NO_GROUP": "Без группы",
+      "NO_GROUP": "Группа по умолчанию",
       "STATE_RUNNING": "Запущенные",
       "STATE_STOPPED": "Остановленные",
       "STATE_DESTROYED": "Удаленные",
@@ -379,11 +379,12 @@
       "DETAILS": {
         "TITLE": "Общая информация",
         "ZONE": "Зона",
-        "HOST_NAME": "Имя хоста"
+        "HOST_NAME": "Имя хоста",
+        "ID": "ID"
       },
       "INSTANCE_GROUP": {
         "TITLE": "Группа",
-        "NO_GROUP": "Без группы",
+        "NO_GROUP": "Группа по умолчанию",
         "CHANGE_INSTANCE_GROUP": "Изменение группы",
         "CREATE_NEW_GROUP": "Создать новую",
         "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
@@ -558,7 +559,7 @@
       "DISK_OFFERING": "Дисковое предложение",
       "DISK_SIZE": "Размер диска",
       "GROUP": "Группа",
-      "NO_GROUP": "Без группы",
+      "NO_GROUP": "Группа по умолчанию",
       "AFFINITY_GROUP": "Аффинитетная группа",
       "SECURITY_GROUPS": "Брандмауэр",
       "KB_US": "Стандартная раскладка (США)",
@@ -577,7 +578,6 @@
       "PRIMARY_STORAGE": "Основного хранилища",
       "CREATING_SG": "Создание группы безопасности...",
       "DEPLOYING_VM": "Создание виртуальной машины...",
-      "CREATING_INSTANCE_GROUP": "Создание группы...",
       "TAG_COPYING": "Копирование тегов из шаблона...",
       "DEPLOYMENT_FINISHED": "Развертывание завершено",
       "OS_TEMPLATE": "ОС шаблон",

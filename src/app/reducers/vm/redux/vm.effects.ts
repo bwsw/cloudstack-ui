@@ -216,7 +216,7 @@ export class VirtualMachinesEffects {
         'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_IN_PROGRESS',
       );
 
-      return this.vmTagService.setGroup(newVm, action.payload.group).pipe(
+      return this.vmService.updateGroup(newVm, action.payload.group).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_DONE';
           this.showNotificationsOnFinish(message, notificationId);
@@ -239,7 +239,7 @@ export class VirtualMachinesEffects {
         'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_IN_PROGRESS',
       );
 
-      return this.vmTagService.removeGroup(action.payload).pipe(
+      return this.vmService.removeGroup(action.payload).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_DONE';
           this.showNotificationsOnFinish(message, notificationId);

@@ -16,8 +16,6 @@ describe('loadVmLogsRequestParams selector', () => {
 
     expect(params).toEqual({
       id,
-      startDate: '1970-01-01T00:00:00.000',
-      endDate: '1970-01-01T00:00:00.000',
       sort: 'timestamp',
     });
   });
@@ -31,8 +29,6 @@ describe('loadVmLogsRequestParams selector', () => {
     expect(params).toEqual({
       id,
       keywords: search,
-      startDate: '1970-01-01T00:00:00.000',
-      endDate: '1970-01-01T00:00:00.000',
       sort: 'timestamp',
     });
   });
