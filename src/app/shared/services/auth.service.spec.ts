@@ -90,7 +90,7 @@ describe('Auth service', () => {
     }),
   ));
 
-  it('should call getCapabilities if user is define', fakeAsync(
+  it('should call getCapabilities if user is defined', fakeAsync(
     inject([AuthService, LocalStorageService], (testService, testStorage) => {
       const spySendCommand = spyOn(testService, 'sendCommand').and.callFake(() => {
         return of({});
@@ -103,7 +103,7 @@ describe('Auth service', () => {
 
       expect(spySendCommand).toHaveBeenCalled();
       expect(spySendCommand).toHaveBeenCalledWith('listCapabilities', {}, '');
-      expect(testService._user).toEqual(user);
+      expect(testService.user).toEqual(user);
     }),
   ));
 

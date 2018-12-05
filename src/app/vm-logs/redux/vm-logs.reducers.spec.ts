@@ -84,7 +84,13 @@ describe('VM logs reducer', () => {
       type: VmLogsActionTypes.VM_LOGS_TOGGLE_NEWEST_FIRST,
     });
 
-    expect(toggledTwiceState).toEqual(initialState);
+    expect(toggledTwiceState).toEqual({
+      ...initialState,
+      filters: {
+        ...initialState.filters,
+        newestFirst: false,
+      },
+    });
   });
 
   it('should remove all logs on auto update', () => {
