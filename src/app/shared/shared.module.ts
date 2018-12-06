@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,7 +10,6 @@ import { DragulaModule } from 'ng2-dragula';
 import { ClipboardModule } from 'ngx-clipboard';
 import {
   SidebarTabNavDirective,
-  BadgeDirective,
   ForbiddenValuesDirective,
   InputTypeNumberDirective,
   IntegerValidatorDirective,
@@ -167,6 +167,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     PopoverModule,
     AngularDraggableModule,
     TranslateModule,
+    MatBadgeModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
@@ -177,7 +178,6 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     ReactiveFormsModule,
     TranslateModule,
     AccountActionsComponent,
-    BadgeDirective,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
@@ -255,7 +255,6 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
   ],
   declarations: [
     AccountActionsComponent,
-    BadgeDirective,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,
