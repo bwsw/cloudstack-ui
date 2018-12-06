@@ -39,7 +39,7 @@ export class VolumeCreationDialogComponent {
     public dialogRef: MatDialogRef<VolumeCreationDialogComponent>,
     public authService: AuthService,
   ) {
-    // todo: check
+    debugger;
     this.newVolume.size = this.minSize;
   }
 

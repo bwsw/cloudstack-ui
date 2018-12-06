@@ -2,24 +2,25 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as capabilityActions from './capabilities.actions';
 import { Capabilities } from '../../../shared/models/capabilities.model';
 
-export interface CapabilitiesState {
+export interface State {
   loading: boolean;
   capabilities: Capabilities;
+}
+
+export interface CapabilitiesState {
+  list: State;
 }
 
 export const capabilitiesReducers = {
   list: reducer,
 };
 
-export const initialState: CapabilitiesState = {
+export const initialState: State = {
   loading: false,
   capabilities: null,
 };
 
-export function reducer(
-  state = initialState,
-  action: capabilityActions.Actions,
-): CapabilitiesState {
+export function reducer(state = initialState, action: capabilityActions.Actions): State {
   switch (action.type) {
     case capabilityActions.ActionTypes.LOAD_CAPABILITIES_REQUEST: {
       return {
@@ -43,9 +44,11 @@ export function reducer(
 
 export const getCapabilitiesState = createFeatureSelector<CapabilitiesState>('capabilities');
 
-export const getCapabilities = createSelector(getCapabilitiesState, state => state.capabilities);
+export const getCapabilities = createSelector(getCapabilitiesState, state => {
+  return state.list.capabilities;
+});
 
-export const isLoading = createSelector(getCapabilitiesState, state => state.loading);
+export const isLoading = createSelector(getCapabilitiesState, state => state.list.loading);
 
 export const getIsAllowedToViewDestroyedVms = createSelector(
   getCapabilities,
