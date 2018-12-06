@@ -149,6 +149,7 @@ import { DayPeriodComponent } from './components/day-period/day-period.component
 import { DiskOfferingSelectorChooserComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-chooser.component';
 import { DiskOfferingSelectorSliderComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-slider.component';
 import { AngularDraggableModule } from 'angular2-draggable';
+import { ResourceQuotasModule } from '../resource-quotas/resource-quotas.module';
 
 // tslint:enable max-line-length
 

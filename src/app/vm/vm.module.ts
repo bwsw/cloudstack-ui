@@ -102,6 +102,7 @@ import {
   VmCreationAffinityGroupListComponent,
 } from './vm-sidebar/affinity-group-selector';
 import { VmCreationAffinityGroupManagerComponent } from './vm-creation/components/affinity-group-manager/vm-creation-affinity-group-manager.component';
+import { ResourceQuotasModule } from '../resource-quotas/resource-quotas.module';
 
 // tslint:enable max-line-length
 
@@ -120,6 +121,7 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
     TagsModule,
     TemplateModule,
     TranslateModule,
+    ResourceQuotasModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),
     StoreModule.forFeature('tags', accountTagsReducers),

@@ -1,0 +1,23 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'cs-request-resources',
+  templateUrl: 'request-resources.component.html',
+  styleUrls: ['request-resources.component.scss'],
+})
+export class RequestResourcesComponent {
+  titles = [
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.INSTANCES',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.IPS',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.VOLUMES',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.SNAPSHOTS',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.TEMPLATES',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.PROJECTS',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.NETWORK',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.VPCS',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.CPUS',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.MEMORY',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.PRIMARY_STORAGE',
+    'RESOURCE_QUOTAS_PAGE.RESOURCES.SECONDARY_STORAGE',
+  ];
+}

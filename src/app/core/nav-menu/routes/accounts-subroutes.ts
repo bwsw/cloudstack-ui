@@ -8,6 +8,12 @@ export const accountsSubroutes: Subroute[] = [
     routeId: 'accounts',
   },
   {
+    text: 'NAVIGATION_SIDEBAR.RESOURCE_QUOTAS',
+    path: '/resource-quotas',
+    icon: 'mdi-tune',
+    routeId: 'accounts',
+  },
+  {
     text: 'NAVIGATION_SIDEBAR.ACTIVITY_LOG',
     path: '/events',
     icon: 'mdi-calendar-text',

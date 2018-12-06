@@ -32,6 +32,7 @@ import { AppComponent } from './app.component';
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { VmLogsModule } from './vm-logs/vm-logs.module';
+import { ResourceQuotasModule } from './resource-quotas/resource-quotas.module';
 
 // tslint:disable-next-line:function-name
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -101,6 +102,7 @@ export function InitAppFactory(
     TemplateModule,
     VmModule,
     AccountModule,
+    ResourceQuotasModule,
     NgIdleKeepaliveModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

@@ -1,0 +1,24 @@
+<h3 mat-dialog-title>{{ 'RESOURCE_QUOTAS_PAGE.REQUEST.REQUEST_RESOURCES' | translate }}</h3>
+<div class="form" mat-dialog-content>
+  <table>
+    <tr class="row" *ngFor="let title of titles">
+      <td class="title">{{ title | translate }}</td>
+      <td class="slider-cell">
+        <mat-slider class="slider" [thumbLabel]="true"></mat-slider>
+      </td>
+      <td class="min">
+        <mat-form-field>
+          <input matInput value="0">
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+</div>
+<mat-dialog-actions>
+  <button class="button" mat-button>
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <button class="button" mat-button>
+    {{ 'COMMON.UPDATE' | translate }}
+  </button>
+</mat-dialog-actions>

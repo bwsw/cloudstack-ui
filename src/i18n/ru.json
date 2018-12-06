@@ -303,6 +303,7 @@
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
     "ACCOUNTS": "Аккаунты",
+    "RESOURCE_QUOTAS": "Квоты ресурсов",
     "LOGS": "Просмотр логов",
     "SETTINGS": "Настройки",
     "LOGOUT": "Выйти",
@@ -1462,6 +1463,28 @@
       "API_KEY": "API ключ",
       "SECRET_KEY": "Секретный ключ"
     }
+  },
+  "RESOURCE_QUOTAS_PAGE": {
+    "RESOURCES": {
+      "INSTANCES": "Instances",
+      "IPS": "IPs",
+      "VOLUMES": "Volumes",
+      "SNAPSHOTS": "Snapshots",
+      "TEMPLATES": "Templates",
+      "PROJECTS": "Projects",
+      "NETWORK": "Network",
+      "VPCS": "VPCs",
+      "CPUS": "CPUs",
+      "MEMORY": "Memory",
+      "PRIMARY_STORAGE": "Primary storage",
+      "SECONDARY_STORAGE": "Secondary storage"
+    },
+    "REQUEST": {
+      "REQUEST_RESOURCES": "Request resources"
+    },
+    "MIN": "Min",
+    "MAX": "Max",
+    "UPDATE": "Update"
   },
   "LOGS_PAGE": {
     "FILTERS": {

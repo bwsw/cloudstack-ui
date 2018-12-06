@@ -1,0 +1,30 @@
+<cs-top-bar></cs-top-bar>
+
+<div class="container">
+  <div class="form">
+    <table>
+      <tr class="row" *ngFor="let title of titles">
+        <td class="title">{{ title | translate }}</td>
+        <td class="min">
+          <mat-form-field>
+            <input
+              matInput
+              [placeholder]="'RESOURCE_QUOTAS_PAGE.MIN' | translate"
+            >
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field>
+            <input
+              matInput
+              [placeholder]="'RESOURCE_QUOTAS_PAGE.MAX' | translate"
+            >
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+    <button class="button" mat-button>
+      {{ 'COMMON.UPDATE' | translate }}
+    </button>
+  </div>
+</div>

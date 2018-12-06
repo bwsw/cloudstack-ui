@@ -303,6 +303,7 @@
     "ACTIVITY_LOG": "Activity log",
     "SSH_KEYS": "SSH keys",
     "ACCOUNTS": "Accounts",
+    "RESOURCE_QUOTAS": "Resource quotas",
     "LOGS": "View logs",
     "SETTINGS": "Settings",
     "LOGOUT": "Logout",
@@ -1466,6 +1467,28 @@
       "API_KEY": "API key",
       "SECRET_KEY": "Secret key"
     }
+  },
+  "RESOURCE_QUOTAS_PAGE": {
+    "RESOURCES": {
+      "INSTANCES": "Instances",
+      "IPS": "IPs",
+      "VOLUMES": "Volumes",
+      "SNAPSHOTS": "Snapshots",
+      "TEMPLATES": "Templates",
+      "PROJECTS": "Projects",
+      "NETWORK": "Network",
+      "VPCS": "VPCs",
+      "CPUS": "CPUs",
+      "MEMORY": "Memory",
+      "PRIMARY_STORAGE": "Primary storage",
+      "SECONDARY_STORAGE": "Secondary storage"
+    },
+    "REQUEST": {
+      "REQUEST_RESOURCES": "Request resources"
+    },
+    "MIN": "Min",
+    "MAX": "Max",
+    "UPDATE": "Update"
   },
   "LOGS_PAGE": {
     "FILTERS": {
