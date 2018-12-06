@@ -16,7 +16,6 @@ import { State } from '../../index';
 import * as vmActions from './vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
-import * as fromVMs from './vm.reducers';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { OsTypeService } from '../../../shared/services/os-type.service';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -41,6 +40,8 @@ import { SnackBarService } from '../../../core/services';
 import { MockTagService } from '../../../../testutils/mocks/tag-services/mock-tag.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
+import { virtualMachineReducers } from './vm.reducers';
+import { capabilitiesReducers } from '../../../reducers/capabilities/redux/capabilities.reducers';
 
 @Injectable()
 export class MockAccessService {}
@@ -140,7 +141,9 @@ describe('Virtual machine Effects', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({ ...fromVMs.virtualMachineReducers }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('virtualMachines', virtualMachineReducers),
+        StoreModule.forFeature('capabilities', capabilitiesReducers),
       ],
       providers: [
         VmService,
