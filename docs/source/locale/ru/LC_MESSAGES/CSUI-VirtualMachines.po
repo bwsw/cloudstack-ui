@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-06 10:47+0700\n"
-"PO-Revision-Date: 2018-12-06 11:20+0700\n"
+"POT-Creation-Date: 2018-12-06 11:19+0700\n"
+"PO-Revision-Date: 2018-12-06 11:44+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -1522,7 +1522,7 @@ msgstr ""
 
 #: ../../CSUI-VirtualMachines.rst:495
 msgid "Delete - Allows deleting a snapshot from the system."
-msgstr "**Удалить** - позволяет удалить снимок. "
+msgstr "**Удалить** - Позволяет удалить снимок. "
 
 #: ../../CSUI-VirtualMachines.rst:500
 msgid "Storage Tab"
@@ -1531,9 +1531,9 @@ msgstr "Вкладка \"Диски\""
 #: ../../CSUI-VirtualMachines.rst:501
 msgid ""
 "The second tab - Storage - contains the information on the volumes allocated to "
-"the virtual machine as well as snapshots created for the VM and its volumes."
+"the virtual machine as well as snapshots created for the volumes."
 msgstr ""
-"Во второй вкладке - \"Диски\" — содержится информация о дисках, выделенных для "
+"Во второй вкладке — \"Диски\" — содержится информация о дисках, выделенных для "
 "ВМ, а также о снимках дисков, если они есть."
 
 #: ../../CSUI-VirtualMachines.rst:505

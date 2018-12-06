@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-06 11:19+0700\n"
-"PO-Revision-Date: 2018-12-06 11:20+0700\n"
+"PO-Revision-Date: 2018-12-06 11:48+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: ../../CSUI-Snapshots.rst:4
 msgid "Snapshots"
-msgstr "Снимки дисков"
+msgstr "Снимки "
 
 #: ../../CSUI-Snapshots.rst:7
 msgid ""
@@ -67,7 +67,7 @@ msgstr "Подраздел \"Снимки виртуальных машин\" н
 
 #: ../../CSUI-Snapshots.rst:18
 msgid "Snapshots List"
-msgstr "Список снимков дисков"
+msgstr "Список снимков "
 
 #: ../../CSUI-Snapshots.rst:20
 msgid ""
@@ -107,7 +107,7 @@ msgstr "Название снимка."
 
 #: ../../CSUI-Snapshots.rst:30
 msgid "Volume/VM name the snapshot is created for."
-msgstr "Диск/машины, с которого/которой создан снимок."
+msgstr "Имя диска/машины, с которого/которой создан снимок."
 
 #: ../../CSUI-Snapshots.rst:31
 msgid "Date and time of creation."
