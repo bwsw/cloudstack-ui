@@ -27,3 +27,7 @@
 .slider {
   min-width: 300px;
 }
+
+:host .mat-form-field {
+  width: 90px !important;
+}

@@ -2,13 +2,13 @@
 <div class="form" mat-dialog-content>
   <table>
     <tr class="row" *ngFor="let title of titles">
-      <td class="title">{{ title | translate }}</td>
+      <td class="title">{{ title.title | translate }}</td>
       <td class="slider-cell">
-        <mat-slider class="slider" [thumbLabel]="true"></mat-slider>
+        <mat-slider [value]="title.value" class="slider" [thumbLabel]="true"></mat-slider>
       </td>
       <td class="min">
         <mat-form-field>
-          <input matInput value="0">
+          <input matInput [value]="title.value">
         </mat-form-field>
       </td>
     </tr>

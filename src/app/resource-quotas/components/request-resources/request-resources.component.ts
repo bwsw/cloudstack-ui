@@ -7,17 +7,23 @@ import { Component } from '@angular/core';
 })
 export class RequestResourcesComponent {
   titles = [
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.INSTANCES',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.IPS',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.VOLUMES',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.SNAPSHOTS',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.TEMPLATES',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.PROJECTS',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.NETWORK',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.VPCS',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.CPUS',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.MEMORY',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.PRIMARY_STORAGE',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.SECONDARY_STORAGE',
+    { title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.INSTANCES', value: Math.floor(Math.random() * 100) },
+    { title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.IPS', value: Math.floor(Math.random() * 100) },
+    { title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.VOLUMES', value: Math.floor(Math.random() * 100) },
+    { title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.SNAPSHOTS', value: Math.floor(Math.random() * 100) },
+    { title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.TEMPLATES', value: Math.floor(Math.random() * 100) },
+    { title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.PROJECTS', value: Math.floor(Math.random() * 100) },
+    { title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.NETWORK', value: Math.floor(Math.random() * 100) },
+    { title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.VPCS', value: Math.floor(Math.random() * 100) },
+    { title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.CPUS', value: Math.floor(Math.random() * 100) },
+    { title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.MEMORY', value: Math.floor(Math.random() * 100) },
+    {
+      title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.PRIMARY_STORAGE',
+      value: Math.floor(Math.random() * 100),
+    },
+    {
+      title: 'RESOURCE_QUOTAS_PAGE.RESOURCES.SECONDARY_STORAGE',
+      value: Math.floor(Math.random() * 100),
+    },
   ];
 }
