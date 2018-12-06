@@ -202,7 +202,7 @@ In the *Advanced* tab you will find the following fields:
 .. figure:: _static/VMs_Create_Advanced1.png
 
 1. **VM host name** - This is a hostname for the machine. It will be shown only in the Virtual Machine tab of the VM details sidebar. The field is optional. You can enter any name you wish but it should start with a Latin letter, contain figures, Latin letters and  ‘-’ (up to 63 symbols) and be unique within the zone. If the field is left empty, the system auto-generates a name in the following form: ``vm-<UID>``. 
-2. **Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field. The group will be saved to the machine `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
+2. **Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field. If no group is assigned, a *Default group* will be displayed for this machine.
 3. **Affinity group** - Select an affinity group in the list or create a new group filling in the form. By clicking "SELECT" in the block you open a form with the list of existing groups and a creation block above the list.
 
     **Create an Affinity group**. To create a new affinity group you should fill in the form at the top of the dialog box:
@@ -414,9 +414,9 @@ It also can be edited from the Tags tab. Click Edit icon |edit icon| next to the
 
 .. figure:: _static/VMs_Tags_EditDescription1.png
 
-2. Details - Displays the VM host name and a zone selected for the VM to be available in.
+2. Details - Displays the VM host name, the zone selected for the VM to be available in, the machine ID.
 
-#. Group - A custom group assigned to the VM. Edit this field by clicking the "Edit" button |edit icon|. In the appeared dialog window choose a group from the drop-down list. Click "Assign" to assign the chosen group to the VM. 
+#. Group - A group the VM is assigned to. Edit this field by clicking the "Edit" button |edit icon|. In the appeared dialog window choose a group from the drop-down list. Click "Assign" to assign the VM to the chosen group. 
 
 .. figure:: _static/VMs_Details_EditGroup2.png
    
@@ -424,12 +424,10 @@ Or you can create a new group right from this window selecting the "Create a new
 
 .. figure:: _static/VMs_Details_CreateGroup.png
    
-To remove the assigned group select the "Remove from the group" option and click "REMOVE" to eliminate the assigned group from the VM.
+To remove a machine from the assigned group select the "Remove from the group" option and click "REMOVE" to eliminate the VM from the group. A *Default group* will be displayed for this machine.
 
 .. figure:: _static/VMs_Details_RemoveGroup2.png
    
-The VM group is a custom group. It is saved to VM tags with ``csui.vm.group`` tag. From the Tags tab, it also can be edited or deleted.
-
 4. Service offering - The service offerings of the VM. Expand the section to view the whole list of offering parameters. 
 
 Edit this field by clicking the "Edit" button |edit icon|. In the appeared window you will see the list of available service offerings. 
@@ -455,12 +453,18 @@ A started virtual machine will be rebooted at editing the service offering.
     If no affinity group is assigned to the VM, or you wish to add another affinity group to the list, click "Add" (+) in the block. A dialog box appears where you can choose an existing group or create a new one. 
     
     Select a group in the list and click "Assign" to assign it to the VM. A user can add several groups to one virtual machine.
+    
+    .. figure:: _static/VMs_Details_EditAffGroup.png
 
     To create an affinity group fill in the form at the top of the dialog box and click "+" to add the group to the list. Then, you can assign the newly created group to the VM.
+    
+    .. figure:: _static/VMs_Details_CreateAffGroup2.png
     
     When assigning an affinity group to a started virtual machine, the system will suggest you stopping the VM. Click "OK" in the dialog window. Then, the VM will be started again.
 
     The selected group/groups can be deleted by clicking |delete icon| near the group name in the list.  
+    
+    .. figure:: _static/VMs_Details_RemoveAffGroup2.png
    
 6. Template - Shows the template used to create the virtual machine.
 
@@ -472,9 +476,29 @@ At saving the new SSH key for a started VM you will see the warning: "You need t
 
 8. Statistics - shows VM statistics on CPU utilized, Network read, Network write, Disk read, Disk write, Disk read (IO), Disk write (IO). Refresh data by clicking the "Refresh" button |refresh icon| in the upper-right corner.
 
+9. VM Snapshots
+
+This section presents the information on snapshots created for the virtual machine. It shows the details for the last taken snapshot, allows viewing a complete list of machine's snapshots and managing them. 
+
+.. figure:: _static/VMs_Details_VMSnapshots.png 
+
+The following information is displayed in this section:
+
+* Details on the last taken snapshot: name, creation date and time;
+* "View All" allows viewing a list of snapshots created for the machine. It opens a modal window where a user can see the list of snapshots and manage them using the action buttons:
+
+.. figure:: _static/VMs_Details_VMSnapshots_List.png 
+
+* A user can manage snapshots in the list using action buttons:
+
+  * Revert VM to snapshot - Allows returning the virtual machine to the state captured in the snapshot.
+  * Delete - Allows deleting a snapshot from the system.
+
+.. figure:: _static/VMs_Details_VMSnapshots_Actions.png 
+
 Storage Tab
 """""""""""""""""""""""""""
-The second tab - Storage - contains the information on the volumes allocated to the virtual machine.
+The second tab - Storage - contains the information on the volumes allocated to the virtual machine as well as snapshots created for the volumes.
 
 .. figure:: _static/VMs_Details_Storage.png
    
@@ -665,6 +689,7 @@ Attach ISO by clicking the "Attach" button in the ISO card. In the dialog window
 You can detach the ISO file by clicking the "Detach" button.
 
 .. figure:: _static/VMs_ISO_Detach2.png
+
 
 .. _VM_Network_Tab:
 

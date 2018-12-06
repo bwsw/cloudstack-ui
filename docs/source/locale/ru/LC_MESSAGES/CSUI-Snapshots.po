@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-22 12:33+0700\n"
-"PO-Revision-Date: 2018-11-22 12:34+0700\n"
+"POT-Creation-Date: 2018-12-06 11:19+0700\n"
+"PO-Revision-Date: 2018-12-06 11:20+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -201,8 +201,8 @@ msgid ""
 msgstr "Для снимков дисков в информационной панели отображаются следующие данные:"
 
 #: ../../CSUI-Snapshots.rst:64 ../../CSUI-Snapshots.rst:73
-msgid "Snapshot name and Actions under the |actions icon| button;"
-msgstr "Имя снимка и список действий под  |actions icon|;"
+msgid "Snapshot name, a state bullet and actions under the |actions icon| button;"
+msgstr "Имя снимка, иконка статуса и список действий под  |actions icon|;"
 
 #: ../../CSUI-Snapshots.rst:65 ../../CSUI-Snapshots.rst:74
 msgid "Date and time of creation;"
@@ -232,7 +232,7 @@ msgstr "Тип - Отображает тип снимка, например, *Di
 
 #: ../../CSUI-Snapshots.rst:76
 msgid ""
-"isCurrent - Defines if the snapshot refers to the most recent snapshot compared "
+"Current - Defines if the snapshot refers to the most recent snapshot compared "
 "to the current state of the VM;"
 msgstr ""
 "Текущий - Показывает, относится ли моментальный снимок к самому последнему "
@@ -256,39 +256,39 @@ msgstr ""
 "Имя виртуальной машины, которой принадлежит снимок. Имя является активной "
 "ссылкой на панель деталей машины."
 
-#: ../../CSUI-Snapshots.rst:84
+#: ../../CSUI-Snapshots.rst:85
 msgid "Snapshot Actions Box"
 msgstr "Список действий со снимком"
 
-#: ../../CSUI-Snapshots.rst:86
+#: ../../CSUI-Snapshots.rst:87
 msgid "The following actions are available for Volume snapshots:"
 msgstr "Для снимков дисков доступны следующие действия:"
 
-#: ../../CSUI-Snapshots.rst:88
+#: ../../CSUI-Snapshots.rst:89
 msgid "Create template;"
 msgstr "Создать шаблон;"
 
-#: ../../CSUI-Snapshots.rst:89
+#: ../../CSUI-Snapshots.rst:90
 msgid "Create volume;"
 msgstr "Создать диск;"
 
-#: ../../CSUI-Snapshots.rst:90
+#: ../../CSUI-Snapshots.rst:91
 msgid "Revert volume to snapshot;"
 msgstr "Вернуть диск к состоянию снимка;"
 
-#: ../../CSUI-Snapshots.rst:91 ../../CSUI-Snapshots.rst:98
+#: ../../CSUI-Snapshots.rst:92 ../../CSUI-Snapshots.rst:99
 msgid "Delete."
 msgstr "Удалить. "
 
-#: ../../CSUI-Snapshots.rst:95
+#: ../../CSUI-Snapshots.rst:96
 msgid "The following actions are available for Virtual Machine snapshots:"
 msgstr "Для снимков виртуальных машин доступны следующие действия:"
 
-#: ../../CSUI-Snapshots.rst:97
+#: ../../CSUI-Snapshots.rst:98
 msgid "Revert VM to snapshot;"
 msgstr "Вернуть машину к состоянию снимка;"
 
-#: ../../CSUI-Snapshots.rst:102
+#: ../../CSUI-Snapshots.rst:103
 msgid ""
 "For a newly created snapshot the \"Delete\" action is available only till the "
 "snapshot is backed up to the Secondary Storage that may take some time. Once it "
@@ -300,43 +300,43 @@ msgstr ""
 "снимок будет скопирован во вторичное хранилище (что обозначено в UI зеленой "
 "иконкой статуса), для него будет доступен полный список действий."
 
-#: ../../CSUI-Snapshots.rst:104
+#: ../../CSUI-Snapshots.rst:105
 msgid "Below you will find details for each action."
 msgstr "Ниже каждое действие описано подробнее."
 
-#: ../../CSUI-Snapshots.rst:106
+#: ../../CSUI-Snapshots.rst:107
 msgid "**Create Template**"
 msgstr "**Создат шаблон**"
 
-#: ../../CSUI-Snapshots.rst:108
+#: ../../CSUI-Snapshots.rst:109
 msgid "Open a creation form to register a new template from a Volume snapshot."
 msgstr "Откройте форму создания шаблона из снимка диска."
 
-#: ../../CSUI-Snapshots.rst:110
+#: ../../CSUI-Snapshots.rst:111
 msgid "Fill in the fields:"
 msgstr "Заполните поля:"
 
-#: ../../CSUI-Snapshots.rst:112
+#: ../../CSUI-Snapshots.rst:113
 msgid "Required fields are marked with an asterisk (*)."
 msgstr "Обязательные поля отмечены \"звездочкой\" (*)."
 
-#: ../../CSUI-Snapshots.rst:114
+#: ../../CSUI-Snapshots.rst:115
 msgid "Name * - Enter a name of the new template."
 msgstr "Название * - введите название нового шаблона."
 
-#: ../../CSUI-Snapshots.rst:115
+#: ../../CSUI-Snapshots.rst:116
 msgid "Description * - Provide a short description of the template."
 msgstr "Описание * - дайте краткое описание для шаблона."
 
-#: ../../CSUI-Snapshots.rst:116
+#: ../../CSUI-Snapshots.rst:117
 msgid "OS type * - Select an OS type from the drop-down list."
 msgstr "Тип ОС * - выберите тип ОС из ниспадающего списка."
 
-#: ../../CSUI-Snapshots.rst:117
+#: ../../CSUI-Snapshots.rst:118
 msgid "Group - Select a group from the drop-down list."
 msgstr "Группа - выберите группу из ниспадающего списка."
 
-#: ../../CSUI-Snapshots.rst:118
+#: ../../CSUI-Snapshots.rst:119
 msgid ""
 "Password enabled - Tick this option if your template has the CloudStack "
 "password change script installed. That means the VM created on the base of this "
@@ -346,7 +346,7 @@ msgstr ""
 "скрипт изменения пароля CloudStack. То есть, машина, созданная на основе "
 "данного шаблона, будет доступна по паролю, и пароль можно изменить."
 
-#: ../../CSUI-Snapshots.rst:119
+#: ../../CSUI-Snapshots.rst:120
 msgid ""
 "Dynamically scalable - Tick this option if the template contains XS/VM Ware "
 "tools to support dynamic scaling of VM CPU/memory."
@@ -355,7 +355,7 @@ msgstr ""
 "содержит инструмент XS/VM Ware для поддержки динамического масштабирования CPU/"
 "памяти ВМ."
 
-#: ../../CSUI-Snapshots.rst:121
+#: ../../CSUI-Snapshots.rst:122
 msgid ""
 "Click “Show additional fields” to expand the list of optional settings. It "
 "allows creating a template that requires HVM. Tick this option in this case."
@@ -364,24 +364,24 @@ msgstr ""
 "дополнительных параметров настройки. Откроется флажок HVM. Он позволяет создать "
 "шаблон, который требует HVM. Отметьте эту опцию при необходимости."
 
-#: ../../CSUI-Snapshots.rst:123
+#: ../../CSUI-Snapshots.rst:124
 msgid "Once all fields are filled in click \"Create\" to create the new template."
 msgstr ""
 "Как только все поля заполнены, нажмите «СОЗДАТЬ», чтобы создать новый шаблон."
 
-#: ../../CSUI-Snapshots.rst:127
+#: ../../CSUI-Snapshots.rst:128
 msgid "Click \"Cancel\" to cancel the template creation."
 msgstr "Чтобы отменить создание шаблона, нажмите \"ОТМЕНИТЬ\"."
 
-#: ../../CSUI-Snapshots.rst:129
+#: ../../CSUI-Snapshots.rst:130
 msgid "**Create Volume**"
 msgstr "**Создание диска**"
 
-#: ../../CSUI-Snapshots.rst:131
+#: ../../CSUI-Snapshots.rst:132
 msgid "This action allows creating a volume from a Volume snapshot."
 msgstr "Данное действие позволяет создать диск из снимка диска."
 
-#: ../../CSUI-Snapshots.rst:133
+#: ../../CSUI-Snapshots.rst:134
 msgid ""
 "Type a name for a new volume into the Name field in the modal window. Click "
 "\"CREATE\" to register a new volume."
@@ -389,15 +389,15 @@ msgstr ""
 "В открывшемся окне введите название диска в поле \"Название\". Нажмите \"СОЗДАТЬ"
 "\", чтобы сохранить новый диск. "
 
-#: ../../CSUI-Snapshots.rst:137
+#: ../../CSUI-Snapshots.rst:138
 msgid "Click \"CANCEL\" to cancel the volume creation."
 msgstr "Чтобы отменить создание диска, нажмите \"ОТМЕНИТЬ\"."
 
-#: ../../CSUI-Snapshots.rst:139
+#: ../../CSUI-Snapshots.rst:140
 msgid "**Revert Volume to Snapshot**"
 msgstr "**Вернуть диск к снимку**"
 
-#: ../../CSUI-Snapshots.rst:141
+#: ../../CSUI-Snapshots.rst:142
 msgid ""
 "This action is available for Volume snapshots. It allows turning the volume "
 "back to the state of the snapshot. It is available to those snapshots that have "
@@ -406,7 +406,7 @@ msgstr ""
 "Данное действие доступно для снимков дисков. С помощью него можно вернуть "
 "состояние диска к снимку. Оно доступно для тех снимков, у которых есть диск. "
 
-#: ../../CSUI-Snapshots.rst:143
+#: ../../CSUI-Snapshots.rst:144
 msgid ""
 "In the dialog window confirm your action. Please, note, the virtual machine the "
 "volume is assigned to will be rebooted."
@@ -414,11 +414,11 @@ msgstr ""
 "В диалоговом окне подтвердите ваше действие. Обратите внимание, что виртуальная "
 "машина, к которой относится диск, будет перезагружена. "
 
-#: ../../CSUI-Snapshots.rst:147
+#: ../../CSUI-Snapshots.rst:148
 msgid "**Revert VM to Snapshot**"
 msgstr "**Вернуть машину к снимку**"
 
-#: ../../CSUI-Snapshots.rst:149
+#: ../../CSUI-Snapshots.rst:150
 msgid ""
 "This action is available for Virtual Machine snapshots. It allows turning the "
 "VM back to the state of the snapshot. It is useful if you implemented any "
@@ -430,7 +430,7 @@ msgstr ""
 "изменения и что-то пошло не так, как планировалось. Тогда с помощью этого "
 "действия можно быстро восстановить машину до состояния снимка."
 
-#: ../../CSUI-Snapshots.rst:151
+#: ../../CSUI-Snapshots.rst:152
 msgid ""
 "Select \"Revert VM to Snapshot\" from the actions list and confirm your action "
 "in the dialog window. The VM state will be reverted to the snapshot."
@@ -438,15 +438,15 @@ msgstr ""
 "Выберите \"Вернуть ВМ к снимку\" в списке действий и подтвердите свое действие "
 "в диалоговом окне. Состояние машины вернется к состоянию снимка."
 
-#: ../../CSUI-Snapshots.rst:155
+#: ../../CSUI-Snapshots.rst:156
 msgid "**Delete**"
 msgstr "**Удалить**"
 
-#: ../../CSUI-Snapshots.rst:157
+#: ../../CSUI-Snapshots.rst:158
 msgid "This action allows deleting a snapshot from the system."
 msgstr "Данное действие позволяет удалить снимок из системы."
 
-#: ../../CSUI-Snapshots.rst:159
+#: ../../CSUI-Snapshots.rst:160
 msgid ""
 "Click \"Delete\" in the Action box and confirm your action in modal window. The "
 "snapshot will be deleted."
@@ -454,7 +454,7 @@ msgstr ""
 "Нажмите \"Удалить\" в списке действия и подтвердите свое действие в появившемся "
 "окне. Снимок будет удален.  "
 
-#: ../../CSUI-Snapshots.rst:163
+#: ../../CSUI-Snapshots.rst:164
 msgid "Click \"NO\" to cancel the snapshot deleting."
 msgstr "Чтобы отменить удаление снимка, нажмите \"НЕТ\"."
 
