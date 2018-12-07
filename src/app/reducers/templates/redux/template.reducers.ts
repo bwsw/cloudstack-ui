@@ -18,6 +18,7 @@ import * as vmActions from '../../vm/redux/vm.actions';
 
 export interface ListState extends EntityState<BaseTemplateModel> {
   loading: boolean;
+  loaded: boolean;
   selectedTemplateId: string | null;
   filters: {
     selectedViewMode: string;
@@ -49,6 +50,7 @@ export const adapter: EntityAdapter<BaseTemplateModel> = createEntityAdapter<Bas
 
 const initialListState: ListState = adapter.getInitialState({
   loading: false,
+  loaded: false,
   selectedTemplateId: null,
   filters: {
     selectedViewMode: templateResourceType.template,
@@ -104,6 +106,7 @@ export function listReducer(state = initialListState, action: templateActions.Ac
       return {
         ...adapter.addAll([...action.payload], state),
         loading: false,
+        loaded: true,
       };
     }
     case templateActions.TEMPLATE_CREATE_SUCCESS: {
@@ -191,6 +194,8 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
 );
 
 export const isLoading = createSelector(getTemplatesEntitiesState, state => state.loading);
+
+export const isLoaded = createSelector(getTemplatesEntitiesState, state => state.loaded);
 
 export const filters = createSelector(getTemplatesEntitiesState, state => state.filters);
 

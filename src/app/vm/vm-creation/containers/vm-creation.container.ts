@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Subscription } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs/operators';
 
 import {
   accountResourceType,
@@ -37,6 +37,7 @@ import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import { AuthService } from '../../../shared/services/auth.service';
+import * as fromAccountTags from '../../../reducers/account-tags/redux/account-tags.reducers';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -81,20 +82,24 @@ import { AuthService } from '../../../shared/services/auth.service';
     ></cs-vm-creation>
   `,
 })
-export class VmCreationContainerComponent implements OnInit {
-  readonly vmFormState$ = this.store.pipe(select(fromVMs.getVmFormState));
+export class VmCreationContainerComponent implements OnInit, OnDestroy {
+  readonly isDataLoaded$ = combineLatest(
+    this.store.pipe(select(fromZones.isLoaded)),
+    this.store.pipe(select(fromServiceOfferings.isLoaded)),
+    this.store.pipe(select(fromAuth.isLoaded)),
+    this.store.pipe(select(fromTemplates.isLoaded)),
+    this.store.pipe(select(fromAffinityGroups.isLoaded)),
+    this.store.pipe(select(fromAccounts.isLoaded)),
+    this.store.pipe(select(UserTagsSelectors.getIsLoaded)),
+    this.store.pipe(select(fromAccountTags.isLoaded)),
+  ).pipe(map(loadings => loadings.every(Boolean)));
+
   readonly isLoading$ = combineLatest(
-    this.store.pipe(select(fromVMs.formIsLoading)),
-    this.store.pipe(select(fromZones.isLoading)),
-    this.store.pipe(select(fromServiceOfferings.isLoading)),
-    this.store.pipe(select(fromAuth.isLoading)),
-    this.store.pipe(select(fromTemplates.isLoading)),
-    this.store.pipe(select(fromAffinityGroups.isLoading)),
-    this.store.pipe(
-      select(UserTagsSelectors.getIsLoaded),
-      map(loaded => !loaded),
-    ),
-  ).pipe(map((loadings: boolean[]) => !!loadings.find(loading => loading)));
+    this.store.pipe(select(fromVMs.formIsLoaded)),
+    this.isDataLoaded$,
+  ).pipe(map(loadings => !loadings.every(Boolean)));
+
+  readonly vmFormState$ = this.store.pipe(select(fromVMs.getVmFormState));
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));
   readonly vms$ = this.store.pipe(select(fromVMs.selectAll));
@@ -110,6 +115,7 @@ export class VmCreationContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
+  readonly formInitSubscription: Subscription;
   public isDiskOfferingAvailableByResources$;
   public minSize: number;
 
@@ -137,7 +143,17 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.store.dispatch(new vmActions.VmCreationFormInit());
+    this.isDataLoaded$
+      .pipe(
+        filter(Boolean),
+        take(1),
+        tap(() => this.store.dispatch(new vmActions.VmCreationFormInit())),
+      )
+      .subscribe();
+  }
+
+  public ngOnDestroy(): void {
+    this.formInitSubscription.unsubscribe();
   }
 
   public onDisplayNameChange(displayName: string) {
