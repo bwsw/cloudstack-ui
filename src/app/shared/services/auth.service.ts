@@ -11,7 +11,6 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService, CSCommands } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
-import { JobsNotificationService } from './jobs-notification.service';
 
 export interface Capabilities {
   allowusercreateprojects: boolean;
@@ -45,7 +44,6 @@ export class AuthService extends BaseBackendService<BaseModel> {
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
     protected http: HttpClient,
-    protected jobsNotificationService: JobsNotificationService,
   ) {
     super(http);
     this.user$ = this.userSubject.asObservable();
@@ -59,7 +57,6 @@ export class AuthService extends BaseBackendService<BaseModel> {
     } catch (e) {}
 
     this.loggedIn.next(!!(this.user && this.user.userid));
-    this.jobsNotificationService.reset();
 
     return this.user && this.user.userid ? this.getCapabilities().toPromise() : Promise.resolve();
   }
