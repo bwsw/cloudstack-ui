@@ -118,7 +118,6 @@ export class VmCreationContainerComponent implements OnInit {
     private dialogRef: MatDialogRef<VmCreationContainerComponent>,
     private authService: AuthService,
   ) {
-    this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
