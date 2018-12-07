@@ -39,4 +39,27 @@ export class VMSidebar extends CloudstackUiPage {
   clickClose() {
     element(by.css('.backdrop.ng-star-inserted')).click();
   }
+
+  clickTagTab() {
+    element
+      .all(by.css('.mat-tab-link'))
+      .last()
+      .click();
+  }
+
+  deleteTag() {
+    // element(by.css('.mdi-delete.mat-icon.mdi')).click();
+  }
+
+  getTagKey(expected) {
+    return element(by.css('.mat-card-content-container')).element(
+      by.cssContainingText('.key', expected),
+    );
+  }
+
+  getTagValue(expected) {
+    return element(by.css('.mat-card-content-container')).element(
+      by.cssContainingText('.value', expected),
+    );
+  }
 }

@@ -70,8 +70,8 @@ describe('e2e-test-login', () => {
     browser.waitForAngularEnabled(false);
     page.waitRedirect('instances');
     page.checkUrlToContain('instances');
-    vmlist.waitVMPropose();
-    vmlist.cancelVMPropose();
+    vmlist.waitDialogModal();
+    vmlist.cancelDialog();
     page.logout();
     page.waitUrlContains('login');
   });
@@ -81,8 +81,8 @@ describe('e2e-test-login', () => {
     page.login();
     browser.waitForAngularEnabled(false);
     page.waitRedirect('instances');
-    vmlist.waitVMPropose();
-    vmlist.cancelVMPropose();
+    vmlist.waitDialogModal();
+    vmlist.cancelDialog();
     page.logout();
     page.waitUrlContains('login');
     browser.get(`${browser.baseUrl}/instances`);

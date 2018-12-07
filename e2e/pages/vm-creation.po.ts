@@ -39,31 +39,16 @@ export class VMCreation extends CloudstackUiPage {
       .getText();
   }
 
-  clickYesDialogButton() {
-    element
-      .all(by.css('.mat-button.mat-primary'))
-      .last()
-      .click();
-    browser.waitForAngular();
-  }
-
-  getYesDialogButton() {
-    return element.all(by.css('.mat-button.mat-primary')).last();
-  }
-
-  clickNoDialogButton() {
-    element
-      .all(by.css('.mat-button.mat-primary'))
-      .first()
-      .click();
-    browser.waitForAngular();
-  }
-
   setDisplayName(name) {
-    element(by.name('displayName')).sendKeys(name);
+    const input1 = element(by.name('displayName'));
+    input1.sendKeys(name);
+    expect(input1.getAttribute('value')).toBe(name);
   }
+
   setHostName(name) {
-    element(by.name('hostName')).sendKeys(name);
+    const input1 = element(by.name('hostName'));
+    input1.sendKeys(name);
+    expect(input1.getAttribute('value')).toBe(name);
   }
 
   getZone() {
@@ -132,6 +117,30 @@ export class VMCreation extends CloudstackUiPage {
           by.css('.name-container.ng-star-inserted'),
         ),
         'anti-affinity',
+      ),
+      5000,
+    );
+  }
+
+  setPrivateSG() {
+    element
+      .all(by.css('.fancy-select-button.mat-button'))
+      .last()
+      .click();
+    this.waitDialogModal();
+    element(by.cssContainingText('.mat-button-toggle-label-content', ' Create new ')).click();
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(element(by.tagName('mat-list-item'))), 3000);
+    element(by.tagName('mat-list-item')).click();
+    element(by.css('.mdi-chevron-right.mat-icon.mdi')).click();
+    element
+      .all(by.css('.mat-button.mat-primary'))
+      .last()
+      .click();
+    browser.wait(
+      EC.textToBePresentInElement(
+        element(by.name('sgm')).element(by.css('.ellipsis-overflow.ng-star-inserted')),
+        'Based on TCP Permit All',
       ),
       5000,
     );

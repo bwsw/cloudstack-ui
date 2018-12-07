@@ -16,7 +16,7 @@ export class VMDeploy extends CloudstackUiPage {
 
   waitVMDeploy() {
     const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element.all(by.css('.mat-button.mat-primary')).last()), 5000);
+    browser.wait(EC.visibilityOf(element.all(by.css('.mat-button.mat-primary')).last()), 20000);
   }
 
   getProgressText() {

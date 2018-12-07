@@ -8,6 +8,9 @@ import { VMSidebar } from './pages/vm-sidebar.po';
 import { AccessVM } from './pages/accessVM.po';
 import { SGList } from './pages/sg-list.po';
 import { SGSidebar } from './pages/sg-sidebar.po';
+import { ImageList } from './pages/template-list.po';
+import { ImageSidebar } from './pages/template-sidebar.po';
+import { Settings } from './pages/settings.po';
 
 describe('e2e-test-vm-creation', () => {
   let page: VMCreation;
@@ -18,6 +21,9 @@ describe('e2e-test-vm-creation', () => {
   let accessVM: AccessVM;
   let sglist: SGList;
   let sgsidebar: SGSidebar;
+  let imlist: ImageList;
+  let imsidebar: ImageSidebar;
+  let settings: Settings;
 
   beforeAll(() => {
     browser.driver
@@ -39,17 +45,19 @@ describe('e2e-test-vm-creation', () => {
     accessVM = new AccessVM();
     sglist = new SGList();
     sgsidebar = new SGSidebar();
+    imlist = new ImageList();
+    imsidebar = new ImageSidebar();
+    settings = new Settings();
+    vmlist.clickVMMenu();
   });
 
-  it('Verify dialog VM Propose appears', () => {
+  /*
+  it('Verify dialog VM Propose appears, Create VM with Template(), group, aff-group, checked start VM, deploy: progress, vnc console', () => {
+    // vmlist.clickCreateVM();
     vmlist.waitVMPropose();
     expect(vmlist.getVMPropose().isPresent()).toBeTruthy();
     vmlist.confirmVMPropose();
     page.waitDialogModal();
-  });
-
-  it('Create VM with Template, group, aff-group, checked start VM', () => {
-    // vmlist.clickCreateVM();
     page.setDisplayName(page.name);
     expect(page.getZone()).toEqual(page.zone);
     expect(page.getSO()).toContain(page.so);
@@ -70,12 +78,9 @@ describe('e2e-test-vm-creation', () => {
     expect(page.getStartVM().isSelected).toBeTruthy();
     expect(page.getSelectedRules()).toEqual(page.rule);
     page.setAffGroupName(page.aff);
-    page.setDefaultSGRule();
+    // page.setDefaultSGRule();
     page.setGroupName(page.group);
     page.clickYesDialogButton();
-  });
-
-  it('Verify deploy: progress, vnc console', () => {
     deploy.waitVMDeploy();
     expect(deploy.getConsoleButton().isPresent()).toBeTruthy();
     expect(deploy.getDeployText()).toEqual(deploy.deployText);
@@ -126,5 +131,135 @@ describe('e2e-test-vm-creation', () => {
     page.setDefaultSGRule();
     expect(page.getYesDialogButton().isEnabled()).toBeFalsy();
     expect(page.getErrorHostName().isPresent()).toBeTruthy();
+    page.clickNoDialogButton();
+  });
+
+
+  it('Create VM with Template(Agreement+SSH),custom SO, group, aff-group, checked start VM', () => {
+    vmlist.clickImageMenu();
+    imlist.clickOpenSidebar();
+    imsidebar.clickTagTab();
+    // imsidebar.setTag('csui.template.agreement', 'agreements/template-uuid-agreement.md');
+    // imsidebar.setTag('csui.vm.auth-mode', 'SSH');
+    imsidebar.clickClose();
+    imlist.clickVMMenu();
+    vmlist.clickCreateVM();
+    page = new VMCreation();
+    page.setDisplayName(page.name);
+    // Add wait creation windows
+    // page.clickSelectInstSource();
+    // page.waitDialogModal();
+    // Verify template tab selected and template is selected
+    // expect(page.getSelectedTemplate().isPresent()).toBeTruthy();
+    // expect(page.getSelectedTabText()).toEqual(template);
+    // page.clickYesDialogButton();
+    // Go to Advanced Tab
+    page.clickAdvancedTab();
+    expect(page.getStartVM().isSelected).toBeTruthy();
+    page.setAffGroupName(page.aff);
+    page.setPrivateSG();
+    page.setGroupName(page.group);
+    page.clickYesDialogButton();
+    page.waitDialogModal();
+    expect(page.getDialog().isPresent()).toBeTruthy();
+    expect(page.getYesDialogButton().getText()).toEqual('I AGREE');
+    page.clickYesDialogButton();
+    deploy.waitVMDeploy();
+    expect(deploy.getConsoleButton().isPresent()).toBeTruthy();
+    expect(deploy.getDeployText()).toEqual(deploy.deployText);
+    expect(deploy.getProgressText()).toEqual(deploy.progressText);
+    deploy.clickClose();
+  });
+
+
+  it('Verify access VM: ssh', () => {
+    page = new VMCreation();
+    // expect(vmlist.getStateStopped().isPresent()).toBeTruthy(); - can't get access for stopped VM
+    vmlist.clickOpenAccessVM();
+    expect(accessVM.getTitle()).toEqual('Access VM');
+    expect(accessVM.getConsoleButton().isPresent).toBeTruthy();
+    accessVM.clickSSHTab();
+    expect(accessVM.getConnectionString().getText()).toContain('ssh -p 22 -u root'); //add check ip address
+    expect(accessVM.getPort().getText()).toContain('22');
+    expect(accessVM.getLogin().getText()).toContain('root');
+
+    expect(accessVM.getWebshellButton().isPresent).toBeTruthy();
+    accessVM.clickClose();
+  });
+
+  it('Verify sidebar VM: tags ssh', () => {
+    page = new VMCreation();
+    vmlist.clickOpenSidebar();
+    sidebar.clickTagTab();
+    expect(sidebar.getTagKey('csui.template.agreement').isPresent()).toBeTruthy();
+    expect(sidebar.getTagValue('agreements/template-uuid-agreement.md').isPresent()).toBeTruthy();
+    expect(sidebar.getTagKey('csui.vm.auth-mode').isPresent()).toBeTruthy();
+    expect(sidebar.getTagValue('SSH').isPresent()).toBeTruthy();
+    expect(sidebar.getTagKey('csui.vm.group').isPresent()).toBeTruthy();
+    expect(sidebar.getTagValue(page.group).isPresent()).toBeTruthy();
+    sidebar.clickClose();
+  });
+
+  it('Create VM with Template(HTTP), save password, checked start VM', () => {
+    page = new VMCreation();
+    vmlist.clickMainMenu();
+    vmlist.clickMainAccounts();
+    vmlist.clickSettings();
+    settings.setSavePassword();
+    settings.clickMainMenu();
+    settings.clickMainVM();
+    vmlist.clickImageMenu();
+    imlist.clickOpenSidebar();
+    imsidebar.clickTagTab();
+    imsidebar.setTag('csui.vm.auth-mode', 'HTTP');
+    imsidebar.setTag('csui.vm.http.protocol', 'HTTP');
+    imsidebar.setTag('csui.vm.http.login', 'login');
+    imsidebar.setTag('csui.vm.http.password', 'password');
+    imsidebar.clickClose();
+    imlist.clickVMMenu();
+    vmlist.clickCreateVM();
+    page = new VMCreation();
+    page.setDisplayName(page.name);
+    // Add wait creation windows
+    // page.clickSelectInstSource();
+    // page.waitDialogModal();
+    // Verify template tab selected and template is selected
+    // expect(page.getSelectedTemplate().isPresent()).toBeTruthy();
+    // expect(page.getSelectedTabText()).toEqual(template);
+    // page.clickYesDialogButton();
+    // Go to Advanced Tab
+    page.clickAdvancedTab();
+    expect(page.getStartVM().isSelected).toBeTruthy();
+    page.setPrivateSG();
+    page.clickYesDialogButton();
+    deploy.waitVMDeploy();
+    expect(deploy.getConsoleButton().isPresent()).toBeTruthy();
+    expect(deploy.getDeployText()).toEqual(deploy.deployText);
+    expect(deploy.getProgressText()).toEqual(deploy.progressText);
+    deploy.clickClose();
+  });
+
+ */
+  it('Verify access VM: http', () => {
+    page = new VMCreation();
+    vmlist.clickOpenAccessVM();
+    expect(accessVM.getTitle()).toEqual('Access VM');
+    expect(accessVM.getConsoleButton().isPresent).toBeTruthy();
+    accessVM.clickHTTPTab();
+    expect(accessVM.getHttpLogin().getText()).toContain('login');
+    expect(accessVM.getHttpPassword().getText()).toContain('password');
+    // add test for url with ip
+    accessVM.clickClose();
+  });
+
+  it('Verify sidebar VM: tags http', () => {
+    page = new VMCreation();
+    vmlist.clickOpenSidebar();
+    sidebar.clickTagTab();
+    expect(sidebar.getTagKey('csui.vm.http.login').isPresent()).toBeTruthy();
+    expect(sidebar.getTagValue('login').isPresent()).toBeTruthy();
+    expect(sidebar.getTagKey('csui.vm.http.password').isPresent()).toBeTruthy();
+    expect(sidebar.getTagValue('password').isPresent()).toBeTruthy();
+    sidebar.clickClose();
   });
 });

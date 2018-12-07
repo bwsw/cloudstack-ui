@@ -1,4 +1,4 @@
-import { by, element, protractor, browser } from 'protractor';
+import { by, element } from 'protractor';
 import { CloudstackUiPage } from './app.po';
 
 export class SGSidebar extends CloudstackUiPage {
