@@ -1475,9 +1475,9 @@
       "NETWORK": "Network",
       "VPCS": "VPCs",
       "CPUS": "CPUs",
-      "MEMORY": "Memory",
-      "PRIMARY_STORAGE": "Primary storage",
-      "SECONDARY_STORAGE": "Secondary storage"
+      "MEMORY": "Memory (MB)",
+      "PRIMARY_STORAGE": "Primary storage (GB)",
+      "SECONDARY_STORAGE": "Secondary storage (GB)"
     },
     "REQUEST": {
       "REQUEST_RESOURCES": "Request resources"
