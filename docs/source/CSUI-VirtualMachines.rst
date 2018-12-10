@@ -476,25 +476,25 @@ At saving the new SSH key for a started VM you will see the warning: "You need t
 
 8. Statistics - shows VM statistics on CPU utilized, Network read, Network write, Disk read, Disk write, Disk read (IO), Disk write (IO). Refresh data by clicking the "Refresh" button |refresh icon| in the upper-right corner.
 
-9. VM Snapshots
+.. 9. VM Snapshots
 
-This section presents the information on snapshots created for the virtual machine. It shows the details for the last taken snapshot, allows viewing a complete list of machine's snapshots and managing them. 
+.. This section presents the information on snapshots created for the virtual machine. It shows the details for the last taken snapshot, allows viewing a complete list of machine's snapshots and managing them. 
 
-.. figure:: _static/VMs_Details_VMSnapshots.png 
+.. _static/VMs_Details_VMSnapshots.png 
 
-The following information is displayed in this section:
+.. The following information is displayed in this section:
 
-* Details on the last taken snapshot: name, creation date and time;
-* "View All" allows viewing a list of snapshots created for the machine. It opens a modal window where a user can see the list of snapshots and manage them using the action buttons:
+.. * Details on the last taken snapshot: name, creation date and time;
+.. * "View All" allows viewing a list of snapshots created for the machine. It opens a modal window where a user can see the list of snapshots and manage them using the action buttons:
 
-.. figure:: _static/VMs_Details_VMSnapshots_List.png 
+.. _static/VMs_Details_VMSnapshots_List.png 
 
-* A user can manage snapshots in the list using action buttons:
+.. * A user can manage snapshots in the list using action buttons:
 
   * Revert VM to snapshot - Allows returning the virtual machine to the state captured in the snapshot.
   * Delete - Allows deleting a snapshot from the system.
 
-.. figure:: _static/VMs_Details_VMSnapshots_Actions.png 
+.. _static/VMs_Details_VMSnapshots_Actions.png 
 
 Storage Tab
 """""""""""""""""""""""""""
