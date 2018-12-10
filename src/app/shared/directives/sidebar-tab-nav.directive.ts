@@ -17,7 +17,7 @@ export class SidebarTabNavDirective implements OnInit {
   constructor(public sidebarContainerService: SidebarWidthService) {}
 
   public ngOnInit() {
-    this.sidebarContainerService.width
+    this.sidebarContainerService.width$
       .pipe(
         debounceTime(50),
         filter(Boolean),

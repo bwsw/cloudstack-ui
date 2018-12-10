@@ -17,6 +17,7 @@ import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { Grouping } from '../../shared/models';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import * as fromCapabilities from '../../reducers/capabilities/redux/capabilities.reducers';
+import * as templateActions from '../../reducers/templates/redux/template.actions';
 
 const getGroupName = (vm: VirtualMachine) => {
   return vm.domain !== 'ROOT' ? `${vm.domain}/${vm.account}` : vm.account;
@@ -92,6 +93,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
+    this.store.dispatch(new templateActions.LoadTemplatesRequest());
   }
 
   public isAdmin() {

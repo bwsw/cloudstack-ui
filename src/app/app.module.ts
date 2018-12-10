@@ -64,27 +64,27 @@ export function InitAppFactory(
           )
           .subscribe(lang => translateService.setDefaultLang(lang)),
       )
-      .then(() => auth.initUser())
-      .then(
-        () =>
-          new Promise(resolve => {
-            auth.isLoggedIn().subscribe(value => {
-              if (!value) {
-                resolve();
-              } else {
-                store.dispatch(new capabilityActions.LoadCapabilitiesRequest());
-                actions$
-                  .pipe(
-                    ofType(
-                      capabilityActions.ActionTypes.LOAD_CAPABILITIES_RESPONSE,
-                      capabilityActions.ActionTypes.LOAD_CAPABILITIES_ERROR,
-                    ),
-                  )
-                  .subscribe(resolve);
-              }
-            });
-          }),
-      )
+      .then(() => {
+        auth.initUser();
+
+        return new Promise(resolve => {
+          auth.isLoggedIn().subscribe(value => {
+            if (!value) {
+              resolve();
+            } else {
+              store.dispatch(new capabilityActions.LoadCapabilitiesRequest());
+              actions$
+                .pipe(
+                  ofType(
+                    capabilityActions.ActionTypes.LOAD_CAPABILITIES_RESPONSE,
+                    capabilityActions.ActionTypes.LOAD_CAPABILITIES_ERROR,
+                  ),
+                )
+                .subscribe(resolve);
+            }
+          });
+        });
+      })
       .then(() =>
         store
           .pipe(

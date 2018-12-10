@@ -6,8 +6,13 @@
   (popoverOpened)="onOpen()"
   (popoverClosed)="onClose()"
 >
-  <div [csBadge]="notificationCount$ | async">
-    <mat-icon class="mdi-bell"></mat-icon>
+  <div>
+    <mat-icon
+      class="mdi-bell"
+      [matBadge]="notificationCount$ | async"
+      [matBadgeHidden]="hideNotifications$ | async"
+      matBadgeColor="accent"
+    ></mat-icon>
   </div>
 </button>
 

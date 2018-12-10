@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-
 import { BackendResource } from '../decorators';
 import { BaseModel } from '../models';
 import { AccountType } from '../models/account.model';
@@ -11,7 +10,6 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
-import { JobsNotificationService } from './jobs-notification.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../root-store';
 import * as capabilityActions from '../../reducers/capabilities/redux/capabilities.actions';
@@ -32,7 +30,6 @@ export class AuthService extends BaseBackendService<BaseModel> {
     protected actions$: Actions,
     protected store: Store<State>,
     protected http: HttpClient,
-    protected jobsNotificationService: JobsNotificationService,
   ) {
     super(http);
     this.user$ = this.userSubject.asObservable();
@@ -46,7 +43,6 @@ export class AuthService extends BaseBackendService<BaseModel> {
     } catch (e) {}
 
     this.loggedIn.next(!!(this.user && this.user.userid));
-    this.jobsNotificationService.reset();
   }
 
   public get user(): User {

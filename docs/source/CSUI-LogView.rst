@@ -10,7 +10,7 @@ Log View Plugin
 Overview
 ----------------
 
-In the *Virtual Machines*-*View Logs* section a user can see VM logs. This section appears if the UI-plugin - Log View - is activated. This UI-plugin works together with the backend API plugin developed to process and view virtual machine logs which are handled by ELK and delivered by Filebeat. The version of the backend API plugin matches Apache CloudStack version that it is built for. The plugin is developed and tested only with Apache CloudStack 4.11.1
+In the *Virtual Machines*-*View Logs* section a user can see VM logs. This section appears if the UI-plugin - Log View - is activated. This UI-plugin works together with the backend API plugin developed to process and view virtual machine logs which are handled by ELK and delivered to the storage by Filebeat. The version of the backend API plugin matches Apache CloudStack version that it is built for. The plugin is developed and tested only with Apache CloudStack 4.11.1
 
 To make the *View logs* section available, first deploy the backend API plugin and then activate the Log View UI-plugin via the ``config.json`` file. See deployment instructions below.
 
@@ -58,6 +58,8 @@ The logs will be displayed in accordance with the chosen period.
 
 You can change filtering parameters and refresh the list of logs by clicking "SHOW LOGS".
 
+The set filtering parameters are saved to user tags. That means, if you log out of the system and then login again, you will continue to view logs with the previously set filtering parameters.
+
 View Logs List
 ''''''''''''''''''''''''
 By clicking "SHOW LOGS", a user can view log files corresponding to the filtering parameters. Logs are listed in a chronological order from the earliest till the latest. 
@@ -90,9 +92,11 @@ Use the search tool to find logs by a word or a text. Enter the text in the sear
 
 Following Logs
 '''''''''''''''''''''''''
-After setting filtering parameters and clicking "Show logs", a user can start following logs, in other words, start monitoring the logs online.
+After setting filtering parameters and clicking "Show logs", a user can start following logs, in other words, start monitoring logs online.
 
-Click "Follow log" |follow icon| for the uploaded log files, you will see the list is automatically getting refreshed per every second.
+When the "Follow logs" option is activated, the Log View UI-plugin sends requests to get the latest logs with the defined frequency and for a period, defined in the configuration file. By default, once per 1 second the system requests logs for the last 30 seconds. A user can customize these parameters via the configuration file (see `details <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#log-view-plugin>`_).
+
+To view logs in a real time-mode, click "Follow logs" |follow icon|. This button is available right after selecting a virtual machine in the filtering parameters or after setting all necessary filtering parameters and clicking "Show logs". You will see the filtering options are got disabled and the log list is automatically getting refreshed per every second. 
 
 .. figure:: _static/Logs_Follow.png
 
