@@ -32,7 +32,6 @@ import { AppComponent } from './app.component';
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { VmLogsModule } from './vm-logs/vm-logs.module';
-import { Actions } from '@ngrx/effects';
 import * as capabilityActions from './reducers/capabilities/redux/capabilities.actions';
 import * as fromCapabilities from './reducers/capabilities/redux/capabilities.reducers';
 
@@ -137,7 +136,7 @@ export function InitAppFactory(
     {
       provide: APP_INITIALIZER,
       useFactory: InitAppFactory,
-      deps: [AuthService, HttpClient, TranslateService, Store, Actions],
+      deps: [AuthService, HttpClient, TranslateService, Store],
       multi: true,
     },
     {

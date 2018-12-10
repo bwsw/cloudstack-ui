@@ -29,7 +29,6 @@ export class AuthService extends BaseBackendService<BaseModel> {
   constructor(
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
-    protected actions$: Actions,
     protected store: Store<State>,
     protected http: HttpClient,
   ) {
