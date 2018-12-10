@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
 import {
@@ -82,7 +82,7 @@ import * as fromAccountTags from '../../../reducers/account-tags/redux/account-t
     ></cs-vm-creation>
   `,
 })
-export class VmCreationContainerComponent implements OnInit, OnDestroy {
+export class VmCreationContainerComponent implements OnDestroy {
   readonly isDataLoaded$ = combineLatest(
     this.store.pipe(select(fromZones.isLoaded)),
     this.store.pipe(select(fromServiceOfferings.isLoaded)),
@@ -98,6 +98,14 @@ export class VmCreationContainerComponent implements OnInit, OnDestroy {
     this.store.pipe(select(fromVMs.formIsLoaded)),
     this.isDataLoaded$,
   ).pipe(map(loadings => !loadings.every(Boolean)));
+
+  readonly formInitSubscription = this.isDataLoaded$
+    .pipe(
+      filter(Boolean),
+      take(1),
+      tap(() => this.store.dispatch(new vmActions.VmCreationFormInit())),
+    )
+    .subscribe();
 
   readonly vmFormState$ = this.store.pipe(select(fromVMs.getVmFormState));
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
@@ -115,7 +123,7 @@ export class VmCreationContainerComponent implements OnInit, OnDestroy {
   readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
-  readonly formInitSubscription: Subscription;
+
   public isDiskOfferingAvailableByResources$;
   public minSize: number;
 
@@ -140,16 +148,6 @@ export class VmCreationContainerComponent implements OnInit, OnDestroy {
     );
 
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());
-  }
-
-  public ngOnInit() {
-    this.isDataLoaded$
-      .pipe(
-        filter(Boolean),
-        take(1),
-        tap(() => this.store.dispatch(new vmActions.VmCreationFormInit())),
-      )
-      .subscribe();
   }
 
   public ngOnDestroy(): void {
