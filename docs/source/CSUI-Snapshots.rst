@@ -61,12 +61,24 @@ A details sidebar presents the information on a snapshot. It appears to the righ
 
 For a Volume snapshot the following information is presented in the details sidebar:
 
-- Snapshot name and Actions under the |actions icon| button;
+- Snapshot name, a state bullet and actions under the |actions icon| button;
 - Date and time of creation;
 - Type - Presents the snapshot type - Hourly, Daily, Weekly, Monthly, Manual;
 - Volume information and a virtual machine it is assigned to.
  
 .. figure:: _static/Snapshots_Details1.png
+
+For a VM snapshot the following information is presented in the details sidebar:
+
+- Snapshot name, a state bullet and actions under the |actions icon| button;
+- Date and time of creation;
+- Type - Presents the snapshot type, e.g. *DiskAndMemory*;
+- Current - Defines if the snapshot refers to the most recent snapshot compared to the current state of the VM;
+- Parent - Shows a parent snapshot (if any exists) of this snapshot;
+- Description for the snapshot provided at creation;
+- The name of a virtual machine the snapshot belongs to. It is a link that opens details of the VM for more information.  
+ 
+.. figure:: _static/Snapshots_VM_Details.png
 
 
 Snapshot Actions Box
