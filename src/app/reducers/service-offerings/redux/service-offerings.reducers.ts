@@ -12,6 +12,7 @@ import * as serviceOfferingActions from './service-offerings.actions';
 
 export interface State extends EntityState<ServiceOffering> {
   loading: boolean;
+  loaded: boolean;
   filters: {
     selectedViewMode: string;
     selectedClasses: string[];
@@ -40,6 +41,7 @@ export const initialFilters = {
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  loaded: false,
   filters: initialFilters,
 });
 
@@ -65,6 +67,7 @@ export function reducer(state = initialState, action: serviceOfferingActions.Act
       return {
         ...adapter.addAll(offerings, state),
         loading: false,
+        loaded: true,
       };
     }
 
@@ -83,6 +86,8 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
 );
 
 export const isLoading = createSelector(getOfferingsEntitiesState, state => state.loading);
+
+export const isLoaded = createSelector(getOfferingsEntitiesState, state => state.loaded);
 
 export const filters = createSelector(getOfferingsEntitiesState, state => state.filters);
 

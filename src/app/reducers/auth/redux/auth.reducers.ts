@@ -11,6 +11,7 @@ import * as event from './auth.actions';
 
 export interface State {
   loading: boolean;
+  loaded: boolean;
   accountId: string;
 }
 
@@ -20,6 +21,7 @@ export interface UserAccountState {
 
 const initialUserAccountState: State = {
   loading: false,
+  loaded: false,
   accountId: '',
 };
 
@@ -40,6 +42,7 @@ export function reducer(state = initialUserAccountState, action: event.Actions):
         ...state,
         accountId: action.payload.id,
         loading: false,
+        loaded: true,
       };
     }
     default: {
@@ -55,3 +58,5 @@ export const getUserAccountEntity = createSelector(getUserAccountState, state =>
 export const getUserAccountId = createSelector(getUserAccountEntity, state => state.accountId);
 
 export const isLoading = createSelector(getUserAccountEntity, state => state.loading);
+
+export const isLoaded = createSelector(getUserAccountEntity, state => state.loaded);
