@@ -4,6 +4,7 @@ import { Capabilities } from '../../../shared/models/capabilities.model';
 
 export interface State {
   loading: boolean;
+  loaded: boolean;
   capabilities: Capabilities;
 }
 
@@ -17,6 +18,7 @@ export const capabilitiesReducers = {
 
 export const initialState: State = {
   loading: false,
+  loaded: false,
   capabilities: null,
 };
 
@@ -32,6 +34,7 @@ export function reducer(state = initialState, action: capabilityActions.Actions)
     case capabilityActions.ActionTypes.LOAD_CAPABILITIES_RESPONSE: {
       return {
         loading: false,
+        loaded: true,
         capabilities: action.payload,
       };
     }
@@ -44,11 +47,14 @@ export function reducer(state = initialState, action: capabilityActions.Actions)
 
 export const getCapabilitiesState = createFeatureSelector<CapabilitiesState>('capabilities');
 
-export const getCapabilities = createSelector(getCapabilitiesState, state => {
-  return state.list.capabilities;
-});
+export const getCapabilities = createSelector(
+  getCapabilitiesState,
+  (state): Capabilities => state.list.capabilities,
+);
 
 export const isLoading = createSelector(getCapabilitiesState, state => state.list.loading);
+
+export const isLoaded = createSelector(getCapabilitiesState, state => state.list.loaded);
 
 export const getIsAllowedToViewDestroyedVms = createSelector(
   getCapabilities,

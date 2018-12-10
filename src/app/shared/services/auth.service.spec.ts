@@ -1,6 +1,6 @@
 import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { LocalStorageService } from './local-storage.service';
-import { EMPTY, Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { AsyncJobService } from './async-job.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from './auth.service';
@@ -8,8 +8,6 @@ import { JobsNotificationService } from './jobs-notification.service';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { Actions } from '@ngrx/effects';
-import { Tag } from '../models';
 
 class MockStore {}
 
@@ -38,22 +36,6 @@ class MockStorageService {
   }
 }
 
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  public set stream(source: Observable<Tag>) {
-    // todo
-    // tslint:disable-next-line
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
-
 describe('Auth service', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -64,7 +46,6 @@ describe('Auth service', () => {
         JobsNotificationService,
         { provide: LocalStorageService, useClass: MockStorageService },
         { provide: Store, useClass: MockStore },
-        { provide: Actions, useFactory: getActions },
       ],
       imports: [HttpClientTestingModule],
     });

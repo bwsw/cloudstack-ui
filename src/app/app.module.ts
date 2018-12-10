@@ -32,8 +32,9 @@ import { AppComponent } from './app.component';
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { VmLogsModule } from './vm-logs/vm-logs.module';
-import { Actions, ofType } from '@ngrx/effects';
+import { Actions } from '@ngrx/effects';
 import * as capabilityActions from './reducers/capabilities/redux/capabilities.actions';
+import * as fromCapabilities from './reducers/capabilities/redux/capabilities.reducers';
 
 // tslint:disable-next-line:function-name
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -46,10 +47,9 @@ export function InitAppFactory(
   http: HttpClient,
   translateService: TranslateService,
   store: Store<State>,
-  actions$: Actions,
 ) {
-  return () =>
-    store
+  return () => {
+    return store
       .pipe(
         select(configSelectors.isLoaded),
         filter(Boolean),
@@ -73,12 +73,10 @@ export function InitAppFactory(
               resolve();
             } else {
               store.dispatch(new capabilityActions.LoadCapabilitiesRequest());
-              actions$
+              store
                 .pipe(
-                  ofType(
-                    capabilityActions.ActionTypes.LOAD_CAPABILITIES_RESPONSE,
-                    capabilityActions.ActionTypes.LOAD_CAPABILITIES_ERROR,
-                  ),
+                  select(fromCapabilities.isLoaded),
+                  filter(Boolean),
                 )
                 .subscribe(resolve);
             }
@@ -95,6 +93,7 @@ export function InitAppFactory(
             store.dispatch(new UserTagsActions.SetDefaultUserTagsAtStartup({ tags })),
           ),
       );
+  };
 }
 
 @NgModule({

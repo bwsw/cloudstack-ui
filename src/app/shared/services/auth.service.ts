@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Actions } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+
 import { BackendResource } from '../decorators';
 import { BaseModel } from '../models';
 import { AccountType } from '../models/account.model';
@@ -10,10 +13,9 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
-import { Store } from '@ngrx/store';
 import { State } from '../../root-store';
 import * as capabilityActions from '../../reducers/capabilities/redux/capabilities.actions';
-import { Actions, ofType } from '@ngrx/effects';
+import * as fromCapabilities from '../../reducers/capabilities/redux/capabilities.reducers';
 
 @Injectable()
 @BackendResource({
@@ -55,11 +57,12 @@ export class AuthService extends BaseBackendService<BaseModel> {
       tap(res => this.saveUserDataToLocalStorage(res)),
       tap(() => this.store.dispatch(new capabilityActions.LoadCapabilitiesRequest())),
       switchMap(() => {
-        return this.actions$.pipe(ofType(capabilityActions.ActionTypes.LOAD_CAPABILITIES_RESPONSE));
+        return this.store.pipe(
+          select(fromCapabilities.isLoaded),
+          filter(Boolean),
+        );
       }),
-      tap(() => {
-        return this.loggedIn.next(true);
-      }),
+      tap(() => this.loggedIn.next(true)),
       catchError(error => this.handleCommandError(error.error)),
     );
   }
