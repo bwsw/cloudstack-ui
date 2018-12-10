@@ -51,12 +51,11 @@ describe('e2e-test-vm-creation', () => {
     vmlist.clickVMMenu();
   });
 
-  /*
   it('Verify dialog VM Propose appears, Create VM with Template(), group, aff-group, checked start VM, deploy: progress, vnc console', () => {
     // vmlist.clickCreateVM();
-    vmlist.waitVMPropose();
-    expect(vmlist.getVMPropose().isPresent()).toBeTruthy();
-    vmlist.confirmVMPropose();
+    vmlist.waitDialogModal();
+    expect(vmlist.getDialog().isPresent()).toBeTruthy();
+    vmlist.confirmDialog();
     page.waitDialogModal();
     page.setDisplayName(page.name);
     expect(page.getZone()).toEqual(page.zone);
@@ -134,7 +133,6 @@ describe('e2e-test-vm-creation', () => {
     page.clickNoDialogButton();
   });
 
-
   it('Create VM with Template(Agreement+SSH),custom SO, group, aff-group, checked start VM', () => {
     vmlist.clickImageMenu();
     imlist.clickOpenSidebar();
@@ -171,7 +169,6 @@ describe('e2e-test-vm-creation', () => {
     deploy.clickClose();
   });
 
-
   it('Verify access VM: ssh', () => {
     page = new VMCreation();
     // expect(vmlist.getStateStopped().isPresent()).toBeTruthy(); - can't get access for stopped VM
@@ -179,7 +176,7 @@ describe('e2e-test-vm-creation', () => {
     expect(accessVM.getTitle()).toEqual('Access VM');
     expect(accessVM.getConsoleButton().isPresent).toBeTruthy();
     accessVM.clickSSHTab();
-    expect(accessVM.getConnectionString().getText()).toContain('ssh -p 22 -u root'); //add check ip address
+    expect(accessVM.getConnectionString().getText()).toContain('ssh -p 22 -u root'); // add check ip address
     expect(accessVM.getPort().getText()).toContain('22');
     expect(accessVM.getLogin().getText()).toContain('root');
 
@@ -239,7 +236,6 @@ describe('e2e-test-vm-creation', () => {
     deploy.clickClose();
   });
 
- */
   it('Verify access VM: http', () => {
     page = new VMCreation();
     vmlist.clickOpenAccessVM();
