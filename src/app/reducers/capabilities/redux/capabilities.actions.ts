@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Capabilities } from '../../../shared/models/capabilities.model';
+import { Capabilities } from '../../../shared/models';
 
 export enum ActionTypes {
   LOAD_CAPABILITIES_REQUEST = '[CAPABILITIES] LOAD_CAPABILITIES_REQUEST',

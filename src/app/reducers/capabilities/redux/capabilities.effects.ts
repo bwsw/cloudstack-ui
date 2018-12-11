@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import * as capabilitiesActions from './capabilities.actions';
-import { Capabilities } from '../../../shared/models/capabilities.model';
+import { Capabilities } from '../../../shared/models';
 import { CapabilityService } from '../../../shared/services/capability.service';
 import * as authActions from '../../../auth/store/auth.actions';
 

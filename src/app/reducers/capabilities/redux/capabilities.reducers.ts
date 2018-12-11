@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as capabilityActions from './capabilities.actions';
-import { Capabilities } from '../../../shared/models/capabilities.model';
+import { Capabilities } from '../../../shared/models';
 
 export interface State {
   loading: boolean;
