@@ -56,8 +56,8 @@ export class AuthService extends BaseBackendService<BaseModel> {
       tap(() => this.store.dispatch(new capabilityActions.LoadCapabilitiesRequest())),
       switchMap(() => {
         return this.store.pipe(
-          select(fromCapabilities.isLoaded),
-          filter(Boolean),
+          select(fromCapabilities.isLoading),
+          filter(isLoading => !isLoading),
         );
       }),
       tap(() => this.loggedIn.next(true)),

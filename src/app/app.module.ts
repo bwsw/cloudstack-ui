@@ -74,8 +74,8 @@ export function InitAppFactory(
               store.dispatch(new capabilityActions.LoadCapabilitiesRequest());
               store
                 .pipe(
-                  select(fromCapabilities.isLoaded),
-                  filter(Boolean),
+                  select(fromCapabilities.isLoading),
+                  filter(isLoading => !isLoading),
                 )
                 .subscribe(resolve);
             }
