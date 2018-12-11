@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BackendResource } from '../decorators';
 import { BaseBackendService, CSCommands } from './base-backend.service';
-import { Capabilities } from '../models/capabilities.model';
+import { Capabilities } from '../models';
 
 @Injectable()
 @BackendResource({
