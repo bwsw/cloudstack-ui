@@ -148,8 +148,6 @@ import { DayPeriodComponent } from './components/day-period/day-period.component
 import { DiskOfferingSelectorChooserComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-chooser.component';
 import { DiskOfferingSelectorSliderComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-slider.component';
 import { AngularDraggableModule } from 'angular2-draggable';
-import { capabilitiesReducers } from '../reducers/capabilities/redux/capabilities.reducers';
-import { CapabilitiesEffects } from '../reducers/capabilities/redux/capabilities.effects';
 import { CapabilityService } from './services/capability.service';
 
 // tslint:enable max-line-length
@@ -174,13 +172,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
-    StoreModule.forFeature('capabilities', capabilitiesReducers),
-    EffectsModule.forFeature([
-      ZonesEffects,
-      DiskOfferingEffects,
-      AffinityGroupsEffects,
-      CapabilitiesEffects,
-    ]),
+    EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects, AffinityGroupsEffects]),
   ],
   exports: [
     FormsModule,

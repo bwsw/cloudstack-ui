@@ -15,7 +15,7 @@ import { BaseTemplateModel } from '../../../template/shared';
 import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
-import { State, UserTagsSelectors } from '../../../root-store';
+import { capabilitiesSelectors, State, UserTagsSelectors } from '../../../root-store';
 import * as accountTagsActions from '../../../reducers/account-tags/redux/account-tags.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
 import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
@@ -35,7 +35,6 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
-import * as fromCapabilities from '../../../reducers/capabilities/redux/capabilities.reducers';
 import * as fromAccountTags from '../../../reducers/account-tags/redux/account-tags.reducers';
 
 @Component({
@@ -124,13 +123,15 @@ export class VmCreationContainerComponent implements OnDestroy {
   readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
-  readonly minSize$ = this.store.pipe(select(fromCapabilities.getCustomDiskOfferingMinSize));
-  readonly maxRootSize$ = this.store.pipe(select(fromCapabilities.getCustomDiskOfferingMaxSize));
+  readonly minSize$ = this.store.pipe(select(capabilitiesSelectors.getCustomDiskOfferingMinSize));
+  readonly maxRootSize$ = this.store.pipe(
+    select(capabilitiesSelectors.getCustomDiskOfferingMaxSize),
+  );
   readonly isDiskOfferingAvailableByResources$ = this.store.pipe(
     select(fromDiskOfferings.isVmCreationDiskOfferingAvailableByResources),
   );
   readonly isSecurityGroupEnabled$ = this.store.pipe(
-    select(fromCapabilities.getIsSecurityGroupEnabled),
+    select(capabilitiesSelectors.getIsSecurityGroupEnabled),
   );
 
   constructor(

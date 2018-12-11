@@ -29,7 +29,12 @@ import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-gr
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
-import { configSelectors, UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import {
+  capabilitiesSelectors,
+  configSelectors,
+  UserTagsActions,
+  UserTagsSelectors,
+} from '../../../root-store';
 import { DefaultComputeOffering } from '../../../shared/models/config';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
@@ -40,7 +45,6 @@ import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
 import * as fromVMModule from '../../../vm/selectors';
-import * as fromCapabilities from '../../../reducers/capabilities/redux/capabilities.reducers';
 import { KeyboardLayout } from '../../../shared/types';
 import { ComputeOfferingViewModel } from '../../../vm/view-models';
 
@@ -173,7 +177,7 @@ export class VirtualMachineCreationEffects {
       this.store.pipe(select(fromVMModule.getAvailableOfferingsForVmCreation)),
       this.store.pipe(select(fromDiskOfferings.selectAll)),
       this.store.pipe(select(configSelectors.get('defaultComputeOffering'))),
-      this.store.pipe(select(fromCapabilities.getCustomDiskOfferingMinSize)),
+      this.store.pipe(select(capabilitiesSelectors.getCustomDiskOfferingMinSize)),
     ),
     map(
       ([

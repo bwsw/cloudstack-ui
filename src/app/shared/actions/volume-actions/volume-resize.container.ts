@@ -14,7 +14,7 @@ import { Volume } from '../../models/volume.model';
 import { VolumeResizeData } from '../../services/volume.service';
 import { VolumeType } from '../../models';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
-import * as fromCapabilities from '../../../reducers/capabilities/redux/capabilities.reducers';
+import { capabilitiesSelectors } from '../../../root-store';
 
 @Component({
   selector: 'cs-volume-resize-container',
@@ -34,9 +34,9 @@ export class VolumeResizeContainerComponent implements OnInit {
   readonly offerings$ = this.store.pipe(select(fromDiskOfferings.getAvailableOfferings));
   readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
   readonly availableStorage$ = this.store.pipe(select(fromAccounts.selectStorageAvailable));
-  readonly minSize$ = this.store.pipe(select(fromCapabilities.getCustomDiskOfferingMinSize));
+  readonly minSize$ = this.store.pipe(select(capabilitiesSelectors.getCustomDiskOfferingMinSize));
   readonly maxRootCapability$ = this.store.pipe(
-    select(fromCapabilities.getCustomDiskOfferingMaxSize),
+    select(capabilitiesSelectors.getCustomDiskOfferingMaxSize),
   );
 
   public volume: Volume;

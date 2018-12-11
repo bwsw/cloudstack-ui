@@ -12,11 +12,11 @@ import * as authActions from '../../../auth/store/auth.actions';
 export class CapabilitiesEffects {
   @Effect()
   loadCapabilities$: Observable<Action> = this.actions$.pipe(
-    ofType(capabilitiesActions.ActionTypes.LOAD_CAPABILITIES_REQUEST),
+    ofType(capabilitiesActions.ActionTypes.LoadCapabilities),
     switchMap(() => {
       return this.capabilityService.get().pipe(
         map((capabilities: Capabilities) => {
-          return new capabilitiesActions.LoadCapabilitiesResponse(capabilities);
+          return new capabilitiesActions.LoadCapabilitiesSuccess(capabilities);
         }),
         catchError(() => of(new capabilitiesActions.LoadCapabilitiesError())),
       );
@@ -25,7 +25,7 @@ export class CapabilitiesEffects {
 
   @Effect()
   logoutOnError$: Observable<Action> = this.actions$.pipe(
-    ofType(capabilitiesActions.ActionTypes.LOAD_CAPABILITIES_ERROR),
+    ofType(capabilitiesActions.ActionTypes.LoadCapabilitiesError),
     map(() => new authActions.Logout()),
   );
 

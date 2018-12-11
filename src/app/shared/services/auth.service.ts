@@ -12,9 +12,11 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
-import { State } from '../../root-store';
-import * as capabilityActions from '../../reducers/capabilities/redux/capabilities.actions';
-import * as fromCapabilities from '../../reducers/capabilities/redux/capabilities.reducers';
+import {
+  capabilitiesActions,
+  capabilitiesSelectors,
+} from '../../root-store/server-data/capabilities';
+import { State } from '../../reducers';
 
 @Injectable()
 @BackendResource({
@@ -53,10 +55,10 @@ export class AuthService extends BaseBackendService<BaseModel> {
     return this.postRequest('login', { username, password, domain }).pipe(
       map(res => this.getResponse(res)),
       tap(res => this.saveUserDataToLocalStorage(res)),
-      tap(() => this.store.dispatch(new capabilityActions.LoadCapabilitiesRequest())),
+      tap(() => this.store.dispatch(new capabilitiesActions.LoadCapabilities())),
       switchMap(() => {
         return this.store.pipe(
-          select(fromCapabilities.isLoading),
+          select(capabilitiesSelectors.isLoading),
           filter(isLoading => !isLoading),
         );
       }),

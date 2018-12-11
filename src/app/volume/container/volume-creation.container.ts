@@ -14,7 +14,7 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeCreationDialogComponent } from '../volume-creation/volume-creation-dialog.component';
 import { Zone } from '../../shared/models/zone.model';
 import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model';
-import * as fromCapabilities from '../../reducers/capabilities/redux/capabilities.reducers';
+import { capabilitiesSelectors } from '../../root-store';
 
 @Component({
   selector: 'cs-volume-creation-container',
@@ -40,8 +40,8 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
   readonly storageAvailable$ = this.store.pipe(select(fromAccounts.selectStorageAvailable));
-  readonly minSize$ = this.store.pipe(select(fromCapabilities.getCustomDiskOfferingMinSize));
-  readonly maxSize$ = this.store.pipe(select(fromCapabilities.getCustomDiskOfferingMaxSize));
+  readonly minSize$ = this.store.pipe(select(capabilitiesSelectors.getCustomDiskOfferingMinSize));
+  readonly maxSize$ = this.store.pipe(select(capabilitiesSelectors.getCustomDiskOfferingMaxSize));
 
   constructor(
     public dialogService: DialogService,

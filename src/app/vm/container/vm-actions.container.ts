@@ -6,7 +6,7 @@ import { State } from '../../reducers';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VirtualMachine } from '../shared/vm.model';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
-import * as fromCapabilities from '../../reducers/capabilities/redux/capabilities.reducers';
+import { capabilitiesSelectors } from '../../root-store';
 
 @Component({
   selector: 'cs-vm-actions-container',
@@ -30,7 +30,7 @@ import * as fromCapabilities from '../../reducers/capabilities/redux/capabilitie
 })
 export class VmActionsContainerComponent {
   readonly canExpungeOrRecoverVm$ = this.store.pipe(
-    select(fromCapabilities.getCanExpungeOrRecoverVm),
+    select(capabilitiesSelectors.getCanExpungeOrRecoverVm),
   );
 
   @Input()

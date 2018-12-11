@@ -13,7 +13,14 @@ import { filter, first, take } from 'rxjs/operators';
 import { AccountModule } from './account/accounts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { configSelectors, RootStoreModule, State, UserTagsActions } from './root-store';
+import { RootStoreModule } from './root-store/root-store.module';
+import {
+  configSelectors,
+  State,
+  UserTagsActions,
+  capabilitiesActions,
+  capabilitiesSelectors,
+} from './root-store';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
 import { DialogModule } from './dialog/dialog-service/dialog.module';
@@ -32,8 +39,6 @@ import { AppComponent } from './app.component';
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { VmLogsModule } from './vm-logs/vm-logs.module';
-import * as capabilityActions from './reducers/capabilities/redux/capabilities.actions';
-import * as fromCapabilities from './reducers/capabilities/redux/capabilities.reducers';
 
 // tslint:disable-next-line:function-name
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -71,10 +76,10 @@ export function InitAppFactory(
             if (!value) {
               resolve();
             } else {
-              store.dispatch(new capabilityActions.LoadCapabilitiesRequest());
+              store.dispatch(new capabilitiesActions.LoadCapabilities());
               store
                 .pipe(
-                  select(fromCapabilities.isLoading),
+                  select(capabilitiesSelectors.isLoading),
                   filter(isLoading => !isLoading),
                 )
                 .subscribe(resolve);

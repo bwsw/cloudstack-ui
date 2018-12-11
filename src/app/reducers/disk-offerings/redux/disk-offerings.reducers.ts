@@ -3,14 +3,13 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { isCustomized, isOfferingLocal } from '../../../shared/models/offering.model';
 import { DiskOffering, ServiceOfferingAvailability, Zone } from '../../../shared/models';
-import { configSelectors } from '../../../root-store';
+import { configSelectors, capabilitiesSelectors } from '../../../root-store';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as event from './disk-offerings.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import { isTemplate } from '../../../template/shared';
-import * as fromCapabilities from '../../capabilities/redux/capabilities.reducers';
 
 export interface State extends EntityState<DiskOffering> {
   loading: boolean;
@@ -134,7 +133,7 @@ export const isDiskOfferingAvailableByResources = ({
 export const isVmCreationDiskOfferingAvailableByResources = createSelector(
   fromAccounts.selectUserAccount,
   fromVMs.getVmFormState,
-  fromCapabilities.getCustomDiskOfferingMinSize,
+  capabilitiesSelectors.getCustomDiskOfferingMinSize,
   (account, state, customOfferingMinSize): boolean => {
     if (!isTemplate(state.template) && state.diskOffering) {
       return isDiskOfferingAvailableByResources({

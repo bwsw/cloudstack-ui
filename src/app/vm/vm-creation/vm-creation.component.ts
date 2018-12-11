@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import * as clone from 'lodash/clone';
 
@@ -22,6 +22,7 @@ import { ProgressLoggerMessage } from '../../shared/components/progress-logger/p
   selector: 'cs-vm-creation',
   templateUrl: 'vm-creation.component.html',
   styleUrls: ['vm-creation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VmCreationComponent {
   @Input()

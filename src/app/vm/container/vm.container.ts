@@ -16,8 +16,8 @@ import { noGroup } from '../vm-filter/vm-filter.component';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { Grouping } from '../../shared/models';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
-import * as fromCapabilities from '../../reducers/capabilities/redux/capabilities.reducers';
 import * as templateActions from '../../reducers/templates/redux/template.actions';
+import { capabilitiesSelectors } from '../../root-store';
 
 const getGroupName = (vm: VirtualMachine) => {
   return vm.domain !== 'ROOT' ? `${vm.domain}/${vm.account}` : vm.account;
@@ -45,7 +45,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
   readonly selectedGroupings$ = this.store.pipe(select(fromVMs.filterSelectedGroupings));
   readonly allowedToViewDestroyedVms$ = this.store.pipe(
-    select(fromCapabilities.getIsAllowedToViewDestroyedVms),
+    select(capabilitiesSelectors.getIsAllowedToViewDestroyedVms),
   );
 
   public groupings: Grouping[] = [

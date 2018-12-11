@@ -41,7 +41,10 @@ import { MockTagService } from '../../../../testutils/mocks/tag-services/mock-ta
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
 import { virtualMachineReducers } from './vm.reducers';
-import { capabilitiesReducers } from '../../../reducers/capabilities/redux/capabilities.reducers';
+import {
+  reducer as capabilityReducers,
+  capabilitiesFeatureName,
+} from '../../../root-store/server-data/capabilities/capabilities.reducers';
 
 @Injectable()
 export class MockAccessService {}
@@ -143,7 +146,7 @@ describe('Virtual machine Effects', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('virtualMachines', virtualMachineReducers),
-        StoreModule.forFeature('capabilities', capabilitiesReducers),
+        StoreModule.forFeature(capabilitiesFeatureName, capabilityReducers),
       ],
       providers: [
         VmService,

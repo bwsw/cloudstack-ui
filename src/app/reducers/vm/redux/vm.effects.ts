@@ -41,7 +41,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from '../../../
 
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
-import * as fromCapabilities from '../../../reducers/capabilities/redux/capabilities.reducers';
+import { capabilitiesSelectors } from '../../../root-store/server-data/capabilities';
 
 @Injectable()
 export class VirtualMachinesEffects {
@@ -349,7 +349,7 @@ export class VirtualMachinesEffects {
   @Effect()
   destroyVm$: Observable<Action> = this.actions$.pipe(
     ofType<vmActions.DestroyVm>(vmActions.DESTROY_VM),
-    withLatestFrom(this.store.pipe(select(fromCapabilities.getCanExpungeOrRecoverVm))),
+    withLatestFrom(this.store.pipe(select(capabilitiesSelectors.getCanExpungeOrRecoverVm))),
     mergeMap(([action, canExpungeOrRecoverVm]) => {
       return this.dialog
         .open(VmDestroyDialogComponent, {

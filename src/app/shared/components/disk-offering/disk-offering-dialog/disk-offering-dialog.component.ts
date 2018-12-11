@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
 import { DiskOffering } from '../../../models';
@@ -9,6 +9,7 @@ import { isCustomized } from '../../../models/offering.model';
   selector: 'cs-disk-offering-dialog',
   templateUrl: 'disk-offering-dialog.component.html',
   styleUrls: ['disk-offering-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiskOfferingDialogComponent {
   public diskOfferings: DiskOffering[];
