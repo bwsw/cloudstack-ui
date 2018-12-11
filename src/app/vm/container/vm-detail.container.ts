@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
-import * as fromAffinityGroupsActions
-  from '../../reducers/affinity-groups/redux/affinity-groups.actions';
+import * as fromAffinityGroupsActions from '../../reducers/affinity-groups/redux/affinity-groups.actions';
 import * as fromAffinityGroups from '../../reducers/affinity-groups/redux/affinity-groups.reducers';
-import * as serviceOfferingActions
-  from '../../reducers/service-offerings/redux/service-offerings.actions';
-import * as fromServiceOfferings
-  from '../../reducers/service-offerings/redux/service-offerings.reducers';
+import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
+import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
 import * as fromSshKeys from '../../reducers/ssh-keys/redux/ssh-key.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
