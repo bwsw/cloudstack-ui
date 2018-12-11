@@ -1,27 +1,26 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-
-import { virtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
-import { VirtualMachine } from '../../../vm/shared/vm.model';
-import { Tag, Zone } from '../../../shared/models';
-import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
-import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { Utils } from '../../../shared/services/utils/utils.service';
-import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import * as uniq from 'lodash/uniq';
+import { VmSnapshotActionTypes } from '../../../root-store/server-data/vm-snapshots/vm-snapshots.actions';
 // tslint:disable-next-line
 import {
   ProgressLoggerMessage,
   ProgressLoggerMessageStatus,
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { Rules } from '../../../shared/components/security-group-builder/rules';
+import { Tag, Zone } from '../../../shared/models';
+import { virtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
+import { Utils } from '../../../shared/services/utils/utils.service';
+import { VirtualMachine } from '../../../vm/shared/vm.model';
+import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 import { notSelectedSshKey } from '../../../vm/vm-creation/ssh-key-selector/ssh-key-selector.component';
-
+import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
-import * as vmActions from './vm.actions';
-import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import * as affinityGroupActions from '../../affinity-groups/redux/affinity-groups.actions';
+import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
-import * as uniq from 'lodash/uniq';
+import * as vmActions from './vm.actions';
 
 export interface State extends EntityState<VirtualMachine> {
   loading: boolean;
@@ -107,7 +106,8 @@ export function listReducer(state = initialListState, action: vmActions.Actions)
       };
     }
 
-    case vmActions.VIRTUAL_MACHINE_LOADED: {
+    case vmActions.VIRTUAL_MACHINE_LOADED:
+    case VmSnapshotActionTypes.RevertSuccess: {
       const vm = action.payload.vm;
       return adapter.updateOne({ id: vm.id, changes: vm }, state);
     }

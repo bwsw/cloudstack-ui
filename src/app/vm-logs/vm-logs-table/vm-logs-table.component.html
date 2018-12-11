@@ -12,7 +12,7 @@
           {{ 'LOGS_PAGE.LIST.DATE' | translate}}
         </mat-header-cell>
         <mat-cell *cdkCellDef="let element">
-          {{ element.timestamp | csParseTimestamp | date:'y-MM-dd HH:mm:ss' }}
+          {{ element.timestamp | csTimestampToDate | date:'y-MM-dd HH:mm:ss' }}
         </mat-cell>
       </ng-container>
 

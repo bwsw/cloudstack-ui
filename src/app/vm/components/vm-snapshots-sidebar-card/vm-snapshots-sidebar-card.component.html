@@ -1,0 +1,48 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">{{ 'VM_PAGE.VM_DETAILS.VM_SNAPSHOTS.TITLE' | translate }}</h2>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="mat-card-content-with-actions">
+    <div class="mat-card-content-container">
+      <ng-container *ngIf="vmSnapshotsCount === 0; then noSnapshots else lastSnapshot"></ng-container>
+      <ng-template #noSnapshots>
+        {{ 'VM_PAGE.VM_DETAILS.VM_SNAPSHOTS.NO_SNAPSHOTS' | translate }}
+      </ng-template>
+      <ng-template #lastSnapshot>
+        <div class="two-columns">
+          <div>
+            {{ 'VM_PAGE.VM_DETAILS.VM_SNAPSHOTS.LAST_SNAPSHOT' | translate }}:
+          </div>
+          <button mat-button color="primary" (click)="showAllSnapshots()">
+            {{ 'VM_PAGE.VM_DETAILS.VM_SNAPSHOTS.VIEW_ALL' | translate  }}
+            ({{ vmSnapshotsCount }})
+          </button>
+        </div>
+        <div class="snapshot-name">
+          {{ lastVmSnapshot.displayname }}
+        </div>
+        <div class="two-columns">
+          <div>
+            {{ lastVmSnapshot.created | csTimestampToDate | csStringifyDate }}
+          </div>
+          <cs-entity-action-row [actions]="entityActions"></cs-entity-action-row>
+        </div>
+      </ng-template>
+    </div>
+
+    <mat-card-actions>
+      <button
+        mat-icon-button
+        type="button"
+        [matTooltip]="'VM_PAGE.VM_DETAILS.VM_SNAPSHOTS.CREATE' | translate"
+        matTooltipPosition="above"
+        (click)="onCreateButtonClicked()"
+      >
+        <mat-icon class="mdi-plus"></mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>
