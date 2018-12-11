@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, ApplicationRef, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -90,7 +90,7 @@ export function InitAppFactory(
     DragulaModule,
     AuthModule,
     EventsModule,
-    ScrollDispatchModule,
+    ScrollingModule,
     SecurityGroupModule,
     ServiceOfferingModule,
     SettingsModule,

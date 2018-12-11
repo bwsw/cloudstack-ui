@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+import * as moment from 'moment';
 import { LoadVmLogsRequestParams } from '../../models/load-vm-logs-request-params';
 import {
   filterSelectedVmId,
@@ -8,7 +9,6 @@ import {
 } from '../vm-logs.reducers';
 import * as pickBy from 'lodash/pickBy';
 import { selectStartDate, selectEndDate } from '../vm-logs-auto-update.reducers';
-import moment = require('moment');
 
 export const loadAutoUpdateVmLogsRequestParams = createSelector(
   filterSelectedVmId,

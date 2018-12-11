@@ -1,9 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import * as moment from 'moment';
 import * as eventActions from './events.actions';
 import { Event } from '../event.model';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import moment = require('moment');
 
 /**
  * @ngrx/entity provides a predefined interface for handling

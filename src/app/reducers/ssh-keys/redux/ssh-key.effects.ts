@@ -131,7 +131,7 @@ export class SshKeyEffects {
         data: privateKey,
         width: '400px',
       })
-      .beforeClose()
+      .beforeClosed()
       .subscribe(() => this.dialog.closeAll());
   }
 
