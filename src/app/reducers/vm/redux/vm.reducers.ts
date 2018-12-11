@@ -43,6 +43,7 @@ export interface State extends EntityState<VirtualMachine> {
 
 export interface FormState {
   loading: boolean;
+  loaded: boolean;
   showOverlay: boolean;
   deploymentInProgress: boolean;
   enoughResources: boolean;
@@ -322,6 +323,7 @@ export const selectFilteredVMs = createSelector(
 
 export const initialFormState: FormState = {
   loading: false,
+  loaded: false,
   showOverlay: false,
   deploymentInProgress: false,
   enoughResources: false,
@@ -365,7 +367,12 @@ export function formReducer(
       return { ...state, ...action.payload };
     }
     case vmActions.VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE: {
-      return { ...state, enoughResources: action.payload, loading: false };
+      return {
+        ...state,
+        enoughResources: action.payload,
+        loading: false,
+        loaded: true,
+      };
     }
     case vmActions.VM_DEPLOYMENT_REQUEST: {
       return {
@@ -433,6 +440,8 @@ export const getVmFormStateAffinityGroup = createSelector(
 );
 
 export const formIsLoading = createSelector(getVmForm, state => state.loading);
+
+export const formIsLoaded = createSelector(getVmForm, state => state.loaded);
 
 export const enoughResources = createSelector(getVmForm, state => state.enoughResources);
 
