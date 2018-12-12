@@ -91,6 +91,7 @@ import { ServiceOfferingDetailsComponent } from './vm-sidebar/vm-detail/service-
 import { SshKeypairComponent } from './vm-sidebar/vm-detail/ssh/ssh-keypair.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-detail-template.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail/detail/vm-detail.component';
+import { VmLogsSecretKeyComponent } from './vm-sidebar/vm-logs-secret-key/vm-logs-secret-key.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
@@ -207,6 +208,7 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
     ServiceOfferingSelectorComponent,
     InstallationSourceDialogComponent,
     VmPasswordComponent,
+    VmLogsSecretKeyComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
