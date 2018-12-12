@@ -8,7 +8,7 @@ export interface VmSnapshotsState extends EntityState<VmSnapshot> {
 
 const sortByCreationDate = (a: VmSnapshot, b: VmSnapshot) => {
   // new snapshots come first
-  return moment(a.created).isBefore(b.created) ? 1 : -1;
+  return moment(b.created).diff(moment(a.created));
 };
 
 export const adapter: EntityAdapter<VmSnapshot> = createEntityAdapter<VmSnapshot>({
