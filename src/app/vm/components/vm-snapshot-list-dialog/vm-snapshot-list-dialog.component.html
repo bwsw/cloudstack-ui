@@ -30,7 +30,9 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>{{ 'VM_PAGE.MODALS.VM_SNAPSHOT_LIST.ACTIONS' | translate }}</th>
       <td mat-cell *matCellDef="let vmSnapshot">
-        <cs-entity-action-row [actions]="(vmSnapshotActionsEntities$ | async)[vmSnapshot.id]"></cs-entity-action-row>
+        <ng-container *ngIf="vmSnapshotActionsEntities$ | async as actionEntities">
+          <cs-entity-action-row [actions]="actionEntities[vmSnapshot.id]"></cs-entity-action-row>
+        </ng-container>
       </td>
     </ng-container>
 

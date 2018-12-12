@@ -176,8 +176,8 @@
     },
     "VM_SNAPSHOTS": {
       "TAKE_VM_SNAP_IN_PROGRESS": "Создание снимка ВМ",
-      "TAKE_VM_SNAP_IN_DONE": "Снимок ВМ создан",
-      "TAKE_VM_SNAP_IN_FAILED": "Не удалось создать снимок ВМ",
+      "TAKE_VM_SNAP_DONE": "Снимок ВМ создан",
+      "TAKE_VM_SNAP_FAILED": "Не удалось создать снимок ВМ",
       "TAKE_SNAP_FROM_VM_SNAP_IN_PROGRESS": "Создание снимка",
       "TAKE_SNAP_FROM_VM_SNAP_DONE": "Снимок создан",
       "TAKE_SNAP_FROM_VM_SNAP_FAILED": "Не удалось создать снимок",
@@ -597,7 +597,7 @@
       "ADVANCED": "Дополнительные"
     },
     "MODALS": {
-      "TAKE_A_VM_SNAPSHOT": {
+      "TAKE_VM_SNAPSHOT": {
         "TITLE": "Создание снимка ВМ",
         "SNAPSHOT_MEMORY": "Снимок памяти",
         "WARNING_INFORMATION": "Обратите внимание, что ВМ будет приостановлена на время создания снимка."
@@ -843,7 +843,7 @@
       "REVERT_VM_TO_SNAPSHOT": "Вернуть ВМ к снимку"
     },
     "MODALS": {
-      "TAKE_A_SNAPSHOT": "Создание снимка"
+      "TAKE_SNAPSHOT": "Создание снимка"
     }
   },
   "SECURITY_GROUP_PAGE": {

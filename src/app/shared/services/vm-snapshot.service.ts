@@ -5,15 +5,18 @@ import * as pickBy from 'lodash/pickBy';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { VirtualMachine } from '../../vm';
+import { virtualMachineEntityName } from '../../vm/shared/vm.service';
 import { BackendResource } from '../decorators';
 import { SnapshotFromVmSnapshotParams } from '../interfaces';
 import { VmSnapshot } from '../models/vm-snapshot.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService, CSCommands } from './base-backend.service';
 
+export const vmSnapshotEntityName = 'VMSnapshot';
+
 @Injectable()
 @BackendResource({
-  entity: 'VMSnapshot',
+  entity: vmSnapshotEntityName,
 })
 export class VmSnapshotService extends BaseBackendService<VmSnapshot> {
   constructor(protected http: HttpClient, private asyncJobService: AsyncJobService) {
@@ -56,6 +59,6 @@ export class VmSnapshotService extends BaseBackendService<VmSnapshot> {
   public revert(id: string): Observable<VirtualMachine> {
     return super
       .sendCommand('revertTo', { vmsnapshotid: id })
-      .pipe(switchMap(job => this.asyncJobService.queryJob(job, 'virtualmachine')));
+      .pipe(switchMap(job => this.asyncJobService.queryJob(job, virtualMachineEntityName)));
   }
 }

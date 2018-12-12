@@ -1,14 +1,18 @@
 import { createSelector } from '@ngrx/store';
 import * as vmSelectors from '../../../reducers/vm/redux/vm.reducers';
-import { EntityAction } from '../../../shared/interfaces';
+import { EntityAction, NgrxEntities } from '../../../shared/interfaces';
 import { VmState } from '../../../vm/shared/vm.model';
 import * as vmSnapshotsActions from './vm-snapshots.actions';
 import * as vmSnapshotsSelectors from './vm-snapshots.selectors';
 
+/**
+ * return a Dictionary of EntityActions for VM snapshots
+ * naming in accordance with the NGRX selector (selectEntities)
+ */
 export const getVmSnapshotEntityActionsEntities = createSelector(
   vmSnapshotsSelectors.selectAll,
   vmSelectors.selectEntities,
-  (vmSnapshots, virtualMachineEntities): { [id: string]: EntityAction[] } => {
+  (vmSnapshots, virtualMachineEntities): NgrxEntities<EntityAction[]> => {
     return vmSnapshots.reduce((dictionary, vmSnapshot) => {
       const vm = virtualMachineEntities[vmSnapshot.virtualmachineid];
       const vmState = vm ? vm.state : undefined;

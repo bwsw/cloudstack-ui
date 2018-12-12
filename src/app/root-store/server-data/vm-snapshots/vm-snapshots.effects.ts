@@ -101,12 +101,12 @@ export class VmSnapshotsEffects {
       };
       return this.vmSnapshotsService.create(params).pipe(
         tap(() => {
-          const message = 'NOTIFICATIONS.VM_SNAPSHOTS.TAKE_VM_SNAP_IN_DONE';
+          const message = 'NOTIFICATIONS.VM_SNAPSHOTS.TAKE_VM_SNAP_DONE';
           this.showNotificationsOnFinish(message, notificationId);
         }),
         map(vmSnapshot => new CreateSuccess({ vmSnapshot })),
         catchError(error => {
-          const message = 'NOTIFICATIONS.VM_SNAPSHOTS.TAKE_VM_SNAP_IN_FAILED';
+          const message = 'NOTIFICATIONS.VM_SNAPSHOTS.TAKE_VM_SNAP_FAILED';
           this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new CreateError({ error }));
         }),

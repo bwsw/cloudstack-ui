@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <h3 mat-dialog-title>{{ 'VM_PAGE.MODALS.TAKE_A_VM_SNAPSHOT.TITLE' | translate }}</h3>
+  <h3 mat-dialog-title>{{ 'VM_PAGE.MODALS.TAKE_VM_SNAPSHOT.TITLE' | translate }}</h3>
 
   <mat-dialog-content>
     <mat-form-field class="full-width-input">
@@ -9,9 +9,9 @@
       <input matInput formControlName="description" [placeholder]="'COMMON.DESCRIPTION' | translate">
     </mat-form-field>
     <mat-checkbox formControlName="snapshotMemory">
-      {{ 'VM_PAGE.MODALS.TAKE_A_VM_SNAPSHOT.SNAPSHOT_MEMORY' | translate }}
+      {{ 'VM_PAGE.MODALS.TAKE_VM_SNAPSHOT.SNAPSHOT_MEMORY' | translate }}
     </mat-checkbox>
-    <div class="warning-info">{{ 'VM_PAGE.MODALS.TAKE_A_VM_SNAPSHOT.WARNING_INFORMATION' | translate }}</div>
+    <div class="warning-info">{{ 'VM_PAGE.MODALS.TAKE_VM_SNAPSHOT.WARNING_INFORMATION' | translate }}</div>
   </mat-dialog-content>
 
   <mat-dialog-actions>

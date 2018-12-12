@@ -176,8 +176,8 @@
     },
     "VM_SNAPSHOTS": {
       "TAKE_VM_SNAP_IN_PROGRESS": "Taking a VM snapshot",
-      "TAKE_VM_SNAP_IN_DONE": "VM snapshot taken",
-      "TAKE_VM_SNAP_IN_FAILED": "Failed to take a VM snapshot",
+      "TAKE_VM_SNAP_DONE": "VM snapshot taken",
+      "TAKE_VM_SNAP_FAILED": "Failed to take a VM snapshot",
       "TAKE_SNAP_FROM_VM_SNAP_IN_PROGRESS": "Taking a snapshot",
       "TAKE_SNAP_FROM_VM_SNAP_DONE": "Snapshot taken",
       "TAKE_SNAP_FROM_VM_SNAP_FAILED": "Failed to take a snapshot",
@@ -597,10 +597,10 @@
       "ADVANCED": "Advanced"
     },
     "MODALS": {
-      "TAKE_A_VM_SNAPSHOT": {
+      "TAKE_VM_SNAPSHOT": {
         "TITLE": "Take VM Snapshot",
         "SNAPSHOT_MEMORY": "Snapshot memory",
-        "WARNING_INFORMATION": "Please notice that the instance will be paused during the snapshoting, and resumed after snapshotting."
+        "WARNING_INFORMATION": "Please notice that the instance will be paused when creating a snapshot, and resumed after a snapshot is created."
       },
       "VM_SNAPSHOT_LIST": {
         "TITLE": "VM Snapshots",
@@ -843,7 +843,7 @@
       "REVERT_VM_TO_SNAPSHOT": "Revert VM to snapshot"
     },
     "MODALS": {
-      "TAKE_A_SNAPSHOT": "Take a snapshot"
+      "TAKE_SNAPSHOT": "Take a snapshot"
     }
   },
   "SECURITY_GROUP_PAGE": {
