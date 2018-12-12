@@ -1,5 +1,4 @@
 <mat-card class="card">
-
   <mat-card-header>
     <mat-card-title>
       <h2 class="mat-card-title-text">
@@ -8,31 +7,35 @@
     </mat-card-title>
   </mat-card-header>
 
-  <mat-card-content [class.mat-card-content-with-actions]="selectedVolume || !selectedVolume && volumes?.length">
+  <mat-card-content
+    [class.mat-card-content-with-actions]="selectedVolume || (!selectedVolume && volumes?.length)"
+  >
     <div class="mat-card-content-container">
-      <ng-container *ngIf="volumes?.length; then avaliableVolumesExist else avaliableVolumesNotExist"></ng-container>
+      <ng-container
+        *ngIf="volumes?.length; then avaliableVolumesExist; else avaliableVolumesNotExist"
+      ></ng-container>
 
       <ng-template #avaliableVolumesExist>
-        <ng-container *ngIf="selectedVolume; then showVolumeName else showSelectVolumeMessage"></ng-container>
+        <ng-container
+          *ngIf="selectedVolume; then showVolumeName; else showSelectVolumeMessage"
+        ></ng-container>
         <ng-template #showSelectVolumeMessage>
           {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.SELECT_VOLUME' | translate }}
         </ng-template>
-        <ng-template #showVolumeName>
-          {{ selectedVolume.name }}
-        </ng-template>
+        <ng-template #showVolumeName> {{ selectedVolume.name }} </ng-template>
       </ng-template>
 
       <ng-template #avaliableVolumesNotExist>
         {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_1' | translate }}
         <a routerLink="/storage/create">
-          {{'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_2' | translate }}
+          {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_2' | translate }}
         </a>
-        {{'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_3' | translate }}
+        {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_3' | translate }}
       </ng-template>
     </div>
 
     <mat-card-actions *ngIf="volumes?.length">
-      <ng-container *ngIf="selectedVolume; then attachButton else selectButton"></ng-container>
+      <ng-container *ngIf="selectedVolume; then attachButton; else selectButton"></ng-container>
 
       <ng-template #attachButton>
         <button
@@ -56,7 +59,5 @@
         </button>
       </ng-template>
     </mat-card-actions>
-
   </mat-card-content>
-
 </mat-card>
