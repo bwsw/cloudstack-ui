@@ -31,10 +31,7 @@ const vmDescriptionKey = 'csui.vm.description';
       (groupChanged)="changeGroup($event)"
     >
     </cs-instance-group>
-    <cs-service-offering-details
-      [offering]="offering$ | async"
-      [vm]="vm$ | async"
-    >
+    <cs-service-offering-details [offering]="offering$ | async" [vm]="vm$ | async">
     </cs-service-offering-details>
     <cs-affinity-group
       [vm]="vm$ | async"
@@ -50,11 +47,8 @@ const vmDescriptionKey = 'csui.vm.description';
       (sshKeyChanged)="changeSshKey($event)"
     >
     </cs-vm-ssh-keypair>
-    <cs-statistics
-      [vm]="vm$ | async"
-      (statsUpdated)="updateStats($event)"
-    ></cs-statistics>
-    <cs-vm-logs-secret-key></cs-vm-logs-secret-key>
+    <cs-statistics [vm]="vm$ | async" (statsUpdated)="updateStats($event)"></cs-statistics>
+    <cs-vm-logs-secret-key [vm]="vm$ | async"></cs-vm-logs-secret-key>
   `,
 })
 export class VmDetailContainerComponent implements OnInit {

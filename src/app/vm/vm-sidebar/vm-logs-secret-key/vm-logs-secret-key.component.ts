@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { filter, onErrorResumeNext } from 'rxjs/operators';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { VirtualMachine } from '../..';
 
 @Component({
   selector: 'cs-vm-logs-secret-key',
@@ -9,6 +10,9 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
   styleUrls: ['vm-logs-secret-key.component.scss'],
 })
 export class VmLogsSecretKeyComponent {
+  @Input()
+  vm: VirtualMachine;
+
   constructor(private dialogService: DialogService) {}
 
   public onRefresh(): void {

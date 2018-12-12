@@ -4,6 +4,7 @@ import { Time } from '../../shared/components/time-picker/time-picker.component'
 import { DateObject } from '../models/date-object.model';
 import { VmLogFile } from '../models/vm-log-file.model';
 import { VmLogsFilters } from '../models/vm-log-filters';
+import { VmLogsToken } from '../models/vm-log-token.model';
 
 export enum VmLogsActionTypes {
   LOAD_VM_LOGS_REQUEST = '[VM Logs] LOAD_VM_LOGS_REQUEST',
@@ -14,6 +15,9 @@ export enum VmLogsActionTypes {
   UPDATE_AUTO_UPDATE_VM_LOGS = '[VM Logs] UPDATE_AUTO_UPDATE_VM_LOGS',
   LOAD_VM_LOG_FILES_REQUEST = '[VM Logs] LOAD_VM_LOG_FILES_REQUEST',
   LOAD_VM_LOG_FILES_RESPONSE = '[VM Logs] LOAD_VM_LOG_FILES_RESPONSE',
+  CREATE_TOKEN_REQUEST = '[VM Logs] CREATE_TOKEN_REQUEST',
+  CREATE_TOKEN_RESPONSE = '[VM Logs] CREATE_TOKEN_RESPONSE',
+  CREATE_TOKEN_ERROR = '[VM Logs] CREATE_TOKEN_ERROR',
   VM_LOGS_UPDATE_SEARCH = '[VM Logs] VM_LOGS_UPDATE_SEARCH',
   VM_LOGS_UPDATE_START_DATE_TIME = '[VM Logs] VM_LOGS_UPDATE_START_DATE_TIME',
   VM_LOGS_UPDATE_START_DATE = '[VM Logs] VM_LOGS_UPDATE_START_DATE',
@@ -75,6 +79,24 @@ export class LoadVmLogFilesResponse implements Action {
   readonly type = VmLogsActionTypes.LOAD_VM_LOG_FILES_RESPONSE;
 
   constructor(readonly payload: VmLogFile[]) {}
+}
+
+export class CreateTokenRequest implements Action {
+  readonly type = VmLogsActionTypes.CREATE_TOKEN_REQUEST;
+
+  constructor(readonly payload: { vmId: string }) {}
+}
+
+export class CreateTokenResponse implements Action {
+  readonly type = VmLogsActionTypes.CREATE_TOKEN_RESPONSE;
+
+  constructor(readonly payload: VmLogsToken) {}
+}
+
+export class CreateTokenError implements Action {
+  readonly type = VmLogsActionTypes.CREATE_TOKEN_ERROR;
+
+  constructor(readonly payload: Error) {}
 }
 
 export class VmLogsUpdateSearch implements Action {
@@ -190,6 +212,9 @@ export type Actions =
   | UpdateAutoUpdateVmLogs
   | LoadVmLogFilesRequest
   | LoadVmLogFilesResponse
+  | CreateTokenRequest
+  | CreateTokenResponse
+  | CreateTokenError
   | VmLogsUpdateSearch
   | VmLogsUpdateVmId
   | VmLogsUpdateAccountIds

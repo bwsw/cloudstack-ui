@@ -31,6 +31,7 @@ import {
 import removeNullsAndEmptyArrays from '../remove-nulls-and-empty-arrays';
 import { selectAll as logFiles } from './vm-log-files.reducers';
 import moment = require('moment');
+import { VmLogsTokenService } from '../services/vm-logs-token.service';
 
 @Injectable()
 export class VmLogsEffects {
@@ -58,6 +59,17 @@ export class VmLogsEffects {
           return new vmLogsActions.LoadVmLogFilesResponse(vmLogFiles);
         }),
         catchError(() => of(new vmLogsActions.LoadVmLogFilesResponse([]))),
+      );
+    }),
+  );
+
+  @Effect()
+  createToken$: Observable<Action> = this.actions$.pipe(
+    ofType<vmLogsActions.CreateTokenRequest>(vmLogsActions.VmLogsActionTypes.CREATE_TOKEN_REQUEST),
+    switchMap(action => {
+      return this.vmLogsTokenService.create({ id: action.payload.vmId }).pipe(
+        map(token => new vmLogsActions.CreateTokenResponse(token)),
+        catchError(error => of(new vmLogsActions.CreateTokenError(error))),
       );
     }),
   );
@@ -258,5 +270,6 @@ export class VmLogsEffects {
     private store: Store<State>,
     private vmLogsService: VmLogsService,
     private vmLogFilesService: VmLogFilesService,
+    private vmLogsTokenService: VmLogsTokenService,
   ) {}
 }
