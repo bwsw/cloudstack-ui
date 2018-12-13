@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
+import { Constants } from '../../../../shared/constants';
 
 @Component({
   selector: 'cs-vm-snapshot-creation-dialog',
@@ -15,6 +16,10 @@ export class VmSnapshotCreationDialogComponent {
     snapshotMemory: new FormControl({ value: true, disabled: true }),
   });
 
+  public get constants() {
+    return Constants;
+  }
+
   constructor(private dialogRef: MatDialogRef<VmSnapshotCreationDialogComponent>) {}
 
   public onSubmit() {
@@ -23,13 +28,5 @@ export class VmSnapshotCreationDialogComponent {
 
   public onClose() {
     this.dialogRef.close();
-  }
-
-  public getNameControl(): AbstractControl | null {
-    return this.form.get('name');
-  }
-
-  public getDescriptionControl(): AbstractControl | null {
-    return this.form.get('description');
   }
 }

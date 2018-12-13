@@ -7,10 +7,10 @@
         matInput
         formControlName="name"
         [placeholder]="'COMMON.NAME' | translate"
-        [maxlength]="255"
+        [maxlength]="constants.maxLength255"
       >
       <mat-hint align="end">
-        <cs-character-count [value]="getNameControl().value" [maxLength]="255"></cs-character-count>
+        <cs-character-count [value]="form.value.name" [maxLength]="constants.maxLength255"></cs-character-count>
       </mat-hint>
     </mat-form-field>
     <mat-form-field class="full-width-input">
@@ -18,10 +18,10 @@
         matInput
         formControlName="description"
         [placeholder]="'COMMON.DESCRIPTION' | translate"
-        [maxlength]="255"
+        [maxlength]="constants.maxLength255"
       >
       <mat-hint align="end">
-        <cs-character-count [value]="getDescriptionControl().value" [maxLength]="255"></cs-character-count>
+        <cs-character-count [value]="form.value.description" [maxLength]="constants.maxLength255"></cs-character-count>
       </mat-hint>
     </mat-form-field>
     <mat-checkbox formControlName="snapshotMemory">
