@@ -56,6 +56,8 @@ describe('e2e-test-vm-creation', () => {
     vmlist.waitDialogModal();
     expect(vmlist.getDialog().isPresent()).toBeTruthy();
     vmlist.confirmDialog();
+    page = new VMCreation();
+    page.setIndex(0);
     page.waitDialogModal();
     page.setDisplayName(page.name);
     expect(page.getZone()).toEqual(page.zone);
@@ -88,21 +90,21 @@ describe('e2e-test-vm-creation', () => {
   });
 
   it('Verify card: name, ip, status, template', () => {
-    expect(vmlist.getVMNameCard()).toEqual(page.name);
+    expect(vmlist.getVMNameCard(page.index)).toEqual(page.name);
     expect(vmlist.getStateRunning().isPresent()).toBeTruthy();
-    expect(vmlist.getVMOSCard()).toContain(page.template);
-    expect(vmlist.getVMIPCard().isPresent()).toBeTruthy();
+    expect(vmlist.getVMOSCard(page.index)).toContain(page.template);
+    expect(vmlist.getVMIPCard(page.index).isPresent()).toBeTruthy();
   });
 
   it('Verify access VM: title, console', () => {
-    vmlist.clickOpenAccessVM();
+    vmlist.clickOpenAccessVM(page.index);
     expect(accessVM.getTitle()).toEqual('Access VM');
     expect(accessVM.getConsoleButton().isPresent).toBeTruthy();
     accessVM.clickClose();
   });
 
   it('Verify sidebar: name, group, affinity group, template', () => {
-    vmlist.clickOpenSidebar();
+    vmlist.clickOpenSidebar(page.index);
     expect(sidebar.getVMName()).toEqual(page.name);
     expect(sidebar.getGroup()).toEqual(page.group);
     expect(sidebar.getSOName()).toEqual(page.so);
@@ -137,12 +139,13 @@ describe('e2e-test-vm-creation', () => {
     vmlist.clickImageMenu();
     imlist.clickOpenSidebar();
     imsidebar.clickTagTab();
-    // imsidebar.setTag('csui.template.agreement', 'agreements/template-uuid-agreement.md');
-    // imsidebar.setTag('csui.vm.auth-mode', 'SSH');
+    imsidebar.setTag('csui.template.agreement', 'agreements/template-uuid-agreement.md');
+    imsidebar.setTag('csui.vm.auth-mode', 'SSH');
     imsidebar.clickClose();
     imlist.clickVMMenu();
     vmlist.clickCreateVM();
     page = new VMCreation();
+    page.setIndex(1);
     page.setDisplayName(page.name);
     // Add wait creation windows
     // page.clickSelectInstSource();
@@ -170,9 +173,8 @@ describe('e2e-test-vm-creation', () => {
   });
 
   it('Verify access VM: ssh', () => {
-    page = new VMCreation();
     // expect(vmlist.getStateStopped().isPresent()).toBeTruthy(); - can't get access for stopped VM
-    vmlist.clickOpenAccessVM();
+    vmlist.clickOpenAccessVM(page.index);
     expect(accessVM.getTitle()).toEqual('Access VM');
     expect(accessVM.getConsoleButton().isPresent).toBeTruthy();
     accessVM.clickSSHTab();
@@ -185,8 +187,7 @@ describe('e2e-test-vm-creation', () => {
   });
 
   it('Verify sidebar VM: tags ssh', () => {
-    page = new VMCreation();
-    vmlist.clickOpenSidebar();
+    vmlist.clickOpenSidebar(page.index);
     sidebar.clickTagTab();
     expect(sidebar.getTagKey('csui.template.agreement').isPresent()).toBeTruthy();
     expect(sidebar.getTagValue('agreements/template-uuid-agreement.md').isPresent()).toBeTruthy();
@@ -199,6 +200,7 @@ describe('e2e-test-vm-creation', () => {
 
   it('Create VM with Template(HTTP), save password, checked start VM', () => {
     page = new VMCreation();
+    page.setIndex(2);
     vmlist.clickMainMenu();
     vmlist.clickMainAccounts();
     vmlist.clickSettings();
@@ -238,7 +240,7 @@ describe('e2e-test-vm-creation', () => {
 
   it('Verify access VM: http', () => {
     page = new VMCreation();
-    vmlist.clickOpenAccessVM();
+    vmlist.clickOpenAccessVM(page.index);
     expect(accessVM.getTitle()).toEqual('Access VM');
     expect(accessVM.getConsoleButton().isPresent).toBeTruthy();
     accessVM.clickHTTPTab();
@@ -250,7 +252,7 @@ describe('e2e-test-vm-creation', () => {
 
   it('Verify sidebar VM: tags http', () => {
     page = new VMCreation();
-    vmlist.clickOpenSidebar();
+    vmlist.clickOpenSidebar(page.index);
     sidebar.clickTagTab();
     expect(sidebar.getTagKey('csui.vm.http.login').isPresent()).toBeTruthy();
     expect(sidebar.getTagValue('login').isPresent()).toBeTruthy();

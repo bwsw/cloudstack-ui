@@ -4,13 +4,18 @@ import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 export class VMCreation extends CloudstackUiPage {
   template = 'CentOS 5.6 (64-bit)';
-  name = `e2evm${this.generateID()}`;
+  index;
+  name = `e2e${this.index}${this.generateID()}`;
   so = 'Small Instance';
   zone = 'Sandbox-simulator-basic';
   group = `e2e_group_${this.generateID()}`;
   rule = 'default';
   ssh = 'No SSH key';
   aff = `e2e_aff_group_${this.generateID()}`;
+
+  setIndex(index) {
+    this.index = index;
+  }
 
   clickVMSection() {
     const linkactive = element(by.css('a[ng-reflect-router-link-active=link-active]'));
