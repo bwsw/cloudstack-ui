@@ -24,6 +24,7 @@ describe('e2e-test-vm-creation', () => {
   let imlist: ImageList;
   let imsidebar: ImageSidebar;
   let settings: Settings;
+  let index = 0;
 
   beforeAll(() => {
     browser.driver
@@ -57,9 +58,8 @@ describe('e2e-test-vm-creation', () => {
     expect(vmlist.getDialog().isPresent()).toBeTruthy();
     vmlist.confirmDialog();
     page = new VMCreation();
-    page.setIndex(0);
     page.waitDialogModal();
-    page.setDisplayName(page.name);
+    page.setDisplayName(index + page.name);
     expect(page.getZone()).toEqual(page.zone);
     expect(page.getSO()).toContain(page.so);
     expect(page.getInstSourceText()).toContain(page.template);
@@ -90,22 +90,23 @@ describe('e2e-test-vm-creation', () => {
   });
 
   it('Verify card: name, ip, status, template', () => {
-    expect(vmlist.getVMNameCard(page.index)).toEqual(page.name);
+    expect(vmlist.getVMNameCard(index)).toEqual(index + page.name);
     expect(vmlist.getStateRunning().isPresent()).toBeTruthy();
-    expect(vmlist.getVMOSCard(page.index)).toContain(page.template);
-    expect(vmlist.getVMIPCard(page.index).isPresent()).toBeTruthy();
+    expect(vmlist.getVMOSCard(index)).toContain(page.template);
+    expect(vmlist.getVMIPCard(index).isPresent()).toBeTruthy();
   });
 
   it('Verify access VM: title, console', () => {
-    vmlist.clickOpenAccessVM(page.index);
+    vmlist.clickOpenAccessVM(index);
     expect(accessVM.getTitle()).toEqual('Access VM');
     expect(accessVM.getConsoleButton().isPresent).toBeTruthy();
+
     accessVM.clickClose();
   });
 
   it('Verify sidebar: name, group, affinity group, template', () => {
-    vmlist.clickOpenSidebar(page.index);
-    expect(sidebar.getVMName()).toEqual(page.name);
+    vmlist.clickOpenSidebar(index);
+    expect(sidebar.getVMName()).toEqual(index + page.name);
     expect(sidebar.getGroup()).toEqual(page.group);
     expect(sidebar.getSOName()).toEqual(page.so);
     expect(sidebar.getTemplate()).toContain(page.template);
@@ -117,7 +118,7 @@ describe('e2e-test-vm-creation', () => {
     vmlist.clickFirewallMenu();
     sglist.clickSharedTab();
     sglist.clickOpenSidebar();
-    expect(sgsidebar.getVMbyName(page.name).isPresent()).toBeTruthy();
+    expect(sgsidebar.getVMbyName(index + page.name).isPresent()).toBeTruthy();
     sgsidebar.clickClose();
     sglist.clickVMMenu();
     sglist.waitRedirect('instances');
@@ -125,7 +126,7 @@ describe('e2e-test-vm-creation', () => {
 
   it('Verify VM with duplicate name can not be created', () => {
     vmlist.clickCreateVM();
-    page.setDisplayName(page.name);
+    page.setDisplayName(index + page.name);
     // Go to Advanced Tab
     page.clickAdvancedTab();
     page.setHostName(page.name);
@@ -145,8 +146,8 @@ describe('e2e-test-vm-creation', () => {
     imlist.clickVMMenu();
     vmlist.clickCreateVM();
     page = new VMCreation();
-    page.setIndex(1);
-    page.setDisplayName(page.name);
+    index = 1;
+    page.setDisplayName(index + page.name);
     // Add wait creation windows
     // page.clickSelectInstSource();
     // page.waitDialogModal();
@@ -174,7 +175,7 @@ describe('e2e-test-vm-creation', () => {
 
   it('Verify access VM: ssh', () => {
     // expect(vmlist.getStateStopped().isPresent()).toBeTruthy(); - can't get access for stopped VM
-    vmlist.clickOpenAccessVM(page.index);
+    vmlist.clickOpenAccessVM(index);
     expect(accessVM.getTitle()).toEqual('Access VM');
     expect(accessVM.getConsoleButton().isPresent).toBeTruthy();
     accessVM.clickSSHTab();
@@ -187,7 +188,7 @@ describe('e2e-test-vm-creation', () => {
   });
 
   it('Verify sidebar VM: tags ssh', () => {
-    vmlist.clickOpenSidebar(page.index);
+    vmlist.clickOpenSidebar(index);
     sidebar.clickTagTab();
     expect(sidebar.getTagKey('csui.template.agreement').isPresent()).toBeTruthy();
     expect(sidebar.getTagValue('agreements/template-uuid-agreement.md').isPresent()).toBeTruthy();
@@ -200,7 +201,7 @@ describe('e2e-test-vm-creation', () => {
 
   it('Create VM with Template(HTTP), save password, checked start VM', () => {
     page = new VMCreation();
-    page.setIndex(2);
+    index = 2;
     vmlist.clickMainMenu();
     vmlist.clickMainAccounts();
     vmlist.clickSettings();
@@ -218,7 +219,7 @@ describe('e2e-test-vm-creation', () => {
     imlist.clickVMMenu();
     vmlist.clickCreateVM();
     page = new VMCreation();
-    page.setDisplayName(page.name);
+    page.setDisplayName(index + page.name);
     // Add wait creation windows
     // page.clickSelectInstSource();
     // page.waitDialogModal();
@@ -240,7 +241,7 @@ describe('e2e-test-vm-creation', () => {
 
   it('Verify access VM: http', () => {
     page = new VMCreation();
-    vmlist.clickOpenAccessVM(page.index);
+    vmlist.clickOpenAccessVM(index);
     expect(accessVM.getTitle()).toEqual('Access VM');
     expect(accessVM.getConsoleButton().isPresent).toBeTruthy();
     accessVM.clickHTTPTab();
@@ -252,7 +253,7 @@ describe('e2e-test-vm-creation', () => {
 
   it('Verify sidebar VM: tags http', () => {
     page = new VMCreation();
-    vmlist.clickOpenSidebar(page.index);
+    vmlist.clickOpenSidebar(index);
     sidebar.clickTagTab();
     expect(sidebar.getTagKey('csui.vm.http.login').isPresent()).toBeTruthy();
     expect(sidebar.getTagValue('login').isPresent()).toBeTruthy();
