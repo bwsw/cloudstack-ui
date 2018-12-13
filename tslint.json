@@ -91,6 +91,6 @@
     "no-output-named-after-standard-event": true,
     "no-unused-css": true,
     "use-pipe-decorator": true,
-    "angular-whitespace": [true, "check-interpolation", "check-pipe", "check-semicolon"]
+    "angular-whitespace": [true, "check-interpolation", "check-semicolon"]
   }
 }
