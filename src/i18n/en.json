@@ -1492,7 +1492,11 @@
       "STOP_FOLLOWING": "Stop following"
     },
     "TOKEN": {
-      "TOKEN_CREATED": "Token created"
+      "CONFIRM_CREATE_TOKEN": "Are you sure you want to create a token?",
+      "TOKEN_CREATED": "Token created",
+      "INVALIDATE_TOKEN": "Invalidate token",
+      "INVALIDATE": "Invalidate",
+      "INVALIDATE_SUCCESS": "Token invalidated successfully"
     }
   },
   "SETTINGS": {

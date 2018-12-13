@@ -93,7 +93,7 @@ export class VmActionsContainerComponent {
 
   public onCreateVmLogsToken(vm: VirtualMachine): void {
     this.dialogService
-      .confirm({ message: 'VM_LOGS.CREATE_TOKEN.CONFIRM' })
+      .confirm({ message: 'LOGS_PAGE.TOKEN.CONFIRM_CREATE_TOKEN' })
       .pipe(
         onErrorResumeNext(),
         filter(Boolean),

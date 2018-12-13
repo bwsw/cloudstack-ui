@@ -326,7 +326,7 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
       "VM_ACCESS_TITLE": "Виртуальная машина",
-      "LOGS": "Просмотр логов",
+      "LOGS": "Логи ВМ",
       "CREATE_VM_LOGS_TOKEN": "Создать токен",
       "INVALIDATE_VM_LOGS_TOKEN": "Аннулировать токен"
     },
@@ -1489,7 +1489,10 @@
     },
     "TOKEN": {
       "CONFIRM_CREATE_TOKEN": "Вы уверены, что хотите создать токен?",
-      "TOKEN_CREATED": "Токен создан"
+      "TOKEN_CREATED": "Токен создан",
+      "INVALIDATE_TOKEN": "Аннулировать токен",
+      "INVALIDATE": "Аннулировать",
+      "INVALIDATE_SUCCESS": "Токен успешно аннулирован"
     }
   },
   "SETTINGS": {

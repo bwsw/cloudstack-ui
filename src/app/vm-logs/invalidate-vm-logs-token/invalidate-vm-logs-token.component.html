@@ -1,0 +1,25 @@
+<h3 mat-dialog-title>{{ 'LOGS_PAGE.TOKEN.INVALIDATE_TOKEN' | translate }}</h3>
+
+<mat-dialog-content>
+  <mat-form-field class="full-width-input">
+    <textarea
+      class="vm-logs-key"
+      matInput
+      [(ngModel)]="token"
+      rows="3"
+    ></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<div class="mat-dialog-actions">
+  <button mat-button color="primary" matDialogClose>
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <button
+    mat-button
+    color="primary"
+    (click)="onInvalidate()"
+  >
+    {{ 'LOGS_PAGE.TOKEN.INVALIDATE' | translate }}
+  </button>
+</div>

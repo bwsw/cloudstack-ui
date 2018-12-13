@@ -1,3 +1,3 @@
-export interface VmLogsToken {
+export interface VmLogToken {
   token: string;
 }

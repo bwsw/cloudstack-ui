@@ -7,8 +7,14 @@ import { VirtualMachine } from '../../vm';
   templateUrl: 'invalidate-vm-logs-token.component.html',
 })
 export class InvalidateVmLogsTokenComponent {
+  public token: string;
+
   constructor(
     public dialogRef: MatDialogRef<InvalidateVmLogsTokenComponent>,
     @Inject(MAT_DIALOG_DATA) public vm: VirtualMachine,
   ) {}
+
+  public onInvalidate() {
+    this.dialogRef.close(this.token);
+  }
 }

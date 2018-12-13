@@ -4,7 +4,7 @@ import { Time } from '../../shared/components/time-picker/time-picker.component'
 import { DateObject } from '../models/date-object.model';
 import { VmLogFile } from '../models/vm-log-file.model';
 import { VmLogsFilters } from '../models/vm-log-filters';
-import { VmLogsToken } from '../models/vm-log-token.model';
+import { VmLogToken } from '../models/vm-log-token.model';
 import { VirtualMachine } from '../../vm';
 
 export enum VmLogsActionTypes {
@@ -19,6 +19,9 @@ export enum VmLogsActionTypes {
   CREATE_TOKEN_REQUEST = '[VM Logs] CREATE_TOKEN_REQUEST',
   CREATE_TOKEN_RESPONSE = '[VM Logs] CREATE_TOKEN_RESPONSE',
   CREATE_TOKEN_ERROR = '[VM Logs] CREATE_TOKEN_ERROR',
+  INVALIDATE_TOKEN_REQUEST = '[VM Logs] INVALIDATE_TOKEN_REQUEST',
+  INVALIDATE_TOKEN_ERROR = '[VM Logs] INVALIDATE_TOKEN_ERROR',
+  INVALIDATE_TOKEN_CANCELED = '[VM Logs] INVALIDATE_TOKEN_CANCELED',
   VM_LOGS_UPDATE_SEARCH = '[VM Logs] VM_LOGS_UPDATE_SEARCH',
   VM_LOGS_UPDATE_START_DATE_TIME = '[VM Logs] VM_LOGS_UPDATE_START_DATE_TIME',
   VM_LOGS_UPDATE_START_DATE = '[VM Logs] VM_LOGS_UPDATE_START_DATE',
@@ -93,7 +96,23 @@ export class CreateTokenRequest implements Action {
 export class CreateTokenResponse implements Action {
   readonly type = VmLogsActionTypes.CREATE_TOKEN_RESPONSE;
 
-  constructor(readonly payload: VmLogsToken) {}
+  constructor(readonly payload: VmLogToken) {}
+}
+
+export class InvalidateTokenRequest implements Action {
+  readonly type = VmLogsActionTypes.INVALIDATE_TOKEN_REQUEST;
+
+  constructor(readonly payload: { token: string }) {}
+}
+
+export class InvalidateTokenError implements Action {
+  readonly type = VmLogsActionTypes.INVALIDATE_TOKEN_ERROR;
+
+  constructor(readonly payload: { token: string }) {}
+}
+
+export class InvalidateTokenCanceled implements Action {
+  readonly type = VmLogsActionTypes.INVALIDATE_TOKEN_CANCELED;
 }
 
 export class CreateTokenError implements Action {
@@ -230,6 +249,9 @@ export type Actions =
   | CreateTokenRequest
   | CreateTokenResponse
   | CreateTokenError
+  | InvalidateTokenRequest
+  | InvalidateTokenError
+  | InvalidateTokenCanceled
   | VmLogsUpdateSearch
   | VmLogsUpdateVmId
   | VmLogsUpdateAccountIds

@@ -30,13 +30,13 @@ import {
 } from './vm-logs.reducers';
 import removeNullsAndEmptyArrays from '../remove-nulls-and-empty-arrays';
 import { selectAll as logFiles } from './vm-log-files.reducers';
-import moment = require('moment');
 import { VmLogsTokenService } from '../services/vm-logs-token.service';
-import { VirtualMachine } from '../../vm';
 import { MatDialog } from '@angular/material';
 import { VmLogsTokenComponent } from '../vm-logs-token/vm-logs-token.component';
 import { InvalidateVmLogsTokenComponent } from '../invalidate-vm-logs-token/invalidate-vm-logs-token.component';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { SnackBarService } from '../../core/services';
+import moment = require('moment');
 
 @Injectable()
 export class VmLogsEffects {
@@ -75,6 +75,19 @@ export class VmLogsEffects {
       return this.vmLogsTokenService.create({ id: action.payload.vm.id }).pipe(
         map(token => new vmLogsActions.CreateTokenResponse(token)),
         catchError(error => of(new vmLogsActions.CreateTokenError(error))),
+      );
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  invalidateToken$: Observable<Action> = this.actions$.pipe(
+    ofType<vmLogsActions.InvalidateTokenRequest>(
+      vmLogsActions.VmLogsActionTypes.INVALIDATE_TOKEN_REQUEST,
+    ),
+    switchMap(action => {
+      return this.vmLogsTokenService.invalidate({ token: action.payload.token }).pipe(
+        tap(() => this.showNotificationsOnFinish('LOGS_PAGE.TOKEN.INVALIDATE_SUCCESS')),
+        catchError(error => of(this.dialogService.showNotificationsOnFail(error))),
       );
     }),
   );
@@ -274,7 +287,7 @@ export class VmLogsEffects {
     ofType<vmLogsActions.CreateTokenResponse>(
       vmLogsActions.VmLogsActionTypes.CREATE_TOKEN_RESPONSE,
     ),
-    map(action => action.payload.token),
+    map(action => action.payload),
     tap(token => {
       return this.dialog.open(VmLogsTokenComponent, {
         width: '400px',
@@ -283,17 +296,28 @@ export class VmLogsEffects {
     }),
   );
 
-  @Effect({ dispatch: false })
-  openInvalidateToken$: Observable<VirtualMachine> = this.actions$.pipe(
+  @Effect()
+  openInvalidateToken = this.actions$.pipe(
     ofType<vmLogsActions.OpenInvalidateToken>(
       vmLogsActions.VmLogsActionTypes.OPEN_INVALIDATE_TOKEN,
     ),
     map(action => action.payload.vm),
-    tap(vm => {
-      return this.dialog.open(InvalidateVmLogsTokenComponent, {
-        width: '400px',
-        data: vm,
-      });
+    switchMap(vm => {
+      return this.dialog
+        .open(InvalidateVmLogsTokenComponent, {
+          width: '400px',
+          data: vm,
+        })
+        .afterClosed()
+        .pipe(
+          map(token => {
+            if (token) {
+              return new vmLogsActions.InvalidateTokenRequest({ token });
+            }
+
+            return new vmLogsActions.InvalidateTokenCanceled();
+          }),
+        );
     }),
   );
 
@@ -303,8 +327,13 @@ export class VmLogsEffects {
     private store: Store<State>,
     private dialog: MatDialog,
     private dialogService: DialogService,
+    private snackBarService: SnackBarService,
     private vmLogsService: VmLogsService,
     private vmLogFilesService: VmLogFilesService,
     private vmLogsTokenService: VmLogsTokenService,
   ) {}
+
+  private showNotificationsOnFinish(message: string) {
+    this.snackBarService.open(message).subscribe();
+  }
 }

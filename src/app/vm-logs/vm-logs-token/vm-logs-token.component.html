@@ -2,7 +2,13 @@
 
 <mat-dialog-content>
   <mat-form-field class="full-width-input">
-    <textarea matInput [(ngModel)]="token.token" rows="12" readonly></textarea>
+    <textarea
+      class="vm-logs-key"
+      matInput
+      [(ngModel)]="token.token"
+      rows="3"
+      readonly
+    ></textarea>
   </mat-form-field>
 </mat-dialog-content>
 
