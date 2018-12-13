@@ -3,7 +3,7 @@ import { EntityAction } from '../../../shared/interfaces';
 import { VmSnapshot } from '../../../shared/models/vm-snapshot.model';
 
 @Component({
-  selector: 'cs-vm-snapshots-card',
+  selector: 'cs-vm-snapshots-sidebar-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './vm-snapshots-sidebar-card.component.html',
   styleUrls: ['./vm-snapshots-sidebar-card.component.scss'],

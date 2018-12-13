@@ -14,13 +14,14 @@ export const getVmSnapshotEntityActionsEntities = createSelector(
   vmSelectors.selectEntities,
   (vmSnapshots, virtualMachineEntities): NgrxEntities<EntityAction[]> => {
     return vmSnapshots.reduce((dictionary, vmSnapshot) => {
+      const isSnapshotReady = vmSnapshot.state === 'Ready';
       const vm = virtualMachineEntities[vmSnapshot.virtualmachineid];
       const vmState = vm ? vm.state : undefined;
       dictionary[vmSnapshot.id] = [
         {
           icon: 'mdi-camera',
           text: 'SNAPSHOT_PAGE.ACTIONS.CREATE_SNAP_FROM_VM_SNAP',
-          disabled: false,
+          disabled: !isSnapshotReady,
           visible: false,
           actionCreator: () =>
             new vmSnapshotsActions.CreateVolumeSnapshot({ snapshotId: vmSnapshot.id }),
@@ -28,14 +29,14 @@ export const getVmSnapshotEntityActionsEntities = createSelector(
         {
           icon: 'mdi-backup-restore',
           text: 'SNAPSHOT_PAGE.ACTIONS.REVERT_VM_TO_SNAPSHOT',
-          disabled: vmState !== VmState.Running,
+          disabled: !isSnapshotReady || vmState !== VmState.Running,
           visible: true,
           actionCreator: () => new vmSnapshotsActions.Revert({ id: vmSnapshot.id }),
         },
         {
           icon: 'mdi-delete',
           text: 'COMMON.DELETE',
-          disabled: false,
+          disabled: !isSnapshotReady && vmSnapshot.state !== 'Running',
           visible: true,
           actionCreator: () => new vmSnapshotsActions.Delete({ id: vmSnapshot.id }),
         },

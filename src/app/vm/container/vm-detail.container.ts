@@ -55,13 +55,13 @@ const vmDescriptionKey = 'csui.vm.description';
       [vm]="vm$ | async"
       (statsUpdated)="updateStats($event)"
     ></cs-statistics>
-    <cs-vm-snapshots-card
+    <cs-vm-snapshots-sidebar-card
       [lastVmSnapshot]="lastVmSnapshot$ | async"
       [vmSnapshotsCount]="vmSnapshotsCount$ | async"
       [entityActions]="lastVmSnapshotActions$ | async"
       (createButtonClicked)="onCreateVmSnapshot()"
       (showAllVMSnapshotsButtonClicked)="onShowAllVmSnapshots()"
-    ></cs-vm-snapshots-card>
+    ></cs-vm-snapshots-sidebar-card>
   `,
 })
 export class VmDetailContainerComponent implements OnInit {

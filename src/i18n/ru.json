@@ -462,7 +462,7 @@
       },
       "VM_SNAPSHOTS": {
         "TITLE": "Снимки ВМ",
-        "LAST_SNAPSHOT": "Последний снимок:",
+        "LAST_SNAPSHOT": "Последний снимок",
         "VIEW_ALL": "Все",
         "NO_SNAPSHOTS": "Нет снимков",
         "CREATE": "Создать"

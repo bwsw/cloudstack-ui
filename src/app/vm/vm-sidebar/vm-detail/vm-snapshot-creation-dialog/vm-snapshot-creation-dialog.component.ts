@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
@@ -23,5 +23,13 @@ export class VmSnapshotCreationDialogComponent {
 
   public onClose() {
     this.dialogRef.close();
+  }
+
+  public getNameControl(): AbstractControl | null {
+    return this.form.get('name');
+  }
+
+  public getDescriptionControl(): AbstractControl | null {
+    return this.form.get('description');
   }
 }

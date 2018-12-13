@@ -8,17 +8,17 @@
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>{{ 'VM_PAGE.MODALS.VM_SNAPSHOT_LIST.NAME' | translate }}</th>
       <td mat-cell *matCellDef="let vmSnapshot">
-        <span [matTooltip]="vmSnapshot.displayname">
+        <div class="cell-with-tooltip truncate" [matTooltip]="vmSnapshot.displayname">
           {{ vmSnapshot.displayname }}
-        </span>
+        </div>
       </td>
     </ng-container>
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>{{ 'VM_PAGE.MODALS.VM_SNAPSHOT_LIST.DESCRIPTION' | translate }}</th>
       <td mat-cell *matCellDef="let vmSnapshot">
-        <span [matTooltip]="vmSnapshot.description || '-'">
+        <div class="cell-with-tooltip truncate" [matTooltip]="vmSnapshot.description || '-'">
           {{ vmSnapshot.description || '-' }}
-        </span>
+        </div>
       </td>
     </ng-container>
     <ng-container matColumnDef="date">
