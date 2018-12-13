@@ -91,7 +91,6 @@ import { ServiceOfferingDetailsComponent } from './vm-sidebar/vm-detail/service-
 import { SshKeypairComponent } from './vm-sidebar/vm-detail/ssh/ssh-keypair.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-detail-template.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail/detail/vm-detail.component';
-import { VmLogsSecretKeyComponent } from './vm-sidebar/vm-logs-secret-key/vm-logs-secret-key.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
@@ -103,6 +102,7 @@ import {
   VmCreationAffinityGroupListComponent,
 } from './vm-sidebar/affinity-group-selector';
 import { VmCreationAffinityGroupManagerComponent } from './vm-creation/components/affinity-group-manager/vm-creation-affinity-group-manager.component';
+import { VmLogsModule } from '../vm-logs/vm-logs.module';
 
 // tslint:enable max-line-length
 
@@ -121,6 +121,7 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
     TagsModule,
     TemplateModule,
     TranslateModule,
+    VmLogsModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),
     StoreModule.forFeature('tags', accountTagsReducers),
@@ -208,7 +209,6 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
     ServiceOfferingSelectorComponent,
     InstallationSourceDialogComponent,
     VmPasswordComponent,
-    VmLogsSecretKeyComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [

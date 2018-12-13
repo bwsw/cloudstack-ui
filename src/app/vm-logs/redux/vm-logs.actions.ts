@@ -5,6 +5,7 @@ import { DateObject } from '../models/date-object.model';
 import { VmLogFile } from '../models/vm-log-file.model';
 import { VmLogsFilters } from '../models/vm-log-filters';
 import { VmLogsToken } from '../models/vm-log-token.model';
+import { VirtualMachine } from '../../vm';
 
 export enum VmLogsActionTypes {
   LOAD_VM_LOGS_REQUEST = '[VM Logs] LOAD_VM_LOGS_REQUEST',
@@ -37,6 +38,8 @@ export enum VmLogsActionTypes {
   SCROLL_VM_LOGS = '[VM Logs] SCROLL_VM_LOGS',
   RESET_VM_LOGS_SCROLL = '[VM Logs] RESET_VM_LOGS_SCROLL',
   UPDATE_FILTERS = '[VM Logs] UPDATE_FILTERS',
+  OPEN_CREATE_TOKEN = '[VM Logs] OPEN_CREATE_TOKEN',
+  OPEN_INVALIDATE_TOKEN = '[VM Logs] OPEN_INVALIDATE_TOKEN',
 }
 
 export class LoadVmLogsRequest implements Action {
@@ -84,7 +87,7 @@ export class LoadVmLogFilesResponse implements Action {
 export class CreateTokenRequest implements Action {
   readonly type = VmLogsActionTypes.CREATE_TOKEN_REQUEST;
 
-  constructor(readonly payload: { vmId: string }) {}
+  constructor(readonly payload: { vm: VirtualMachine }) {}
 }
 
 export class CreateTokenResponse implements Action {
@@ -203,6 +206,18 @@ export class UpdateFilters implements Action {
   constructor(readonly payload: Partial<VmLogsFilters>) {}
 }
 
+export class OpenCreateToken implements Action {
+  readonly type = VmLogsActionTypes.OPEN_CREATE_TOKEN;
+
+  constructor(readonly payload: { vm: VirtualMachine }) {}
+}
+
+export class OpenInvalidateToken implements Action {
+  readonly type = VmLogsActionTypes.OPEN_INVALIDATE_TOKEN;
+
+  constructor(readonly payload: { vm: VirtualMachine }) {}
+}
+
 export type Actions =
   | LoadVmLogsResponse
   | LoadVmLogsRequest
@@ -233,4 +248,6 @@ export type Actions =
   | SetAutoUpdateEndDate
   | ScrollVmLogs
   | ResetVmLogsScroll
-  | UpdateFilters;
+  | UpdateFilters
+  | OpenCreateToken
+  | OpenInvalidateToken;

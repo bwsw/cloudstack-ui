@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material/material.module';
@@ -26,6 +27,9 @@ import { VmLogsContainerComponent } from './containers/vm-logs.container';
 import { VmLogsEnabledGuard } from './vm-logs-enabled-guard.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ScrollToLastDirective } from './vm-logs-table/scroll-to-last.directive';
+import { VmLogsTokenService } from './services/vm-logs-token.service';
+import { VmLogsTokenComponent } from './vm-logs-token/vm-logs-token.component';
+import { InvalidateVmLogsTokenComponent } from './invalidate-vm-logs-token/invalidate-vm-logs-token.component';
 
 @NgModule({
   imports: [
@@ -35,6 +39,7 @@ import { ScrollToLastDirective } from './vm-logs-table/scroll-to-last.directive'
     RouterModule,
     MatChipsModule,
     CdkTableModule,
+    ClipboardModule,
     InfiniteScrollModule,
     StoreModule.forFeature('vmLogs', vmLogsReducers),
     StoreModule.forFeature('vmLogFiles', vmLogFilesReducers),
@@ -52,7 +57,10 @@ import { ScrollToLastDirective } from './vm-logs-table/scroll-to-last.directive'
     DateObjectToDatePipe,
     VmLogsContainerComponent,
     ScrollToLastDirective,
+    VmLogsTokenComponent,
+    InvalidateVmLogsTokenComponent,
   ],
-  providers: [VmLogsService, VmLogFilesService, VmLogsEnabledGuard],
+  providers: [VmLogsService, VmLogFilesService, VmLogsEnabledGuard, VmLogsTokenService],
+  entryComponents: [VmLogsTokenComponent, InvalidateVmLogsTokenComponent],
 })
 export class VmLogsModule {}

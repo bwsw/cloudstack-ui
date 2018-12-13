@@ -48,7 +48,6 @@ const vmDescriptionKey = 'csui.vm.description';
     >
     </cs-vm-ssh-keypair>
     <cs-statistics [vm]="vm$ | async" (statsUpdated)="updateStats($event)"></cs-statistics>
-    <cs-vm-logs-secret-key [vm]="vm$ | async"></cs-vm-logs-secret-key>
   `,
 })
 export class VmDetailContainerComponent implements OnInit {

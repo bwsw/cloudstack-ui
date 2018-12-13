@@ -6,6 +6,7 @@ import { State } from '../../reducers';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VirtualMachine } from '../shared/vm.model';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import * as vmLogsActions from '../../vm-logs/redux/vm-logs.actions';
 
 @Component({
   selector: 'cs-vm-actions-container',
@@ -22,9 +23,11 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
       (vmRecovered)="onVmRecover($event)"
       (vmAccessed)="onVmAccess($event)"
       (vmPulse)="onVmPulse($event)"
-      (vmLogs)="onViewVmLogs($event)"
+      (createVmLogsToken)="onCreateVmLogsToken($event)"
+      (invalidateVmLogsToken)="onInvalidateVmLogsToken($event)"
     >
-    </cs-vm-actions>`,
+    </cs-vm-actions>
+  `,
 })
 export class VmActionsContainerComponent {
   @Input()
@@ -88,7 +91,19 @@ export class VmActionsContainerComponent {
       });
   }
 
-  public onViewVmLogs(vm: VirtualMachine): void {
-    this.store.dispatch(new vmActions.ViewVmLogs(vm));
+  public onCreateVmLogsToken(vm: VirtualMachine): void {
+    this.dialogService
+      .confirm({ message: 'VM_LOGS.CREATE_TOKEN.CONFIRM' })
+      .pipe(
+        onErrorResumeNext(),
+        filter(Boolean),
+      )
+      .subscribe(() => {
+        return this.store.dispatch(new vmLogsActions.CreateTokenRequest({ vm }));
+      });
+  }
+
+  public onInvalidateVmLogsToken(vm: VirtualMachine): void {
+    this.store.dispatch(new vmLogsActions.OpenInvalidateToken({ vm }));
   }
 }

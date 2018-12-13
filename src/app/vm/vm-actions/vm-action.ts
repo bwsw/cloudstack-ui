@@ -12,5 +12,6 @@ export enum VmActions {
   WEB_SHELL = 'webShell',
   PULSE = 'pulse',
   ACCESS = 'access',
-  LOGS = 'logs',
+  CREATE_VM_LOGS_TOKEN = 'createVmLogsToken',
+  INVALIDATE_VM_LOGS_TOKEN = 'invalidateVmLogsToken',
 }

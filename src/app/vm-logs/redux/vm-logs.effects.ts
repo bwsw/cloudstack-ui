@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { concat, Observable, of, timer } from 'rxjs';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { VmLogsService } from '../services/vm-logs.service';
 import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
@@ -32,6 +32,11 @@ import removeNullsAndEmptyArrays from '../remove-nulls-and-empty-arrays';
 import { selectAll as logFiles } from './vm-log-files.reducers';
 import moment = require('moment');
 import { VmLogsTokenService } from '../services/vm-logs-token.service';
+import { VirtualMachine } from '../../vm';
+import { MatDialog } from '@angular/material';
+import { VmLogsTokenComponent } from '../vm-logs-token/vm-logs-token.component';
+import { InvalidateVmLogsTokenComponent } from '../invalidate-vm-logs-token/invalidate-vm-logs-token.component';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class VmLogsEffects {
@@ -67,7 +72,7 @@ export class VmLogsEffects {
   createToken$: Observable<Action> = this.actions$.pipe(
     ofType<vmLogsActions.CreateTokenRequest>(vmLogsActions.VmLogsActionTypes.CREATE_TOKEN_REQUEST),
     switchMap(action => {
-      return this.vmLogsTokenService.create({ id: action.payload.vmId }).pipe(
+      return this.vmLogsTokenService.create({ id: action.payload.vm.id }).pipe(
         map(token => new vmLogsActions.CreateTokenResponse(token)),
         catchError(error => of(new vmLogsActions.CreateTokenError(error))),
       );
@@ -264,10 +269,40 @@ export class VmLogsEffects {
     }),
   );
 
+  @Effect({ dispatch: false })
+  showCreatedToken = this.actions$.pipe(
+    ofType<vmLogsActions.CreateTokenResponse>(
+      vmLogsActions.VmLogsActionTypes.CREATE_TOKEN_RESPONSE,
+    ),
+    map(action => action.payload.token),
+    tap(token => {
+      return this.dialog.open(VmLogsTokenComponent, {
+        width: '400px',
+        data: token,
+      });
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  openInvalidateToken$: Observable<VirtualMachine> = this.actions$.pipe(
+    ofType<vmLogsActions.OpenInvalidateToken>(
+      vmLogsActions.VmLogsActionTypes.OPEN_INVALIDATE_TOKEN,
+    ),
+    map(action => action.payload.vm),
+    tap(vm => {
+      return this.dialog.open(InvalidateVmLogsTokenComponent, {
+        width: '400px',
+        data: vm,
+      });
+    }),
+  );
+
   constructor(
     private actions$: Actions,
     private router: Router,
     private store: Store<State>,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
     private vmLogsService: VmLogsService,
     private vmLogFilesService: VmLogFilesService,
     private vmLogsTokenService: VmLogsTokenService,

@@ -326,7 +326,9 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
       "VM_ACCESS_TITLE": "Виртуальная машина",
-      "LOGS": "Просмотр логов"
+      "LOGS": "Просмотр логов",
+      "CREATE_VM_LOGS_TOKEN": "Создать токен",
+      "INVALIDATE_VM_LOGS_TOKEN": "Аннулировать токен"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",
@@ -1484,6 +1486,10 @@
     "FAB": {
       "FOLLOW_LOG": "Отслеживать",
       "STOP_FOLLOWING": "Не отслеживать"
+    },
+    "TOKEN": {
+      "CONFIRM_CREATE_TOKEN": "Вы уверены, что хотите создать токен?",
+      "TOKEN_CREATED": "Токен создан"
     }
   },
   "SETTINGS": {
