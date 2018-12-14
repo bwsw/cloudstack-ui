@@ -47,14 +47,6 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  public get showFilters(): boolean {
-    if (this.enablePreselected) {
-      return this.affinityGroups && this.affinityGroups.length > 0;
-    }
-
-    return this.sortedAffinityGroups && this.sortedAffinityGroups.length > 0;
-  }
-
   public ngOnChanges(changes: SimpleChanges) {
     const affinityGroup = changes.affinityGroups.currentValue;
     if (affinityGroup) {

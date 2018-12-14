@@ -13,7 +13,7 @@
 
 <mat-dialog-content>
   <div *loading="!affinityGroups || loading">
-    <form *ngIf="showFilters" [formGroup]="affinityGroupForm" (ngSubmit)="createGroup()">
+    <form [formGroup]="affinityGroupForm" (ngSubmit)="createGroup()">
       <mat-form-field>
         <input
           matInput
