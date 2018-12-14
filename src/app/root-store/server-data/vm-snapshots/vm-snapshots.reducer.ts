@@ -23,6 +23,10 @@ export function reducer(state = initialState, action: VmSnapshotActionsUnion): V
       };
     }
 
+    case VmSnapshotActionTypes.CreateSuccess: {
+      return adapter.upsertOne(action.payload.vmSnapshot, state);
+    }
+
     case VmSnapshotActionTypes.DeleteSuccess: {
       return adapter.removeOne(action.payload.id, state);
     }

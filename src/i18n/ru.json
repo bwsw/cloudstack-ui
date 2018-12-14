@@ -175,6 +175,9 @@
       "REVERT_FAILED": "Не удалось вернуть диск к снимку"
     },
     "VM_SNAPSHOTS": {
+      "TAKE_VM_SNAP_IN_PROGRESS": "Создание снимка ВМ",
+      "TAKE_VM_SNAP_DONE": "Снимок ВМ создан",
+      "TAKE_VM_SNAP_FAILED": "Не удалось создать снимок ВМ",
       "TAKE_SNAP_FROM_VM_SNAP_IN_PROGRESS": "Создание снимка",
       "TAKE_SNAP_FROM_VM_SNAP_DONE": "Снимок создан",
       "TAKE_SNAP_FROM_VM_SNAP_FAILED": "Не удалось создать снимок",
@@ -456,6 +459,13 @@
         "DISK_WRITE": "Записано на диск",
         "DISK_READ_IO": "Прочитано с диска (IO)",
         "DISK_WRITE_IO": "Записано на диск (IO)"
+      },
+      "VM_SNAPSHOTS": {
+        "TITLE": "Снимки ВМ",
+        "LAST_SNAPSHOT": "Последний снимок",
+        "VIEW_ALL": "Все",
+        "NO_SNAPSHOTS": "Нет снимков",
+        "CREATE": "Создать"
       }
     },
     "STORAGE_DETAILS": {
@@ -585,6 +595,20 @@
       "NO_OFFERINGS": "Нет доступных сервисных предложений",
       "GENERAL": "Основные",
       "ADVANCED": "Дополнительные"
+    },
+    "MODALS": {
+      "TAKE_VM_SNAPSHOT": {
+        "TITLE": "Создание снимка ВМ",
+        "SNAPSHOT_MEMORY": "Снимок памяти",
+        "WARNING_INFORMATION": "Обратите внимание, что ВМ будет приостановлена на время создания снимка."
+      },
+      "VM_SNAPSHOT_LIST": {
+        "TITLE": "Снимки ВМ",
+        "NAME": "Название",
+        "DESCRIPTION": "Описание",
+        "DATE": "Дата",
+        "ACTIONS": "Действия"
+      }
     }
   },
   "VM_POST_ACTION": {
@@ -819,7 +843,7 @@
       "REVERT_VM_TO_SNAPSHOT": "Вернуть ВМ к снимку"
     },
     "MODALS": {
-      "TAKE_A_SNAPSHOT": "Создание снимка"
+      "TAKE_SNAPSHOT": "Создание снимка"
     }
   },
   "SECURITY_GROUP_PAGE": {
@@ -1672,7 +1696,13 @@
     "ERROR": "Ошибка"
   },
   "VM_SNAPSHOT_STATE": {
-    "READY": "Готов"
+    "ALLOCATED": "Аллоцирован",
+    "CREATING": "Создается",
+    "READY": "Готов",
+    "REVERTING": "Возвращение",
+    "ERROR": "Ошибка",
+    "EXPUNGING": "Уничтожение",
+    "REMOVED": "Удален"
   },
   "VM_STATE": {
     "RUNNING": "Запущена",

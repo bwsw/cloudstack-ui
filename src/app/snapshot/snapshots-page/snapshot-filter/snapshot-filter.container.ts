@@ -49,7 +49,8 @@ const FILTER_KEY = 'snapshotFilters';
       (selectedGroupingsChange)="onGroupingsChange($event)"
       (queryChange)="onQueryChange($event)"
       (viewModeChange)="onViewModeChange($event)"
-    ></cs-snapshots-filter>`,
+    ></cs-snapshots-filter>
+  `,
 })
 export class SnapshotFilterContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly filters$ = this.store.pipe(select(snapshotPageSelectors.getFilters));
@@ -198,7 +199,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     const accounts = params['accounts'];
     const vms = params['vms'];
     const volumeSnapshotTypes = params['types'];
-    const date = params['date'];
+    const date = moment(params['date']).toDate();
     const groupings = params['groupings'].reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
       if (grouping) {

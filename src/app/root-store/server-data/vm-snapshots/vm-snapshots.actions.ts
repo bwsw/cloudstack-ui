@@ -1,11 +1,17 @@
 import { Action } from '@ngrx/store';
 import { SnapshotFromVmSnapshotParams } from '../../../shared/interfaces';
 import { VmSnapshot } from '../../../shared/models/vm-snapshot.model';
+import { VirtualMachine } from '../../../vm';
 
 export enum VmSnapshotActionTypes {
   Load = '[Snapshot Page] Load VM snapshots',
   LoadSuccess = '[Snapshot API] VM snapshots load success',
   LoadError = '[Snapshot API] VM snapshot load error',
+  Create = '[VM sidebar] Create VM snapshot',
+  CreateConfirmed = '[Creation Dialog] VM snapshot creation confirmed',
+  CreateCanceled = '[Creation Dialog] VM snapshot creation canceled',
+  CreateSuccess = '[Snapshot API] Create VM snapshot success',
+  CreateError = '[Snapshot API] Create VM snapshot error',
   CreateVolumeSnapshot = '[Snapshot action] Create volume snapshot from VM snapshot',
   CreateVolumeSnapshotConfirmed = '[Creation Dialog] Volume snapshot creation from VM snapshot confirmed',
   CreateVolumeSnapshotCanceled = '[Creation Dialog] Volume snapshot creation from VM snapshot canceled',
@@ -35,6 +41,36 @@ export class LoadSuccess implements Action {
 
 export class LoadError implements Action {
   readonly type = VmSnapshotActionTypes.LoadError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
+export class Create implements Action {
+  readonly type = VmSnapshotActionTypes.Create;
+
+  constructor(readonly payload: { vmId: string }) {}
+}
+
+export class CreateConfirmed implements Action {
+  readonly type = VmSnapshotActionTypes.CreateConfirmed;
+
+  constructor(
+    readonly payload: { vmId: string; name: string; description: string; snapshotMemory: boolean },
+  ) {}
+}
+
+export class CreateCanceled implements Action {
+  readonly type = VmSnapshotActionTypes.CreateCanceled;
+}
+
+export class CreateSuccess implements Action {
+  readonly type = VmSnapshotActionTypes.CreateSuccess;
+
+  constructor(readonly payload: { vmSnapshot: VmSnapshot }) {}
+}
+
+export class CreateError implements Action {
+  readonly type = VmSnapshotActionTypes.CreateError;
 
   constructor(readonly payload: { error: Error }) {}
 }
@@ -113,6 +149,8 @@ export class RevertCanceled implements Action {
 
 export class RevertSuccess implements Action {
   readonly type = VmSnapshotActionTypes.RevertSuccess;
+
+  constructor(readonly payload: { vm: VirtualMachine }) {}
 }
 
 export class RevertError implements Action {
@@ -125,6 +163,11 @@ export type VmSnapshotActionsUnion =
   | Load
   | LoadSuccess
   | LoadError
+  | Create
+  | CreateConfirmed
+  | CreateCanceled
+  | CreateSuccess
+  | CreateError
   | CreateVolumeSnapshot
   | CreateVolumeSnapshotConfirmed
   | CreateVolumeSnapshotCanceled
