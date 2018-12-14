@@ -125,7 +125,6 @@ import { HypervisorService } from './services/hypervisor.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LoginGuard } from './services/login-guard.service';
-// tslint:disable max-line-length
 import { MemoryStorageService } from './services/memory-storage.service';
 import { OsTypeService } from './services/os-type.service';
 import { ResourceCountService } from './services/resource-count.service';
@@ -151,8 +150,7 @@ import { VmSnapshotService } from './services/vm-snapshot.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { UrlDirective } from './validators/directives';
-
-// tslint:enable max-line-length
+import { CapabilityService } from './services/capability.service';
 
 const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
 
@@ -354,6 +352,7 @@ const SHARED_COMPONENTS = [
     AuthGuard,
     AuthService,
     CacheService,
+    CapabilityService,
     ConfigurationService,
     DateTimeFormatterService,
     DescriptionTagService,

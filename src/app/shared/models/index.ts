@@ -3,6 +3,7 @@ export * from './config';
 export * from './base.model';
 export * from './affinity-group.model';
 export * from './async-job.model';
+export * from './capabilities.model';
 export * from './color.model';
 export * from './disk-offering.model';
 export * from './nic.model';
