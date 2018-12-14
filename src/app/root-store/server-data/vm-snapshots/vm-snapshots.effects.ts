@@ -276,8 +276,8 @@ export class VmSnapshotsEffects {
       };
       return this.tagService.getList(params).pipe(
         /**
-         * if we unable to verify is revert allowed then we dispatch RevertAllowed in this case
-         * user will get a server error if the revert is not allowed
+         * If we are unable to verify if revert is allowed then we dispatch RevertAllowed.
+         * In this case, the user will get a server error if the revert is not allowed.
          */
         map(tags => {
           const tag = tags[0];
