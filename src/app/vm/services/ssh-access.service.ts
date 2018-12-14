@@ -63,10 +63,10 @@ export class SshAccessService extends AccessService {
   }
 
   public getIpv4ConnectionString(vm: VirtualMachine): string {
-    return `ssh -p ${this.getPort(vm)} -u ${this.getLogin(vm)} ${vm.nic[0].ipaddress}`;
+    return `ssh -p ${this.getPort(vm)} -l ${this.getLogin(vm)} ${vm.nic[0].ipaddress}`;
   }
 
   public getIpv6ConnectionString(vm: VirtualMachine): string {
-    return `ssh -p ${this.getPort(vm)} -u ${this.getLogin(vm)} ${vm.nic[0].ip6address}`;
+    return `ssh -p ${this.getPort(vm)} -l ${this.getLogin(vm)} ${vm.nic[0].ip6address}`;
   }
 }

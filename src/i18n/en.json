@@ -49,7 +49,7 @@
       "CONFIRM_REGENERATE_KEY": "Are you sure you want to regenerate key for this user?"
     },
     "ISO": {
-      "CONFIRM_DETACHMENT": "Are you sure you want ot detach this ISO?",
+      "CONFIRM_DETACHMENT": "Are you sure you want to detach this ISO?",
       "CONFIRM_DELETION": "Are you sure you want to delete this ISO?"
     },
     "SNAPSHOT": {
@@ -175,6 +175,9 @@
       "REVERT_FAILED": "Failed to revert a disk"
     },
     "VM_SNAPSHOTS": {
+      "TAKE_VM_SNAP_IN_PROGRESS": "Taking a VM snapshot",
+      "TAKE_VM_SNAP_DONE": "VM snapshot taken",
+      "TAKE_VM_SNAP_FAILED": "Failed to take a VM snapshot",
       "TAKE_SNAP_FROM_VM_SNAP_IN_PROGRESS": "Taking a snapshot",
       "TAKE_SNAP_FROM_VM_SNAP_DONE": "Snapshot taken",
       "TAKE_SNAP_FROM_VM_SNAP_FAILED": "Failed to take a snapshot",
@@ -456,6 +459,13 @@
         "DISK_WRITE": "Disk write",
         "DISK_READ_IO": "Disk read (IO)",
         "DISK_WRITE_IO": "Disk write (IO)"
+      },
+      "VM_SNAPSHOTS": {
+        "TITLE": "VM snapshots",
+        "LAST_SNAPSHOT": "Last snapshot",
+        "VIEW_ALL": "View all",
+        "NO_SNAPSHOTS": "No snapshots",
+        "CREATE": "Create"
       }
     },
     "STORAGE_DETAILS": {
@@ -585,6 +595,20 @@
       "NO_OFFERINGS": "No offerings available",
       "GENERAL": "General",
       "ADVANCED": "Advanced"
+    },
+    "MODALS": {
+      "TAKE_VM_SNAPSHOT": {
+        "TITLE": "Take VM Snapshot",
+        "SNAPSHOT_MEMORY": "Snapshot memory",
+        "WARNING_INFORMATION": "Please notice that the instance will be paused when creating a snapshot, and resumed after a snapshot is created."
+      },
+      "VM_SNAPSHOT_LIST": {
+        "TITLE": "VM Snapshots",
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "DATE": "Date",
+        "ACTIONS": "Actions"
+      }
     }
   },
   "VM_POST_ACTION": {
@@ -819,7 +843,7 @@
       "REVERT_VM_TO_SNAPSHOT": "Revert VM to snapshot"
     },
     "MODALS": {
-      "TAKE_A_SNAPSHOT": "Take a snapshot"
+      "TAKE_SNAPSHOT": "Take a snapshot"
     }
   },
   "SECURITY_GROUP_PAGE": {
@@ -1676,7 +1700,13 @@
     "ERROR": "Error"
   },
   "VM_SNAPSHOT_STATE": {
-    "READY": "Ready"
+    "ALLOCATED": "Allocated",
+    "CREATING": "Creating",
+    "READY": "Ready",
+    "REVERTING": "Reverting",
+    "ERROR": "Error",
+    "EXPUNGING": "Expunging",
+    "REMOVED": "Removed"
   },
   "VM_STATE": {
     "RUNNING": "Running",
