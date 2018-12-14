@@ -1,0 +1,11 @@
+<ng-container *ngFor="let action of actions">
+  <button
+    mat-menu-item
+    *ngIf="action.visible"
+    [disabled]="action.disabled"
+    (click)="onClick(action.actionCreator)"
+  >
+    <mat-icon [ngClass]="action.icon"></mat-icon>
+    <span>{{ action.text | translate }}</span>
+  </button>
+</ng-container>

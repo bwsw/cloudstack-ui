@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { State, vmSnapshotsActions } from '../../../root-store';
-import { VmState } from '../../../vm/shared/vm.model';
-import { VmSnapshotSidebarViewModel } from '../../models/vm-snapshot-sidebar.view-model';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { State, vmSnapshotsSelectors } from '../../../root-store';
+import { EntityAction } from '../../../shared/interfaces';
 import { VmSnapshotViewModel } from '../../models/vm-snapshot.view-model';
 
 @Component({
@@ -12,24 +12,14 @@ import { VmSnapshotViewModel } from '../../models/vm-snapshot.view-model';
 })
 export class VmSnapshotActionMenuComponent implements OnInit {
   @Input()
-  public snapshot: VmSnapshotViewModel | VmSnapshotSidebarViewModel;
-  public vmStates = VmState;
+  public snapshot: VmSnapshotViewModel;
+  public actions$: Observable<EntityAction[]>;
 
   constructor(private store: Store<State>) {}
 
-  ngOnInit() {}
-
-  public onCreateVolumeSnapshot() {
-    this.store.dispatch(
-      new vmSnapshotsActions.CreateVolumeSnapshot({ snapshotId: this.snapshot.id }),
+  public ngOnInit() {
+    this.actions$ = this.store.pipe(
+      select(vmSnapshotsSelectors.getVmSnapshotEntityActions(this.snapshot.id)),
     );
-  }
-
-  public onRevertVmToSnapshot() {
-    this.store.dispatch(new vmSnapshotsActions.Revert({ id: this.snapshot.id }));
-  }
-
-  public onDelete() {
-    this.store.dispatch(new vmSnapshotsActions.Delete({ id: this.snapshot.id }));
   }
 }

@@ -198,7 +198,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     const accounts = params['accounts'];
     const vms = params['vms'];
     const volumeSnapshotTypes = params['types'];
-    const date = params['date'];
+    const date = moment(params['date']).toDate();
     const groupings = params['groupings'].reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
       if (grouping) {

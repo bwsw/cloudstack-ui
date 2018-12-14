@@ -28,7 +28,7 @@
       ></cs-parameters-pair>
       <cs-parameters-pair
         [name]="'SNAPSHOT_PAGE.SIDEBAR.CURRENT'"
-        [value]="vmSnapshot.current"
+        [value]="vmSnapshot.current || '-'"
       ></cs-parameters-pair>
       <cs-parameters-pair
         [name]="'SNAPSHOT_PAGE.SIDEBAR.PARENT'"
@@ -43,7 +43,7 @@
         <h2 class="mat-card-title-text">{{ 'COMMON.DESCRIPTION' | translate }}</h2>
       </mat-card-title>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content class="content-wrap">
       {{ vmSnapshot.description }}
     </mat-card-content>
   </mat-card>

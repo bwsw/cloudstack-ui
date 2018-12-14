@@ -5,15 +5,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
-
-import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material/material.module';
-import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { PulseModule } from '../pulse/pulse.module';
-import { ServiceOfferingModule } from '../service-offering/service-offering.module';
-import { SnapshotModule } from '../snapshot/snapshot.module';
-import { TagsModule } from '../tags/tags.module';
-import { TemplateModule } from '../template';
 // tslint:disable max-line-length
 import { AccountTagsEffects } from '../reducers/account-tags/redux/account-tags.effects';
 import { accountTagsReducers } from '../reducers/account-tags/redux/account-tags.reducers';
@@ -26,6 +19,15 @@ import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
+import { ServiceOfferingModule } from '../service-offering/service-offering.module';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
+
+import { SharedModule } from '../shared/shared.module';
+import { SnapshotModule } from '../snapshot/snapshot.module';
+import { TagsModule } from '../tags/tags.module';
+import { TemplateModule } from '../template';
+import { VmSnapshotListDialogComponent } from './components/vm-snapshot-list-dialog/vm-snapshot-list-dialog.component';
+import { VmSnapshotsSidebarCardComponent } from './components/vm-snapshots-sidebar-card/vm-snapshots-sidebar-card.component';
 import { NetworkDetailContainerComponent } from './container/network-detail.container';
 import { ServiceOfferingDialogContainerComponent } from './container/service-offering-dialog.container';
 import { StorageDetailContainerComponent } from './container/storage-detail.container';
@@ -36,21 +38,26 @@ import { VmSidebarContainerComponent } from './container/vm-sidebar.container';
 import { VmTagsContainerComponent } from './container/vm-tags.container';
 import { VmVolumeDetailsContainerComponent } from './container/vm-volume-details.container';
 import { VirtualMachinePageContainerComponent } from './container/vm.container';
+import { HttpAccessService, SshAccessService, VncAccessService } from './services';
 import { VmActionsService } from './shared/vm-actions.service';
 import { VmDestroyDialogComponent } from './shared/vm-destroy-dialog/vm-destroy-dialog.component';
+import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
 import { VmService } from './shared/vm.service';
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
 import { VmPasswordDialogComponent } from './vm-actions/vm-reset-password-component/vm-password-dialog.component';
+import { VmCreationAffinityGroupManagerComponent } from './vm-creation/components/affinity-group-manager/vm-creation-affinity-group-manager.component';
 import { SecurityGroupManagerExistingGroupComponent } from './vm-creation/components/security-group-rules-manager/security-group-manager-existing-group/security-group-manager-existing-group.component';
 import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation/components/security-group-rules-manager/vm-creation-security-group-rules-manager.component';
 import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
 import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/vm-creation-security-group.component';
+import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
 import { VmCreationContainerComponent } from './vm-creation/containers/vm-creation.container';
 import { PostdeploymentComponent } from './vm-creation/postdeployment/postdeployment.component';
 import { VmCreationServiceOfferingContainerComponent } from './vm-creation/service-offering/vm-creation-service-offering.container';
 import { VmCreationSshKeySelectorComponent } from './vm-creation/ssh-key-selector/ssh-key-selector.component';
 import { VmCreationAgreementComponent } from './vm-creation/template/agreement/vm-creation-agreement.component';
+import { InstallationSourceDialogComponent } from './vm-creation/template/containers/installation-source-dialog.component';
 import { VmCreationTemplateContainerComponent } from './vm-creation/template/containers/vm-creation-template.container';
 import { VmCreationTemplateComponent } from './vm-creation/template/vm-creation-template.component';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
@@ -61,8 +68,12 @@ import { VmListCardItemComponent } from './vm-list-item/card-item/vm-list-card-i
 import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item.component';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { VmPageComponent } from './vm-page/vm-page.component';
-import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import {
+  VmCreationAffinityGroupListComponent,
+  VmDetailsAffinityGroupListComponent,
+} from './vm-sidebar/affinity-group-selector';
 import { AffinityGroupSelectorContainerComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector-container.component';
+import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
@@ -86,22 +97,14 @@ import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volumes/volu
 import { VolumeComponent } from './vm-sidebar/storage-detail/volumes/volume/volume.component';
 import { VolumesComponent } from './vm-sidebar/storage-detail/volumes/volumes.component';
 import { AffinityGroupComponent } from './vm-sidebar/vm-detail/affinity-group/affinity-group.component';
+import { VmDetailComponent } from './vm-sidebar/vm-detail/detail/vm-detail.component';
 import { InstanceGroupComponent } from './vm-sidebar/vm-detail/instance-group/instance-group.component';
 import { ServiceOfferingDetailsComponent } from './vm-sidebar/vm-detail/service-offering-details/service-offering-details.component';
 import { SshKeypairComponent } from './vm-sidebar/vm-detail/ssh/ssh-keypair.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-detail-template.component';
-import { VmDetailComponent } from './vm-sidebar/vm-detail/detail/vm-detail.component';
+import { VmSnapshotCreationDialogComponent } from './vm-sidebar/vm-detail/vm-snapshot-creation-dialog/vm-snapshot-creation-dialog.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
-import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
-import { InstallationSourceDialogComponent } from './vm-creation/template/containers/installation-source-dialog.component';
-import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
-import { HttpAccessService, SshAccessService, VncAccessService } from './services';
-import {
-  VmDetailsAffinityGroupListComponent,
-  VmCreationAffinityGroupListComponent,
-} from './vm-sidebar/affinity-group-selector';
-import { VmCreationAffinityGroupManagerComponent } from './vm-creation/components/affinity-group-manager/vm-creation-affinity-group-manager.component';
 import { VmLogsModule } from '../vm-logs/vm-logs.module';
 
 // tslint:enable max-line-length
@@ -209,6 +212,9 @@ import { VmLogsModule } from '../vm-logs/vm-logs.module';
     ServiceOfferingSelectorComponent,
     InstallationSourceDialogComponent,
     VmPasswordComponent,
+    VmSnapshotsSidebarCardComponent,
+    VmSnapshotCreationDialogComponent,
+    VmSnapshotListDialogComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
@@ -230,6 +236,8 @@ import { VmLogsModule } from '../vm-logs/vm-logs.module';
     VmPasswordDialogComponent,
     VmAccessComponent,
     ServiceOfferingDialogContainerComponent,
+    VmSnapshotCreationDialogComponent,
+    VmSnapshotListDialogComponent,
   ],
 })
 export class VmModule {}

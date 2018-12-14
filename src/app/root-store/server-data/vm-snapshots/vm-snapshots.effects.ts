@@ -19,8 +19,14 @@ import * as fromVolumes from '../../../reducers/volumes/redux/volumes.reducers';
 import { VolumeSnapshotFromVmSnapshotDialogComponent } from '../../../shared/components/volume-snapshot-from-vm-snapshot-dialog/volume-snapshot-from-vm-snapshot-dialog.component';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { VmSnapshotService } from '../../../shared/services/vm-snapshot.service';
+import { VmSnapshotCreationDialogComponent } from '../../../vm/vm-sidebar/vm-detail/vm-snapshot-creation-dialog/vm-snapshot-creation-dialog.component';
 import { State } from '../../state';
 import {
+  Create,
+  CreateCanceled,
+  CreateConfirmed,
+  CreateError,
+  CreateSuccess,
   CreateVolumeSnapshot,
   CreateVolumeSnapshotCanceled,
   CreateVolumeSnapshotConfirmed,
@@ -57,7 +63,59 @@ export class VmSnapshotsEffects {
   );
 
   @Effect()
-  createVolumeSnapshotFromVMSnapshotDialog$: Observable<Action> = this.actions$.pipe(
+  createVmSnapshotDialog$: Observable<Action> = this.actions$.pipe(
+    ofType<Create>(VmSnapshotActionTypes.Create),
+    exhaustMap(action =>
+      this.matDialog
+        .open(VmSnapshotCreationDialogComponent, { width: '400px', disableClose: true })
+        .afterClosed()
+        .pipe(
+          map(result => {
+            if (result) {
+              return new CreateConfirmed({
+                vmId: action.payload.vmId,
+                name: result.name,
+                description: result.description,
+                snapshotMemory: result.snapshotMemory,
+              });
+            }
+            return new CreateCanceled();
+          }),
+        ),
+    ),
+  );
+
+  @Effect()
+  createVmSnapshot$: Observable<Action> = this.actions$.pipe(
+    ofType<CreateConfirmed>(VmSnapshotActionTypes.CreateConfirmed),
+    map(action => action.payload),
+    mergeMap(payload => {
+      const notificationId = this.jobsNotificationService.add(
+        'NOTIFICATIONS.VM_SNAPSHOTS.TAKE_VM_SNAP_IN_PROGRESS',
+      );
+      const params = {
+        virtualmachineid: payload.vmId,
+        description: payload.description,
+        name: payload.name,
+        snapshotmemory: payload.snapshotMemory,
+      };
+      return this.vmSnapshotsService.create(params).pipe(
+        tap(() => {
+          const message = 'NOTIFICATIONS.VM_SNAPSHOTS.TAKE_VM_SNAP_DONE';
+          this.showNotificationsOnFinish(message, notificationId);
+        }),
+        map(vmSnapshot => new CreateSuccess({ vmSnapshot })),
+        catchError(error => {
+          const message = 'NOTIFICATIONS.VM_SNAPSHOTS.TAKE_VM_SNAP_FAILED';
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
+          return of(new CreateError({ error }));
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  createVolumeSnapshotFromVmSnapshotDialog$: Observable<Action> = this.actions$.pipe(
     ofType<CreateVolumeSnapshot>(VmSnapshotActionTypes.CreateVolumeSnapshot),
     withLatestFrom(
       this.store.pipe(select(vmSnapshotSelectors.selectEntities)),
@@ -92,7 +150,7 @@ export class VmSnapshotsEffects {
   );
 
   @Effect()
-  createVolumeSnapshotFromVMSnapshot$: Observable<Action> = this.actions$.pipe(
+  createVolumeSnapshotFromVmSnapshot$: Observable<Action> = this.actions$.pipe(
     ofType<CreateVolumeSnapshotConfirmed>(VmSnapshotActionTypes.CreateVolumeSnapshotConfirmed),
     mergeMap(action => {
       const notificationId = this.jobsNotificationService.add(
@@ -180,7 +238,7 @@ export class VmSnapshotsEffects {
           const message = 'NOTIFICATIONS.VM_SNAPSHOTS.REVERT_DONE';
           this.showNotificationsOnFinish(message, notificationId);
         }),
-        map(() => new RevertSuccess()),
+        map(vm => new RevertSuccess({ vm })),
         catchError(error => {
           const message = 'NOTIFICATIONS.VM_SNAPSHOTS.REVERT_FAILED';
           this.dialogService.showNotificationsOnFail(error, message, notificationId);

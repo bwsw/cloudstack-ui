@@ -17,10 +17,14 @@
 .stopping,
 .backing-up,
 .creating,
+.reverting,
+.expunging,
 .in-progress:before,
 .stopping:before,
 .backing-up:before,
-.creating:before {
+.creating:before,
+.reverting:before,
+.expunging:before {
   color: #ffa726;
   background-color: #ffa726;
 }
@@ -44,6 +48,8 @@
 }
 
 .destroyed,
-.destroyed:before {
+.removed,
+.destroyed:before,
+.removed:before {
   background-color: #212121;
 }

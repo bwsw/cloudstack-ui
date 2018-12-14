@@ -1,0 +1,12 @@
+.two-columns {
+  display: flex;
+  justify-content: space-between;
+
+  div {
+    align-self: center;
+  }
+}
+
+.snapshot-name {
+  padding: 5px 0;
+}
