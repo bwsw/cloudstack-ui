@@ -1,8 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
 import { DiskOffering } from '../../../models';
-import { AuthService } from '../../../services/auth.service';
 import { Utils } from '../../../services/utils/utils.service';
 import { isCustomized } from '../../../models/offering.model';
 
@@ -10,6 +9,7 @@ import { isCustomized } from '../../../models/offering.model';
   selector: 'cs-disk-offering-dialog',
   templateUrl: 'disk-offering-dialog.component.html',
   styleUrls: ['disk-offering-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiskOfferingDialogComponent {
   public diskOfferings: DiskOffering[];
@@ -21,12 +21,11 @@ export class DiskOfferingDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
-    public authService: AuthService,
   ) {
     this.diskOfferings = data.diskOfferings;
     this.selectedDiskOffering = data.diskOffering;
     this.storageAvailable = data.storageAvailable;
-    this.minSize = this.authService.getCustomDiskOfferingMinSize();
+    this.minSize = data.customDiskOfferingMinSize;
     this.checkResourcesLimit();
   }
 

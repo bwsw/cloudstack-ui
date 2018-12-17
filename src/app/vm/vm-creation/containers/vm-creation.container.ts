@@ -15,7 +15,7 @@ import { BaseTemplateModel } from '../../../template/shared';
 import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
-import { State, UserTagsSelectors } from '../../../root-store';
+import { capabilitiesSelectors, State, UserTagsSelectors } from '../../../root-store';
 import * as accountTagsActions from '../../../reducers/account-tags/redux/account-tags.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
 import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
@@ -35,7 +35,6 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
-import { AuthService } from '../../../shared/services/auth.service';
 import * as fromAccountTags from '../../../reducers/account-tags/redux/account-tags.reducers';
 
 @Component({
@@ -60,7 +59,9 @@ import * as fromAccountTags from '../../../reducers/account-tags/redux/account-t
       [serviceOfferings]="serviceOfferings$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
       [isDiskOfferingAvailableByResources]="isDiskOfferingAvailableByResources$ | async"
-      [minSize]="minSize"
+      [isSecurityGroupEnabled]="isSecurityGroupEnabled$ | async"
+      [minSize]="minSize$ | async"
+      [maxRootSize]="maxRootSize$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
       (hostNameChange)="onHostNameChange($event)"
       (templateChange)="onTemplateChange($event)"
@@ -122,14 +123,20 @@ export class VmCreationContainerComponent implements OnDestroy {
   readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
-
-  public isDiskOfferingAvailableByResources$;
-  public minSize: number;
+  readonly minSize$ = this.store.pipe(select(capabilitiesSelectors.getCustomDiskOfferingMinSize));
+  readonly maxRootSize$ = this.store.pipe(
+    select(capabilitiesSelectors.getCustomDiskOfferingMaxSize),
+  );
+  readonly isDiskOfferingAvailableByResources$ = this.store.pipe(
+    select(fromDiskOfferings.isVmCreationDiskOfferingAvailableByResources),
+  );
+  readonly isSecurityGroupEnabled$ = this.store.pipe(
+    select(capabilitiesSelectors.getIsSecurityGroupEnabled),
+  );
 
   constructor(
     private store: Store<State>,
     private dialogRef: MatDialogRef<VmCreationContainerComponent>,
-    private authService: AuthService,
   ) {
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
@@ -139,10 +146,6 @@ export class VmCreationContainerComponent implements OnDestroy {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(
       new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
-    );
-    this.minSize = this.authService.getCustomDiskOfferingMinSize();
-    this.isDiskOfferingAvailableByResources$ = this.store.pipe(
-      select(fromDiskOfferings.isVmCreationDiskOfferingAvailableByResources(this.minSize)),
     );
 
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());

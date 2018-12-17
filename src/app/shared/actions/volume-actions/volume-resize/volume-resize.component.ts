@@ -21,13 +21,17 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class VolumeResizeComponent implements OnInit, OnChanges {
   @Input()
+  public minSize: number;
+  @Input()
   public maxSize: number;
   @Input()
   public volume: Volume;
   @Input()
   public diskOfferings: DiskOffering[];
   @Input()
-  public availableStorage: number | null;
+  public availableStorage: number;
+  @Input()
+  public maxRootCapability: number;
   @Output()
   public diskResized = new EventEmitter<VolumeResizeData>();
 
@@ -35,14 +39,13 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   public newSize: number;
 
   public get rootDiskSizeLimit(): number {
-    const maxRootCapability = this.authService.getCustomDiskOfferingMaxSize();
-    if (this.maxSize.toString() === 'Unlimited' && maxRootCapability) {
-      return maxRootCapability;
+    if (this.maxSize.toString() === 'Unlimited' && this.maxRootCapability) {
+      return this.maxRootCapability;
     }
-    if (Number(this.maxSize) < maxRootCapability) {
+    if (Number(this.maxSize) < this.maxRootCapability) {
       return Number(this.maxSize);
     }
-    return maxRootCapability;
+    return this.maxRootCapability;
   }
 
   public get volumeIsRoot(): boolean {
