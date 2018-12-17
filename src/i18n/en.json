@@ -131,6 +131,10 @@
     },
     "COMPUTE_OFFERING": {
       "RESOURCE_LIMIT_EXCEEDED": "The service offering cannot be selected because it doesn't fit the account resources available."
+    },
+    "VM_LOGS": {
+      "TOKEN_DOES_NOT_EXIST": "The token does not exist",
+      "INVALID_TOKEN": "Invalid token"
     }
   },
   "NOTIFICATIONS": {
@@ -1520,7 +1524,8 @@
       "TOKEN_CREATED": "Token created",
       "INVALIDATE_TOKEN": "Invalidate token",
       "INVALIDATE": "Invalidate",
-      "INVALIDATE_SUCCESS": "Token invalidated successfully"
+      "INVALIDATE_SUCCESS": "Token invalidated successfully",
+      "HOW_TO_ADD_TOKEN": "How to add a token"
     }
   },
   "SETTINGS": {

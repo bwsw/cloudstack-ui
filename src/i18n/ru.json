@@ -131,6 +131,10 @@
     },
     "COMPUTE_OFFERING": {
       "RESOURCE_LIMIT_EXCEEDED": "Вычислительное предложение не может быть выбрано. Размер выбранного предложения превышает доступные ресурсы аккаунта."
+    },
+    "VM_LOGS": {
+      "TOKEN_DOES_NOT_EXIST": "Указанный токен не существует",
+      "INVALID_TOKEN": "Невалидный токен"
     }
   },
   "NOTIFICATIONS": {
@@ -1516,7 +1520,8 @@
       "TOKEN_CREATED": "Токен создан",
       "INVALIDATE_TOKEN": "Аннулировать токен",
       "INVALIDATE": "Аннулировать",
-      "INVALIDATE_SUCCESS": "Токен успешно аннулирован"
+      "INVALIDATE_SUCCESS": "Токен успешно аннулирован",
+      "HOW_TO_ADD_TOKEN": "Как добавлять токен"
     }
   },
   "SETTINGS": {
