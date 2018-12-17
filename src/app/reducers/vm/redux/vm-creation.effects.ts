@@ -18,7 +18,6 @@ import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-gr
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
 import { VmService } from '../../../vm/shared/vm.service';
-import { AuthService } from '../../../shared/services/auth.service';
 import { State } from '../../index';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
@@ -30,7 +29,12 @@ import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-gr
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
-import { configSelectors, UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import {
+  capabilitiesSelectors,
+  configSelectors,
+  UserTagsActions,
+  UserTagsSelectors,
+} from '../../../root-store';
 import { DefaultComputeOffering } from '../../../shared/models/config';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
@@ -173,6 +177,7 @@ export class VirtualMachineCreationEffects {
       this.store.pipe(select(fromVMModule.getAvailableOfferingsForVmCreation)),
       this.store.pipe(select(fromDiskOfferings.selectAll)),
       this.store.pipe(select(configSelectors.get('defaultComputeOffering'))),
+      this.store.pipe(select(capabilitiesSelectors.getCustomDiskOfferingMinSize)),
     ),
     map(
       ([
@@ -183,6 +188,7 @@ export class VirtualMachineCreationEffects {
         serviceOfferings,
         diskOfferings,
         defaultComputeOfferings,
+        customDiskOfferingMinSize,
       ]: [
         vmActions.VmFormUpdate,
         VmCreationState,
@@ -190,7 +196,8 @@ export class VirtualMachineCreationEffects {
         BaseTemplateModel[],
         ComputeOfferingViewModel[],
         DiskOffering[],
-        DefaultComputeOffering[]
+        DefaultComputeOffering[],
+        number
       ]) => {
         if (action.payload.zone) {
           let updates = {};
@@ -223,7 +230,7 @@ export class VirtualMachineCreationEffects {
           }
 
           if (isTemplate(action.payload.template)) {
-            const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
+            const defaultDiskSize = customDiskOfferingMinSize || 1;
             // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
             const minSize =
               Math.ceil(Utils.convertToGb(vmCreationState.template.size)) || defaultDiskSize;
@@ -234,7 +241,7 @@ export class VirtualMachineCreationEffects {
 
         if (action.payload.diskOffering) {
           if (action.payload.diskOffering.iscustomized) {
-            const minSize = this.auth.getCustomDiskOfferingMinSize() || 10;
+            const minSize = customDiskOfferingMinSize || 10;
             return new vmActions.VmFormUpdate({ rootDiskMinSize: minSize, rootDiskSize: minSize });
           }
 
@@ -394,7 +401,6 @@ export class VirtualMachineCreationEffects {
     private jobsNotificationService: JobsNotificationService,
     private templateTagService: TemplateTagService,
     private dialog: MatDialog,
-    private auth: AuthService,
     private resourceUsageService: ResourceUsageService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private vmTagService: VmTagService,

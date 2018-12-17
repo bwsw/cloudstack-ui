@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { filter, onErrorResumeNext } from 'rxjs/operators';
 
 import { State } from '../../reducers';
@@ -7,12 +7,14 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VirtualMachine } from '../shared/vm.model';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as vmLogsActions from '../../vm-logs/redux/vm-logs.actions';
+import { capabilitiesSelectors } from '../../root-store';
 
 @Component({
   selector: 'cs-vm-actions-container',
   template: `
     <cs-vm-actions
       [vm]="vm"
+      [canExpungeOrRecoverVm]="canExpungeOrRecoverVm$ | async"
       (vmDestroyed)="onVmDestroy($event)"
       (vmRebooted)="onVmReboot($event)"
       (vmResetedPassword)="onVmResetPassword($event)"
@@ -30,6 +32,10 @@ import * as vmLogsActions from '../../vm-logs/redux/vm-logs.actions';
   `,
 })
 export class VmActionsContainerComponent {
+  readonly canExpungeOrRecoverVm$ = this.store.pipe(
+    select(capabilitiesSelectors.getCanExpungeOrRecoverVm),
+  );
+
   @Input()
   public vm: VirtualMachine;
 

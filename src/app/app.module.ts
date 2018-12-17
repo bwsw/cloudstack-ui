@@ -13,7 +13,14 @@ import { filter, first, take } from 'rxjs/operators';
 import { AccountModule } from './account/accounts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { configSelectors, RootStoreModule, State, UserTagsActions } from './root-store';
+import { RootStoreModule } from './root-store/root-store.module';
+import {
+  configSelectors,
+  State,
+  UserTagsActions,
+  capabilitiesActions,
+  capabilitiesSelectors,
+} from './root-store';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
 import { DialogModule } from './dialog/dialog-service/dialog.module';
@@ -45,8 +52,8 @@ export function InitAppFactory(
   translateService: TranslateService,
   store: Store<State>,
 ) {
-  return () =>
-    store
+  return () => {
+    return store
       .pipe(
         select(configSelectors.isLoaded),
         filter(Boolean),
@@ -61,7 +68,25 @@ export function InitAppFactory(
           )
           .subscribe(lang => translateService.setDefaultLang(lang)),
       )
-      .then(() => auth.initUser())
+      .then(() => {
+        auth.initUser();
+
+        return new Promise(resolve => {
+          auth.isLoggedIn().subscribe(value => {
+            if (!value) {
+              resolve();
+            } else {
+              store.dispatch(new capabilitiesActions.LoadCapabilities());
+              store
+                .pipe(
+                  select(capabilitiesSelectors.isLoading),
+                  filter(isLoading => !isLoading),
+                )
+                .subscribe(resolve);
+            }
+          });
+        });
+      })
       .then(() =>
         store
           .pipe(
@@ -72,6 +97,7 @@ export function InitAppFactory(
             store.dispatch(new UserTagsActions.SetDefaultUserTagsAtStartup({ tags })),
           ),
       );
+  };
 }
 
 @NgModule({

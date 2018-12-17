@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 
 import { VmActionsService } from '../../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
-import { AuthService } from '../../../shared/services/auth.service';
 import { VmActions } from '../vm-action';
 import { configSelectors, State } from '../../../root-store';
 
@@ -16,6 +15,8 @@ import { configSelectors, State } from '../../../root-store';
 export class VmActionsComponent {
   @Input()
   public vm: VirtualMachine;
+  @Input()
+  public canExpungeOrRecoverVm: boolean;
   @Output()
   public vmStarted = new EventEmitter<VirtualMachine>();
   @Output()
@@ -66,11 +67,7 @@ export class VmActionsComponent {
   );
   readonly showVmLogsActions$ = this.vmLogsActions$.pipe(map(actions => actions.length));
 
-  constructor(
-    private store: Store<State>,
-    private vmActionsService: VmActionsService,
-    private authService: AuthService,
-  ) {}
+  constructor(private store: Store<State>, private vmActionsService: VmActionsService) {}
 
   public onAction(action, vm: VirtualMachine): void {
     switch (action.command) {
@@ -129,9 +126,5 @@ export class VmActionsComponent {
 
   public get vmIsDestroyed(): boolean {
     return this.vm.state === VmState.Destroyed;
-  }
-
-  public get canExpungeOrRecoverVm(): boolean {
-    return this.authService.canExpungeOrRecoverVm();
   }
 }

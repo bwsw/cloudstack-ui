@@ -1,4 +1,4 @@
-<div class="mat-dialog-content" *ngIf="affinityGroups">
+<div class="mat-dialog-content" *ngIf="affinityGroups?.length">
   <table mat-table [dataSource]="affinityGroups">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> {{ 'AFFINITY_GROUP.NAME' | translate }}</th>

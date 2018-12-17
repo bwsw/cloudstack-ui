@@ -23,6 +23,10 @@ export class VolumeCreationDialogComponent {
   public storageAvailable: string;
   @Input()
   public account: Account;
+  @Input()
+  public minSize: number;
+  @Input()
+  public maxSize: number;
   @Output()
   public volumeCreated = new EventEmitter<VolumeCreationData>();
   @Output()
@@ -30,13 +34,11 @@ export class VolumeCreationDialogComponent {
 
   public diskOffering: DiskOffering;
   public showResizeSlider: boolean;
-  public minSize: number = null;
 
   constructor(
     public dialogRef: MatDialogRef<VolumeCreationDialogComponent>,
     public authService: AuthService,
   ) {
-    this.minSize = this.authService.getCustomDiskOfferingMinSize();
     this.newVolume.size = this.minSize;
   }
 

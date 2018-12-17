@@ -17,6 +17,7 @@ import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { Grouping } from '../../shared/models';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import * as templateActions from '../../reducers/templates/redux/template.actions';
+import { capabilitiesSelectors } from '../../root-store';
 
 const getGroupName = (vm: VirtualMachine) => {
   return vm.domain !== 'ROOT' ? `${vm.domain}/${vm.account}` : vm.account;
@@ -33,6 +34,7 @@ const getGroupName = (vm: VirtualMachine) => {
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
+      [allowedToViewDestroyedVms]="allowedToViewDestroyedVms$ | async"
     ></cs-vm-page>`,
 })
 export class VirtualMachinePageContainerComponent implements OnInit, AfterViewInit {
@@ -42,6 +44,9 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
   readonly osTypesMap$ = this.store.pipe(select(fromOsTypes.selectEntities));
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
   readonly selectedGroupings$ = this.store.pipe(select(fromVMs.filterSelectedGroupings));
+  readonly allowedToViewDestroyedVms$ = this.store.pipe(
+    select(capabilitiesSelectors.getIsAllowedToViewDestroyedVms),
+  );
 
   public groupings: Grouping[] = [
     {
