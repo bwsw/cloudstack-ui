@@ -1,27 +1,15 @@
 <div *loading="resettingKeyInProgress">
-  <h3 class="mat-dialog-title">
-    {{ 'VM_PAGE.VM_DETAILS.SSH_KEY.SELECT_SSH_KEY' | translate}}
-  </h3>
+  <h3 class="mat-dialog-title">{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.SELECT_SSH_KEY' | translate }}</h3>
   <div *loading="!sshKeyList" class="mat-dialog-content">
-    <mat-form-field
-      class="full-width-input"
-      *ngIf="sshKeyList?.length; else noGroups"
-    >
-      <mat-select
-        [(ngModel)]="selectedSshKeyName"
-      >
-        <mat-option *ngFor="let key of sshKeyList" [value]="key.name">
-          {{ key.name }}
-        </mat-option>
+    <mat-form-field class="full-width-input" *ngIf="sshKeyList?.length; else noGroups">
+      <mat-select [(ngModel)]="selectedSshKeyName">
+        <mat-option *ngFor="let key of sshKeyList" [value]="key.name"> {{ key.name }} </mat-option>
       </mat-select>
     </mat-form-field>
-    <ng-template #noGroups>{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.NO_SSH_KEYS' | translate }}
-    </ng-template>
+    <ng-template #noGroups>{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.NO_SSH_KEYS' | translate }} </ng-template>
   </div>
   <div class="mat-dialog-actions">
-    <button mat-button color="primary" matDialogClose>
-      {{ 'COMMON.CANCEL' | translate }}
-    </button>
+    <button mat-button color="primary" matDialogClose>{{ 'COMMON.CANCEL' | translate }}</button>
     <button
       mat-button
       color="primary"

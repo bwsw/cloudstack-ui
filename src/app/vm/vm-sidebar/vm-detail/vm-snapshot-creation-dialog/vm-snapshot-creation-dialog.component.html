@@ -8,9 +8,12 @@
         formControlName="name"
         [placeholder]="'COMMON.NAME' | translate"
         [maxlength]="constants.maxLength255"
-      >
+      />
       <mat-hint align="end">
-        <cs-character-count [value]="form.value.name" [maxLength]="constants.maxLength255"></cs-character-count>
+        <cs-character-count
+          [value]="form.value.name"
+          [maxLength]="constants.maxLength255"
+        ></cs-character-count>
       </mat-hint>
     </mat-form-field>
     <mat-form-field class="full-width-input">
@@ -19,15 +22,20 @@
         formControlName="description"
         [placeholder]="'COMMON.DESCRIPTION' | translate"
         [maxlength]="constants.maxLength255"
-      >
+      />
       <mat-hint align="end">
-        <cs-character-count [value]="form.value.description" [maxLength]="constants.maxLength255"></cs-character-count>
+        <cs-character-count
+          [value]="form.value.description"
+          [maxLength]="constants.maxLength255"
+        ></cs-character-count>
       </mat-hint>
     </mat-form-field>
     <mat-checkbox formControlName="snapshotMemory">
       {{ 'VM_PAGE.MODALS.TAKE_VM_SNAPSHOT.SNAPSHOT_MEMORY' | translate }}
     </mat-checkbox>
-    <div class="warning-info">{{ 'VM_PAGE.MODALS.TAKE_VM_SNAPSHOT.WARNING_INFORMATION' | translate }}</div>
+    <div class="warning-info">
+      {{ 'VM_PAGE.MODALS.TAKE_VM_SNAPSHOT.WARNING_INFORMATION' | translate }}
+    </div>
   </mat-dialog-content>
 
   <mat-dialog-actions>

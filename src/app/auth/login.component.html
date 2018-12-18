@@ -1,5 +1,5 @@
 <div class="flex-container" *ngIf="!loading">
-  <img class="logo" src="img/cloudstack_logo.png">
+  <img class="logo" src="img/cloudstack_logo.png" />
   <mat-card class="login">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
       <div class="mat-dialog-content">
@@ -12,9 +12,9 @@
             autofocus
             required
             #usernameControl="ngModel"
-          >
+          />
           <mat-error *ngIf="usernameControl.hasError('required')">
-            {{'AUTH.USERNAME_REQUIRED' | translate}}
+            {{ 'AUTH.USERNAME_REQUIRED' | translate }}
           </mat-error>
         </mat-form-field>
         <br />
@@ -27,9 +27,9 @@
             [placeholder]="'AUTH.PASSWORD' | translate"
             required
             #passwordControl="ngModel"
-          >
+          />
           <mat-error *ngIf="passwordControl.hasError('required')">
-            {{'AUTH.PASSWORD_REQUIRED' | translate}}
+            {{ 'AUTH.PASSWORD_REQUIRED' | translate }}
           </mat-error>
         </mat-form-field>
         <br />
@@ -39,7 +39,7 @@
             name="domain"
             [(ngModel)]="domain"
             [placeholder]="'AUTH.DOMAIN' | translate"
-          >
+          />
         </mat-form-field>
       </div>
       <div class="mat-dialog-actions">
@@ -47,7 +47,10 @@
           mat-button
           color="primary"
           type="submit"
-          [disabled]="(passwordControl.invalid && !passwordControl.pristine) || (usernameControl.invalid && !usernameControl.pristine)"
+          [disabled]="
+            (passwordControl.invalid && !passwordControl.pristine) ||
+            (usernameControl.invalid && !usernameControl.pristine)
+          "
         >
           {{ 'AUTH.LOGIN' | translate }}
         </button>

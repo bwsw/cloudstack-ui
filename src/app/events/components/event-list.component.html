@@ -19,12 +19,7 @@
           multiple="true"
           [placeholder]="'EVENT_PAGE.SELECT_LEVELS' | translate"
         >
-          <mat-option
-            *ngFor="let level of levels"
-            [value]="level"
-          >
-            {{ level }}
-          </mat-option>
+          <mat-option *ngFor="let level of levels" [value]="level"> {{ level }} </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
@@ -34,12 +29,7 @@
           multiple="true"
           [placeholder]="'EVENT_PAGE.SELECT_TYPES' | translate"
         >
-          <mat-option
-            *ngFor="let et of eventTypes"
-            [value]="et"
-          >
-            {{ et }}
-          </mat-option>
+          <mat-option *ngFor="let et of eventTypes" [value]="et"> {{ et }} </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field *ngIf="isAdmin">
@@ -49,55 +39,50 @@
           [(ngModel)]="selectedAccountIds"
           (selectionChange)="accountChanged.emit($event.value)"
         >
-          <mat-option
-            *ngFor="let account of accounts"
-            [value]="account.id"
-          >{{ account.fullDomain }}{{ account.name }}
+          <mat-option *ngFor="let account of accounts" [value]="account.id"
+            >{{ account.fullDomain }}{{ account.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <cs-search
-        [ngModel]="query"
-        (ngModelChange)="queryChanged.emit($event)"
-      ></cs-search>
+      <cs-search [ngModel]="query" (ngModelChange)="queryChanged.emit($event)"></cs-search>
     </div>
   </cs-top-bar>
 
   <div class="event-list" *loading="isLoading">
-    <ng-container *ngIf="events?.length; then eventsTable else noEvents"></ng-container>
+    <ng-container *ngIf="events?.length; then eventsTable; else noEvents"></ng-container>
 
     <ng-template #eventsTable>
       <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef> {{ 'EVENT_PAGE.DESCRIPTION' | translate}} </th>
+          <th mat-header-cell *matHeaderCellDef>{{ 'EVENT_PAGE.DESCRIPTION' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <span [innerHTML]="element.description | highlight:query"></span>
+            <span [innerHTML]="element.description | highlight: query"></span>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="level">
-          <th mat-header-cell *matHeaderCellDef> {{ 'EVENT_PAGE.LEVEL' | translate }} </th>
+          <th mat-header-cell *matHeaderCellDef>{{ 'EVENT_PAGE.LEVEL' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <span [innerHTML]="element.level | highlight:query"></span>
+            <span [innerHTML]="element.level | highlight: query"></span>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef> {{ 'EVENT_PAGE.TYPE' | translate }} </th>
+          <th mat-header-cell *matHeaderCellDef>{{ 'EVENT_PAGE.TYPE' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <span [innerHTML]="element.type | highlight:query"></span>
+            <span [innerHTML]="element.type | highlight: query"></span>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="time">
-          <th mat-header-cell *matHeaderCellDef> {{ 'EVENT_PAGE.TIME' | translate }} </th>
+          <th mat-header-cell *matHeaderCellDef>{{ 'EVENT_PAGE.TIME' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <span [innerHTML]="element.time | highlight:query"></span>
+            <span [innerHTML]="element.time | highlight: query"></span>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
       </table>
     </ng-template>
 
@@ -105,5 +90,4 @@
       <span *ngIf="!events?.length">{{ 'EVENT_PAGE.NO_EVENTS' | translate }}</span>
     </ng-template>
   </div>
-
 </div>

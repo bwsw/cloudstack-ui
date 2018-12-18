@@ -6,8 +6,7 @@
       [ngModel]="selectedDomainIds"
       (selectionChange)="domainsChanged.emit($event.value)"
     >
-      <mat-option *ngFor="let domain of domains" [value]="domain.id">{{ domain.name }}
-      </mat-option>
+      <mat-option *ngFor="let domain of domains" [value]="domain.id">{{ domain.name }} </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
@@ -17,8 +16,7 @@
       [ngModel]="selectedRoleNames"
       (selectionChange)="rolesChanged.emit($event.value)"
     >
-      <mat-option *ngFor="let role of roles" [value]="role.name">{{ role.name }}
-      </mat-option>
+      <mat-option *ngFor="let role of roles" [value]="role.name">{{ role.name }} </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
@@ -28,8 +26,7 @@
       [ngModel]="selectedRoleTypes"
       (selectionChange)="roleTypesChanged.emit($event.value)"
     >
-      <mat-option *ngFor="let roleType of roleTypes" [value]="roleType">{{ roleType }}
-      </mat-option>
+      <mat-option *ngFor="let roleType of roleTypes" [value]="roleType">{{ roleType }} </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
@@ -39,8 +36,8 @@
       [ngModel]="selectedStates"
       (selectionChange)="statesChanged.emit($event.value)"
     >
-      <mat-option *ngFor="let state of states" [value]="state">{{
-        stateTranslationToken(state) | translate }}
+      <mat-option *ngFor="let state of states" [value]="state">
+        {{ stateTranslationToken(state) | translate }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -52,10 +49,7 @@
       [dragItems]="groupings"
       (ngModelChange)="groupingsChanged.emit($event)"
     >
-      <mat-option *ngFor="let g of groupings" [value]="g">
-        {{ g.label | translate }}
-      </mat-option>
+      <mat-option *ngFor="let g of groupings" [value]="g"> {{ g.label | translate }} </mat-option>
     </cs-draggable-select>
   </mat-form-field>
 </div>
-

@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/co
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
 import { State } from '../../reducers';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
@@ -19,7 +20,6 @@ import { selectFilteredVMs } from '../redux/selectors/filtered-vms.selector';
 import * as fromVmLogsAutoUpdate from '../redux/vm-logs-auto-update.reducers';
 import { parseVmLogsFilters, vmLogsFilters } from '../vm-logs-filters';
 import { UpdateVmLogsFilters } from '../../root-store/server-data/user-tags/user-tags.actions';
-import moment = require('moment');
 
 const FILTER_KEY = 'logsFilters';
 

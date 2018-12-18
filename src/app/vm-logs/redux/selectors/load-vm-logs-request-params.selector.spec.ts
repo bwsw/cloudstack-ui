@@ -1,5 +1,5 @@
 import { loadVmLogsRequestParams } from './load-vm-logs-request-params.selector';
-import moment = require('moment');
+import * as moment from 'moment';
 
 describe('loadVmLogsRequestParams selector', () => {
   const date = moment(0);

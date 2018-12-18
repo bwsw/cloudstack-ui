@@ -13,12 +13,12 @@
             autofocus
             maxlength="255"
             required
-          >
+          />
           <mat-hint align="end">
             <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
           </mat-hint>
         </mat-form-field>
-        <br>
+        <br />
         <mat-form-field class="full-width-input">
           <input
             matInput
@@ -27,30 +27,25 @@
             [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate"
             maxlength="255"
             required
-          >
+          />
           <mat-hint align="end">
-            <cs-character-count
-              [value]="displayText"
-              [maxLength]="255"
-            ></cs-character-count>
+            <cs-character-count [value]="displayText" [maxLength]="255"></cs-character-count>
           </mat-hint>
         </mat-form-field>
-        <br>
+        <br />
         <mat-form-field *ngIf="!snapshot" class="full-width-input">
           <input
             matInput
             type="url"
             name="url"
-            [csUrl]="{http: true, https: true}"
+            [csUrl]="{ http: true, https: true }"
             [(ngModel)]="url"
-            [placeholder]=" 'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate "
+            [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate"
             maxlength="255"
             required
             #urlField="ngModel"
-          >
-          <mat-error
-            *ngIf="urlField.hasError('pattern')"
-          >
+          />
+          <mat-error *ngIf="urlField.hasError('pattern')">
             {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}
           </mat-error>
           <mat-hint align="end">
@@ -69,10 +64,7 @@
             name="osTypeId"
             ngDefaultControl
           >
-            <mat-option
-              *ngFor="let osType of osTypes"
-              [value]="osType.id"
-            >
+            <mat-option *ngFor="let osType of osTypes" [value]="osType.id">
               {{ osType.description }}
             </mat-option>
           </mat-select>
@@ -88,10 +80,7 @@
               name="zoneId"
               ngDefaultControl
             >
-              <mat-option
-                *ngFor="let zone of zones"
-                [value]="zone.id"
-              >
+              <mat-option *ngFor="let zone of zones" [value]="zone.id">
                 {{ zone.name }}
               </mat-option>
             </mat-select>
@@ -106,20 +95,13 @@
             name="templateGroup"
             ngDefaultControl
           >
-            <mat-option
-              *ngFor="let group of groups"
-              [value]="group"
-            >
-              {{ group.translations && group.translations[locale] || group.id }}
+            <mat-option *ngFor="let group of groups" [value]="group">
+              {{ (group.translations && group.translations[locale]) || group.id }}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <div class="additional" *ngIf="mode === TemplateResourceType.template">
-          <mat-checkbox
-            name="passwordEnabled"
-            [(ngModel)]="passwordEnabled"
-            ngDefaultControl
-          >
+          <mat-checkbox name="passwordEnabled" [(ngModel)]="passwordEnabled" ngDefaultControl>
             {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.PASSWORD_ENABLED' | translate }}
           </mat-checkbox>
           <mat-checkbox
@@ -134,9 +116,12 @@
     </div>
 
     <div>
-      <button mat-button type="button" (click)="showAdditional=!showAdditional">
-        {{ (showAdditional ? 'TEMPLATE_PAGE.TEMPLATE_CREATION.HIDE_DETAILS'
-        : 'TEMPLATE_PAGE.TEMPLATE_CREATION.SHOW_DETAILS') | translate }}
+      <button mat-button type="button" (click)="showAdditional = !showAdditional">
+        {{
+          (showAdditional
+            ? 'TEMPLATE_PAGE.TEMPLATE_CREATION.HIDE_DETAILS'
+            : 'TEMPLATE_PAGE.TEMPLATE_CREATION.SHOW_DETAILS') | translate
+        }}
       </button>
     </div>
 
@@ -147,15 +132,12 @@
             <mat-select
               class="form-select-control"
               [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.HYPERVISOR' | translate"
-              [(ngModel)]="hypervisor" (valueChange)="changeHypervisor(hypervisor)"
+              [(ngModel)]="hypervisor"
+              (valueChange)="changeHypervisor(hypervisor)"
               name="hypervisor"
               ngDefaultControl
             >
-              <mat-option
-                *ngFor="let h of hypervisors"
-                [value]="h.name"
-              >{{h.name}}
-              </mat-option>
+              <mat-option *ngFor="let h of hypervisors" [value]="h.name">{{ h.name }} </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="full-width-input">
@@ -167,25 +149,22 @@
               name="format"
               ngDefaultControl
             >
-              <mat-option *ngFor="let f of visibleFormats" [value]="f.name">{{f.name}}
+              <mat-option *ngFor="let f of visibleFormats" [value]="f.name"
+                >{{ f.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div [class.column]="mode === TemplateResourceType.template" class="additional">
-          <mat-checkbox *ngIf="!snapshot"
+          <mat-checkbox
+            *ngIf="!snapshot"
             name="extract"
             ngDefaultControl
             [(ngModel)]="isExtractable"
           >
             {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_EXTRACTABLE' | translate }}
           </mat-checkbox>
-          <mat-checkbox
-            name="public"
-            ngDefaultControl
-            [(ngModel)]="isPublic"
-            *ngIf="isRootAdmin"
-          >
+          <mat-checkbox name="public" ngDefaultControl [(ngModel)]="isPublic" *ngIf="isRootAdmin">
             {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_PUBLIC' | translate }}
           </mat-checkbox>
           <mat-checkbox
@@ -226,20 +205,10 @@
     </div>
   </div>
   <div class="mat-dialog-actions">
-    <button
-      mat-button
-      color="primary"
-      matDialogClose
-      type="button"
-    >
+    <button mat-button color="primary" matDialogClose type="button">
       {{ 'COMMON.CANCEL' | translate }}
     </button>
-    <button
-      mat-button
-      color="primary"
-      type="submit"
-      [disabled]="!templateCreationForm.valid"
-    >
+    <button mat-button color="primary" type="submit" [disabled]="!templateCreationForm.valid">
       {{ 'COMMON.CREATE' | translate }}
     </button>
   </div>
