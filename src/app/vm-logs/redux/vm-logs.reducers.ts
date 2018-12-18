@@ -1,8 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import * as moment from 'moment';
 import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
-import moment = require('moment');
 import { UserTagsSelectors } from '../../root-store';
 import { selectIsAutoUpdateEnabled } from './vm-logs-auto-update.reducers';
 import { VmLogsFilters } from '../models/vm-log-filters';

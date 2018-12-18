@@ -239,6 +239,11 @@ mat-form-field.form-select-control {
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 10px;
+
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+
   > * {
     margin-right: 20px;
     &:last-child {

@@ -2,7 +2,6 @@
   "extends": "../tslint.json",
   "rules": {
     "directive-selector": [true, "attribute", "cs", "camelCase"],
-    "component-selector": [true, "element", "cs", "kebab-case"],
-    "pipe-naming": [true, "camelCase", "cs"]
+    "component-selector": [true, "element", "cs", "kebab-case"]
   }
 }

@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { VmActionsService } from '../../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmActions } from '../vm-action';
 import { configSelectors, State } from '../../../root-store';
-import { ExtensionsConfig } from '../../../shared/models/config';
 
 @Component({
   selector: 'cs-vm-actions',
@@ -39,18 +38,36 @@ export class VmActionsComponent {
   @Output()
   public vmPulse = new EventEmitter<VirtualMachine>();
   @Output()
-  public vmLogs = new EventEmitter<VirtualMachine>();
+  public createVmLogsToken = new EventEmitter<VirtualMachine>();
+  @Output()
+  public invalidateVmLogsToken = new EventEmitter<VirtualMachine>();
 
-  public vmActions$: Observable<any[]>;
-  public destroyedVmActions: any[];
+  readonly vmActions$ = this.store.pipe(
+    select(configSelectors.get('extensions')),
+    map(extensions => {
+      return this.vmActionsService.actions.filter(action => {
+        if (action.command === VmActions.PULSE) {
+          return extensions.pulse;
+        }
 
-  constructor(store: Store<State>, private vmActionsService: VmActionsService) {
-    this.vmActions$ = store.pipe(
-      select(configSelectors.get('extensions')),
-      map(extensions => this.actionListDependingOnExtension(extensions)),
-    );
-    this.destroyedVmActions = this.vmActionsService.destroyedActions;
-  }
+        return true;
+      });
+    }),
+  );
+  readonly destroyedVmActions$ = of(this.vmActionsService.destroyedActions);
+  readonly vmLogsActions$ = this.store.pipe(
+    select(configSelectors.get('extensions')),
+    map(extensions => {
+      if (extensions.vmLogs) {
+        return this.vmActionsService.vmLogsActions;
+      }
+
+      return [];
+    }),
+  );
+  readonly showVmLogsActions$ = this.vmLogsActions$.pipe(map(actions => actions.length));
+
+  constructor(private store: Store<State>, private vmActionsService: VmActionsService) {}
 
   public onAction(action, vm: VirtualMachine): void {
     switch (action.command) {
@@ -94,8 +111,12 @@ export class VmActionsComponent {
         this.vmRecovered.emit(vm);
         break;
       }
-      case VmActions.LOGS: {
-        this.vmLogs.emit(vm);
+      case VmActions.CREATE_VM_LOGS_TOKEN: {
+        this.createVmLogsToken.emit(vm);
+        break;
+      }
+      case VmActions.INVALIDATE_VM_LOGS_TOKEN: {
+        this.invalidateVmLogsToken.emit(vm);
         break;
       }
       default:
@@ -105,20 +126,5 @@ export class VmActionsComponent {
 
   public get vmIsDestroyed(): boolean {
     return this.vm.state === VmState.Destroyed;
-  }
-
-  private actionListDependingOnExtension(extensions: ExtensionsConfig) {
-    return this.vmActionsService.actions.filter(action => {
-      if (action.command === VmActions.PULSE) {
-        return extensions.pulse;
-      }
-
-      if (action.command === VmActions.LOGS) {
-        // todo: fix if we want this action in vm's context menu
-        return extensions.vmLogs && false;
-      }
-
-      return true;
-    });
   }
 }

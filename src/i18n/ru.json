@@ -131,6 +131,10 @@
     },
     "COMPUTE_OFFERING": {
       "RESOURCE_LIMIT_EXCEEDED": "Вычислительное предложение не может быть выбрано. Размер выбранного предложения превышает доступные ресурсы аккаунта."
+    },
+    "VM_LOGS": {
+      "TOKEN_DOES_NOT_EXIST": "Указанный токен не существует",
+      "INVALID_TOKEN": "Невалидный токен"
     }
   },
   "NOTIFICATIONS": {
@@ -329,7 +333,9 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
       "VM_ACCESS_TITLE": "Виртуальная машина",
-      "LOGS": "Просмотр логов"
+      "LOGS": "Логи ВМ",
+      "CREATE_VM_LOGS_TOKEN": "Создать токен",
+      "INVALIDATE_VM_LOGS_TOKEN": "Аннулировать токен"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",
@@ -1508,6 +1514,14 @@
     "FAB": {
       "FOLLOW_LOG": "Отслеживать",
       "STOP_FOLLOWING": "Не отслеживать"
+    },
+    "TOKEN": {
+      "CONFIRM_CREATE_TOKEN": "Вы уверены, что хотите создать токен?",
+      "TOKEN_CREATED": "Токен создан",
+      "INVALIDATE_TOKEN": "Аннулировать токен",
+      "INVALIDATE": "Аннулировать",
+      "INVALIDATE_SUCCESS": "Токен успешно аннулирован",
+      "HOW_TO_ADD_TOKEN": "Как добавлять токен"
     }
   },
   "SETTINGS": {

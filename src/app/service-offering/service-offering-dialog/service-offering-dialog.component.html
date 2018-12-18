@@ -1,6 +1,4 @@
-<h3 class="mat-dialog-title">
-  {{ 'SERVICE_OFFERING.CHOOSE_SERVICE_OFFERING' | translate }}
-</h3>
+<h3 class="mat-dialog-title">{{ 'SERVICE_OFFERING.CHOOSE_SERVICE_OFFERING' | translate }}</h3>
 <div *loading="loading">
   <div class="mat-dialog-content" *loading="!serviceOfferings">
     <cs-service-offering-filter
@@ -21,34 +19,29 @@
       (selectedOfferingChange)="updateOffering($event)"
     ></cs-service-offering-list>
 
-    <div
-      class="message warning"
-      *ngIf="showRebootMessage"
-    >{{ "SERVICE_OFFERING.VM_WILL_BE_RESTARTED" | translate }}
+    <div class="message warning" *ngIf="showRebootMessage">
+      {{ 'SERVICE_OFFERING.VM_WILL_BE_RESTARTED' | translate }}
     </div>
-    <span class="error-message" *ngIf="!serviceOffering?.isAvailableByResources && isSelectedOfferingViewMode()">
+    <span
+      class="error-message"
+      *ngIf="!serviceOffering?.isAvailableByResources && isSelectedOfferingViewMode()"
+    >
       {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
     </span>
   </div>
 
-
   <div class="mat-dialog-actions">
     <div>
       <button mat-button color="primary" (click)="showFields = !showFields">
-        {{ (showFields ? 'SERVICE_OFFERING.HIDE_DETAILS'
-        : 'SERVICE_OFFERING.SHOW_DETAILS' )| translate }}
+        {{
+          (showFields ? 'SERVICE_OFFERING.HIDE_DETAILS' : 'SERVICE_OFFERING.SHOW_DETAILS')
+            | translate
+        }}
       </button>
     </div>
     <div>
-      <button mat-button color="primary" matDialogClose>
-        {{ 'COMMON.CANCEL' | translate }}
-      </button>
-      <button
-        mat-button
-        color="primary"
-        [disabled]="isSubmitButtonDisabled()"
-        (click)="onChange()"
-      >
+      <button mat-button color="primary" matDialogClose>{{ 'COMMON.CANCEL' | translate }}</button>
+      <button mat-button color="primary" [disabled]="isSubmitButtonDisabled()" (click)="onChange()">
         {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}
       </button>
     </div>

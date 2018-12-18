@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { map, takeUntil, withLatestFrom } from 'rxjs/operators';
 import * as debounce from 'lodash/debounce';
+import * as moment from 'moment';
 
 import { State, UserTagsSelectors } from '../../root-store';
 import * as eventAction from '../redux/events.actions';
@@ -12,7 +13,6 @@ import * as fromEvents from '../redux/events.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../shared/services/auth.service';
-import moment = require('moment');
 
 const FILTER_KEY = 'eventListFilters';
 

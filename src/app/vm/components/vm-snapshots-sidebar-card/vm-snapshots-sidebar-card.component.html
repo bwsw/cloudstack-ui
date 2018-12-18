@@ -7,27 +7,22 @@
 
   <mat-card-content class="mat-card-content-with-actions">
     <div class="mat-card-content-container">
-      <ng-container *ngIf="vmSnapshotsCount === 0; then noSnapshots else lastSnapshot"></ng-container>
+      <ng-container
+        *ngIf="vmSnapshotsCount === 0; then noSnapshots; else lastSnapshot"
+      ></ng-container>
       <ng-template #noSnapshots>
         {{ 'VM_PAGE.VM_DETAILS.VM_SNAPSHOTS.NO_SNAPSHOTS' | translate }}
       </ng-template>
       <ng-template #lastSnapshot>
         <div class="two-columns">
-          <div>
-            {{ 'VM_PAGE.VM_DETAILS.VM_SNAPSHOTS.LAST_SNAPSHOT' | translate }}:
-          </div>
+          <div>{{ 'VM_PAGE.VM_DETAILS.VM_SNAPSHOTS.LAST_SNAPSHOT' | translate }}:</div>
           <button mat-button color="primary" (click)="showAllSnapshots()">
-            {{ 'VM_PAGE.VM_DETAILS.VM_SNAPSHOTS.VIEW_ALL' | translate  }}
-            ({{ vmSnapshotsCount }})
+            {{ 'VM_PAGE.VM_DETAILS.VM_SNAPSHOTS.VIEW_ALL' | translate }} ({{ vmSnapshotsCount }})
           </button>
         </div>
-        <div class="snapshot-name truncate">
-          {{ lastVmSnapshot.displayname }}
-        </div>
+        <div class="snapshot-name truncate">{{ lastVmSnapshot.displayname }}</div>
         <div class="two-columns">
-          <div>
-            {{ lastVmSnapshot.created | csTimestampToDate | csStringifyDate }}
-          </div>
+          <div>{{ lastVmSnapshot.created | csTimestampToDate | csStringifyDate }}</div>
           <cs-entity-action-row [actions]="entityActions"></cs-entity-action-row>
         </div>
       </ng-template>

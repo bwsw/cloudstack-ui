@@ -49,7 +49,8 @@ const FILTER_KEY = 'snapshotFilters';
       (selectedGroupingsChange)="onGroupingsChange($event)"
       (queryChange)="onQueryChange($event)"
       (viewModeChange)="onViewModeChange($event)"
-    ></cs-snapshots-filter>`,
+    ></cs-snapshots-filter>
+  `,
 })
 export class SnapshotFilterContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly filters$ = this.store.pipe(select(snapshotPageSelectors.getFilters));

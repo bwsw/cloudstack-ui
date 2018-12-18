@@ -69,6 +69,7 @@ export class DraggableSelectComponent extends MatSelect
   @Input()
   public dragItems: any[];
   public bagId: string = uuid.v4();
+  public shouldFloat: boolean;
 
   constructor(
     private dragula: DragulaService,
@@ -106,5 +107,13 @@ export class DraggableSelectComponent extends MatSelect
   public ngAfterContentInit(): void {
     super.ngAfterContentInit();
     this.dragula.dropModel.subscribe(() => setTimeout(() => (this as any)._propagateChanges()));
+  }
+
+  public get shouldLabelFloat(): boolean {
+    return this.shouldFloat;
+  }
+
+  public set shouldLabelFloat(shouldFloat: boolean) {
+    this.shouldFloat = shouldFloat;
   }
 }

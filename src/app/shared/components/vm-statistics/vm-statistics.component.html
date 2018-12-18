@@ -30,10 +30,7 @@
       </mat-button-toggle>
     </mat-button-toggle-group>
     <div class="stat-list-container">
-      <mat-card
-        *ngFor="let stat of statsList"
-        class="stat-card-md"
-      >
+      <mat-card *ngFor="let stat of statsList" class="stat-card-md">
         <mat-card-header>
           <mat-card-title>
             <h2 class="mat-card-title-text">{{ stat.header | translate }}</h2>
@@ -46,7 +43,7 @@
             [class.single-bar]="f && l"
           >
             {{ bar.title | translate }}
-            <div class="stat-values">{{ bar.value() | async}}</div>
+            <div class="stat-values">{{ bar.value() | async }}</div>
             <mat-progress-bar [value]="bar.progress()"></mat-progress-bar>
           </div>
         </mat-card-content>

@@ -105,6 +105,7 @@ import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-de
 import { VmSnapshotCreationDialogComponent } from './vm-sidebar/vm-detail/vm-snapshot-creation-dialog/vm-snapshot-creation-dialog.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
+import { VmLogsModule } from '../vm-logs/vm-logs.module';
 
 // tslint:enable max-line-length
 
@@ -123,6 +124,7 @@ import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
     TagsModule,
     TemplateModule,
     TranslateModule,
+    VmLogsModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),
     StoreModule.forFeature('tags', accountTagsReducers),
