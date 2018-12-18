@@ -37,7 +37,6 @@ import { VmLogsTokenComponent } from '../vm-logs-token/vm-logs-token.component';
 import { InvalidateVmLogsTokenComponent } from '../invalidate-vm-logs-token/invalidate-vm-logs-token.component';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SnackBarService } from '../../core/services';
-import moment = require('moment');
 
 @Injectable()
 export class VmLogsEffects {
