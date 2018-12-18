@@ -30,7 +30,6 @@ import {
 } from './vm-logs.reducers';
 import removeNullsAndEmptyArrays from '../remove-nulls-and-empty-arrays';
 import { selectAll as logFiles } from './vm-log-files.reducers';
-import moment = require('moment');
 
 @Injectable()
 export class VmLogsEffects {
