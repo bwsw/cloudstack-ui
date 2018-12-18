@@ -62,7 +62,6 @@
     "no-conditional-assignment": true,
     "no-duplicate-switch-case": true,
     "no-sparse-arrays": true,
-    "no-unused-variable": true,
     "no-unnecessary-type-assertion": true,
     "no-unnecessary-callback-wrapper": true,
     "prefer-conditional-expression": true,
@@ -92,6 +91,6 @@
     "no-output-named-after-standard-event": true,
     "no-unused-css": true,
     "use-pipe-decorator": true,
-    "angular-whitespace": [true, "check-interpolation", "check-pipe", "check-semicolon"]
+    "angular-whitespace": [true, "check-interpolation", "check-semicolon"]
   }
 }

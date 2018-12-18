@@ -1,7 +1,6 @@
 <cs-overlay-loading [active]="isLoading"></cs-overlay-loading>
 <div [hidden]="isLoading">
-  <h3 class="mat-dialog-title">{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate
-    }}</h3>
+  <h3 class="mat-dialog-title">{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}</h3>
   <form (ngSubmit)="onSubmit($event)" #volumeCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
       <mat-form-field class="full-width-input">
@@ -13,7 +12,7 @@
           maxlength="255"
           autofocus
           required
-        >
+        />
         <mat-hint align="end">
           <cs-character-count [value]="newVolume.name" [maxLength]="255"></cs-character-count>
         </mat-hint>
@@ -28,12 +27,7 @@
             required
             (selectionChange)="updateZone($event.value)"
           >
-            <mat-option
-              *ngFor="let z of zones"
-              [value]="z.id"
-            >
-              {{ z.name }}
-            </mat-option>
+            <mat-option *ngFor="let z of zones" [value]="z.id"> {{ z.name }} </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -53,12 +47,7 @@
       ></cs-disk-offering-selector>
     </div>
     <div class="mat-dialog-actions">
-      <button
-        mat-button
-        color="primary"
-        matDialogClose
-        type="button"
-      >
+      <button mat-button color="primary" matDialogClose type="button">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
       <button

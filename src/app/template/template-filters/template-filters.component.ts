@@ -11,7 +11,6 @@ import { Language } from '../../shared/types';
 @Component({
   selector: 'cs-template-filters',
   templateUrl: 'template-filters.component.html',
-  styleUrls: ['template-filters.component.scss'],
 })
 export class TemplateFiltersComponent implements OnInit {
   @Input()
