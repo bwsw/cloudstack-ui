@@ -89,10 +89,17 @@ export const vmPulseAction = {
   canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running,
 };
 
-export const vmLogsAction = {
-  name: 'VM_PAGE.COMMANDS.LOGS',
-  command: VmActions.LOGS,
-  icon: 'mdi-text',
+export const createVmLogsToken = {
+  name: 'VM_PAGE.COMMANDS.CREATE_VM_LOGS_TOKEN',
+  command: VmActions.CREATE_VM_LOGS_TOKEN,
+  icon: 'mdi-plus',
+  canActivate: () => true,
+};
+
+export const invalidateVmLogsToken = {
+  name: 'VM_PAGE.COMMANDS.INVALIDATE_VM_LOGS_TOKEN',
+  command: VmActions.INVALIDATE_VM_LOGS_TOKEN,
+  icon: 'mdi-minus',
   canActivate: () => true,
 };
 
@@ -106,7 +113,7 @@ export class VmActionsService {
     vmResetPasswordAction,
     vmAccessAction,
     vmPulseAction,
-    vmLogsAction,
   ];
   public destroyedActions = [vmExpungeAction, vmRecoverAction];
+  public vmLogsActions = [createVmLogsToken, invalidateVmLogsToken];
 }

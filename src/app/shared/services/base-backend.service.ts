@@ -36,6 +36,7 @@ export enum CSCommands {
   Disable = 'disable',
   Enable = 'enable',
   Expunge = 'expunge',
+  Invalidate = 'invalidate',
   GetKeys = 'get;Keys',
   List = 'list;s',
   ListCapabilities = 'listCapabilities',

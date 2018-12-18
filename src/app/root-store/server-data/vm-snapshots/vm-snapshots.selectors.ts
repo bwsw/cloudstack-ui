@@ -9,10 +9,7 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getVmSnapshotState,
 );
 
-export const getIsLoading = createSelector(
-  getVmSnapshotState,
-  state => state.isLoading,
-);
+export const getIsLoading = createSelector(getVmSnapshotState, state => state.isLoading);
 
 export const getVmSnapshotsForSelectedVm = createSelector(
   selectAll,

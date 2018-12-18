@@ -131,6 +131,10 @@
     },
     "COMPUTE_OFFERING": {
       "RESOURCE_LIMIT_EXCEEDED": "The service offering cannot be selected because it doesn't fit the account resources available."
+    },
+    "VM_LOGS": {
+      "TOKEN_DOES_NOT_EXIST": "The token does not exist",
+      "INVALID_TOKEN": "Invalid token"
     }
   },
   "NOTIFICATIONS": {
@@ -329,7 +333,9 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Access VM",
       "VM_ACCESS_TITLE": "Virtual Machine",
-      "LOGS": "View logs"
+      "LOGS": "Log View",
+      "CREATE_VM_LOGS_TOKEN": "Create token",
+      "INVALIDATE_VM_LOGS_TOKEN": "Invalidate token"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Resource usage",
@@ -1512,6 +1518,14 @@
     "FAB": {
       "FOLLOW_LOG": "Follow log",
       "STOP_FOLLOWING": "Stop following"
+    },
+    "TOKEN": {
+      "CONFIRM_CREATE_TOKEN": "Are you sure you want to create a token?",
+      "TOKEN_CREATED": "Token created",
+      "INVALIDATE_TOKEN": "Invalidate token",
+      "INVALIDATE": "Invalidate",
+      "INVALIDATE_SUCCESS": "Token invalidated successfully",
+      "HOW_TO_ADD_TOKEN": "How to add a token"
     }
   },
   "SETTINGS": {

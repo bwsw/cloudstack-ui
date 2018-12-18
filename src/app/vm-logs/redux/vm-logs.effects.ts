@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { concat, Observable, of, timer } from 'rxjs';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import * as moment from 'moment';
 import { VmLogsService } from '../services/vm-logs.service';
 import { VmLog } from '../models/vm-log.model';
@@ -31,6 +31,13 @@ import {
 } from './vm-logs.reducers';
 import removeNullsAndEmptyArrays from '../remove-nulls-and-empty-arrays';
 import { selectAll as logFiles } from './vm-log-files.reducers';
+import { VmLogsTokenService } from '../services/vm-logs-token.service';
+import { MatDialog } from '@angular/material';
+import { VmLogsTokenComponent } from '../vm-logs-token/vm-logs-token.component';
+import { InvalidateVmLogsTokenComponent } from '../invalidate-vm-logs-token/invalidate-vm-logs-token.component';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { SnackBarService } from '../../core/services';
+import moment = require('moment');
 
 @Injectable()
 export class VmLogsEffects {
@@ -58,6 +65,30 @@ export class VmLogsEffects {
           return new vmLogsActions.LoadVmLogFilesResponse(vmLogFiles);
         }),
         catchError(() => of(new vmLogsActions.LoadVmLogFilesResponse([]))),
+      );
+    }),
+  );
+
+  @Effect()
+  createToken$: Observable<Action> = this.actions$.pipe(
+    ofType<vmLogsActions.CreateTokenRequest>(vmLogsActions.VmLogsActionTypes.CREATE_TOKEN_REQUEST),
+    switchMap(action => {
+      return this.vmLogsTokenService.create({ id: action.payload.vm.id }).pipe(
+        map(token => new vmLogsActions.CreateTokenResponse(token)),
+        catchError(error => of(new vmLogsActions.CreateTokenError(error))),
+      );
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  invalidateToken$: Observable<Action> = this.actions$.pipe(
+    ofType<vmLogsActions.InvalidateTokenRequest>(
+      vmLogsActions.VmLogsActionTypes.INVALIDATE_TOKEN_REQUEST,
+    ),
+    switchMap(action => {
+      return this.vmLogsTokenService.invalidate({ token: action.payload.token }).pipe(
+        tap(() => this.showNotificationsOnFinish('LOGS_PAGE.TOKEN.INVALIDATE_SUCCESS')),
+        catchError(error => of(this.dialogService.showNotificationsOnFail(error))),
       );
     }),
   );
@@ -252,11 +283,58 @@ export class VmLogsEffects {
     }),
   );
 
+  @Effect({ dispatch: false })
+  showCreatedToken = this.actions$.pipe(
+    ofType<vmLogsActions.CreateTokenResponse>(
+      vmLogsActions.VmLogsActionTypes.CREATE_TOKEN_RESPONSE,
+    ),
+    map(action => action.payload),
+    tap(token => {
+      return this.dialog.open(VmLogsTokenComponent, {
+        width: '400px',
+        data: token,
+      });
+    }),
+  );
+
+  @Effect()
+  openInvalidateToken = this.actions$.pipe(
+    ofType<vmLogsActions.OpenInvalidateToken>(
+      vmLogsActions.VmLogsActionTypes.OPEN_INVALIDATE_TOKEN,
+    ),
+    map(action => action.payload.vm),
+    switchMap(vm => {
+      return this.dialog
+        .open(InvalidateVmLogsTokenComponent, {
+          width: '400px',
+          data: vm,
+        })
+        .afterClosed()
+        .pipe(
+          map(token => {
+            if (token) {
+              return new vmLogsActions.InvalidateTokenRequest({ token });
+            }
+
+            return new vmLogsActions.InvalidateTokenCanceled();
+          }),
+        );
+    }),
+  );
+
   constructor(
     private actions$: Actions,
     private router: Router,
     private store: Store<State>,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private snackBarService: SnackBarService,
     private vmLogsService: VmLogsService,
     private vmLogFilesService: VmLogFilesService,
+    private vmLogsTokenService: VmLogsTokenService,
   ) {}
+
+  private showNotificationsOnFinish(message: string) {
+    this.snackBarService.open(message).subscribe();
+  }
 }
