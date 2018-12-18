@@ -14,12 +14,19 @@ import {
 } from 'rxjs/operators';
 import { SnackBarService } from '../../../core/services/snack-bar.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import * as fromSO from '../../../reducers/service-offerings/redux/service-offerings.reducers';
+import * as fromVM from '../../../reducers/vm/redux/vm.reducers';
 import * as fromVolumes from '../../../reducers/volumes/redux/volumes.reducers';
 // tslint:disable-next-line
 import { VolumeSnapshotFromVmSnapshotDialogComponent } from '../../../shared/components/volume-snapshot-from-vm-snapshot-dialog/volume-snapshot-from-vm-snapshot-dialog.component';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { VmSnapshotService } from '../../../shared/services/vm-snapshot.service';
+import { TagService } from '../../../shared/services/tags/tag.service';
+import {
+  vmSnapshotEntityName,
+  VmSnapshotService,
+} from '../../../shared/services/vm-snapshot.service';
 import { VmSnapshotCreationDialogComponent } from '../../../vm/vm-sidebar/vm-detail/vm-snapshot-creation-dialog/vm-snapshot-creation-dialog.component';
+import { VmSnapshotOffering, vmSnapshotOfferingTagKey } from '../../models';
 import { State } from '../../state';
 import {
   Create,
@@ -41,9 +48,11 @@ import {
   LoadError,
   LoadSuccess,
   Revert,
+  RevertAllowed,
   RevertCanceled,
   RevertConfirmed,
   RevertError,
+  RevertNotAllowed,
   RevertSuccess,
   VmSnapshotActionTypes,
 } from './vm-snapshots.actions';
@@ -111,6 +120,40 @@ export class VmSnapshotsEffects {
           return of(new CreateError({ error }));
         }),
       );
+    }),
+  );
+
+  /**
+   * Save compute offering that the VM has at time of the VM snapshot creation
+   */
+  @Effect({ dispatch: false })
+  createVmSnapshotTag$ = this.actions$.pipe(
+    ofType<CreateSuccess>(VmSnapshotActionTypes.CreateSuccess),
+    withLatestFrom(
+      this.store.pipe(select(fromVM.selectEntities)),
+      this.store.pipe(select(fromSO.selectEntities)),
+    ),
+    map(([action, vmEntities, soEntities]) => {
+      const vm = vmEntities[action.payload.vmSnapshot.virtualmachineid];
+      const so = soEntities[vm.serviceofferingid];
+      return {
+        vm,
+        vmSnapshotId: action.payload.vmSnapshot.id,
+        isCustomizedOffering: so == null ? undefined : so.iscustomized,
+      };
+    }),
+    tap(({ vm, vmSnapshotId, isCustomizedOffering }) => {
+      const vmSnapshotOffering = VmSnapshotOffering.create(vm, isCustomizedOffering);
+      const params = {
+        resourceids: vmSnapshotId,
+        resourcetype: vmSnapshotEntityName,
+        'tags[0].key': vmSnapshotOfferingTagKey,
+        'tags[0].value': vmSnapshotOffering.toString(),
+      };
+      this.tagService
+        .create(params)
+        .pipe(catchError(of))
+        .subscribe();
     }),
   );
 
@@ -211,8 +254,59 @@ export class VmSnapshotsEffects {
   );
 
   @Effect()
-  revertConfirmation$: Observable<Action> = this.actions$.pipe(
+  checkRevertPossibility$: Observable<Action> = this.actions$.pipe(
     ofType<Revert>(VmSnapshotActionTypes.Revert),
+    withLatestFrom(
+      this.store.pipe(select(vmSnapshotSelectors.selectEntities)),
+      this.store.pipe(select(fromVM.selectEntities)),
+    ),
+    map(([action, vmSnapshotsEntities, vmEntities]) => {
+      const vmSnapshot = vmSnapshotsEntities[action.payload.id];
+      const vm = vmEntities[vmSnapshot.virtualmachineid];
+      return {
+        vm,
+        vmSnapshotId: vmSnapshot.id,
+      };
+    }),
+    exhaustMap(({ vmSnapshotId, vm }) => {
+      const params = {
+        resourceid: vmSnapshotId,
+        resourcetype: vmSnapshotEntityName,
+        key: vmSnapshotOfferingTagKey,
+      };
+      return this.tagService.getList(params).pipe(
+        /**
+         * If we are unable to verify if revert is allowed then we dispatch RevertAllowed.
+         * In this case, the user will get a server error if the revert is not allowed.
+         */
+        map(tags => {
+          const tag = tags[0];
+
+          if (tag == null) {
+            return new RevertAllowed({ id: vmSnapshotId });
+          }
+          const vmSnapshotOffering = VmSnapshotOffering.createFromTagValue(tag.value);
+          if (vmSnapshotOffering.isValidForVm(vm)) {
+            return new RevertAllowed({ id: vmSnapshotId });
+          }
+          return new RevertNotAllowed();
+        }),
+        catchError(() => of(new RevertAllowed({ id: vmSnapshotId }))),
+      );
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  revertNotAllowedMessage$ = this.actions$.pipe(
+    ofType<RevertNotAllowed>(VmSnapshotActionTypes.RevertNotAllowed),
+    tap(() => {
+      this.dialogService.alert({ message: 'DIALOG_MESSAGES.VM_SNAPSHOT.REVERT_NOT_ALLOWED' });
+    }),
+  );
+
+  @Effect()
+  revertConfirmation$: Observable<Action> = this.actions$.pipe(
+    ofType<Revert>(VmSnapshotActionTypes.RevertAllowed),
     exhaustMap(action => {
       const message = 'DIALOG_MESSAGES.VM_SNAPSHOT.CONFIRM_REVERTING';
       return this.dialogService.confirm({ message }).pipe(
@@ -256,6 +350,7 @@ export class VmSnapshotsEffects {
     private snackBarService: SnackBarService,
     private matDialog: MatDialog,
     private store: Store<State>,
+    private tagService: TagService,
   ) {}
 
   private showNotificationsOnFinish(message: string, jobNotificationId?: string) {

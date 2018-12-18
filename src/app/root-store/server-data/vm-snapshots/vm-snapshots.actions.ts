@@ -23,6 +23,8 @@ export enum VmSnapshotActionTypes {
   DeleteSuccess = '[Snapshot API] Delete VM snapshot success',
   DeleteError = '[Snapshot API] Delete VM snapshot error',
   Revert = '[Snapshot action] Revert VM to snapshot',
+  RevertAllowed = '[Offering checking] Revert VM to snapshot allowed',
+  RevertNotAllowed = '[Offering checking] Revert VM to snapshot is not allowed',
   RevertConfirmed = '[Confirmation dialog] Reverting VM to snapshot confirmed',
   RevertCanceled = '[Confirmation dialog] Reverting VM to snapshot canceled',
   RevertSuccess = '[Snapshot API] Revert VM to snapshot success',
@@ -137,6 +139,16 @@ export class Revert implements Action {
   constructor(readonly payload: { id: string }) {}
 }
 
+export class RevertAllowed implements Action {
+  readonly type = VmSnapshotActionTypes.RevertAllowed;
+
+  constructor(readonly payload: { id: string }) {}
+}
+
+export class RevertNotAllowed implements Action {
+  readonly type = VmSnapshotActionTypes.RevertNotAllowed;
+}
+
 export class RevertConfirmed implements Action {
   readonly type = VmSnapshotActionTypes.RevertConfirmed;
 
@@ -179,6 +191,8 @@ export type VmSnapshotActionsUnion =
   | DeleteSuccess
   | DeleteError
   | Revert
+  | RevertAllowed
+  | RevertNotAllowed
   | RevertConfirmed
   | RevertCanceled
   | RevertSuccess
