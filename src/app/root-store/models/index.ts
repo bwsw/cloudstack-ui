@@ -1,1 +1,1 @@
-export * from './vm-snapshot-offering.model';
+export * from './vm-snapshot-offering-builder';

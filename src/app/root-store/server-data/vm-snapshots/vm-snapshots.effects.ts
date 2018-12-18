@@ -26,7 +26,7 @@ import {
   VmSnapshotService,
 } from '../../../shared/services/vm-snapshot.service';
 import { VmSnapshotCreationDialogComponent } from '../../../vm/vm-sidebar/vm-detail/vm-snapshot-creation-dialog/vm-snapshot-creation-dialog.component';
-import { VmSnapshotOffering, vmSnapshotOfferingTagKey } from '../../models';
+import { VmSnapshotBuilder, vmSnapshotOfferingTagKey } from '../../models';
 import { State } from '../../state';
 import {
   Create,
@@ -143,7 +143,7 @@ export class VmSnapshotsEffects {
       };
     }),
     tap(({ vm, vmSnapshotId, isCustomizedOffering }) => {
-      const vmSnapshotOffering = VmSnapshotOffering.create(vm, isCustomizedOffering);
+      const vmSnapshotOffering = VmSnapshotBuilder.create(vm, isCustomizedOffering);
       const params = {
         resourceids: vmSnapshotId,
         resourcetype: vmSnapshotEntityName,
@@ -285,7 +285,7 @@ export class VmSnapshotsEffects {
           if (tag == null) {
             return new RevertAllowed({ id: vmSnapshotId });
           }
-          const vmSnapshotOffering = VmSnapshotOffering.createFromTagValue(tag.value);
+          const vmSnapshotOffering = VmSnapshotBuilder.createFromTagValue(tag.value);
           if (vmSnapshotOffering.isValidForVm(vm)) {
             return new RevertAllowed({ id: vmSnapshotId });
           }
