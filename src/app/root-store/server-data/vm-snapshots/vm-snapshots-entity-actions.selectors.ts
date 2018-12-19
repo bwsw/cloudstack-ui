@@ -36,7 +36,7 @@ export const getVmSnapshotEntityActionsEntities = createSelector(
         {
           icon: 'mdi-delete',
           text: 'COMMON.DELETE',
-          disabled: !isSnapshotReady,
+          disabled: false,
           visible: true,
           actionCreator: () => new vmSnapshotsActions.Delete({ id: vmSnapshot.id }),
         },
