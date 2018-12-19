@@ -6,7 +6,7 @@ export class VMList extends CloudstackUiPage {
   getVMNameCard(index) {
     return element
       .all(by.css('.entity-card-title.mat-card-title'))
-      .get(index)
+      .first()
       .element(by.tagName('span'))
       .getText();
   }
@@ -35,15 +35,12 @@ export class VMList extends CloudstackUiPage {
     browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
   }
 
-  clickOpenAccessVM(index) {
+  clickOpenAccessVM() {
     const EC = protractor.ExpectedConditions;
-    browser.wait(
-      EC.elementToBeClickable(element(by.css('.entity-card-menu.mat-icon-button'))),
-      5000,
-    );
+    browser.wait(EC.visibilityOf(element(by.tagName('mat-list'))), 5000);
     element
       .all(by.css('.mdi-dots-vertical'))
-      .get(index)
+      .first()
       .click();
     element
       .all(by.css('.mat-menu-item.ng-star-inserted'))

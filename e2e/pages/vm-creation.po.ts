@@ -79,7 +79,13 @@ export class VMCreation extends CloudstackUiPage {
   }
 
   getDiskSize() {
-    return element(by.id('mat-input-6')).getAttribute('value');
+    return element(by.css('.current-value'))
+      .element(
+        by.css(
+          '.mat-input-element.mat-form-field-autofill-control.cdk-text-field-autofill-monitored.ng-untouched.ng-pristine.ng-valid',
+        ),
+      )
+      .getAttribute('value');
   }
 
   clickAdvancedTab() {
@@ -202,6 +208,10 @@ export class VMCreation extends CloudstackUiPage {
 
   getStartVM() {
     return element(by.name('startVm'));
+  }
+
+  setStartVM() {
+    element(by.name('startVm')).click();
   }
 
   getSelectedRules() {

@@ -24,7 +24,9 @@ export class AccessVM extends CloudstackUiPage {
     const EC = protractor.ExpectedConditions;
     const ssh = EC.visibilityOf(element(by.css('.parameters-wrapper.ng-star-inserted')));
     const icon = EC.visibilityOf(element(by.css('.mdi-content-copy.mat-icon.mdi')));
-    browser.wait(EC.and(icon, ssh), 5000);
+    browser.wait(EC.and(icon, ssh), 5000).thenCatch(() => {
+      element(by.css('.mat-button.mat-primary')).click();
+    });
   }
 
   clickHTTPTab() {
@@ -33,7 +35,11 @@ export class AccessVM extends CloudstackUiPage {
       .last()
       .click();
     const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element(by.css('.parameters-wrapper.ng-star-inserted'))), 5000);
+    browser
+      .wait(EC.visibilityOf(element(by.css('.parameters-wrapper.ng-star-inserted'))), 5000)
+      .thenCatch(() => {
+        element(by.css('.mat-button.mat-primary')).click();
+      });
   }
 
   getConnectionString() {
