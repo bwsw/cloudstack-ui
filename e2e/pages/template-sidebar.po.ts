@@ -3,16 +3,18 @@ import { CloudstackUiPage } from './app.po';
 
 export class ImageSidebar extends CloudstackUiPage {
   setTag(key, value) {
+    const EC = protractor.ExpectedConditions;
     element(by.css('.mdi-plus.mat-icon.mdi')).click();
     this.waitDialogModal();
     const input1 = element(by.name('key'));
     input1.sendKeys(key);
+    browser.wait(EC.textToBePresentInElementValue(element(by.name('key')), key));
     expect(input1.getAttribute('value')).toBe(key);
     const input2 = element(by.name('value'));
     input2.sendKeys(value);
+    browser.wait(EC.textToBePresentInElementValue(element(by.name('value')), value));
     expect(input2.getAttribute('value')).toBe(value);
     this.clickYesDialogButton();
-    const EC = protractor.ExpectedConditions;
     browser.wait(
       EC.textToBePresentInElement(element.all(by.cssContainingText('.key', key)).last(), key),
       5000,

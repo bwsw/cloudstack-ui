@@ -13,19 +13,13 @@ export class VMList extends CloudstackUiPage {
 
   getVMOSCard(index) {
     return element
-      .all(by.tagName('mat-card'))
-      .get(index)
       .all(by.css('.entity-card-data-line'))
-      .first()
+      .get(2 * index)
       .getText();
   }
 
   getVMIPCard(index) {
-    return element
-      .all(by.tagName('mat-card'))
-      .get(index)
-      .all(by.css('.entity-card-data-line'))
-      .last();
+    return element.all(by.css('.entity-card-data-line')).get(2 * index + 1);
   }
 
   clickCreateVM() {
@@ -43,7 +37,10 @@ export class VMList extends CloudstackUiPage {
 
   clickOpenAccessVM(index) {
     const EC = protractor.ExpectedConditions;
-    // browser.wait(EC.elementToBeClickable(element (by.css(".entity-card-menu.mat-icon-button"))), 5000);
+    browser.wait(
+      EC.elementToBeClickable(element(by.css('.entity-card-menu.mat-icon-button'))),
+      5000,
+    );
     element
       .all(by.css('.mdi-dots-vertical'))
       .get(index)

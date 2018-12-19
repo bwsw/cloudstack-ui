@@ -1,13 +1,13 @@
 import { by, element, protractor, browser } from 'protractor';
 import { CloudstackUiPage } from './app.po';
 import { el } from '@angular/platform-browser/testing/src/browser_util';
+import { first } from 'rxjs/internal/operators';
 
 export class VMCreation extends CloudstackUiPage {
   template = 'CentOS 5.6 (64-bit)';
-  index = 0;
   name = `e2e${this.generateID()}`;
   so = 'Small Instance';
-  zone = 'Sandbox-simulator-basic';
+  zone = 'Sandbox-simulator';
   group = `e2e_group_${this.generateID()}`;
   rule = 'default';
   ssh = 'No SSH key';
@@ -43,12 +43,25 @@ export class VMCreation extends CloudstackUiPage {
   setDisplayName(name) {
     const input1 = element(by.name('displayName'));
     input1.sendKeys(name);
+    browser.wait(
+      protractor.ExpectedConditions.textToBePresentInElementValue(
+        element(by.name('displayName')),
+        name,
+      ),
+    );
     expect(input1.getAttribute('value')).toBe(name);
   }
 
   setHostName(name) {
     const input1 = element(by.name('hostName'));
     input1.sendKeys(name);
+    expect(input1.getAttribute('value')).toBe(name);
+    browser.wait(
+      protractor.ExpectedConditions.textToBePresentInElementValue(
+        element(by.name('hostName')),
+        name,
+      ),
+    );
     expect(input1.getAttribute('value')).toBe(name);
   }
 
@@ -129,8 +142,11 @@ export class VMCreation extends CloudstackUiPage {
       .last()
       .click();
     this.waitDialogModal();
-    element(by.cssContainingText('.mat-button-toggle-label-content', ' Create new ')).click();
     const EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(element(by.css('.mat-button-toggle-label-content'))));
+    element(by.cssContainingText('.mat-button-toggle-label-content', ' Create new ')).click();
+    // element.all (by.css('.mat-button-toggle-button')).first().click();
+
     browser.wait(EC.visibilityOf(element(by.tagName('mat-list-item'))), 3000);
     element(by.tagName('mat-list-item')).click();
     element(by.css('.mdi-chevron-right.mat-icon.mdi')).click();

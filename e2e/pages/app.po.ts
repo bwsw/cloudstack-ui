@@ -119,7 +119,6 @@ export class CloudstackUiPage {
       .all(by.css('.mat-button.mat-primary'))
       .last()
       .click();
-    browser.waitForAngular();
   }
 
   getYesDialogButton() {
