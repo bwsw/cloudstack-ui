@@ -49,3 +49,15 @@ table {
 .text-right {
   text-align: right;
 }
+
+mat-expansion-panel-header {
+  position: relative;
+
+  /deep/ .mat-radio-container {
+    position: absolute;
+  }
+
+  /deep/ .mat-radio-label-content {
+    margin-left: 20px;
+  }
+}
