@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { State, Store } from '@ngrx/store';
+import * as resourceQuotasActions from '../../redux/resource-quotas.actions';
 
 @Component({
   selector: 'cs-resource-quotas',
   templateUrl: 'resource-quotas.component.html',
   styleUrls: ['resource-quotas.component.scss'],
 })
-export class ResourceQuotasComponent {
+export class ResourceQuotasComponent implements OnInit {
   titles = [
     'RESOURCE_QUOTAS_PAGE.RESOURCES.INSTANCES',
     'RESOURCE_QUOTAS_PAGE.RESOURCES.IPS',
@@ -20,4 +22,10 @@ export class ResourceQuotasComponent {
     'RESOURCE_QUOTAS_PAGE.RESOURCES.PRIMARY_STORAGE',
     'RESOURCE_QUOTAS_PAGE.RESOURCES.SECONDARY_STORAGE',
   ];
+
+  constructor(private store: Store<State>) {}
+
+  public ngOnInit() {
+    this.store.dispatch(new resourceQuotasActions.LoadResourceQuotasRequest());
+  }
 }

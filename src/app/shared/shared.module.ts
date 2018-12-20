@@ -151,6 +151,7 @@ import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { UrlDirective } from './validators/directives';
 import { CapabilityService } from './services/capability.service';
+import { GatewayApiService } from './services/gateway-api.service';
 
 const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
 
@@ -359,6 +360,7 @@ const SHARED_COMPONENTS = [
     DiskOfferingService,
     DomainService,
     ErrorService,
+    GatewayApiService,
     JobsNotificationService,
     LocalStorageService,
     LoginGuard,

@@ -127,9 +127,9 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
   }
 
   public requestResources() {
-    this.dialogService.open(RequestResourcesComponent, {
-      width: '650px',
-    });
+    // this.dialogService.open(RequestResourcesComponent, {
+    //   width: '650px',
+    // });
   }
 
   public ngOnInit(): void {
