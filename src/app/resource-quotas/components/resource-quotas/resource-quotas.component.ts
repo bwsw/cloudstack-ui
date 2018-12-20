@@ -1,31 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { State, Store } from '@ngrx/store';
-import * as resourceQuotasActions from '../../redux/resource-quotas.actions';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { resourceTypeNames } from '../../utils/resource-type-names';
 
 @Component({
   selector: 'cs-resource-quotas',
   templateUrl: 'resource-quotas.component.html',
   styleUrls: ['resource-quotas.component.scss'],
 })
-export class ResourceQuotasComponent implements OnInit {
-  titles = [
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.INSTANCES',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.IPS',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.VOLUMES',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.SNAPSHOTS',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.TEMPLATES',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.PROJECTS',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.NETWORK',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.VPCS',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.CPUS',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.MEMORY',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.PRIMARY_STORAGE',
-    'RESOURCE_QUOTAS_PAGE.RESOURCES.SECONDARY_STORAGE',
-  ];
+export class ResourceQuotasComponent {
+  @Input()
+  resourceQuotas: {
+    [resourceType: number]: {
+      minimum: number;
+      maximum: number;
+    };
+  };
 
-  constructor(private store: Store<State>) {}
+  @Output()
+  fieldChange = new EventEmitter();
 
-  public ngOnInit() {
-    this.store.dispatch(new resourceQuotasActions.LoadResourceQuotasRequest());
+  @Output()
+  update = new EventEmitter();
+
+  public resourceQuotaNames = resourceTypeNames;
+
+  public onFieldChange(resourceType: number, minimum: number, maximum: number) {
+    this.fieldChange.emit({
+      resourceType,
+      minimum,
+      maximum,
+    });
+  }
+
+  public onUpdate() {
+    this.update.emit();
   }
 }

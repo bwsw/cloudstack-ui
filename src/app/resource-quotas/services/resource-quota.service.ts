@@ -8,6 +8,13 @@ export class ResourceQuotaService {
   constructor(protected gatewayApiService: GatewayApiService) {}
 
   public getList(): Observable<ResourceQuota[]> {
-    return this.gatewayApiService.execute<ResourceQuota[]>('listResourceLimits');
+    return this.gatewayApiService.execute('listResourceLimits');
+  }
+
+  public updateResourceLimit(minimum: number, maximum: number): Observable<ResourceQuota> {
+    return this.gatewayApiService.execute('updateResourceLimit', {
+      minimum,
+      maximum,
+    });
   }
 }

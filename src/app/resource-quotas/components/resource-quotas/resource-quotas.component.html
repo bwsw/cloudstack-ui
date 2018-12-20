@@ -3,28 +3,38 @@
 <div class="container">
   <div class="form">
     <table>
-      <tr class="row" *ngFor="let title of titles">
-        <td class="title">{{ title | translate }}</td>
+      <tr class="row" *ngFor="let resourceName of resourceQuotaNames; let i = index">
+        <td class="title">{{ resourceName | translate }}</td>
         <td class="min">
           <mat-form-field>
             <input
               matInput
+              type="number"
+              [min]="-1"
+              [csMinValue]="-1"
               [placeholder]="'RESOURCE_QUOTAS_PAGE.MIN' | translate"
-            >
+              [ngModel]="resourceQuotas[i].minimum"
+              (ngModelChange)="onFieldChange(i, +$event, resourceQuotas[i].maximum)"
+              required
+            />
           </mat-form-field>
         </td>
         <td>
           <mat-form-field>
             <input
               matInput
+              type="number"
+              [min]="-1"
+              [csMinValue]="-1"
               [placeholder]="'RESOURCE_QUOTAS_PAGE.MAX' | translate"
-            >
+              [ngModel]="resourceQuotas[i].maximum"
+              (ngModelChange)="onFieldChange(i, resourceQuotas[i].minimum, +$event)"
+            />
           </mat-form-field>
         </td>
       </tr>
     </table>
-    <button class="button" mat-button>
-      {{ 'COMMON.UPDATE' | translate }}
-    </button>
+
+    <button class="button" mat-button>{{ 'COMMON.UPDATE' | translate }}</button>
   </div>
 </div>

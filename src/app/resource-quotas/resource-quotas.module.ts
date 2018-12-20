@@ -9,7 +9,9 @@ import { ResourceQuotaService } from './services/resource-quota.service';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ResourceQuotasEffects } from './redux/resource-quotas.effects';
-import { resourceQuotasReducers } from './redux/resource-quotas.reducers';
+import { ResourceQuotasContainerComponent } from './containers/resource-quotas/resource-quotas.container';
+import { resourceQuotasReducer } from './redux/resource-quotas.reducer';
+import { resourceQuotasAdminFormReducer } from './redux/resource-quotas-admin-form.reducer';
 
 @NgModule({
   imports: [
@@ -17,10 +19,15 @@ import { resourceQuotasReducers } from './redux/resource-quotas.reducers';
     SharedModule,
     MaterialModule,
     RouterModule,
-    StoreModule.forFeature('resourceQuotas', resourceQuotasReducers),
+    StoreModule.forFeature('resourceQuotas', resourceQuotasReducer),
+    StoreModule.forFeature('resourceQuotasAdminForm', resourceQuotasAdminFormReducer),
     EffectsModule.forFeature([ResourceQuotasEffects]),
   ],
-  declarations: [ResourceQuotasComponent, RequestResourcesComponent],
+  declarations: [
+    ResourceQuotasComponent,
+    RequestResourcesComponent,
+    ResourceQuotasContainerComponent,
+  ],
   providers: [ResourceQuotaService],
   entryComponents: [RequestResourcesComponent],
 })

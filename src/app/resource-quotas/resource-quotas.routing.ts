@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { ResourceQuotasComponent } from './components/resource-quotas/resource-quotas.component';
+import { ResourceQuotasContainerComponent } from './containers/resource-quotas/resource-quotas.container';
 
 export const resourceQuotasRoutes: Routes = [
   {
     path: 'resource-quotas',
-    component: ResourceQuotasComponent,
+    component: ResourceQuotasContainerComponent,
     canActivate: [AuthGuard],
   },
 ];
