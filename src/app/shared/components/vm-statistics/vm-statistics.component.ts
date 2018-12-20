@@ -124,7 +124,6 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     private dialogService: MatDialog,
   ) {
     this.resourceUsage = new ResourceStats();
-    this.requestResources();
   }
 
   public requestResources() {

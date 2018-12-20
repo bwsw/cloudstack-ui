@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessageData } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { Color, InstanceGroup, ServiceOffering, SSHKeyPair, Tag } from '../../../shared/models';
+import { Color, ServiceOffering, SSHKeyPair, Tag } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm';
 import { VmState } from '../../../vm/shared/vm.model';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
@@ -159,7 +159,7 @@ export class ChangeInstanceGroup implements Action {
   constructor(
     public payload: {
       vm: VirtualMachine;
-      group: InstanceGroup;
+      group: string;
     },
   ) {}
 }

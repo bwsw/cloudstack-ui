@@ -1,12 +1,18 @@
 <mat-sidenav-container fullscreen>
   <mat-sidenav [opened]="showAppNav$ | async">
-    <cs-app-nav [routes]="routes$ | async" [currentRoute]="currentRoute$ | async" (menuButtonClicked)="closeAppNav()"></cs-app-nav>
+    <cs-app-nav
+      [routes]="routes$ | async"
+      [currentRoute]="currentRoute$ | async"
+      (menuButtonClicked)="closeAppNav()"
+    ></cs-app-nav>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <cs-section-nav [username]="username" [subroutes]="subroutes$ | async" (menuButtonClicked)="openAppNav()"></cs-section-nav>
-    <div class="primary-content">
-      <router-outlet></router-outlet>
-    </div>
+    <cs-section-nav
+      [username]="username"
+      [subroutes]="subroutes$ | async"
+      (menuButtonClicked)="openAppNav()"
+    ></cs-section-nav>
+    <div class="primary-content"><router-outlet></router-outlet></div>
   </mat-sidenav-content>
 </mat-sidenav-container>

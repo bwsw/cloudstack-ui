@@ -60,7 +60,8 @@
     },
     "VM_SNAPSHOT": {
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот снимок?",
-      "CONFIRM_REVERTING": "Вы уверены, что хотите вернуть владеющую ВМ к состоянию этого снимка?"
+      "CONFIRM_REVERTING": "Вы уверены, что хотите вернуть владеющую ВМ к состоянию этого снимка?",
+      "REVERT_NOT_ALLOWED": "Вычислительное предложение отличается от первоначального."
     },
     "TAG": {
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот тег?"
@@ -131,6 +132,10 @@
     },
     "COMPUTE_OFFERING": {
       "RESOURCE_LIMIT_EXCEEDED": "Вычислительное предложение не может быть выбрано. Размер выбранного предложения превышает доступные ресурсы аккаунта."
+    },
+    "VM_LOGS": {
+      "TOKEN_DOES_NOT_EXIST": "Указанный токен не существует",
+      "INVALID_TOKEN": "Невалидный токен"
     }
   },
   "NOTIFICATIONS": {
@@ -175,6 +180,9 @@
       "REVERT_FAILED": "Не удалось вернуть диск к снимку"
     },
     "VM_SNAPSHOTS": {
+      "TAKE_VM_SNAP_IN_PROGRESS": "Создание снимка ВМ",
+      "TAKE_VM_SNAP_DONE": "Снимок ВМ создан",
+      "TAKE_VM_SNAP_FAILED": "Не удалось создать снимок ВМ",
       "TAKE_SNAP_FROM_VM_SNAP_IN_PROGRESS": "Создание снимка",
       "TAKE_SNAP_FROM_VM_SNAP_DONE": "Снимок создан",
       "TAKE_SNAP_FROM_VM_SNAP_FAILED": "Не удалось создать снимок",
@@ -327,7 +335,9 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
       "VM_ACCESS_TITLE": "Виртуальная машина",
-      "LOGS": "Просмотр логов"
+      "LOGS": "Логи ВМ",
+      "CREATE_VM_LOGS_TOKEN": "Создать токен",
+      "INVALIDATE_VM_LOGS_TOKEN": "Аннулировать токен"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",
@@ -351,7 +361,7 @@
       "SELECT_ZONES": "Выберите зоны",
       "SELECT_GROUPS": "Выберите группы",
       "SELECT_STATES": "Выберите статусы",
-      "NO_GROUP": "Без группы",
+      "NO_GROUP": "Группа по умолчанию",
       "STATE_RUNNING": "Запущенные",
       "STATE_STOPPED": "Остановленные",
       "STATE_DESTROYED": "Удаленные",
@@ -380,11 +390,12 @@
       "DETAILS": {
         "TITLE": "Общая информация",
         "ZONE": "Зона",
-        "HOST_NAME": "Имя хоста"
+        "HOST_NAME": "Имя хоста",
+        "ID": "ID"
       },
       "INSTANCE_GROUP": {
         "TITLE": "Группа",
-        "NO_GROUP": "Без группы",
+        "NO_GROUP": "Группа по умолчанию",
         "CHANGE_INSTANCE_GROUP": "Изменение группы",
         "CREATE_NEW_GROUP": "Создать новую",
         "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
@@ -456,6 +467,13 @@
         "DISK_WRITE": "Записано на диск",
         "DISK_READ_IO": "Прочитано с диска (IO)",
         "DISK_WRITE_IO": "Записано на диск (IO)"
+      },
+      "VM_SNAPSHOTS": {
+        "TITLE": "Снимки ВМ",
+        "LAST_SNAPSHOT": "Последний снимок",
+        "VIEW_ALL": "Все",
+        "NO_SNAPSHOTS": "Нет снимков",
+        "CREATE": "Создать"
       }
     },
     "STORAGE_DETAILS": {
@@ -559,7 +577,7 @@
       "DISK_OFFERING": "Дисковое предложение",
       "DISK_SIZE": "Размер диска",
       "GROUP": "Группа",
-      "NO_GROUP": "Без группы",
+      "NO_GROUP": "Группа по умолчанию",
       "AFFINITY_GROUP": "Аффинитетная группа",
       "SECURITY_GROUPS": "Брандмауэр",
       "KB_US": "Стандартная раскладка (США)",
@@ -578,7 +596,6 @@
       "PRIMARY_STORAGE": "Основного хранилища",
       "CREATING_SG": "Создание группы безопасности...",
       "DEPLOYING_VM": "Создание виртуальной машины...",
-      "CREATING_INSTANCE_GROUP": "Создание группы...",
       "TAG_COPYING": "Копирование тегов из шаблона...",
       "DEPLOYMENT_FINISHED": "Развертывание завершено",
       "OS_TEMPLATE": "ОС шаблон",
@@ -586,6 +603,20 @@
       "NO_OFFERINGS": "Нет доступных сервисных предложений",
       "GENERAL": "Основные",
       "ADVANCED": "Дополнительные"
+    },
+    "MODALS": {
+      "TAKE_VM_SNAPSHOT": {
+        "TITLE": "Создание снимка ВМ",
+        "SNAPSHOT_MEMORY": "Снимок памяти",
+        "WARNING_INFORMATION": "Обратите внимание, что ВМ будет приостановлена на время создания снимка."
+      },
+      "VM_SNAPSHOT_LIST": {
+        "TITLE": "Снимки ВМ",
+        "NAME": "Название",
+        "DESCRIPTION": "Описание",
+        "DATE": "Дата",
+        "ACTIONS": "Действия"
+      }
     }
   },
   "VM_POST_ACTION": {
@@ -820,7 +851,7 @@
       "REVERT_VM_TO_SNAPSHOT": "Вернуть ВМ к снимку"
     },
     "MODALS": {
-      "TAKE_A_SNAPSHOT": "Создание снимка"
+      "TAKE_SNAPSHOT": "Создание снимка"
     }
   },
   "SECURITY_GROUP_PAGE": {
@@ -1507,6 +1538,14 @@
     "FAB": {
       "FOLLOW_LOG": "Отслеживать",
       "STOP_FOLLOWING": "Не отслеживать"
+    },
+    "TOKEN": {
+      "CONFIRM_CREATE_TOKEN": "Вы уверены, что хотите создать токен?",
+      "TOKEN_CREATED": "Токен создан",
+      "INVALIDATE_TOKEN": "Аннулировать токен",
+      "INVALIDATE": "Аннулировать",
+      "INVALIDATE_SUCCESS": "Токен успешно аннулирован",
+      "HOW_TO_ADD_TOKEN": "Как добавлять токен"
     }
   },
   "SETTINGS": {
@@ -1695,7 +1734,13 @@
     "ERROR": "Ошибка"
   },
   "VM_SNAPSHOT_STATE": {
-    "READY": "Готов"
+    "ALLOCATED": "Аллоцирован",
+    "CREATING": "Создается",
+    "READY": "Готов",
+    "REVERTING": "Возвращение",
+    "ERROR": "Ошибка",
+    "EXPUNGING": "Уничтожение",
+    "REMOVED": "Удален"
   },
   "VM_STATE": {
     "RUNNING": "Запущена",

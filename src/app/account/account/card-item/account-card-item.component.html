@@ -1,9 +1,4 @@
-<mat-card
-  (click)="handleClick()"
-  [class.card-selected]="isSelected(item)"
-  class="entity-card"
->
-
+<mat-card (click)="handleClick()" [class.card-selected]="isSelected(item)" class="entity-card">
   <mat-card-header class="entity-card-header">
     <cs-round-state-indicator
       [state]="item.state"
@@ -28,18 +23,17 @@
 
   <mat-card-content>
     <div class="entity-card-data-line">
-      {{ 'ACCOUNT_PAGE.CARD.ROLE' | translate }}: {{item.rolename}}
+      {{ 'ACCOUNT_PAGE.CARD.ROLE' | translate }}: {{ item.rolename }}
     </div>
     <div class="entity-card-data-line">
-      {{ 'ACCOUNT_PAGE.CARD.ROLE_TYPE' | translate }}: {{item.roletype}}
+      {{ 'ACCOUNT_PAGE.CARD.ROLE_TYPE' | translate }}: {{ item.roletype }}
     </div>
     <div class="entity-card-data-line">
-      {{ 'ACCOUNT_PAGE.CARD.DOMAIN' | translate }}: {{item.domain}}
+      {{ 'ACCOUNT_PAGE.CARD.DOMAIN' | translate }}: {{ item.domain }}
     </div>
   </mat-card-content>
 
   <mat-menu #actionsMenu="matMenu">
     <cs-account-action-container [account]="item"></cs-account-action-container>
   </mat-menu>
-
 </mat-card>

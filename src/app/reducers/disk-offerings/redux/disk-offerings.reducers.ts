@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { isCustomized, isOfferingLocal } from '../../../shared/models/offering.model';
 import { DiskOffering, ServiceOfferingAvailability, Zone } from '../../../shared/models';
-import { configSelectors } from '../../../root-store';
+import { configSelectors, capabilitiesSelectors } from '../../../root-store';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as event from './disk-offerings.actions';
@@ -57,13 +57,19 @@ export function reducer(state = initialState, action: event.Actions): State {
 
 export const getOfferingsState = createFeatureSelector<OfferingsState>('disk-offerings');
 
-export const getOfferingsEntitiesState = createSelector(getOfferingsState, state => state.list);
+export const getOfferingsEntitiesState = createSelector(
+  getOfferingsState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getOfferingsEntitiesState,
 );
 
-export const isLoading = createSelector(getOfferingsEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getOfferingsEntitiesState,
+  state => state.loading,
+);
 
 const isDiskOfferingAvailableInZone = (
   offering: DiskOffering,
@@ -130,18 +136,18 @@ export const isDiskOfferingAvailableByResources = ({
   return size < primaryStorageAvailable;
 };
 
-export const isVmCreationDiskOfferingAvailableByResources = (customOfferingMinSize: number) =>
-  createSelector(
-    fromAccounts.selectUserAccount,
-    fromVMs.getVmFormState,
-    (account, state): boolean => {
-      if (!isTemplate(state.template) && state.diskOffering) {
-        return isDiskOfferingAvailableByResources({
-          customOfferingMinSize,
-          diskOffering: state.diskOffering,
-          primaryStorageAvailable: Number(account.primarystorageavailable),
-        });
-      }
-      return true;
-    },
-  );
+export const isVmCreationDiskOfferingAvailableByResources = createSelector(
+  fromAccounts.selectUserAccount,
+  fromVMs.getVmFormState,
+  capabilitiesSelectors.getCustomDiskOfferingMinSize,
+  (account, state, customOfferingMinSize): boolean => {
+    if (!isTemplate(state.template) && state.diskOffering) {
+      return isDiskOfferingAvailableByResources({
+        customOfferingMinSize,
+        diskOffering: state.diskOffering,
+        primaryStorageAvailable: Number(account.primarystorageavailable),
+      });
+    }
+    return true;
+  },
+);

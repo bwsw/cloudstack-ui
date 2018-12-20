@@ -10,12 +10,16 @@ import { layoutStore, State, UserTagsSelectors } from '../../root-store';
  */
 @Injectable()
 export class SidebarWidthService {
-  public readonly width: Observable<number>;
+  public readonly width$: Observable<number>;
   private widthBehaviorSubject = new BehaviorSubject(0);
 
   constructor(private store: Store<State>) {
-    this.width = this.widthBehaviorSubject.asObservable();
+    this.width$ = this.widthBehaviorSubject.asObservable();
     this.initializeSidebarWidthFromTag();
+  }
+
+  public getWidth(): number {
+    return this.widthBehaviorSubject.value;
   }
 
   public setWidth(value: number) {

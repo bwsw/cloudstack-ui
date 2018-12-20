@@ -17,7 +17,8 @@ import { LayoutStoreModule } from './layout/layout-store.module';
 import { metaReducers } from './meta-reducers';
 import { NotificationsEffects } from './notifications';
 import { UserTagsStoreModule } from './server-data/user-tags';
-import { VmSnapshotsStoreModule } from './server-data/vm-snapshots';
+import { VmSnapshotsStoreModule } from './server-data/vm-snapshots/vm-snapshots-store.module';
+import { CapabilitiesStoreModule } from './server-data/capabilities';
 
 const reducers = {
   router: routerReducer,
@@ -32,6 +33,7 @@ const EFFECTS = [IdleEffects, NotificationsEffects];
     LayoutStoreModule,
     UserTagsStoreModule,
     VmSnapshotsStoreModule,
+    CapabilitiesStoreModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(EFFECTS),
     StoreRouterConnectingModule.forRoot({

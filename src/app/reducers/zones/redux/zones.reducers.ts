@@ -12,6 +12,7 @@ import { Zone } from '../../../shared/models/zone.model';
  */
 export interface State extends EntityState<Zone> {
   loading: boolean;
+  loaded: boolean;
   selectedZoneId: string;
 }
 
@@ -42,6 +43,7 @@ export const adapter: EntityAdapter<Zone> = createEntityAdapter<Zone>({
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  loaded: false,
   selectedZoneId: null,
 });
 
@@ -66,6 +68,7 @@ export function reducer(state = initialState, action: event.Actions): State {
          */
         ...adapter.addAll(zones, state),
         loading: false,
+        loaded: true,
       };
     }
 
@@ -84,15 +87,29 @@ export function reducer(state = initialState, action: event.Actions): State {
 
 export const getZonesState = createFeatureSelector<ZonesState>('zones');
 
-export const getZonesEntitiesState = createSelector(getZonesState, state => state.list);
+export const getZonesEntitiesState = createSelector(
+  getZonesState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getZonesEntitiesState,
 );
 
-export const isLoading = createSelector(getZonesEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getZonesEntitiesState,
+  state => state.loading,
+);
 
-export const getSelectedId = createSelector(getZonesEntitiesState, state => state.selectedZoneId);
+export const isLoaded = createSelector(
+  getZonesEntitiesState,
+  state => state.loaded,
+);
+
+export const getSelectedId = createSelector(
+  getZonesEntitiesState,
+  state => state.selectedZoneId,
+);
 
 export const getSelectedZone = createSelector(
   getZonesState,

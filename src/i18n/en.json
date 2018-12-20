@@ -49,7 +49,7 @@
       "CONFIRM_REGENERATE_KEY": "Are you sure you want to regenerate key for this user?"
     },
     "ISO": {
-      "CONFIRM_DETACHMENT": "Are you sure you want ot detach this ISO?",
+      "CONFIRM_DETACHMENT": "Are you sure you want to detach this ISO?",
       "CONFIRM_DELETION": "Are you sure you want to delete this ISO?"
     },
     "SNAPSHOT": {
@@ -60,7 +60,8 @@
     },
     "VM_SNAPSHOT": {
       "CONFIRM_DELETION": "Are you sure you want to delete this snapshot?",
-      "CONFIRM_REVERTING": "Are you sure you want to revert VM to this snapshot?"
+      "CONFIRM_REVERTING": "Are you sure you want to revert VM to this snapshot?",
+      "REVERT_NOT_ALLOWED": "Service offering differs from the original one."
     },
     "TAG": {
       "CONFIRM_DELETION": "Are you sure you want to delete this tag?"
@@ -131,6 +132,10 @@
     },
     "COMPUTE_OFFERING": {
       "RESOURCE_LIMIT_EXCEEDED": "The service offering cannot be selected because it doesn't fit the account resources available."
+    },
+    "VM_LOGS": {
+      "TOKEN_DOES_NOT_EXIST": "The token does not exist",
+      "INVALID_TOKEN": "Invalid token"
     }
   },
   "NOTIFICATIONS": {
@@ -175,6 +180,9 @@
       "REVERT_FAILED": "Failed to revert a disk"
     },
     "VM_SNAPSHOTS": {
+      "TAKE_VM_SNAP_IN_PROGRESS": "Taking a VM snapshot",
+      "TAKE_VM_SNAP_DONE": "VM snapshot taken",
+      "TAKE_VM_SNAP_FAILED": "Failed to take a VM snapshot",
       "TAKE_SNAP_FROM_VM_SNAP_IN_PROGRESS": "Taking a snapshot",
       "TAKE_SNAP_FROM_VM_SNAP_DONE": "Snapshot taken",
       "TAKE_SNAP_FROM_VM_SNAP_FAILED": "Failed to take a snapshot",
@@ -327,7 +335,9 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Access VM",
       "VM_ACCESS_TITLE": "Virtual Machine",
-      "LOGS": "View logs"
+      "LOGS": "Log View",
+      "CREATE_VM_LOGS_TOKEN": "Create token",
+      "INVALIDATE_VM_LOGS_TOKEN": "Invalidate token"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Resource usage",
@@ -351,7 +361,7 @@
       "SELECT_ZONES": "Select zones",
       "SELECT_GROUPS": "Select groups",
       "SELECT_STATES": "Select states",
-      "NO_GROUP": "No group",
+      "NO_GROUP": "Default group",
       "STATE_RUNNING": "Running",
       "STATE_STOPPED": "Stopped",
       "STATE_DESTROYED": "Destroyed",
@@ -380,11 +390,12 @@
       "DETAILS": {
         "TITLE": "Details",
         "ZONE": "Zone",
-        "HOST_NAME": "VM host name"
+        "HOST_NAME": "VM host name",
+        "ID": "ID"
       },
       "INSTANCE_GROUP": {
         "TITLE": "Group",
-        "NO_GROUP": "No group",
+        "NO_GROUP": "Default group",
         "CHANGE_INSTANCE_GROUP": "Change instance group",
         "CREATE_NEW_GROUP": "Create a new group",
         "CHOOSE_EXISTING_GROUP": "Choose an existing group",
@@ -456,6 +467,13 @@
         "DISK_WRITE": "Disk write",
         "DISK_READ_IO": "Disk read (IO)",
         "DISK_WRITE_IO": "Disk write (IO)"
+      },
+      "VM_SNAPSHOTS": {
+        "TITLE": "VM snapshots",
+        "LAST_SNAPSHOT": "Last snapshot",
+        "VIEW_ALL": "View all",
+        "NO_SNAPSHOTS": "No snapshots",
+        "CREATE": "Create"
       }
     },
     "STORAGE_DETAILS": {
@@ -559,7 +577,7 @@
       "DISK_OFFERING": "Disk offering",
       "DISK_SIZE": "Disk size",
       "GROUP": "Group",
-      "NO_GROUP": "No group",
+      "NO_GROUP": "Default group",
       "AFFINITY_GROUP": "Affinity group",
       "SECURITY_GROUPS": "Firewall rules",
       "KB_US": "Standard (US) keyboard",
@@ -578,7 +596,6 @@
       "PRIMARY_STORAGE": "Primary storage",
       "CREATING_SG": "Creating a security group...",
       "DEPLOYING_VM": "Deploying the virtual machine...",
-      "CREATING_INSTANCE_GROUP": "Creating an instance group...",
       "TAG_COPYING": "Copying template tags...",
       "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template",
@@ -586,6 +603,20 @@
       "NO_OFFERINGS": "No offerings available",
       "GENERAL": "General",
       "ADVANCED": "Advanced"
+    },
+    "MODALS": {
+      "TAKE_VM_SNAPSHOT": {
+        "TITLE": "Take VM Snapshot",
+        "SNAPSHOT_MEMORY": "Snapshot memory",
+        "WARNING_INFORMATION": "Please notice that the instance will be paused when creating a snapshot, and resumed after a snapshot is created."
+      },
+      "VM_SNAPSHOT_LIST": {
+        "TITLE": "VM Snapshots",
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "DATE": "Date",
+        "ACTIONS": "Actions"
+      }
     }
   },
   "VM_POST_ACTION": {
@@ -820,7 +851,7 @@
       "REVERT_VM_TO_SNAPSHOT": "Revert VM to snapshot"
     },
     "MODALS": {
-      "TAKE_A_SNAPSHOT": "Take a snapshot"
+      "TAKE_SNAPSHOT": "Take a snapshot"
     }
   },
   "SECURITY_GROUP_PAGE": {
@@ -1511,6 +1542,14 @@
     "FAB": {
       "FOLLOW_LOG": "Follow log",
       "STOP_FOLLOWING": "Stop following"
+    },
+    "TOKEN": {
+      "CONFIRM_CREATE_TOKEN": "Are you sure you want to create a token?",
+      "TOKEN_CREATED": "Token created",
+      "INVALIDATE_TOKEN": "Invalidate token",
+      "INVALIDATE": "Invalidate",
+      "INVALIDATE_SUCCESS": "Token invalidated successfully",
+      "HOW_TO_ADD_TOKEN": "How to add a token"
     }
   },
   "SETTINGS": {
@@ -1699,7 +1738,13 @@
     "ERROR": "Error"
   },
   "VM_SNAPSHOT_STATE": {
-    "READY": "Ready"
+    "ALLOCATED": "Allocated",
+    "CREATING": "Creating",
+    "READY": "Ready",
+    "REVERTING": "Reverting",
+    "ERROR": "Error",
+    "EXPUNGING": "Expunging",
+    "REMOVED": "Removed"
   },
   "VM_STATE": {
     "RUNNING": "Running",

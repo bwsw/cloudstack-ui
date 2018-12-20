@@ -13,6 +13,7 @@ import * as accountTagActions from './account-tags.actions';
  */
 export interface State extends EntityState<Tag> {
   loading: boolean;
+  loaded: boolean;
 }
 
 export interface AccountTagsState {
@@ -42,6 +43,7 @@ export const adapter: EntityAdapter<Tag> = createEntityAdapter<Tag>({
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  loaded: false,
 });
 
 export function reducer(state = initialState, action: accountTagActions.Actions): State {
@@ -63,6 +65,7 @@ export function reducer(state = initialState, action: accountTagActions.Actions)
          */
         ...adapter.addAll(action.payload, state),
         loading: false,
+        loaded: true,
       };
     }
     default: {
@@ -73,10 +76,21 @@ export function reducer(state = initialState, action: accountTagActions.Actions)
 
 export const getAccountTagsState = createFeatureSelector<AccountTagsState>('tags');
 
-export const getAccountTagsEntitiesState = createSelector(getAccountTagsState, state => state.list);
+export const getAccountTagsEntitiesState = createSelector(
+  getAccountTagsState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getAccountTagsEntitiesState,
 );
 
-export const isLoading = createSelector(getAccountTagsEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getAccountTagsEntitiesState,
+  state => state.loading,
+);
+
+export const isLoaded = createSelector(
+  getAccountTagsEntitiesState,
+  state => state.loaded,
+);

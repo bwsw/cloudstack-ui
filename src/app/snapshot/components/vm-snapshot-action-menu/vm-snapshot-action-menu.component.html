@@ -1,16 +1,1 @@
-<button mat-menu-item *ngIf="false" (click)="onCreateVolumeSnapshot()">
-  <mat-icon class="mdi-camera"></mat-icon>
-  <span>{{ 'SNAPSHOT_PAGE.ACTIONS.CREATE_SNAP_FROM_VM_SNAP' | translate }}</span>
-</button>
-<button
-  mat-menu-item
-  [disabled]="snapshot.vmState !== vmStates.Running"
-  (click)="onRevertVmToSnapshot()"
->
-  <mat-icon class="mdi-backup-restore"></mat-icon>
-  <span>{{ 'SNAPSHOT_PAGE.ACTIONS.REVERT_VM_TO_SNAPSHOT' | translate }}</span>
-</button>
-<button mat-menu-item (click)="onDelete()">
-  <mat-icon class="mdi-delete"></mat-icon>
-  <span>{{ 'COMMON.DELETE' | translate }}</span>
-</button>
+<cs-entity-action-menu-list [actions]="actions$ | async"></cs-entity-action-menu-list>

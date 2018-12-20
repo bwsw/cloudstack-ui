@@ -5,15 +5,15 @@ import { Action, select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import { AuthActionTypes, IdleLogout, LogoutComplete } from './auth.actions';
+import { AuthActionTypes, LogoutComplete } from './auth.actions';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { configSelectors, IdleMonitorActions, State, UserTagsActions } from '../../root-store/';
 
 @Injectable()
 export class AuthEffects {
   @Effect({ dispatch: false })
-  idleLogout$: Observable<Action> = this.actions$.pipe(
-    ofType<IdleLogout>(AuthActionTypes.IdleLogout),
+  logout$: Observable<Action> = this.actions$.pipe(
+    ofType(AuthActionTypes.IdleLogout, AuthActionTypes.Logout),
     tap(() =>
       this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams()),
     ),

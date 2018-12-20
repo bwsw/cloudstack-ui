@@ -1,18 +1,16 @@
-<ng-container #vmIdSpecified *ngIf="vmLogs?.length; then vmLogsTable else noVmLogs"></ng-container>
+<ng-container #vmIdSpecified *ngIf="vmLogs?.length; then vmLogsTable; else noVmLogs"></ng-container>
 
-<ng-template #noVmLogs>
-  <cs-no-results></cs-no-results>
-</ng-template>
+<ng-template #noVmLogs> <cs-no-results></cs-no-results> </ng-template>
 
 <ng-template #vmLogsTable>
   <div class="vm-logs">
     <mat-table [multiTemplateDataRows]="true" [dataSource]="dataSource">
       <ng-container cdkColumnDef="date">
         <mat-header-cell *cdkHeaderCellDef>
-          {{ 'LOGS_PAGE.LIST.DATE' | translate}}
+          {{ 'LOGS_PAGE.LIST.DATE' | translate }}
         </mat-header-cell>
         <mat-cell *cdkCellDef="let element">
-          {{ element.timestamp | csParseTimestamp | date:'y-MM-dd HH:mm:ss' }}
+          {{ element.timestamp | csTimestampToDate | date: 'y-MM-dd HH:mm:ss' }}
         </mat-cell>
       </ng-container>
 
@@ -21,9 +19,7 @@
           {{ 'LOGS_PAGE.LIST.LOG_FILE' | translate }}
         </mat-header-cell>
         <mat-cell *cdkCellDef="let element">
-          <span [matTooltip]="element.file">
-            {{ element.file | csBasepath }}
-          </span>
+          <span [matTooltip]="element.file"> {{ element.file | csBasepath }} </span>
         </mat-cell>
       </ng-container>
 
@@ -32,21 +28,14 @@
           {{ 'LOGS_PAGE.LIST.TEXT' | translate }}
         </mat-header-cell>
         <mat-cell *cdkCellDef="let element">
-          <code>
-            {{ element.log }}
-          </code>
+          <code> {{ element.log }} </code>
         </mat-cell>
       </ng-container>
 
       <mat-header-row *cdkHeaderRowDef="tableColumns"></mat-header-row>
-      <mat-row #row *cdkRowDef="let row; columns: tableColumns;"></mat-row>
+      <mat-row #row *cdkRowDef="let row; columns: tableColumns"></mat-row>
     </mat-table>
-    <button
-      class="show-more"
-      *ngIf="enableShowMore"
-      mat-button
-      (click)="onShowMore()"
-    >
+    <button class="show-more" *ngIf="enableShowMore" mat-button (click)="onShowMore()">
       {{ 'LOGS_PAGE.LIST.SHOW_MORE' | translate }}
     </button>
   </div>

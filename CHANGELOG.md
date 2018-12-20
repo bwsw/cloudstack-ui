@@ -1,3 +1,30 @@
+<a name="1.411.26"></a>
+## [1.411.26](https://github.com/bwsw/cloudstack-ui/compare/1.411.25...1.411.26) (2018-12-10)
+
+
+### Bug Fixes
+
+* **notifications:** reset on logout ([#1470](https://github.com/bwsw/cloudstack-ui/issues/1470)) ([125c536](https://github.com/bwsw/cloudstack-ui/commit/125c536))
+* **notifications:** reset position ([#1459](https://github.com/bwsw/cloudstack-ui/issues/1459)) ([b2b2a1e](https://github.com/bwsw/cloudstack-ui/commit/b2b2a1e))
+* **project:** add repository url ([#1450](https://github.com/bwsw/cloudstack-ui/issues/1450)) ([caedeb6](https://github.com/bwsw/cloudstack-ui/commit/caedeb6))
+* **resources:** the number of free resources is not updated after committing actions to change resources ([#1406](https://github.com/bwsw/cloudstack-ui/issues/1406)) ([2d95d91](https://github.com/bwsw/cloudstack-ui/commit/2d95d91))
+* **sidebar:** resize bugs ([#1448](https://github.com/bwsw/cloudstack-ui/issues/1448)) ([a82fd8b](https://github.com/bwsw/cloudstack-ui/commit/a82fd8b))
+* **vm:** show iso in sidebar ([#1471](https://github.com/bwsw/cloudstack-ui/issues/1471)) ([d85c727](https://github.com/bwsw/cloudstack-ui/commit/d85c727))
+* **vm-creation:** default security group ([#1431](https://github.com/bwsw/cloudstack-ui/issues/1431)) ([14ee35c](https://github.com/bwsw/cloudstack-ui/commit/14ee35c))
+* **vm-creation:** initial loading ([#1475](https://github.com/bwsw/cloudstack-ui/issues/1475)) ([454b112](https://github.com/bwsw/cloudstack-ui/commit/454b112))
+* **vm-logs:** align fab content ([#1438](https://github.com/bwsw/cloudstack-ui/issues/1438)) ([a188931](https://github.com/bwsw/cloudstack-ui/commit/a188931))
+
+
+### Features
+
+* **vm:** native instance groups ([#1456](https://github.com/bwsw/cloudstack-ui/issues/1456)) ([3a20cf6](https://github.com/bwsw/cloudstack-ui/commit/3a20cf6))
+* **vm:** show uuid in sidebar ([#1462](https://github.com/bwsw/cloudstack-ui/issues/1462)) ([cd0adaa](https://github.com/bwsw/cloudstack-ui/commit/cd0adaa))
+* **vm-logs:** request frequency and requested interval ([#1447](https://github.com/bwsw/cloudstack-ui/issues/1447)) ([bf99625](https://github.com/bwsw/cloudstack-ui/commit/bf99625))
+* **vm-logs:** save filters in tags ([#1441](https://github.com/bwsw/cloudstack-ui/issues/1441)) ([bb3cf1c](https://github.com/bwsw/cloudstack-ui/commit/bb3cf1c))
+* **vm-snapshots:** implement vm snapshots details sidebar ([#1454](https://github.com/bwsw/cloudstack-ui/issues/1454)) ([c040801](https://github.com/bwsw/cloudstack-ui/commit/c040801)), closes [#1332](https://github.com/bwsw/cloudstack-ui/issues/1332)
+
+
+
 <a name="1.411.25"></a>
 ## [1.411.25](https://github.com/bwsw/cloudstack-ui/compare/1.411.24...1.411.25) (2018-11-23)
 

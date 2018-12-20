@@ -1,18 +1,19 @@
-import { filter, map, take } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { select, Store } from '@ngrx/store';
-
-import { State } from '../../reducers';
+import { filter, first, map, switchMap, take } from 'rxjs/operators';
+import * as fromAffinityGroupsActions from '../../reducers/affinity-groups/redux/affinity-groups.actions';
+import * as fromAffinityGroups from '../../reducers/affinity-groups/redux/affinity-groups.reducers';
 import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
 import * as fromSshKeys from '../../reducers/ssh-keys/redux/ssh-key.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
-import * as fromAffinityGroups from '../../reducers/affinity-groups/redux/affinity-groups.reducers';
-import * as fromAffinityGroupsActions from '../../reducers/affinity-groups/redux/affinity-groups.actions';
-import { VirtualMachine } from '../shared/vm.model';
+import { State, vmSnapshotsActions, vmSnapshotsSelectors } from '../../root-store';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
+import { VmSnapshotListDialogComponent } from '../components/vm-snapshot-list-dialog/vm-snapshot-list-dialog.component';
+import { VirtualMachine } from '../shared/vm.model';
 
 const vmDescriptionKey = 'csui.vm.description';
 
@@ -31,10 +32,7 @@ const vmDescriptionKey = 'csui.vm.description';
       (groupChanged)="changeGroup($event)"
     >
     </cs-instance-group>
-    <cs-service-offering-details
-      [offering]="offering$ | async"
-      [vm]="vm$ | async"
-    >
+    <cs-service-offering-details [offering]="offering$ | async" [vm]="vm$ | async">
     </cs-service-offering-details>
     <cs-affinity-group
       [vm]="vm$ | async"
@@ -50,10 +48,14 @@ const vmDescriptionKey = 'csui.vm.description';
       (sshKeyChanged)="changeSshKey($event)"
     >
     </cs-vm-ssh-keypair>
-    <cs-statistics
-      [vm]="vm$ | async"
-      (statsUpdated)="updateStats($event)"
-    ></cs-statistics>
+    <cs-statistics [vm]="vm$ | async" (statsUpdated)="updateStats($event)"></cs-statistics>
+    <cs-vm-snapshots-sidebar-card
+      [lastVmSnapshot]="lastVmSnapshot$ | async"
+      [vmSnapshotsCount]="vmSnapshotsCount$ | async"
+      [entityActions]="lastVmSnapshotActions$ | async"
+      (createButtonClicked)="onCreateVmSnapshot()"
+      (showAllVMSnapshotsButtonClicked)="onShowAllVmSnapshots()"
+    ></cs-vm-snapshots-sidebar-card>
   `,
 })
 export class VmDetailContainerComponent implements OnInit {
@@ -69,8 +71,17 @@ export class VmDetailContainerComponent implements OnInit {
     }),
   );
   readonly affinityGroups$ = this.store.pipe(select(fromAffinityGroups.selectAll));
+  readonly vmSnapshots$ = this.store.pipe(select(vmSnapshotsSelectors.getVmSnapshotsForSelectedVm));
+  readonly lastVmSnapshot$ = this.vmSnapshots$.pipe(map(vmSnapshots => vmSnapshots[0]));
+  readonly lastVmSnapshotActions$ = this.lastVmSnapshot$.pipe(
+    filter(snapshot => !!snapshot),
+    switchMap(snapshot =>
+      this.store.pipe(select(vmSnapshotsSelectors.getVmSnapshotEntityActions(snapshot.id))),
+    ),
+  );
+  readonly vmSnapshotsCount$ = this.vmSnapshots$.pipe(map(vmSnapshots => vmSnapshots.length));
 
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<State>, public dialog: MatDialog) {}
 
   public changeDescription(description) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
@@ -78,9 +89,9 @@ export class VmDetailContainerComponent implements OnInit {
     });
   }
 
-  public changeGroup(group) {
+  public changeGroup(group: string) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      if (group.name !== '') {
+      if (group !== '') {
         this.store.dispatch(
           new vmActions.ChangeInstanceGroup({
             vm,
@@ -129,6 +140,19 @@ export class VmDetailContainerComponent implements OnInit {
     });
   }
 
+  public onCreateVmSnapshot() {
+    this.vm$
+      .pipe(
+        first(),
+        map(vm => vm.id),
+      )
+      .subscribe(vmId => this.store.dispatch(new vmSnapshotsActions.Create({ vmId })));
+  }
+
+  public onShowAllVmSnapshots() {
+    this.dialog.open(VmSnapshotListDialogComponent, { width: '800px' });
+  }
+
   public updateStats(vm) {
     this.store.dispatch(new vmActions.LoadVMRequest({ id: vm.id }));
   }
@@ -137,5 +161,6 @@ export class VmDetailContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.store.dispatch(new fromAffinityGroupsActions.LoadAffinityGroupsRequest());
+    this.store.dispatch(new vmSnapshotsActions.Load());
   }
 }

@@ -2,9 +2,7 @@
   <mat-dialog-content>
     <div class="overlay message">
       <div class="overlay-content">
-        <cs-progress-logger
-          [messages]="loggerStageList"
-        ></cs-progress-logger>
+        <cs-progress-logger [messages]="loggerStageList"></cs-progress-logger>
 
         <mat-progress-bar
           mode="indeterminate"
@@ -44,11 +42,12 @@
       novalidate
     >
       <div class="container">
-        <ng-container *ngIf="enoughResources && vmCreationState; then enoughResources else notEnoughResources">
+        <ng-container
+          *ngIf="enoughResources && vmCreationState; then enoughResources; else notEnoughResources"
+        >
         </ng-container>
         <ng-template #enoughResources>
           <mat-tab-group>
-
             <mat-tab [label]="'VM_PAGE.VM_CREATION.GENERAL' | translate">
               <div class="settings-column">
                 <div>
@@ -64,7 +63,7 @@
                       [minlength]="1"
                       pattern="^[\S]{0}.{0,30}[\S]$"
                       required
-                    >
+                    />
                     <mat-hint align="end">
                       <cs-character-count
                         [value]="vmCreationState.displayName"
@@ -82,17 +81,12 @@
                       [ngModel]="vmCreationState.zone"
                       (selectionChange)="zoneChange.emit($event.value)"
                     >
-                      <mat-option *ngFor="let z of zones" [value]="z">
-                        {{ z.name }}
-                      </mat-option>
+                      <mat-option *ngFor="let z of zones" [value]="z"> {{ z.name }} </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
 
-                <div
-                  *ngIf="vmCreationState.zone"
-                  class="dialog-select-wrapper"
-                >
+                <div *ngIf="vmCreationState.zone" class="dialog-select-wrapper">
                   <cs-service-offering-selector
                     name="serviceOffering"
                     [serviceOffering]="vmCreationState.serviceOffering"
@@ -114,6 +108,8 @@
                     [diskOfferings]="diskOfferings"
                     [account]="account"
                     [diskOffering]="vmCreationState?.diskOffering"
+                    [customDiskOfferingMinSize]="minSize"
+                    [customDiskOfferingMaxSize]="maxRootSize"
                     (changed)="diskOfferingChange.emit($event)"
                   ></cs-disk-offering-selector>
                 </div>
@@ -149,7 +145,7 @@
                       [placeholder]="'VM_PAGE.VM_CREATION.HOST_NAME' | translate"
                       pattern="^[a-zA-Z]{0}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
                       [maxlength]="maxEntityNameLength"
-                    >
+                    />
                     <mat-hint align="end">
                       <cs-character-count
                         [value]="vmCreationState.name"
@@ -170,16 +166,16 @@
                       matInput
                       [matAutocomplete]="instanceGroups"
                       [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-                      [ngModel]="vmCreationState.instanceGroup?.name"
+                      [ngModel]="vmCreationState.instanceGroup"
                       (ngModelChange)="changeInstanceGroup($event)"
-                    >
+                    />
                   </mat-form-field>
                   <mat-autocomplete #instanceGroups>
                     <mat-option
-                      *ngFor="let group of (visibleInstanceGroups || instanceGroupList)"
-                      [value]="group.name"
+                      *ngFor="let group of visibleInstanceGroups || instanceGroupList"
+                      [value]="group"
                     >
-                      {{ group.name }}
+                      {{ group }}
                     </mat-option>
                   </mat-autocomplete>
                 </div>
@@ -219,10 +215,8 @@
                     {{ 'VM_PAGE.VM_CREATION.START_VM' | translate }}
                   </mat-checkbox>
                 </div>
-
               </div>
             </mat-tab>
-
           </mat-tab-group>
         </ng-template>
 
@@ -241,13 +235,7 @@
       </div>
 
       <div class="mat-dialog-actions">
-        <button
-          mat-button
-          color="primary"
-          matDialogClose
-          type="button"
-          (click)="cancel.emit()"
-        >
+        <button mat-button color="primary" matDialogClose type="button" (click)="cancel.emit()">
           {{ 'COMMON.CANCEL' | translate }}
         </button>
         <button

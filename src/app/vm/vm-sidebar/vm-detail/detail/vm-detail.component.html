@@ -5,21 +5,20 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content class="mat-card-content-with-actions">
-    <div class="grid details mat-card-content-container">
+    <div *ngIf="vm" class="grid details mat-card-content-container">
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.DETAILS.HOST_NAME' | translate }}</div>
-        <div
-          class="ellipsis-overflow"
-          [matTooltip]="vm?.name"
-        >{{ vm?.name }}</div>
+        <div class="ellipsis-overflow" [matTooltip]="vm.name">{{ vm.name }}</div>
       </div>
 
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.DETAILS.ZONE' | translate }}</div>
-        <div
-          class="ellipsis-overflow"
-          [matTooltip]="vm?.zonename"
-        >{{ vm?.zonename }}</div>
+        <div class="ellipsis-overflow" [matTooltip]="vm.zonename">{{ vm.zonename }}</div>
+      </div>
+
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.DETAILS.ID' | translate }}</div>
+        <div class="ellipsis-overflow" [matTooltip]="vm.id">{{ vm.id }}</div>
       </div>
     </div>
   </mat-card-content>

@@ -12,6 +12,7 @@ import * as serviceOfferingActions from './service-offerings.actions';
 
 export interface State extends EntityState<ServiceOffering> {
   loading: boolean;
+  loaded: boolean;
   filters: {
     selectedViewMode: string;
     selectedClasses: string[];
@@ -40,6 +41,7 @@ export const initialFilters = {
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  loaded: false,
   filters: initialFilters,
 });
 
@@ -65,6 +67,7 @@ export function reducer(state = initialState, action: serviceOfferingActions.Act
       return {
         ...adapter.addAll(offerings, state),
         loading: false,
+        loaded: true,
       };
     }
 
@@ -76,21 +79,44 @@ export function reducer(state = initialState, action: serviceOfferingActions.Act
 
 export const getOfferingsState = createFeatureSelector<OfferingsState>('service-offerings');
 
-export const getOfferingsEntitiesState = createSelector(getOfferingsState, state => state.list);
+export const getOfferingsEntitiesState = createSelector(
+  getOfferingsState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getOfferingsEntitiesState,
 );
 
-export const isLoading = createSelector(getOfferingsEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getOfferingsEntitiesState,
+  state => state.loading,
+);
 
-export const filters = createSelector(getOfferingsEntitiesState, state => state.filters);
+export const isLoaded = createSelector(
+  getOfferingsEntitiesState,
+  state => state.loaded,
+);
 
-export const filterSelectedViewMode = createSelector(filters, state => state.selectedViewMode);
+export const filters = createSelector(
+  getOfferingsEntitiesState,
+  state => state.filters,
+);
 
-export const filterSelectedClasses = createSelector(filters, state => state.selectedClasses);
+export const filterSelectedViewMode = createSelector(
+  filters,
+  state => state.selectedViewMode,
+);
 
-export const filterQuery = createSelector(filters, state => state.query);
+export const filterSelectedClasses = createSelector(
+  filters,
+  state => state.selectedClasses,
+);
+
+export const filterQuery = createSelector(
+  filters,
+  state => state.query,
+);
 
 export const getSelectedOffering = createSelector(
   selectEntities,

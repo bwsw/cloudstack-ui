@@ -13,7 +13,6 @@ import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { VmState } from '../shared/vm.model';
-import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { Grouping } from '../../shared/models';
 
@@ -23,7 +22,7 @@ const FILTER_KEY = 'vmListFilters';
   selector: 'cs-vm-filter-container',
   template: `
     <cs-vm-filter
-      *loading="loading$ | async"
+      *loading="(loading$ | async)"
       [zones]="zones$ | async"
       [accounts]="accounts$ | async"
       [groups]="groups$ | async"
@@ -41,13 +40,16 @@ const FILTER_KEY = 'vmListFilters';
       (accountsChanged)="onAccountsChange($event)"
       (statesChanged)="onStatesChange($event)"
       (groupingsChanged)="onGroupingsChange($event)"
-    ></cs-vm-filter>`,
+    ></cs-vm-filter>
+  `,
 })
 export class VMFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
   @Input()
   groupings: Grouping[];
   @Input()
   selectedGroupings: Grouping[];
+  @Input()
+  allowedToViewDestroyedVms: boolean;
 
   readonly filters$ = this.store.pipe(select(fromVMs.filters));
   readonly query$ = this.store.pipe(select(fromVMs.filterQuery));
@@ -61,40 +63,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
   readonly selectedAccountIds$ = this.store.pipe(select(fromVMs.filterSelectedAccountIds));
   readonly selectedStates$ = this.store.pipe(select(fromVMs.filterSelectedStates));
 
-  public states = [
-    {
-      state: VmState.Running,
-      name: 'VM_PAGE.FILTERS.STATE_RUNNING',
-    },
-    {
-      state: VmState.Stopped,
-      name: 'VM_PAGE.FILTERS.STATE_STOPPED',
-    },
-    {
-      state: VmState.Destroyed,
-      name: 'VM_PAGE.FILTERS.STATE_DESTROYED',
-      access: this.authService.allowedToViewDestroyedVms(),
-    },
-    {
-      state: VmState.Error,
-      name: 'VM_PAGE.FILTERS.STATE_ERROR',
-    },
-  ].filter(state => !state.hasOwnProperty('access') || state['access']);
-
-  private filterService = new FilterService(
-    {
-      zones: { type: 'array', defaultOption: [] },
-      groups: { type: 'array', defaultOption: [] },
-      groupings: { type: 'array', defaultOption: [] },
-      query: { type: 'string' },
-      states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] },
-      accounts: { type: 'array', defaultOption: [] },
-    },
-    this.router,
-    this.sessionStorage,
-    FILTER_KEY,
-    this.activatedRoute,
-  );
+  public states = [];
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -102,17 +71,53 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private authService: AuthService,
   ) {
     super();
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);
   }
 
   public ngOnInit() {
+    const states = [
+      {
+        state: VmState.Running,
+        name: 'VM_PAGE.FILTERS.STATE_RUNNING',
+      },
+      {
+        state: VmState.Stopped,
+        name: 'VM_PAGE.FILTERS.STATE_STOPPED',
+      },
+      {
+        state: VmState.Destroyed,
+        name: 'VM_PAGE.FILTERS.STATE_DESTROYED',
+        access: this.allowedToViewDestroyedVms,
+      },
+      {
+        state: VmState.Error,
+        name: 'VM_PAGE.FILTERS.STATE_ERROR',
+      },
+    ].filter(state => !state.hasOwnProperty('access') || state['access']);
+
+    this.states = states;
+
+    const filterService = new FilterService(
+      {
+        zones: { type: 'array', defaultOption: [] },
+        groups: { type: 'array', defaultOption: [] },
+        groupings: { type: 'array', defaultOption: [] },
+        query: { type: 'string' },
+        states: { type: 'array', options: states.map(_ => _.state), defaultOption: [] },
+        accounts: { type: 'array', defaultOption: [] },
+      },
+      this.router,
+      this.sessionStorage,
+      FILTER_KEY,
+      this.activatedRoute,
+    );
+
     this.store.dispatch(new zoneActions.LoadZonesRequest());
-    this.initFilters();
+    this.initFilters(filterService);
     this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
-      this.filterService.update({
+      filterService.update({
         zones: filters.selectedZoneIds,
         groups: filters.selectedGroupNames,
         states: filters.selectedStates,
@@ -151,8 +156,8 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     this.store.dispatch(new vmActions.VMFilterUpdate({ selectedGroupings }));
   }
 
-  private initFilters(): void {
-    const params = this.filterService.getParams();
+  private initFilters(filterService: FilterService): void {
+    const params = filterService.getParams();
 
     const selectedGroupNames = params['groups'];
     const selectedStates = params['states'];

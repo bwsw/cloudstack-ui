@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Utils } from './utils/utils.service';
+import { AuthService } from './auth.service';
 
 export enum INotificationStatus {
   Pending,
@@ -25,6 +26,10 @@ export class JobsNotificationService {
   private readonly _pendingJobsCount$ = new BehaviorSubject<number>(0);
   // tslint:disable-next-line:variable-name
   private readonly _unseenCompletedJobsCount$ = new BehaviorSubject<number>(0);
+
+  constructor(private authService: AuthService) {
+    this.authService.loggedIn.subscribe(() => this.reset());
+  }
 
   public get pendingJobsCount$(): Observable<number> {
     return this._pendingJobsCount$.asObservable();
