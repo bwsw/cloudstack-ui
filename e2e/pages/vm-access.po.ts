@@ -13,7 +13,7 @@ export class AccessVM extends CloudstackUiPage {
   clickClose() {
     element(by.css('.mat-button.mat-primary')).click();
     const EC = protractor.ExpectedConditions;
-    browser.wait(EC.urlIs(`${browser.baseUrl}/instances`), 5000);
+    browser.wait(EC.urlIs(`${browser.baseUrl}/instances`), 5000, 'Access VM is not closed');
   }
 
   clickSSHTab() {
@@ -24,8 +24,8 @@ export class AccessVM extends CloudstackUiPage {
     const EC = protractor.ExpectedConditions;
     const ssh = EC.visibilityOf(element(by.css('.parameters-wrapper.ng-star-inserted')));
     const icon = EC.visibilityOf(element(by.css('.mdi-content-copy.mat-icon.mdi')));
-    browser.wait(EC.and(icon, ssh), 5000).thenCatch(() => {
-      element(by.css('.mat-button.mat-primary')).click();
+    browser.wait(EC.and(icon, ssh), 5000, 'ssh tab is empty').catch(() => {
+      return element(by.css('.mat-button.mat-primary')).click();
     });
   }
 
@@ -36,9 +36,13 @@ export class AccessVM extends CloudstackUiPage {
       .click();
     const EC = protractor.ExpectedConditions;
     browser
-      .wait(EC.visibilityOf(element(by.css('.parameters-wrapper.ng-star-inserted'))), 5000)
-      .thenCatch(() => {
-        element(by.css('.mat-button.mat-primary')).click();
+      .wait(
+        EC.visibilityOf(element(by.css('.parameters-wrapper.ng-star-inserted'))),
+        5000,
+        'http tab is empty',
+      )
+      .catch(() => {
+        return element(by.css('.mat-button.mat-primary')).click();
       });
   }
 

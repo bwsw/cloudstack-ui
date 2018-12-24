@@ -1,17 +1,15 @@
 ///<reference path="../node_modules/@types/jasmine/index.d.ts"/>
 import { VMCreation } from './pages/vm-creation.po';
 import { VMDeploy } from './pages/vm-deploy.po';
-import { browser, by, element } from 'protractor';
+import { browser } from 'protractor';
 import { VMList } from './pages/vm-list.po';
 import { Login } from './pages/login.po';
 import { VMSidebar } from './pages/vm-sidebar.po';
-import { AccessVM } from './pages/accessVM.po';
+import { AccessVM } from './pages/vm-access.po';
 import { SGList } from './pages/sg-list.po';
 import { SGSidebar } from './pages/sg-sidebar.po';
 import { ImageList } from './pages/template-list.po';
 import { ImageSidebar } from './pages/template-sidebar.po';
-import { Settings } from './pages/settings.po';
-import { before } from 'selenium-webdriver/testing';
 
 describe('e2e-test-vm-creation', () => {
   let page: VMCreation;
@@ -24,7 +22,6 @@ describe('e2e-test-vm-creation', () => {
   let sgsidebar: SGSidebar;
   let imlist: ImageList;
   let imsidebar: ImageSidebar;
-  let settings: Settings;
 
   beforeAll(() => {
     browser.driver
@@ -47,7 +44,6 @@ describe('e2e-test-vm-creation', () => {
     accessVM = new AccessVM();
     sglist = new SGList();
     sgsidebar = new SGSidebar();
-    settings = new Settings();
   });
 
   it('Create VM propose, VM with fixed SO, group, aff-group, unchecked start VM', () => {
@@ -89,6 +85,7 @@ describe('e2e-test-vm-creation', () => {
     vmlist.clickImageMenu();
     imlist.clickOpenSidebar();
     imsidebar.clickTagTab();
+    imsidebar.clickShowSystemTab();
     imsidebar.setTag('csui.vm.auth-mode', 'SSH, HTTP');
     imsidebar.setTag('csui.vm.http.protocol', 'HTTP');
     imsidebar.setTag('csui.vm.http.login', 'login');
@@ -100,9 +97,9 @@ describe('e2e-test-vm-creation', () => {
     vmlist.clickCreateVM();
     page.waitDialogModal();
     page.setDisplayName(page.name);
-    expect(page.getZone()).toContain(page.zone);
-    expect(page.getSO()).toContain(page.so);
-    expect(page.getInstSourceText()).toContain(page.template);
+    expect(page.getZone()).toContain(browser.params.zone());
+    expect(page.getSO()).toContain(browser.params.so);
+    expect(page.getInstSourceText()).toContain(browser.params.template);
     expect(page.getDiskSize()).toBeGreaterThanOrEqual(0);
     // Go to Advanced Tab
     page.clickAdvancedTab();
@@ -110,7 +107,7 @@ describe('e2e-test-vm-creation', () => {
     expect(page.getGroupName()).toEqual('');
     expect(page.getSSHkey()).toEqual(page.ssh);
     expect(page.getStartVM().isSelected).toBeTruthy();
-    expect(page.getSelectedRules()).toEqual(page.rule);
+    expect(page.getSelectedRules()).toEqual(browser.params.rule);
     page.setAffGroupName(page.aff);
     // page.setDefaultSGRule();
     page.setGroupName(page.group);
@@ -129,7 +126,7 @@ describe('e2e-test-vm-creation', () => {
   it('Verify card: name, ip, status, template', () => {
     expect(vmlist.getVMNameCard(0)).toEqual(page.name);
     expect(vmlist.getStateRunning().isPresent()).toBeTruthy();
-    expect(vmlist.getVMOSCard(0)).toContain(page.template);
+    expect(vmlist.getVMOSCard(0)).toContain(browser.params.template);
     expect(vmlist.getVMIPCard(0).isPresent()).toBeTruthy();
   });
 
@@ -137,8 +134,8 @@ describe('e2e-test-vm-creation', () => {
     vmlist.clickOpenSidebar(0);
     expect(sidebar.getVMName()).toEqual(page.name);
     expect(sidebar.getGroup()).toEqual(page.group);
-    expect(sidebar.getSOName()).toEqual(page.so);
-    expect(sidebar.getTemplate()).toContain(page.template);
+    expect(sidebar.getSOName()).toEqual(browser.params.so);
+    expect(sidebar.getTemplate()).toContain(browser.params.template);
     expect(sidebar.getAffGroup()).toEqual(page.aff);
     sidebar.clickTagTab();
     expect(sidebar.getTagKey('csui.template.agreement').isPresent()).toBeTruthy();

@@ -7,13 +7,18 @@ export class ImageSidebar extends CloudstackUiPage {
     element(by.css('.mdi-plus.mat-icon.mdi')).click();
     this.waitDialogModal();
     const input1 = element(by.name('key'));
-    input1.sendKeys(key);
-    browser.wait(EC.textToBePresentInElementValue(element(by.name('key')), key));
-    expect(input1.getAttribute('value')).toBe(key);
     const input2 = element(by.name('value'));
-    input2.sendKeys(value);
-    browser.wait(EC.textToBePresentInElementValue(element(by.name('value')), value));
-    expect(input2.getAttribute('value')).toBe(value);
+    browser.wait(EC.visibilityOf(input1)).then(() => {
+      input1.sendKeys(key);
+      browser.wait(EC.textToBePresentInElementValue(element(by.name('key')), key));
+      expect(input1.getAttribute('value')).toBe(key);
+    });
+    browser.wait(EC.visibilityOf(input2)).then(() => {
+      input2.sendKeys(value);
+      browser.wait(EC.textToBePresentInElementValue(element(by.name('value')), value));
+      expect(input2.getAttribute('value')).toBe(value);
+      browser.wait(EC.visibilityOf(input2));
+    });
     this.clickYesDialogButton();
     browser.wait(
       EC.textToBePresentInElement(element.all(by.cssContainingText('.key', key)).last(), key),
@@ -32,5 +37,9 @@ export class ImageSidebar extends CloudstackUiPage {
       .click();
     const EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf(element(by.css('.mdi-plus.mat-icon.mdi'))), 5000);
+  }
+
+  clickShowSystemTab() {
+    element(by.name('showSystemTags')).click();
   }
 }

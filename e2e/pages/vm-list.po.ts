@@ -1,6 +1,5 @@
 import { CloudstackUiPage } from './app.po';
 import { browser, by, element, protractor } from 'protractor';
-import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 export class VMList extends CloudstackUiPage {
   getVMNameCard(index) {

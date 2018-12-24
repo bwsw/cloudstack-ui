@@ -1,15 +1,9 @@
 import { by, element, protractor, browser } from 'protractor';
 import { CloudstackUiPage } from './app.po';
-import { el } from '@angular/platform-browser/testing/src/browser_util';
-import { first } from 'rxjs/internal/operators';
 
 export class VMCreation extends CloudstackUiPage {
-  template = 'CentOS 5.6 (64-bit)';
   name = `e2e${this.generateID()}`;
-  so = 'Small Instance';
-  zone = 'Sandbox-simulator';
   group = `e2e_group_${this.generateID()}`;
-  rule = 'default';
   ssh = 'No SSH key';
   aff = `e2e_aff_group_${this.generateID()}`;
 
@@ -42,14 +36,12 @@ export class VMCreation extends CloudstackUiPage {
 
   setDisplayName(name) {
     const input1 = element(by.name('displayName'));
-    input1.sendKeys(name);
-    browser.wait(
-      protractor.ExpectedConditions.textToBePresentInElementValue(
-        element(by.name('displayName')),
-        name,
-      ),
-    );
-    expect(input1.getAttribute('value')).toBe(name);
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(input1), 2000, 'No display name').then(() => {
+      input1.sendKeys(name);
+      browser.wait(EC.textToBePresentInElementValue(element(by.name('displayName')), name));
+      expect(input1.getAttribute('value')).toBe(name);
+    });
   }
 
   setHostName(name) {
@@ -99,7 +91,7 @@ export class VMCreation extends CloudstackUiPage {
     const sg = EC.visibilityOf(element(by.name('sgm')));
     const ssh = EC.visibilityOf(element(by.name('ssh')));
     const host = EC.visibilityOf(element(by.name('hostName')));
-    browser.wait(EC.and(group, start, sg, ssh, host), 5000);
+    browser.wait(EC.and(group, start, sg, ssh, host), 5000, 'Advanced tab does not open');
   }
 
   setGroupName(name) {

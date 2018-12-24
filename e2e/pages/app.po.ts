@@ -135,7 +135,11 @@ export class CloudstackUiPage {
 
   waitDialogModal() {
     const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element.all(by.tagName('mat-dialog-container')).last()), 5000);
+    browser.wait(
+      EC.visibilityOf(element.all(by.tagName('mat-dialog-container')).last()),
+      5000,
+      'No Dialog Modal is loaded ',
+    );
   }
 
   clickButtonbyText(text: string) {
@@ -150,6 +154,7 @@ export class CloudstackUiPage {
     return browser.wait(
       protractor.ExpectedConditions.urlContains(`${browser.baseUrl}/${expected}`),
       5000,
+      `Url does not contain ${expected}`,
     );
   }
 
@@ -161,6 +166,7 @@ export class CloudstackUiPage {
     return browser.wait(
       protractor.ExpectedConditions.urlIs(`${browser.baseUrl}/${expected}`),
       5000,
+      `Not redirected to ${expected}`,
     );
   }
 

@@ -21,7 +21,7 @@ export class VMDeploy extends CloudstackUiPage {
       'Virtual Machine Successfully Created',
     );
     const button = EC.visibilityOf(element.all(by.css('.mat-button.mat-primary')).last());
-    browser.wait(EC.and(header, button), 20000);
+    browser.wait(EC.and(header, button), 20000, 'Error for deploying VM occurs');
   }
 
   getProgressText() {

@@ -32,6 +32,13 @@ exports.config = {
     login: './e2e/login.e2e-spec.ts',
     vm_creation: './e2e/vm-creation.e2e-spec.ts',
   },
+  params: {
+    so: 'Small Instance',
+    template: 'CentOS 5.6 (64-bit)',
+    zone: 'Sandbox-simulator',
+    rule: 'default',
+  },
+  //  * other config options *
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
