@@ -54,26 +54,7 @@ type ValidationScheme = { readonly [P in keyof Partial<Config>]: object };
 @Injectable()
 export class ConfigValidationService {
   private readonly schemeValidator: AjvCore.Ajv;
-  private readonly schemeMap: ValidationScheme = {
-    defaultDomain: validationSchemes.defaultDomain,
-    apiDocLink: validationSchemes.apiDocLink,
-    sessionRefreshInterval: validationSchemes.sessionRefreshInterval,
-    extensions: validationSchemes.extensions,
-    vmColors: validationSchemes.vmColors,
-    defaultFirstDayOfWeek: validationSchemes.defaultFirstDayOfWeek,
-    defaultInterfaceLanguage: validationSchemes.defaultInterfaceLanguage,
-    defaultTimeFormat: validationSchemes.defaultTimeFormat,
-    defaultTheme: validationSchemes.defaultTheme,
-    defaultComputeOffering: validationSchemes.defaultComputeOffering,
-    sessionTimeout: validationSchemes.sessionTimeout,
-    customComputeOfferingParameters: validationSchemes.customComputeOfferingParameters,
-    serviceOfferingAvailability: validationSchemes.serviceOfferingAvailability,
-    imageGroups: validationSchemes.imageGroups,
-    computeOfferingClasses: validationSchemes.computeOfferingClasses,
-    defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName,
-    offeringCompatibilityPolicy: validationSchemes.offeringCompatibilityPolicy,
-    securityGroupTemplates: validationSchemes.securityGroupTemplates,
-  };
+  private readonly schemeMap: ValidationScheme = validationSchemes;
 
   constructor() {
     // Ajv options allErrors and jsonPointers are required for ajv-errors

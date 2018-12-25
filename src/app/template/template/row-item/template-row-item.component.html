@@ -1,5 +1,5 @@
 <mat-list-item
-  (click)="handleClick($event)"
+  (click)="handleClick()"
   [class.card-selected]="isSelected && isSelected(item)"
   class="entity-list-item"
 >
@@ -25,6 +25,7 @@
     [style.visibility]="isSelf ? 'visible' : 'hidden'"
     mat-icon-button
     [matMenuTriggerFor]="actionsMenu"
+    (click)="$event.stopPropagation()"
   >
     <mat-icon class="mdi-dots-vertical"></mat-icon>
   </button>

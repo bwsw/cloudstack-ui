@@ -34,6 +34,8 @@ export class VmPageComponent implements OnInit {
   public groupings: Grouping[];
   @Input()
   public selectedGroupings: Grouping[];
+  @Input()
+  public allowedToViewDestroyedVms: boolean;
 
   public mode: ViewMode;
   public viewModeKey = 'vmPageViewMode';

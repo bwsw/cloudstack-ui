@@ -1,3 +1,49 @@
+<a name="1.411.26"></a>
+## [1.411.26](https://github.com/bwsw/cloudstack-ui/compare/1.411.25...1.411.26) (2018-12-10)
+
+
+### Bug Fixes
+
+* **notifications:** reset on logout ([#1470](https://github.com/bwsw/cloudstack-ui/issues/1470)) ([125c536](https://github.com/bwsw/cloudstack-ui/commit/125c536))
+* **notifications:** reset position ([#1459](https://github.com/bwsw/cloudstack-ui/issues/1459)) ([b2b2a1e](https://github.com/bwsw/cloudstack-ui/commit/b2b2a1e))
+* **project:** add repository url ([#1450](https://github.com/bwsw/cloudstack-ui/issues/1450)) ([caedeb6](https://github.com/bwsw/cloudstack-ui/commit/caedeb6))
+* **resources:** the number of free resources is not updated after committing actions to change resources ([#1406](https://github.com/bwsw/cloudstack-ui/issues/1406)) ([2d95d91](https://github.com/bwsw/cloudstack-ui/commit/2d95d91))
+* **sidebar:** resize bugs ([#1448](https://github.com/bwsw/cloudstack-ui/issues/1448)) ([a82fd8b](https://github.com/bwsw/cloudstack-ui/commit/a82fd8b))
+* **vm:** show iso in sidebar ([#1471](https://github.com/bwsw/cloudstack-ui/issues/1471)) ([d85c727](https://github.com/bwsw/cloudstack-ui/commit/d85c727))
+* **vm-creation:** default security group ([#1431](https://github.com/bwsw/cloudstack-ui/issues/1431)) ([14ee35c](https://github.com/bwsw/cloudstack-ui/commit/14ee35c))
+* **vm-creation:** initial loading ([#1475](https://github.com/bwsw/cloudstack-ui/issues/1475)) ([454b112](https://github.com/bwsw/cloudstack-ui/commit/454b112))
+* **vm-logs:** align fab content ([#1438](https://github.com/bwsw/cloudstack-ui/issues/1438)) ([a188931](https://github.com/bwsw/cloudstack-ui/commit/a188931))
+
+
+### Features
+
+* **vm:** native instance groups ([#1456](https://github.com/bwsw/cloudstack-ui/issues/1456)) ([3a20cf6](https://github.com/bwsw/cloudstack-ui/commit/3a20cf6))
+* **vm:** show uuid in sidebar ([#1462](https://github.com/bwsw/cloudstack-ui/issues/1462)) ([cd0adaa](https://github.com/bwsw/cloudstack-ui/commit/cd0adaa))
+* **vm-logs:** request frequency and requested interval ([#1447](https://github.com/bwsw/cloudstack-ui/issues/1447)) ([bf99625](https://github.com/bwsw/cloudstack-ui/commit/bf99625))
+* **vm-logs:** save filters in tags ([#1441](https://github.com/bwsw/cloudstack-ui/issues/1441)) ([bb3cf1c](https://github.com/bwsw/cloudstack-ui/commit/bb3cf1c))
+* **vm-snapshots:** implement vm snapshots details sidebar ([#1454](https://github.com/bwsw/cloudstack-ui/issues/1454)) ([c040801](https://github.com/bwsw/cloudstack-ui/commit/c040801)), closes [#1332](https://github.com/bwsw/cloudstack-ui/issues/1332)
+
+
+
+<a name="1.411.25"></a>
+## [1.411.25](https://github.com/bwsw/cloudstack-ui/compare/1.411.24...1.411.25) (2018-11-23)
+
+
+### Bug Fixes
+
+* **vm:** fix volumes information in vm sidebar ([#1423](https://github.com/bwsw/cloudstack-ui/issues/1423)) ([851a1d7](https://github.com/bwsw/cloudstack-ui/commit/851a1d7)), closes [#1420](https://github.com/bwsw/cloudstack-ui/issues/1420)
+* **vm:** update color picker binding ([#1422](https://github.com/bwsw/cloudstack-ui/issues/1422)) ([d080513](https://github.com/bwsw/cloudstack-ui/commit/d080513)), closes [#1419](https://github.com/bwsw/cloudstack-ui/issues/1419)
+* **vm-creation:** add check for existence of compute offering class ([#1411](https://github.com/bwsw/cloudstack-ui/issues/1411)) ([d5138a8](https://github.com/bwsw/cloudstack-ui/commit/d5138a8)), closes [#1334](https://github.com/bwsw/cloudstack-ui/issues/1334)
+
+
+### Features
+
+* **sidebar:** implement the ability to resize details sidebar ([#1407](https://github.com/bwsw/cloudstack-ui/issues/1407)) ([b9b8416](https://github.com/bwsw/cloudstack-ui/commit/b9b8416)), closes [#1308](https://github.com/bwsw/cloudstack-ui/issues/1308)
+* **vm-logs:** AM/PM ([#1404](https://github.com/bwsw/cloudstack-ui/issues/1404)) ([328e992](https://github.com/bwsw/cloudstack-ui/commit/328e992))
+* **vm-snapshots:** add vm snapshots section ([#1421](https://github.com/bwsw/cloudstack-ui/issues/1421)) ([1b59e0c](https://github.com/bwsw/cloudstack-ui/commit/1b59e0c)), closes [#925](https://github.com/bwsw/cloudstack-ui/issues/925) [#1331](https://github.com/bwsw/cloudstack-ui/issues/1331)
+
+
+
 <a name="1.411.24"></a>
 ## [1.411.24](https://github.com/bwsw/cloudstack-ui/compare/1.411.23...1.411.24) (2018-11-09)
 
@@ -29,53 +75,53 @@
 
 
 <a name="1.411.23.1"></a>
-## [1.411.23.1](https://github.com/wowshakhov/cloudstack-ui/compare/1.411.23...1.411.23.1) (2018-10-30)
+## [1.411.23.1](https://github.com/bwsw/cloudstack-ui/compare/1.411.23...1.411.23.1) (2018-10-30)
 
 
 ### Bug Fixes
 
-* **dialogs:** formatting and layout ([#1373](https://github.com/wowshakhov/cloudstack-ui/issues/1373)) ([7d3eec6](https://github.com/wowshakhov/cloudstack-ui/commit/7d3eec6))
-* **templates:** tabs Template/Iso for Image section are present and filters come to next row. ([#1386](https://github.com/wowshakhov/cloudstack-ui/issues/1386)) ([127a955](https://github.com/wowshakhov/cloudstack-ui/commit/127a955)), closes [#1378](https://github.com/wowshakhov/cloudstack-ui/issues/1378)
-* **vm:** hide color picker if the configuration of the "vmColors" is … ([#1367](https://github.com/wowshakhov/cloudstack-ui/issues/1367)) ([c5d7652](https://github.com/wowshakhov/cloudstack-ui/commit/c5d7652)), closes [#1336](https://github.com/wowshakhov/cloudstack-ui/issues/1336)
+* **dialogs:** formatting and layout ([#1373](https://github.com/bwsw/cloudstack-ui/issues/1373)) ([7d3eec6](https://github.com/bwsw/cloudstack-ui/commit/7d3eec6))
+* **templates:** tabs Template/Iso for Image section are present and filters come to next row. ([#1386](https://github.com/bwsw/cloudstack-ui/issues/1386)) ([127a955](https://github.com/bwsw/cloudstack-ui/commit/127a955)), closes [#1378](https://github.com/bwsw/cloudstack-ui/issues/1378)
+* **vm:** hide color picker if the configuration of the "vmColors" is … ([#1367](https://github.com/bwsw/cloudstack-ui/issues/1367)) ([c5d7652](https://github.com/bwsw/cloudstack-ui/commit/c5d7652)), closes [#1336](https://github.com/bwsw/cloudstack-ui/issues/1336)
 
 
 ### Features
 
-* **prettier:** ignore markdown ([#1388](https://github.com/wowshakhov/cloudstack-ui/issues/1388)) ([79c3dee](https://github.com/wowshakhov/cloudstack-ui/commit/79c3dee))
+* **prettier:** ignore markdown ([#1388](https://github.com/bwsw/cloudstack-ui/issues/1388)) ([79c3dee](https://github.com/bwsw/cloudstack-ui/commit/79c3dee))
 
 
 
 <a name="1.411.23"></a>
 
-## [1.411.23](https://github.com/wowshakhov/cloudstack-ui/compare/1.411.22...1.411.23) (2018-10-26)
+## [1.411.23](https://github.com/bwsw/cloudstack-ui/compare/1.411.22...1.411.23) (2018-10-26)
 
 ### Bug Fixes
 
-- dialog about the deletion of attached data disk appears when VM destroyed ([#1360](https://github.com/wowshakhov/cloudstack-ui/issues/1360)) ([a36e56f](https://github.com/wowshakhov/cloudstack-ui/commit/a36e56f)), closes [#1355](https://github.com/wowshakhov/cloudstack-ui/issues/1355)
+- dialog about the deletion of attached data disk appears when VM destroyed ([#1360](https://github.com/bwsw/cloudstack-ui/issues/1360)) ([a36e56f](https://github.com/bwsw/cloudstack-ui/commit/a36e56f)), closes [#1355](https://github.com/bwsw/cloudstack-ui/issues/1355)
 
 ### Features
 
-- **config-validation:** add config validators ([#1309](https://github.com/wowshakhov/cloudstack-ui/issues/1309)) ([06361fb](https://github.com/wowshakhov/cloudstack-ui/commit/06361fb))
-- **navigation:** rework navigation menu ([#1333](https://github.com/wowshakhov/cloudstack-ui/issues/1333)) ([cf47298](https://github.com/wowshakhov/cloudstack-ui/commit/cf47298)), closes [#1235](https://github.com/wowshakhov/cloudstack-ui/issues/1235)
-- **vm-creation:** access vm enhancements ([#1301](https://github.com/wowshakhov/cloudstack-ui/issues/1301)) ([6ab2e88](https://github.com/wowshakhov/cloudstack-ui/commit/6ab2e88)), closes [#1224](https://github.com/wowshakhov/cloudstack-ui/issues/1224)
-- **vm-logs:** VM logs plugin ([#1330](https://github.com/wowshakhov/cloudstack-ui/issues/1330)) ([#1344](https://github.com/wowshakhov/cloudstack-ui/issues/1344)) ([f71f1ce](https://github.com/wowshakhov/cloudstack-ui/commit/f71f1ce)), closes [#1346](https://github.com/wowshakhov/cloudstack-ui/issues/1346) [#1351](https://github.com/wowshakhov/cloudstack-ui/issues/1351) [#1362](https://github.com/wowshakhov/cloudstack-ui/issues/1362) [#1180](https://github.com/wowshakhov/cloudstack-ui/issues/1180) [#1104](https://github.com/wowshakhov/cloudstack-ui/issues/1104) [#1347](https://github.com/wowshakhov/cloudstack-ui/issues/1347) [#1333](https://github.com/wowshakhov/cloudstack-ui/issues/1333) [#1235](https://github.com/wowshakhov/cloudstack-ui/issues/1235) [#1309](https://github.com/wowshakhov/cloudstack-ui/issues/1309) [#1359](https://github.com/wowshakhov/cloudstack-ui/issues/1359) [#1363](https://github.com/wowshakhov/cloudstack-ui/issues/1363) [#1180](https://github.com/wowshakhov/cloudstack-ui/issues/1180) [#1104](https://github.com/wowshakhov/cloudstack-ui/issues/1104) [#1347](https://github.com/wowshakhov/cloudstack-ui/issues/1347) [#1333](https://github.com/wowshakhov/cloudstack-ui/issues/1333) [#1235](https://github.com/wowshakhov/cloudstack-ui/issues/1235) [#1309](https://github.com/wowshakhov/cloudstack-ui/issues/1309) [#1359](https://github.com/wowshakhov/cloudstack-ui/issues/1359)
+- **config-validation:** add config validators ([#1309](https://github.com/bwsw/cloudstack-ui/issues/1309)) ([06361fb](https://github.com/bwsw/cloudstack-ui/commit/06361fb))
+- **navigation:** rework navigation menu ([#1333](https://github.com/bwsw/cloudstack-ui/issues/1333)) ([cf47298](https://github.com/bwsw/cloudstack-ui/commit/cf47298)), closes [#1235](https://github.com/bwsw/cloudstack-ui/issues/1235)
+- **vm-creation:** access vm enhancements ([#1301](https://github.com/bwsw/cloudstack-ui/issues/1301)) ([6ab2e88](https://github.com/bwsw/cloudstack-ui/commit/6ab2e88)), closes [#1224](https://github.com/bwsw/cloudstack-ui/issues/1224)
+- **vm-logs:** VM logs plugin ([#1330](https://github.com/bwsw/cloudstack-ui/issues/1330)) ([#1344](https://github.com/bwsw/cloudstack-ui/issues/1344)) ([f71f1ce](https://github.com/bwsw/cloudstack-ui/commit/f71f1ce)), closes [#1346](https://github.com/bwsw/cloudstack-ui/issues/1346) [#1351](https://github.com/bwsw/cloudstack-ui/issues/1351) [#1362](https://github.com/bwsw/cloudstack-ui/issues/1362) [#1180](https://github.com/bwsw/cloudstack-ui/issues/1180) [#1104](https://github.com/bwsw/cloudstack-ui/issues/1104) [#1347](https://github.com/bwsw/cloudstack-ui/issues/1347) [#1333](https://github.com/bwsw/cloudstack-ui/issues/1333) [#1235](https://github.com/bwsw/cloudstack-ui/issues/1235) [#1309](https://github.com/bwsw/cloudstack-ui/issues/1309) [#1359](https://github.com/bwsw/cloudstack-ui/issues/1359) [#1363](https://github.com/bwsw/cloudstack-ui/issues/1363) [#1180](https://github.com/bwsw/cloudstack-ui/issues/1180) [#1104](https://github.com/bwsw/cloudstack-ui/issues/1104) [#1347](https://github.com/bwsw/cloudstack-ui/issues/1347) [#1333](https://github.com/bwsw/cloudstack-ui/issues/1333) [#1235](https://github.com/bwsw/cloudstack-ui/issues/1235) [#1309](https://github.com/bwsw/cloudstack-ui/issues/1309) [#1359](https://github.com/bwsw/cloudstack-ui/issues/1359)
 - **affinity-groups:** rework "affinity group" section in VM creation ([#1243](https://github.com/bwsw/cloudstack-ui/issues/1243)) ([b4db4d4](https://github.com/bwsw/cloudstack-ui/commit/b4db4d4b2d0e68802a1925d722f6183fa760f87e))
 
 <a name="1.411.22"></a>
 
-## [1.411.22](https://github.com/HeyRoach/cloudstack-ui/compare/1.411.21...1.411.22) (2018-10-12)
+## [1.411.22](https://github.com/bwsw/cloudstack-ui/compare/1.411.21...1.411.22) (2018-10-12)
 
 ### Bug Fixes
 
-- **datepicker:** fix datepicker in ie ([#1311](https://github.com/HeyRoach/cloudstack-ui/issues/1311)) ([e3a2b95](https://github.com/HeyRoach/cloudstack-ui/commit/e3a2b95))
-- **grouping:** update draggable select to the latest material ([#1306](https://github.com/HeyRoach/cloudstack-ui/issues/1306)) ([4fcbba2](https://github.com/HeyRoach/cloudstack-ui/commit/4fcbba2))
-- **password-change:** fix event binding ([#1305](https://github.com/HeyRoach/cloudstack-ui/issues/1305)) ([5551592](https://github.com/HeyRoach/cloudstack-ui/commit/5551592))
-- **vm-default-name:** load default name ([#1317](https://github.com/HeyRoach/cloudstack-ui/issues/1317)) ([35c4db1](https://github.com/HeyRoach/cloudstack-ui/commit/35c4db1))
+- **datepicker:** fix datepicker in ie ([#1311](https://github.com/bwsw/cloudstack-ui/issues/1311)) ([e3a2b95](https://github.com/bwsw/cloudstack-ui/commit/e3a2b95))
+- **grouping:** update draggable select to the latest material ([#1306](https://github.com/bwsw/cloudstack-ui/issues/1306)) ([4fcbba2](https://github.com/bwsw/cloudstack-ui/commit/4fcbba2))
+- **password-change:** fix event binding ([#1305](https://github.com/bwsw/cloudstack-ui/issues/1305)) ([5551592](https://github.com/bwsw/cloudstack-ui/commit/5551592))
+- **vm-default-name:** load default name ([#1317](https://github.com/bwsw/cloudstack-ui/issues/1317)) ([35c4db1](https://github.com/bwsw/cloudstack-ui/commit/35c4db1))
 
 ### Features
 
-- **service-offering:** show all service offerings even those which don't fit resources ([#1299](https://github.com/HeyRoach/cloudstack-ui/issues/1299)) ([8eb44a4](https://github.com/HeyRoach/cloudstack-ui/commit/8eb44a4)), closes [#1229](https://github.com/HeyRoach/cloudstack-ui/issues/1229)
-- **vm-creation:** vm creation dialog enhancements ([#1292](https://github.com/HeyRoach/cloudstack-ui/issues/1292)) ([c781816](https://github.com/HeyRoach/cloudstack-ui/commit/c781816))
+- **service-offering:** show all service offerings even those which don't fit resources ([#1299](https://github.com/bwsw/cloudstack-ui/issues/1299)) ([8eb44a4](https://github.com/bwsw/cloudstack-ui/commit/8eb44a4)), closes [#1229](https://github.com/bwsw/cloudstack-ui/issues/1229)
+- **vm-creation:** vm creation dialog enhancements ([#1292](https://github.com/bwsw/cloudstack-ui/issues/1292)) ([c781816](https://github.com/bwsw/cloudstack-ui/commit/c781816))
 
 <a name="1.411.21"></a>
 
@@ -192,58 +238,58 @@
 
 <a name="1.410.19"></a>
 
-## [1.410.19](https://github.com/ksendart/cloudstack-ui/compare/1.410.18...1.410.19) (2018-02-13)
+## [1.410.19](https://github.com/bwsw/cloudstack-ui/compare/1.410.18...1.410.19) (2018-02-13)
 
 ### Bug Fixes
 
-- **account-creation:** Fix account "create" button is enabled for User (closes [#953](https://github.com/ksendart/cloudstack-ui/issues/953)) ([#959](https://github.com/ksendart/cloudstack-ui/issues/959)) ([7733c1b](https://github.com/ksendart/cloudstack-ui/commit/7733c1b))
-- **ie-errors:** Fix several errors in IE. ([#907](https://github.com/ksendart/cloudstack-ui/issues/907)) ([d25a84b](https://github.com/ksendart/cloudstack-ui/commit/d25a84b))
-- **private-sg:** Remove private SG after VM expunge ([#915](https://github.com/ksendart/cloudstack-ui/issues/915)) ([04872ee](https://github.com/ksendart/cloudstack-ui/commit/04872ee))
-- **security-group:** Fix security group builder rule view (closes [#986](https://github.com/ksendart/cloudstack-ui/issues/986)) ([#987](https://github.com/ksendart/cloudstack-ui/issues/987)) ([e30b506](https://github.com/ksendart/cloudstack-ui/commit/e30b506))
-- **security-group:** Show only shared in VM creation (closes [#921](https://github.com/ksendart/cloudstack-ui/issues/921)) ([#922](https://github.com/ksendart/cloudstack-ui/issues/922)) ([bf964e7](https://github.com/ksendart/cloudstack-ui/commit/bf964e7))
-- **so-classes:** Store SO classes in config.json ([#955](https://github.com/ksendart/cloudstack-ui/issues/955)) ([200a401](https://github.com/ksendart/cloudstack-ui/commit/200a401))
-- **user-secret-key:** User's secret key copy button is out of the layout (closes [#927](https://github.com/ksendart/cloudstack-ui/issues/927)) ([#929](https://github.com/ksendart/cloudstack-ui/issues/929)) ([d306a07](https://github.com/ksendart/cloudstack-ui/commit/d306a07))
-- **vm card:** fix vm card state bullet when vm is stopping (closes [#923](https://github.com/ksendart/cloudstack-ui/issues/923)) ([#924](https://github.com/ksendart/cloudstack-ui/issues/924)) ([13f6a29](https://github.com/ksendart/cloudstack-ui/commit/13f6a29))
+- **account-creation:** Fix account "create" button is enabled for User (closes [#953](https://github.com/bwsw/cloudstack-ui/issues/953)) ([#959](https://github.com/bwsw/cloudstack-ui/issues/959)) ([7733c1b](https://github.com/bwsw/cloudstack-ui/commit/7733c1b))
+- **ie-errors:** Fix several errors in IE. ([#907](https://github.com/bwsw/cloudstack-ui/issues/907)) ([d25a84b](https://github.com/bwsw/cloudstack-ui/commit/d25a84b))
+- **private-sg:** Remove private SG after VM expunge ([#915](https://github.com/bwsw/cloudstack-ui/issues/915)) ([04872ee](https://github.com/bwsw/cloudstack-ui/commit/04872ee))
+- **security-group:** Fix security group builder rule view (closes [#986](https://github.com/bwsw/cloudstack-ui/issues/986)) ([#987](https://github.com/bwsw/cloudstack-ui/issues/987)) ([e30b506](https://github.com/bwsw/cloudstack-ui/commit/e30b506))
+- **security-group:** Show only shared in VM creation (closes [#921](https://github.com/bwsw/cloudstack-ui/issues/921)) ([#922](https://github.com/bwsw/cloudstack-ui/issues/922)) ([bf964e7](https://github.com/bwsw/cloudstack-ui/commit/bf964e7))
+- **so-classes:** Store SO classes in config.json ([#955](https://github.com/bwsw/cloudstack-ui/issues/955)) ([200a401](https://github.com/bwsw/cloudstack-ui/commit/200a401))
+- **user-secret-key:** User's secret key copy button is out of the layout (closes [#927](https://github.com/bwsw/cloudstack-ui/issues/927)) ([#929](https://github.com/bwsw/cloudstack-ui/issues/929)) ([d306a07](https://github.com/bwsw/cloudstack-ui/commit/d306a07))
+- **vm card:** fix vm card state bullet when vm is stopping (closes [#923](https://github.com/bwsw/cloudstack-ui/issues/923)) ([#924](https://github.com/bwsw/cloudstack-ui/issues/924)) ([13f6a29](https://github.com/bwsw/cloudstack-ui/commit/13f6a29))
 
 ### Features
 
-- **left-sidebar:** Configure left-side menu view in config file (closes [#814](https://github.com/ksendart/cloudstack-ui/issues/814)) ([#919](https://github.com/ksendart/cloudstack-ui/issues/919)) ([a123336](https://github.com/ksendart/cloudstack-ui/commit/a123336))
-- **security-group:** Support IPv6 (closes [#671](https://github.com/ksendart/cloudstack-ui/issues/671)) ([#957](https://github.com/ksendart/cloudstack-ui/issues/957)) ([b2a8da0](https://github.com/ksendart/cloudstack-ui/commit/b2a8da0))
-- **snapshots:** Add filter panel to the snapshots page (closes [#830](https://github.com/ksendart/cloudstack-ui/issues/830)) ([#967](https://github.com/ksendart/cloudstack-ui/issues/967)) ([0b59f68](https://github.com/ksendart/cloudstack-ui/commit/0b59f68))
-- **snapshots:** Add sidebar details panels for snapshots (closes [#831](https://github.com/ksendart/cloudstack-ui/issues/831)) ([#968](https://github.com/ksendart/cloudstack-ui/issues/968)) ([ebe02b7](https://github.com/ksendart/cloudstack-ui/commit/ebe02b7))
-- **snapshots:** add snapshot section (closes [#828](https://github.com/ksendart/cloudstack-ui/issues/828)) ([#879](https://github.com/ksendart/cloudstack-ui/issues/879)) ([bf44d0b](https://github.com/ksendart/cloudstack-ui/commit/bf44d0b))
-- **so-additional-fields:** Additional fields for SO ([#911](https://github.com/ksendart/cloudstack-ui/issues/911)) ([31e6131](https://github.com/ksendart/cloudstack-ui/commit/31e6131))
-- **vm-postdeployment:** Show "Password: no information" when template without password (closes [#888](https://github.com/ksendart/cloudstack-ui/issues/888)) ([#896](https://github.com/ksendart/cloudstack-ui/issues/896)) ([712580f](https://github.com/ksendart/cloudstack-ui/commit/712580f))
+- **left-sidebar:** Configure left-side menu view in config file (closes [#814](https://github.com/bwsw/cloudstack-ui/issues/814)) ([#919](https://github.com/bwsw/cloudstack-ui/issues/919)) ([a123336](https://github.com/bwsw/cloudstack-ui/commit/a123336))
+- **security-group:** Support IPv6 (closes [#671](https://github.com/bwsw/cloudstack-ui/issues/671)) ([#957](https://github.com/bwsw/cloudstack-ui/issues/957)) ([b2a8da0](https://github.com/bwsw/cloudstack-ui/commit/b2a8da0))
+- **snapshots:** Add filter panel to the snapshots page (closes [#830](https://github.com/bwsw/cloudstack-ui/issues/830)) ([#967](https://github.com/bwsw/cloudstack-ui/issues/967)) ([0b59f68](https://github.com/bwsw/cloudstack-ui/commit/0b59f68))
+- **snapshots:** Add sidebar details panels for snapshots (closes [#831](https://github.com/bwsw/cloudstack-ui/issues/831)) ([#968](https://github.com/bwsw/cloudstack-ui/issues/968)) ([ebe02b7](https://github.com/bwsw/cloudstack-ui/commit/ebe02b7))
+- **snapshots:** add snapshot section (closes [#828](https://github.com/bwsw/cloudstack-ui/issues/828)) ([#879](https://github.com/bwsw/cloudstack-ui/issues/879)) ([bf44d0b](https://github.com/bwsw/cloudstack-ui/commit/bf44d0b))
+- **so-additional-fields:** Additional fields for SO ([#911](https://github.com/bwsw/cloudstack-ui/issues/911)) ([31e6131](https://github.com/bwsw/cloudstack-ui/commit/31e6131))
+- **vm-postdeployment:** Show "Password: no information" when template without password (closes [#888](https://github.com/bwsw/cloudstack-ui/issues/888)) ([#896](https://github.com/bwsw/cloudstack-ui/issues/896)) ([712580f](https://github.com/bwsw/cloudstack-ui/commit/712580f))
 
 <a name="1.410.18"></a>
 
-## [1.410.18](https://github.com/qqcky/cloudstack-ui/compare/1.410.17...1.410.18) (2018-01-29)
+## [1.410.18](https://github.com/bwsw/cloudstack-ui/compare/1.410.17...1.410.18) (2018-01-29)
 
 ### Bug Fixes
 
-- **account-actions:** Remove "lock/enable account" feature from Accounts (closes [#887](https://github.com/qqcky/cloudstack-ui/issues/887)) ([#890](https://github.com/qqcky/cloudstack-ui/issues/890)) ([375435b](https://github.com/qqcky/cloudstack-ui/commit/375435b))
-- **accounts-filter:** Delete in Filtering of Accounts parameter "Locked" (closes [#908](https://github.com/qqcky/cloudstack-ui/issues/908)) ([#909](https://github.com/qqcky/cloudstack-ui/issues/909)) ([9bb0b29](https://github.com/qqcky/cloudstack-ui/commit/9bb0b29))
-- **affinity-group:** Fix limitations for affinity group creation (closes [#864](https://github.com/qqcky/cloudstack-ui/issues/864)) ([#884](https://github.com/qqcky/cloudstack-ui/issues/884)) ([2481a89](https://github.com/qqcky/cloudstack-ui/commit/2481a89))
-- **firewall-rules:** Fix firewall rule types sorting and alignment (closes [#868](https://github.com/qqcky/cloudstack-ui/issues/868)) ([#883](https://github.com/qqcky/cloudstack-ui/issues/883)) ([b661ee9](https://github.com/qqcky/cloudstack-ui/commit/b661ee9))
-- **instance-group:** Fix instance group translation (closes [#856](https://github.com/qqcky/cloudstack-ui/issues/856)) ([#869](https://github.com/qqcky/cloudstack-ui/issues/869)) ([484aa96](https://github.com/qqcky/cloudstack-ui/commit/484aa96))
-- **left-sidebar:** Decrease a height of each element in the left-side menu ([#901](https://github.com/qqcky/cloudstack-ui/issues/901)) ([#918](https://github.com/qqcky/cloudstack-ui/issues/918)) ([ef7012b](https://github.com/qqcky/cloudstack-ui/commit/ef7012b))
-- **login-page:** Incorrect error occurs for empty domain or invalid username (closes [#912](https://github.com/qqcky/cloudstack-ui/issues/912)) ([#914](https://github.com/qqcky/cloudstack-ui/issues/914)) ([c489e1b](https://github.com/qqcky/cloudstack-ui/commit/c489e1b))
-- **notification-box:** Fix view of notification-box (closes [#837](https://github.com/qqcky/cloudstack-ui/issues/837)) ([#843](https://github.com/qqcky/cloudstack-ui/issues/843)) ([bedbe45](https://github.com/qqcky/cloudstack-ui/commit/bedbe45))
-- **ssh-key:** Fix ssh key pair creation with not auto generated public key (closes [#878](https://github.com/qqcky/cloudstack-ui/issues/878)) ([#882](https://github.com/qqcky/cloudstack-ui/issues/882)) ([881f054](https://github.com/qqcky/cloudstack-ui/commit/881f054))
-- **styles:** Fix card-header align (closes [#853](https://github.com/qqcky/cloudstack-ui/issues/853) ) ([#873](https://github.com/qqcky/cloudstack-ui/issues/873)) ([afb7799](https://github.com/qqcky/cloudstack-ui/commit/afb7799))
-- **tags:** Fix tag keys view (closes [#898](https://github.com/qqcky/cloudstack-ui/issues/898)) ([#906](https://github.com/qqcky/cloudstack-ui/issues/906)) ([19e7839](https://github.com/qqcky/cloudstack-ui/commit/19e7839))
-- **vm-actions:** Replace switchMap with flatMap for vm actions ([347b060](https://github.com/qqcky/cloudstack-ui/commit/347b060))
-- **vm-creation:** Fix VM creation from template with tags leads to duplicate tags on the VM (closes [#858](https://github.com/qqcky/cloudstack-ui/issues/858)) ([#875](https://github.com/qqcky/cloudstack-ui/issues/875)) ([7465e36](https://github.com/qqcky/cloudstack-ui/commit/7465e36))
-- **vm-destroy:** Fix deleting of volumes while deleting the VM (closes [#870](https://github.com/qqcky/cloudstack-ui/issues/870)) ([#874](https://github.com/qqcky/cloudstack-ui/issues/874)) ([60e7b9c](https://github.com/qqcky/cloudstack-ui/commit/60e7b9c))
-- **vm-tags:** Fix vm tag creation bug (closes [#876](https://github.com/qqcky/cloudstack-ui/issues/876)) ([#877](https://github.com/qqcky/cloudstack-ui/issues/877)) ([2735e6c](https://github.com/qqcky/cloudstack-ui/commit/2735e6c))
+- **account-actions:** Remove "lock/enable account" feature from Accounts (closes [#887](https://github.com/bwsw/cloudstack-ui/issues/887)) ([#890](https://github.com/bwsw/cloudstack-ui/issues/890)) ([375435b](https://github.com/bwsw/cloudstack-ui/commit/375435b))
+- **accounts-filter:** Delete in Filtering of Accounts parameter "Locked" (closes [#908](https://github.com/bwsw/cloudstack-ui/issues/908)) ([#909](https://github.com/bwsw/cloudstack-ui/issues/909)) ([9bb0b29](https://github.com/bwsw/cloudstack-ui/commit/9bb0b29))
+- **affinity-group:** Fix limitations for affinity group creation (closes [#864](https://github.com/bwsw/cloudstack-ui/issues/864)) ([#884](https://github.com/bwsw/cloudstack-ui/issues/884)) ([2481a89](https://github.com/bwsw/cloudstack-ui/commit/2481a89))
+- **firewall-rules:** Fix firewall rule types sorting and alignment (closes [#868](https://github.com/bwsw/cloudstack-ui/issues/868)) ([#883](https://github.com/bwsw/cloudstack-ui/issues/883)) ([b661ee9](https://github.com/bwsw/cloudstack-ui/commit/b661ee9))
+- **instance-group:** Fix instance group translation (closes [#856](https://github.com/bwsw/cloudstack-ui/issues/856)) ([#869](https://github.com/bwsw/cloudstack-ui/issues/869)) ([484aa96](https://github.com/bwsw/cloudstack-ui/commit/484aa96))
+- **left-sidebar:** Decrease a height of each element in the left-side menu ([#901](https://github.com/bwsw/cloudstack-ui/issues/901)) ([#918](https://github.com/bwsw/cloudstack-ui/issues/918)) ([ef7012b](https://github.com/bwsw/cloudstack-ui/commit/ef7012b))
+- **login-page:** Incorrect error occurs for empty domain or invalid username (closes [#912](https://github.com/bwsw/cloudstack-ui/issues/912)) ([#914](https://github.com/bwsw/cloudstack-ui/issues/914)) ([c489e1b](https://github.com/bwsw/cloudstack-ui/commit/c489e1b))
+- **notification-box:** Fix view of notification-box (closes [#837](https://github.com/bwsw/cloudstack-ui/issues/837)) ([#843](https://github.com/bwsw/cloudstack-ui/issues/843)) ([bedbe45](https://github.com/bwsw/cloudstack-ui/commit/bedbe45))
+- **ssh-key:** Fix ssh key pair creation with not auto generated public key (closes [#878](https://github.com/bwsw/cloudstack-ui/issues/878)) ([#882](https://github.com/bwsw/cloudstack-ui/issues/882)) ([881f054](https://github.com/bwsw/cloudstack-ui/commit/881f054))
+- **styles:** Fix card-header align (closes [#853](https://github.com/bwsw/cloudstack-ui/issues/853) ) ([#873](https://github.com/bwsw/cloudstack-ui/issues/873)) ([afb7799](https://github.com/bwsw/cloudstack-ui/commit/afb7799))
+- **tags:** Fix tag keys view (closes [#898](https://github.com/bwsw/cloudstack-ui/issues/898)) ([#906](https://github.com/bwsw/cloudstack-ui/issues/906)) ([19e7839](https://github.com/bwsw/cloudstack-ui/commit/19e7839))
+- **vm-actions:** Replace switchMap with flatMap for vm actions ([347b060](https://github.com/bwsw/cloudstack-ui/commit/347b060))
+- **vm-creation:** Fix VM creation from template with tags leads to duplicate tags on the VM (closes [#858](https://github.com/bwsw/cloudstack-ui/issues/858)) ([#875](https://github.com/bwsw/cloudstack-ui/issues/875)) ([7465e36](https://github.com/bwsw/cloudstack-ui/commit/7465e36))
+- **vm-destroy:** Fix deleting of volumes while deleting the VM (closes [#870](https://github.com/bwsw/cloudstack-ui/issues/870)) ([#874](https://github.com/bwsw/cloudstack-ui/issues/874)) ([60e7b9c](https://github.com/bwsw/cloudstack-ui/commit/60e7b9c))
+- **vm-tags:** Fix vm tag creation bug (closes [#876](https://github.com/bwsw/cloudstack-ui/issues/876)) ([#877](https://github.com/bwsw/cloudstack-ui/issues/877)) ([2735e6c](https://github.com/bwsw/cloudstack-ui/commit/2735e6c))
 
 ### Features
 
-- **disk-offering:** Change disk offering chooser component (closes [#501](https://github.com/qqcky/cloudstack-ui/issues/501)) ([#891](https://github.com/qqcky/cloudstack-ui/issues/891)) ([998c380](https://github.com/qqcky/cloudstack-ui/commit/998c380))
-- **private-sg:** Implement Private Security Groups tab in Firewall (closes [#816](https://github.com/qqcky/cloudstack-ui/issues/816)) ([#839](https://github.com/qqcky/cloudstack-ui/issues/839)) ([ded1f30](https://github.com/qqcky/cloudstack-ui/commit/ded1f30))
-- **security-group:** set name for private security groups from vm name (closes [#862](https://github.com/qqcky/cloudstack-ui/issues/862)) ([#905](https://github.com/qqcky/cloudstack-ui/issues/905)) ([b3e9755](https://github.com/qqcky/cloudstack-ui/commit/b3e9755))
-- **service-offering:** Update service offering chooser component ([#885](https://github.com/qqcky/cloudstack-ui/issues/885)) ([56f5e8d](https://github.com/qqcky/cloudstack-ui/commit/56f5e8d))
-- **ssh-key:** Store "SSH description" in account tags if supported (closes [#824](https://github.com/qqcky/cloudstack-ui/issues/824)) ([#844](https://github.com/qqcky/cloudstack-ui/issues/844)) ([95d7947](https://github.com/qqcky/cloudstack-ui/commit/95d7947))
+- **disk-offering:** Change disk offering chooser component (closes [#501](https://github.com/bwsw/cloudstack-ui/issues/501)) ([#891](https://github.com/bwsw/cloudstack-ui/issues/891)) ([998c380](https://github.com/bwsw/cloudstack-ui/commit/998c380))
+- **private-sg:** Implement Private Security Groups tab in Firewall (closes [#816](https://github.com/bwsw/cloudstack-ui/issues/816)) ([#839](https://github.com/bwsw/cloudstack-ui/issues/839)) ([ded1f30](https://github.com/bwsw/cloudstack-ui/commit/ded1f30))
+- **security-group:** set name for private security groups from vm name (closes [#862](https://github.com/bwsw/cloudstack-ui/issues/862)) ([#905](https://github.com/bwsw/cloudstack-ui/issues/905)) ([b3e9755](https://github.com/bwsw/cloudstack-ui/commit/b3e9755))
+- **service-offering:** Update service offering chooser component ([#885](https://github.com/bwsw/cloudstack-ui/issues/885)) ([56f5e8d](https://github.com/bwsw/cloudstack-ui/commit/56f5e8d))
+- **ssh-key:** Store "SSH description" in account tags if supported (closes [#824](https://github.com/bwsw/cloudstack-ui/issues/824)) ([#844](https://github.com/bwsw/cloudstack-ui/issues/844)) ([95d7947](https://github.com/bwsw/cloudstack-ui/commit/95d7947))
 
 <a name="1.410.17"></a>
 

@@ -53,6 +53,14 @@ export class ErrorService {
       regex: /User (.*) .*or their account.* in domain (.*) is disabled\/locked. Please contact the administrator./,
       translation: 'ERRORS.AUTH.DISABLED',
     },
+    {
+      regex: /The token does not exist/,
+      translation: 'ERRORS.VM_LOGS.TOKEN_DOES_NOT_EXIST',
+    },
+    {
+      regex: /Invalid token/,
+      translation: 'ERRORS.VM_LOGS.INVALID_TOKEN',
+    },
   ];
 
   public static parseError(error: any): any {

@@ -1,14 +1,14 @@
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { PopoverTriggerDirective } from './popover-trigger.directive';
 
 import { PopoverComponent } from './popover.component';
 
 @NgModule({
-  imports: [OverlayModule, PortalModule, ScrollDispatchModule],
-  exports: [PopoverComponent, PopoverTriggerDirective, ScrollDispatchModule],
+  imports: [OverlayModule, PortalModule, ScrollingModule],
+  exports: [PopoverComponent, PopoverTriggerDirective, ScrollingModule],
   declarations: [PopoverComponent, PopoverTriggerDirective],
   providers: [],
 })

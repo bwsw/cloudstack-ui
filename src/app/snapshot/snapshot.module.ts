@@ -1,10 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { MaterialModule } from '../material/material.module';
 
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SharedModule } from '../shared/shared.module';
-import { MaterialModule } from '../material/material.module';
+import { VmSnapshotActionMenuComponent } from './components/vm-snapshot-action-menu/vm-snapshot-action-menu.component';
+import { VmSnapshotCardViewComponent } from './components/vm-snapshot-card-view/vm-snapshot-card-view.component';
+import { VmSnapshotListViewComponent } from './components/vm-snapshot-list-view/vm-snapshot-list-view.component';
+import { VmSnapshotSidebarComponent } from './components/vm-snapshot-sidebar/vm-snapshot-sidebar.component';
+import { SnapshotsPageComponent } from './containers/snapshots-page/snapshots-page.component';
+import { SnapshotsPageContainerComponent } from './containers/snapshots-page/snapshots-page.container';
 
 import { DayOfWeekComponent } from './recurring-snapshots/day-of-week/day-of-week.component';
 import { DailyPolicyComponent } from './recurring-snapshots/policy-editor/daily/daily-policy.component';
@@ -31,11 +38,17 @@ import { SnapshotCardItemComponent } from './snapshots-page/snapshot-list-item/s
 import { SnapshotListItemComponent } from './snapshots-page/snapshot-list-item/snapshot-list-item.component';
 import { SnapshotSidebarComponent } from './snapshots-page/snapshot-sidebar/snapshot-sidebar.component';
 import { SnapshotSidebarContainerComponent } from './snapshots-page/snapshot-sidebar/snapshot-sidebar.container';
-import { SnapshotsPageComponent } from './snapshots-page/snapshots-page.component';
-import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page.container';
+import { snapshotPageReducer, snapshotPageStoreName } from './store/snapshot-page.reducer';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, MaterialModule, DraggableSelectModule, RouterModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    MaterialModule,
+    DraggableSelectModule,
+    RouterModule,
+    StoreModule.forFeature(snapshotPageStoreName, snapshotPageReducer),
+  ],
   exports: [RecurringSnapshotsComponent, SnapshotActionContainerComponent],
   declarations: [
     DayOfWeekComponent,
@@ -59,6 +72,10 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     SnapshotSidebarComponent,
     CreateVolumeFromSnapshotContainerComponent,
     CreateVolumeFromSnapshotComponent,
+    VmSnapshotCardViewComponent,
+    VmSnapshotListViewComponent,
+    VmSnapshotActionMenuComponent,
+    VmSnapshotSidebarComponent,
   ],
   providers: [PolicyViewBuilderService, SnapshotPolicyService, SnapshotActionService],
   entryComponents: [
@@ -67,6 +84,8 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     SnapshotListItemComponent,
     SnapshotActionContainerComponent,
     CreateVolumeFromSnapshotContainerComponent,
+    VmSnapshotCardViewComponent,
+    VmSnapshotListViewComponent,
   ],
 })
 export class SnapshotModule {}

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, EventEmitter, Injectable, Input, Output } from '@angular/core';
+import * as chartJs from 'chart.js';
 import { PulseService } from '../pulse.service';
-import chartJs = require('chart.js');
 
 (chartJs.defaults.global.elements.line as any).cubicInterpolationMode = 'monotone';
 chartJs.defaults.global.elements.point.radius = 0;

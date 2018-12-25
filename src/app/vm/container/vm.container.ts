@@ -10,12 +10,14 @@ import * as osTypesActions from '../../reducers/templates/redux/ostype.actions';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
 import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.actions';
 import { AuthService } from '../../shared/services/auth.service';
-import { getInstanceGroupName, VirtualMachine } from '../shared/vm.model';
+import { VirtualMachine } from '../shared/vm.model';
 
 import { noGroup } from '../vm-filter/vm-filter.component';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { Grouping } from '../../shared/models';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
+import * as templateActions from '../../reducers/templates/redux/template.actions';
+import { capabilitiesSelectors } from '../../root-store';
 
 const getGroupName = (vm: VirtualMachine) => {
   return vm.domain !== 'ROOT' ? `${vm.domain}/${vm.account}` : vm.account;
@@ -32,6 +34,7 @@ const getGroupName = (vm: VirtualMachine) => {
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
+      [allowedToViewDestroyedVms]="allowedToViewDestroyedVms$ | async"
     ></cs-vm-page>`,
 })
 export class VirtualMachinePageContainerComponent implements OnInit, AfterViewInit {
@@ -41,6 +44,9 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
   readonly osTypesMap$ = this.store.pipe(select(fromOsTypes.selectEntities));
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
   readonly selectedGroupings$ = this.store.pipe(select(fromVMs.filterSelectedGroupings));
+  readonly allowedToViewDestroyedVms$ = this.store.pipe(
+    select(capabilitiesSelectors.getIsAllowedToViewDestroyedVms),
+  );
 
   public groupings: Grouping[] = [
     {
@@ -52,8 +58,8 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     {
       key: 'groups',
       label: 'VM_PAGE.FILTERS.GROUP_BY_GROUPS',
-      selector: (item: VirtualMachine) => getInstanceGroupName(item) || noGroup,
-      name: (item: VirtualMachine) => getInstanceGroupName(item) || 'VM_PAGE.FILTERS.NO_GROUP',
+      selector: (item: VirtualMachine) => item.group || noGroup,
+      name: (item: VirtualMachine) => item.group || 'VM_PAGE.FILTERS.NO_GROUP',
     },
     {
       key: 'accounts',
@@ -65,7 +71,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
       key: 'colors',
       label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
       selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
-      name: (item: VirtualMachine) => '',
+      name: () => '',
     },
   ];
 
@@ -87,6 +93,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
+    this.store.dispatch(new templateActions.LoadTemplatesRequest());
   }
 
   public isAdmin() {

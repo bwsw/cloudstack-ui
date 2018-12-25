@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-09 09:52+0700\n"
-"PO-Revision-Date: 2018-11-12 15:01+0700\n"
+"POT-Creation-Date: 2018-12-06 10:47+0700\n"
+"PO-Revision-Date: 2018-12-06 10:53+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -37,9 +37,10 @@ msgid ""
 "In the *Virtual Machines*-*View Logs* section a user can see VM logs. This "
 "section appears if the UI-plugin - Log View - is activated. This UI-plugin works "
 "together with the backend API plugin developed to process and view virtual "
-"machine logs which are handled by ELK and delivered by Filebeat. The version of "
-"the backend API plugin matches Apache CloudStack version that it is built for. "
-"The plugin is developed and tested only with Apache CloudStack 4.11.1"
+"machine logs which are handled by ELK and delivered to the storage by Filebeat. "
+"The version of the backend API plugin matches Apache CloudStack version that it "
+"is built for. The plugin is developed and tested only with Apache CloudStack "
+"4.11.1"
 msgstr ""
 "В разделе *Виртуальные машины*-*Просмотр логов* пользователь может просматривать "
 "записи журналов виртуальных машин. Этот раздел доступен в меню, если включен UI-"
@@ -163,14 +164,14 @@ msgstr ""
 
 #: ../../CSUI-LogView.rst:49
 msgid ""
-"Time - Allows selecting logs for a specific time period within the selected "
-"dates. By default, 00:00 is defined for the start time and 23:59 is defined for "
-"the end time. Enter start and end time you wish into the fields to set a custom "
-"time period."
+"Time - Allows filtering logs for a specific time period within the selected "
+"dates. The time format is determined by the time format setting specified under "
+"the \"Settings\" section.  Enter start and end time you wish into the fields to "
+"set a custom time period."
 msgstr ""
 "Время - Позволяет задать конкретный промежуток времени в рамках заданного "
-"периода. По умолчанию, для начального времени установлено значение 00:00, а для "
-"конечного - 23:59. Вы можете ввести желаемое время в полях для начального и "
+"периода. Формат времени определяется настройкой формата, заданной в разделе "
+"\"Настройки\". Вы можете ввести желаемое время в полях для начального и "
 "конечного времени."
 
 #: ../../CSUI-LogView.rst:53
@@ -181,7 +182,7 @@ msgstr "Нажмите \"Показать логи\" для вывода лог�
 msgid "The logs will be displayed in accordance with the chosen period."
 msgstr "В списке будут отражены логи за указанный период."
 
-#: ../../CSUI-LogView.rst:59 ../../CSUI-LogView.rst:77
+#: ../../CSUI-LogView.rst:59 ../../CSUI-LogView.rst:79
 msgid ""
 "You can change filtering parameters and refresh the list of logs by clicking "
 "\"SHOW LOGS\"."
@@ -189,11 +190,21 @@ msgstr ""
 "Можно изменить параметры фильтрации и обновить список логов, нажав \"ПОКАЗАТЬ "
 "ЛОГИ\"."
 
-#: ../../CSUI-LogView.rst:62
+#: ../../CSUI-LogView.rst:61
+msgid ""
+"The set filtering parameters are saved to user tags. That means, if you log out "
+"of the system and then login again, you will continue to view logs with the "
+"previously set filtering parameters."
+msgstr ""
+"Заданные параметры фильтрации сохраняются в теги пользователя. Это значит, что "
+"покинув систему и снова вернувшись в нее, вы продолжите просмотр журналов машин "
+"с теми же параметрами фильтрации, которые были заданы прежде. "
+
+#: ../../CSUI-LogView.rst:64
 msgid "View Logs List"
 msgstr "Список логов"
 
-#: ../../CSUI-LogView.rst:63
+#: ../../CSUI-LogView.rst:65
 msgid ""
 "By clicking \"SHOW LOGS\", a user can view log files corresponding to the "
 "filtering parameters. Logs are listed in a chronological order from the earliest "
@@ -203,11 +214,11 @@ msgstr ""
 "в соответствии с параметрами фильтрации. Записи в списке показаны в "
 "хронологическом порядке, от самых ранних до самых поздних."
 
-#: ../../CSUI-LogView.rst:65
+#: ../../CSUI-LogView.rst:67
 msgid "By default, the system shows logs for the last day."
 msgstr "По умолчанию, отображаются записи за последние сутки."
 
-#: ../../CSUI-LogView.rst:67
+#: ../../CSUI-LogView.rst:69
 msgid ""
 "A user can view logs for his/her VMs only. An Administrator can see logs for all "
 "accounts in the domain."
@@ -215,27 +226,27 @@ msgstr ""
 "Пользователь может просматривать логи только для своих машин. Администратор "
 "может просматривать логи для машин всех аккаунтов  в домене."
 
-#: ../../CSUI-LogView.rst:71
+#: ../../CSUI-LogView.rst:73
 msgid "The following information for each log file is presented in the list:"
 msgstr "Для каждой записи в таблице представлена следующая информация:"
 
-#: ../../CSUI-LogView.rst:73
+#: ../../CSUI-LogView.rst:75
 msgid "Date"
 msgstr "Дата"
 
-#: ../../CSUI-LogView.rst:74
+#: ../../CSUI-LogView.rst:76
 msgid "File"
 msgstr "Журнал"
 
-#: ../../CSUI-LogView.rst:75
+#: ../../CSUI-LogView.rst:77
 msgid "Text"
 msgstr "Текст"
 
-#: ../../CSUI-LogView.rst:80
+#: ../../CSUI-LogView.rst:82
 msgid "Sorting Logs"
 msgstr "Сортировка записей"
 
-#: ../../CSUI-LogView.rst:81
+#: ../../CSUI-LogView.rst:83
 msgid ""
 "The sorting tool allows viewing the newest logs first in the list. Enable the "
 "checkbox to the right and click on \"Show logs\" to refresh the list."
@@ -243,11 +254,11 @@ msgstr ""
 "Для сортировки записей можно активировать опцию \"Новые сверху\" справа и "
 "обновить список кликом на \"ПОКАЗАТЬ ЛОГИ\"."
 
-#: ../../CSUI-LogView.rst:86
+#: ../../CSUI-LogView.rst:88
 msgid "Searching Logs"
 msgstr "Поиск по записям"
 
-#: ../../CSUI-LogView.rst:87
+#: ../../CSUI-LogView.rst:89
 msgid ""
 "Use the search tool to find logs by a word or a text. Enter the text in the "
 "search field above the list and click on \"Show logs\" to refresh the list."
@@ -256,29 +267,52 @@ msgstr ""
 "расположенной над списком. Введите слово или текст и нажмите \"ПОКАЗАТЬ ЛОГИ\", "
 "чтобы обновить список. Записи будут отфильтрованы по заданным критериям поиска."
 
-#: ../../CSUI-LogView.rst:92
+#: ../../CSUI-LogView.rst:94
 msgid "Following Logs"
 msgstr "Просмотр записей в режиме реального времени"
 
-#: ../../CSUI-LogView.rst:93
+#: ../../CSUI-LogView.rst:95
 msgid ""
 "After setting filtering parameters and clicking \"Show logs\", a user can start "
-"following logs, in other words, start monitoring the logs online."
+"following logs, in other words, start monitoring logs online."
 msgstr ""
 "После определения параметров фильтрации и нажатия на \"ПОКАЗАТЬ ЛОГИ\" "
 "пользователь может включить просмотр записей в режиме реального времени, чтобы "
 "отслеживать записи журналов машины."
 
-#: ../../CSUI-LogView.rst:95
+#: ../../CSUI-LogView.rst:97
 msgid ""
-"Click \"Follow log\" |follow icon| for the uploaded log files, you will see the "
-"list is automatically getting refreshed per every second."
+"When the \"Follow logs\" option is activated, the Log View UI-plugin sends "
+"requests to get the latest logs with the defined frequency and for a period, "
+"defined in the configuration file. By default, once per 1 second the system "
+"requests logs for the last 30 seconds. A user can customize these parameters via "
+"the configuration file (see `details <https://github.com/bwsw/cloudstack-ui/blob/"
+"master/config-guide.md#log-view-plugin>`_)."
 msgstr ""
-"Нажмите \"Отслеживать\"  |follow icon| , список начнет обновляться "
-"автоматически  с заданной регулярностью. По умолчанию установлена частота "
-"обновления - 1 раз в 1 секунду."
+"При активации отслеживания журналов в режиме реального времени UI-плагин Log "
+"View запрашивает журналы с той частотой и за тот период времени, которые заданы "
+"в конфигурационном файле. По умолчанию, журналы запрашиваются с частотой один "
+"раз в секунду, и при каждом запросе по умолчанию возращаются записи за последние "
+"30 секунд. Пользователь может задать другие значения данных настроек в "
+"конфигурационном файле (см. подробнее в `руководстве по конфигурациям <https://"
+"github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#log-view-plugin>`_) "
 
 #: ../../CSUI-LogView.rst:99
+msgid ""
+"To view logs in a real time-mode, click \"Follow logs\" |follow icon|. This "
+"button is available right after selecting a virtual machine in the filtering "
+"parameters or after setting all necessary filtering parameters and clicking "
+"\"Show logs\". You will see the filtering options are got disabled and the log "
+"list is automatically getting refreshed per every second."
+msgstr ""
+"Для отслеживания журналов в режиме реального времени нажмите \"Отслеживать\" |"
+"follow icon|. Кнопка доступна после выбора виртуальной машины в параметрах "
+"фильтрации, или после установки всех необходимых параметров фильтрации и нажатия "
+"кнопки \"Показать логи\". При активации режима отслеживания журналов вы увидите, "
+"что список записей журналов автоматически обновляется каждую секунду. При этом  "
+"параметры фильтрации недоступны для выбора. "
+
+#: ../../CSUI-LogView.rst:103
 msgid ""
 "The \"Follow logs\" button changes its position depending on the applied sorting "
 "mode. If the \"Newest first\" option is disabled the button stands in the bottom-"
@@ -293,7 +327,7 @@ msgstr ""
 "отображаться в обратном хронологическом порядке - от более ранних к более "
 "поздним."
 
-#: ../../CSUI-LogView.rst:103
+#: ../../CSUI-LogView.rst:107
 msgid ""
 "By default, the list contains up to 1000 log records showing logs for the last "
 "minute."
@@ -301,7 +335,7 @@ msgstr ""
 "По умолчанию, в списке отображаются записи за последнюю минуту. Максимальное "
 "количество записей - 1000."
 
-#: ../../CSUI-LogView.rst:105
+#: ../../CSUI-LogView.rst:109
 msgid ""
 "If too many entries are to be displayed in the list, the system loads them by "
 "parts when a user scrolls the list down."
@@ -309,7 +343,7 @@ msgstr ""
 "Если в списке большое количество записей, они будут подгружаться частями при "
 "\"прокрутке\" списка вниз."
 
-#: ../../CSUI-LogView.rst:107
+#: ../../CSUI-LogView.rst:111
 msgid ""
 "You can set up parameters of log following in the \"Log View Plugin Settings\" "
 "section:"
@@ -317,7 +351,7 @@ msgstr ""
 "Вы можете изменить параметры по умолчанию в разделе настроек “Просмотр логов "
 "(режим реального времени)”:"
 
-#: ../../CSUI-LogView.rst:109
+#: ../../CSUI-LogView.rst:113
 msgid ""
 "**Show last (minutes)** - allows viewing logs for the last set period. You can "
 "set the number of minutes from 1 (default) to 10."
@@ -325,7 +359,7 @@ msgstr ""
 "**Показывать за последние (минуты)** - время, за которое вы желаете видеть "
 "записи; допустимые значения - от 1 (по умолчанию) до 10 минут."
 
-#: ../../CSUI-LogView.rst:110
+#: ../../CSUI-LogView.rst:114
 msgid ""
 "**Show last (messages)** - allows setting a maximum amount of logs to display. "
 "You can set from 1 to any number of log records. By default, 1000 messages are "
@@ -335,11 +369,11 @@ msgstr ""
 "число записей для показа; допустимые значения - от 1 до бесконечности. По "
 "умолчанию, показываются 1000 записей."
 
-#: ../../CSUI-LogView.rst:112
+#: ../../CSUI-LogView.rst:116
 msgid "Click \"Update\" to apply the settings."
 msgstr "Нажмите \"Обновить\" для применения заданных значений."
 
-#: ../../CSUI-LogView.rst:116
+#: ../../CSUI-LogView.rst:120
 msgid "To stop following logs click on |unfollow icon|."
 msgstr "Чтобы остановить отслеживание записей, нажмите |unfollow icon|."
 
@@ -410,3 +444,11 @@ msgstr "Чтобы остановить отслеживание записей,
 
 #~ msgid "To delete any word in the list click |remove icon| next to it."
 #~ msgstr "Удалить слово из списка можно кликом на |remove icon|  рядом с ним."
+
+#~ msgid ""
+#~ "Click \"Follow log\" |follow icon| for the uploaded log files, you will see "
+#~ "the list is automatically getting refreshed per every second."
+#~ msgstr ""
+#~ "Нажмите \"Отслеживать\"  |follow icon| , список начнет обновляться "
+#~ "автоматически  с заданной регулярностью. По умолчанию установлена частота "
+#~ "обновления - 1 раз в 1 секунду."

@@ -1,9 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+import * as camelCase from 'lodash/camelCase';
 import { adapter, UserTagsState } from './user-tags.state';
 import { userTagKeys } from '../../../tags/tag-keys';
 import { DayOfWeek, KeyboardLayout, Language, TimeFormat } from '../../../shared/types';
 import { Tag } from '../../../shared/models';
+import { Serializer } from '../../../shared/utils/serializer';
+import { vmLogsFilters } from '../../../vm-logs/vm-logs-filters';
 
 function convertToBoolean(input: string): boolean {
   try {
@@ -19,9 +22,9 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getUserTagsState,
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoaded = createSelector(
   getUserTagsState,
-  (state: UserTagsState) => state.isLoading,
+  (state: UserTagsState) => state.isLoaded,
 );
 
 const { selectEntities: getUserTagsEntities } = adapter.getSelectors(getUserTagsState);
@@ -111,4 +114,41 @@ export const getVmLogsShowLastMessages = createSelector(
 export const getVmLogsShowLastMinutes = createSelector(
   getUserTagsEntities,
   (entities): number => Number(entities[userTagKeys.vmLogsShowLastMinutes].value),
+);
+
+export const getSidebarWidth = createSelector(
+  getUserTagsEntities,
+  (entities): number => Number(entities[userTagKeys.sidebarWidth].value),
+);
+
+const vmLogsFilterParts = userTagKeys.vmLogsFilter.split('.');
+const getVmLogsFilterKey = (tagKey: string) => {
+  const parts = tagKey.split('.');
+  const isVmLogsFilterKey = vmLogsFilterParts.every((v, i) => parts[i] === v);
+
+  if (!isVmLogsFilterKey) {
+    return false;
+  }
+
+  return camelCase(parts.pop());
+};
+
+export const getVmLogsFilters = createSelector(
+  getUserTagsEntities,
+  (entities): Object => {
+    const params = Object.keys(entities).reduce((acc, key) => {
+      const filterKey = getVmLogsFilterKey(key);
+
+      if (!filterKey) {
+        return acc;
+      }
+
+      return {
+        ...acc,
+        [filterKey]: entities[key].value,
+      };
+    }, {});
+
+    return Serializer.decode([params], vmLogsFilters);
+  },
 );

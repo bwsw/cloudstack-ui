@@ -29,12 +29,6 @@ export class LoadSnapshotResponse implements Action {
   constructor(public payload: Snapshot[]) {}
 }
 
-export class SnapshotFilterUpdate implements Action {
-  readonly type = SNAPSHOT_FILTER_UPDATE;
-
-  constructor(public payload: any) {}
-}
-
 export class AddSnapshot implements Action {
   readonly type = ADD_SNAPSHOT;
 
@@ -92,7 +86,6 @@ export class LoadSelectedSnapshot implements Action {
 export type Actions =
   | LoadSnapshotRequest
   | LoadSnapshotResponse
-  | SnapshotFilterUpdate
   | AddSnapshot
   | DeleteSnapshot
   | AddSnapshotSuccess

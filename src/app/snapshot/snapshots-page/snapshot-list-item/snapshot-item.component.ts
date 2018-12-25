@@ -1,5 +1,4 @@
 import { EventEmitter } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { TranslateService } from '@ngx-translate/core';
 import { getDateSnapshotCreated, Snapshot, SnapshotStates, Volume } from '../../../shared/models';
@@ -11,8 +10,7 @@ export class SnapshotItemComponent {
   public virtualMachines: Dictionary<VirtualMachine>;
   public isSelected: (snapshot: Snapshot) => boolean;
   public query: string;
-  public onClick = new EventEmitter<Snapshot>();
-  public matMenuTrigger: MatMenuTrigger;
+  public clicked = new EventEmitter<Snapshot>();
 
   public stateTranslations = {
     [SnapshotStates.BackedUp]: 'SNAPSHOT_STATE.BACKEDUP',
@@ -46,6 +44,10 @@ export class SnapshotItemComponent {
   }
 
   public get volumeName() {
+    /**
+     * Volumes used to check if volume still exist.
+     * When volume was removed snapshot.volumename still have name
+     */
     return (
       (this.volumes && this.volumes[this.item.volumeid] && this.volumes[this.item.volumeid].name) ||
       this.translate.instant('SNAPSHOT_PAGE.CARD.VOLUME_DELETED')
@@ -54,10 +56,7 @@ export class SnapshotItemComponent {
 
   constructor(private translate: TranslateService) {}
 
-  public handleClick(e: MouseEvent): void {
-    e.stopPropagation();
-    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
-      this.onClick.emit(this.item);
-    }
+  public handleClick(): void {
+    this.clicked.emit(this.item);
   }
 }

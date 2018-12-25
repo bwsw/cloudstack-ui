@@ -7,7 +7,6 @@
 @import '../app/shared/styles/mat-input';
 @import '../app/shared/styles/entity-cards';
 @import '../app/shared/styles/entity-list-item';
-@import '../app/shared/directives/badge/badge';
 @import 'typography';
 @import 'app-theme';
 
@@ -193,9 +192,10 @@ mat-card.custom-card {
   .row {
     display: flex;
     flex-flow: row wrap;
+    justify-content: space-between;
 
     & > div {
-      width: 50%;
+      max-width: 50%;
       padding: 2px 2px 2px 0 !important;
     }
 
@@ -239,6 +239,11 @@ mat-form-field.form-select-control {
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 10px;
+
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+
   > * {
     margin-right: 20px;
     &:last-child {
@@ -342,10 +347,10 @@ mat-card-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden;
 }
 
 .details-header {
-  width: 340px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

@@ -42,6 +42,13 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     vmLogs: false,
   },
   /*
+  * Log View settings
+  * */
+  vmLogs: {
+    autoUpdateRefreshFrequency: 1,
+    autoUpdateRequestedInterval: 30,
+  },
+  /*
    * Virtual machines settings
    */
   vmColors: COLORS,
@@ -88,6 +95,8 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
   savePasswordForAllVMs: null,
   lastVMId: 0,
   showSystemTags: false,
+  keyboardLayoutForVms: 'us',
+  sidebarWidth: 330,
   /*
    * Offerings
    */
@@ -110,7 +119,6 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
       max: Number.POSITIVE_INFINITY,
     },
   },
-  keyboardLayoutForVms: 'us',
   vmLogsShowLastMessages: 1000,
   vmLogsShowLastMinutes: 1,
 };

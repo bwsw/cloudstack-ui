@@ -1,14 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { AngularDraggableModule } from 'angular2-draggable';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { ClipboardModule } from 'ngx-clipboard';
-// tslint:disable max-line-length
-import { MemoryStorageService } from './services/memory-storage.service';
+import { MaterialModule } from '../material/material.module';
 import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
 import { affinityGroupReducers } from '../reducers/affinity-groups/redux/affinity-groups.reducers';
 import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offerings.effects';
@@ -30,6 +31,7 @@ import { VolumeActionsContainerComponent } from './actions/volume-actions/volume
 import { VolumeActionsService } from './actions/volume-actions/volume-actions.service';
 import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
 import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
+import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
 import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
 import {
@@ -41,6 +43,7 @@ import {
   DateDisplayComponent,
   DatePickerComponent,
   DatePickerDialogComponent,
+  ErrorMessageComponent,
   FabComponent,
   FancySelectComponent,
   InputGroupComponent,
@@ -54,11 +57,19 @@ import {
   SliderComponent,
   TopBarComponent,
   VmStatisticsComponent,
+  VolumeSnapshotFromVmSnapshotDialogComponent,
 } from './components';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import { DayPeriodComponent } from './components/day-period/day-period.component';
 import { DescriptionComponent } from './components/description/description.component';
+import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
+import { DiskOfferingSelectorChooserComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-chooser.component';
+import { DiskOfferingSelectorSliderComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-slider.component';
+import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
+import { EntityActionMenuListComponent } from './components/entity-action-menu-list/entity-action-menu-list.component';
+import { EntityActionRowComponent } from './components/entity-action-row/entity-action-row.component';
 import { GroupedListComponent } from './components/grouped-list/grouped-list.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { LoaderComponent } from './components/loader/loader.component';
@@ -73,21 +84,31 @@ import { SearchComponent } from './components/search/search.component';
 import { SecurityGroupBuilderRuleComponent } from './components/security-group-builder/rule/security-group-builder-rule.component';
 import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
 import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
+import {
+  RoundStateIndicatorComponent,
+  SquareStateIndicatorComponent,
+} from './components/state-indicator';
+import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
 import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
-import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
-import { IntegerValidatorDirective } from './directives/integer-value.directive';
-import { LoadingDirective } from './directives/loading.directive';
 import {
+  ForbiddenValuesDirective,
+  InputTypeNumberDirective,
+  IntegerValidatorDirective,
+  LoadingDirective,
+  SidebarTabNavDirective,
+} from './directives';
+import {
+  AffinityGroupTypePipe,
   DivisionPipe,
   HighLightPipe,
   StringifyDatePipe,
   StringifyTimePipe,
+  TimestampToDatePipe,
   ViewValuePipe,
   VolumeSortPipe,
-  AffinityGroupTypePipe,
 } from './pipes';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
@@ -101,10 +122,10 @@ import { DiskOfferingService } from './services/disk-offering.service';
 import { DomainService } from './services/domain.service';
 import { ErrorService } from './services/error.service';
 import { HypervisorService } from './services/hypervisor.service';
-import { InstanceGroupService } from './services/instance-group.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LoginGuard } from './services/login-guard.service';
+import { MemoryStorageService } from './services/memory-storage.service';
 import { OsTypeService } from './services/os-type.service';
 import { ResourceCountService } from './services/resource-count.service';
 import { ResourceLimitService } from './services/resource-limit.service';
@@ -125,29 +146,19 @@ import { TemplateTagService } from './services/tags/template-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
+import { VmSnapshotService } from './services/vm-snapshot.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
-import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
-import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
-import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
-import { BadgeDirective } from './directives/badge/badge.directive';
-import { MaterialModule } from '../material/material.module';
-import { InputTypeNumberDirective } from './directives/input-type-number.directive';
-import {
-  RoundStateIndicatorComponent,
-  SquareStateIndicatorComponent,
-} from './components/state-indicator';
 import { UrlDirective } from './validators/directives';
-import { TimePickerComponent } from './components/time-picker/time-picker.component';
-import { DayPeriodComponent } from './components/day-period/day-period.component';
-import { DiskOfferingSelectorChooserComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-chooser.component';
-import { DiskOfferingSelectorSliderComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector-slider.component';
+import { CapabilityService } from './services/capability.service';
 
-// tslint:enable max-line-length
+const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
 
-const SHARED_DIRECTIVES = [UrlDirective, InputTypeNumberDirective];
-
-const SHARED_COMPONENTS = [ClipboardButtonComponent];
+const SHARED_COMPONENTS = [
+  ClipboardButtonComponent,
+  EntityActionMenuListComponent,
+  EntityActionRowComponent,
+];
 
 @NgModule({
   imports: [
@@ -159,7 +170,9 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     ClipboardModule,
     DragulaModule,
     PopoverModule,
+    AngularDraggableModule,
     TranslateModule,
+    MatBadgeModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
@@ -170,7 +183,6 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     ReactiveFormsModule,
     TranslateModule,
     AccountActionsComponent,
-    BadgeDirective,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
@@ -212,6 +224,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     TimeZoneComponent,
     TopBarComponent,
     ViewValuePipe,
+    TimestampToDatePipe,
     VmStatisticsComponent,
     VmStatisticContainerComponent,
     ParametersPairComponent,
@@ -233,6 +246,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     KeyboardsComponent,
     TimePickerComponent,
     DayPeriodComponent,
+    ErrorMessageComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -243,10 +257,10 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     VolumeDeleteDialogComponent,
     SecurityGroupBuilderComponent,
     DiskOfferingDialogComponent,
+    VolumeSnapshotFromVmSnapshotDialogComponent,
   ],
   declarations: [
     AccountActionsComponent,
-    BadgeDirective,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,
@@ -288,6 +302,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     TemplateActionsComponent,
     TopBarComponent,
     ViewValuePipe,
+    TimestampToDatePipe,
     LoadingDirective,
     LoaderComponent,
     GroupedListComponent,
@@ -326,6 +341,8 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     KeyboardsComponent,
     TimePickerComponent,
     DayPeriodComponent,
+    ErrorMessageComponent,
+    VolumeSnapshotFromVmSnapshotDialogComponent,
   ],
   providers: [
     AccountService,
@@ -335,13 +352,13 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     AuthGuard,
     AuthService,
     CacheService,
+    CapabilityService,
     ConfigurationService,
     DateTimeFormatterService,
     DescriptionTagService,
     DiskOfferingService,
     DomainService,
     ErrorService,
-    InstanceGroupService,
     JobsNotificationService,
     LocalStorageService,
     LoginGuard,
@@ -368,6 +385,7 @@ const SHARED_COMPONENTS = [ClipboardButtonComponent];
     AccountTagService,
     VmTagService,
     ZoneService,
+    VmSnapshotService,
     VmCreationSecurityGroupService,
     VolumeService,
     VolumeTagService,

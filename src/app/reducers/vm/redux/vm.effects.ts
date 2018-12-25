@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -13,6 +13,7 @@ import {
   onErrorResumeNext,
   switchMap,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
@@ -20,7 +21,6 @@ import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
 // tslint:disable-next-line
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
-import { AuthService } from '../../../shared/services/auth.service';
 import { CSCommands } from '../../../shared/services/base-backend.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
@@ -41,6 +41,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from '../../../
 
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
+import { capabilitiesSelectors } from '../../../root-store/server-data/capabilities';
 
 @Injectable()
 export class VirtualMachinesEffects {
@@ -215,7 +216,7 @@ export class VirtualMachinesEffects {
         'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_IN_PROGRESS',
       );
 
-      return this.vmTagService.setGroup(newVm, action.payload.group).pipe(
+      return this.vmService.updateGroup(newVm, action.payload.group).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_DONE';
           this.showNotificationsOnFinish(message, notificationId);
@@ -238,7 +239,7 @@ export class VirtualMachinesEffects {
         'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_IN_PROGRESS',
       );
 
-      return this.vmTagService.removeGroup(action.payload).pipe(
+      return this.vmService.removeGroup(action.payload).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_DONE';
           this.showNotificationsOnFinish(message, notificationId);
@@ -347,11 +348,12 @@ export class VirtualMachinesEffects {
 
   @Effect()
   destroyVm$: Observable<Action> = this.actions$.pipe(
-    ofType(vmActions.DESTROY_VM),
-    mergeMap((action: vmActions.DestroyVm) => {
+    ofType<vmActions.DestroyVm>(vmActions.DESTROY_VM),
+    withLatestFrom(this.store.pipe(select(capabilitiesSelectors.getCanExpungeOrRecoverVm))),
+    mergeMap(([action, canExpungeOrRecoverVm]) => {
       return this.dialog
         .open(VmDestroyDialogComponent, {
-          data: this.authService.canExpungeOrRecoverVm(),
+          data: canExpungeOrRecoverVm,
         })
         .afterClosed()
         .pipe(
@@ -827,7 +829,6 @@ export class VirtualMachinesEffects {
   constructor(
     private store: Store<State>,
     private actions$: Actions,
-    private authService: AuthService,
     private vmService: VmService,
     private vmTagService: VmTagService,
     private affinityGroupService: AffinityGroupService,

@@ -45,7 +45,12 @@ export class InlineEditComponent extends AbstractInlineEditComponent implements 
 
   public onKeyUp(event: KeyboardEvent): void {
     this.zone.runOutsideAngular(() => {
-      // Enter key
+      /**
+       * code 13 is Enter key
+       * event.which and event.charCode are not fixed because of incomplete support
+       * of alternative solutions (event.key and event.code) in older browsers
+       */
+      // tslint:disable-next-line
       if (event.which === 13 || event.charCode === 13) {
         event.stopPropagation();
         if (event.ctrlKey) {

@@ -1,5 +1,7 @@
 import { createSelector } from '@ngrx/store';
-import { filterSelectedVmId } from '../vm-logs-vm.reducers';
+import * as moment from 'moment';
+import * as pickBy from 'lodash/pickBy';
+
 import { LoadVmLogsRequestParams } from '../../models/load-vm-logs-request-params';
 import {
   filterEndDate,
@@ -7,9 +9,8 @@ import {
   filterNewestFirst,
   filterSelectedLogFile,
   filterStartDate,
+  filterSelectedVmId,
 } from '../vm-logs.reducers';
-import moment = require('moment');
-import * as pickBy from 'lodash/pickBy';
 
 export const loadVmLogsRequestParams = createSelector(
   filterSelectedVmId,
@@ -23,12 +24,16 @@ export const loadVmLogsRequestParams = createSelector(
       id,
       logFile,
       keywords: search,
-      startDate: moment(startDate)
-        .toISOString()
-        .slice(0, -1),
-      endDate: moment(endDate)
-        .toISOString()
-        .slice(0, -1),
+      startDate:
+        startDate &&
+        moment(startDate)
+          .toISOString()
+          .slice(0, -1),
+      endDate:
+        endDate &&
+        moment(endDate)
+          .toISOString()
+          .slice(0, -1),
       sort: newestFirst ? '-timestamp' : 'timestamp',
     };
 

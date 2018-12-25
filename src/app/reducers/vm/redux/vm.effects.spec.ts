@@ -16,7 +16,6 @@ import { State } from '../../index';
 import * as vmActions from './vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
-import * as fromVMs from './vm.reducers';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { OsTypeService } from '../../../shared/services/os-type.service';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -32,7 +31,6 @@ import { IsoService } from '../../../template/shared/iso.service';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { Router } from '@angular/router';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { Color } from '../../../shared/models/color.model';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 // tslint:disable-next-line
@@ -42,6 +40,11 @@ import { SnackBarService } from '../../../core/services';
 import { MockTagService } from '../../../../testutils/mocks/tag-services/mock-tag.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
+import { virtualMachineReducers } from './vm.reducers';
+import {
+  reducer as capabilityReducers,
+  capabilitiesFeatureName,
+} from '../../../root-store/server-data/capabilities/capabilities.reducers';
 
 @Injectable()
 export class MockAccessService {}
@@ -55,8 +58,6 @@ class MockAsyncJobService {
 class MockVMTagService {
   public setDescription(): void {}
   public removeDescription(): void {}
-  public setGroup(): void {}
-  public removeGroup(): void {}
   public setColor(): void {}
   public setSavePasswordForAllVms(): void {}
   public setPassword(): void {}
@@ -143,7 +144,9 @@ describe('Virtual machine Effects', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({ ...fromVMs.virtualMachineReducers }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('virtualMachines', virtualMachineReducers),
+        StoreModule.forFeature(capabilitiesFeatureName, capabilityReducers),
       ],
       providers: [
         VmService,
@@ -440,10 +443,10 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should change instance group', () => {
-    const spyChangeGroup = spyOn(tagService, 'setGroup').and.returnValue(of(list[0]));
+    const spyChangeGroup = spyOn(service, 'updateGroup').and.returnValue(of(list[0]));
 
     const action = new vmActions.ChangeInstanceGroup({
-      group: {} as InstanceGroup,
+      group: 'group',
       vm: list[0],
     });
     const completion = new vmActions.UpdateVM(list[0]);
@@ -458,12 +461,12 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during changing instance group', () => {
     const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
-    const spyChangeGroup = spyOn(tagService, 'setGroup').and.returnValue(
+    const spyChangeGroup = spyOn(service, 'updateGroup').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
 
     const action = new vmActions.ChangeInstanceGroup({
-      group: {} as InstanceGroup,
+      group: 'group',
       vm: list[0],
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
@@ -477,10 +480,10 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should remove instance group', () => {
-    const spyRemoveGroup = spyOn(tagService, 'removeGroup').and.returnValue(of(list[0]));
+    const spyRemoveGroup = spyOn(service, 'removeGroup').and.returnValue(of(list[0]));
 
     const action = new vmActions.RemoveInstanceGroup(list[0]);
-    const completion = new vmActions.UpdateVM({ ...list[0], tags: [] });
+    const completion = new vmActions.UpdateVM(list[0]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -492,7 +495,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during removing instance group', () => {
     const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
-    const spyRemoveGroup = spyOn(tagService, 'removeGroup').and.returnValue(
+    const spyRemoveGroup = spyOn(service, 'updateGroup').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
 

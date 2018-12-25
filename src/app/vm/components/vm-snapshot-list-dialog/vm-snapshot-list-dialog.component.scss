@@ -1,0 +1,23 @@
+mat-dialog-content {
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+}
+
+.mat-cell {
+  padding-right: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-wrapper {
+  max-height: 250px;
+  min-height: 150px;
+}
+
+.cell-with-tooltip {
+  display: inline-block;
+  vertical-align: bottom;
+  max-width: 100%;
+}

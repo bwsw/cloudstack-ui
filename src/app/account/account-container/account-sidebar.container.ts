@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 
 @Component({
-  selector: 'cs-account-page-container',
+  selector: 'cs-account-sidebar-container',
   template: `
     <cs-account-sidebar
       [entity]="account$ | async"

@@ -114,9 +114,16 @@
                     [diskOfferings]="diskOfferings"
                     [account]="account"
                     [diskOffering]="vmCreationState?.diskOffering"
+                    [customDiskOfferingMinSize]="minSize"
+                    [customDiskOfferingMaxSize]="maxRootSize"
                     (changed)="diskOfferingChange.emit($event)"
                   ></cs-disk-offering-selector>
                 </div>
+
+                <cs-error-message *ngIf="!isDiskOfferingAvailableByResources">
+                  {{ 'ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED' | translate }}
+                </cs-error-message>
+
                 <div *ngIf="showResizeSlider()">
                   <cs-slider
                     name="rds"
@@ -128,9 +135,6 @@
                     [units]="'UNITS.GB' | translate"
                   ></cs-slider>
                 </div>
-                <span *ngIf="!isDiskOfferingAvailableByResources" class="error-message">
-                  {{ 'ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED' | translate }}
-                </span>
               </div>
             </mat-tab>
 
@@ -168,16 +172,16 @@
                       matInput
                       [matAutocomplete]="instanceGroups"
                       [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-                      [ngModel]="vmCreationState.instanceGroup?.name"
+                      [ngModel]="vmCreationState.instanceGroup"
                       (ngModelChange)="changeInstanceGroup($event)"
                     >
                   </mat-form-field>
                   <mat-autocomplete #instanceGroups>
                     <mat-option
                       *ngFor="let group of (visibleInstanceGroups || instanceGroupList)"
-                      [value]="group.name"
+                      [value]="group"
                     >
-                      {{ group.name }}
+                      {{ group }}
                     </mat-option>
                   </mat-autocomplete>
                 </div>

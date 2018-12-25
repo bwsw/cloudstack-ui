@@ -1,4 +1,4 @@
-<div class="options-panel filter-wrapper">
+<div class="filter-wrapper">
   <mat-button-toggle-group
     (change)="setMode($event.value)"
     name="viewMode"
@@ -10,7 +10,8 @@
     </mat-button-toggle>
     <mat-button-toggle
       [value]="TemplateResourceType.iso"
-      [attr.cdkFocusRegionStart]="viewMode === TemplateResourceType.iso">
+      [attr.cdkFocusRegionStart]="viewMode === TemplateResourceType.iso"
+    >
       {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
     </mat-button-toggle>
   </mat-button-toggle-group>
@@ -34,12 +35,7 @@
       [(ngModel)]="selectedOsFamilies"
       (selectionChange)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
     >
-      <mat-option
-        *ngFor="let family of osFamilies"
-        [value]="family"
-      >
-        {{ family }}
-      </mat-option>
+      <mat-option *ngFor="let family of osFamilies" [value]="family"> {{ family }} </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field *ngIf="categoryFilters?.length">
@@ -49,11 +45,8 @@
       [(ngModel)]="selectedTypes"
       (selectionChange)="selectedTypesChange.emit(selectedTypes)"
     >
-      <mat-option
-        *ngFor="let f of categoryFilters"
-        [value]="f"
-      >
-        {{ filterTranslations[f] | translate}}
+      <mat-option *ngFor="let f of categoryFilters" [value]="f">
+        {{ filterTranslations[f] | translate }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -75,14 +68,12 @@
       [(ngModel)]="selectedGroups"
       (selectionChange)="selectedGroupsChange.emit(selectedGroups)"
     >
-      <mat-option [value]="'general'">{{ 'TEMPLATE_PAGE.FILTERS.GENERAL' | translate }}
+      <mat-option [value]="'general'"
+        >{{ 'TEMPLATE_PAGE.FILTERS.GENERAL' | translate }}
       </mat-option>
 
-      <mat-option
-        *ngFor="let g of groups"
-        [value]="g.id"
-      >
-        {{ g.translations && g.translations[locale] || g.id }}
+      <mat-option *ngFor="let g of groups" [value]="g.id">
+        {{ (g.translations && g.translations[locale]) || g.id }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -102,8 +93,5 @@
 </div>
 
 <div class="filter-wrapper">
-  <cs-search
-    [(ngModel)]="query"
-    (ngModelChange)="queryChange.emit(query)"
-  ></cs-search>
+  <cs-search [(ngModel)]="query" (ngModelChange)="queryChange.emit(query)"></cs-search>
 </div>

@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { filterSelectedVmId } from '../vm-logs-vm.reducers';
+import { filterSelectedVmId } from '../vm-logs.reducers';
 import { LoadVmLogFilesRequestParams } from '../../models/load-vm-log-files-request-params';
 
 export const loadVmLogFilesRequestParams = createSelector(

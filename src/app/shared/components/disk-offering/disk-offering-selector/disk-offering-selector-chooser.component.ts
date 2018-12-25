@@ -15,6 +15,8 @@ export class DiskOfferingSelectorChooserComponent {
   public availableStorage: number | 'Unlimited';
   @Input()
   public diskOffering: DiskOffering;
+  @Input()
+  public customDiskOfferingMinSize: number;
   @Output()
   public changed = new EventEmitter();
 
@@ -28,6 +30,7 @@ export class DiskOfferingSelectorChooserComponent {
           diskOfferings: this.diskOfferings,
           diskOffering: this.diskOffering,
           storageAvailable: this.availableStorage,
+          customDiskOfferingMinSize: this.customDiskOfferingMinSize,
         },
       })
       .afterClosed()

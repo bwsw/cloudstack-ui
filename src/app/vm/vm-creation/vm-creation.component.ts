@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import * as clone from 'lodash/clone';
 
@@ -6,7 +6,6 @@ import {
   Account,
   AffinityGroup,
   DiskOffering,
-  InstanceGroup,
   ServiceOffering,
   SSHKeyPair,
   Zone,
@@ -16,7 +15,6 @@ import { VirtualMachine } from '../shared/vm.model';
 import { NotSelected, VmCreationState } from './data/vm-creation-state';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 import { VmCreationContainerComponent } from './containers/vm-creation.container';
-import { AuthService } from '../../shared/services/auth.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
@@ -24,6 +22,7 @@ import { ProgressLoggerMessage } from '../../shared/components/progress-logger/p
   selector: 'cs-vm-creation',
   templateUrl: 'vm-creation.component.html',
   styleUrls: ['vm-creation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VmCreationComponent {
   @Input()
@@ -31,7 +30,7 @@ export class VmCreationComponent {
   @Input()
   public vmCreationState: VmCreationState;
   @Input()
-  public instanceGroupList: InstanceGroup[];
+  public instanceGroupList: string[];
   @Input()
   public affinityGroupList: AffinityGroup[];
   @Input()
@@ -65,6 +64,10 @@ export class VmCreationComponent {
   public minSize: number;
   @Input()
   public isDiskOfferingAvailableByResources: boolean;
+  @Input()
+  public maxRootSize: number;
+  @Input()
+  public isSecurityGroupEnabled: boolean;
 
   @Output()
   public displayNameChange = new EventEmitter<string>();
@@ -81,7 +84,7 @@ export class VmCreationComponent {
   @Output()
   public affinityGroupChange = new EventEmitter<AffinityGroup>();
   @Output()
-  public instanceGroupChange = new EventEmitter<InstanceGroup>();
+  public instanceGroupChange = new EventEmitter<string>();
   @Output()
   public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
   @Output()
@@ -111,13 +114,9 @@ export class VmCreationComponent {
   };
 
   public maxEntityNameLength = 63;
-  public visibleAffinityGroups: AffinityGroup[];
-  public visibleInstanceGroups: InstanceGroup[];
+  public visibleInstanceGroups: string[];
 
-  constructor(
-    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
-    private auth: AuthService,
-  ) {}
+  constructor(public dialogRef: MatDialogRef<VmCreationContainerComponent>) {}
 
   public hostNameIsTaken(): boolean {
     if (!!this.vmCreationState) {
@@ -138,14 +137,13 @@ export class VmCreationComponent {
   public rootDiskSizeLimit(): number {
     const primaryStorageAvailable = this.account && this.account.primarystorageavailable;
     const storageAvailable = Number(primaryStorageAvailable);
-    const maxRootSize = this.auth.getCustomDiskOfferingMaxSize();
     if (primaryStorageAvailable === 'Unlimited' || isNaN(storageAvailable)) {
-      return maxRootSize;
+      return this.maxRootSize;
     }
-    if (storageAvailable < maxRootSize) {
+    if (storageAvailable < this.maxRootSize) {
       return storageAvailable;
     }
-    return maxRootSize;
+    return this.maxRootSize;
   }
 
   public isCustomizedDiskOffering(): boolean {
@@ -159,7 +157,7 @@ export class VmCreationComponent {
     return (
       this.vmCreationState.zone &&
       this.vmCreationState.zone.securitygroupsenabled &&
-      this.auth.isSecurityGroupEnabled()
+      this.isSecurityGroupEnabled
     );
   }
 
@@ -170,17 +168,8 @@ export class VmCreationComponent {
 
   public changeInstanceGroup(groupName: string): void {
     const val = groupName.toLowerCase();
-    this.visibleInstanceGroups = this.instanceGroupList.filter(
-      g => g.name.toLowerCase().indexOf(val) === 0,
-    );
-
-    const existingGroup = this.getInstanceGroup(groupName);
-    const instanceGroup = clone(existingGroup) || new InstanceGroup(groupName);
-    this.instanceGroupChange.emit(instanceGroup);
-  }
-
-  public getInstanceGroup(name: string): InstanceGroup {
-    return this.instanceGroupList.find(group => group.name === name);
+    this.visibleInstanceGroups = this.instanceGroupList.filter(g => g.toLowerCase().includes(val));
+    this.instanceGroupChange.emit(groupName);
   }
 
   public changeAffinityGroup(groupId: string): void {

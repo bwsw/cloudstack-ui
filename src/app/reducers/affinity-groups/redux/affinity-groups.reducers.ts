@@ -14,6 +14,7 @@ import { Utils } from '../../../shared/services/utils/utils.service';
  */
 export interface State extends EntityState<AffinityGroup> {
   loading: boolean;
+  loaded: boolean;
 }
 
 export interface AffinityGroupsState {
@@ -43,6 +44,7 @@ export const adapter: EntityAdapter<AffinityGroup> = createEntityAdapter<Affinit
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  loaded: false,
 });
 
 export function reducer(state = initialState, action: affinityGroupActions.Actions): State {
@@ -64,6 +66,7 @@ export function reducer(state = initialState, action: affinityGroupActions.Actio
          */
         ...adapter.addAll(action.payload, state),
         loading: false,
+        loaded: true,
       };
     }
     case affinityGroupActions.CREATE_AFFINITY_GROUP_SUCCESS: {
@@ -87,3 +90,5 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
 );
 
 export const isLoading = createSelector(getAffinityGroupEntitiesState, state => state.loading);
+
+export const isLoaded = createSelector(getAffinityGroupEntitiesState, state => state.loaded);

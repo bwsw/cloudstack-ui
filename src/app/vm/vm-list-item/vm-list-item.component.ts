@@ -1,12 +1,11 @@
 import { EventEmitter, OnInit } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
-import { Color } from '../../shared/models';
-import { VmTagService } from '../../shared/services/tags/vm-tag.service';
-import { VirtualMachine, VmState } from '../shared/vm.model';
-import { Utils } from '../../shared/services/utils/utils.service';
-import { Volume } from '../../shared/models/volume.model';
-import { OsType } from '../../shared/models/os-type.model';
 import { Dictionary } from '@ngrx/entity/src/models';
+import { Color } from '../../shared/models';
+import { OsType } from '../../shared/models/os-type.model';
+import { Volume } from '../../shared/models/volume.model';
+import { VmTagService } from '../../shared/services/tags/vm-tag.service';
+import { Utils } from '../../shared/services/utils/utils.service';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 
 const stateTranslations = {
   RUNNING: 'VM_STATE.RUNNING',
@@ -34,7 +33,6 @@ export abstract class VmListItemComponent implements OnInit {
   public osTypesMap: Dictionary<OsType>;
   public isSelected: (vm: VirtualMachine) => boolean;
   public onClick = new EventEmitter();
-  public matMenuTrigger: MatMenuTrigger;
   public query: string;
 
   public color: Color;
@@ -85,11 +83,8 @@ export abstract class VmListItemComponent implements OnInit {
     };
   }
 
-  public handleClick(e: MouseEvent): void {
-    e.stopPropagation();
-    if (!this.matMenuTrigger.menuOpen) {
-      this.onClick.emit(this.item);
-    }
+  public handleClick(): void {
+    this.onClick.emit(this.item);
   }
 
   public getMemoryInMb(): string {

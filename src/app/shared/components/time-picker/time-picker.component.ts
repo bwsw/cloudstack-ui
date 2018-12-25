@@ -1,6 +1,7 @@
 import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInput } from '@angular/material';
+import { Utils } from '../../services/utils/utils.service';
 
 import { padStart } from '../../utils/pad-start';
 import { DayPeriod } from '../day-period/day-period.component';
@@ -31,6 +32,8 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   public timeFormat: TimeFormat;
   @Input()
   public disabled: boolean;
+  @Input()
+  public outputFormat: TimeFormat;
   @ViewChild('hourField')
   public hourField: MatInput;
   @ViewChild('minuteField')
@@ -88,21 +91,25 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     return 23;
   }
 
-  public updateHour(value: number): void {
-    this.hour = value.toString();
-    this.hourField.value = this.hour;
-    this.writeValue(this.time);
+  public updateHour(hour: number): void {
+    this.writeValue({
+      ...this.time,
+      hour,
+    });
   }
 
-  public updateMinute(value: number): void {
-    this.minute = value.toString();
-    this.minuteField.value = this.minute;
-    this.writeValue(this.time);
+  public updateMinute(minute: number): void {
+    this.writeValue({
+      ...this.time,
+      minute,
+    });
   }
 
-  public updatePeriod(value: DayPeriod): void {
-    this.period = value;
-    this.writeValue(this.time);
+  public updatePeriod(period: DayPeriod): void {
+    this.writeValue({
+      ...this.time,
+      period,
+    });
   }
 
   public propagateChange: any = () => {};
@@ -117,13 +124,17 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
 
   @Input()
   public set time(value: Time) {
-    this.hour = (value.hour || this.minHourValue).toString();
-    this.minute = (value.minute || this.minMinuteValue).toString();
-    if (value.period) {
-      this.period = value.period;
-    }
+    const hour = value.hour || this.minHourValue;
+    const minute = value.minute || this.minMinuteValue;
+    const period = value.period;
 
-    this.propagateChange(this.time);
+    this.hour = String(hour);
+    this.minute = String(minute);
+    this.period = period;
+    this.hourField.value = this.hour;
+    this.minuteField.value = this.minute;
+
+    this.propagateChange(this.outputFormatTime(this.time));
   }
 
   public registerOnChange(fn): void {
@@ -133,9 +144,32 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   public registerOnTouched(): void {}
 
   public writeValue(value: any): void {
-    // todo: remove ngModel
     if (value != null && value.hour != null && value.minute != null) {
-      this.time = value;
+      const time = this.inputFormatTime(value);
+
+      if (
+        this.time.hour !== time.hour ||
+        this.time.minute !== time.minute ||
+        this.time.period !== time.period
+      ) {
+        this.time = time;
+      }
     }
+  }
+
+  private formatTime(time: Time, format: TimeFormat): Time {
+    if (format === TimeFormat.hour12) {
+      return Utils.convert24ToAmPm(time);
+    }
+
+    return Utils.convertAmPmTo24(time);
+  }
+
+  private inputFormatTime(time: Time): Time {
+    return this.formatTime(time, this.timeFormat);
+  }
+
+  private outputFormatTime(time: Time): Time {
+    return this.formatTime(time, this.outputFormat || this.timeFormat);
   }
 }

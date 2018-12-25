@@ -18,20 +18,23 @@ import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-gr
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
 import { VmService } from '../../../vm/shared/vm.service';
-import { AuthService } from '../../../shared/services/auth.service';
 import { State } from '../../index';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services/vm-creation-security-group.service';
-import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
-import { configSelectors, UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import {
+  capabilitiesSelectors,
+  configSelectors,
+  UserTagsActions,
+  UserTagsSelectors,
+} from '../../../root-store';
 import { DefaultComputeOffering } from '../../../shared/models/config';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
@@ -49,6 +52,7 @@ interface VmCreationParams {
   affinityGroupNames?: string;
   details?: any[];
   diskofferingid?: string;
+  group?: string;
   startVm?: string;
   hypervisor?: string;
   ingress?: NetworkRule[];
@@ -74,8 +78,6 @@ export enum VmDeploymentStage {
   FINISHED = 'FINISHED',
   ERROR = 'ERROR',
   TEMP_VM = 'TEMP_VM',
-  INSTANCE_GROUP_CREATION = 'INSTANCE_GROUP_CREATION',
-  INSTANCE_GROUP_CREATION_FINISHED = 'INSTANCE_GROUP_CREATION_FINISHED',
   TAG_COPYING = 'TAG_COPYING',
   TAG_COPYING_FINISHED = 'TAG_COPYING_FINISHED',
 }
@@ -136,26 +138,19 @@ export class VirtualMachineCreationEffects {
   );
 
   @Effect()
-  vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$.pipe(
+  setDefaultSecurityGroup$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.VM_SECURITY_GROUPS_SELECT),
-    withLatestFrom(
+    switchMap(() =>
       this.store.pipe(
-        select(fromSecurityGroups.selectPredefinedSecurityGroups),
-        filter(groups => !!groups.length),
+        select(fromSecurityGroups.selectDefaultSecurityGroup),
+        filter(value => Boolean(value && value.id)),
       ),
-      this.store.pipe(select(fromSecurityGroups.selectDefaultSecurityGroup)),
     ),
-    map(
-      ([action, securityGroups, defaultSecurityGroup]: [
-        vmActions.VmInitialSecurityGroupsSelect,
-        SecurityGroup[],
-        SecurityGroup
-      ]) => {
-        return new vmActions.VmFormUpdate({
-          securityGroupData: VmCreationSecurityGroupData.fromSecurityGroup([defaultSecurityGroup]),
-        });
-      },
-    ),
+    map((defaultSecurityGroup: SecurityGroup) => {
+      return new vmActions.VmFormUpdate({
+        securityGroupData: VmCreationSecurityGroupData.fromSecurityGroup([defaultSecurityGroup]),
+      });
+    }),
   );
 
   @Effect()
@@ -182,6 +177,7 @@ export class VirtualMachineCreationEffects {
       this.store.pipe(select(fromVMModule.getAvailableOfferingsForVmCreation)),
       this.store.pipe(select(fromDiskOfferings.selectAll)),
       this.store.pipe(select(configSelectors.get('defaultComputeOffering'))),
+      this.store.pipe(select(capabilitiesSelectors.getCustomDiskOfferingMinSize)),
     ),
     map(
       ([
@@ -192,6 +188,7 @@ export class VirtualMachineCreationEffects {
         serviceOfferings,
         diskOfferings,
         defaultComputeOfferings,
+        customDiskOfferingMinSize,
       ]: [
         vmActions.VmFormUpdate,
         VmCreationState,
@@ -199,7 +196,8 @@ export class VirtualMachineCreationEffects {
         BaseTemplateModel[],
         ComputeOfferingViewModel[],
         DiskOffering[],
-        DefaultComputeOffering[]
+        DefaultComputeOffering[],
+        number
       ]) => {
         if (action.payload.zone) {
           let updates = {};
@@ -232,7 +230,7 @@ export class VirtualMachineCreationEffects {
           }
 
           if (isTemplate(action.payload.template)) {
-            const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
+            const defaultDiskSize = customDiskOfferingMinSize || 1;
             // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
             const minSize =
               Math.ceil(Utils.convertToGb(vmCreationState.template.size)) || defaultDiskSize;
@@ -243,7 +241,7 @@ export class VirtualMachineCreationEffects {
 
         if (action.payload.diskOffering) {
           if (action.payload.diskOffering.iscustomized) {
-            const minSize = this.auth.getCustomDiskOfferingMinSize() || 10;
+            const minSize = customDiskOfferingMinSize || 10;
             return new vmActions.VmFormUpdate({ rootDiskMinSize: minSize, rootDiskSize: minSize });
           }
 
@@ -341,9 +339,7 @@ export class VirtualMachineCreationEffects {
             switchMap((deployedVm: VirtualMachine) => {
               this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
 
-              return this.doCreateInstanceGroup(deployedVm, action.payload).pipe(
-                switchMap(virtualMachine => this.doCopyTags(virtualMachine, action.payload)),
-              );
+              return this.doCopyTags(deployedVm, action.payload);
             }),
             map(vmWithTags => {
               if (action.payload.doStartVm) {
@@ -405,10 +401,8 @@ export class VirtualMachineCreationEffects {
     private jobsNotificationService: JobsNotificationService,
     private templateTagService: TemplateTagService,
     private dialog: MatDialog,
-    private auth: AuthService,
     private resourceUsageService: ResourceUsageService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
-    private instanceGroupService: InstanceGroupService,
     private vmTagService: VmTagService,
     private snackBar: SnackBarService,
   ) {}
@@ -426,12 +420,6 @@ export class VirtualMachineCreationEffects {
         break;
       case VmDeploymentStage.FINISHED:
         this.onDeployDone();
-        break;
-      case VmDeploymentStage.INSTANCE_GROUP_CREATION:
-        this.onInstanceGroupCreation();
-        break;
-      case VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED:
-        this.onInstanceGroupCreationFinished();
         break;
       case VmDeploymentStage.TAG_COPYING:
         this.onTagCopying();
@@ -453,7 +441,6 @@ export class VirtualMachineCreationEffects {
     return [
       this.createSecurityGroup(state) ? VmDeploymentStage.SG_GROUP_CREATION : null,
       VmDeploymentStage.VM_CREATION_IN_PROGRESS,
-      this.createInstanceGroup(state) ? VmDeploymentStage.INSTANCE_GROUP_CREATION : null,
       doCopyTags ? VmDeploymentStage.TAG_COPYING : null,
     ].filter(_ => _);
   }
@@ -462,7 +449,6 @@ export class VirtualMachineCreationEffects {
     const translations = {
       [VmDeploymentStage.SG_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_SG',
       [VmDeploymentStage.VM_CREATION_IN_PROGRESS]: 'VM_PAGE.VM_CREATION.DEPLOYING_VM',
-      [VmDeploymentStage.INSTANCE_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP',
       [VmDeploymentStage.TAG_COPYING]: 'VM_PAGE.VM_CREATION.TAG_COPYING',
     };
 
@@ -495,19 +481,6 @@ export class VirtualMachineCreationEffects {
 
   private onVmCreationFinished(): void {
     this.updateLoggerMessage('VM_PAGE.VM_CREATION.DEPLOYING_VM', [
-      ProgressLoggerMessageStatus.Done,
-    ]);
-  }
-
-  private onInstanceGroupCreation(): void {
-    this.updateLoggerMessage('VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP', [
-      ProgressLoggerMessageStatus.Highlighted,
-      ProgressLoggerMessageStatus.InProgress,
-    ]);
-  }
-
-  private onInstanceGroupCreationFinished(): void {
-    this.updateLoggerMessage('VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP', [
       ProgressLoggerMessageStatus.Done,
     ]);
   }
@@ -556,9 +529,6 @@ export class VirtualMachineCreationEffects {
     state.securityGroupData.mode === VmCreationSecurityGroupMode.Builder &&
     !!state.securityGroupData.rules.templates.length;
 
-  private createInstanceGroup = (state: VmCreationState) =>
-    state.instanceGroup && !!state.instanceGroup.name;
-
   private doCreateSecurityGroup(state: VmCreationState) {
     if (this.createSecurityGroup(state)) {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.SG_GROUP_CREATION });
@@ -566,24 +536,6 @@ export class VirtualMachineCreationEffects {
       return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state);
     }
     return of(state.securityGroupData.securityGroups);
-  }
-
-  private doCreateInstanceGroup(vm: VirtualMachine, state: VmCreationState) {
-    if (this.createInstanceGroup(state)) {
-      this.handleDeploymentMessages({ stage: VmDeploymentStage.INSTANCE_GROUP_CREATION });
-
-      return this.instanceGroupService.add(vm, state.instanceGroup).pipe(
-        map((virtualMachine: VirtualMachine) => {
-          this.store.dispatch(
-            new vmActions.DeploymentChangeStatus({
-              stage: VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED,
-            }),
-          );
-          return virtualMachine;
-        }),
-      );
-    }
-    return of(vm);
   }
 
   private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
@@ -615,6 +567,10 @@ export class VirtualMachineCreationEffects {
 
     if (state.affinityGroup) {
       params.affinityGroupNames = state.affinityGroup.name;
+    }
+
+    if (state.instanceGroup) {
+      params.group = state.instanceGroup;
     }
 
     params.startVm = state.doStartVm.toString();

@@ -1,28 +1,16 @@
 <div class="dialog">
-  <h3 class="mat-dialog-title">{{
-    'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.SELECT_VOLUME' | translate }}</h3>
+  <h3 class="mat-dialog-title">
+    {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.SELECT_VOLUME' | translate }}
+  </h3>
   <div class="mat-dialog-content">
-    <mat-form-field
-      class="form-select-control"
-      *ngIf="volumes?.length"
-    >
-      <mat-select
-
-        [(ngModel)]="selectedVolume"
-      >
-        <mat-option
-          *ngFor="let v of volumes"
-          [value]="v"
-        >
-          {{ v.name }}
-        </mat-option>
+    <mat-form-field class="form-select-control" *ngIf="volumes?.length">
+      <mat-select [(ngModel)]="selectedVolume">
+        <mat-option *ngFor="let v of volumes" [value]="v"> {{ v.name }} </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <div class="mat-dialog-actions">
-    <button mat-button color="primary" matDialogClose>
-      {{ 'COMMON.CANCEL' | translate }}
-    </button>
+    <button mat-button color="primary" matDialogClose>{{ 'COMMON.CANCEL' | translate }}</button>
     <button
       *ngIf="volumes?.length"
       mat-button

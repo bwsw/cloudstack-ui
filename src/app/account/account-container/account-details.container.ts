@@ -15,7 +15,7 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { Account, ResourceLimit } from '../../shared/models';
 
 @Component({
-  selector: 'cs-account-page-container',
+  selector: 'cs-account-details-container',
   template: `
     <cs-account-detail
       [account]="account$ | async"

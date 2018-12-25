@@ -12,6 +12,7 @@ describe('Test service offering reducer', () => {
       ids: [],
       entities: {},
       loading: false,
+      loaded: false,
       filters: {
         selectedViewMode: serviceOfferingType.fixed,
         selectedClasses: [],
@@ -26,6 +27,7 @@ describe('Test service offering reducer', () => {
       ids: [],
       entities: {},
       loading: true,
+      loaded: false,
       filters: {
         selectedViewMode: serviceOfferingType.fixed,
         selectedClasses: [],
@@ -43,6 +45,7 @@ describe('Test service offering reducer', () => {
       ids: ['1', '2'],
       entities: { 1: { id: '1', name: 'off1' }, 2: { id: '2', name: 'off2' } },
       loading: false,
+      loaded: true,
       filters: {
         selectedViewMode: serviceOfferingType.fixed,
         selectedClasses: [],
@@ -60,6 +63,7 @@ describe('Test service offering reducer', () => {
       ids: ['1', '2'],
       entities: { 1: { id: '1', name: 'off1' }, 2: { id: '2', name: 'off2' } },
       loading: false,
+      loaded: true,
       filters: {
         selectedViewMode: serviceOfferingType.fixed,
         selectedClasses: [],

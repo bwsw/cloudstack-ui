@@ -8,7 +8,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { DiskOffering } from '../../../models/index';
-import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'cs-disk-offering-selector',
@@ -33,20 +32,22 @@ export class DiskOfferingSelectorComponent implements OnChanges, OnInit {
   public availableStorage: number | 'Unlimited';
   @Input()
   public diskOffering: DiskOffering;
+  @Input()
+  public customDiskOfferingMinSize: number;
+  @Input()
+  public customDiskOfferingMaxSize: number;
 
   @Output()
   public changed = new EventEmitter();
 
   public max: number;
 
-  constructor(private authService: AuthService) {}
-
   public ngOnInit() {
     this.setMaxSizeValue();
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.storageAvailable && changes.storageAvailable.currentValue) {
+    if (changes.availableStorage && changes.availableStorage.currentValue) {
       this.setMaxSizeValue();
     }
   }
@@ -58,15 +59,12 @@ export class DiskOfferingSelectorComponent implements OnChanges, OnInit {
   }
 
   private setMaxSizeValue(): void {
-    // todo: create selector
-    this.min = this.min ? this.min : this.authService.getCustomDiskOfferingMinSize();
+    this.min = this.min ? this.min : this.customDiskOfferingMinSize;
     this.max = this.getMaxSizeValue();
     this.newSize = this.newSize === 0 ? this.min : this.newSize;
   }
 
   private getMaxSizeValue() {
-    // todo: create selector
-    const customDiskOfferingMaxSize = this.authService.getCustomDiskOfferingMaxSize();
     /** if availableStorage value is Unlimited then the get max value from capabilities
      * else compare available
      */
@@ -74,7 +72,7 @@ export class DiskOfferingSelectorComponent implements OnChanges, OnInit {
     if (this.availableStorage === 'Unlimited') {
       // if Unlimited then choose customDiskOfferingMaxSize
       // because we don't have other restrictions on max size
-      return customDiskOfferingMaxSize;
+      return this.customDiskOfferingMaxSize;
     }
 
     if (this.availableStorage === 0) {
@@ -86,7 +84,7 @@ export class DiskOfferingSelectorComponent implements OnChanges, OnInit {
     if (this.availableStorage) {
       // math min of two because we need to take the most strict
       // limit of the two
-      return Math.min(customDiskOfferingMaxSize, Number(this.availableStorage));
+      return Math.min(this.customDiskOfferingMaxSize, Number(this.availableStorage));
     }
   }
 }

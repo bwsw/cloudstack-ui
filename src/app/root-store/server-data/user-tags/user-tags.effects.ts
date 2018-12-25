@@ -2,7 +2,17 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, exhaustMap, first, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  first,
+  map,
+  mergeMap,
+  switchMap,
+  debounceTime,
+  filter,
+} from 'rxjs/operators';
+import * as kebabCase from 'lodash/kebabCase';
 
 import {
   IncrementLastVMId,
@@ -42,12 +52,16 @@ import {
   UpdateShowSystemTags,
   UpdateShowSystemTagsError,
   UpdateShowSystemTagsSuccess,
+  UpdateSidebarWidth,
   UpdateTheme,
   UpdateThemeError,
   UpdateThemeSuccess,
   UpdateTimeFormat,
   UpdateTimeFormatError,
   UpdateTimeFormatSuccess,
+  UpdateVmLogsFilters,
+  UpdateVmLogsFiltersError,
+  UpdateVmLogsFiltersSuccess,
   UpdateVmLogsShowLastMessages,
   UpdateVmLogsShowLastMessagesError,
   UpdateVmLogsShowLastMessagesSuccess,
@@ -66,6 +80,9 @@ import {
   StartIdleMonitor,
   UpdateIdleMonitorTimeout,
 } from '../../idle-monitor/idle-monitor.actions';
+import { Serializer } from '../../../shared/utils/serializer';
+import removeNullsAndEmptyArrays from '../../../vm-logs/remove-nulls-and-empty-arrays';
+import { TagCreationParams } from './tag-creation-params';
 
 @Injectable()
 export class UserTagsEffects {
@@ -92,7 +109,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.askToCreateVM;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateAskToCreateVMSuccess({ key, value })),
         catchError(error => of(new UpdateAskToCreateVMError({ error }))),
       );
@@ -105,7 +122,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.askToCreateVolume;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateAskToCreateVolumeSuccess({ key, value })),
         catchError(error => of(new UpdateAskToCreateVolumeError({ error }))),
       );
@@ -118,7 +135,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.savePasswordForAllVMs;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateSavePasswordForAllVMsSuccess({ key, value })),
         catchError(error => of(new UpdateSavePasswordForAllVMsError({ error }))),
       );
@@ -131,7 +148,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.firstDayOfWeek;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateFirstDayOfWeekSuccess({ key, value })),
         catchError(error => of(new UpdateFirstDayOfWeekError({ error }))),
       );
@@ -144,7 +161,7 @@ export class UserTagsEffects {
     map(action => action.payload.value),
     mergeMap((value: string) => {
       const key = userTagKeys.lang;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateInterfaceLanguageSuccess({ key, value })),
         catchError(error => of(new UpdateInterfaceLanguageError({ error }))),
       );
@@ -157,7 +174,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.lastVMId;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateLastVMIdSuccess({ key, value })),
         catchError(error => of(new UpdateLastVMIdError({ error }))),
       );
@@ -170,7 +187,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.sessionTimeout;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateSessionTimeoutSuccess({ key, value })),
         catchError(error => of(new UpdateSessionTimeoutError({ error }))),
       );
@@ -189,7 +206,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.showSystemTags;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateShowSystemTagsSuccess({ key, value })),
         catchError(error => of(new UpdateShowSystemTagsError({ error }))),
       );
@@ -202,7 +219,7 @@ export class UserTagsEffects {
     map(action => action.payload.value),
     mergeMap((value: string) => {
       const key = userTagKeys.timeFormat;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateTimeFormatSuccess({ key, value })),
         catchError(error => of(new UpdateTimeFormatError({ error }))),
       );
@@ -215,7 +232,7 @@ export class UserTagsEffects {
     map(action => action.payload.value),
     mergeMap((value: string) => {
       const key = userTagKeys.theme;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateThemeSuccess({ key, value })),
         catchError(error => of(new UpdateThemeError({ error }))),
       );
@@ -228,7 +245,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     exhaustMap((value: string) => {
       const key = userTagKeys.savePasswordForAllVMs;
-      return this.createTag(key, value).pipe(
+      return this.createTag({ key, value }).pipe(
         map(() => new SetSavePasswordForAllVMsSuccess({ key, value })),
         catchError(error => of(new SetSavePasswordForAllVMsError({ error }))),
       );
@@ -247,7 +264,7 @@ export class UserTagsEffects {
     mergeMap(id => {
       const key = userTagKeys.lastVMId;
       const value = `${id + 1}`;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new IncrementLastVMIdSuccess({ key, value })),
         catchError(error => of(new IncrementLastVMIdError({ error }))),
       );
@@ -260,9 +277,36 @@ export class UserTagsEffects {
     map(action => action.payload.value),
     mergeMap((value: string) => {
       const key = userTagKeys.keyboardLayoutForVms;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateKeyboardLayoutForVmsSuccess({ key, value })),
         catchError(error => of(new UpdateKeyboardLayoutForVmsError({ error }))),
+      );
+    }),
+  );
+
+  @Effect()
+  updateVmLogsFilters$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateVmLogsFilters>(UserTagsActionTypes.UpdateVmLogsFilters),
+    debounceTime(2000),
+    map((action: UpdateVmLogsFilters) => action.payload),
+    mergeMap(filters => {
+      const nonNullFilters = removeNullsAndEmptyArrays(filters);
+      const encodedFilters = Serializer.encode(nonNullFilters);
+      const tags = Object.keys(filters).map(tagKey => ({
+        key: `${userTagKeys.vmLogsFilter}.${kebabCase(tagKey)}`,
+      }));
+      const filteredTags = Object.keys(encodedFilters)
+        .filter(key => encodedFilters[key] != null)
+        .map(tagKey => ({
+          key: `${userTagKeys.vmLogsFilter}.${kebabCase(tagKey)}`,
+          value: String(encodedFilters[tagKey]),
+        }))
+        .filter(tag => tag.value != null);
+
+      return this.deleteTag(tags).pipe(
+        switchMap(() => this.createTag(filteredTags)),
+        map(() => new UpdateVmLogsFiltersSuccess(filteredTags)),
+        catchError(error => of(new UpdateVmLogsFiltersError({ error }))),
       );
     }),
   );
@@ -273,7 +317,7 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.vmLogsShowLastMessages;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateVmLogsShowLastMessagesSuccess({ key, value })),
         catchError(error => of(new UpdateVmLogsShowLastMessagesError({ error }))),
       );
@@ -286,10 +330,26 @@ export class UserTagsEffects {
     map(action => `${action.payload.value}`),
     mergeMap((value: string) => {
       const key = userTagKeys.vmLogsShowLastMinutes;
-      return this.upsertTag(key, value).pipe(
+      return this.upsertTag({ key, value }).pipe(
         map(() => new UpdateVmLogsShowLastMinutesSuccess({ key, value })),
         catchError(error => of(new UpdateVmLogsShowLastMinutesError({ error }))),
       );
+    }),
+  );
+
+  /**
+   * We omit the result of setting the value on the server, because we have already changed the value in the store.
+   * This is required so that the UI reacts instantly and does not wait until an answer comes from the server.
+   * Downsides: if the tag is not set, the user selected state will not be saved.
+   */
+  @Effect({ dispatch: false })
+  updateSidebarWidth$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateSidebarWidth>(UserTagsActionTypes.UpdateSidebarWidth),
+    mergeMap(action => {
+      return this.upsertTag({
+        key: userTagKeys.sidebarWidth,
+        value: action.payload.value,
+      });
     }),
   );
 
@@ -303,8 +363,12 @@ export class UserTagsEffects {
 
   private readonly resourceType = 'User';
 
-  private get resourceId(): string | null {
-    return this.authService.user.userid;
+  // todo: make sure it's loaded before app starts
+  private get resourceId(): Observable<string> {
+    return this.authService.user$.pipe(
+      filter(Boolean),
+      map(user => user.userid),
+    );
   }
 
   constructor(
@@ -320,39 +384,79 @@ export class UserTagsEffects {
     const memoryKey = `${userTagKeys.computeOfferingParam}.${offering.id}.memory`;
 
     return forkJoin(
-      this.upsertTag(cpuNumberKey, offering.cpunumber && offering.cpunumber.toString()),
-      this.upsertTag(cpuSpeedKey, offering.cpuspeed && offering.cpuspeed.toString()),
-      this.upsertTag(memoryKey, offering.memory && offering.memory.toString()),
+      this.upsertTag({
+        key: cpuNumberKey,
+        value: offering.cpunumber && String(offering.cpunumber),
+      }),
+      this.upsertTag({
+        key: cpuSpeedKey,
+        value: offering.cpuspeed && String(offering.cpuspeed),
+      }),
+      this.upsertTag({
+        key: memoryKey,
+        value: offering.memory && String(offering.memory),
+      }),
     );
   }
 
   private loadTags() {
-    return this.tagService.getList({
-      resourceid: this.resourceId,
-    });
-  }
-
-  private upsertTag(key: string, value: string) {
-    return this.deleteTag(key).pipe(
-      switchMap(() => this.createTag(key, value)),
-      catchError(() => this.createTag(key, value)),
+    return this.resourceId.pipe(
+      switchMap(resourceId => {
+        return this.tagService.getList({
+          resourceid: resourceId,
+        });
+      }),
     );
   }
 
-  private deleteTag(key: string) {
-    return this.tagService.remove({
-      resourceids: this.resourceId,
-      resourcetype: this.resourceType,
-      'tags[0].key': key,
-    });
+  private upsertTag(tag: TagCreationParams | TagCreationParams[]) {
+    const tagsArray = [].concat(tag);
+
+    return this.deleteTag(tagsArray).pipe(
+      switchMap(() => this.createTag(tagsArray)),
+      catchError(() => this.createTag(tagsArray)),
+    );
   }
 
-  private createTag(key: string, value: string) {
-    return this.tagService.create({
-      resourceids: this.resourceId,
-      resourcetype: this.resourceType,
-      'tags[0].key': key,
-      'tags[0].value': value,
-    });
+  private deleteTag(keys: { key: string }[]) {
+    const tagsData = keys.reduce(
+      (acc, { key }, index) => ({
+        ...acc,
+        [`tags[${index}].key`]: key,
+      }),
+      {},
+    );
+
+    return this.resourceId.pipe(
+      switchMap(resourceId => {
+        return this.tagService.remove({
+          resourceids: resourceId,
+          resourcetype: this.resourceType,
+          ...tagsData,
+        });
+      }),
+    );
+  }
+
+  private createTag(tag: TagCreationParams | TagCreationParams[]) {
+    const tagsArray = [].concat(tag);
+    const tagsData = tagsArray.reduce(
+      (acc, { key, value }, index) => ({
+        ...acc,
+        [`tags[${index}].key`]: key,
+        [`tags[${index}].value`]: value,
+      }),
+      {},
+    );
+
+    return this.resourceId.pipe(
+      switchMap(resourceId => {
+        return this.tagService.create({
+          resourceids: resourceId,
+          resourcetype: this.resourceType,
+          ...tagsData,
+        });
+      }),
+    );
   }
 }

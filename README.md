@@ -9,8 +9,6 @@
   - [Plugins Supported](#plugins-supported)
   - [Features Yet Unsupported](#features-yet-unsupported)
   - [Current To Do's](#current-to-dos)
-  - [Long Term To Do's](#long-term-to-dos)
-  - [Far Away To Do's](#far-away-to-dos)
   - [Screenshots and Features descriptions](#screenshots--features-descriptions)
     - [Login view](#login-view)
     - [Virtual machines](#virtual-machines-view)
@@ -121,18 +119,12 @@ We intensively use features like projects in our own CloudStack cloud to manage 
 ## Current To Dos
 
 - Responsive interface for smart devices
-
-## Long Term To Dos
-
-- Plugins
-  - Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
-  - Self registration for public cloud
-  - RDP/VNC (guacamole)
-   
-## Far Away To Dos
-
-- Plugins
-  - Applications a.k.a. Roller (Docker swarm or Ansible, tbd)
+- SAML2 authentication support
+- CloudStack projects
+- JivoChat widget integration
+- Resources request/release plugin
+- OTA/KVS integration for VM automation
+- Docker stack library support
 
 ## Screenshots & Features Descriptions
 
@@ -193,11 +185,11 @@ We changed the templates and ISOs view making it more obvious and neat to use. A
 
 #### Snapshots
 
-We have added a section - Snapshots - that makes it easier for a user to manage snapshots created for volumes in the system. A user can view the list of snapshots and filter or group it by type or account (available to Administrators). We also added filtering snapshots by date.
+We have added a section - Snapshots - that makes it easier for a user to manage snapshots created for volumes and virtual machines in the system. A user can view the list of snapshots and filter or group it by type/VM or account (available to Administrators). We also added filtering snapshots by creation date.
 
-In the details sidebar a user can see the snapshot general information and the volume that the snapshot is created for.
+In the details sidebar a user can see the snapshot general information and the volume/VM that the snapshot is created for.
 
-Here the action box also allows a user to create template or volume from the snapshot, revert a volume to the snapshot, or delete a snapshot.
+Here the action box also allows a user to create template or volume from a volume snapshot, revert a volume/VM to the snapshot, or delete a snapshot.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/snapshotsView.png" target="_blank">![Snapshots view](./screens/snapshotsView_mini.png)</a>&nbsp;&nbsp;
 
@@ -207,7 +199,7 @@ Here the action box also allows a user to create template or volume from the sna
 
 Firewall section includes three views: Firewall templates, Shared security groups and Private security groups.
 
-It is important to understand the concept of Firewall _templates_. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in the json configuration file. Upon VM creation the system uses a default security group defined in the configuration file, or a user can create a new security group right in the VM creation form. Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a _private_ security group used for that virtual machine only.
+It is important to understand the concept of Firewall _templates_. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in the json configuration file. Upon VM creation the system uses a default security group created by CloudStack, or a user can create a new security group right in the VM creation form. Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a _private_ security group used for that virtual machine only.
 
 The second way is to use a _shared_ security group - a group that is used by other VMs.
 
@@ -268,13 +260,11 @@ npm install
 To run docker container use:
 
 ```
-docker pull bitworks.software:8443/cloudstack-ui:1.411.24
-
 docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bitworks.software:8443/cloudstack-ui:1.411.24
+           bitworks.software:8443/cloudstack-ui:1.411.26
 ```
 
 `http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)

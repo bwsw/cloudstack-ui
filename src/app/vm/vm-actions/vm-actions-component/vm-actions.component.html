@@ -1,11 +1,7 @@
 <ng-container *ngIf="!vmIsDestroyed">
-  <ng-container *ngFor="let action of vmActions$ | async">
+  <ng-container *ngFor="let action of (vmActions$ | async)">
     <ng-container *ngIf="!action.hidden || !action.hidden(vm)">
-      <button
-        mat-menu-item
-        [disabled]="!action.canActivate(vm)"
-        (click)="onAction(action, vm)"
-      >
+      <button mat-menu-item [disabled]="!action.canActivate(vm)" (click)="onAction(action, vm)">
         <mat-icon [ngClass]="action.icon"></mat-icon>
         <span>{{ action.name | translate }}</span>
       </button>
@@ -13,14 +9,27 @@
   </ng-container>
 </ng-container>
 <ng-container *ngIf="vmIsDestroyed && canExpungeOrRecoverVm">
-  <ng-container *ngFor="let action of destroyedVmActions">
-    <button
-      mat-menu-item
-      [disabled]="!action.canActivate(vm)"
-      (click)="onAction(action, vm)"
-    >
+  <ng-container *ngFor="let action of (destroyedVmActions$ | async)">
+    <button mat-menu-item [disabled]="!action.canActivate(vm)" (click)="onAction(action, vm)">
       <mat-icon [ngClass]="action.icon"></mat-icon>
       <span>{{ action.name | translate }}</span>
     </button>
   </ng-container>
 </ng-container>
+
+<button mat-menu-item [matMenuTriggerFor]="vmLogs" *ngIf="(showVmLogsActions$ | async)">
+  <mat-icon class="mdi-text"></mat-icon>
+  <span>{{ 'VM_PAGE.COMMANDS.LOGS' | translate }}</span>
+</button>
+
+<mat-menu #vmLogs="matMenu">
+  <button
+    mat-menu-item
+    *ngFor="let action of (vmLogsActions$ | async)"
+    [disabled]="!action.canActivate(vm)"
+    (click)="onAction(action, vm)"
+  >
+    <mat-icon [ngClass]="action.icon"></mat-icon>
+    <span>{{ action.name | translate }}</span>
+  </button>
+</mat-menu>

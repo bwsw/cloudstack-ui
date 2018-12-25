@@ -13,6 +13,7 @@ import {
 } from './user-tags.actions';
 import { UserTagsEffects } from './user-tags.effects';
 import { userTagKeys } from '../../../tags/tag-keys';
+import { AuthService } from '../../../shared/services/auth.service';
 
 class StoreStub {}
 
@@ -36,9 +37,13 @@ function createTagServiceStub(listResponse: any, createRespone: any, removeRespo
 }
 
 function createAuthServiceStub() {
-  const service = jasmine.createSpyObj('authService', ['user']);
-  service.user.and.returnValue({ userid: '100' });
-  return service;
+  const authService = {
+    user$: {
+      pipe: () => of({ userid: '100 ' }),
+    },
+  };
+
+  return authService as AuthService;
 }
 
 describe('User tags effects', () => {

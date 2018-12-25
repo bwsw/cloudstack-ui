@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { ServiceOffering, Tag } from '../../../shared/models';
 import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
+import { TagCreationParams } from './tag-creation-params';
 
 export enum UserTagsActionTypes {
   SetDefaultUserTagsAtStartup = '[App initializer] Set default user tags',
@@ -71,7 +72,13 @@ export enum UserTagsActionTypes {
   IncrementLastVMIdSuccess = '[Resource tags API] Increment "csui.user.last-vm-id" tag success',
   IncrementLastVMIdError = '[Resource tags API] Increment "csui.user.last-vm-id" tag error',
 
+  UpdateVmLogsFilters = '[VM Logs] Update "csui.user.vm-logs.___" tags',
+  UpdateVmLogsFiltersSuccess = '[Resource tags API] Update "csui.user.vm-logs.___" tags success',
+  UpdateVmLogsFiltersError = '[Resource tags API] Update "csui.user.vm-logs.___" tags error',
+
   UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
+
+  UpdateSidebarWidth = '[Sidebar resize] Update "csui.user.sidebar-width" tag',
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs
@@ -82,7 +89,7 @@ export class SetDefaultUserTagsAtStartup implements Action {
   constructor(readonly payload: { tags: Tag[] }) {}
 }
 
-export class SetDefaultUserTagsDueToLogout {
+export class SetDefaultUserTagsDueToLogout implements Action {
   readonly type = UserTagsActionTypes.SetDefaultUserTagsDueToLogout;
 
   constructor(readonly payload: { tags: Tag[] }) {}
@@ -115,7 +122,7 @@ export class UpdateAskToCreateVM implements Action {
 export class UpdateAskToCreateVMSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateAskToCreateVMSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateAskToCreateVMError implements Action {
@@ -135,7 +142,7 @@ export class UpdateAskToCreateVolume implements Action {
 export class UpdateAskToCreateVolumeSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateAskToCreateVolumeSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateAskToCreateVolumeError implements Action {
@@ -155,7 +162,7 @@ export class UpdateSavePasswordForAllVMs implements Action {
 export class UpdateSavePasswordForAllVMsSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateSPFAVMSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateSavePasswordForAllVMsError implements Action {
@@ -175,7 +182,7 @@ export class UpdateFirstDayOfWeek implements Action {
 export class UpdateFirstDayOfWeekSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateFirstDayOfWeekSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateFirstDayOfWeekError implements Action {
@@ -195,7 +202,7 @@ export class UpdateInterfaceLanguage implements Action {
 export class UpdateInterfaceLanguageSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateInterfaceLanguageSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateInterfaceLanguageError implements Action {
@@ -215,7 +222,7 @@ export class UpdateLastVMId implements Action {
 export class UpdateLastVMIdSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateLastVMIdSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateLastVMIdError implements Action {
@@ -235,7 +242,7 @@ export class UpdateSessionTimeout implements Action {
 export class UpdateSessionTimeoutSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateSessionTimeoutSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateSessionTimeoutError implements Action {
@@ -255,7 +262,7 @@ export class UpdateShowSystemTags implements Action {
 export class UpdateShowSystemTagsSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateShowSystemTagsSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateShowSystemTagsError implements Action {
@@ -275,7 +282,7 @@ export class UpdateTimeFormat implements Action {
 export class UpdateTimeFormatSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateTimeFormatSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateTimeFormatError implements Action {
@@ -295,7 +302,7 @@ export class UpdateTheme implements Action {
 export class UpdateThemeSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateThemeSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateThemeError implements Action {
@@ -315,7 +322,7 @@ export class UpdateKeyboardLayoutForVms implements Action {
 export class UpdateKeyboardLayoutForVmsSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateKeyboardLayoutForVmsSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateKeyboardLayoutForVmsError implements Action {
@@ -335,7 +342,7 @@ export class UpdateVmLogsShowLastMessages implements Action {
 export class UpdateVmLogsShowLastMessagesSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMessagesSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateVmLogsShowLastMessagesError implements Action {
@@ -355,7 +362,7 @@ export class UpdateVmLogsShowLastMinutes implements Action {
 export class UpdateVmLogsShowLastMinutesSuccess implements Action {
   readonly type = UserTagsActionTypes.UpdateVmLogsShowLastMinutesSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class UpdateVmLogsShowLastMinutesError implements Action {
@@ -375,7 +382,7 @@ export class SetSavePasswordForAllVMs implements Action {
 export class SetSavePasswordForAllVMsSuccess implements Action {
   readonly type = UserTagsActionTypes.SetSPFAVMSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class SetSavePasswordForAllVMsError implements Action {
@@ -393,7 +400,7 @@ export class IncrementLastVMId implements Action {
 export class IncrementLastVMIdSuccess implements Action {
   readonly type = UserTagsActionTypes.IncrementLastVMIdSuccess;
 
-  constructor(readonly payload: { key: string; value: string }) {}
+  constructor(readonly payload: TagCreationParams) {}
 }
 
 export class IncrementLastVMIdError implements Action {
@@ -406,6 +413,32 @@ export class UpdateCustomServiceOfferingParams implements Action {
   readonly type = UserTagsActionTypes.UpdateCustomServiceOfferingParams;
 
   constructor(readonly payload: { offering: ServiceOffering }) {}
+}
+
+export class UpdateVmLogsFilters implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsFilters;
+
+  constructor(readonly payload: { [key: string]: string }) {}
+}
+
+export class UpdateVmLogsFiltersSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsFiltersSuccess;
+
+  constructor(readonly payload: TagCreationParams[]) {}
+}
+
+export class UpdateVmLogsFiltersError implements Action {
+  readonly type = UserTagsActionTypes.UpdateVmLogsFiltersError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
+// Sidebar
+
+export class UpdateSidebarWidth implements Action {
+  readonly type = UserTagsActionTypes.UpdateSidebarWidth;
+
+  constructor(readonly payload: { value: string }) {}
 }
 
 export type UserTagsActionsUnion =
@@ -459,4 +492,8 @@ export type UserTagsActionsUnion =
   | IncrementLastVMId
   | IncrementLastVMIdSuccess
   | IncrementLastVMIdError
-  | UpdateCustomServiceOfferingParams;
+  | UpdateVmLogsFilters
+  | UpdateVmLogsFiltersSuccess
+  | UpdateVmLogsFiltersError
+  | UpdateCustomServiceOfferingParams
+  | UpdateSidebarWidth;

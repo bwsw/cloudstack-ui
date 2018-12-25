@@ -2,12 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Account, Grouping, Zone } from '../../shared/models';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 
-export type noGroup = '-1';
-export const noGroup: noGroup = '-1';
+export type noGroup = '';
+export const noGroup: noGroup = '';
 
 @Component({
   selector: 'cs-vm-filter',
   templateUrl: 'vm-filter.component.html',
+  styleUrls: ['vm-filter.component.scss'],
 })
 export class VmFilterComponent implements OnInit {
   @Input()
@@ -15,7 +16,7 @@ export class VmFilterComponent implements OnInit {
   @Input()
   public groupings: Grouping[];
   @Input()
-  public groups: any[];
+  public groups: string[];
   @Input()
   public states: any[];
   @Input()

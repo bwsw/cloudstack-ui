@@ -17,10 +17,8 @@
   z-index: 2;
   right: 0;
   margin: 19px;
-  transition: right 300ms;
 }
 
 .sidebar-open {
-  right: $sidebar-width;
   z-index: 6;
 }

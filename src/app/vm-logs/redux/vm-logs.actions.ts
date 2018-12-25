@@ -3,6 +3,9 @@ import { VmLog } from '../models/vm-log.model';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
 import { DateObject } from '../models/date-object.model';
 import { VmLogFile } from '../models/vm-log-file.model';
+import { VmLogsFilters } from '../models/vm-log-filters';
+import { VmLogToken } from '../models/vm-log-token.model';
+import { VirtualMachine } from '../../vm';
 
 export enum VmLogsActionTypes {
   LOAD_VM_LOGS_REQUEST = '[VM Logs] LOAD_VM_LOGS_REQUEST',
@@ -10,8 +13,15 @@ export enum VmLogsActionTypes {
   LOAD_AUTO_UPDATE_VM_LOGS_REQUEST = '[VM Logs] LOAD_AUTO_UPDATE_VM_LOGS_REQUEST',
   LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE = '[VM Logs] LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE',
   LOAD_AUTO_UPDATE_VM_LOGS_ERROR = '[VM Logs] LOAD_AUTO_UPDATE_VM_LOGS_ERROR',
+  UPDATE_AUTO_UPDATE_VM_LOGS = '[VM Logs] UPDATE_AUTO_UPDATE_VM_LOGS',
   LOAD_VM_LOG_FILES_REQUEST = '[VM Logs] LOAD_VM_LOG_FILES_REQUEST',
   LOAD_VM_LOG_FILES_RESPONSE = '[VM Logs] LOAD_VM_LOG_FILES_RESPONSE',
+  CREATE_TOKEN_REQUEST = '[VM Logs] CREATE_TOKEN_REQUEST',
+  CREATE_TOKEN_RESPONSE = '[VM Logs] CREATE_TOKEN_RESPONSE',
+  CREATE_TOKEN_ERROR = '[VM Logs] CREATE_TOKEN_ERROR',
+  INVALIDATE_TOKEN_REQUEST = '[VM Logs] INVALIDATE_TOKEN_REQUEST',
+  INVALIDATE_TOKEN_ERROR = '[VM Logs] INVALIDATE_TOKEN_ERROR',
+  INVALIDATE_TOKEN_CANCELED = '[VM Logs] INVALIDATE_TOKEN_CANCELED',
   VM_LOGS_UPDATE_SEARCH = '[VM Logs] VM_LOGS_UPDATE_SEARCH',
   VM_LOGS_UPDATE_START_DATE_TIME = '[VM Logs] VM_LOGS_UPDATE_START_DATE_TIME',
   VM_LOGS_UPDATE_START_DATE = '[VM Logs] VM_LOGS_UPDATE_START_DATE',
@@ -30,6 +40,9 @@ export enum VmLogsActionTypes {
   SET_AUTO_UPDATE_END_DATE = '[VM Logs] SET_AUTO_UPDATE_END_DATE',
   SCROLL_VM_LOGS = '[VM Logs] SCROLL_VM_LOGS',
   RESET_VM_LOGS_SCROLL = '[VM Logs] RESET_VM_LOGS_SCROLL',
+  UPDATE_FILTERS = '[VM Logs] UPDATE_FILTERS',
+  OPEN_CREATE_TOKEN = '[VM Logs] OPEN_CREATE_TOKEN',
+  OPEN_INVALIDATE_TOKEN = '[VM Logs] OPEN_INVALIDATE_TOKEN',
 }
 
 export class LoadVmLogsRequest implements Action {
@@ -58,6 +71,12 @@ export class LoadAutoUpdateVmLogsError implements Action {
   constructor(readonly payload: Error) {}
 }
 
+export class UpdateAutoUpdateVmLogs implements Action {
+  readonly type = VmLogsActionTypes.UPDATE_AUTO_UPDATE_VM_LOGS;
+
+  constructor(readonly payload: VmLog[]) {}
+}
+
 export class LoadVmLogFilesRequest implements Action {
   readonly type = VmLogsActionTypes.LOAD_VM_LOG_FILES_REQUEST;
 }
@@ -66,6 +85,40 @@ export class LoadVmLogFilesResponse implements Action {
   readonly type = VmLogsActionTypes.LOAD_VM_LOG_FILES_RESPONSE;
 
   constructor(readonly payload: VmLogFile[]) {}
+}
+
+export class CreateTokenRequest implements Action {
+  readonly type = VmLogsActionTypes.CREATE_TOKEN_REQUEST;
+
+  constructor(readonly payload: { vm: VirtualMachine }) {}
+}
+
+export class CreateTokenResponse implements Action {
+  readonly type = VmLogsActionTypes.CREATE_TOKEN_RESPONSE;
+
+  constructor(readonly payload: VmLogToken) {}
+}
+
+export class InvalidateTokenRequest implements Action {
+  readonly type = VmLogsActionTypes.INVALIDATE_TOKEN_REQUEST;
+
+  constructor(readonly payload: { token: string }) {}
+}
+
+export class InvalidateTokenError implements Action {
+  readonly type = VmLogsActionTypes.INVALIDATE_TOKEN_ERROR;
+
+  constructor(readonly payload: { token: string }) {}
+}
+
+export class InvalidateTokenCanceled implements Action {
+  readonly type = VmLogsActionTypes.INVALIDATE_TOKEN_CANCELED;
+}
+
+export class CreateTokenError implements Action {
+  readonly type = VmLogsActionTypes.CREATE_TOKEN_ERROR;
+
+  constructor(readonly payload: Error) {}
 }
 
 export class VmLogsUpdateSearch implements Action {
@@ -166,14 +219,39 @@ export class SetAutoUpdateEndDate implements Action {
   constructor(readonly payload: DateObject) {}
 }
 
+export class UpdateFilters implements Action {
+  readonly type = VmLogsActionTypes.UPDATE_FILTERS;
+
+  constructor(readonly payload: Partial<VmLogsFilters>) {}
+}
+
+export class OpenCreateToken implements Action {
+  readonly type = VmLogsActionTypes.OPEN_CREATE_TOKEN;
+
+  constructor(readonly payload: { vm: VirtualMachine }) {}
+}
+
+export class OpenInvalidateToken implements Action {
+  readonly type = VmLogsActionTypes.OPEN_INVALIDATE_TOKEN;
+
+  constructor(readonly payload: { vm: VirtualMachine }) {}
+}
+
 export type Actions =
   | LoadVmLogsResponse
   | LoadVmLogsRequest
   | LoadAutoUpdateVmLogsRequest
   | LoadAutoUpdateVmLogsResponse
   | LoadAutoUpdateVmLogsError
+  | UpdateAutoUpdateVmLogs
   | LoadVmLogFilesRequest
   | LoadVmLogFilesResponse
+  | CreateTokenRequest
+  | CreateTokenResponse
+  | CreateTokenError
+  | InvalidateTokenRequest
+  | InvalidateTokenError
+  | InvalidateTokenCanceled
   | VmLogsUpdateSearch
   | VmLogsUpdateVmId
   | VmLogsUpdateAccountIds
@@ -191,4 +269,7 @@ export type Actions =
   | SetAutoUpdateStartDate
   | SetAutoUpdateEndDate
   | ScrollVmLogs
-  | ResetVmLogsScroll;
+  | ResetVmLogsScroll
+  | UpdateFilters
+  | OpenCreateToken
+  | OpenInvalidateToken;

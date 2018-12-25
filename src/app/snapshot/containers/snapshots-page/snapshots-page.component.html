@@ -1,0 +1,59 @@
+<cs-list [creationEnabled]="false">
+  <ng-container cs-panels>
+    <cs-top-bar cs-list>
+      <cs-snapshots-filter-container></cs-snapshots-filter-container>
+    </cs-top-bar>
+  </ng-container>
+
+  <ng-container cs-list *loading="isLoading">
+    <div class="switch-panel">
+      <cs-view-mode-switch
+        (modeChanged)="changeMode($event)"
+        [key]="viewModeKey"
+      >
+      </cs-view-mode-switch>
+    </div>
+
+    <ng-container [ngSwitch]="viewMode">
+      <ng-container *ngSwitchCase="snapshotPageViewMode.Volume">
+        <ng-container *ngIf="snapshots && snapshots.length > 0; else noResults">
+          <cs-grouped-list
+            class="padding"
+            [list]="snapshots"
+            [groupings]="groupings"
+            [component]="itemComponent"
+            [dynamicInputs]="inputs"
+            [dynamicOutputs]="outputs"
+            cs-list
+          ></cs-grouped-list>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="snapshotPageViewMode.VM">
+        <ng-container *ngIf="vmSnapshots.length > 0; else noResults">
+          <cs-grouped-list
+            class="padding"
+            [list]="vmSnapshots"
+            [component]="vmSnapshotComponent"
+            [dynamicInputs]="inputs"
+            [dynamicOutputs]="outputs"
+            cs-list
+          ></cs-grouped-list>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+
+    <ng-template #noResults>
+      <cs-no-results></cs-no-results>
+    </ng-template>
+  </ng-container>
+
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
+</cs-list>
+
+

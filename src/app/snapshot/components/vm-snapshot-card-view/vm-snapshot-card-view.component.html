@@ -1,0 +1,32 @@
+<mat-card
+  class="entity-card"
+  [class.card-selected]="isSelected(item)"
+  (click)="onSelect()"
+>
+  <mat-card-header class="entity-card-header">
+    <cs-round-state-indicator
+      class="entity-card-thumbnail"
+      [state]="item.state.toLowerCase()"
+      [matTooltip]="'VM_SNAPSHOT_STATE.' + item.state.toUpperCase() | translate"
+    ></cs-round-state-indicator>
+    <mat-card-title class="entity-card-title" [matTooltip]="item.name">
+      <span>{{ item.name }}</span>
+    </mat-card-title>
+    <button mat-icon-button [mat-menu-trigger-for]="actionsMenu" class="entity-card-menu" (click)="$event.stopPropagation()">
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
+    </button>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="entity-card-data-line">
+      {{ 'SNAPSHOT_PAGE.CARD.VM_NAME' | translate }}: {{ item.vmName }}
+    </div>
+    <div class="entity-card-data-line">
+      {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}: {{ item.created | csStringifyDate }}
+    </div>
+  </mat-card-content>
+
+  <mat-menu #actionsMenu="matMenu">
+    <cs-vm-snapshot-action-menu [snapshot]="item"></cs-vm-snapshot-action-menu>
+  </mat-menu>
+</mat-card>

@@ -4,14 +4,8 @@ import { userTagKeys } from '../../../tags/tag-keys';
 import { defaultConfig } from '../../../core/config';
 import { Tag } from '../../../shared/models';
 
-export interface UserTagsState {
-  isLoading: boolean;
-  ids: string[];
-  entities: { [id: string]: Tag };
-}
-
 export interface UserTagsState extends EntityState<Tag> {
-  isLoading: boolean;
+  isLoaded: boolean;
 }
 
 export const adapter: EntityAdapter<Tag> = createEntityAdapter<Tag>({
@@ -31,6 +25,8 @@ const initialIds = [
   userTagKeys.theme,
   userTagKeys.vmLogsShowLastMessages,
   userTagKeys.vmLogsShowLastMinutes,
+  userTagKeys.keyboardLayoutForVms,
+  userTagKeys.sidebarWidth,
 ];
 
 const initialEntities = {
@@ -89,10 +85,14 @@ const initialEntities = {
     key: userTagKeys.vmLogsShowLastMinutes,
     value: String(defaultConfig.vmLogsShowLastMinutes),
   },
+  [userTagKeys.sidebarWidth]: {
+    key: userTagKeys.sidebarWidth,
+    value: defaultConfig.sidebarWidth,
+  },
 };
 
 export const initialState: UserTagsState = adapter.getInitialState({
-  isLoading: false,
+  isLoaded: false,
   ids: initialIds,
   entities: initialEntities,
 });

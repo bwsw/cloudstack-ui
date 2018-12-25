@@ -1,5 +1,6 @@
 export * from './color-picker/color-picker.component';
 export * from './date-picker';
+export * from './error-message/error-message.component';
 export * from './fab/fab.component';
 export * from './fancy-select/fancy-select.component';
 export * from './input-group/input-group.component';
@@ -13,3 +14,4 @@ export * from './vm-statistics/vm-statistics.component';
 export * from './slider/slider.component';
 export * from './clipboard-button/clipboard-button.component';
 export * from './keyboards/keyboards.component';
+export * from './volume-snapshot-from-vm-snapshot-dialog/volume-snapshot-from-vm-snapshot-dialog.component';

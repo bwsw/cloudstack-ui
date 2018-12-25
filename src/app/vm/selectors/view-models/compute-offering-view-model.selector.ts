@@ -10,8 +10,8 @@ import {
 import { ComputeOfferingViewModel } from '../../view-models';
 import { configSelectors, UserTagsSelectors } from '../../../root-store';
 import * as computeOffering from '../../../reducers/service-offerings/redux/service-offerings.reducers';
-import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromVms from '../../../reducers/vm/redux/vm.reducers';
+import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 
 interface Resources {
   cpuNumber: number | string;
@@ -265,7 +265,7 @@ const getAvailableResources = (
 };
 
 export const getComputeOfferingForVmEditing = createSelector(
-  fromAuth.getUserAccount,
+  fromAccounts.selectUserAccount,
   computeOffering.selectAll,
   configSelectors.get('customComputeOfferingParameters'),
   configSelectors.get('defaultCustomComputeOfferingRestrictions'),
@@ -301,7 +301,7 @@ export const getComputeOfferingForVmEditing = createSelector(
 );
 
 export const getComputeOfferingForVmCreation = createSelector(
-  fromAuth.getUserAccount,
+  fromAccounts.selectUserAccount,
   computeOffering.selectAll,
   configSelectors.get('customComputeOfferingParameters'),
   configSelectors.get('defaultCustomComputeOfferingRestrictions'),

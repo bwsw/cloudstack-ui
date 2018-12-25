@@ -11,9 +11,10 @@
 }
 
 :host /deep/ .mat-expansion-panel-content {
-  color: rgba(0, 0, 0, 0.54)
+  color: rgba(0, 0, 0, 0.54);
 }
 
 :host /deep/ .mat-tab-link {
-  min-width: 140px !important;
+  min-width: 0 !important;
+  flex: 1 1 auto;
 }
