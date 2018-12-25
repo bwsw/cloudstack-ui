@@ -97,7 +97,7 @@ describe('e2e-test-vm-creation', () => {
     vmlist.clickCreateVM();
     page.waitDialogModal();
     page.setDisplayName(page.name);
-    expect(page.getZone()).toContain(browser.params.zone());
+    expect(page.getZone()).toContain(browser.params.zone);
     expect(page.getSO()).toContain(browser.params.so);
     expect(page.getInstSourceText()).toContain(browser.params.template);
     expect(page.getDiskSize()).toBeGreaterThanOrEqual(0);

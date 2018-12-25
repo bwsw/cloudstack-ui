@@ -25,6 +25,12 @@ exports.config = {
       args: ['--headless', '--disable-gpu', '--window-size=800,600', '--no-sandbox']
     }*/
   },
+  params: {
+    so: 'Small Instance',
+    template: 'CentOS 5.6 (64-bit)',
+    zone: 'Sandbox-simulator',
+    rule: 'default',
+  },
   directConnect: true,
   baseUrl: 'http://localhost:8081',
   framework: 'jasmine',
