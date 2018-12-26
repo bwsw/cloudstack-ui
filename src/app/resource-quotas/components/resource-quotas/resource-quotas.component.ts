@@ -23,10 +23,16 @@ export class ResourceQuotasComponent {
 
   public resourceQuotaNames = resourceTypeNames;
 
-  public onFieldChange(resourceType: number, minimum: number, maximum: number) {
+  public onMinChange(resourceType: number, minimum: number) {
     this.fieldChange.emit({
       resourceType,
       minimum,
+    });
+  }
+
+  public onMaxChange(resourceType: number, maximum: number) {
+    this.fieldChange.emit({
+      resourceType,
       maximum,
     });
   }

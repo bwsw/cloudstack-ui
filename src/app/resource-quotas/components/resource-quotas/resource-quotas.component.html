@@ -14,7 +14,7 @@
               [csMinValue]="-1"
               [placeholder]="'RESOURCE_QUOTAS_PAGE.MIN' | translate"
               [ngModel]="resourceQuotas[i].minimum"
-              (ngModelChange)="onFieldChange(i, +$event, resourceQuotas[i].maximum)"
+              (ngModelChange)="onMinChange(i, +$event)"
               required
             />
           </mat-form-field>
@@ -28,7 +28,7 @@
               [csMinValue]="-1"
               [placeholder]="'RESOURCE_QUOTAS_PAGE.MAX' | translate"
               [ngModel]="resourceQuotas[i].maximum"
-              (ngModelChange)="onFieldChange(i, resourceQuotas[i].minimum, +$event)"
+              (ngModelChange)="onMaxChange(i, +$event)"
             />
           </mat-form-field>
         </td>

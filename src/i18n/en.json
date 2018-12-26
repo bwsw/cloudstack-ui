@@ -1517,6 +1517,9 @@
     "REQUEST": {
       "REQUEST_RESOURCES": "Request resources"
     },
+    "NOTIFICATIONS": {
+      "LIMIT_UPDATED": "Resource limits updated successfully"
+    },
     "MIN": "Min",
     "MAX": "Max",
     "UPDATE": "Update"

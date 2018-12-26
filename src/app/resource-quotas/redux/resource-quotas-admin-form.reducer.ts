@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as resourceQuotasActions from './resource-quotas.actions';
 import * as omit from 'lodash/omit';
+import update from 'immutability-helper';
+import * as resourceQuotasActions from './resource-quotas.actions';
 
 export interface ResourceQuotasAdminFormState {
   form: {
@@ -23,13 +24,13 @@ export function resourceQuotasAdminFormReducer(
     case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_ADMIN_FORM_FIELD: {
       const resourceType = action.payload.resourceType;
 
-      return {
-        ...state,
-        [resourceType]: {
-          ...state.form[resourceType],
-          ...omit(action.payload, 'resourceType'),
+      return update(state, {
+        form: {
+          [resourceType]: {
+            $merge: omit(action.payload, 'resourceType'),
+          },
         },
-      };
+      });
     }
 
     case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_ADMIN_FORM: {

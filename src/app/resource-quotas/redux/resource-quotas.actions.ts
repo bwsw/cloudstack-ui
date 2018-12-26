@@ -50,7 +50,7 @@ export class UpdateAdminFormField implements Action {
     readonly payload: {
       resourceType: number;
       minimum?: number;
-      maximum: number;
+      maximum?: number;
     },
   ) {}
 }
