@@ -8,16 +8,24 @@ import * as fromAdminForm from '../../redux/resource-quotas-admin-form.reducer';
 @Component({
   selector: 'cs-resource-quotas-container',
   template: `
-    <cs-resource-quotas
-      *loading="(isLoading$ | async)"
-      [resourceQuotas]="resourceQuotas$ | async"
-      (fieldChange)="onFieldChange($event)"
-    ></cs-resource-quotas>
+    <ng-container *ngIf="(isErrorState$ | async) === false">
+      <cs-resource-quotas
+        *loading="(isLoading$ | async)"
+        [resourceQuotas]="resourceQuotas$ | async"
+        (fieldChange)="onFieldChange($event)"
+        (update)="onUpdate()"
+      ></cs-resource-quotas>
+    </ng-container>
+    <cs-no-results
+      *ngIf="(isErrorState$ | async)"
+      [text]="'RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.LIMIT_LOAD_ERROR'"
+    ></cs-no-results>
   `,
 })
 export class ResourceQuotasContainerComponent implements OnInit {
   readonly resourceQuotas$ = this.store.pipe(select(fromAdminForm.getAdminResourceQuotasForm));
   readonly isLoading$ = this.store.pipe(select(fromResourceQuotas.isLoading));
+  readonly isErrorState$ = this.store.pipe(select(fromResourceQuotas.isErrorState));
 
   constructor(private store: Store<State>) {}
 
@@ -27,5 +35,9 @@ export class ResourceQuotasContainerComponent implements OnInit {
 
   public onFieldChange(params) {
     this.store.dispatch(new resourceQuotasActions.UpdateAdminFormField(params));
+  }
+
+  public onUpdate() {
+    this.store.dispatch(new resourceQuotasActions.UpdateResourceLimits());
   }
 }

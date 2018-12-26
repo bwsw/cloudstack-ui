@@ -4,7 +4,8 @@ import { ResourceQuota } from '../models/resource-quota.model';
 export enum ResourceQuotasActionTypes {
   LOAD_RESOURCE_QUOTAS_REQUEST = '[Resource Quotas] LOAD_RESOURCE_QUOTAS_REQUEST',
   LOAD_RESOURCE_QUOTAS_RESPONSE = '[Resource Quotas] LOAD_RESOURCE_QUOTAS_RESPONSE',
-  UPDATE_RESOURCE_LIMIT = '[Resource Quotas] UPDATE_RESOURCE_LIMIT',
+  LOAD_RESOURCE_QUOTAS_ERROR = '[Resource Quotas] LOAD_RESOURCE_QUOTAS_ERROR',
+  UPDATE_RESOURCE_LIMITS = '[Resource Quotas] UPDATE_RESOURCE_LIMITS',
   UPDATE_ADMIN_FORM = '[Resource Quotas] UPDATE_ADMIN_FORM',
   UPDATE_ADMIN_FORM_FIELD = '[Resource Quotas] UPDATE_ADMIN_FORM_FIELD',
 }
@@ -19,15 +20,14 @@ export class LoadResourceQuotasResponse implements Action {
   constructor(readonly payload: ResourceQuota[]) {}
 }
 
-export class UpdateResourceLimit implements Action {
-  readonly type = ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMIT;
+export class LoadResourceQuotasError implements Action {
+  readonly type = ResourceQuotasActionTypes.LOAD_RESOURCE_QUOTAS_ERROR;
 
-  constructor(
-    readonly payload: {
-      minimum: number;
-      maximum: number;
-    },
-  ) {}
+  constructor(readonly payload: Error) {}
+}
+
+export class UpdateResourceLimits implements Action {
+  readonly type = ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS;
 }
 
 export class UpdateAdminForm implements Action {
@@ -58,6 +58,7 @@ export class UpdateAdminFormField implements Action {
 export type Actions =
   | LoadResourceQuotasRequest
   | LoadResourceQuotasResponse
-  | UpdateResourceLimit
+  | LoadResourceQuotasError
+  | UpdateResourceLimits
   | UpdateAdminForm
   | UpdateAdminFormField;

@@ -1,8 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { concat, Observable, of } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  map,
+  mergeMap,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
+import * as pick from 'lodash/pick';
 import * as resourceQuotasActions from './resource-quotas.actions';
 import { State } from '../../reducers';
 import { Router } from '@angular/router';
@@ -11,6 +20,7 @@ import { ResourceQuota } from '../models/resource-quota.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SnackBarService } from '../../core/services';
 import * as fromResourceQuotas from '../redux/resource-quotas.reducer';
+import { getModifiedQuotas } from './selectors/modified-quotas.selector';
 
 @Injectable()
 export class ResourceQuotasEffects {
@@ -22,8 +32,8 @@ export class ResourceQuotasEffects {
         map((vmLogs: ResourceQuota[]) => {
           return new resourceQuotasActions.LoadResourceQuotasResponse(vmLogs);
         }),
-        catchError(() => {
-          return of(new resourceQuotasActions.LoadResourceQuotasResponse([]));
+        catchError(error => {
+          return of(new resourceQuotasActions.LoadResourceQuotasError(error));
         }),
       );
     }),
@@ -37,16 +47,22 @@ export class ResourceQuotasEffects {
   );
 
   @Effect({ dispatch: false })
-  updateResourceLimit$ = this.actions$.pipe(
-    ofType<resourceQuotasActions.UpdateResourceLimit>(
-      resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMIT,
+  updateResourceLimits$ = this.actions$.pipe(
+    ofType<resourceQuotasActions.UpdateResourceLimits>(
+      resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS,
     ),
-    map(action => action.payload),
-    switchMap(({ minimum, maximum }) => {
-      return this.resourceQuotaService.updateResourceLimit(minimum, maximum).pipe(
-        tap(() => this.showNotificationsOnFinish('LOGS_PAGE.TOKEN.INVALIDATE_SUCCESS')),
-        catchError(error => of(this.dialogService.showNotificationsOnFail(error))),
-      );
+    withLatestFrom(this.store.pipe(select(getModifiedQuotas))),
+    concatMap(([_, modifiedQuotas]) => {
+      const requests = modifiedQuotas.map(quota => {
+        const params = pick(quota, ['resourceType', 'minimum', 'maximum']);
+
+        return this.resourceQuotaService.updateResourceLimit(params).pipe(
+          tap(() => this.showNotificationsOnFinish('LOGS_PAGE.TOKEN.INVALIDATE_SUCCESS')),
+          catchError(error => of(this.dialogService.showNotificationsOnFail(error))),
+        );
+      });
+
+      return concat(...requests);
     }),
   );
 

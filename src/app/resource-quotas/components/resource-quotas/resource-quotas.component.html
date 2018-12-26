@@ -35,6 +35,8 @@
       </tr>
     </table>
 
-    <button class="button" mat-button>{{ 'COMMON.UPDATE' | translate }}</button>
+    <button class="button" mat-button (click)="onUpdate()">
+      {{ 'COMMON.UPDATE' | translate }}
+    </button>
   </div>
 </div>

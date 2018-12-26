@@ -6,6 +6,7 @@ import { resourceTypeNames } from '../utils/resource-type-names';
 
 export interface ResourceQuotasState extends EntityState<ResourceQuota> {
   loading: boolean;
+  errored: boolean;
 }
 
 export const adapter = createEntityAdapter<ResourceQuota>({
@@ -15,6 +16,7 @@ export const adapter = createEntityAdapter<ResourceQuota>({
 
 export const initialState: ResourceQuotasState = adapter.getInitialState({
   loading: false,
+  errored: false,
 });
 
 export function resourceQuotasReducer(
@@ -26,6 +28,7 @@ export function resourceQuotasReducer(
       return {
         ...adapter.removeAll(state),
         loading: true,
+        errored: false,
       };
     }
 
@@ -33,6 +36,14 @@ export function resourceQuotasReducer(
       return {
         ...adapter.addAll([...action.payload], state),
         loading: false,
+      };
+    }
+
+    case resourceQuotasActions.ResourceQuotasActionTypes.LOAD_RESOURCE_QUOTAS_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        errored: true,
       };
     }
 
@@ -52,10 +63,15 @@ export const isLoading = createSelector(
   state => state.loading,
 );
 
-export const getResourceQuotas = createSelector(
+export const isErrorState = createSelector(
   getResourceQuotasState,
+  state => state.errored,
+);
+
+export const getResourceQuotas = createSelector(
+  selectEntities,
   (
-    state,
+    entities,
   ): {
     [resourceType: number]: {
       minimum: number;
@@ -65,7 +81,7 @@ export const getResourceQuotas = createSelector(
     const resourceTypes = Array.from(Array(resourceTypeNames.length).keys());
 
     return resourceTypes.reduce((acc, resourceType) => {
-      const quota = state.entities[resourceType];
+      const quota = entities[resourceType];
 
       return {
         ...acc,

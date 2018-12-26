@@ -21,12 +21,14 @@ export class GatewayApiService extends BaseBackendService<Object> {
         const body = this.getResponse(res);
 
         if (body.failure) {
-          throw new Error(body.failure.response);
+          throw body.failure.response;
         }
 
         return body.success.response;
       }),
-      catchError(e => throwError(ErrorService.parseError(e))),
+      catchError(e => {
+        return throwError(ErrorService.parseError(e));
+      }),
     );
   }
 }

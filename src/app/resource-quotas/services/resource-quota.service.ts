@@ -7,14 +7,24 @@ import { Observable } from 'rxjs';
 export class ResourceQuotaService {
   constructor(protected gatewayApiService: GatewayApiService) {}
 
+  // todo: move env and realm to some config (maybe proxy-conf.js)
+
   public getList(): Observable<ResourceQuota[]> {
-    return this.gatewayApiService.execute('listResourceLimits');
+    return this.gatewayApiService.execute('listResourceLimits', {
+      env: 'development',
+      realm: 'resource-limits',
+    });
   }
 
-  public updateResourceLimit(minimum: number, maximum: number): Observable<ResourceQuota> {
+  public updateResourceLimit(params: {
+    resourceType: number;
+    minimum?: number;
+    maximum?: number;
+  }): Observable<ResourceQuota> {
     return this.gatewayApiService.execute('updateResourceLimit', {
-      minimum,
-      maximum,
+      ...params,
+      env: 'development',
+      realm: 'resource-limits',
     });
   }
 }

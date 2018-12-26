@@ -1517,8 +1517,10 @@
     "REQUEST": {
       "REQUEST_RESOURCES": "Request resources"
     },
-    "NOTIFICATIONS": {
-      "LIMIT_UPDATED": "Resource limits updated successfully"
+    "ADMIN_PAGE": {
+      "LIMIT_UPDATED": "Resource quotas updated successfully",
+      "LIMIT_UPDATE_ERROR": "Failed to update resource quotas",
+      "LOAD_ERROR": "Failed to load resource quotas"
     },
     "MIN": "Min",
     "MAX": "Max",
