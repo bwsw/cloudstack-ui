@@ -14,7 +14,7 @@
     <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}</b> {{ getUrlPassword(vm) }}
   </h4>
   <div class="mat-dialog-actions">
-    <button mat-button color="primary" (click)="accessVm()">
+    <button *ngIf="isVmRunning(vm)" mat-button color="primary" (click)="accessVm()">
       {{ 'VM_PAGE.COMMANDS.VM_ACCESS' | translate }}
     </button>
     <button mat-button color="primary" (click)="dialogRef.close()">

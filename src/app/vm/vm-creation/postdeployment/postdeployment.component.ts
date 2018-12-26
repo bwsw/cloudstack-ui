@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { VirtualMachine } from '../../shared/vm.model';
+import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { State } from '../../../reducers/vm/redux/vm.reducers';
 import { VmCreationComponent } from '../vm-creation.component';
 import { HttpAccessService } from '../../services';
@@ -23,15 +23,19 @@ export class PostdeploymentComponent {
 
   constructor(private store: Store<State>, private httpAccessService: HttpAccessService) {}
 
-  public isHttpAuthMode(vm): boolean {
+  public isHttpAuthMode(vm: VirtualMachine): boolean {
     return this.httpAccessService.isHttpAuthMode(vm);
   }
 
-  public getUrlLogin(vm) {
+  public isVmRunning(vm: VirtualMachine): boolean {
+    return vm.state === VmState.Running;
+  }
+
+  public getUrlLogin(vm: VirtualMachine): string {
     return this.httpAccessService.getLogin(vm);
   }
 
-  public getUrlPassword(vm) {
+  public getUrlPassword(vm: VirtualMachine): string {
     return this.httpAccessService.getPassword(vm);
   }
 
