@@ -29,6 +29,7 @@
               [placeholder]="'RESOURCE_QUOTAS_PAGE.MAX' | translate"
               [ngModel]="resourceQuotas[i].maximum"
               (ngModelChange)="onMaxChange(i, +$event)"
+              required
             />
           </mat-form-field>
         </td>

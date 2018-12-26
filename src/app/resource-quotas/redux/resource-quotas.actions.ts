@@ -5,7 +5,9 @@ export enum ResourceQuotasActionTypes {
   LOAD_RESOURCE_QUOTAS_REQUEST = '[Resource Quotas] LOAD_RESOURCE_QUOTAS_REQUEST',
   LOAD_RESOURCE_QUOTAS_RESPONSE = '[Resource Quotas] LOAD_RESOURCE_QUOTAS_RESPONSE',
   LOAD_RESOURCE_QUOTAS_ERROR = '[Resource Quotas] LOAD_RESOURCE_QUOTAS_ERROR',
-  UPDATE_RESOURCE_LIMITS = '[Resource Quotas] UPDATE_RESOURCE_LIMITS',
+  UPDATE_RESOURCE_LIMITS_REQUEST = '[Resource Quotas] UPDATE_RESOURCE_LIMITS_REQUEST',
+  UPDATE_RESOURCE_LIMITS_RESPONSE = '[Resource Quotas] UPDATE_RESOURCE_LIMITS_RESPONSE',
+  UPDATE_RESOURCE_LIMITS_ERROR = '[Resource Quotas] UPDATE_RESOURCE_LIMITS_ERROR',
   UPDATE_ADMIN_FORM = '[Resource Quotas] UPDATE_ADMIN_FORM',
   UPDATE_ADMIN_FORM_FIELD = '[Resource Quotas] UPDATE_ADMIN_FORM_FIELD',
 }
@@ -26,8 +28,18 @@ export class LoadResourceQuotasError implements Action {
   constructor(readonly payload: Error) {}
 }
 
-export class UpdateResourceLimits implements Action {
-  readonly type = ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS;
+export class UpdateResourceLimitsRequest implements Action {
+  readonly type = ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_REQUEST;
+}
+
+export class UpdateResourceLimitsResponse implements Action {
+  readonly type = ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_RESPONSE;
+}
+
+export class UpdateResourceLimitsError implements Action {
+  readonly type = ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_ERROR;
+
+  constructor(readonly payload: Error) {}
 }
 
 export class UpdateAdminForm implements Action {
@@ -59,6 +71,8 @@ export type Actions =
   | LoadResourceQuotasRequest
   | LoadResourceQuotasResponse
   | LoadResourceQuotasError
-  | UpdateResourceLimits
+  | UpdateResourceLimitsRequest
+  | UpdateResourceLimitsResponse
+  | UpdateResourceLimitsError
   | UpdateAdminForm
   | UpdateAdminFormField;

@@ -9,6 +9,9 @@ export const getModifiedQuotas = createSelector(
   (quotas, quotasForm) => {
     const modifiedQuotas = diff(quotas, quotasForm) || [];
     const modifiedResourceTypes = modifiedQuotas.map(diffRecord => diffRecord.path[0]);
-    return modifiedResourceTypes.map(resourceType => quotasForm[resourceType]);
+    return modifiedResourceTypes.map(resourceType => ({
+      resourceType,
+      ...quotasForm[resourceType],
+    }));
   },
 );

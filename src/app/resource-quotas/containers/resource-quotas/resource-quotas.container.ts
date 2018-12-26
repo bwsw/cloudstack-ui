@@ -38,6 +38,6 @@ export class ResourceQuotasContainerComponent implements OnInit {
   }
 
   public onUpdate() {
-    this.store.dispatch(new resourceQuotasActions.UpdateResourceLimits());
+    this.store.dispatch(new resourceQuotasActions.UpdateResourceLimitsRequest());
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { concat, Observable, of } from 'rxjs';
+import { concat, forkJoin, merge, Observable, of } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -46,24 +46,35 @@ export class ResourceQuotasEffects {
     map(([action, quotas]) => new resourceQuotasActions.UpdateAdminForm(quotas)),
   );
 
-  @Effect({ dispatch: false })
-  updateResourceLimits$ = this.actions$.pipe(
-    ofType<resourceQuotasActions.UpdateResourceLimits>(
-      resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS,
+  @Effect()
+  updateResourceQuotas$ = this.actions$.pipe(
+    ofType<resourceQuotasActions.UpdateResourceLimitsRequest>(
+      resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_REQUEST,
     ),
     withLatestFrom(this.store.pipe(select(getModifiedQuotas))),
-    concatMap(([_, modifiedQuotas]) => {
+    switchMap(([_, modifiedQuotas]) => {
       const requests = modifiedQuotas.map(quota => {
         const params = pick(quota, ['resourceType', 'minimum', 'maximum']);
-
-        return this.resourceQuotaService.updateResourceLimit(params).pipe(
-          tap(() => this.showNotificationsOnFinish('LOGS_PAGE.TOKEN.INVALIDATE_SUCCESS')),
-          catchError(error => of(this.dialogService.showNotificationsOnFail(error))),
-        );
+        return this.resourceQuotaService.updateResourceLimit(params);
       });
 
-      return concat(...requests);
+      return forkJoin(requests).pipe(
+        map(() => {
+          this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.LIMIT_UPDATED');
+          return new resourceQuotasActions.LoadResourceQuotasRequest();
+        }),
+        catchError((error: Error) => {
+          this.dialogService.showNotificationsOnFail(error);
+          return of(new resourceQuotasActions.UpdateResourceLimitsError(error));
+        }),
+      );
     }),
+  );
+
+  @Effect()
+  loadResourceQuotasOnUpdated$: Observable<Action> = this.actions$.pipe(
+    ofType(resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_ERROR),
+    map(() => new resourceQuotasActions.LoadResourceQuotasRequest()),
   );
 
   constructor(
