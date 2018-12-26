@@ -27,7 +27,13 @@ export class GatewayApiService extends BaseBackendService<Object> {
         return body.success.response;
       }),
       catchError(e => {
-        return throwError(ErrorService.parseError(e));
+        const parsedError = ErrorService.parseError(e);
+
+        if (parsedError.message) {
+          return throwError(parsedError);
+        }
+
+        return throwError(new Error('Unexpected error'));
       }),
     );
   }
