@@ -19,8 +19,7 @@
 
 * **vm-logs:** token ([#1494](https://github.com/bwsw/cloudstack-ui/issues/1494)) ([8ef81ab](https://github.com/bwsw/cloudstack-ui/commit/8ef81ab))
 * **vm-snapshots:** add validation for ability to revert a vm ([#1498](https://github.com/bwsw/cloudstack-ui/issues/1498)) ([cc55289](https://github.com/bwsw/cloudstack-ui/commit/cc55289))
-
-
+* **vm-snapshots:** add ability to create, see list of vm snapshots in the vm sidebar ([#1490](https://github.com/bwsw/cloudstack-ui/issues/1490)) ([cc4de0a](https://github.com/bwsw/cloudstack-ui/commit/cc4de0a))
 
 <a name="1.411.26"></a>
 ## [1.411.26](https://github.com/bwsw/cloudstack-ui/compare/1.411.25...1.411.26) (2018-12-10)
