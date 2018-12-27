@@ -9,10 +9,8 @@
     (opened)="openItem(user)"
   >
     <mat-expansion-panel-header>
-      <mat-panel-title>
-        <div [matTooltip]="getUserName(user)">
-          <span class="name-text"> {{ user.firstname }} {{ user.lastname }} </span>
-        </div>
+      <mat-panel-title class="entity-card-title" [matTooltip]="getUserName(user)">
+        {{ user.firstname }} {{ user.lastname }}
       </mat-panel-title>
     </mat-expansion-panel-header>
 

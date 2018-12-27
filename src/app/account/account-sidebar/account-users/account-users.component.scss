@@ -1,7 +1,11 @@
-.name-text {
-  white-space: nowrap;
-  width: 90%;
+.mat-expansion-panel-header {
+  max-width: 100%;
+}
+
+.entity-card-title {
   overflow: hidden;
   text-overflow: ellipsis;
-  display: inline-block;
+  white-space: nowrap;
+  max-width: 95%;
+  display: block;
 }
