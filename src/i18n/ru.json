@@ -1497,27 +1497,27 @@
   },
   "RESOURCE_QUOTAS_PAGE": {
     "RESOURCES": {
-      "INSTANCES": "Instances",
-      "IPS": "IPs",
-      "VOLUMES": "Volumes",
-      "SNAPSHOTS": "Snapshots",
-      "TEMPLATES": "Templates",
-      "PROJECTS": "Projects",
-      "NETWORK": "Network",
-      "VPCS": "VPCs",
-      "CPUS": "CPUs",
-      "MEMORY": "Memory (MB)",
-      "PRIMARY_STORAGE": "Primary storage (GB)",
-      "SECONDARY_STORAGE": "Secondary storage (GB)"
+      "INSTANCES": "Машины",
+      "IPS": "Маршрутизируемые IP адреса",
+      "VOLUMES": "Диски",
+      "SNAPSHOTS": "Снимки",
+      "TEMPLATES": "Шаблоны",
+      "PROJECTS": "Проекты",
+      "NETWORK": "Сеть",
+      "VPCS": "VPC",
+      "CPUS": "CPU",
+      "MEMORY": "Память (МБ)",
+      "PRIMARY_STORAGE": "Основное хранилище (ГБ)",
+      "SECONDARY_STORAGE": "Дополнительное хранилище (ГБ)"
     },
     "ADMIN_PAGE": {
       "LIMIT_UPDATED": "Квоты ресурсов успешно изменены",
       "LIMIT_UPDATE_ERROR": "Не удалось изменить квоты ресурсов",
       "LIMIT_LOAD_ERROR": "Не удалось загрузить квоты ресурсов"
     },
-    "MIN": "Min",
-    "MAX": "Max",
-    "UPDATE": "Update"
+    "MIN": "От",
+    "MAX": "До",
+    "UPDATE": "Обновить"
   },
   "LOGS_PAGE": {
     "FILTERS": {

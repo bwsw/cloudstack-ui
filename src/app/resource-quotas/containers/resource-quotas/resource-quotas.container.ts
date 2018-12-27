@@ -30,7 +30,11 @@ export class ResourceQuotasContainerComponent implements OnInit {
   constructor(private store: Store<State>) {}
 
   public ngOnInit() {
-    this.store.dispatch(new resourceQuotasActions.LoadResourceQuotasRequest());
+    this.store.dispatch(
+      new resourceQuotasActions.LoadResourceQuotasRequest({
+        showLoader: true,
+      }),
+    );
   }
 
   public onFieldChange(params) {

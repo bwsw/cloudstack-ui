@@ -61,7 +61,9 @@ export class ResourceQuotasEffects {
       return forkJoin(requests).pipe(
         map(() => {
           this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.LIMIT_UPDATED');
-          return new resourceQuotasActions.LoadResourceQuotasRequest();
+          return new resourceQuotasActions.LoadResourceQuotasRequest({
+            showLoader: false,
+          });
         }),
         catchError((error: Error) => {
           this.dialogService.showNotificationsOnFail(error);
@@ -74,7 +76,12 @@ export class ResourceQuotasEffects {
   @Effect()
   loadResourceQuotasOnUpdated$: Observable<Action> = this.actions$.pipe(
     ofType(resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_ERROR),
-    map(() => new resourceQuotasActions.LoadResourceQuotasRequest()),
+    map(
+      () =>
+        new resourceQuotasActions.LoadResourceQuotasRequest({
+          showLoader: true,
+        }),
+    ),
   );
 
   constructor(

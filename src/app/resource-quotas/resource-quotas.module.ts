@@ -12,6 +12,7 @@ import { ResourceQuotasEffects } from './redux/resource-quotas.effects';
 import { ResourceQuotasContainerComponent } from './containers/resource-quotas/resource-quotas.container';
 import { resourceQuotasReducer } from './redux/resource-quotas.reducer';
 import { resourceQuotasAdminFormReducer } from './redux/resource-quotas-admin-form.reducer';
+import { ResourceQuotasEnabledGuard } from './resource-quotas-enabled-guard.service';
 
 @NgModule({
   imports: [
@@ -28,7 +29,7 @@ import { resourceQuotasAdminFormReducer } from './redux/resource-quotas-admin-fo
     RequestResourcesComponent,
     ResourceQuotasContainerComponent,
   ],
-  providers: [ResourceQuotaService],
+  providers: [ResourceQuotaService, ResourceQuotasEnabledGuard],
   entryComponents: [RequestResourcesComponent],
 })
 export class ResourceQuotasModule {}

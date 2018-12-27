@@ -40,10 +40,11 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     webShell: false,
     pulse: false,
     vmLogs: false,
+    resourceLimits: false,
   },
   /*
-  * Log View settings
-  * */
+   * Log View settings
+   * */
   vmLogs: {
     autoUpdateRefreshFrequency: 1,
     autoUpdateRequestedInterval: 30,
@@ -61,8 +62,8 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     ru: 'default',
   },
   /*
-  * Images settings
-  */
+   * Images settings
+   */
   imageGroups: [],
   /*
    * User app settings

@@ -10,7 +10,7 @@ export interface ResourceQuotasState extends EntityState<ResourceQuota> {
 }
 
 export const adapter = createEntityAdapter<ResourceQuota>({
-  selectId: resourceQuota => resourceQuota.id,
+  selectId: resourceQuota => resourceQuota.resourceType,
   sortComparer: false,
 });
 
@@ -27,7 +27,7 @@ export function resourceQuotasReducer(
     case resourceQuotasActions.ResourceQuotasActionTypes.LOAD_RESOURCE_QUOTAS_REQUEST: {
       return {
         ...adapter.removeAll(state),
-        loading: true,
+        loading: !action.payload || action.payload.showLoader,
         errored: false,
       };
     }

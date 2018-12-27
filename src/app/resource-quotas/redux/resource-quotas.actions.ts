@@ -14,6 +14,8 @@ export enum ResourceQuotasActionTypes {
 
 export class LoadResourceQuotasRequest implements Action {
   readonly type = ResourceQuotasActionTypes.LOAD_RESOURCE_QUOTAS_REQUEST;
+
+  constructor(readonly payload?: { showLoader?: boolean }) {}
 }
 
 export class LoadResourceQuotasResponse implements Action {

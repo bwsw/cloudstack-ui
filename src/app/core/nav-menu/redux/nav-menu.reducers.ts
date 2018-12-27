@@ -28,21 +28,42 @@ const vmLogsSubroute = {
   routeId: 'virtual-machines',
 };
 
+const resourceQuotasSubroute = {
+  text: 'NAVIGATION_SIDEBAR.RESOURCE_QUOTAS',
+  path: '/resource-quotas',
+  icon: 'mdi-tune',
+  routeId: 'accounts',
+};
+
 export const getNavMenuState = createFeatureSelector<State>('navMenu');
 
-export const getRoutes = createSelector(getNavMenuState, state => state.routes);
+export const getRoutes = createSelector(
+  getNavMenuState,
+  state => state.routes,
+);
 
-const getCurrentSubroutePath = createSelector(getUrl, url => url.match(/^\/[A-Za-z-]*/)[0]);
+const getCurrentSubroutePath = createSelector(
+  getUrl,
+  url => url.match(/^\/[A-Za-z-]*/)[0],
+);
 
-const getAllSubroutes = createSelector(getRoutes, get('extensions'), (routes, { vmLogs }) => {
-  const subroutes = flatten(routes.map(route => route.subroutes));
+const getAllSubroutes = createSelector(
+  getRoutes,
+  get('extensions'),
+  (routes, { vmLogs, resourceLimits }) => {
+    const subroutes = flatten(routes.map(route => route.subroutes));
 
-  if (vmLogs) {
-    return subroutes.concat(vmLogsSubroute);
-  }
+    if (vmLogs) {
+      subroutes.push(vmLogsSubroute);
+    }
 
-  return subroutes;
-});
+    if (resourceLimits) {
+      subroutes.push(resourceQuotasSubroute);
+    }
+
+    return subroutes;
+  },
+);
 
 const getCurrentSubroute = createSelector(
   getCurrentSubroutePath,
@@ -50,14 +71,16 @@ const getCurrentSubroute = createSelector(
   (path, subroutes) => subroutes.find(subroute => subroute && subroute.path === path),
 );
 
-export const getCurrentRoute = createSelector(getRoutes, getCurrentSubroute, (routes, subroute) =>
-  routes.find(route => subroute && route.id === subroute.routeId),
+export const getCurrentRoute = createSelector(
+  getRoutes,
+  getCurrentSubroute,
+  (routes, subroute) => routes.find(route => subroute && route.id === subroute.routeId),
 );
 
 export const getSubroutes = createSelector(
   getCurrentRoute,
   get('extensions'),
-  (route, { vmLogs }) => {
+  (route, { vmLogs, resourceLimits }) => {
     // todo: replace with plugin system
     if (!route) {
       return [];
@@ -65,6 +88,10 @@ export const getSubroutes = createSelector(
 
     if (route.id === 'virtual-machines' && vmLogs) {
       return route.subroutes.concat(vmLogsSubroute);
+    }
+
+    if (route.id === 'accounts' && resourceLimits) {
+      return [route.subroutes[0], resourceQuotasSubroute, ...route.subroutes.slice(1)];
     }
 
     return route.subroutes;

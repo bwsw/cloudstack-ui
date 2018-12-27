@@ -12,6 +12,7 @@ export interface ExtensionsConfig {
   webShell: boolean;
   pulse: boolean;
   vmLogs: boolean;
+  resourceLimits: boolean;
 }
 
 export interface CustomizableConfig {
@@ -23,8 +24,8 @@ export interface CustomizableConfig {
   apiDocLink: string;
   extensions: ExtensionsConfig;
   /*
-  *  Log View settings
-  * */
+   *  Log View settings
+   * */
   vmLogs: {
     autoUpdateRefreshFrequency: number;
     autoUpdateRequestedInterval: number;

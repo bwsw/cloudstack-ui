@@ -5,7 +5,8 @@
   "extensions": {
     "webShell": true,
     "pulse": true,
-    "vmLogs": true
+    "vmLogs": true,
+    "resourceLimits": true
   },
   "vmLogs": {
     "autoUpdateRefreshFrequency": 1,
