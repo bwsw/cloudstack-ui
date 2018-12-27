@@ -10,11 +10,10 @@
   >
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <div class="mat-tab-tooltip" [matTooltip]="user.firstname + user.lastname">
-          {{ user.firstname }} {{ user.lastname }}
+        <div [matTooltip]="getUserName(user)">
+          <span class="name-text"> {{ user.firstname }} {{ user.lastname }} </span>
         </div>
       </mat-panel-title>
-      <mat-panel-description> </mat-panel-description>
     </mat-expansion-panel-header>
 
     <cs-account-user-card [user]="user"></cs-account-user-card>

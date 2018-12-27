@@ -73,6 +73,10 @@ export class AccountUsersComponent {
     }
   }
 
+  public getUserName(user: AccountUser): string {
+    return `${user.firstname} ${user.lastname}`;
+  }
+
   private openUserFormDialog(user?: AccountUser) {
     this.dialog
       .open(AccountUserEditContainerComponent, {

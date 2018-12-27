@@ -1,3 +1,7 @@
-.mat-tab-tooltip {
-  height: 20px !important;
+.name-text {
+  white-space: nowrap;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
 }
