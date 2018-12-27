@@ -365,7 +365,7 @@ It allows performing the following actions with the VM:
 
     In the :ref:`VM_Access` section you can find more information on accessing a VM.
 
-- **Log View** - This option is available if the Log View plugin is activated via the configuration file. When selecting it, a submenu expands to allow creating a token required for secure access to VM logs to export them and invalidating it if necessary.
+- **Log View** - This option is available if the Log View plugin is activated via the configuration file. It allows creating and managing a secret token required for secure publishing of VM logs (see more details in `the plugin documentation <https://github.com/bwsw/cloud-plugin-vm-logs#filebeat-63>`_). 
 
     .. figure:: _static/VMactions_ViewLogs.png
 
@@ -385,12 +385,11 @@ It allows performing the following actions with the VM:
 
         Click OK to close the window.
 
-    * Invalidate token - Allows making the token invalid. In the appeared window, input the token into the text field and click INVALIDATE. The token will become invalid.
+    * Invalidate token - Allows making the token invalid. It is necessary in case of compromising when a token needs to be changed to a new one. In the appeared window, input the token into the text field and click INVALIDATE. The token will become invalid.
 
         .. figure:: _static/VMactions_ViewLogs_InvalidateToken.png
 
         Or you may click CANCEL to close the window. The token will remain valid.
-
 
 - **Pulse** - It is a new feature created in CloudStack-UI to visualize the VM performance statistics. By clicking "Pulse" at the Actions box you will open a modal window with 3 tabs: CPU/RAM, Network, Disk. There you can see the charts of resources statistics for the VM.
 
