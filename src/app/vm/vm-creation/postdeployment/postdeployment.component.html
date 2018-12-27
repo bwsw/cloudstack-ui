@@ -7,12 +7,6 @@
   <h4 *ngIf="vm.nic[0]?.ipaddress">
     <b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{ vm.nic[0].ipaddress }}
   </h4>
-  <h4 *ngIf="isHttpAuthMode(vm) && getUrlLogin(vm)">
-    <b>{{ 'VM_POST_ACTION.LOGIN' | translate }}</b> {{ getUrlLogin(vm) }}
-  </h4>
-  <h4 *ngIf="isHttpAuthMode(vm) && getUrlPassword(vm)">
-    <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}</b> {{ getUrlPassword(vm) }}
-  </h4>
   <div class="mat-dialog-actions">
     <button *ngIf="isVmRunning(vm)" mat-button color="primary" (click)="accessVm()">
       {{ 'VM_PAGE.COMMANDS.VM_ACCESS' | translate }}

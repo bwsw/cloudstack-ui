@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { State } from '../../../reducers/vm/redux/vm.reducers';
 import { VmCreationComponent } from '../vm-creation.component';
-import { HttpAccessService } from '../../services';
 
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 
@@ -21,22 +20,10 @@ export class PostdeploymentComponent {
   @Input()
   public title: string;
 
-  constructor(private store: Store<State>, private httpAccessService: HttpAccessService) {}
-
-  public isHttpAuthMode(vm: VirtualMachine): boolean {
-    return this.httpAccessService.isHttpAuthMode(vm);
-  }
+  constructor(private store: Store<State>) {}
 
   public isVmRunning(vm: VirtualMachine): boolean {
     return vm.state === VmState.Running;
-  }
-
-  public getUrlLogin(vm: VirtualMachine): string {
-    return this.httpAccessService.getLogin(vm);
-  }
-
-  public getUrlPassword(vm: VirtualMachine): string {
-    return this.httpAccessService.getPassword(vm);
   }
 
   public accessVm() {
