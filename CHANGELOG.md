@@ -1,3 +1,26 @@
+<a name="1.411.27"></a>
+## [1.411.27](https://github.com/bwsw/cloudstack-ui/compare/1.411.26...1.411.27) (2018-12-27)
+
+
+### Bug Fixes
+
+* **account-sidebar:** fix account long name are above the other label… ([#1506](https://github.com/bwsw/cloudstack-ui/issues/1506)) ([2ee3a65](https://github.com/bwsw/cloudstack-ui/commit/2ee3a65)), closes [#1503](https://github.com/bwsw/cloudstack-ui/issues/1503)
+* **affinity-groups:** don't show filters if there are no affinity groups ([#1483](https://github.com/bwsw/cloudstack-ui/issues/1483)) ([3d273ba](https://github.com/bwsw/cloudstack-ui/commit/3d273ba))
+* **disk-offering:** cut radio label ([#1501](https://github.com/bwsw/cloudstack-ui/issues/1501)) ([6821e0d](https://github.com/bwsw/cloudstack-ui/commit/6821e0d))
+* **miscellaneous:** minor display error ([#1472](https://github.com/bwsw/cloudstack-ui/issues/1472)) ([5e65a14](https://github.com/bwsw/cloudstack-ui/commit/5e65a14))
+* **project:** lint ([#1497](https://github.com/bwsw/cloudstack-ui/issues/1497)) ([2d407cb](https://github.com/bwsw/cloudstack-ui/commit/2d407cb))
+* **snapshot:** allow delete for errored snapshots ([#1499](https://github.com/bwsw/cloudstack-ui/issues/1499)) ([dcc637d](https://github.com/bwsw/cloudstack-ui/commit/dcc637d))
+* **snapshots:** date bug ([#1489](https://github.com/bwsw/cloudstack-ui/issues/1489)) ([0503a13](https://github.com/bwsw/cloudstack-ui/commit/0503a13))
+* **ssh:** connection string ([#1485](https://github.com/bwsw/cloudstack-ui/issues/1485)) ([7ba497c](https://github.com/bwsw/cloudstack-ui/commit/7ba497c))
+* **vm-creation:** show access helpers ([#1502](https://github.com/bwsw/cloudstack-ui/issues/1502)) ([e698815](https://github.com/bwsw/cloudstack-ui/commit/e698815))
+
+
+### Features
+
+* **vm-logs:** token ([#1494](https://github.com/bwsw/cloudstack-ui/issues/1494)) ([8ef81ab](https://github.com/bwsw/cloudstack-ui/commit/8ef81ab))
+* **vm-snapshots:** add validation for ability to revert a vm ([#1498](https://github.com/bwsw/cloudstack-ui/issues/1498)) ([cc55289](https://github.com/bwsw/cloudstack-ui/commit/cc55289))
+* **vm-snapshots:** add ability to create, see list of vm snapshots in the vm sidebar ([#1490](https://github.com/bwsw/cloudstack-ui/issues/1490)) ([cc4de0a](https://github.com/bwsw/cloudstack-ui/commit/cc4de0a))
+
 <a name="1.411.26"></a>
 ## [1.411.26](https://github.com/bwsw/cloudstack-ui/compare/1.411.25...1.411.26) (2018-12-10)
 

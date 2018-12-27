@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-06 10:47+0700\n"
-"PO-Revision-Date: 2018-12-06 10:53+0700\n"
+"POT-Creation-Date: 2018-12-25 15:59+0700\n"
+"PO-Revision-Date: 2018-12-25 16:02+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -66,10 +66,10 @@ msgstr "Установка плагина"
 #: ../../CSUI-LogView.rst:20
 msgid ""
 "Full instructions on the Log View plugin deployment is presented at the `plugin "
-"page <https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin>`_."
+"page <https://github.com/bwsw/cloudstack-ui/wiki/Log-View-Plugin>`_."
 msgstr ""
 "Полная инструкция по установке бэкенд-плагина Log View представлена на `странице "
-"описания плагина <https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin>`_."
+"описания плагина <https://github.com/bwsw/cloudstack-ui/wiki/Log-View-Plugin>`_."
 
 #: ../../CSUI-LogView.rst:22
 msgid "To enable the Log View plugin you need to:"
@@ -121,6 +121,10 @@ msgid "Select the following parameters in the provided order from drop-down list
 msgstr "Выберите из ниспадающих списков следующие параметры в указанном порядке:"
 
 #: ../../CSUI-LogView.rst:39
+msgid "Required fields are marked with an asterisk (*)."
+msgstr "Обязательные поля отмечены \"звездочкой\" (*)."
+
+#: ../../CSUI-LogView.rst:41
 msgid ""
 "Accounts * - Allows Administrators to further select a VM in a specific account/"
 "accounts. Select an account or a number of accounts in the drop-down list."
@@ -129,7 +133,7 @@ msgstr ""
 "конкретного(ых) аккаунта(ов), для которой необходимо просмотреть журналы . "
 "Выберите из ниспадающего списка один или несколько аккаунтов."
 
-#: ../../CSUI-LogView.rst:41
+#: ../../CSUI-LogView.rst:43
 msgid ""
 "VM * - Allows selecting logs for a specific VM. Choose a machine you wish in the "
 "drop-down list. The list of available VMs is determined by the account(s) "
@@ -141,7 +145,7 @@ msgstr ""
 "предыдущем шаге, если вы Администратор. Если вы пользователь, в списке вы "
 "увидите те машины, которые принадлежат вашему пользователю."
 
-#: ../../CSUI-LogView.rst:43
+#: ../../CSUI-LogView.rst:45
 msgid ""
 "Log file - Allows viewing logs by a log file available for the selected VM. "
 "Choose a log file in the drop-down list. If no log file selected, all machine "
@@ -152,7 +156,7 @@ msgstr ""
 "конкретный журнал, в списке будут отображены записи из всех журналов выбранной "
 "машины."
 
-#: ../../CSUI-LogView.rst:45
+#: ../../CSUI-LogView.rst:47
 msgid ""
 "Date * - Allows selecting logs for a specific period. Click |date icon| and in "
 "the appeared calendar choose the start and end dates to see the logs for. By "
@@ -162,7 +166,7 @@ msgstr ""
 "date icon| и в появившемся календаре выберите начальную и конечную дату. По "
 "умолчанию показываются логи за последние сутки."
 
-#: ../../CSUI-LogView.rst:49
+#: ../../CSUI-LogView.rst:51
 msgid ""
 "Time - Allows filtering logs for a specific time period within the selected "
 "dates. The time format is determined by the time format setting specified under "
@@ -174,15 +178,15 @@ msgstr ""
 "\"Настройки\". Вы можете ввести желаемое время в полях для начального и "
 "конечного времени."
 
-#: ../../CSUI-LogView.rst:53
+#: ../../CSUI-LogView.rst:55
 msgid "Click \"Show logs\" to implement the filtering settings."
 msgstr "Нажмите \"Показать логи\" для вывода логов согласно параметрам фильтрации."
 
-#: ../../CSUI-LogView.rst:57
+#: ../../CSUI-LogView.rst:59
 msgid "The logs will be displayed in accordance with the chosen period."
 msgstr "В списке будут отражены логи за указанный период."
 
-#: ../../CSUI-LogView.rst:59 ../../CSUI-LogView.rst:79
+#: ../../CSUI-LogView.rst:61 ../../CSUI-LogView.rst:81
 msgid ""
 "You can change filtering parameters and refresh the list of logs by clicking "
 "\"SHOW LOGS\"."
@@ -190,7 +194,7 @@ msgstr ""
 "Можно изменить параметры фильтрации и обновить список логов, нажав \"ПОКАЗАТЬ "
 "ЛОГИ\"."
 
-#: ../../CSUI-LogView.rst:61
+#: ../../CSUI-LogView.rst:63
 msgid ""
 "The set filtering parameters are saved to user tags. That means, if you log out "
 "of the system and then login again, you will continue to view logs with the "
@@ -200,11 +204,11 @@ msgstr ""
 "покинув систему и снова вернувшись в нее, вы продолжите просмотр журналов машин "
 "с теми же параметрами фильтрации, которые были заданы прежде. "
 
-#: ../../CSUI-LogView.rst:64
+#: ../../CSUI-LogView.rst:66
 msgid "View Logs List"
 msgstr "Список логов"
 
-#: ../../CSUI-LogView.rst:65
+#: ../../CSUI-LogView.rst:67
 msgid ""
 "By clicking \"SHOW LOGS\", a user can view log files corresponding to the "
 "filtering parameters. Logs are listed in a chronological order from the earliest "
@@ -214,11 +218,11 @@ msgstr ""
 "в соответствии с параметрами фильтрации. Записи в списке показаны в "
 "хронологическом порядке, от самых ранних до самых поздних."
 
-#: ../../CSUI-LogView.rst:67
+#: ../../CSUI-LogView.rst:69
 msgid "By default, the system shows logs for the last day."
 msgstr "По умолчанию, отображаются записи за последние сутки."
 
-#: ../../CSUI-LogView.rst:69
+#: ../../CSUI-LogView.rst:71
 msgid ""
 "A user can view logs for his/her VMs only. An Administrator can see logs for all "
 "accounts in the domain."
@@ -226,27 +230,27 @@ msgstr ""
 "Пользователь может просматривать логи только для своих машин. Администратор "
 "может просматривать логи для машин всех аккаунтов  в домене."
 
-#: ../../CSUI-LogView.rst:73
+#: ../../CSUI-LogView.rst:75
 msgid "The following information for each log file is presented in the list:"
 msgstr "Для каждой записи в таблице представлена следующая информация:"
 
-#: ../../CSUI-LogView.rst:75
+#: ../../CSUI-LogView.rst:77
 msgid "Date"
 msgstr "Дата"
 
-#: ../../CSUI-LogView.rst:76
+#: ../../CSUI-LogView.rst:78
 msgid "File"
 msgstr "Журнал"
 
-#: ../../CSUI-LogView.rst:77
+#: ../../CSUI-LogView.rst:79
 msgid "Text"
 msgstr "Текст"
 
-#: ../../CSUI-LogView.rst:82
+#: ../../CSUI-LogView.rst:84
 msgid "Sorting Logs"
 msgstr "Сортировка записей"
 
-#: ../../CSUI-LogView.rst:83
+#: ../../CSUI-LogView.rst:85
 msgid ""
 "The sorting tool allows viewing the newest logs first in the list. Enable the "
 "checkbox to the right and click on \"Show logs\" to refresh the list."
@@ -254,11 +258,11 @@ msgstr ""
 "Для сортировки записей можно активировать опцию \"Новые сверху\" справа и "
 "обновить список кликом на \"ПОКАЗАТЬ ЛОГИ\"."
 
-#: ../../CSUI-LogView.rst:88
+#: ../../CSUI-LogView.rst:90
 msgid "Searching Logs"
 msgstr "Поиск по записям"
 
-#: ../../CSUI-LogView.rst:89
+#: ../../CSUI-LogView.rst:91
 msgid ""
 "Use the search tool to find logs by a word or a text. Enter the text in the "
 "search field above the list and click on \"Show logs\" to refresh the list."
@@ -267,11 +271,11 @@ msgstr ""
 "расположенной над списком. Введите слово или текст и нажмите \"ПОКАЗАТЬ ЛОГИ\", "
 "чтобы обновить список. Записи будут отфильтрованы по заданным критериям поиска."
 
-#: ../../CSUI-LogView.rst:94
+#: ../../CSUI-LogView.rst:96
 msgid "Following Logs"
 msgstr "Просмотр записей в режиме реального времени"
 
-#: ../../CSUI-LogView.rst:95
+#: ../../CSUI-LogView.rst:97
 msgid ""
 "After setting filtering parameters and clicking \"Show logs\", a user can start "
 "following logs, in other words, start monitoring logs online."
@@ -280,7 +284,7 @@ msgstr ""
 "пользователь может включить просмотр записей в режиме реального времени, чтобы "
 "отслеживать записи журналов машины."
 
-#: ../../CSUI-LogView.rst:97
+#: ../../CSUI-LogView.rst:99
 msgid ""
 "When the \"Follow logs\" option is activated, the Log View UI-plugin sends "
 "requests to get the latest logs with the defined frequency and for a period, "
@@ -297,7 +301,7 @@ msgstr ""
 "конфигурационном файле (см. подробнее в `руководстве по конфигурациям <https://"
 "github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#log-view-plugin>`_) "
 
-#: ../../CSUI-LogView.rst:99
+#: ../../CSUI-LogView.rst:101
 msgid ""
 "To view logs in a real time-mode, click \"Follow logs\" |follow icon|. This "
 "button is available right after selecting a virtual machine in the filtering "
@@ -312,7 +316,7 @@ msgstr ""
 "что список записей журналов автоматически обновляется каждую секунду. При этом  "
 "параметры фильтрации недоступны для выбора. "
 
-#: ../../CSUI-LogView.rst:103
+#: ../../CSUI-LogView.rst:105
 msgid ""
 "The \"Follow logs\" button changes its position depending on the applied sorting "
 "mode. If the \"Newest first\" option is disabled the button stands in the bottom-"
@@ -327,7 +331,7 @@ msgstr ""
 "отображаться в обратном хронологическом порядке - от более ранних к более "
 "поздним."
 
-#: ../../CSUI-LogView.rst:107
+#: ../../CSUI-LogView.rst:109
 msgid ""
 "By default, the list contains up to 1000 log records showing logs for the last "
 "minute."
@@ -335,7 +339,7 @@ msgstr ""
 "По умолчанию, в списке отображаются записи за последнюю минуту. Максимальное "
 "количество записей - 1000."
 
-#: ../../CSUI-LogView.rst:109
+#: ../../CSUI-LogView.rst:111
 msgid ""
 "If too many entries are to be displayed in the list, the system loads them by "
 "parts when a user scrolls the list down."
@@ -343,7 +347,7 @@ msgstr ""
 "Если в списке большое количество записей, они будут подгружаться частями при "
 "\"прокрутке\" списка вниз."
 
-#: ../../CSUI-LogView.rst:111
+#: ../../CSUI-LogView.rst:113
 msgid ""
 "You can set up parameters of log following in the \"Log View Plugin Settings\" "
 "section:"
@@ -351,7 +355,7 @@ msgstr ""
 "Вы можете изменить параметры по умолчанию в разделе настроек “Просмотр логов "
 "(режим реального времени)”:"
 
-#: ../../CSUI-LogView.rst:113
+#: ../../CSUI-LogView.rst:115
 msgid ""
 "**Show last (minutes)** - allows viewing logs for the last set period. You can "
 "set the number of minutes from 1 (default) to 10."
@@ -359,7 +363,7 @@ msgstr ""
 "**Показывать за последние (минуты)** - время, за которое вы желаете видеть "
 "записи; допустимые значения - от 1 (по умолчанию) до 10 минут."
 
-#: ../../CSUI-LogView.rst:114
+#: ../../CSUI-LogView.rst:116
 msgid ""
 "**Show last (messages)** - allows setting a maximum amount of logs to display. "
 "You can set from 1 to any number of log records. By default, 1000 messages are "
@@ -369,11 +373,11 @@ msgstr ""
 "число записей для показа; допустимые значения - от 1 до бесконечности. По "
 "умолчанию, показываются 1000 записей."
 
-#: ../../CSUI-LogView.rst:116
+#: ../../CSUI-LogView.rst:118
 msgid "Click \"Update\" to apply the settings."
 msgstr "Нажмите \"Обновить\" для применения заданных значений."
 
-#: ../../CSUI-LogView.rst:120
+#: ../../CSUI-LogView.rst:122
 msgid "To stop following logs click on |unfollow icon|."
 msgstr "Чтобы остановить отслеживание записей, нажмите |unfollow icon|."
 
