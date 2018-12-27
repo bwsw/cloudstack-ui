@@ -1,7 +1,5 @@
 <div class="tab-action-container" *ngIf="isAdmin">
-  <button mat-mini-fab (click)="addUser()">
-    <mat-icon class="mdi-plus"></mat-icon>
-  </button>
+  <button mat-mini-fab (click)="addUser()"><mat-icon class="mdi-plus"></mat-icon></button>
 </div>
 
 <mat-accordion *ngIf="!!account">
@@ -12,26 +10,22 @@
   >
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ user.firstname }} {{ user.lastname }}
+        <div class="mat-tab-tooltip" [matTooltip]="user.firstname + user.lastname">
+          {{ user.firstname }} {{ user.lastname }}
+        </div>
       </mat-panel-title>
-      <mat-panel-description>
-      </mat-panel-description>
+      <mat-panel-description> </mat-panel-description>
     </mat-expansion-panel-header>
 
     <cs-account-user-card [user]="user"></cs-account-user-card>
 
-    <mat-action-row
-      *ngIf="isAdmin || currentUserId === user.id"
-    >
+    <mat-action-row *ngIf="isAdmin || currentUserId === user.id">
       <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
         <mat-icon class="mdi-dots-vertical"></mat-icon>
       </button>
     </mat-action-row>
 
-    <mat-menu
-      #actionsMenu="matMenu"
-      [style.width.px]="300"
-    >
+    <mat-menu #actionsMenu="matMenu" [style.width.px]="300">
       <cs-account-user-actions
         [user]="user"
         (userDeleted)="deleteUser($event)"

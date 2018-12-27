@@ -167,6 +167,12 @@ mat-card.custom-card {
   }
 }
 
+.mat-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .options-panel {
   box-sizing: border-box;
   z-index: 1;

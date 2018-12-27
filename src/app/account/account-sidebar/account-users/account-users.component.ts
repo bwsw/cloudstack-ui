@@ -8,6 +8,7 @@ import { AccountUserPasswordFormContainerComponent } from '../../account-contain
 @Component({
   selector: 'cs-account-users',
   templateUrl: 'account-users.component.html',
+  styleUrls: ['account-users.component.scss'],
 })
 export class AccountUsersComponent {
   @Input()
