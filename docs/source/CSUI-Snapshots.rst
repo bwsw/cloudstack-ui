@@ -153,6 +153,8 @@ Select "Revert VM to Snapshot" from the actions list and confirm your action in 
 
 .. figure:: _static/Snapshots_Actions_RevertVM.png
 
+.. note:: It is not allowed to revert a machine to snapshot if the current Service Offering of the VM differs from that used at the moment the snapshot was taken.
+
 **Delete**
 
 This action allows deleting a snapshot from the system.
