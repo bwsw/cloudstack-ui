@@ -9,9 +9,9 @@
     (opened)="openItem(user)"
   >
     <mat-expansion-panel-header>
-      <mat-panel-title class="entity-card-title" [matTooltip]="getUserName(user)">
+      <div class="truncate" [matTooltip]="user.firstname + ' ' + user.lastname">
         {{ user.firstname }} {{ user.lastname }}
-      </mat-panel-title>
+      </div>
     </mat-expansion-panel-header>
 
     <cs-account-user-card [user]="user"></cs-account-user-card>
