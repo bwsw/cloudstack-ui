@@ -1510,10 +1510,14 @@
       "PRIMARY_STORAGE": "Основное хранилище (ГБ)",
       "SECONDARY_STORAGE": "Дополнительное хранилище (ГБ)"
     },
+    "REQUEST": {
+      "REQUEST_RESOURCES_BUTTON": "Запросить ресурсы",
+      "REQUEST_RESOURCES_TITLE": "Запрос ресурсов",
+      "LIMIT_UPDATED": "Лимиты ресурсов успешно изменены"
+    },
     "ADMIN_PAGE": {
-      "LIMIT_UPDATED": "Квоты ресурсов успешно изменены",
-      "LIMIT_UPDATE_ERROR": "Не удалось изменить квоты ресурсов",
-      "LIMIT_LOAD_ERROR": "Не удалось загрузить квоты ресурсов"
+      "QUOTA_UPDATED": "Квоты ресурсов успешно изменены",
+      "QUOTA_LOAD_ERROR": "Не удалось загрузить квоты ресурсов"
     },
     "MIN": "От",
     "MAX": "До",

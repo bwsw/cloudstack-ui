@@ -21,6 +21,7 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SnackBarService } from '../../core/services';
 import * as fromResourceQuotas from '../redux/resource-quotas.reducer';
 import { getModifiedQuotas } from './selectors/modified-quotas.selector';
+import { getModifiedLimits } from './selectors/modified-limits.selector';
 
 @Injectable()
 export class ResourceQuotasEffects {
@@ -40,17 +41,22 @@ export class ResourceQuotasEffects {
   );
 
   @Effect()
-  updateFormOnQuotasLoaded$: Observable<Action> = this.actions$.pipe(
+  updateAdminFormOnQuotasLoaded$: Observable<Action> = this.actions$.pipe(
     ofType(resourceQuotasActions.ResourceQuotasActionTypes.LOAD_RESOURCE_QUOTAS_RESPONSE),
     withLatestFrom(this.store.pipe(select(fromResourceQuotas.getResourceQuotas))),
     map(([action, quotas]) => new resourceQuotasActions.UpdateAdminForm(quotas)),
   );
 
   @Effect()
+  updateUserFormOnQuotasLoaded$: Observable<Action> = this.actions$.pipe(
+    ofType(resourceQuotasActions.ResourceQuotasActionTypes.LOAD_RESOURCE_QUOTAS_RESPONSE),
+    withLatestFrom(this.store.pipe(select(fromResourceQuotas.getResourceQuotas))),
+    map(([action, quotas]) => new resourceQuotasActions.UpdateUserForm(quotas)),
+  );
+
+  @Effect({ dispatch: false })
   updateResourceQuotas$ = this.actions$.pipe(
-    ofType<resourceQuotasActions.UpdateResourceLimitsRequest>(
-      resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_REQUEST,
-    ),
+    ofType(resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_QUOTAS_REQUEST),
     withLatestFrom(this.store.pipe(select(getModifiedQuotas))),
     switchMap(([_, modifiedQuotas]) => {
       const requests = modifiedQuotas.map(quota => {
@@ -59,29 +65,34 @@ export class ResourceQuotasEffects {
       });
 
       return forkJoin(requests).pipe(
-        map(() => {
-          this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.LIMIT_UPDATED');
-          return new resourceQuotasActions.LoadResourceQuotasRequest({
-            showLoader: false,
-          });
+        tap(() => {
+          this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.REQUEST.LIMIT_UPDATED');
         }),
         catchError((error: Error) => {
-          this.dialogService.showNotificationsOnFail(error);
-          return of(new resourceQuotasActions.UpdateResourceLimitsError(error));
+          return of(this.dialogService.showNotificationsOnFail(error));
         }),
       );
     }),
   );
 
   @Effect()
+  updateResourceLimit$ = this.actions$.pipe(
+    ofType(resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_REQUEST),
+    withLatestFrom(this.store.pipe(select(getModifiedLimits))),
+    switchMap(([_, modifiedLimits]) => {
+      const requests = modifiedLimits.map(limit => {
+        const params = pick(limit, ['resourceType', 'max']);
+        return this.resourceQuotaService.updateResource(params);
+      });
+
+      return forkJoin(requests).pipe();
+    }),
+  );
+
+  @Effect()
   loadResourceQuotasOnUpdated$: Observable<Action> = this.actions$.pipe(
-    ofType(resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_ERROR),
-    map(
-      () =>
-        new resourceQuotasActions.LoadResourceQuotasRequest({
-          showLoader: true,
-        }),
-    ),
+    ofType(resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_QUOTAS_ERROR),
+    map(() => new resourceQuotasActions.LoadResourceQuotasRequest()),
   );
 
   constructor(

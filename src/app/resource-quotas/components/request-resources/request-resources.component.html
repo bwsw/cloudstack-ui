@@ -1,24 +1,26 @@
-<h3 mat-dialog-title>{{ 'RESOURCE_QUOTAS_PAGE.REQUEST.REQUEST_RESOURCES' | translate }}</h3>
+<h3 mat-dialog-title>{{ 'RESOURCE_QUOTAS_PAGE.REQUEST.REQUEST_RESOURCES_TITLE' | translate }}</h3>
 <div class="form" mat-dialog-content>
   <table>
-    <tr class="row" *ngFor="let title of titles">
-      <td class="title">{{ title.title | translate }}</td>
-      <td class="slider-cell">
-        <mat-slider [value]="title.value" class="slider" [thumbLabel]="true"></mat-slider>
-      </td>
-      <td class="min">
-        <mat-form-field>
-          <input matInput [value]="title.value">
-        </mat-form-field>
-      </td>
-    </tr>
+    <ng-container *ngFor="let resourceName of resourceQuotaNames; let i = index">
+      <tr class="row" *ngIf="resourceQuotas[i]">
+        <td class="title">{{ resourceName | translate }}</td>
+        <td class="slider-cell">
+          <mat-slider
+            [min]="resourceQuotas[i].minimum"
+            [max]="resourceQuotas[i].maximum"
+            [value]="0"
+            class="slider"
+            [thumbLabel]="true"
+          ></mat-slider>
+        </td>
+        <td class="min">
+          <mat-form-field> <input matInput [value]="0" /> </mat-form-field>
+        </td>
+      </tr>
+    </ng-container>
   </table>
 </div>
 <mat-dialog-actions>
-  <button class="button" mat-button>
-    {{ 'COMMON.CANCEL' | translate }}
-  </button>
-  <button class="button" mat-button>
-    {{ 'COMMON.UPDATE' | translate }}
-  </button>
+  <button class="button" mat-button matDialogClose>{{ 'COMMON.CANCEL' | translate }}</button>
+  <button class="button" mat-button>{{ 'COMMON.UPDATE' | translate }}</button>
 </mat-dialog-actions>

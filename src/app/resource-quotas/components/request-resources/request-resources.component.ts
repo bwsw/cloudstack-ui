@@ -15,5 +15,8 @@ export class RequestResourcesComponent {
     };
   };
 
+  @Input()
+  resourceLimits: any;
+
   public resourceQuotaNames = resourceTypeNames;
 }

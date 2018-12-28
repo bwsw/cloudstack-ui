@@ -6,6 +6,7 @@ import { resourceTypeNames } from '../utils/resource-type-names';
 
 export interface ResourceQuotasState extends EntityState<ResourceQuota> {
   loading: boolean;
+  loaded: boolean;
   errored: boolean;
 }
 
@@ -16,6 +17,7 @@ export const adapter = createEntityAdapter<ResourceQuota>({
 
 export const initialState: ResourceQuotasState = adapter.getInitialState({
   loading: false,
+  loaded: false,
   errored: false,
 });
 
@@ -27,7 +29,7 @@ export function resourceQuotasReducer(
     case resourceQuotasActions.ResourceQuotasActionTypes.LOAD_RESOURCE_QUOTAS_REQUEST: {
       return {
         ...adapter.removeAll(state),
-        loading: !action.payload || action.payload.showLoader,
+        loading: !state.loaded,
         errored: false,
       };
     }
@@ -36,6 +38,7 @@ export function resourceQuotasReducer(
       return {
         ...adapter.addAll([...action.payload], state),
         loading: false,
+        loaded: true,
       };
     }
 

@@ -1515,12 +1515,13 @@
       "SECONDARY_STORAGE": "Secondary storage (GB)"
     },
     "REQUEST": {
-      "REQUEST_RESOURCES": "Request resources"
+      "REQUEST_RESOURCES_BUTTON": "Request resources",
+      "REQUEST_RESOURCES_TITLE": "Request resources",
+      "LIMIT_UPDATED": "Resource limits updated successfully"
     },
     "ADMIN_PAGE": {
-      "LIMIT_UPDATED": "Resource quotas updated successfully",
-      "LIMIT_UPDATE_ERROR": "Failed to update resource quotas",
-      "LOAD_ERROR": "Failed to load resource quotas"
+      "QUOTA_UPDATED": "Resource quotas updated successfully",
+      "QUOTA_LOAD_ERROR": "Failed to load resource quotas"
     },
     "MIN": "Min",
     "MAX": "Max",

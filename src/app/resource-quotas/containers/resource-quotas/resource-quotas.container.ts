@@ -18,7 +18,7 @@ import * as fromAdminForm from '../../redux/resource-quotas-admin-form.reducer';
     </ng-container>
     <cs-no-results
       *ngIf="(isErrorState$ | async)"
-      [text]="'RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.LIMIT_LOAD_ERROR'"
+      [text]="'RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.QUOTA_LOAD_ERROR'"
     ></cs-no-results>
   `,
 })
@@ -30,11 +30,7 @@ export class ResourceQuotasContainerComponent implements OnInit {
   constructor(private store: Store<State>) {}
 
   public ngOnInit() {
-    this.store.dispatch(
-      new resourceQuotasActions.LoadResourceQuotasRequest({
-        showLoader: true,
-      }),
-    );
+    this.store.dispatch(new resourceQuotasActions.LoadResourceQuotasRequest());
   }
 
   public onFieldChange(params) {
@@ -42,6 +38,6 @@ export class ResourceQuotasContainerComponent implements OnInit {
   }
 
   public onUpdate() {
-    this.store.dispatch(new resourceQuotasActions.UpdateResourceLimitsRequest());
+    this.store.dispatch(new resourceQuotasActions.UpdateResourceQuotasRequest());
   }
 }

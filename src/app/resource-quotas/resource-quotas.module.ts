@@ -12,6 +12,7 @@ import { ResourceQuotasEffects } from './redux/resource-quotas.effects';
 import { ResourceQuotasContainerComponent } from './containers/resource-quotas/resource-quotas.container';
 import { resourceQuotasReducer } from './redux/resource-quotas.reducer';
 import { resourceQuotasAdminFormReducer } from './redux/resource-quotas-admin-form.reducer';
+import { resourceQuotasUserFormReducer } from './redux/resource-quotas-user-form.reducer';
 import { ResourceQuotasEnabledGuard } from './resource-quotas-enabled-guard.service';
 import { RequestResourcesContainerComponent } from './containers/resource-quotas/request-resources.container';
 
@@ -23,6 +24,7 @@ import { RequestResourcesContainerComponent } from './containers/resource-quotas
     RouterModule,
     StoreModule.forFeature('resourceQuotas', resourceQuotasReducer),
     StoreModule.forFeature('resourceQuotasAdminForm', resourceQuotasAdminFormReducer),
+    StoreModule.forFeature('resourceQuotasUserForm', resourceQuotasUserFormReducer),
     EffectsModule.forFeature([ResourceQuotasEffects]),
   ],
   declarations: [
@@ -32,6 +34,6 @@ import { RequestResourcesContainerComponent } from './containers/resource-quotas
     RequestResourcesContainerComponent,
   ],
   providers: [ResourceQuotaService, ResourceQuotasEnabledGuard],
-  entryComponents: [RequestResourcesComponent],
+  entryComponents: [RequestResourcesContainerComponent],
 })
 export class ResourceQuotasModule {}
