@@ -179,3 +179,30 @@ export const selectFilteredOfferings = createSelector(
     );
   },
 );
+
+export const isOfferingsAvailable = createSelector(
+  getAvailableOfferings,
+  filterSelectedClasses,
+  filterQuery,
+  configSelectors.get('computeOfferingClasses'),
+  (offerings, selectedClasses, query, classes) => {
+    const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const queryLower = query && query.toLowerCase();
+
+    const selectedClassesFilter = (offering: ServiceOffering) => {
+      if (selectedClasses.length) {
+        return classesFilter(offering, classes, classesMap);
+      }
+      return true;
+    };
+
+    const queryFilter = (offering: ServiceOffering) =>
+      !query || offering.name.toLowerCase().includes(queryLower);
+
+    const available = offerings.filter(
+      (offering: ServiceOffering) => queryFilter(offering) && selectedClassesFilter(offering),
+    );
+
+    return available.length !== 0;
+  },
+);
