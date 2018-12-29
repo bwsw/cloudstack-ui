@@ -24,7 +24,6 @@ const getGroupName = (snapshot: Snapshot | VmSnapshotViewModel) => {
 };
 
 const FILTER_KEY = 'snapshotFilters';
-
 @Component({
   selector: 'cs-snapshots-filter-container',
   template: `
@@ -37,6 +36,7 @@ const FILTER_KEY = 'snapshotFilters';
       [firstDayOfWeek]="firstDayOfWeek$ | async"
       [selectedAccounts]="(filters$ | async).accounts"
       [selectedVms]="(filters$ | async).vmIds"
+      [selectedVmIds]="(filters$ | async).volumeVmIds"
       [selectedTypes]="(filters$ | async).volumeSnapshotTypes"
       [selectedDate]="(filters$ | async).date"
       [selectedGroupings]="selectedGroupings$ | async"
@@ -44,6 +44,7 @@ const FILTER_KEY = 'snapshotFilters';
       [viewMode]="viewMode$ | async"
       (selectedAccountsChange)="onAccountsChange($event)"
       (selectedVmsChange)="onSelectedVmsChange($event)"
+      (selectedVolumeVmsChange)="onSelectedVolumeVmsChange($event)"
       (selectedTypesChange)="onTypesChange($event)"
       (selectedDateChange)="onDateChange($event)"
       (selectedGroupingsChange)="onGroupingsChange($event)"
@@ -169,6 +170,10 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
 
   public onSelectedVmsChange(vmIds: string[]) {
     this.store.dispatch(new snapshotPageActions.UpdateFilters({ vmIds }));
+  }
+
+  public onSelectedVolumeVmsChange(volumeVmIds: string[]): void {
+    this.store.dispatch(new snapshotPageActions.UpdateFilters({ volumeVmIds }));
   }
 
   public onTypesChange(selectedTypes) {

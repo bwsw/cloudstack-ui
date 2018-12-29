@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import * as volumeSnapshotsSelectors from '../../reducers/snapshots/redux/snapshot.reducers';
 import * as vmSelectors from '../../reducers/vm/redux/vm.reducers';
 import { vmSnapshotsSelectors } from '../../root-store/server-data/vm-snapshots';
-import { getSnapshotDescription, Snapshot } from '../../shared/models';
+import { getSnapshotDescription, Snapshot, Volume } from '../../shared/models';
 import { getSnapshotType, VmSnapshot } from '../../shared/models/vm-snapshot.model';
 import { SnapshotType } from '../../shared/types';
 import { VirtualMachine, VmState } from '../../vm';
@@ -11,16 +11,29 @@ import { Filters } from '../models/filters.model';
 import { VmSnapshotSidebarViewModel } from '../models/vm-snapshot-sidebar.view-model';
 import { VmSnapshotViewModel } from '../models/vm-snapshot.view-model';
 import { SnapshotPageState, snapshotPageStoreName } from './snapshot-page.reducer';
+import { selectVolumesWithSnapshots } from '../../reducers/volumes/redux/volumes.reducers';
 
 const getSnapshotPageState = createFeatureSelector<SnapshotPageState>(snapshotPageStoreName);
 
-const getSelectedId = createSelector(getSnapshotPageState, state => state.selectedId);
+const getSelectedId = createSelector(
+  getSnapshotPageState,
+  state => state.selectedId,
+);
 
-export const getViewMode = createSelector(getSnapshotPageState, state => state.viewMode);
+export const getViewMode = createSelector(
+  getSnapshotPageState,
+  state => state.viewMode,
+);
 
-export const getFilters = createSelector(getSnapshotPageState, (state): Filters => state.filters);
+export const getFilters = createSelector(
+  getSnapshotPageState,
+  (state): Filters => state.filters,
+);
 
-export const getGroupings = createSelector(getSnapshotPageState, state => state.groupings);
+export const getGroupings = createSelector(
+  getSnapshotPageState,
+  state => state.groupings,
+);
 
 export const getSelectedSnapshot = createSelector(
   getSelectedId,
@@ -120,10 +133,28 @@ export const getVmSnapshots = createSelector(
   },
 );
 
+export const getFilteredVolumesByVmId = createSelector(
+  selectVolumesWithSnapshots,
+  getFilters,
+  (volumesWithSnapshot, filter) => {
+    const filterByVms = (volume: Volume) => {
+      const filterEnabled = filter.volumeVmIds.length > 0;
+      if (!filterEnabled) {
+        return true;
+      }
+
+      return filter.volumeVmIds.includes(volume.virtualmachineid);
+    };
+
+    return volumesWithSnapshot.filter((volume: Volume) => filterByVms(volume)).map(vol => vol.id);
+  },
+);
+
 export const getFilteredSnapshots = createSelector(
+  getFilteredVolumesByVmId,
   volumeSnapshotsSelectors.selectAll,
   getFilters,
-  (snapshots, filter) => {
+  (filteredVolumes, snapshots, filter) => {
     const filterByTypes = (snapshot: Snapshot) =>
       !filter.volumeSnapshotTypes.length ||
       filter.volumeSnapshotTypes.includes(snapshot.snapshottype);
@@ -139,6 +170,7 @@ export const getFilteredSnapshots = createSelector(
       );
 
     const queryLower = filter.query && filter.query.toLowerCase();
+
     const filterByQuery = (snapshot: Snapshot) => {
       const snapshotDescription = getSnapshotDescription(snapshot);
       return (
@@ -148,11 +180,19 @@ export const getFilteredSnapshots = createSelector(
       );
     };
 
+    const filterByVms = (snapshot: Snapshot) => {
+      if (!filteredVolumes) {
+        return true;
+      }
+      return filteredVolumes.includes(snapshot.volumeid);
+    };
+
     return snapshots.filter(
       (snapshot: Snapshot) =>
         filterByAccount(snapshot) &&
         filterByTypes(snapshot) &&
         filterByDate(snapshot) &&
+        filterByVms(snapshot) &&
         filterByQuery(snapshot),
     );
   },

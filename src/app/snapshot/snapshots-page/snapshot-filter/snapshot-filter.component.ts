@@ -33,6 +33,8 @@ export class SnapshotFilterComponent implements OnInit {
   @Input()
   public selectedVms: string[];
   @Input()
+  public selectedVmIds: string[];
+  @Input()
   public selectedTypes: string[];
   @Input()
   public selectedDate: Date;
@@ -55,6 +57,8 @@ export class SnapshotFilterComponent implements OnInit {
   public queryChange = new EventEmitter();
   @Output()
   public viewModeChange = new EventEmitter<SnapshotPageViewMode>();
+  @Output()
+  public selectedVolumeVmsChange = new EventEmitter<string[]>();
 
   public get locale(): Language {
     return this.translate.currentLang as Language;
