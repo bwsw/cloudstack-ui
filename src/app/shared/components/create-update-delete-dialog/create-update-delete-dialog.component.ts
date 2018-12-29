@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatInput } from '@angular/material';
+import { Constants } from '../../constants';
 
 export enum Mode {
   assign,
@@ -57,6 +58,7 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
   public loading: boolean;
   public newValue: string;
 
+  public entityValidator = Constants.entityValidator;
   public modes = Mode;
   // tslint:disable-next-line:variable-name
   private _mode: Mode;
