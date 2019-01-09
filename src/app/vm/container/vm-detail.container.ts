@@ -14,8 +14,7 @@ import { State, vmSnapshotsActions, vmSnapshotsSelectors } from '../../root-stor
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { VmSnapshotListDialogComponent } from '../components/vm-snapshot-list-dialog/vm-snapshot-list-dialog.component';
 import { VirtualMachine } from '../shared/vm.model';
-import { isOfferingsAvailable } from '../selectors';
-import * as zoneActions from '../../reducers/zones/redux/zones.actions';
+import { areOfferingsAvailable } from '../selectors';
 
 const vmDescriptionKey = 'csui.vm.description';
 
@@ -68,7 +67,7 @@ export class VmDetailContainerComponent implements OnInit {
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
   readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
   readonly offering$ = this.store.pipe(select(fromServiceOfferings.getSelectedOffering));
-  readonly isOfferingsAvailable$ = this.store.pipe(select(isOfferingsAvailable));
+  readonly isOfferingsAvailable$ = this.store.pipe(select(areOfferingsAvailable));
   readonly sshKeys$ = this.store.pipe(select(fromSshKeys.selectSSHKeys));
   readonly description$ = this.vm$.pipe(
     filter(vm => !!vm),
@@ -169,11 +168,6 @@ export class VmDetailContainerComponent implements OnInit {
     this.store.dispatch(new fromAffinityGroupsActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new vmSnapshotsActions.Load());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
-    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      if (vm) {
-        this.store.dispatch(new zoneActions.LoadSelectedZone(vm.zoneid));
-      }
-    });
 
     this.store.dispatch(
       new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters),

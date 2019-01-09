@@ -23,6 +23,7 @@ import {
   getComputeOfferingForVmCreation,
   getComputeOfferingForVmEditing,
 } from './view-models/compute-offering-view-model.selector';
+import * as keyBy from 'lodash/keyBy';
 
 const isComputeOfferingAvailableInZone = (
   offering: ServiceOffering,
@@ -180,13 +181,13 @@ export const selectFilteredOfferings = createSelector(
   },
 );
 
-export const isOfferingsAvailable = createSelector(
+export const areOfferingsAvailable = createSelector(
   getAvailableOfferings,
   filterSelectedClasses,
   filterQuery,
   configSelectors.get('computeOfferingClasses'),
   (offerings, selectedClasses, query, classes) => {
-    const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const classesMap = keyBy(selectedClasses);
     const queryLower = query && query.toLowerCase();
 
     const selectedClassesFilter = (offering: ServiceOffering) => {
