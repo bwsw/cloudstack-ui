@@ -7,5 +7,5 @@ export class Constants {
   /**
    * The first symbol is a letter , further all symbols except comma
    */
-  public static readonly entityValidator = '^[^\\\\d_*&^%$#@!~-]{1}[^,]*$'; // todo
+  public static readonly entityValidator = '^[^\\\\d_*&^%$#@!~-]{1}[^,]*[\\S]$';
 }
