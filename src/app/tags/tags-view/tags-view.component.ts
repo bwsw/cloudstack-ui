@@ -9,9 +9,9 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { select, Store } from '@ngrx/store';
-import * as cloneDeep from 'lodash/cloneDeep';
-import * as groupBy from 'lodash/groupBy';
-import * as sortBy from 'lodash/sortBy';
+const cloneDeep = require('lodash/cloneDeep');
+const groupBy = require('lodash/groupBy');
+const sortBy = require('lodash/sortBy');
 
 import { categoryName, defaultCategoryName, keyWithoutCategory, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services/utils/utils.service';

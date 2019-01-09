@@ -45,6 +45,7 @@
     "@ngrx/store-devtools": "6.1.0",
     "@ngx-translate/core": "^10.0.2",
     "@ngx-translate/http-loader": "^3.0.1",
+    "@types/lodash": "^4.14.119",
     "ajv": "^6.5.2",
     "ajv-errors": "^1.0.0",
     "ajv-keywords": "^3.2.0",
