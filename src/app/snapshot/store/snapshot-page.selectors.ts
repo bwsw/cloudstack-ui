@@ -146,7 +146,7 @@ export const getFilteredVolumesByVmId = createSelector(
       return filter.volumeVmIds.includes(volume.virtualmachineid);
     };
 
-    return volumesWithSnapshot.filter((volume: Volume) => filterByVms(volume)).map(vol => vol.id);
+    return volumesWithSnapshot.filter(filterByVms).map(vol => vol.id);
   },
 );
 
