@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as omit from 'lodash/omit';
+const omit = require('lodash/omit');
 import { default as update } from 'immutability-helper';
 import * as resourceQuotasActions from './resource-quotas.actions';
 

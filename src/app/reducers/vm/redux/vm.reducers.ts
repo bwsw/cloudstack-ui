@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as uniq from 'lodash/uniq';
+const uniq = require('lodash/uniq');
 import { VmSnapshotActionTypes } from '../../../root-store/server-data/vm-snapshots/vm-snapshots.actions';
 // tslint:disable-next-line
 import {

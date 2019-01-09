@@ -11,7 +11,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import * as pick from 'lodash/pick';
+const pick = require('lodash/pick');
 import * as resourceQuotasActions from './resource-quotas.actions';
 import { State } from '../../reducers';
 import { Router } from '@angular/router';
