@@ -50,9 +50,6 @@
       [ngModel]="selectedVmIds"
       (selectionChange)="selectedVolumeVmsChange.emit($event.value)"
     >
-      <!--<mat-option [value]="'withoutVm'">-->
-      <!--{{ 'SNAPSHOT_PAGE.FILTERS.WITHOUT_VM' | translate }}-->
-      <!--</mat-option>-->
       <mat-option *ngFor="let vm of vms" [value]="vm.id"> {{ vm.displayname }} </mat-option>
     </mat-select>
   </mat-form-field>
