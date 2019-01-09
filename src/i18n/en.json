@@ -817,8 +817,7 @@
       "SELECT_DATE": "Select a date",
       "GROUP_BY_TYPES": "Types",
       "GROUP_BY_VMS": "VMs",
-      "GROUP_BY_ACCOUNTS": "Accounts",
-      "WITHOUT_VM": "Without VM"
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "SIDEBAR": {
       "DETAILS": "Details",
