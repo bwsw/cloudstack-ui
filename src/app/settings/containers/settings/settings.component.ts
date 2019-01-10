@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { configSelectors, State, UserTagsActions } from '../../../root-store';
 import { SettingsViewModel } from '../../view-models';
@@ -14,6 +14,10 @@ import { BACKEND_API_URL } from '../../../shared/services/base-backend.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { SnackBarService } from '../../../core/services';
 import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
+import { SettingsPageViewMode } from '../../types/settings-page-view-mode';
+import { FilterService } from '../../../shared/services/filter.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SessionStorageService } from '../../../shared/services/session-storage.service';
 
 @Component({
   selector: 'cs-settings',
@@ -21,12 +25,40 @@ import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  public settings$: Observable<SettingsViewModel>;
+  public settings$: Observable<SettingsViewModel> = this.store.pipe(select(getSettingsViewModel));
   public userKeys: ApiKeys;
   public apiUrl: string;
-  public apiDocumentationLink$: Observable<string>;
-
+  public apiDocumentationLink$: Observable<string> = this.store.pipe(
+    select(configSelectors.get('apiDocLink')),
+  );
+  public viewMode: any;
+  public viewModeList = SettingsPageViewMode;
+  public logViewEnabled$ = this.store.pipe(
+    select(configSelectors.get('extensions')),
+    map(extensions => extensions.vmLogs),
+  );
+  public logViewEnabled: boolean;
   private readonly userId: string;
+
+  private filterService = new FilterService(
+    {
+      viewMode: {
+        type: 'string',
+        options: [
+          SettingsPageViewMode.Security,
+          SettingsPageViewMode.API,
+          SettingsPageViewMode.VmPreferences,
+          SettingsPageViewMode.LookAndFeel,
+          SettingsPageViewMode.LogView,
+        ],
+        defaultOption: SettingsPageViewMode.Security,
+      },
+    },
+    this.router,
+    this.sessionStorage,
+    'settingsFilters',
+    this.activatedRoute,
+  );
 
   constructor(
     private store: Store<State>,
@@ -35,11 +67,22 @@ export class SettingsComponent {
     private routerUtilsService: RouterUtilsService,
     private dialogService: DialogService,
     private snackBarService: SnackBarService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private sessionStorage: SessionStorageService,
   ) {
-    this.settings$ = this.store.pipe(select(getSettingsViewModel));
+    this.logViewEnabled$.subscribe(enabled => (this.logViewEnabled = enabled));
+
+    const params = this.filterService.getParams();
+    this.viewMode =
+      params.viewMode === SettingsPageViewMode.LogView && !this.logViewEnabled
+        ? SettingsPageViewMode.Security
+        : params.viewMode;
+
+    this.filterService.update({ viewMode: this.viewMode });
+
     this.userId = this.authService.user.userid;
     this.userService.getUserKeys(this.userId).subscribe(keys => (this.userKeys = keys));
-    this.apiDocumentationLink$ = this.store.pipe(select(configSelectors.get('apiDocLink')));
     this.apiUrl = this.getApiUrl();
   }
 
@@ -103,6 +146,10 @@ export class SettingsComponent {
 
   public onVmLogsMinutesChange(minutes: number) {
     this.store.dispatch(new UserTagsActions.UpdateVmLogsShowLastMinutes({ value: minutes }));
+  }
+
+  public onViewModeChange(viewMode: SettingsPageViewMode) {
+    this.filterService.update({ viewMode });
   }
 
   private getApiUrl() {
