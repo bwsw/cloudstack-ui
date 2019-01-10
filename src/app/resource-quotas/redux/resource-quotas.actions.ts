@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { ResourceQuota } from '../models/resource-quota.model';
-import { resourceType } from '../../template/shared';
 import { ResourceLimit } from '../../shared/models';
 
 export enum ResourceQuotasActionTypes {

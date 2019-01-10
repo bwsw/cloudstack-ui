@@ -152,6 +152,8 @@ import { ZoneService } from './services/zone.service';
 import { UrlDirective } from './validators/directives';
 import { CapabilityService } from './services/capability.service';
 import { GatewayApiService } from './services/gateway-api.service';
+import { RequestResourcesButtonComponent } from './components/vm-statistics/request-resources-button.component';
+import { RequestResourcesButtonContainerComponent } from './components/vm-statistics/request-resources-button.container';
 
 const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
 
@@ -248,6 +250,8 @@ const SHARED_COMPONENTS = [
     TimePickerComponent,
     DayPeriodComponent,
     ErrorMessageComponent,
+    RequestResourcesButtonComponent,
+    RequestResourcesButtonContainerComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -344,6 +348,8 @@ const SHARED_COMPONENTS = [
     DayPeriodComponent,
     ErrorMessageComponent,
     VolumeSnapshotFromVmSnapshotDialogComponent,
+    RequestResourcesButtonComponent,
+    RequestResourcesButtonContainerComponent,
   ],
   providers: [
     AccountService,

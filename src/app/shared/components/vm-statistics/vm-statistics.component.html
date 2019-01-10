@@ -29,14 +29,11 @@
         {{ 'VM_PAGE.RESOURCE_USAGE.FREE' | translate }}
       </mat-button-toggle>
     </mat-button-toggle-group>
-    <button
-      *ngIf="!isAdmin"
+
+    <cs-request-resources-button-container
       class="request-resources"
-      mat-raised-button
-      (click)="requestResources()"
-    >
-      {{ 'RESOURCE_QUOTAS_PAGE.REQUEST.REQUEST_RESOURCES_BUTTON' | translate }}
-    </button>
+    ></cs-request-resources-button-container>
+
     <div class="stat-list-container">
       <mat-card *ngFor="let stat of statsList" class="stat-card-md">
         <mat-card-header>

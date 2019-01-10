@@ -8,8 +8,6 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { ResourcesData, ResourceStats } from '../../services/resource-usage.service';
 import { Utils } from '../../services/utils/utils.service';
 import { Account } from '../../models';
-import { MatDialog } from '@angular/material';
-import { RequestResourcesContainerComponent } from '../../../resource-quotas/containers/request-resources.container';
 
 const showStatistics = 'showStatistics';
 const statisticsMode = 'statisticsMode';
@@ -50,6 +48,8 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
   public accounts: Account[];
   @Input()
   public user: Account;
+  @Input()
+  public showRequestResources: boolean;
 
   public resourceUsage: ResourceStats;
   public isOpen = true;
@@ -120,15 +120,8 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private translateService: TranslateService,
     private storageService: LocalStorageService,
-    private dialogService: MatDialog,
   ) {
     this.resourceUsage = new ResourceStats();
-  }
-
-  public requestResources() {
-    this.dialogService.open(RequestResourcesContainerComponent, {
-      width: '650px',
-    });
   }
 
   public ngOnInit(): void {
