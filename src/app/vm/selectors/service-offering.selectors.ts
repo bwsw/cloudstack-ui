@@ -23,7 +23,7 @@ import {
   getComputeOfferingForVmCreation,
   getComputeOfferingForVmEditing,
 } from './view-models/compute-offering-view-model.selector';
-import * as keyBy from 'lodash/keyBy';
+const keyBy = require('lodash/keyBy');
 
 const isComputeOfferingAvailableInZone = (
   offering: ServiceOffering,

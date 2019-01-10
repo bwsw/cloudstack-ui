@@ -15,7 +15,7 @@ export class ServiceOfferingDetailsComponent {
   @Input()
   public offering: ServiceOffering;
   @Input()
-  public isOfferingsAvailable: boolean;
+  public areOfferingsAvailable: boolean;
   @Input()
   public vm: VirtualMachine;
 

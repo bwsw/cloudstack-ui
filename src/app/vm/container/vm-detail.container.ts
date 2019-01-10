@@ -35,7 +35,7 @@ const vmDescriptionKey = 'csui.vm.description';
     </cs-instance-group>
     <cs-service-offering-details
       [offering]="offering$ | async"
-      [isOfferingsAvailable]="isOfferingsAvailable$ | async"
+      [areOfferingsAvailable]="areOfferingsAvailable$ | async"
       [vm]="vm$ | async"
     >
     </cs-service-offering-details>
@@ -67,7 +67,7 @@ export class VmDetailContainerComponent implements OnInit {
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
   readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
   readonly offering$ = this.store.pipe(select(fromServiceOfferings.getSelectedOffering));
-  readonly isOfferingsAvailable$ = this.store.pipe(select(areOfferingsAvailable));
+  readonly areOfferingsAvailable$ = this.store.pipe(select(areOfferingsAvailable));
   readonly sshKeys$ = this.store.pipe(select(fromSshKeys.selectSSHKeys));
   readonly description$ = this.vm$.pipe(
     filter(vm => !!vm),
