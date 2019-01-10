@@ -1,4 +1,4 @@
-import * as pickBy from 'lodash/pickBy';
+const pickBy = require('lodash/pickBy');
 
 const removeNullsAndEmptyArrays = object =>
   pickBy(object, value => {

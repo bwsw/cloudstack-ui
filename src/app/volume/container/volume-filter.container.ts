@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
-import * as debounce from 'lodash/debounce';
+const debounce = require('lodash/debounce');
 
 import { State } from '../../reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
@@ -21,7 +21,7 @@ const FILTER_KEY = 'volumeListFilters';
   selector: 'cs-volume-filter-container',
   template: `
     <cs-volume-filter
-      *loading="loading$ | async"
+      *loading="(loading$ | async)"
       [zones]="zones$ | async"
       [accounts]="accounts$ | async"
       [types]="types"
@@ -38,7 +38,8 @@ const FILTER_KEY = 'volumeListFilters';
       (accountsChanged)="onAccountsChange($event)"
       (typesChanged)="onTypesChange($event)"
       (groupingsChanged)="onGroupingsChange($event)"
-    ></cs-volume-filter>`,
+    ></cs-volume-filter>
+  `,
 })
 export class VolumeFilterContainerComponent extends WithUnsubscribe()
   implements OnInit, AfterViewInit {

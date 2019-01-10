@@ -12,7 +12,7 @@ import {
   debounceTime,
   filter,
 } from 'rxjs/operators';
-import * as kebabCase from 'lodash/kebabCase';
+const kebabCase = require('lodash/kebabCase');
 
 import {
   IncrementLastVMId,

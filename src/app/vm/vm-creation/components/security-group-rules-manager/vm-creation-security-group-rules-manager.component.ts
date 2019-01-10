@@ -7,7 +7,7 @@ import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-se
 // tslint:disable-next-line
 import { VmCreationSecurityGroupContainerComponent } from '../security-group/containers/vm-creation-security-group.container';
 
-import * as cloneDeep from 'lodash/cloneDeep';
+const cloneDeep = require('lodash/cloneDeep');
 
 @Component({
   selector: 'cs-vm-creation-security-group-rules-manager',

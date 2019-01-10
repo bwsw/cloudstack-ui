@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Route } from '../models';
 import { appNavRoutes } from '../routes';
 import { getUrl } from '../../../root-store/router/router.selectors';
-import * as flatten from 'lodash/flatten';
+const flatten = require('lodash/flatten');
 import { get } from '../../../root-store/config/config.selectors';
 
 export interface State {

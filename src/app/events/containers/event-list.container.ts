@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { map, takeUntil, withLatestFrom } from 'rxjs/operators';
-import * as debounce from 'lodash/debounce';
+const debounce = require('lodash/debounce');
 import * as moment from 'moment';
 
 import { State, UserTagsSelectors } from '../../root-store';
