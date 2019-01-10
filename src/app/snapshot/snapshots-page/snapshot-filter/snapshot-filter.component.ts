@@ -31,9 +31,9 @@ export class SnapshotFilterComponent implements OnInit {
   @Input()
   public selectedAccounts: string[];
   @Input()
-  public selectedVms: string[];
+  public selectedVmsIds: string[];
   @Input()
-  public selectedVmIds: string[];
+  public selectedVolumeVmIds: string[];
   @Input()
   public selectedTypes: string[];
   @Input()

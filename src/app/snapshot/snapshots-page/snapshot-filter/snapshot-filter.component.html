@@ -16,56 +16,58 @@
       (selectionChange)="selectedAccountsChange.emit($event.value)"
     >
       <mat-option *ngFor="let account of accounts" [value]="account.name"
-        >{{ account.fullDomain }}{{ account.name }}
+        >{{ account.fullDomain }} {{ account.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.Volume">
-    <mat-select
-      multiple="true"
-      [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_TYPES' | translate"
-      [ngModel]="selectedTypes"
-      (selectionChange)="selectedTypesChange.emit($event.value)"
-    >
-      <mat-option *ngFor="let t of types" [value]="t.type"> {{ t.name | translate }} </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <ng-container *ngIf="viewMode === snapshotPageViewMode.Volume">
+    <mat-form-field>
+      <mat-select
+        multiple="true"
+        [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_TYPES' | translate"
+        [ngModel]="selectedTypes"
+        (selectionChange)="selectedTypesChange.emit($event.value)"
+      >
+        <mat-option *ngFor="let t of types" [value]="t.type"> {{ t.name | translate }} </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select
+        multiple="true"
+        [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_VMS' | translate"
+        [ngModel]="selectedVolumeVmIds"
+        (selectionChange)="selectedVolumeVmsChange.emit($event.value)"
+      >
+        <mat-option *ngFor="let vm of vms" [value]="vm.id"> {{ vm.displayname }} </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <cs-draggable-select
+        multiple="true"
+        [placeholder]="'SNAPSHOT_PAGE.FILTERS.GROUP_BY' | translate"
+        [ngModel]="selectedGroupings"
+        [dragItems]="availableGroupings"
+        (selectionChange)="selectedGroupingsChange.emit($event.value)"
+      >
+        <ng-container *ngFor="let g of availableGroupings">
+          <mat-option *ngIf="!g.enabled()" [value]="g"> {{ g.label | translate }} </mat-option>
+        </ng-container>
+      </cs-draggable-select>
+    </mat-form-field>
+  </ng-container>
 
   <mat-form-field *ngIf="viewMode === snapshotPageViewMode.VM">
     <mat-select
       multiple="true"
       [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_VMS' | translate"
-      [ngModel]="selectedVms"
+      [ngModel]="selectedVmsIds"
       (selectionChange)="selectedVmsChange.emit($event.value)"
     >
       <mat-option *ngFor="let vm of vms" [value]="vm.id"> {{ vm.displayname }} </mat-option>
     </mat-select>
-  </mat-form-field>
-
-  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.Volume">
-    <mat-select
-      multiple="true"
-      [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_VMS' | translate"
-      [ngModel]="selectedVmIds"
-      (selectionChange)="selectedVolumeVmsChange.emit($event.value)"
-    >
-      <mat-option *ngFor="let vm of vms" [value]="vm.id"> {{ vm.displayname }} </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.Volume">
-    <cs-draggable-select
-      multiple="true"
-      [placeholder]="'SNAPSHOT_PAGE.FILTERS.GROUP_BY' | translate"
-      [ngModel]="selectedGroupings"
-      [dragItems]="availableGroupings"
-      (selectionChange)="selectedGroupingsChange.emit($event.value)"
-    >
-      <ng-container *ngFor="let g of availableGroupings">
-        <mat-option *ngIf="!g.enabled()" [value]="g"> {{ g.label | translate }} </mat-option>
-      </ng-container>
-    </cs-draggable-select>
   </mat-form-field>
 
   <cs-date-picker
