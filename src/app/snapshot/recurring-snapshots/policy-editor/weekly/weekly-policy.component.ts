@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import * as isEqual from 'lodash/isEqual';
+const isEqual = require('lodash/isEqual');
 import { DayOfWeek, TimeFormat } from '../../../../shared/types';
 import { Time } from '../../../../shared/components/time-picker/time-picker.component';
 

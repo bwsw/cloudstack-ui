@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import * as pickBy from 'lodash/pickBy';
+const pickBy = require('lodash/pickBy');
 import { Observable, of } from 'rxjs';
 import {
   catchError,

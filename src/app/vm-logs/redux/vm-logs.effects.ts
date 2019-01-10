@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
 import { configSelectors, UserTagsSelectors } from '../../root-store';
 import { UserTagsActionTypes } from '../../root-store/server-data/user-tags/user-tags.actions';
-import * as assign from 'lodash/assign';
+const assign = require('lodash/assign');
 import { getVmLogsFiltersDefaultValues, parseVmLogsFilters } from '../vm-logs-filters';
 import {
   filterNewestFirst,

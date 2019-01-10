@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import * as moment from 'moment';
-import * as pickBy from 'lodash/pickBy';
+const pickBy = require('lodash/pickBy');
 
 import { LoadVmLogsRequestParams } from '../../models/load-vm-logs-request-params';
 import {

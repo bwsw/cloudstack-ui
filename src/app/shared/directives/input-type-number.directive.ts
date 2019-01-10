@@ -1,6 +1,6 @@
 import { Directive, ElementRef, forwardRef, HostListener, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import * as debounce from 'lodash/debounce';
+const debounce = require('lodash/debounce');
 
 /*
  * This directive is used to prevent user to the entry of the text values into the

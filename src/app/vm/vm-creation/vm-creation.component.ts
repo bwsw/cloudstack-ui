@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import * as clone from 'lodash/clone';
+const clone = require('lodash/clone');
 
 import {
   Account,

@@ -1,5 +1,5 @@
-import * as assign from 'lodash/assign';
-import * as pickBy from 'lodash/pickBy';
+const assign = require('lodash/assign');
+const pickBy = require('lodash/pickBy');
 
 export interface FilterConfig {
   [propName: string]: FilterItemConfig;

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as AjvCore from 'ajv';
 import * as AjvUniqueItemProperties from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as AjvErrors from 'ajv-errors';
-import * as omit from 'lodash/omit';
+const omit = require('lodash/omit');
 
 import { Config } from '../../shared/models/config';
 import { customizableProperties, defaultConfig } from './default-configuration';
