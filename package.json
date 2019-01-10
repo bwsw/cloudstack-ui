@@ -65,6 +65,7 @@
     "tslib": "^1.9.0",
     "uuid": "^3.1.0",
     "web-animations-js": "2.3.1",
+    "xregexp": "^4.2.4",
     "zone.js": "0.8.26"
   },
   "devDependencies": {

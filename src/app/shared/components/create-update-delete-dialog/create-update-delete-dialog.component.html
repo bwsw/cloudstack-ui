@@ -1,86 +1,48 @@
-<h3
-  *ngIf="title" class="mat-dialog-title"
->
-  {{ title | translate }}
-</h3>
+<h3 *ngIf="title" class="mat-dialog-title">{{ title | translate }}</h3>
 
-<form
-  (ngSubmit)="submit()"
-  #form="ngForm"
-  novalidate
->
+<form (ngSubmit)="submit()" #form="ngForm" novalidate>
   <div class="mat-dialog-content">
-    <mat-radio-group
-      name="radio"
-      [ngModel]="mode"
-      (ngModelChange)="setMode($event)"
-    >
-      <mat-radio-button
-        *ngIf="enableAssign"
-        [value]="modes.assign"
-      >
+    <mat-radio-group name="radio" [ngModel]="mode" (ngModelChange)="setMode($event)">
+      <mat-radio-button *ngIf="enableAssign" [value]="modes.assign">
         {{ assignLabel | translate }}
       </mat-radio-button>
 
-      <mat-radio-button
-        *ngIf="enableCreate"
-        [value]="modes.create"
-      >
+      <mat-radio-button *ngIf="enableCreate" [value]="modes.create">
         {{ createLabel | translate }}
       </mat-radio-button>
 
-      <mat-radio-button
-        *ngIf="defaultValue && enableRemove"
-        [value]="modes.remove"
-      >
-        <div>{{ removeLabel | translate:{ value: defaultValue } }}</div>
+      <mat-radio-button *ngIf="defaultValue && enableRemove" [value]="modes.remove">
+        <div>{{ removeLabel | translate: { value: defaultValue } }}</div>
       </mat-radio-button>
     </mat-radio-group>
 
-    <mat-form-field
-      *ngIf="mode === modes.create"
-      class="full-width-input"
-    >
+    <mat-form-field *ngIf="mode === modes.create" class="full-width-input">
       <input
         matInput
         type="text"
         name="textValue"
-        pattern="^[a-zA-ZА-яЁё]{1}[^,]*$"
+        [pattern]="entityValidator"
         [(ngModel)]="newValue"
         [placeholder]="textFieldPlaceholder | translate"
         [maxlength]="maxLength"
         autofocus
         required
-      >
+      />
     </mat-form-field>
 
-    <mat-form-field
-      class="full-width-input"
-      *ngIf="mode === modes.assign"
-    >
+    <mat-form-field class="full-width-input" *ngIf="mode === modes.assign">
       <mat-select
         name="selectValue"
-
         [(ngModel)]="newValue"
         [placeholder]="selectPlaceholder | translate"
       >
-        <mat-option
-          *ngFor="let option of options"
-          [value]="option"
-        >
-          {{ option }}
-        </mat-option>
+        <mat-option *ngFor="let option of options" [value]="option"> {{ option }} </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 
   <div class="mat-dialog-actions">
-    <button
-      mat-button
-      color="primary"
-      type="button"
-      (click)="cancel()"
-    >
+    <button mat-button color="primary" type="button" (click)="cancel()">
       {{ 'COMMON.CANCEL' | translate }}
     </button>
     <button
@@ -92,12 +54,7 @@
     >
       {{ 'COMMON.ASSIGN' | translate }}
     </button>
-    <button
-      *ngIf="mode === modes.remove"
-      mat-button
-      color="primary"
-      type="submit"
-    >
+    <button *ngIf="mode === modes.remove" mat-button color="primary" type="submit">
       {{ 'COMMON.REMOVE' | translate }}
     </button>
   </div>
