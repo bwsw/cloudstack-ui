@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { concat, forkJoin, Observable, of, zip } from 'rxjs';
+import { Observable, of, zip } from 'rxjs';
 import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import * as resourceQuotasActions from './resource-quotas.actions';
 import { State } from '../../reducers';
@@ -66,15 +66,16 @@ export class ResourceQuotasEffects {
         return this.resourceQuotaService.updateResourceLimit(params);
       });
 
-      return zip(...requests);
-    }),
-    map(() => {
-      this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.QUOTA_UPDATED');
-      return new resourceQuotasActions.LoadResourceQuotasRequest();
-    }),
-    catchError((error: Error) => {
-      this.dialogService.showNotificationsOnFail(error);
-      return of(new resourceQuotasActions.LoadResourceQuotasRequest());
+      return zip(...requests).pipe(
+        map(() => {
+          this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.QUOTA_UPDATED');
+          return new resourceQuotasActions.LoadResourceQuotasRequest();
+        }),
+        catchError((error: Error) => {
+          this.dialogService.showNotificationsOnFail(error);
+          return of(new resourceQuotasActions.LoadResourceQuotasRequest());
+        }),
+      );
     }),
   );
 
@@ -88,15 +89,16 @@ export class ResourceQuotasEffects {
         return this.resourceQuotaService.updateResource(params);
       });
 
-      return zip(...requests);
-    }),
-    map(() => {
-      this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.REQUEST.LIMIT_UPDATED');
-      return new resourceLimitActions.LoadResourceLimitsForCurrentUser(null);
-    }),
-    catchError((error: Error) => {
-      this.dialogService.showNotificationsOnFail(error);
-      return of(new resourceLimitActions.LoadResourceLimitsForCurrentUser(null));
+      return zip(...requests).pipe(
+        map(() => {
+          this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.REQUEST.LIMIT_UPDATED');
+          return new resourceLimitActions.LoadResourceLimitsForCurrentUser(null);
+        }),
+        catchError((error: Error) => {
+          this.dialogService.showNotificationsOnFail(error);
+          return of(new resourceLimitActions.LoadResourceLimitsForCurrentUser(null));
+        }),
+      );
     }),
   );
 
