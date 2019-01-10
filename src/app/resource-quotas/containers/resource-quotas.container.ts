@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import * as resourceQuotasActions from '../../redux/resource-quotas.actions';
-import { State } from '../../../root-store';
-import * as fromResourceQuotas from '../../redux/resource-quotas.reducer';
-import * as fromAdminForm from '../../redux/resource-quotas-admin-form.reducer';
+import * as resourceQuotasActions from '../redux/resource-quotas.actions';
+import { State } from '../../root-store';
+import * as fromResourceQuotas from '../redux/resource-quotas.reducer';
+import * as fromAdminForm from '../redux/resource-quotas-admin-form.reducer';
 
 @Component({
   selector: 'cs-resource-quotas-container',

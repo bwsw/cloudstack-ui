@@ -30,7 +30,7 @@
       </mat-button-toggle>
     </mat-button-toggle-group>
     <button
-      *ngIf="isAdmin"
+      *ngIf="!isAdmin"
       class="request-resources"
       mat-raised-button
       (click)="requestResources()"

@@ -1,17 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { concat, forkJoin, merge, Observable, of } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  map,
-  mergeMap,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import * as pick from 'lodash/pick';
+import { concat, forkJoin, Observable, of, zip } from 'rxjs';
+import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import * as resourceQuotasActions from './resource-quotas.actions';
 import { State } from '../../reducers';
 import { Router } from '@angular/router';
@@ -20,8 +11,12 @@ import { ResourceQuota } from '../models/resource-quota.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SnackBarService } from '../../core/services';
 import * as fromResourceQuotas from '../redux/resource-quotas.reducer';
+import * as fromResourceLimits from '../../reducers/resource-limit/redux/resource-limits.reducers';
 import { getModifiedQuotas } from './selectors/modified-quotas.selector';
 import { getModifiedLimits } from './selectors/modified-limits.selector';
+import * as resourceLimitActions from '../../reducers/resource-limit/redux/resource-limits.actions';
+
+const pick = require('lodash/pick');
 
 @Injectable()
 export class ResourceQuotasEffects {
@@ -51,10 +46,17 @@ export class ResourceQuotasEffects {
   updateUserFormOnQuotasLoaded$: Observable<Action> = this.actions$.pipe(
     ofType(resourceQuotasActions.ResourceQuotasActionTypes.LOAD_RESOURCE_QUOTAS_RESPONSE),
     withLatestFrom(this.store.pipe(select(fromResourceQuotas.getResourceQuotas))),
-    map(([action, quotas]) => new resourceQuotasActions.UpdateUserForm(quotas)),
+    map(([action, quotas]) => new resourceQuotasActions.UpdateUserFormQuotas(quotas)),
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
+  updateUserFormOnLimitsLoaded$: Observable<Action> = this.actions$.pipe(
+    ofType(resourceLimitActions.LOAD_RESOURCE_LIMITS_RESPONSE),
+    withLatestFrom(this.store.pipe(select(fromResourceLimits.selectEntities))),
+    map(([action, limits]) => new resourceQuotasActions.UpdateUserFormLimits(limits)),
+  );
+
+  @Effect()
   updateResourceQuotas$ = this.actions$.pipe(
     ofType(resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_QUOTAS_REQUEST),
     withLatestFrom(this.store.pipe(select(getModifiedQuotas))),
@@ -64,14 +66,15 @@ export class ResourceQuotasEffects {
         return this.resourceQuotaService.updateResourceLimit(params);
       });
 
-      return forkJoin(requests).pipe(
-        tap(() => {
-          this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.REQUEST.LIMIT_UPDATED');
-        }),
-        catchError((error: Error) => {
-          return of(this.dialogService.showNotificationsOnFail(error));
-        }),
-      );
+      return zip(...requests);
+    }),
+    map(() => {
+      this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.QUOTA_UPDATED');
+      return new resourceQuotasActions.LoadResourceQuotasRequest();
+    }),
+    catchError((error: Error) => {
+      this.dialogService.showNotificationsOnFail(error);
+      return of(new resourceQuotasActions.LoadResourceQuotasRequest());
     }),
   );
 
@@ -85,7 +88,15 @@ export class ResourceQuotasEffects {
         return this.resourceQuotaService.updateResource(params);
       });
 
-      return forkJoin(requests).pipe();
+      return zip(...requests);
+    }),
+    map(() => {
+      this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.REQUEST.LIMIT_UPDATED');
+      return new resourceLimitActions.LoadResourceLimitsForCurrentUser(null);
+    }),
+    catchError((error: Error) => {
+      this.dialogService.showNotificationsOnFail(error);
+      return of(new resourceLimitActions.LoadResourceLimitsForCurrentUser(null));
     }),
   );
 

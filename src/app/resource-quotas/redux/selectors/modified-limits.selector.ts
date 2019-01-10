@@ -1,17 +1,19 @@
 import { createSelector } from '@ngrx/store';
 import { diff } from 'deep-diff';
-import * as fromResourceQuotas from '../resource-quotas.reducer';
+import * as fromResourceLimits from '../../../reducers/resource-limit/redux/resource-limits.reducers';
 import * as fromUserForm from '../resource-quotas-user-form.reducer';
 
+const mapValues = require('lodash/mapValues');
+
 export const getModifiedLimits = createSelector(
-  fromResourceQuotas.getResourceQuotas,
-  fromUserForm.getUserResourceQuotasForm,
-  (quotas, quotasForm) => {
-    const modifiedQuotas = diff(quotas, quotasForm) || [];
+  fromResourceLimits.selectEntities,
+  fromUserForm.getUserResourceLimits,
+  (limits, limitsForm) => {
+    const modifiedQuotas = diff(mapValues(limits, 'max'), limitsForm) || [];
     const modifiedResourceTypes = modifiedQuotas.map(diffRecord => diffRecord.path[0]);
     return modifiedResourceTypes.map(resourceType => ({
       resourceType,
-      ...quotasForm[resourceType],
+      max: limitsForm[resourceType],
     }));
   },
 );

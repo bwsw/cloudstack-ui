@@ -1,20 +1,25 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as omit from 'lodash/omit';
-import * as pickBy from 'lodash/pickBy';
 import { default as update } from 'immutability-helper';
 import * as resourceQuotasActions from './resource-quotas.actions';
 
+const pickBy = require('lodash/pickBy');
+const mapValues = require('lodash/mapValues');
+
 export interface ResourceQuotasUserFormState {
-  form: {
+  quotas: {
     [resourceType: number]: {
       minimum: number;
       maximum: number;
     };
   };
+  limits: {
+    [resourceType: number]: number;
+  };
 }
 
 export const initialState = {
-  form: {},
+  quotas: {},
+  limits: {},
 };
 
 export function resourceQuotasUserFormReducer(
@@ -22,22 +27,32 @@ export function resourceQuotasUserFormReducer(
   action: resourceQuotasActions.Actions,
 ): ResourceQuotasUserFormState {
   switch (action.type) {
-    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_ADMIN_FORM_FIELD: {
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_USER_FORM_FIELD: {
       const resourceType = action.payload.resourceType;
 
+      return {
+        quotas: state.quotas,
+        limits: {
+          ...state.limits,
+          [resourceType]: action.payload.limit,
+        },
+      };
+    }
+
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_USER_FORM_QUOTAS: {
       return update(state, {
-        form: {
-          [resourceType]: {
-            $merge: omit(action.payload, 'resourceType'),
-          },
+        $merge: {
+          quotas: action.payload,
         },
       });
     }
 
-    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_ADMIN_FORM: {
-      return {
-        form: action.payload,
-      };
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_USER_FORM_LIMITS: {
+      return update(state, {
+        $merge: {
+          limits: mapValues(action.payload, 'max'),
+        },
+      });
     }
 
     default:
@@ -49,7 +64,12 @@ export const getResourceQuotasUserFormState = createFeatureSelector<ResourceQuot
   'resourceQuotasUserForm',
 );
 
-export const getUserResourceQuotasForm = createSelector(
+export const getUserResourceQuotas = createSelector(
   getResourceQuotasUserFormState,
-  state => pickBy(state.form, bound => bound.minimum !== -1 && bound.maximum !== -1),
+  state => pickBy(state.quotas, bound => bound.minimum !== -1 && bound.maximum !== -1),
+);
+
+export const getUserResourceLimits = createSelector(
+  getResourceQuotasUserFormState,
+  state => state.limits,
 );

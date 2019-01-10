@@ -9,7 +9,7 @@ import { ResourcesData, ResourceStats } from '../../services/resource-usage.serv
 import { Utils } from '../../services/utils/utils.service';
 import { Account } from '../../models';
 import { MatDialog } from '@angular/material';
-import { RequestResourcesContainerComponent } from '../../../resource-quotas/containers/resource-quotas/request-resources.container';
+import { RequestResourcesContainerComponent } from '../../../resource-quotas/containers/request-resources.container';
 
 const showStatistics = 'showStatistics';
 const statisticsMode = 'statisticsMode';

@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 import { ResourceQuota } from '../models/resource-quota.model';
+import { resourceType } from '../../template/shared';
+import { ResourceLimit } from '../../shared/models';
 
 export enum ResourceQuotasActionTypes {
   LOAD_RESOURCE_QUOTAS_REQUEST = '[Resource Quotas] LOAD_RESOURCE_QUOTAS_REQUEST',
@@ -13,7 +15,8 @@ export enum ResourceQuotasActionTypes {
   UPDATE_RESOURCE_LIMITS_ERROR = '[Resource Quotas] UPDATE_RESOURCE_LIMITS_ERROR',
   UPDATE_ADMIN_FORM = '[Resource Quotas] UPDATE_ADMIN_FORM',
   UPDATE_ADMIN_FORM_FIELD = '[Resource Quotas] UPDATE_ADMIN_FORM_FIELD',
-  UPDATE_USER_FORM = '[Resource Quotas] UPDATE_USER_FORM',
+  UPDATE_USER_FORM_QUOTAS = '[Resource Quotas] UPDATE_USER_FORM_QUOTAS',
+  UPDATE_USER_FORM_LIMITS = '[Resource Quotas] UPDATE_USER_FORM_LIMITS',
   UPDATE_USER_FORM_FIELD = '[Resource Quotas] UPDATE_USER_FORM_FIELD',
 }
 
@@ -86,8 +89,8 @@ export class UpdateAdminFormField implements Action {
   ) {}
 }
 
-export class UpdateUserForm implements Action {
-  readonly type = ResourceQuotasActionTypes.UPDATE_USER_FORM;
+export class UpdateUserFormQuotas implements Action {
+  readonly type = ResourceQuotasActionTypes.UPDATE_USER_FORM_QUOTAS;
 
   constructor(
     readonly payload: {
@@ -99,14 +102,23 @@ export class UpdateUserForm implements Action {
   ) {}
 }
 
+export class UpdateUserFormLimits implements Action {
+  readonly type = ResourceQuotasActionTypes.UPDATE_USER_FORM_LIMITS;
+
+  constructor(
+    readonly payload: {
+      [resourceType: number]: ResourceLimit;
+    },
+  ) {}
+}
+
 export class UpdateUserFormField implements Action {
   readonly type = ResourceQuotasActionTypes.UPDATE_USER_FORM_FIELD;
 
   constructor(
     readonly payload: {
       resourceType: number;
-      minimum?: number;
-      maximum?: number;
+      limit?: number;
     },
   ) {}
 }
@@ -123,5 +135,6 @@ export type Actions =
   | UpdateResourceLimitsError
   | UpdateAdminForm
   | UpdateAdminFormField
-  | UpdateUserForm
+  | UpdateUserFormQuotas
+  | UpdateUserFormLimits
   | UpdateUserFormField;

@@ -1,20 +1,32 @@
 <h3 mat-dialog-title>{{ 'RESOURCE_QUOTAS_PAGE.REQUEST.REQUEST_RESOURCES_TITLE' | translate }}</h3>
 <div class="form" mat-dialog-content>
-  <table>
+  <table class="table">
     <ng-container *ngFor="let resourceName of resourceQuotaNames; let i = index">
-      <tr class="row" *ngIf="resourceQuotas[i]">
+      <tr class="row" *ngIf="resourceQuotas[i] != null && resourceLimits[i] != null">
         <td class="title">{{ resourceName | translate }}</td>
         <td class="slider-cell">
           <mat-slider
+            class="slider"
             [min]="resourceQuotas[i].minimum"
             [max]="resourceQuotas[i].maximum"
-            [value]="0"
-            class="slider"
+            [ngModel]="resourceLimits[i]"
             [thumbLabel]="true"
+            (ngModelChange)="onLimitChange(i, +$event)"
           ></mat-slider>
         </td>
         <td class="min">
-          <mat-form-field> <input matInput [value]="0" /> </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              [min]="resourceQuotas[i].minimum"
+              [max]="resourceQuotas[i].maximum"
+              [csMinValue]="resourceQuotas[i].minimum"
+              [csMaxValue]="resourceQuotas[i].maximum"
+              [ngModel]="resourceLimits[i]"
+              (ngModelChange)="onLimitChange(i, +$event)"
+            />
+          </mat-form-field>
         </td>
       </tr>
     </ng-container>
@@ -22,5 +34,5 @@
 </div>
 <mat-dialog-actions>
   <button class="button" mat-button matDialogClose>{{ 'COMMON.CANCEL' | translate }}</button>
-  <button class="button" mat-button>{{ 'COMMON.UPDATE' | translate }}</button>
+  <button class="button" mat-button (click)="onUpdate()">{{ 'COMMON.UPDATE' | translate }}</button>
 </mat-dialog-actions>
