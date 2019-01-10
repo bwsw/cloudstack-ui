@@ -44,6 +44,6 @@ export class ServiceOfferingDetailsComponent {
   }
 
   public get canActivate() {
-    return this.vm.state !== VmState.InProgress && this.isOfferingsAvailable;
+    return this.vm.state !== VmState.InProgress && this.areOfferingsAvailable;
   }
 }
