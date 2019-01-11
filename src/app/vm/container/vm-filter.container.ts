@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
-import * as debounce from 'lodash/debounce';
+const debounce = require('lodash/debounce');
 
 import { State } from '../../reducers';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
@@ -22,7 +22,7 @@ const FILTER_KEY = 'vmListFilters';
   selector: 'cs-vm-filter-container',
   template: `
     <cs-vm-filter
-      *loading="loading$ | async"
+      *loading="(loading$ | async)"
       [zones]="zones$ | async"
       [accounts]="accounts$ | async"
       [groups]="groups$ | async"
@@ -40,7 +40,8 @@ const FILTER_KEY = 'vmListFilters';
       (accountsChanged)="onAccountsChange($event)"
       (statesChanged)="onStatesChange($event)"
       (groupingsChanged)="onGroupingsChange($event)"
-    ></cs-vm-filter>`,
+    ></cs-vm-filter>
+  `,
 })
 export class VMFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
   @Input()

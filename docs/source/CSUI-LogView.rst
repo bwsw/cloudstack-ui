@@ -17,7 +17,7 @@ To make the *View logs* section available, first deploy the backend API plugin a
 Deployment Instructions
 -------------------------
 
-Full instructions on the Log View plugin deployment is presented at the `plugin page <https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin>`_. 
+Full instructions on the Log View plugin deployment is presented at the `plugin page <https://github.com/bwsw/cloudstack-ui/wiki/Log-View-Plugin>`_. 
 
 To enable the Log View plugin you need to:
 
@@ -35,6 +35,8 @@ Filtering Logs
 To view logs in the list, please, set up the filtering parameters.
 
 Select the following parameters in the provided order from drop-down lists:
+
+.. note:: Required fields are marked with an asterisk (*).
 
 - Accounts * - Allows Administrators to further select a VM in a specific account/accounts. Select an account or a number of accounts in the drop-down list.
 

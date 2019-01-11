@@ -10,6 +10,8 @@ import {
 
 import { AffinityGroup, AffinityGroupType, emptyAffinityGroup } from '../../../shared/models';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Constants } from '../../../shared';
+const xRegExp = require('xregexp');
 
 function isUniqName(affinityGroups: AffinityGroup[]): ValidatorFn {
   return function(control: FormControl) {
@@ -96,8 +98,7 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
       name: this.formBuilder.control('', [
         Validators.required,
         Validators.maxLength(this.maxEntityNameLength),
-        // ^[^\\d_*&^%$#@!~-]{1}[^,]*$
-        Validators.pattern('^[A-Za-zА-Яа-я]{1}[^,]*$'),
+        Validators.pattern(xRegExp(Constants.entityValidator)),
         isUniqName(this.affinityGroups),
       ]),
       type: this.formBuilder.control(AffinityGroupType.antiAffinity, [Validators.required]),

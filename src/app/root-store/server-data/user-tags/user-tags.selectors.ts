@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import * as camelCase from 'lodash/camelCase';
+const camelCase = require('lodash/camelCase');
 import { adapter, UserTagsState } from './user-tags.state';
 import { userTagKeys } from '../../../tags/tag-keys';
 import { DayOfWeek, KeyboardLayout, Language, TimeFormat } from '../../../shared/types';

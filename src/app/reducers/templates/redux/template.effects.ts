@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import * as uniqBy from 'lodash/uniqBy';
+const uniqBy = require('lodash/uniqBy');
 
 import {
   templateFilters,
