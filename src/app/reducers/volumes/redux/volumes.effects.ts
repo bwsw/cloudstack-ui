@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-const pickBy = require('lodash/pickBy');
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -36,6 +35,8 @@ import { State } from '../../index';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 import * as volumeActions from './volumes.actions';
 import * as fromVolumes from './volumes.reducers';
+
+const pickBy = require('lodash/pickBy');
 
 @Injectable()
 export class VolumesEffects {
@@ -357,7 +358,12 @@ export class VolumesEffects {
           }),
           catchError((error: Error) => {
             const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED';
-            this.dialogService.showNotificationsOnFail(error, message, notificationId);
+            const detachError = 'ERRORS.VOLUME.VOLUME_DELETING_UNAVAILABLE';
+            this.dialogService.showNotificationsOnFail(
+              { message: detachError },
+              message,
+              notificationId,
+            );
             return of(new volumeActions.VolumeUpdateError(error));
           }),
         );

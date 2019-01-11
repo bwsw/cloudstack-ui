@@ -22,7 +22,8 @@ import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.act
       (volumeResized)="onVolumeResize($event)"
       (volumeScheduled)="onVolumeSchedule($event)"
     >
-    </cs-volume-actions>`,
+    </cs-volume-actions>
+  `,
 })
 export class VolumeActionsContainerComponent {
   @Input()
