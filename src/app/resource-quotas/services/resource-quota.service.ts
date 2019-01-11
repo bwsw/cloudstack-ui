@@ -2,19 +2,22 @@ import { Injectable } from '@angular/core';
 import { GatewayApiService } from '../../shared/services/gateway-api.service';
 import { ResourceQuota } from '../models/resource-quota.model';
 import { Observable } from 'rxjs';
-
-// todo: move env and realm to some config (maybe proxy-conf.js)
-const pluginConfig = {
-  env: 'development',
-  realm: 'resource-limits',
-};
+import { select, Store } from '@ngrx/store';
+import { configSelectors, State } from '../../root-store';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class ResourceQuotaService {
-  constructor(protected gatewayApiService: GatewayApiService) {}
+  readonly pluginConfig$ = this.store.pipe(select(configSelectors.get('resourceLimits')));
+
+  constructor(private store: Store<State>, private gatewayApiService: GatewayApiService) {}
 
   public getList(): Observable<ResourceQuota[]> {
-    return this.gatewayApiService.execute('listResourceLimits', pluginConfig);
+    return this.pluginConfig$.pipe(
+      switchMap(pluginConfig => {
+        return this.gatewayApiService.execute('listResourceLimits', pluginConfig);
+      }),
+    );
   }
 
   public updateResourceLimit(params: {
@@ -22,16 +25,24 @@ export class ResourceQuotaService {
     minimum?: number;
     maximum?: number;
   }): Observable<ResourceQuota> {
-    return this.gatewayApiService.execute('updateResourceLimit', {
-      ...params,
-      ...pluginConfig,
-    });
+    return this.pluginConfig$.pipe(
+      switchMap(pluginConfig => {
+        return this.gatewayApiService.execute('updateResourceLimit', {
+          ...params,
+          ...pluginConfig,
+        });
+      }),
+    );
   }
 
   public updateResource(params: { resourceType: number; max: number }): Observable<void> {
-    return this.gatewayApiService.execute('updateResource', {
-      ...params,
-      ...pluginConfig,
-    });
+    return this.pluginConfig$.pipe(
+      switchMap(pluginConfig => {
+        return this.gatewayApiService.execute('updateResource', {
+          ...params,
+          ...pluginConfig,
+        });
+      }),
+    );
   }
 }

@@ -49,6 +49,10 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     autoUpdateRefreshFrequency: 1,
     autoUpdateRequestedInterval: 30,
   },
+  resourceLimits: {
+    realm: 'resource-limits',
+    env: 'prod',
+  },
   /*
    * Virtual machines settings
    */

@@ -12,6 +12,10 @@
     "autoUpdateRefreshFrequency": 1,
     "autoUpdateRequestedInterval": 30
   },
+  "resourceLimits": {
+    "realm": "resource-limits",
+    "env": "prod"
+  },
   "vmColors": [
     { "value": "#F44336" },
     { "value": "#E91E63" },
