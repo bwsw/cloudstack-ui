@@ -30,6 +30,10 @@ export interface CustomizableConfig {
     autoUpdateRefreshFrequency: number;
     autoUpdateRequestedInterval: number;
   };
+  resourceLimits: {
+    realm: string;
+    env: string;
+  };
   /*
    * Virtual machines settings
    */
