@@ -20,6 +20,9 @@ export class RequestResourcesComponent {
     [resourceType: number]: number;
   };
 
+  @Input()
+  isRequestButtonActive: boolean;
+
   @Output()
   limitChange = new EventEmitter();
 

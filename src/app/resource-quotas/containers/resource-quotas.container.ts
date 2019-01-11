@@ -5,6 +5,7 @@ import { State } from '../../root-store';
 import * as fromResourceQuotas from '../redux/resource-quotas.reducer';
 import * as fromAdminForm from '../redux/resource-quotas-admin-form.reducer';
 import { map } from 'rxjs/operators';
+import { getModifiedQuotas } from '../redux/selectors/modified-quotas.selector';
 
 @Component({
   selector: 'cs-resource-quotas-container',
@@ -13,6 +14,7 @@ import { map } from 'rxjs/operators';
       <cs-resource-quotas
         *loading="(isLoading$ | async)"
         [resourceQuotas]="resourceQuotas$ | async"
+        [isUpdateButtonActive]="quotasChanged$ | async"
         (fieldChange)="onFieldChange($event)"
         (update)="onUpdate()"
       ></cs-resource-quotas>
@@ -30,6 +32,10 @@ export class ResourceQuotasContainerComponent implements OnInit {
     map(isLoaded => !isLoaded),
   );
   readonly isErrorState$ = this.store.pipe(select(fromResourceQuotas.isErrorState));
+  readonly quotasChanged$ = this.store.pipe(
+    select(getModifiedQuotas),
+    map(quotas => quotas.length > 0),
+  );
 
   constructor(private store: Store<State>) {}
 

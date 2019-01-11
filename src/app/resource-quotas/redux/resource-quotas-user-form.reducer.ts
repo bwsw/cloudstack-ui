@@ -1,6 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { default as update } from 'immutability-helper';
 import * as resourceQuotasActions from './resource-quotas.actions';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import { getTotalResources } from '../../shared/models';
 
 const pickBy = require('lodash/pickBy');
 const mapValues = require('lodash/mapValues');
@@ -66,7 +68,22 @@ export const getResourceQuotasUserFormState = createFeatureSelector<ResourceQuot
 
 export const getUserResourceQuotas = createSelector(
   getResourceQuotasUserFormState,
-  state => pickBy(state.quotas, bound => bound.minimum !== -1 && bound.maximum !== -1),
+  fromAccounts.selectUserAccount,
+  (state, account) => {
+    const totalResources = getTotalResources(account);
+
+    const finiteQuotas = pickBy(
+      state.quotas,
+      bound => bound.minimum !== -1 && bound.maximum !== -1,
+    );
+    const quotasWithAdjustedMinimum = mapValues(finiteQuotas, (value, key) => {
+      return {
+        minimum: Math.max(Math.ceil(totalResources[key]), value.minimum),
+        maximum: value.maximum,
+      };
+    });
+    return pickBy(quotasWithAdjustedMinimum, bound => bound.maximum >= bound.minimum);
+  },
 );
 
 export const getUserResourceLimits = createSelector(

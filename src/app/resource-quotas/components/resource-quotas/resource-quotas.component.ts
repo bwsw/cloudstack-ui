@@ -15,6 +15,9 @@ export class ResourceQuotasComponent {
     };
   };
 
+  @Input()
+  isUpdateButtonActive: boolean;
+
   @Output()
   fieldChange = new EventEmitter();
 

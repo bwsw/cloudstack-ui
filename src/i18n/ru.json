@@ -1514,7 +1514,8 @@
       "REQUEST_RESOURCES_BUTTON": "Запросить ресурсы",
       "REQUEST_RESOURCES_TITLE": "Запрос ресурсов",
       "LIMIT_UPDATED": "Лимиты ресурсов успешно изменены",
-      "CAN_NOT_CHANGE_RESOURCES": "Невозможно изменить ресурсы"
+      "CAN_NOT_CHANGE_RESOURCES": "Невозможно изменить ресурсы",
+      "REQUEST_BUTTON": "Запросить"
     },
     "ADMIN_PAGE": {
       "QUOTA_UPDATED": "Квоты ресурсов успешно изменены",

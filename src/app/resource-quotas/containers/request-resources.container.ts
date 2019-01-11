@@ -8,6 +8,7 @@ import { LoadResourceLimitsForCurrentUser } from '../../reducers/resource-limit/
 import { map } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import * as fromResourceLimits from '../../reducers/resource-limit/redux/resource-limits.reducers';
+import { getModifiedLimits } from '../redux/selectors/modified-limits.selector';
 
 @Component({
   selector: 'cs-request-resources-container',
@@ -17,6 +18,7 @@ import * as fromResourceLimits from '../../reducers/resource-limit/redux/resourc
         *loading="(isLoading$ | async)"
         [resourceQuotas]="resourceQuotas$ | async"
         [resourceLimits]="resourceLimits$ | async"
+        [isRequestButtonActive]="limitsChanged$ | async"
         (limitChange)="onLimitChange($event)"
         (update)="onUpdate($event)"
       ></cs-request-resources>
@@ -70,6 +72,10 @@ export class RequestResourcesContainerComponent implements OnInit {
 
       return noQuotas;
     }),
+  );
+  readonly limitsChanged$ = this.store.pipe(
+    select(getModifiedLimits),
+    map(limits => limits.length > 0),
   );
 
   constructor(private store: Store<State>) {}

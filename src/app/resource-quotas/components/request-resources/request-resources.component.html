@@ -34,5 +34,7 @@
 </div>
 <mat-dialog-actions>
   <button class="button" mat-button matDialogClose>{{ 'COMMON.CANCEL' | translate }}</button>
-  <button class="button" mat-button (click)="onUpdate()">{{ 'COMMON.UPDATE' | translate }}</button>
+  <button class="button" mat-button (click)="onUpdate()" [disabled]="!isRequestButtonActive">
+    {{ 'RESOURCE_QUOTAS_PAGE.REQUEST.REQUEST_BUTTON' | translate }}
+  </button>
 </mat-dialog-actions>

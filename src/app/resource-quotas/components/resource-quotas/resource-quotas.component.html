@@ -36,7 +36,7 @@
       </tr>
     </table>
 
-    <button class="button" mat-button (click)="onUpdate()">
+    <button class="button" mat-button (click)="onUpdate()" [disabled]="!isUpdateButtonActive">
       {{ 'COMMON.UPDATE' | translate }}
     </button>
   </div>
