@@ -60,11 +60,15 @@ export class RequestResourcesContainerComponent implements OnInit {
     this.isLoading$,
   ).pipe(
     map(([failedToLoadQuotas, noQuotas, loading]) => {
+      if (failedToLoadQuotas) {
+        return true;
+      }
+
       if (loading) {
         return false;
       }
 
-      return failedToLoadQuotas || noQuotas;
+      return noQuotas;
     }),
   );
 
