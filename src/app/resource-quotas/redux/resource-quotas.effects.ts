@@ -93,6 +93,8 @@ export class ResourceQuotasEffects {
       return zip(...requests).pipe(
         switchMap(() => {
           this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.REQUEST.LIMIT_UPDATED');
+          // todo: optimize
+          // LoadAccountsRequest is needed to update the resource usage section
           return of(
             new resourceLimitActions.LoadResourceLimitsForCurrentUser(null),
             new accountActions.LoadAccountsRequest(),
@@ -100,6 +102,8 @@ export class ResourceQuotasEffects {
         }),
         catchError((error: Error) => {
           this.dialogService.showNotificationsOnFail(error);
+          // todo: optimize
+          // LoadAccountsRequest is needed to update the resource usage section
           return of(
             new resourceLimitActions.LoadResourceLimitsForCurrentUser(null),
             new accountActions.LoadAccountsRequest(),
