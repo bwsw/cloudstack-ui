@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MatOptionSelectionChange, MatSelectChange } from '@angular/material';
-import * as debounce from 'lodash/debounce';
+const debounce = require('lodash/debounce');
 
 @Component({
   selector: 'cs-aggregation-selector',

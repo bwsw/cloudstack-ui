@@ -1,7 +1,7 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import * as isEqual from 'lodash/isEqual';
-import * as range from 'lodash/range';
+const isEqual = require('lodash/isEqual');
+const range = require('lodash/range');
 
 import { Time } from '../../../../shared/components/time-picker/time-picker.component';
 import { TimeFormat } from '../../../../shared/types';

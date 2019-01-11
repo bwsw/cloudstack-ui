@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatTabChangeEvent } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import * as debounce from 'lodash/debounce';
+const debounce = require('lodash/debounce');
 import * as moment from 'moment';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { PulseChartComponent } from '../charts/pulse-chart';

@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Route } from '../models';
 import { appNavRoutes } from '../routes';
 import { getUrl } from '../../../root-store/router/router.selectors';
-import * as flatten from 'lodash/flatten';
+const flatten = require('lodash/flatten');
 import { get } from '../../../root-store/config/config.selectors';
 
 export interface State {
@@ -30,19 +30,29 @@ const vmLogsSubroute = {
 
 export const getNavMenuState = createFeatureSelector<State>('navMenu');
 
-export const getRoutes = createSelector(getNavMenuState, state => state.routes);
+export const getRoutes = createSelector(
+  getNavMenuState,
+  state => state.routes,
+);
 
-const getCurrentSubroutePath = createSelector(getUrl, url => url.match(/^\/[A-Za-z-]*/)[0]);
+const getCurrentSubroutePath = createSelector(
+  getUrl,
+  url => url.match(/^\/[A-Za-z-]*/)[0],
+);
 
-const getAllSubroutes = createSelector(getRoutes, get('extensions'), (routes, { vmLogs }) => {
-  const subroutes = flatten(routes.map(route => route.subroutes));
+const getAllSubroutes = createSelector(
+  getRoutes,
+  get('extensions'),
+  (routes, { vmLogs }) => {
+    const subroutes = flatten(routes.map(route => route.subroutes));
 
-  if (vmLogs) {
-    return subroutes.concat(vmLogsSubroute);
-  }
+    if (vmLogs) {
+      return subroutes.concat(vmLogsSubroute);
+    }
 
-  return subroutes;
-});
+    return subroutes;
+  },
+);
 
 const getCurrentSubroute = createSelector(
   getCurrentSubroutePath,
@@ -50,8 +60,10 @@ const getCurrentSubroute = createSelector(
   (path, subroutes) => subroutes.find(subroute => subroute && subroute.path === path),
 );
 
-export const getCurrentRoute = createSelector(getRoutes, getCurrentSubroute, (routes, subroute) =>
-  routes.find(route => subroute && route.id === subroute.routeId),
+export const getCurrentRoute = createSelector(
+  getRoutes,
+  getCurrentSubroute,
+  (routes, subroute) => routes.find(route => subroute && route.id === subroute.routeId),
 );
 
 export const getSubroutes = createSelector(
