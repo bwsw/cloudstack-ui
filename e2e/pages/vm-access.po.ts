@@ -17,10 +17,7 @@ export class AccessVM extends CloudstackUiPage {
   }
 
   clickSSHTab() {
-    element
-      .all(by.css('.mat-tab-label.mat-ripple.ng-star-inserted'))
-      .get(1)
-      .click();
+    element(by.cssContainingText('.mat-tab-label-content', 'SSH')).click();
     const EC = protractor.ExpectedConditions;
     const ssh = EC.visibilityOf(element(by.css('.parameters-wrapper.ng-star-inserted')));
     const icon = EC.visibilityOf(element(by.css('.mdi-content-copy.mat-icon.mdi')));

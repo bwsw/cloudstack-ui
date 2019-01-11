@@ -28,12 +28,6 @@ export class VMCreation extends CloudstackUiPage {
       .getText();
   }
 
-  getSelectedTabText() {
-    return element(by.id('mat-button-toggle-7-button'))
-      .element(by.tagName('div'))
-      .getText();
-  }
-
   setDisplayName(name) {
     const input1 = element(by.name('displayName'));
     const EC = protractor.ExpectedConditions;
@@ -118,7 +112,6 @@ export class VMCreation extends CloudstackUiPage {
       .all(by.css('.mat-row.ng-star-inserted'))
       .get(1)
       .click();
-    element(by.css('input[formControlName=name]')).sendKeys(name);
     element
       .all(by.css('.mat-button.mat-primary'))
       .last()
