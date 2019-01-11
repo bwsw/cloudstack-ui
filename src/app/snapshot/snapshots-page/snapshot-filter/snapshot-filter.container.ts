@@ -27,30 +27,57 @@ const FILTER_KEY = 'snapshotFilters';
 @Component({
   selector: 'cs-snapshots-filter-container',
   template: `
-    <cs-snapshots-filter
-      [accounts]="accounts$ | async"
-      [vms]="vms$ | async"
-      [types]="types"
-      [availableGroupings]="groupings"
-      [isLoading]="isLoading$ | async"
-      [firstDayOfWeek]="firstDayOfWeek$ | async"
-      [selectedAccounts]="(filters$ | async).accounts"
-      [selectedVmsIds]="(filters$ | async).vmIds"
-      [selectedVolumeVmIds]="(filters$ | async).volumeVmIds"
-      [selectedTypes]="(filters$ | async).volumeSnapshotTypes"
-      [selectedDate]="(filters$ | async).date"
-      [selectedGroupings]="selectedGroupings$ | async"
-      [query]="(filters$ | async).query"
-      [viewMode]="viewMode$ | async"
-      (selectedAccountsChange)="onAccountsChange($event)"
-      (selectedVmsChange)="onSelectedVmsChange($event)"
-      (selectedVolumeVmsChange)="onSelectedVolumeVmsChange($event)"
-      (selectedTypesChange)="onTypesChange($event)"
-      (selectedDateChange)="onDateChange($event)"
-      (selectedGroupingsChange)="onGroupingsChange($event)"
-      (queryChange)="onQueryChange($event)"
-      (viewModeChange)="onViewModeChange($event)"
-    ></cs-snapshots-filter>
+    <!--<div class="filter-wrapper">-->
+    <!--<mat-button-toggle-group [value]="viewMode" (change)="onViewModeChange($event.value)">-->
+    <!--<mat-button-toggle [value]="snapshotPageViewMode.Volume">-->
+    <!--{{ 'SNAPSHOT_PAGE.FILTERS.VOLUME' | translate }}-->
+    <!--</mat-button-toggle>-->
+    <!--<mat-button-toggle [value]="snapshotPageViewMode.VM">-->
+    <!--{{ 'SNAPSHOT_PAGE.FILTERS.VM' | translate }}-->
+    <!--</mat-button-toggle>-->
+    <!--</mat-button-toggle-group>-->
+
+    <ng-container *ngIf="viewMode === snapshotPageViewMode.Volume">
+      <cs-volume-snapshots-filter
+        [viewMode]="viewMode$ | async"
+        [accounts]="accounts$ | async"
+        [vms]="vms$ | async"
+        [types]="types"
+        [availableGroupings]="groupings"
+        [isLoading]="isLoading$ | async"
+        [firstDayOfWeek]="firstDayOfWeek$ | async"
+        [selectedAccounts]="(filters$ | async).accounts"
+        [selectedVms]="(filters$ | async).volumeVmIds"
+        [selectedTypes]="(filters$ | async).volumeSnapshotTypes"
+        [selectedDate]="(filters$ | async).date"
+        [selectedGroupings]="selectedGroupings$ | async"
+        [query]="(filters$ | async).query"
+        (selectedAccountsChange)="onAccountsChange($event)"
+        (selectedVolumeVmsChange)="onSelectedVolumeVmsChange($event)"
+        (selectedTypesChange)="onTypesChange($event)"
+        (selectedDateChange)="onDateChange($event)"
+        (selectedGroupingsChange)="onGroupingsChange($event)"
+        (queryChange)="onQueryChange($event)"
+        (viewModeChange)="onViewModeChange($event)"
+      ></cs-volume-snapshots-filter>
+    </ng-container>
+
+    <ng-container *ngIf="viewMode === snapshotPageViewMode.VM">
+      <cs-vm-snapshots-filter
+        [viewMode]="viewMode$ | async"
+        [accounts]="accounts$ | async"
+        [vms]="vms$ | async"
+        [isLoading]="isLoading$ | async"
+        [firstDayOfWeek]="firstDayOfWeek$ | async"
+        [selectedAccounts]="(filters$ | async).accounts"
+        [selectedVms]="(filters$ | async).vmIds"
+        [selectedDate]="(filters$ | async).date"
+        (selectedAccountsChange)="onAccountsChange($event)"
+        (selectedVmsChange)="onSelectedVmsChange($event)"
+        (selectedDateChange)="onDateChange($event)"
+        (viewModeChange)="onViewModeChange($event)"
+      ></cs-vm-snapshots-filter>
+    </ng-container>
   `,
 })
 export class SnapshotFilterContainerComponent extends WithUnsubscribe() implements OnInit {
@@ -109,7 +136,8 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     },
   ];
 
-  private viewMode: SnapshotPageViewMode;
+  public snapshotPageViewMode = SnapshotPageViewMode;
+  public viewMode: SnapshotPageViewMode;
 
   private filterService = new FilterService(
     {
