@@ -5,11 +5,14 @@ import { State } from '../../root-store';
 import * as fromResourceQuotas from '../redux/resource-quotas.reducer';
 import * as fromUserForm from '../redux/resource-quotas-user-form.reducer';
 import { LoadResourceLimitsForCurrentUser } from '../../reducers/resource-limit/redux/resource-limits.actions';
+import { map } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import * as fromResourceLimits from '../../reducers/resource-limit/redux/resource-limits.reducers';
 
 @Component({
   selector: 'cs-request-resources-container',
   template: `
-    <ng-container *ngIf="(isErrorState$ | async) === false">
+    <ng-container *ngIf="(formNotShown$ | async) === false">
       <cs-request-resources
         *loading="(isLoading$ | async)"
         [resourceQuotas]="resourceQuotas$ | async"
@@ -18,17 +21,52 @@ import { LoadResourceLimitsForCurrentUser } from '../../reducers/resource-limit/
         (update)="onUpdate($event)"
       ></cs-request-resources>
     </ng-container>
-    <cs-no-results
-      *ngIf="(isErrorState$ | async)"
-      [text]="'RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.QUOTA_LOAD_ERROR'"
-    ></cs-no-results>
+    <div *ngIf="(formNotShown$ | async)">
+      <div class="mat-dialog-content">
+        <cs-no-results
+          [text]="'RESOURCE_QUOTAS_PAGE.REQUEST.CAN_NOT_CHANGE_RESOURCES'"
+        ></cs-no-results>
+      </div>
+      <div class="mat-dialog-actions">
+        <button mat-button color="primary" matDialogClose type="button">
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+      </div>
+    </div>
   `,
 })
 export class RequestResourcesContainerComponent implements OnInit {
   readonly resourceQuotas$ = this.store.pipe(select(fromUserForm.getUserResourceQuotas));
   readonly resourceLimits$ = this.store.pipe(select(fromUserForm.getUserResourceLimits));
-  readonly isLoading$ = this.store.pipe(select(fromResourceQuotas.isLoading));
-  readonly isErrorState$ = this.store.pipe(select(fromResourceQuotas.isErrorState));
+  readonly failedToLoadQuotas$ = this.store.pipe(select(fromResourceQuotas.isErrorState));
+
+  readonly noResourceAvailableForChange$ = this.resourceQuotas$.pipe(
+    map(resourceQuotas => Object.keys(resourceQuotas).length === 0),
+  );
+  readonly quotasLoading$ = this.store.pipe(
+    select(fromResourceQuotas.isLoaded),
+    map(isLoading => !isLoading),
+  );
+  readonly limitsLoading$ = this.store.pipe(
+    select(fromResourceLimits.isLoaded),
+    map(isLoading => !isLoading),
+  );
+  readonly isLoading$ = combineLatest(this.quotasLoading$, this.limitsLoading$).pipe(
+    map(loadings => loadings.some(Boolean)),
+  );
+  readonly formNotShown$ = combineLatest(
+    this.failedToLoadQuotas$,
+    this.noResourceAvailableForChange$,
+    this.isLoading$,
+  ).pipe(
+    map(([failedToLoadQuotas, noQuotas, loading]) => {
+      if (loading) {
+        return false;
+      }
+
+      return failedToLoadQuotas || noQuotas;
+    }),
+  );
 
   constructor(private store: Store<State>) {}
 

@@ -61,9 +61,9 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getResourceQuotasState,
 );
 
-export const isLoading = createSelector(
+export const isLoaded = createSelector(
   getResourceQuotasState,
-  state => state.loading,
+  state => state.loaded,
 );
 
 export const isErrorState = createSelector(

@@ -4,6 +4,7 @@ import { appNavRoutes } from '../routes';
 import { getUrl } from '../../../root-store/router/router.selectors';
 const flatten = require('lodash/flatten');
 import { get } from '../../../root-store/config/config.selectors';
+import { selectIsAdminResourceQuotasEnabled } from '../../../resource-quotas/redux/selectors/is-admin-resource-quotas-enabled.selector';
 
 export interface State {
   routes: Route[];
@@ -50,14 +51,15 @@ const getCurrentSubroutePath = createSelector(
 const getAllSubroutes = createSelector(
   getRoutes,
   get('extensions'),
-  (routes, { vmLogs, resourceLimits }) => {
+  selectIsAdminResourceQuotasEnabled,
+  (routes, { vmLogs }, isAdminResourceQuotasEnabled) => {
     const subroutes = flatten(routes.map(route => route.subroutes));
 
     if (vmLogs) {
       subroutes.push(vmLogsSubroute);
     }
 
-    if (resourceLimits) {
+    if (isAdminResourceQuotasEnabled) {
       subroutes.push(resourceQuotasSubroute);
     }
 
@@ -80,7 +82,8 @@ export const getCurrentRoute = createSelector(
 export const getSubroutes = createSelector(
   getCurrentRoute,
   get('extensions'),
-  (route, { vmLogs, resourceLimits }) => {
+  selectIsAdminResourceQuotasEnabled,
+  (route, { vmLogs }, isAdminResourceQuotasEnabled) => {
     // todo: replace with plugin system
     if (!route) {
       return [];
@@ -90,7 +93,7 @@ export const getSubroutes = createSelector(
       return route.subroutes.concat(vmLogsSubroute);
     }
 
-    if (route.id === 'accounts' && resourceLimits) {
+    if (route.id === 'accounts' && isAdminResourceQuotasEnabled) {
       return [route.subroutes[0], resourceQuotasSubroute, ...route.subroutes.slice(1)];
     }
 

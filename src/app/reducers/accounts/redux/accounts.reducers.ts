@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AccountUser } from '../../../shared/models/account-user.model';
-import { Account } from '../../../shared/models/account.model';
+import { Account, isAdmin } from '../../../shared/models/account.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as accountActions from './accounts.actions';
@@ -233,6 +233,11 @@ export const selectUserAccount = createSelector(
   selectEntities,
   fromAuth.getUserAccountId,
   (accountsMap, accountId) => accountsMap[accountId],
+);
+
+export const selectIsUserAdmin = createSelector(
+  selectUserAccount,
+  isAdmin,
 );
 
 export const selectStorageAvailable = createSelector(

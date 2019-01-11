@@ -15,6 +15,7 @@ import * as fromResourceLimits from '../../reducers/resource-limit/redux/resourc
 import { getModifiedQuotas } from './selectors/modified-quotas.selector';
 import { getModifiedLimits } from './selectors/modified-limits.selector';
 import * as resourceLimitActions from '../../reducers/resource-limit/redux/resource-limits.actions';
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
 const pick = require('lodash/pick');
 
@@ -90,13 +91,19 @@ export class ResourceQuotasEffects {
       });
 
       return zip(...requests).pipe(
-        map(() => {
+        switchMap(() => {
           this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.REQUEST.LIMIT_UPDATED');
-          return new resourceLimitActions.LoadResourceLimitsForCurrentUser(null);
+          return of(
+            new resourceLimitActions.LoadResourceLimitsForCurrentUser(null),
+            new accountActions.LoadAccountsRequest(),
+          );
         }),
         catchError((error: Error) => {
           this.dialogService.showNotificationsOnFail(error);
-          return of(new resourceLimitActions.LoadResourceLimitsForCurrentUser(null));
+          return of(
+            new resourceLimitActions.LoadResourceLimitsForCurrentUser(null),
+            new accountActions.LoadAccountsRequest(),
+          );
         }),
       );
     }),

@@ -4,6 +4,7 @@ import * as resourceQuotasActions from '../redux/resource-quotas.actions';
 import { State } from '../../root-store';
 import * as fromResourceQuotas from '../redux/resource-quotas.reducer';
 import * as fromAdminForm from '../redux/resource-quotas-admin-form.reducer';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cs-resource-quotas-container',
@@ -24,7 +25,10 @@ import * as fromAdminForm from '../redux/resource-quotas-admin-form.reducer';
 })
 export class ResourceQuotasContainerComponent implements OnInit {
   readonly resourceQuotas$ = this.store.pipe(select(fromAdminForm.getAdminResourceQuotasForm));
-  readonly isLoading$ = this.store.pipe(select(fromResourceQuotas.isLoading));
+  readonly isLoading$ = this.store.pipe(
+    select(fromResourceQuotas.isLoaded),
+    map(isLoaded => !isLoaded),
+  );
   readonly isErrorState$ = this.store.pipe(select(fromResourceQuotas.isErrorState));
 
   constructor(private store: Store<State>) {}

@@ -92,6 +92,10 @@ export interface Account extends BaseModel {
   fullDomain?: string;
 }
 
-export const isAdmin = (account: Account) => account.accounttype !== AccountType.User;
+export const isAdmin = (account: Account) => {
+  return account && String(account.accounttype) !== AccountType.User;
+};
 
-export const isRootAdmin = (account: Account) => account.accounttype === AccountType.RootAdmin;
+export const isRootAdmin = (account: Account) => {
+  return account && String(account.accounttype) === AccountType.RootAdmin;
+};

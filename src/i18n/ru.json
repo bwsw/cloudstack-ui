@@ -1513,7 +1513,8 @@
     "REQUEST": {
       "REQUEST_RESOURCES_BUTTON": "Запросить ресурсы",
       "REQUEST_RESOURCES_TITLE": "Запрос ресурсов",
-      "LIMIT_UPDATED": "Лимиты ресурсов успешно изменены"
+      "LIMIT_UPDATED": "Лимиты ресурсов успешно изменены",
+      "CAN_NOT_CHANGE_RESOURCES": "Невозможно изменить ресурсы"
     },
     "ADMIN_PAGE": {
       "QUOTA_UPDATED": "Квоты ресурсов успешно изменены",
