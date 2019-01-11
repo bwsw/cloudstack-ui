@@ -13,7 +13,7 @@
       <mat-button-toggle [value]="viewModeList.LookAndFeel">
         {{ 'SETTINGS.LOOK_AND_FEEL.TITLE' | translate }}
       </mat-button-toggle>
-      <mat-button-toggle [value]="viewModeList.LogView" [disabled]="!logViewEnabled">
+      <mat-button-toggle *ngIf="logViewEnabled" [value]="viewModeList.LogView">
         {{ 'SETTINGS.VM_LOGS.TITLE' | translate }}
       </mat-button-toggle>
     </mat-button-toggle-group>

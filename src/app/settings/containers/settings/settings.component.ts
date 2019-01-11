@@ -73,14 +73,12 @@ export class SettingsComponent {
   ) {
     this.logViewEnabled$.subscribe(enabled => (this.logViewEnabled = enabled));
 
-    const params = this.filterService.getParams();
-    this.viewMode =
-      params.viewMode === SettingsPageViewMode.LogView && !this.logViewEnabled
-        ? SettingsPageViewMode.Security
-        : params.viewMode;
-
-    this.filterService.update({ viewMode: this.viewMode });
-
+    this.viewMode = this.filterService.getParams().viewMode;
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['viewMode']) {
+        this.viewMode = params['viewMode'];
+      }
+    });
     this.userId = this.authService.user.userid;
     this.userService.getUserKeys(this.userId).subscribe(keys => (this.userKeys = keys));
     this.apiUrl = this.getApiUrl();
