@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as omitBy from 'lodash/omitBy';
-import * as pickBy from 'lodash/pickBy';
+const omitBy = require('lodash/omitBy');
+const pickBy = require('lodash/pickBy');
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { VirtualMachine } from '../../vm';

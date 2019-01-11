@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import * as pickBy from 'lodash/pickBy';
+const pickBy = require('lodash/pickBy');
 import { FilterConfig } from '../shared/services/filter.service';
 
 export const vmLogsFilters: FilterConfig = {

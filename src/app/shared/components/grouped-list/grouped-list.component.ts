@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, Type } from '@angular/core';
-import * as groupBy from 'lodash/groupBy';
+const groupBy = require('lodash/groupBy');
 import { BaseModel } from '../../models/base.model';
 import { Grouping } from '../../models/grouping.model';
 

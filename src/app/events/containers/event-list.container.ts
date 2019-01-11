@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { map, takeUntil, withLatestFrom } from 'rxjs/operators';
-import * as debounce from 'lodash/debounce';
+const debounce = require('lodash/debounce');
 import * as moment from 'moment';
 
 import { State, UserTagsSelectors } from '../../root-store';
@@ -36,7 +36,8 @@ const FILTER_KEY = 'eventListFilters';
       (queryChanged)="onQueryChange($event)"
       (eventTypesChanged)="onEventTypesChange($event)"
       (selectedLevelsChanged)="onSelectedLevelsChange($event)"
-    ></cs-event-list>`,
+    ></cs-event-list>
+  `,
 })
 export class EventListContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly firstDayOfWeek$ = this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek));
