@@ -2,7 +2,7 @@ import { CloudstackUiPage } from './app.po';
 import { browser, by, element, protractor } from 'protractor';
 
 export class VMList extends CloudstackUiPage {
-  getVMNameCard(index) {
+  getVMNameCard() {
     return element
       .all(by.css('.entity-card-title.mat-card-title'))
       .first()

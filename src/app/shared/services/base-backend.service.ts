@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, map, share, switchMap } from 'rxjs/operators';
-import * as range from 'lodash/range';
+const range = require('lodash/range');
 
 import { Cache } from './cache';
 import { CacheService } from './cache.service';

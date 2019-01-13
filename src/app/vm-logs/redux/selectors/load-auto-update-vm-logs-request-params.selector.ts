@@ -7,7 +7,7 @@ import {
   filterNewestFirst,
   filterSelectedLogFile,
 } from '../vm-logs.reducers';
-import * as pickBy from 'lodash/pickBy';
+const pickBy = require('lodash/pickBy');
 import { selectStartDate, selectEndDate } from '../vm-logs-auto-update.reducers';
 
 export const loadAutoUpdateVmLogsRequestParams = createSelector(

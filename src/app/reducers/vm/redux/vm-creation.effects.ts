@@ -553,7 +553,7 @@ export class VirtualMachineCreationEffects {
             stage: VmDeploymentStage.TAG_COPYING_FINISHED,
           }),
         );
-        return { ...vm, tags: [...vm.tags] } as VirtualMachine;
+        return { ...vm, tags: state.template.tags } as VirtualMachine;
       }),
     );
   }

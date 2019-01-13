@@ -17,7 +17,6 @@ export class ImageSidebar extends CloudstackUiPage {
       input2.sendKeys(value);
       browser.wait(EC.textToBePresentInElementValue(element(by.name('value')), value));
       expect(input2.getAttribute('value')).toBe(value);
-      browser.wait(EC.visibilityOf(input2));
     });
     this.clickYesDialogButton();
     browser.wait(
