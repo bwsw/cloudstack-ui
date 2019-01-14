@@ -57,6 +57,7 @@ import {
   VmSnapshotActionTypes,
 } from './vm-snapshots.actions';
 import * as vmSnapshotSelectors from './vm-snapshots.selectors';
+import { VmState } from '../../../vm';
 
 @Injectable()
 export class VmSnapshotsEffects {
@@ -74,8 +75,21 @@ export class VmSnapshotsEffects {
   @Effect()
   createVmSnapshotDialog$: Observable<Action> = this.actions$.pipe(
     ofType<Create>(VmSnapshotActionTypes.Create),
-    exhaustMap(action =>
-      this.matDialog
+    withLatestFrom(this.store.pipe(select(fromVM.getSelectedVM))),
+    exhaustMap(([action, selectedVM]) => {
+      if (selectedVM.state === VmState.Stopped) {
+        const message = 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE_FOR_STOPPED';
+        this.dialogService.showNotificationsOnFail({ message }, message);
+        return of(new CreateCanceled());
+      }
+
+      if (selectedVM.state === VmState.Destroyed) {
+        const message = 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE_FOR_DELETED';
+        this.dialogService.showNotificationsOnFail({ message }, message);
+        return of(new CreateCanceled());
+      }
+
+      return this.matDialog
         .open(VmSnapshotCreationDialogComponent, { width: '400px', disableClose: true })
         .afterClosed()
         .pipe(
@@ -90,8 +104,8 @@ export class VmSnapshotsEffects {
             }
             return new CreateCanceled();
           }),
-        ),
-    ),
+        );
+    }),
   );
 
   @Effect()
