@@ -27,16 +27,6 @@ const FILTER_KEY = 'snapshotFilters';
 @Component({
   selector: 'cs-snapshots-filter-container',
   template: `
-    <!--<div class="filter-wrapper">-->
-    <!--<mat-button-toggle-group [value]="viewMode" (change)="onViewModeChange($event.value)">-->
-    <!--<mat-button-toggle [value]="snapshotPageViewMode.Volume">-->
-    <!--{{ 'SNAPSHOT_PAGE.FILTERS.VOLUME' | translate }}-->
-    <!--</mat-button-toggle>-->
-    <!--<mat-button-toggle [value]="snapshotPageViewMode.VM">-->
-    <!--{{ 'SNAPSHOT_PAGE.FILTERS.VM' | translate }}-->
-    <!--</mat-button-toggle>-->
-    <!--</mat-button-toggle-group>-->
-
     <ng-container *ngIf="viewMode === snapshotPageViewMode.Volume">
       <cs-volume-snapshots-filter
         [viewMode]="viewMode$ | async"
