@@ -37,7 +37,6 @@ export class SettingsComponent {
     select(configSelectors.get('extensions')),
     map(extensions => extensions.vmLogs),
   );
-  public logViewEnabled: boolean;
   private readonly userId: string;
 
   private filterService = new FilterService(
@@ -71,8 +70,6 @@ export class SettingsComponent {
     private router: Router,
     private sessionStorage: SessionStorageService,
   ) {
-    this.logViewEnabled$.subscribe(enabled => (this.logViewEnabled = enabled));
-
     this.viewMode = this.filterService.getParams().viewMode;
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['viewMode']) {
