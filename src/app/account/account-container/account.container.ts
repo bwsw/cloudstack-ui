@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { State } from '../../reducers/index';
-import { Account, accountState } from '../../shared/models';
+import { Account, accountState, getPath } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
@@ -39,7 +39,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe()
 
         return {
           ...account,
-          domainpath: (domain && domain.path) || '',
+          domainpath: (domain && getPath(domain.path)) || '',
         };
       }),
     ),
