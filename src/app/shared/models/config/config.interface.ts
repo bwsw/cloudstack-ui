@@ -23,8 +23,8 @@ export interface CustomizableConfig {
   apiDocLink: string;
   extensions: ExtensionsConfig;
   /*
-  *  Log View settings
-  * */
+   *  Log View settings
+   * */
   vmLogs: {
     autoUpdateRefreshFrequency: number;
     autoUpdateRequestedInterval: number;
@@ -33,6 +33,7 @@ export interface CustomizableConfig {
    * Virtual machines settings
    */
   vmColors: { value: string }[];
+  vmSnapLimit?: number;
   /*
    * Firewall (Security groups) settings
    */

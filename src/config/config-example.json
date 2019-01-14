@@ -18,6 +18,7 @@
     { "value": "#673AB7" },
     { "value": "#3F51B5" }
   ],
+  "vmSnapLimit": 1,
   "securityGroupTemplates": [
     {
       "id": "templateTCP",

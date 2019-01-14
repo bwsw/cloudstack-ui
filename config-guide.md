@@ -10,6 +10,7 @@ You can see examples of the configurations in the [config-example.json](https://
   - [Log View Plugin](#log-view-plugin)
 - [Virtual Machines Settings](#virtual-machines-settings)
   - [VM Colors](#vm-colors)
+  - [VM Snapshots Limit](#vm-snapshots-limit)
 - [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
   - [Security Group Templates](#security-group-templates)
   - [Default Security Group Name](#default-security-group-name)
@@ -119,6 +120,17 @@ For example,
   { "value": "#673AB7" },
   { "value": "#3F51B5" }
 ]
+```
+
+### VM Snapshots Limit
+
+Allows you to set a maximum amount of vm snapshots.
+
+For example,
+
+```
+"vmSnapLimit": 1
+
 ```
 
 ## Firewall (Security Groups) Settings

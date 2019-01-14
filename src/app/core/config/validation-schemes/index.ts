@@ -22,6 +22,7 @@ import * as securityGroupTemplates from './security-group-templates.scheme.json'
 
 import * as imageGroups from './image-groups.scheme.json';
 import * as defaultSecurityGroupName from './default-security-group-name.scheme.json';
+import * as vmSnapLimit from './vm-snap-limit.scheme.json';
 
 export {
   // General
@@ -33,6 +34,7 @@ export {
   vmLogs,
   // Virtual machines settings
   vmColors,
+  vmSnapLimit,
   // User app settings
   defaultFirstDayOfWeek,
   defaultInterfaceLanguage,
