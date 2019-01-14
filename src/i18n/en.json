@@ -111,7 +111,9 @@
       "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first.",
       "CREATION_UNAVAILABLE_FOR_STOPPED": "VM snapshot creation is unavailable for stopped VMs",
       "CREATION_UNAVAILABLE_FOR_DELETED": "VM snapshot creation is unavailable for destroyed VMs",
-      "CREATION_UNAVAILABLE": "VM snapshot can not be created. Contact your administrator"
+      "CREATION_UNAVAILABLE": "VM snapshot can not be created. Contact your administrator",
+      "REVERT_UNAVAILABLE_FOR_STOPPED": "Revert VM to snapshot is unavailable for stopped VMs",
+      "REVERT_UNAVAILABLE_FOR_DELETED": "Revert VM to snapshot is unavailable for destroyed VMs"
     },
     "SSH": {
       "KEY_PAIR_ALREADY_EXISTS": "SSH key with name '{{ val1 }}' already exists"

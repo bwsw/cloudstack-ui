@@ -73,6 +73,10 @@ export class ErrorService {
       regex: /Internal error executing command, please contact your system administrator/,
       translation: 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE',
     },
+    {
+      regex: /VM Snapshot revert not allowed. This will result in VM state change. You can revert running VM to disk and memory type snapshot and stopped VM to disk type snapshot/,
+      translation: 'ERRORS.SNAPSHOT.REVERT_UNAVAILABLE_FOR_STOPPED',
+    },
   ];
 
   public static parseError(error: any): any {
