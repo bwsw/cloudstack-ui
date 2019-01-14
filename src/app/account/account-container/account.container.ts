@@ -39,7 +39,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe()
 
         return {
           ...account,
-          domainpath: (domain && getPath(domain.path)) || '',
+          domainpath: (domain && getPath(domain)) || '',
         };
       }),
     ),

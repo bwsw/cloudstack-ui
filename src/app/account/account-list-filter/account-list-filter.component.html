@@ -6,7 +6,7 @@
       [ngModel]="selectedDomainIds"
       (selectionChange)="domainsChanged.emit($event.value)"
     >
-      <mat-option *ngFor="let domain of domains" [value]="domain.id">{{ domain.path }} </mat-option>
+      <mat-option *ngFor="let domain of domains" [value]="domain.id">{{ domain.name }} </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
