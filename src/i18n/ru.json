@@ -112,8 +112,7 @@
       "CREATION_UNAVAILABLE_FOR_STOPPED": "Создание снимков ВМ недоступно для остановленных ВМ",
       "CREATION_UNAVAILABLE_FOR_DELETED": "Создание снимков ВМ недоступно для удаленных ВМ",
       "CREATION_UNAVAILABLE": "Снимок ВМ не может быть создан. Обратитесь к администратору",
-      "REVERT_UNAVAILABLE_FOR_STOPPED": "Возвращение ВМ к снимку ВМ недоступно для остановленных ВМ",
-      "REVERT_UNAVAILABLE_FOR_DELETED": "Возвращение ВМ к снимку ВМ недоступно для удаленных ВМs"
+      "REVERT_UNAVAILABLE_FOR_STOPPED": "Возвращение ВМ к снимку ВМ недоступно для остановленных ВМ"
     },
     "SSH": {
       "KEY_PAIR_ALREADY_EXISTS": "SSH ключ с именем \"{{ val1 }}\" уже существует"
