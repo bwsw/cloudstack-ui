@@ -61,6 +61,18 @@ export class ErrorService {
       regex: /Invalid token/,
       translation: 'ERRORS.VM_LOGS.INVALID_TOKEN',
     },
+    {
+      regex: /Can not snapshot memory when VM is not in Running state/,
+      translation: 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE_FOR_STOPPED',
+    },
+    {
+      regex: /Creating vm snapshot failed due to VM:(.*) is not in the running or Stopped state/,
+      translation: 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE_FOR_DELETED',
+    },
+    {
+      regex: /Internal error executing command, please contact your system administrator/,
+      translation: 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE',
+    },
   ];
 
   public static parseError(error: any): any {
