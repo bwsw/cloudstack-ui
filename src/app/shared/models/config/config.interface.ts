@@ -23,8 +23,8 @@ export interface CustomizableConfig {
   apiDocLink: string;
   extensions: ExtensionsConfig;
   /*
-  *  Log View settings
-  * */
+   *  Log View settings
+   * */
   vmLogs: {
     autoUpdateRefreshFrequency: number;
     autoUpdateRequestedInterval: number;
@@ -50,6 +50,7 @@ export interface CustomizableConfig {
   defaultTimeFormat: string;
   defaultTheme: string;
   sessionTimeout: number;
+  autoGenerateUserKeys: boolean;
   /*
    * Service offering setting
    */
