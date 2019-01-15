@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Keepalive } from '@ng-idle/keepalive';
@@ -69,31 +69,38 @@ export class IdleEffects {
     private store: Store<State>,
     private authService: AuthService,
     private tagService: TagService,
+    private ngZone: NgZone,
   ) {
     this.setupPersistentIdleServiceParameters();
   }
 
   private startIdleMonitor(sessionTimeout: number, sessionRefreshInterval: number) {
-    this.idle.setIdle(sessionTimeout * 60);
-    // The Session Refresh Interval can't be moved to setupPersistentIdleServiceParameters() function
-    // because the ConfigService service will not have any config values when this service is initialized
-    this.keepalive.interval(sessionRefreshInterval);
+    this.ngZone.runOutsideAngular(() => {
+      this.idle.setIdle(sessionTimeout * 60);
+      // The Session Refresh Interval can't be moved to setupPersistentIdleServiceParameters() function
+      // because the ConfigService service will not have any config values when this service is initialized
+      this.keepalive.interval(sessionRefreshInterval);
 
-    this.idle.watch();
+      this.idle.watch();
+    });
   }
 
   private stopIdleMonitor() {
-    this.idle.stop();
+    this.ngZone.runOutsideAngular(() => {
+      this.idle.stop();
+    });
   }
 
   private setupPersistentIdleServiceParameters() {
-    this.idle.setTimeout(0);
-    this.idle.setAutoResume(2);
-    // Default interrupt source includes:
-    // mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove scroll
-    this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+    this.ngZone.runOutsideAngular(() => {
+      this.idle.setTimeout(0);
+      this.idle.setAutoResume(2);
+      // Default interrupt source includes:
+      // mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove scroll
+      this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
-    this.idle.onIdleStart.subscribe(() => this.store.dispatch(new IdleLogout()));
-    this.keepalive.onPing.subscribe(() => this.store.dispatch(new RefreshSessionRequest()));
+      this.idle.onIdleStart.subscribe(() => this.store.dispatch(new IdleLogout()));
+      this.keepalive.onPing.subscribe(() => this.store.dispatch(new RefreshSessionRequest()));
+    });
   }
 }
