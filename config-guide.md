@@ -124,7 +124,7 @@ For example,
 
 ### VM Snapshots Limit
 
-Allows you to set a maximum amount of vm snapshots.
+Allows you to set the maximum number of VM snapshots.
 
 For example,
 

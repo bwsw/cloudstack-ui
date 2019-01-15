@@ -77,10 +77,10 @@ export class VmSnapshotsEffects {
     ofType<Create>(VmSnapshotActionTypes.Create),
     withLatestFrom(
       this.store.pipe(select(configSelectors.get('vmSnapLimit'))),
-      this.store.pipe(select(vmSnapshotSelectors.getVmSnapshotsAmountForSelectedVm)),
+      this.store.pipe(select(vmSnapshotSelectors.getVmSnapshotsNumberForSelectedVm)),
     ),
-    exhaustMap(([action, vmSnapLimit, snapshotsAmount]) => {
-      if (vmSnapLimit && vmSnapLimit <= snapshotsAmount) {
+    exhaustMap(([action, vmSnapLimit, snapshotsNumber]) => {
+      if (vmSnapLimit && vmSnapLimit <= snapshotsNumber) {
         const message = 'ERRORS.VM_SNAPSHOT.LIMIT_EXCEEDED';
         this.dialogService.showNotificationsOnFail({ message }, message);
         return of(new CreateCanceled());
