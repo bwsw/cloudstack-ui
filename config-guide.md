@@ -75,7 +75,8 @@ For example,
 "extensions": {
   "webShell": true,
   "pulse": false,
-  "vmLogs": false
+  "vmLogs": false,
+  "resourceLimits": false
 }
 ```
 
