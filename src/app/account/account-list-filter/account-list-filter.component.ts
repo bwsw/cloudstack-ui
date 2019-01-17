@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Domain, Role } from '../../shared/models';
+import { Domain, Grouping, Role } from '../../shared/models';
 import { stateTranslations } from '../account-container/account.container';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 
@@ -17,7 +17,7 @@ export class AccountListFilterComponent implements OnInit {
   @Input()
   public states: string[];
   @Input()
-  public groupings: any[];
+  public groupings: Grouping[];
   @Input()
   public selectedRoleTypes: string[] = [];
   @Input()
@@ -45,5 +45,10 @@ export class AccountListFilterComponent implements OnInit {
 
   public stateTranslationToken(state): string {
     return stateTranslations[state];
+  }
+
+  // groupings and selected groupings are not strictly equal, so we have to compare keys
+  public compare(a, b) {
+    return a.key === b.key;
   }
 }

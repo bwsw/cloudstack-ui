@@ -13,6 +13,7 @@ import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { Grouping } from '../../shared/models';
 
 const FILTER_KEY = 'accountListFilters';
 
@@ -20,7 +21,7 @@ const FILTER_KEY = 'accountListFilters';
   selector: 'cs-account-filter-container',
   template: `
     <cs-account-list-filter
-      *loading="loading$ | async"
+      *loading="(loading$ | async)"
       [domains]="domains$ | async"
       [roles]="roles$ | async"
       [roleTypes]="roleTypes$ | async"
@@ -36,13 +37,14 @@ const FILTER_KEY = 'accountListFilters';
       (roleTypesChanged)="onRoleTypesChange($event)"
       (statesChanged)="onStatesChange($event)"
       (groupingsChanged)="onGroupingsChange($event)"
-    ></cs-account-list-filter>`,
+    ></cs-account-list-filter>
+  `,
 })
 export class AccountFilterContainerComponent extends WithUnsubscribe() implements OnInit {
   @Input()
   groupings: any[];
   @Input()
-  selectedGroupings: any[];
+  selectedGroupings: Grouping[];
 
   readonly filters$ = this.store.pipe(select(fromAccounts.filters));
   readonly loading$ = this.store.pipe(select(fromAccounts.isLoading));
