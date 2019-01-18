@@ -1,22 +1,46 @@
-<cs-top-bar></cs-top-bar>
+<cs-top-bar>
+  <div class="filter-wrapper">
+    <mat-button-toggle-group [(ngModel)]="viewMode" (change)="onViewModeChange($event.value)">
+      <mat-button-toggle [value]="viewModeList.Security">
+        {{ 'SETTINGS.SECURITY.TITLE' | translate }}
+      </mat-button-toggle>
+      <mat-button-toggle [value]="viewModeList.API">
+        {{ 'SETTINGS.API_CONFIGURATION.TITLE' | translate }}
+      </mat-button-toggle>
+      <mat-button-toggle [value]="viewModeList.VmPreferences">
+        {{ 'SETTINGS.VM_PREFERENCES.TITLE' | translate }}
+      </mat-button-toggle>
+      <mat-button-toggle [value]="viewModeList.LookAndFeel">
+        {{ 'SETTINGS.LOOK_AND_FEEL.TITLE' | translate }}
+      </mat-button-toggle>
+      <mat-button-toggle *ngIf="(logViewEnabled$ | async)" [value]="viewModeList.LogView">
+        {{ 'SETTINGS.VM_LOGS.TITLE' | translate }}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</cs-top-bar>
 <div class="settings-container">
   <cs-security-settings
+    *ngIf="viewMode === viewModeList.Security"
     [settings]="settings$ | async"
     (passwordChange)="onPasswordChange($event)"
     (sessionTimeoutChange)="onSessionTimeoutChange($event)"
     (isSavePasswordForVMsChange)="onIsSavePasswordForVMsChange($event)"
   ></cs-security-settings>
   <cs-api-settings
+    *ngIf="viewMode === viewModeList.API"
     [userKeys]="userKeys"
     [apiUrl]="apiUrl"
     [apiDocumentationLink]="apiDocumentationLink$ | async"
     (regenerateKeys)="onRegenerateKeys()"
   ></cs-api-settings>
   <cs-vm-settings
+    *ngIf="viewMode === viewModeList.VmPreferences"
     [settings]="settings$ | async"
     (keyboardLayoutChange)="onKeyboardLayoutChange($event)"
   ></cs-vm-settings>
   <cs-interface-settings
+    *ngIf="viewMode === viewModeList.LookAndFeel"
     [settings]="settings$ | async"
     (interfaceLanguageChange)="onInterfaceLanguageChange($event)"
     (firstDayOfWeekChange)="onFirstDayOfWeekChange($event)"
@@ -24,6 +48,7 @@
     (themeChange)="onThemeChange($event)"
   ></cs-interface-settings>
   <cs-vm-logs-settings
+    *ngIf="viewMode === viewModeList.LogView"
     [settings]="settings$ | async"
     (messagesChange)="onVmLogsMessagesChange($event)"
     (minutesChange)="onVmLogsMinutesChange($event)"
