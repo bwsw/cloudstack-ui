@@ -301,7 +301,7 @@ For example,
 
 ### Automatically generate secret key and API key for users
 
-Allows you to enable auto generation of secret key and API key for user upon the login if they are missing. By default, auto generation are enabled.
+Allows you to enable auto generation of secret key and API key for user upon the login if they are missing. By default, auto generation is enabled.
 
 For example,
 ```
