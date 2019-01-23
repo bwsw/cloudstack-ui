@@ -18,6 +18,7 @@ import { LoginGuard } from './shared/services/login-guard.service';
 import { LoginComponent } from './auth/login.component';
 import { vmLogsRoutes } from './vm-logs/vm-logs.routing';
 import { resourceQuotasRoutes } from './resource-quotas/resource-quotas.routing';
+import { LogViewGuard } from './shared/services/log-view-guard.service';
 
 const routes: Routes = [
   {
@@ -54,7 +55,7 @@ const routes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, LogViewGuard],
       },
       {
         path: '**',

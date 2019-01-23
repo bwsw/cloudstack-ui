@@ -55,6 +55,7 @@ export interface CustomizableConfig {
   defaultTimeFormat: string;
   defaultTheme: string;
   sessionTimeout: number;
+  autoGenerateUserKeys: boolean;
   /*
    * Service offering setting
    */

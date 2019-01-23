@@ -77,6 +77,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   defaultTimeFormat: 'hour24',
   defaultTheme: 'blue-red',
   sessionTimeout: 30,
+  autoGenerateUserKeys: true,
   /*
    * Service offering setting
    */
