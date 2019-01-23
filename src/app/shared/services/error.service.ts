@@ -61,6 +61,26 @@ export class ErrorService {
       regex: /Invalid token/,
       translation: 'ERRORS.VM_LOGS.INVALID_TOKEN',
     },
+    {
+      regex: /Failed to retrieve resource limits/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /Failed to retrieve user account/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /Failed to retrieve accounts/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /Failed to retrieve domains/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /maximum must be greater than or equal to minimum/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_GREATER',
+    },
   ];
 
   public static parseError(error: any): any {

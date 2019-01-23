@@ -31,7 +31,6 @@ export function resourceQuotasUserFormReducer(
   switch (action.type) {
     case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_USER_FORM_FIELD: {
       const resourceType = action.payload.resourceType;
-
       return {
         quotas: state.quotas,
         limits: {
@@ -71,17 +70,25 @@ export const getUserResourceQuotas = createSelector(
   fromAccounts.selectUserAccount,
   (state, account) => {
     const totalResources = getTotalResources(account);
-
     const finiteQuotas = pickBy(
       state.quotas,
       bound => bound.minimum !== -1 && bound.maximum !== -1,
     );
     const quotasWithAdjustedMinimum = mapValues(finiteQuotas, (value, key) => {
+      const minimum = Math.max(Math.ceil(totalResources[key]), value.minimum);
+      const maximum = value.maximum;
+      if (maximum < minimum) {
+        return {
+          minimum: maximum,
+          maximum: minimum,
+        };
+      }
       return {
-        minimum: Math.max(Math.ceil(totalResources[key]), value.minimum),
-        maximum: value.maximum,
+        minimum,
+        maximum,
       };
     });
+
     return pickBy(quotasWithAdjustedMinimum, bound => bound.maximum >= bound.minimum);
   },
 );

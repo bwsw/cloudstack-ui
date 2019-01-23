@@ -3,7 +3,9 @@
   <table class="table">
     <ng-container *ngFor="let resourceName of resourceQuotaNames; let i = index">
       <tr class="row" *ngIf="resourceQuotas[i] != null && resourceLimits[i] != null">
-        <td class="title">{{ resourceName | translate }}</td>
+        <td class="title">
+          <h4>{{ resourceName | translate }}</h4>
+        </td>
         <td class="slider-cell">
           <mat-slider
             class="slider"

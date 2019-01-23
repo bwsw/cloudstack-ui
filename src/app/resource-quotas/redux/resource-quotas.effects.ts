@@ -16,6 +16,7 @@ import { getModifiedQuotas } from './selectors/modified-quotas.selector';
 import { getModifiedLimits } from './selectors/modified-limits.selector';
 import * as resourceLimitActions from '../../reducers/resource-limit/redux/resource-limits.actions';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
+import { MatDialog } from '@angular/material';
 
 const pick = require('lodash/pick');
 
@@ -95,6 +96,8 @@ export class ResourceQuotasEffects {
           this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.REQUEST.LIMIT_UPDATED');
           // todo: optimize
           // LoadAccountsRequest is needed to update the resource usage section
+          this.matDialogService.closeAll();
+
           return of(
             new resourceLimitActions.LoadResourceLimitsForCurrentUser(null),
             new accountActions.LoadAccountsRequest(),
@@ -126,6 +129,7 @@ export class ResourceQuotasEffects {
     private resourceQuotaService: ResourceQuotaService,
     private dialogService: DialogService,
     private snackBarService: SnackBarService,
+    private matDialogService: MatDialog,
   ) {}
 
   private showNotificationsOnFinish(message: string) {
