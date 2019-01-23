@@ -67,7 +67,7 @@ export class ErrorService {
     },
     {
       regex: /Creating vm snapshot failed due to VM:(.*) is not in the running or Stopped state/,
-      translation: 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE_FOR_DELETED',
+      translation: 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE_FOR_STOPPED',
     },
     {
       regex: /Internal error executing command, please contact your system administrator/,
