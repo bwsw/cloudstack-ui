@@ -2,7 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  debounceTime,
+  filter,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { BackendResource } from '../decorators';
 import { BaseModel } from '../models';
@@ -17,6 +25,10 @@ import {
   capabilitiesSelectors,
 } from '../../root-store/server-data/capabilities';
 import { State } from '../../reducers';
+import { configSelectors } from '../../root-store/config';
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
+import * as accountSelectors from '../../reducers/accounts/redux/accounts.reducers';
+import { AccountUser } from '../models/account-user.model';
 
 @Injectable()
 @BackendResource({
@@ -49,6 +61,21 @@ export class AuthService extends BaseBackendService<BaseModel> {
 
   public get user(): User {
     return this.userSubject.value;
+  }
+
+  public generateKey(): Observable<void> {
+    return this.store.pipe(
+      select(configSelectors.get('autoGenerateUserKeys')),
+      debounceTime(2000),
+      withLatestFrom(this.store.pipe(select(accountSelectors.selectUserAccount))),
+      map(([isAutoGenerateUserKeys, userAccount]) => {
+        const userRaw: User = Utils.parseJsonString(this.storage.read('user'));
+        const user: AccountUser = userAccount.user.find(u => u.id === userRaw.userid);
+        if (isAutoGenerateUserKeys && user && !user.secretkey && !user.apikey) {
+          this.store.dispatch(new accountActions.AccountUserGenerateKey(user));
+        }
+      }),
+    );
   }
 
   public login(username: string, password: string, domain?: string): Observable<void> {

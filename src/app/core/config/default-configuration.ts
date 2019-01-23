@@ -42,8 +42,8 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     vmLogs: false,
   },
   /*
-  * Log View settings
-  * */
+   * Log View settings
+   * */
   vmLogs: {
     autoUpdateRefreshFrequency: 1,
     autoUpdateRequestedInterval: 30,
@@ -61,8 +61,8 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     ru: 'default',
   },
   /*
-  * Images settings
-  */
+   * Images settings
+   */
   imageGroups: [],
   /*
    * User app settings
@@ -72,6 +72,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   defaultTimeFormat: 'hour24',
   defaultTheme: 'blue-red',
   sessionTimeout: 30,
+  autoGenerateUserKeys: true,
   /*
    * Service offering setting
    */

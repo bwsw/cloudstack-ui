@@ -21,6 +21,7 @@ You can see examples of the configurations in the [config-example.json](https://
   - [Default Time Format](#default-time-format)
   - [Default Theme](#default-theme)
   - [Session Timeout](#session-timeout)
+  - [Automatically generate secret key and API key for users](#auto-generate-user-keys)
 - [Service Offering Setting](#service-offering-setting)
   - [Custom Compute Offering Parameters](#custom-compute-offering-parameters)
   - [Default Compute Offering](#default-compute-offering)
@@ -298,6 +299,15 @@ For example,
 "sessionTimeout": 30
 ```
 
+### Automatically generate secret key and API key for users
+
+Allows you to enable auto generation of secret key and API key for user upon the login if they are missing. By default, auto generation is enabled.
+
+For example,
+```
+"autoGenerateUserKeys": true
+```
+              
 ## Service Offering Setting
 
 ### Custom Compute Offering Parameters
