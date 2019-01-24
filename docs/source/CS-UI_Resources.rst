@@ -23,7 +23,7 @@ After the backend plugins are deployed and configured the Resource Limits manage
 Plugin Deployment
 -------------------
 
-The detailed instructions on the plugin deployment are presented at the project wiki-page.
+The detailed instructions on the plugin deployment are presented at the project `wiki-page <https://github.com/bwsw/cloudstack-ui/wiki/Plugins>`_.
 
 To enable the Resource Limits Management UI-plugin you will need to:
 
