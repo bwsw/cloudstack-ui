@@ -605,7 +605,8 @@
       "NO_TEMPLATES": "No templates available",
       "NO_OFFERINGS": "No offerings available",
       "GENERAL": "General",
-      "ADVANCED": "Advanced"
+      "ADVANCED": "Advanced",
+      "DETAILS": "Details"
     },
     "MODALS": {
       "TAKE_VM_SNAPSHOT": {

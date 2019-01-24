@@ -605,7 +605,8 @@
       "NO_TEMPLATES": "Нет доступных шаблонов",
       "NO_OFFERINGS": "Нет доступных сервисных предложений",
       "GENERAL": "Основные",
-      "ADVANCED": "Дополнительные"
+      "ADVANCED": "Дополнительные",
+      "DETAILS": "Детали"
     },
     "MODALS": {
       "TAKE_VM_SNAPSHOT": {

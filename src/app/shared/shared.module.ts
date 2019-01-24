@@ -151,6 +151,7 @@ import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { UrlDirective } from './validators/directives';
 import { CapabilityService } from './services/capability.service';
+import { ApiLogService } from './services/api-log.service';
 import { LogViewGuard } from './services/log-view-guard.service';
 
 const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
@@ -349,6 +350,7 @@ const SHARED_COMPONENTS = [
     AccountService,
     AccountActionsService,
     AffinityGroupService,
+    ApiLogService,
     AsyncJobService,
     AuthGuard,
     LogViewGuard,

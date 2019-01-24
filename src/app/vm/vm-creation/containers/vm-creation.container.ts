@@ -61,6 +61,7 @@ import * as fromAccountTags from '../../../reducers/account-tags/redux/account-t
       [isDiskOfferingAvailableByResources]="isDiskOfferingAvailableByResources$ | async"
       [isSecurityGroupEnabled]="isSecurityGroupEnabled$ | async"
       [minSize]="minSize$ | async"
+      [isError]="isError$ | async"
       [maxRootSize]="maxRootSize$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
       (hostNameChange)="onHostNameChange($event)"
@@ -107,6 +108,7 @@ export class VmCreationContainerComponent implements OnDestroy {
     )
     .subscribe();
 
+  readonly isError$ = this.store.pipe(select(fromVMs.isError));
   readonly vmFormState$ = this.store.pipe(select(fromVMs.getVmFormState));
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));

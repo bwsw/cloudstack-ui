@@ -1,0 +1,14 @@
+mat-expansion-panel {
+  width: 500px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/deep/ .mat-expansion-panel-content {
+  height: 250px;
+  overflow-y: auto !important;
+}
