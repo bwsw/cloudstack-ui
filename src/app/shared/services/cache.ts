@@ -6,7 +6,7 @@ export interface CacheEntry<T> {
 export class Cache<T> {
   private cache: { [key: string]: T } = {};
 
-  public get(params: {}): T {
+  public get(params: {} = {}): T {
     const key = JSON.stringify(params);
     return this.cache[key];
   }

@@ -1,11 +1,9 @@
 <div>
-  <h3
-    *ngIf="config?.title"
-    class="mat-dialog-title"
-    [innerHTML]=" config?.title | translate"
-  ></h3>
-  <div class="mat-dialog-content notification" [innerHTML]="translatedMessage | async">
-  </div>
+  <h3 *ngIf="config?.title" class="mat-dialog-title" [innerHTML]="config?.title | translate"></h3>
+  <div class="mat-dialog-content notification" [innerHTML]="translatedMessage | async"></div>
+
+  <cs-support-information></cs-support-information>
+
   <div class="mat-dialog-actions">
     <button mat-button color="primary" [matDialogClose]="true">
       {{ config.okText | translate }}

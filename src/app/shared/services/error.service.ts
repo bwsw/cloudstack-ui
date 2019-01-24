@@ -61,6 +61,22 @@ export class ErrorService {
       regex: /Invalid token/,
       translation: 'ERRORS.VM_LOGS.INVALID_TOKEN',
     },
+    {
+      regex: /Can not snapshot memory when VM is not in Running state/,
+      translation: 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE_FOR_STOPPED',
+    },
+    {
+      regex: /Creating vm snapshot failed due to VM:(.*) is not in the running or Stopped state/,
+      translation: 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE_FOR_STOPPED',
+    },
+    {
+      regex: /Internal error executing command, please contact your system administrator/,
+      translation: 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE',
+    },
+    {
+      regex: /VM Snapshot revert not allowed. This will result in VM state change. You can revert running VM to disk and memory type snapshot and stopped VM to disk type snapshot/,
+      translation: 'ERRORS.SNAPSHOT.REVERT_UNAVAILABLE_FOR_STOPPED',
+    },
   ];
 
   public static parseError(error: any): any {

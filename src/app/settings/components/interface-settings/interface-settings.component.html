@@ -1,7 +1,5 @@
 <section>
-  <h2 class="settings-section-name">{{ 'SETTINGS.LOOK_AND_FEEL.TITLE' | translate }}</h2>
   <div class="settings-section-content">
-
     <h3 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.LANGUAGE' | translate }}</h3>
     <mat-form-field class="form-select-control">
       <mat-select
@@ -11,7 +9,7 @@
         <mat-option *ngFor="let language of languages" [value]="language.value">
           {{ language.text }}
         </mat-option>
-        </mat-select>
+      </mat-select>
     </mat-form-field>
 
     <h3 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.FIRST_DAY_OF_WEEK' | translate }}</h3>
@@ -44,6 +42,5 @@
       [currentThemeName]="settings.theme"
       (selectionChange)="themeChange.emit($event.name)"
     ></cs-theme-selector>
-
   </div>
 </section>
