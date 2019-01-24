@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-25 15:59+0700\n"
-"PO-Revision-Date: 2018-12-25 16:01+0700\n"
+"POT-Creation-Date: 2019-01-23 14:31+0700\n"
+"PO-Revision-Date: 2019-01-23 15:40+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -143,8 +143,12 @@ msgstr ""
 "снимков диска)."
 
 #: ../../CSUI-Snapshots.rst:44
-msgid "by Virtual Machine (available for VM snapshots)."
-msgstr "по виртуальным машинам (доступно для снимков машин)."
+msgid ""
+"by Virtual Machine - Select a VM or VMs in the drop-down list to filter the "
+"list for the snapshots for those belonging to the VM or VMs."
+msgstr ""
+"по виртуальным машинам - выберите машину или несколько машин в ниспадающем "
+"списке для фильтрации снимков, принадлежащих этой машине/этим машинам."
 
 #: ../../CSUI-Snapshots.rst:45
 msgid ""
@@ -167,8 +171,8 @@ msgid "by Type (for Volume snapshots) or"
 msgstr "по типу (доступно для снимков дисков) или"
 
 #: ../../CSUI-Snapshots.rst:51
-msgid "by VM (for VM snapshots)."
-msgstr "по виртуальной машине (доступно для снимков машин)."
+msgid "by VM (for VM snapshots)(*is not currently available*)."
+msgstr "по виртуальным машинам (*в данный момент не доступна*)."
 
 #: ../../CSUI-Snapshots.rst:53
 msgid "The searching tool allows to find a snapshot by:"
@@ -470,3 +474,9 @@ msgstr "Чтобы отменить удаление снимка, нажмит�
 #~ msgstr ""
 #~ "по дате создания - выберите дату с помощью календаря, чтобы видеть в списке "
 #~ "снимки, сделанные в этот день."
+
+#~ msgid "by Virtual Machine (available for VM snapshots)."
+#~ msgstr "по виртуальным машинам (доступно для снимков машин)."
+
+#~ msgid "by VM (for VM snapshots)."
+#~ msgstr "по виртуальной машине (доступно для снимков машин)."

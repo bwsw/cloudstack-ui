@@ -4,13 +4,13 @@ Settings
 -------------
 .. Contents::
 
-In the *Accounts* -> *Settings* section a user can modify the interface by changing settings.
+In the *Accounts* -> *Settings* section a user can modify the interface by changing settings. The interface settings are presented in separate sections: *Security, API configurations, VM preferences, Look and Feel*. Moving between sections is possible using the switcher above.
 
-.. figure:: _static/Settings_List.png
+.. figure:: _static/Settings_List1.png
    
 Security
 ~~~~~~~~~~~~~~~~~~
-A user can manage the following security settings:
+In this section a user can manage the following security settings:
 
 - Change password;
 - Set the session timeout interval;
@@ -48,6 +48,8 @@ The session timeout can be set in the configuration file. You will find more inf
 Save VM passwords by default
 """""""""""""""""""""""""""""""
 This checkbox allows saving passwords to VM tags automatically for all created virtual machines requiring passwords.
+
+.. figure:: _static/Settings_SavePass2.png
 
 Tick this option here. The passwords will be saved to VM tags right at the moment VMs are created. You will see a password (if it is required for the VM) is marked as saved in a dialog window after the new VM is deployed:
 
@@ -97,7 +99,7 @@ The selected option will appear in the VNC console kayboard layout parameter whe
 
 Look and Feel
 ~~~~~~~~~~~~~~~~~~~~~~
-In this block you can adjust the interface look.
+In this section you can adjust the interface look.
 
 Interface Language
 """""""""""""""""""

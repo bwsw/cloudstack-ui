@@ -82,17 +82,19 @@ In the *General* tab the following fields should be filled in:
 
 1. **VM display name** * - A name of VM that will be displayed in the machine list and in any other interface place (except VM details). You can define here any VM name you wish. 
 2. **Zone** * - A zone of VM operation. Select a zone from the drop-down list. The list of available zones is managed by a Root Administrator. More information about zones in CloudStack can be found in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/conceptsandterminology/concepts.html#about-zones>`_.
-3. **Service offerings** * -  Select a set of options and resources for a VM, such as templates for creating virtual machines, disk storage, and other. In the block you can see a default service offering specified in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-compute-offering>`_ 
+3. **Service offerings** * -  Select a set of options and resources for a VM, such as templates for creating virtual machines, disk storage, and other. In the block of the form, a default service offering displays if it is specified in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-compute-offering>`_. 
 
 Click "SELECT" in the Service Offerings block and choose any other option you wish in the modal window. 
 
 .. figure:: _static/VMs_Create_SO_Custom_Change6.png
 
-The list of available service offerings is managed by an Administrator. Service offering availability is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_. The list of service offerings can be of two types: Fixed and Custom.
+The list of available service offerings is managed by an Administrator. Service offering availability is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_. Service offerings are devided into two lists: Fixed and Custom.
 
 *Fixed* service offerings are the offerings with fixed parameters. They can not be changed. 
 
 *Custom* service offerings are offerings with adjustable parameters. You can set the amount of CPU cores, CPU memory and Network rate as you need. 
+
+By default, the dialog box opens at a list the default service offering belongs to (if it is defined in the configuration file). If no default offering is set, the "Fixed" list opens first. If there are no offerings in the *Fixed *list, the *Custom* list of offerings opens first. If there are no available service offerings, you will see a notification.
 
 Use the switcher "Fixed/Custom" above the list to select a necessary type of offerings. 
 
@@ -518,7 +520,7 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
    
     * **Revert VM to snapshot** - Allows returning the virtual machine to the state captured in the snapshot.  It is useful if you implemented any changes to the VM and they went wrong. You can easily restore the VM to its previous state using this action. Select "Revert VM to snapshot" by clicking |revert icon| and confirm your action in the dialog window. The VM will be reverted.
      
-        .. note:: The machine cannot be reverted to the snapshot state if the current Service Offering of the VM differs from that used at the moment the snapshot was taken.
+        .. note:: The machine cannot be reverted to the snapshot state if the current Service Offering of the VM differs from that used at the moment the snapshot was taken. Besides, the action is not available for stopped machines.
       
     * **Delete** - Allows deleting a snapshot from the system.
 
@@ -526,7 +528,7 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
    
     **Create Snapshot**
         
-        .. note:: Taking a VM snapshot is available for machines in the Running state only. 
+        .. note:: Taking a VM snapshot is available for machines in the Running state only. The maximum number of VM snapshots can be defined in the configuration file (see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_).
         
         To create a snapshot click '+' and fill in the appeared form:
    
@@ -565,6 +567,8 @@ The following general information on a root disk is presented (expand the card t
 - Action Box.
 
 2. **Attach a volume** - Allows attaching a data disk to the VM.
+
+.. note:: Attaching a volume is not available for machines with active snapshots.
 
 Additional volume (a data disk) can be attached to the VM. Click "Select" to select a data disk. Select a disk in the drop-down list and click "SELECT". 
 
@@ -650,7 +654,9 @@ Click "+" to save the schedule. You can add more than one schedule but only one 
 
 **Resize the disk**
 
-.. note:: This action is available to data disks created on the base of disk offerings with a custom disk size. Disk offerings with custom disk size can be created by Root Administrators only.
+.. note:: Disk resizing is not available for machines with active snapshots.
+
+This action is available to data disks created on the base of disk offerings with a custom disk size. Disk offerings with custom disk size can be created by Root Administrators only.
 
 Selecting "Resize the disk" option in the Actions list you are able to enlarge the disk size.
 
@@ -662,6 +668,8 @@ Click "CANCEL" to drop the size changes.
 
 **Detach**
 
+.. note:: Detaching a volume is not available for machines with active snapshots.
+
 This action can be applied to data disks. It allows detaching the data disk from the virtual machine.
 
 Click "Detach" in the Actions list and confirm your action in the dialog window.
@@ -671,6 +679,8 @@ Click "Detach" in the Actions list and confirm your action in the dialog window.
 The data disk will be detached. It will be in the list of **Spare** drives in the *Storage* section.
 
 **Delete**
+
+.. note:: Deleting a volume is not available for machines with active snapshots.
 
 This action can be applied to data disks. It allows deleting a data disk from the system right in the *Storage* VM details sidebar.
 

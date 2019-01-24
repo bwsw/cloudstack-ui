@@ -41,14 +41,14 @@ You can filter the list by the following parameters:
 
 - by Accounts (available to Administrators).
 - by Type - Hourly, Daily, Weekly, Monthly, Manual depending on the schedule of snapshotting (available for Volume snapshots).
-- by Virtual Machine (available for VM snapshots).
+- by Virtual Machine - Select a VM or VMs in the drop-down list to filter the list for the snapshots for those belonging to the VM or VMs.
 - by creation date - Select a date using a date picker to filter the list for the snapshots created within the specified period.
 
 You can group snapshots:
 
 - by Accounts (available for Administrators) and/or 
 - by Type (for Volume snapshots) or
-- by VM (for VM snapshots).
+- by VM (for VM snapshots)(*is not currently available*).
 
 The searching tool allows to find a snapshot by:
 
