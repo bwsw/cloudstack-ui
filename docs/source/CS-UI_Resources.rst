@@ -1,7 +1,7 @@
 .. _Resources:
 
 Resource Limits Management Plugin
--------------------------------------
+======================================
 
 .. contents::
 
