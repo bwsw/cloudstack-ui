@@ -1,1 +1,1 @@
-For more information to write support@cloudstack.com
+For more information contact your administrator.
