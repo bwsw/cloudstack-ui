@@ -139,6 +139,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
       accounts: { type: 'array', defaultOption: [] },
       types: { type: 'array', defaultOption: [] },
       vms: { type: 'array', defaultOption: [] },
+      volumeVmIds: { type: 'array', defaultOption: [] },
       date: { type: 'string', defaultOption: moment().toString() },
       groupings: { type: 'array', defaultOption: [] },
       query: { type: 'string' },
@@ -175,6 +176,8 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
         accounts: filters.accounts,
         types: filters.volumeSnapshotTypes,
         vms: filters.vmIds,
+        volumeVmIds: filters.volumeVmIds,
+
         date: moment(filters.date).format('YYYY-MM-DD'),
         query: filters.query,
         groupings: groupings.map(grouping => grouping.key),
@@ -222,6 +225,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     const accounts = params['accounts'];
     const vms = params['vms'];
     const volumeSnapshotTypes = params['types'];
+    const volumeVmIds = params['volumeVmIds'];
     const date = moment(params['date']).toDate();
     const groupings = params['groupings'].reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
@@ -238,6 +242,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
       new snapshotPageActions.UpdateFilters({
         accounts,
         volumeSnapshotTypes,
+        volumeVmIds,
         date,
         query,
         vmIds: vms,
