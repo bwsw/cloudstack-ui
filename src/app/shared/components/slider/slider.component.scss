@@ -1,6 +1,7 @@
 .custom-slider {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
 
   & h5 {
     margin: 0;
@@ -23,10 +24,6 @@
   display: inline-flex;
   font-size: 14px;
   padding-bottom: 1.25em;
-}
-
-.current-value {
-  display: flex;
 }
 
 mat-slider {
