@@ -75,20 +75,11 @@ export const getUserResourceQuotas = createSelector(
       bound => bound.minimum !== -1 && bound.maximum !== -1,
     );
     const quotasWithAdjustedMinimum = mapValues(finiteQuotas, (value, key) => {
-      const minimum = Math.max(Math.ceil(totalResources[key]), value.minimum);
-      const maximum = value.maximum;
-      if (maximum < minimum) {
-        return {
-          minimum: maximum,
-          maximum: minimum,
-        };
-      }
       return {
         minimum: Math.max(Math.ceil(totalResources[key]), value.minimum),
         maximum: Math.max(Math.ceil(totalResources[key]), value.maximum),
       };
     });
-
     return pickBy(quotasWithAdjustedMinimum, bound => bound.maximum >= bound.minimum);
   },
 );
