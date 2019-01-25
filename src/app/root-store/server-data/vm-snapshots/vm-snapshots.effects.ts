@@ -80,10 +80,12 @@ export class VmSnapshotsEffects {
       this.store.pipe(select(vmSnapshotSelectors.getVmSnapshotsNumberForSelectedVm)),
     ),
     exhaustMap(([action, vmSnapLimit, snapshotsNumber]) => {
-      if (vmSnapLimit && vmSnapLimit <= snapshotsNumber) {
-        const message = 'ERRORS.VM_SNAPSHOT.LIMIT_EXCEEDED';
-        this.dialogService.showNotificationsOnFail({ message }, message);
-        return of(new CreateCanceled());
+      if (vmSnapLimit.enable) {
+        if (vmSnapLimit.snapshotsLimit <= snapshotsNumber) {
+          const message = 'ERRORS.VM_SNAPSHOT.LIMIT_EXCEEDED';
+          this.dialogService.showNotificationsOnFail({ message }, message);
+          return of(new CreateCanceled());
+        }
       }
 
       return this.matDialog

@@ -33,7 +33,7 @@ export interface CustomizableConfig {
    * Virtual machines settings
    */
   vmColors: { value: string }[];
-  vmSnapLimit?: number;
+  vmSnapLimit: { enable: boolean; snapshotsLimit: number };
   /*
    * Firewall (Security groups) settings
    */

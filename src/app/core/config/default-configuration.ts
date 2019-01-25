@@ -82,6 +82,10 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   serviceOfferingAvailability: {
     filterOfferings: false,
   },
+  vmSnapLimit: {
+    enable: false,
+    snapshotsLimit: 0,
+  },
 };
 
 export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {

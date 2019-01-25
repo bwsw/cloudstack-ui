@@ -124,12 +124,15 @@ For example,
 
 ### VM Snapshots Limit
 
-Allows you to set the maximum number of VM snapshots.
+Allows you to set the maximum number of VM snapshots. You can enable feature  like this``` "enable": true ```. By default, this feature is disabled. The minimum value for snapshots limit is 0.
 
 For example,
 
 ```
-"vmSnapLimit": 1
+"vmSnapLimit": {
+  "enable": false
+  "snapshotsLimit": 0
+}
 
 ```
 
