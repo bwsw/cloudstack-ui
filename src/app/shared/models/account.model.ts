@@ -49,6 +49,7 @@ export interface Account extends BaseModel {
   cputotal: number;
   domain: string;
   domainid: string;
+  domainpath?: string;
   id: string;
   ipavailable: string;
   iplimit: string;

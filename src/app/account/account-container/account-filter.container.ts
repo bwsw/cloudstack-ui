@@ -6,7 +6,6 @@ import { takeUntil } from 'rxjs/operators';
 import { State } from '../../reducers';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as roleActions from '../../reducers/roles/redux/roles.actions';
 import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
@@ -42,7 +41,7 @@ const FILTER_KEY = 'accountListFilters';
 })
 export class AccountFilterContainerComponent extends WithUnsubscribe() implements OnInit {
   @Input()
-  groupings: any[];
+  groupings: Grouping[];
   @Input()
   selectedGroupings: Grouping[];
 
@@ -83,7 +82,6 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
   }
 
   public ngOnInit() {
-    this.store.dispatch(new domainActions.LoadDomainsRequest());
     this.store.dispatch(new roleActions.LoadRolesRequest());
     this.initFilters();
     this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {

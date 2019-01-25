@@ -1,10 +1,7 @@
 <cs-overlay-loading [active]="isLoading"></cs-overlay-loading>
 <div *ngIf="!isLoading">
   <h3 class="mat-dialog-title">{{ 'ACCOUNT_PAGE.CREATION.CREATE_ACCOUNT' | translate }}</h3>
-  <form
-    (ngSubmit)="onSubmit()"
-    [formGroup]="accountForm"
-  >
+  <form (ngSubmit)="onSubmit()" [formGroup]="accountForm">
     <div class="mat-dialog-content">
       <mat-form-field class="full-width-input">
         <input
@@ -15,7 +12,7 @@
           autofocus
           required
           formControlName="username"
-        >
+        />
       </mat-form-field>
       <mat-form-field class="full-width-input">
         <input
@@ -25,7 +22,7 @@
           [placeholder]="'ACCOUNT_PAGE.CREATION.EMAIL' | translate"
           required
           formControlName="email"
-        >
+        />
       </mat-form-field>
       <mat-form-field class="full-width-input">
         <input
@@ -36,7 +33,7 @@
           [placeholder]="'ACCOUNT_PAGE.CREATION.PASSWORD' | translate"
           required
           formControlName="password"
-        >
+        />
         <mat-icon
           matSuffix
           (click)="showPassword = !showPassword"
@@ -51,7 +48,7 @@
           [placeholder]="'ACCOUNT_PAGE.CREATION.FIRST_NAME' | translate"
           required
           formControlName="firstname"
-        >
+        />
       </mat-form-field>
       <mat-form-field class="full-width-input">
         <input
@@ -61,7 +58,7 @@
           formControlName="lastname"
           required
           [formGroup]="accountForm"
-        >
+        />
       </mat-form-field>
       <mat-form-field class="full-width-input">
         <mat-select
@@ -71,10 +68,7 @@
           required
           formControlName="domainid"
         >
-          <mat-option
-            *ngFor="let domain of domains"
-            [value]="domain.id"
-          >
+          <mat-option *ngFor="let domain of domains" [value]="domain.id">
             {{ domain.name }}
           </mat-option>
         </mat-select>
@@ -87,42 +81,24 @@
           required
           formControlName="roleid"
         >
-          <mat-option
-            *ngFor="let role of roles"
-            [value]="role.id"
-          >
-            {{ role.name }}
-          </mat-option>
+          <mat-option *ngFor="let role of roles" [value]="role.id"> {{ role.name }} </mat-option>
         </mat-select>
       </mat-form-field>
-      <cs-time-zone
-        name="timezone"
-        formControlName="timezone"
-      ></cs-time-zone>
+      <cs-time-zone name="timezone" formControlName="timezone"></cs-time-zone>
       <mat-form-field class="full-width-input">
         <input
           matInput
           name="networkdomain"
           [placeholder]="'ACCOUNT_PAGE.CREATION.NETWORK_DOMAIN' | translate"
           formControlName="networkdomain"
-        >
+        />
       </mat-form-field>
     </div>
     <div class="mat-dialog-actions">
-      <button
-        mat-button
-        color="primary"
-        matDialogClose
-        type="button"
-      >
+      <button mat-button color="primary" matDialogClose type="button">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <button
-        mat-button
-        color="primary"
-        type="submit"
-        [disabled]="!accountForm.valid"
-      >
+      <button mat-button color="primary" type="submit" [disabled]="!accountForm.valid">
         {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>

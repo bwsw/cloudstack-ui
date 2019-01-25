@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatBadgeModule } from '@angular/material';
+import { MatBadgeModule, MatExpansionModule } from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -177,6 +177,7 @@ const SHARED_COMPONENTS = [
     AngularDraggableModule,
     TranslateModule,
     MatBadgeModule,
+    MatExpansionModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
@@ -253,6 +254,7 @@ const SHARED_COMPONENTS = [
     ErrorMessageComponent,
     RequestResourcesButtonComponent,
     RequestResourcesButtonContainerComponent,
+    MatExpansionModule,
   ],
   entryComponents: [
     DatePickerDialogComponent,

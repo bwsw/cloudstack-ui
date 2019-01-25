@@ -29,7 +29,7 @@ export const getVmSnapshotEntityActionsEntities = createSelector(
         {
           icon: 'mdi-backup-restore',
           text: 'SNAPSHOT_PAGE.ACTIONS.REVERT_VM_TO_SNAPSHOT',
-          disabled: !isSnapshotReady || vmState !== VmState.Running,
+          disabled: !isSnapshotReady,
           visible: true,
           actionCreator: () => new vmSnapshotsActions.Revert({ id: vmSnapshot.id }),
         },
