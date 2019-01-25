@@ -1,6 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
-import { AbstractControl } from '@angular/forms/src/model';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 import { UrlConfig, urlValidator } from '../url.validator';
 
