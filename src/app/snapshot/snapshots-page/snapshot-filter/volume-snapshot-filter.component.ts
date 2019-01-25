@@ -9,14 +9,14 @@ import { VirtualMachine } from '../../../vm';
 import { SnapshotPageViewMode } from '../../types';
 
 @Component({
-  selector: 'cs-snapshots-filter',
-  templateUrl: './snapshot-filter.component.html',
+  selector: 'cs-volume-snapshots-filter',
+  templateUrl: './volume-snapshot-filter.component.html',
 })
-export class SnapshotFilterComponent implements OnInit {
-  @Input()
-  public isLoading: boolean;
+export class VolumeSnapshotFilterComponent implements OnInit {
   @Input()
   public viewMode: SnapshotPageViewMode;
+  @Input()
+  public isLoading: boolean;
   @Input()
   public accounts: Account[] = [];
   @Input()
@@ -44,8 +44,6 @@ export class SnapshotFilterComponent implements OnInit {
   @Output()
   public selectedAccountsChange = new EventEmitter();
   @Output()
-  public selectedVmsChange = new EventEmitter<string[]>();
-  @Output()
   public selectedTypesChange = new EventEmitter();
   @Output()
   public selectedDateChange = new EventEmitter();
@@ -54,13 +52,13 @@ export class SnapshotFilterComponent implements OnInit {
   @Output()
   public queryChange = new EventEmitter();
   @Output()
+  public selectedVolumeVmsChange = new EventEmitter<string[]>();
+  @Output()
   public viewModeChange = new EventEmitter<SnapshotPageViewMode>();
 
   public get locale(): Language {
     return this.translate.currentLang as Language;
   }
-
-  public snapshotPageViewMode = SnapshotPageViewMode;
 
   constructor(
     private translate: TranslateService,
@@ -72,9 +70,5 @@ export class SnapshotFilterComponent implements OnInit {
       this.availableGroupings,
       this.selectedGroupings,
     );
-  }
-
-  public onViewModeChange(mode: SnapshotPageViewMode) {
-    this.viewModeChange.emit(mode);
   }
 }

@@ -95,6 +95,7 @@
     }
   },
   "ERRORS": {
+    "SUPPORT_INFORMATION": "Support information",
     "COMMON": {
       "THE_NAME_IS_TAKEN": "The name {{ val1 }} is taken"
     },
@@ -822,7 +823,8 @@
       "SELECT_DATE": "Select a date",
       "GROUP_BY_TYPES": "Types",
       "GROUP_BY_VMS": "VMs",
-      "GROUP_BY_ACCOUNTS": "Accounts"
+      "GROUP_BY_ACCOUNTS": "Accounts",
+      "NO_VM": "No VM"
     },
     "SIDEBAR": {
       "DETAILS": "Details",

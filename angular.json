@@ -25,7 +25,14 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": ["src/config", "src/i18n", "src/css", "src/img", "src/agreements"],
+            "assets": [
+              "src/config",
+              "src/i18n",
+              "src/css",
+              "src/img",
+              "src/agreements",
+              "src/support"
+            ],
             "styles": [
               "node_modules/@mdi/font/css/materialdesignicons.min.css",
               "node_modules/angular2-draggable/css/resizable.min.css",
@@ -98,7 +105,14 @@
               "src/style/app.scss"
             ],
             "scripts": [],
-            "assets": ["src/config", "src/i18n", "src/css", "src/img", "src/agreements"]
+            "assets": [
+              "src/config",
+              "src/i18n",
+              "src/css",
+              "src/img",
+              "src/agreements",
+              "src/support"
+            ]
           }
         },
         "lint": {

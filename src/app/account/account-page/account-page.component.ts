@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
-import { Account } from '../../shared';
+import { Account, Grouping } from '../../shared';
 import { AuthService } from '../../shared/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
@@ -15,11 +15,11 @@ export class AccountPageComponent {
   @Input()
   public accounts: Account[] = [];
   @Input()
-  public groupings: any[];
+  public groupings: Grouping[];
   @Input()
   public isLoading: boolean;
   @Input()
-  public selectedGroupings: any[] = [];
+  public selectedGroupings: Grouping[] = [];
   public mode: ViewMode;
   public viewModeKey = 'accountPageViewMode';
 

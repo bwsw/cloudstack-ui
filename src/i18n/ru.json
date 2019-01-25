@@ -95,6 +95,7 @@
     }
   },
   "ERRORS": {
+    "SUPPORT_INFORMATION": "Информация о тех. поддержке",
     "COMMON": {
       "THE_NAME_IS_TAKEN": "Имя {{ val1 }} уже занято"
     },
@@ -822,7 +823,8 @@
       "SELECT_DATE": "Выберите дату",
       "GROUP_BY_TYPES": "Типам",
       "GROUP_BY_VMS": "ВМ",
-      "GROUP_BY_ACCOUNTS": "Аккаунтам"
+      "GROUP_BY_ACCOUNTS": "Аккаунтам",
+      "NO_VM": "Нет виртуальной машины"
     },
     "SIDEBAR": {
       "DETAILS": "Детали",
