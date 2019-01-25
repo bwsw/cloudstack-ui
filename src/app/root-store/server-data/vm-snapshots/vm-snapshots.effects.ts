@@ -57,6 +57,7 @@ import {
   VmSnapshotActionTypes,
 } from './vm-snapshots.actions';
 import * as vmSnapshotSelectors from './vm-snapshots.selectors';
+import { VmState } from '../../../vm';
 import { configSelectors } from '../../config';
 
 @Injectable()
@@ -76,16 +77,29 @@ export class VmSnapshotsEffects {
   createVmSnapshotDialog$: Observable<Action> = this.actions$.pipe(
     ofType<Create>(VmSnapshotActionTypes.Create),
     withLatestFrom(
+      this.store.pipe(select(fromVM.getSelectedVM)),
       this.store.pipe(select(configSelectors.get('vmSnapLimit'))),
       this.store.pipe(select(vmSnapshotSelectors.getVmSnapshotsNumberForSelectedVm)),
     ),
-    exhaustMap(([action, vmSnapLimit, snapshotsNumber]) => {
+    exhaustMap(([action, selectedVM, vmSnapLimit, snapshotsNumber]) => {
       if (vmSnapLimit.enable) {
         if (vmSnapLimit.snapshotsLimit <= snapshotsNumber) {
           const message = 'ERRORS.VM_SNAPSHOT.LIMIT_EXCEEDED';
           this.dialogService.showNotificationsOnFail({ message }, message);
           return of(new CreateCanceled());
         }
+      }
+
+      if (selectedVM.state === VmState.Stopped) {
+        const message = 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE_FOR_STOPPED';
+        this.dialogService.showNotificationsOnFail({ message }, message);
+        return of(new CreateCanceled());
+      }
+
+      if (selectedVM.state === VmState.Destroyed) {
+        const message = 'ERRORS.SNAPSHOT.CREATION_UNAVAILABLE_FOR_DELETED';
+        this.dialogService.showNotificationsOnFail({ message }, message);
+        return of(new CreateCanceled());
       }
 
       return this.matDialog

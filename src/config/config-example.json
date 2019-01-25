@@ -75,6 +75,7 @@
   "defaultTimeFormat": "hour24",
   "defaultTheme": "blue-red",
   "sessionTimeout": 30,
+  "autoGenerateUserKeys": true,
   "customComputeOfferingParameters": [
     {
       "offeringId": "REPLACE_WITH_ID",

@@ -1,11 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { State } from '../../reducers/index';
-import { Account, accountState } from '../../shared/models';
+import { Account, accountState, getPath } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import * as domainActions from '../../reducers/domains/redux/domains.actions';
+import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export const stateTranslations = {
   [accountState.disabled]: 'ACCOUNT_STATE.DISABLED',
@@ -20,10 +24,26 @@ export const stateTranslations = {
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
-    ></cs-account-page>`,
+    ></cs-account-page>
+  `,
 })
-export class AccountPageContainerComponent extends WithUnsubscribe() implements AfterViewInit {
-  readonly accounts$ = this.store.pipe(select(fromAccounts.selectFilteredAccounts));
+export class AccountPageContainerComponent extends WithUnsubscribe()
+  implements OnInit, AfterViewInit {
+  readonly accounts$ = combineLatest([
+    this.store.pipe(select(fromAccounts.selectFilteredAccounts)),
+    this.store.pipe(select(fromDomains.selectEntities)),
+  ]).pipe(
+    map(([accounts, domains]) =>
+      accounts.map(account => {
+        const domain = domains[account.domainid];
+
+        return {
+          ...account,
+          domainpath: (domain && getPath(domain)) || '',
+        };
+      }),
+    ),
+  );
   readonly loading$ = this.store.pipe(select(fromAccounts.isLoading));
   readonly selectedGroupings$ = this.store.pipe(select(fromAccounts.filterSelectedGroupings));
 
@@ -32,7 +52,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
       key: 'domains',
       label: 'ACCOUNT_PAGE.FILTERS.GROUP_BY_DOMAINS',
       selector: (item: Account) => item.domainid,
-      name: (item: Account) => item.domain,
+      name: (item: Account) => item.domainpath || '',
     },
     {
       key: 'roles',
@@ -60,6 +80,10 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
     private cd: ChangeDetectorRef,
   ) {
     super();
+  }
+
+  public ngOnInit() {
+    this.store.dispatch(new domainActions.LoadDomainsRequest());
   }
 
   public stateTranslation(state): string {

@@ -6,13 +6,13 @@ import { takeUntil } from 'rxjs/operators';
 import { State } from '../../reducers';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as roleActions from '../../reducers/roles/redux/roles.actions';
 import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { Grouping } from '../../shared/models';
 
 const FILTER_KEY = 'accountListFilters';
 
@@ -20,7 +20,7 @@ const FILTER_KEY = 'accountListFilters';
   selector: 'cs-account-filter-container',
   template: `
     <cs-account-list-filter
-      *loading="loading$ | async"
+      *loading="(loading$ | async)"
       [domains]="domains$ | async"
       [roles]="roles$ | async"
       [roleTypes]="roleTypes$ | async"
@@ -36,13 +36,14 @@ const FILTER_KEY = 'accountListFilters';
       (roleTypesChanged)="onRoleTypesChange($event)"
       (statesChanged)="onStatesChange($event)"
       (groupingsChanged)="onGroupingsChange($event)"
-    ></cs-account-list-filter>`,
+    ></cs-account-list-filter>
+  `,
 })
 export class AccountFilterContainerComponent extends WithUnsubscribe() implements OnInit {
   @Input()
-  groupings: any[];
+  groupings: Grouping[];
   @Input()
-  selectedGroupings: any[];
+  selectedGroupings: Grouping[];
 
   readonly filters$ = this.store.pipe(select(fromAccounts.filters));
   readonly loading$ = this.store.pipe(select(fromAccounts.isLoading));
@@ -81,7 +82,6 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
   }
 
   public ngOnInit() {
-    this.store.dispatch(new domainActions.LoadDomainsRequest());
     this.store.dispatch(new roleActions.LoadRolesRequest());
     this.initFilters();
     this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {

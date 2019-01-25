@@ -95,6 +95,7 @@
     }
   },
   "ERRORS": {
+    "SUPPORT_INFORMATION": "Support information",
     "COMMON": {
       "THE_NAME_IS_TAKEN": "The name {{ val1 }} is taken"
     },
@@ -111,7 +112,11 @@
       "LIMIT_EXCEEDED": "The maximum amount of VM snapshots is exceeded. Please check your configurations"
     },
     "SNAPSHOT": {
-      "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first."
+      "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first.",
+      "CREATION_UNAVAILABLE_FOR_STOPPED": "VM snapshot creation is unavailable for stopped VMs",
+      "CREATION_UNAVAILABLE_FOR_DELETED": "VM snapshot creation is unavailable for destroyed VMs",
+      "CREATION_UNAVAILABLE": "VM snapshot can not be created. Contact your administrator",
+      "REVERT_UNAVAILABLE_FOR_STOPPED": "Revert VM to snapshot is unavailable for stopped VMs"
     },
     "SSH": {
       "KEY_PAIR_ALREADY_EXISTS": "SSH key with name '{{ val1 }}' already exists"
@@ -820,7 +825,8 @@
       "SELECT_DATE": "Select a date",
       "GROUP_BY_TYPES": "Types",
       "GROUP_BY_VMS": "VMs",
-      "GROUP_BY_ACCOUNTS": "Accounts"
+      "GROUP_BY_ACCOUNTS": "Accounts",
+      "NO_VM": "No VM"
     },
     "SIDEBAR": {
       "DETAILS": "Details",

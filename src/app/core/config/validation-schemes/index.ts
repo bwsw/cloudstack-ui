@@ -23,6 +23,7 @@ import * as securityGroupTemplates from './security-group-templates.scheme.json'
 import * as imageGroups from './image-groups.scheme.json';
 import * as defaultSecurityGroupName from './default-security-group-name.scheme.json';
 import * as vmSnapLimit from './vm-snap-limit.scheme.json';
+import * as autoGenerateUserKeys from './auto-generate-user-keys.scheme.json';
 
 export {
   // General
@@ -53,4 +54,6 @@ export {
   imageGroups,
   // Firewall (Security groups) settings
   defaultSecurityGroupName,
+  // User
+  autoGenerateUserKeys,
 };

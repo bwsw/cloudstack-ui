@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatBadgeModule } from '@angular/material';
+import { MatBadgeModule, MatExpansionModule } from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -151,6 +151,7 @@ import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { UrlDirective } from './validators/directives';
 import { CapabilityService } from './services/capability.service';
+import { LogViewGuard } from './services/log-view-guard.service';
 
 const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
 
@@ -173,6 +174,7 @@ const SHARED_COMPONENTS = [
     AngularDraggableModule,
     TranslateModule,
     MatBadgeModule,
+    MatExpansionModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
@@ -247,6 +249,7 @@ const SHARED_COMPONENTS = [
     TimePickerComponent,
     DayPeriodComponent,
     ErrorMessageComponent,
+    MatExpansionModule,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -350,6 +353,7 @@ const SHARED_COMPONENTS = [
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,
+    LogViewGuard,
     AuthService,
     CacheService,
     CapabilityService,
