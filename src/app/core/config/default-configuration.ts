@@ -39,7 +39,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   extensions: {
     webShell: false,
     pulse: false,
-    vmLogs: false,
+    vmLogs: true,
   },
   /*
    * Log View settings

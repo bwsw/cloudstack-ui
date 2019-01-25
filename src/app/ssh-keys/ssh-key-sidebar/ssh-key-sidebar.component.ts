@@ -30,6 +30,7 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
     protected accountTagService: AccountTagService,
   ) {
     super(entityService, notificationService, route, router);
+    this.accountTagService.loadTags().subscribe(res => console.log('test load tags', res));
   }
 
   public onDescriptionChange(description: string): void {

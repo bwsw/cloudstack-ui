@@ -19,6 +19,9 @@ import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
 import { filterWithPredicates } from '../../shared/utils/filter';
 import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
+import { SettingsPageViewMode } from '../../settings/types/settings-page-view-mode';
+import * as AccountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
+import * as accountTagsSelectors from '../../reducers/account-tags/redux/account-tags.reducers';
 
 export interface TagEditAction {
   oldTag: Tag;
@@ -42,6 +45,8 @@ export class TagsViewComponent implements OnInit, OnChanges {
   public canAddTag = true;
   @Input()
   public hasPermissions = false;
+  @Input()
+  public tagPage: string = 'default';
   @Output()
   public tagAdded: EventEmitter<Partial<Tag>>;
   @Output()
@@ -61,7 +66,8 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    this.store.pipe(select(UserTagsSelectors.getIsShowSystemTags)).subscribe(show => {
+    this.getSystemTagState().subscribe(show => {
+      console.log('test', show);
       this.showSystemTags = show;
       this.updateFilterResults();
     });
@@ -71,6 +77,18 @@ export class TagsViewComponent implements OnInit, OnChanges {
     if ('tags' in changes) {
       this.updateResults();
     }
+  }
+
+  public getSystemTagState() {
+    if (this.tagPage === SettingsPageViewMode.AccountTags) {
+      return this.store.pipe(select(accountTagsSelectors.getIsShowAccountSystemTags));
+    }
+
+    if (this.tagPage === SettingsPageViewMode.UserTags) {
+      return this.store.pipe(select(UserTagsSelectors.getIsShowUserSystemTags));
+    }
+
+    return this.store.pipe(select(UserTagsSelectors.getIsShowSystemTags));
   }
 
   public addTag(category?: TagCategory): void {
@@ -107,7 +125,17 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public onShowSystemTagsChange(): void {
     this.updateFilterResults();
-    this.store.dispatch(new UserTagsActions.UpdateShowSystemTags({ value: this.showSystemTags }));
+    if (this.tagPage === SettingsPageViewMode.AccountTags) {
+      this.store.dispatch(
+        new AccountTagsActions.UpdateAccountTagsFilter({ showSystemTag: this.showSystemTags }),
+      );
+    } else if (this.tagPage === SettingsPageViewMode.UserTags) {
+      this.store.dispatch(
+        new UserTagsActions.UpdateUserTagsFilter({ showSystemTag: this.showSystemTags }),
+      );
+    } else {
+      this.store.dispatch(new UserTagsActions.UpdateShowSystemTags({ value: this.showSystemTags }));
+    }
   }
 
   public removeTag(tag: Tag): void {

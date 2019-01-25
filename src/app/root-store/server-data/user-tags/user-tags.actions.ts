@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
 
-import { ServiceOffering, Tag } from '../../../shared/models';
+import { ServiceOffering, Tag, TagUpdatingParams } from '../../../shared/models';
 import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
 import { TagCreationParams } from './tag-creation-params';
+import { AccountTagsActionTypes } from '../../../reducers/account-tags/redux/account-tags.actions';
 
 export enum UserTagsActionTypes {
   SetDefaultUserTagsAtStartup = '[App initializer] Set default user tags',
@@ -79,6 +80,20 @@ export enum UserTagsActionTypes {
   UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
 
   UpdateSidebarWidth = '[Sidebar resize] Update "csui.user.sidebar-width" tag',
+
+  UpdateTag = '[Settings Page] Update user tag',
+  UpdateTagError = '[Settings Page] Update user tag error',
+  UpdateTagSuccess = '[Settings Page] Update user tag success',
+
+  DeleteTag = '[Settings Page] Delete user tag',
+  DeleteTagError = '[Settings Page] Delete user tag error',
+  DeleteTagSuccess = '[Settings Page] Delete user tag success',
+
+  CreateTag = '[Settings Page] Create user tag',
+  CreateTagError = '[Settings Page] Create user tag error',
+  CreateTagSuccess = '[Settings Page] Create user tag success',
+
+  UpdateUserTagsFilter = '[Settings Page] Update user tags filter',
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs
@@ -441,7 +456,79 @@ export class UpdateSidebarWidth implements Action {
   constructor(readonly payload: { value: string }) {}
 }
 
+// Settings
+
+export class UpdateTag implements Action {
+  readonly type = UserTagsActionTypes.UpdateTag;
+
+  constructor(readonly payload: TagUpdatingParams) {}
+}
+
+export class UpdateTagSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateTagSuccess;
+
+  constructor(readonly payload: TagUpdatingParams) {}
+}
+
+export class UpdateTagError implements Action {
+  readonly type = UserTagsActionTypes.UpdateTagError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
+export class CreateTag implements Action {
+  readonly type = UserTagsActionTypes.CreateTag;
+
+  constructor(readonly payload: TagCreationParams) {}
+}
+
+export class CreateTagSuccess implements Action {
+  readonly type = UserTagsActionTypes.CreateTagSuccess;
+
+  constructor(readonly payload: TagCreationParams) {}
+}
+
+export class CreateTagError implements Action {
+  readonly type = UserTagsActionTypes.CreateTagError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
+export class DeleteTag implements Action {
+  readonly type = UserTagsActionTypes.DeleteTag;
+
+  constructor(readonly payload: string) {}
+}
+
+export class DeleteTagSuccess implements Action {
+  readonly type = UserTagsActionTypes.DeleteTagSuccess;
+
+  constructor(readonly payload: string) {}
+}
+
+export class DeleteTagError implements Action {
+  readonly type = UserTagsActionTypes.DeleteTagError;
+
+  constructor(readonly payload: { error: Error }) {}
+}
+
+export class UpdateUserTagsFilter implements Action {
+  readonly type = UserTagsActionTypes.UpdateUserTagsFilter;
+
+  constructor(public payload: { showSystemTag: boolean }) {}
+}
+
 export type UserTagsActionsUnion =
+  | UpdateUserTagsFilter
+  | UpdateTag
+  | UpdateTagSuccess
+  | UpdateTagError
+  | CreateTag
+  | CreateTagError
+  | CreateTagSuccess
+  | DeleteTag
+  | DeleteTagError
+  | DeleteTagSuccess
   | SetDefaultUserTagsAtStartup
   | SetDefaultUserTagsDueToLogout
   | LoadUserTags

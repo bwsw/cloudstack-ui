@@ -30,6 +30,7 @@ export class AccountTagService implements EntityTagService {
       .getAccount({ name: this.user.account, domainid: this.user.domainid })
       .pipe(
         switchMap(account => {
+          console.log('test', account);
           return this.tagService.getTag(account, this.getSshKeyDescriptionKey(sshKey)).pipe(
             map(tag => {
               if (tag) {
@@ -39,6 +40,11 @@ export class AccountTagService implements EntityTagService {
           );
         }),
       );
+  }
+
+  public loadTags(): Observable<any> {
+    const resourceid = '162b26e6-052a-43bb-9116-acb7555b6d7d';
+    return this.tagService.getList({ resourceid });
   }
 
   public setSshKeyDescription(sshKey: SSHKeyPair, description: string): Observable<string> {

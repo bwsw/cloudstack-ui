@@ -1,8 +1,9 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState, Update } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Tag } from '../../../shared/models/tag.model';
 
 import * as accountTagActions from './account-tags.actions';
+import { AccountTagsActionTypes } from './account-tags.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -14,6 +15,7 @@ import * as accountTagActions from './account-tags.actions';
 export interface State extends EntityState<Tag> {
   loading: boolean;
   loaded: boolean;
+  isShowSystemTags: boolean;
 }
 
 export interface AccountTagsState {
@@ -44,6 +46,7 @@ export const adapter: EntityAdapter<Tag> = createEntityAdapter<Tag>({
 export const initialState: State = adapter.getInitialState({
   loading: false,
   loaded: false,
+  isShowSystemTags: true,
 });
 
 export function reducer(state = initialState, action: accountTagActions.Actions): State {
@@ -68,6 +71,27 @@ export function reducer(state = initialState, action: accountTagActions.Actions)
         loaded: true,
       };
     }
+
+    case AccountTagsActionTypes.UpdateAccountTagsFilter: {
+      return {
+        ...state,
+        isShowSystemTags: action.payload.showSystemTag,
+      };
+    }
+
+    case AccountTagsActionTypes.CreateTagSuccess: {
+      return adapter.addOne(action.payload, state);
+    }
+
+    case AccountTagsActionTypes.DeleteTagSuccess: {
+      return adapter.removeOne(action.payload, state);
+    }
+
+    case AccountTagsActionTypes.UpdateTagSuccess: {
+      const update: Update<Tag> = { id: action.payload.oldKey, changes: action.payload.newTag };
+      return adapter.updateOne(update, state);
+    }
+
     default: {
       return state;
     }
@@ -76,12 +100,26 @@ export function reducer(state = initialState, action: accountTagActions.Actions)
 
 export const getAccountTagsState = createFeatureSelector<AccountTagsState>('tags');
 
-export const getAccountTagsEntitiesState = createSelector(getAccountTagsState, state => state.list);
+export const getAccountTagsEntitiesState = createSelector(
+  getAccountTagsState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getAccountTagsEntitiesState,
 );
 
-export const isLoading = createSelector(getAccountTagsEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getAccountTagsEntitiesState,
+  state => state.loading,
+);
 
-export const isLoaded = createSelector(getAccountTagsEntitiesState, state => state.loaded);
+export const isLoaded = createSelector(
+  getAccountTagsEntitiesState,
+  state => state.loaded,
+);
+
+export const getIsShowAccountSystemTags = createSelector(
+  getAccountTagsEntitiesState,
+  state => state.isShowSystemTags,
+);
