@@ -34,19 +34,23 @@ describe('Snapshot page selectors', () => {
       },
     ];
 
-    let slice = snapshotSelectors.getFilteredSnapshots.projector(differentSnapshots, {
+    const volumesVmIds = ['volume-id-2', 'volume-id-3'];
+
+    let slice = snapshotSelectors.getFilteredSnapshots.projector(volumesVmIds, differentSnapshots, {
       accounts: [],
       vmIds: [],
       date: '2017-10-15T00:00:00.000Z',
       query: undefined,
       volumeSnapshotTypes: [],
+      volumeVmIds: [],
     });
 
     expect(slice).toEqual([differentSnapshots[1]]);
 
-    slice = snapshotSelectors.getFilteredSnapshots.projector(differentSnapshots, {
+    slice = snapshotSelectors.getFilteredSnapshots.projector(volumesVmIds, differentSnapshots, {
       accounts: [],
       vmIds: [],
+      volumeVmIds: [],
       date: null,
       query: undefined,
       volumeSnapshotTypes: [SnapshotType.Daily],
@@ -54,9 +58,10 @@ describe('Snapshot page selectors', () => {
 
     expect(slice).toEqual([differentSnapshots[0]]);
 
-    slice = snapshotSelectors.getFilteredSnapshots.projector(differentSnapshots, {
+    slice = snapshotSelectors.getFilteredSnapshots.projector(volumesVmIds, differentSnapshots, {
       accounts: ['develop'],
       vmIds: [],
+      volumeVmIds: [],
       date: null,
       query: undefined,
       volumeSnapshotTypes: [],

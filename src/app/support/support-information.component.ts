@@ -15,10 +15,10 @@ import { State } from '../reducers';
   styleUrls: ['support-information.component.scss'],
 })
 export class SupportInformationComponent implements OnInit {
+  public isShow = true;
   protected supportInformation: string;
   protected defaultPath = 'support/support-info';
   protected defaultLangPath = `${this.defaultPath}.${'md'}`;
-  protected isShow = true;
   protected requestCache;
   protected interfaceLanguage$ = this.store.pipe(select(userTagsSelectors.getInterfaceLanguage));
 
