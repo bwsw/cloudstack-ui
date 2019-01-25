@@ -14,7 +14,7 @@ import { State } from '../../../root-store';
 @Injectable()
 export class ResourceLimitsEffects {
   @Effect()
-  loadResourseLimits$: Observable<Action> = this.actions$.pipe(
+  loadRecourseLimits$: Observable<Action> = this.actions$.pipe(
     ofType(resourceLimitActions.LOAD_RESOURCE_LIMITS_REQUEST),
     switchMap((action: resourceLimitActions.LoadResourceLimitsRequest) => {
       return this.resourceLimitService.getList(action.payload).pipe(

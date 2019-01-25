@@ -84,8 +84,8 @@ export const getUserResourceQuotas = createSelector(
         };
       }
       return {
-        minimum,
-        maximum,
+        minimum: Math.max(Math.ceil(totalResources[key]), value.minimum),
+        maximum: Math.max(Math.ceil(totalResources[key]), value.maximum),
       };
     });
 

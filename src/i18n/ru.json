@@ -144,7 +144,8 @@
     },
     "RESOURCE_QUOTAS": {
       "FAILED_RETRIEVE": "Невозможно изменить ресурсы",
-      "MAX_MUST_BE_GREATER": "Максимальное значение должно быть больше или равно минимальному"
+      "MAX_MUST_BE_GREATER": "Максимальное значение должно быть больше или равно минимальному",
+      "MAX_MUST_BE_BETWEEN": "Максимальное значение должно быть между {{ val1 }} и {{ val2 }}"
     }
   },
   "NOTIFICATIONS": {
@@ -1521,11 +1522,11 @@
       "SECONDARY_STORAGE": "Дополнительное хранилище (ГБ)"
     },
     "REQUEST": {
-      "REQUEST_RESOURCES_BUTTON": "Запросить ресурсы",
+      "REQUEST_RESOURCES_BUTTON": "Обновить ресурсы",
       "REQUEST_RESOURCES_TITLE": "Запрос ресурсов",
       "LIMIT_UPDATED": "Лимиты ресурсов успешно изменены",
       "CAN_NOT_CHANGE_RESOURCES": "Невозможно изменить ресурсы",
-      "REQUEST_BUTTON": "Запросить"
+      "REQUEST_BUTTON": "Обновить"
     },
     "ADMIN_PAGE": {
       "QUOTA_UPDATED": "Квоты ресурсов успешно изменены",

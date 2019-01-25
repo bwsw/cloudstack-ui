@@ -97,6 +97,10 @@ export class ErrorService {
       regex: /maximum must be greater than or equal to minimum/,
       translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_GREATER',
     },
+    {
+      regex: /max must be between (\d+) and (\d+)/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_BETWEEN',
+    },
   ];
 
   public static parseError(error: any): any {
