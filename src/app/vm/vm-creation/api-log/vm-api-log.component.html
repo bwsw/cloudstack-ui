@@ -16,7 +16,7 @@
         <tbody>
           <tr class="mat-row" *ngFor="let log of apiLog">
             <td>{{ log.request }}</td>
-            <td>{{ log.params | json }}</td>
+            <td>"id": {{ log.id | json }}, {{ log.params | json }}</td>
             <td>{{ log.response | json }}</td>
           </tr>
         </tbody>

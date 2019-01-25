@@ -9,6 +9,10 @@ mat-expansion-panel {
 }
 
 /deep/ .mat-expansion-panel-content {
-  height: 250px;
+  height: 25vh;
   overflow-y: auto !important;
+}
+
+td {
+  vertical-align: top;
 }
