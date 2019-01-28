@@ -11,6 +11,7 @@ You can see examples of the configurations in the [config-example.json](https://
   - [Resource Limits Plugin](#resource-limits-plugin)
 - [Virtual Machines Settings](#virtual-machines-settings)
   - [VM Colors](#vm-colors)
+  - [VM Snapshots Limit](#vm-snapshots-limit)
 - [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
   - [Security Group Templates](#security-group-templates)
   - [Default Security Group Name](#default-security-group-name)
@@ -139,6 +140,20 @@ For example,
   { "value": "#673AB7" },
   { "value": "#3F51B5" }
 ]
+```
+
+### VM Snapshots Limit
+
+Allows you to set the maximum number of VM snapshots. You can enable feature  like this``` "enable": true ```. By default, this feature is disabled. The minimum value for snapshots limit is 0.
+
+For example,
+
+```
+"vmSnapLimit": {
+  "enable": false,
+  "snapshotsLimit": 0
+}
+
 ```
 
 ## Firewall (Security Groups) Settings

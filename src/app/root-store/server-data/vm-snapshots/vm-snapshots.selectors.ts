@@ -20,3 +20,8 @@ export const getVmSnapshotsForSelectedVm = createSelector(
   (vmSnapshots, selectedVmId) =>
     vmSnapshots.filter(snapshot => snapshot.virtualmachineid === selectedVmId),
 );
+
+export const getVmSnapshotsNumberForSelectedVm = createSelector(
+  getVmSnapshotsForSelectedVm,
+  snapshots => snapshots.length,
+);
