@@ -528,7 +528,7 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
    
     **Create Snapshot**
         
-        .. note:: Taking a VM snapshot is available for machines in the Running state only. The maximum number of VM snapshots can be defined in the configuration file (see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_).
+        .. note:: Taking a VM snapshot is available for machines in the Running state only. The maximum number of VM snapshots can be defined in the configuration file (see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#vm-snapshots-limit>`_).
         
         To create a snapshot click '+' and fill in the appeared form:
    
