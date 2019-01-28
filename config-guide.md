@@ -8,6 +8,7 @@ You can see examples of the configurations in the [config-example.json](https://
   - [API Doc Link](#api-doc-link)
 - [Extensions](#extensions)
   - [Log View Plugin](#log-view-plugin)
+  - [Resource Limits Plugin](#resource-limits-plugin)
 - [Virtual Machines Settings](#virtual-machines-settings)
   - [VM Colors](#vm-colors)
 - [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
@@ -75,7 +76,8 @@ For example,
 "extensions": {
   "webShell": true,
   "pulse": false,
-  "vmLogs": false
+  "vmLogs": false,
+  "resourceLimits": false
 }
 ```
 
@@ -100,6 +102,23 @@ For example,
 "vmLogs": {
   "autoUpdateRefreshFrequency": 1,
   "autoUpdateRequestedInterval": 30
+}
+```
+
+### Resource Limits Plugin
+
+Allows you to configure Resource Limits plugin.
+
+`realm` - realm of the configured gateway.
+
+`env` - environment of the configured gateway.
+
+For example,
+
+```
+"resourceLimits": {
+  "realm": "resource-limits",
+  "env": "prod"
 }
 ```
 

@@ -2,20 +2,10 @@
 
 <mat-dialog-content>
   <mat-form-field class="full-width-input">
-    <textarea
-      class="vm-logs-key"
-      matInput
-      [(ngModel)]="token.token"
-      rows="3"
-      readonly
-    ></textarea>
+    <textarea class="vm-logs-key" matInput [(ngModel)]="token.token" rows="3" readonly></textarea>
   </mat-form-field>
 
-  <a
-    target="_blank"
-    rel="nofollow noopener"
-    href="https://github.com/bwsw/cloud-plugin-vm-logs"
-  >
+  <a target="_blank" rel="nofollow noopener" href="https://github.com/bwsw/cloud-plugin-vm-logs">
     {{ 'LOGS_PAGE.TOKEN.HOW_TO_ADD_TOKEN' | translate }}
   </a>
 </mat-dialog-content>

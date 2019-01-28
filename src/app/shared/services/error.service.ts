@@ -77,6 +77,30 @@ export class ErrorService {
       regex: /VM Snapshot revert not allowed. This will result in VM state change. You can revert running VM to disk and memory type snapshot and stopped VM to disk type snapshot/,
       translation: 'ERRORS.SNAPSHOT.REVERT_UNAVAILABLE_FOR_STOPPED',
     },
+    {
+      regex: /Failed to retrieve resource limits/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /Failed to retrieve user account/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /Failed to retrieve accounts/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /Failed to retrieve domains/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /maximum must be greater than or equal to minimum/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_GREATER',
+    },
+    {
+      regex: /max must be between (\d+) and (\d+)/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_BETWEEN',
+    },
   ];
 
   public static parseError(error: any): any {

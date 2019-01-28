@@ -1,17 +1,11 @@
 <mat-card class="vm-card">
   <mat-card-header>
-    <h2 class="mat-card-title-text">
-      {{ 'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.TITLE' | translate }}
-    </h2>
+    <h2 class="mat-card-title-text">{{ 'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.TITLE' | translate }}</h2>
   </mat-card-header>
   <mat-card-content class="overflow-card mat-card-content-with-actions">
     <div class="mat-card-content-container">
-      <div *ngIf="vm?.group">
-        {{ vm.group }}
-      </div>
-      <div *ngIf="!vm?.group">
-        {{ 'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.NO_GROUP' | translate }}
-      </div>
+      <div *ngIf="vm?.group">{{ vm.group }}</div>
+      <div *ngIf="!vm?.group">{{ 'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.NO_GROUP' | translate }}</div>
     </div>
     <mat-card-actions>
       <button

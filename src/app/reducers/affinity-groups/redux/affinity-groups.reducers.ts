@@ -89,6 +89,12 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getAffinityGroupEntitiesState,
 );
 
-export const isLoading = createSelector(getAffinityGroupEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getAffinityGroupEntitiesState,
+  state => state.loading,
+);
 
-export const isLoaded = createSelector(getAffinityGroupEntitiesState, state => state.loaded);
+export const isLoaded = createSelector(
+  getAffinityGroupEntitiesState,
+  state => state.loaded,
+);

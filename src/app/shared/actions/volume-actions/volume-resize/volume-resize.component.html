@@ -1,19 +1,13 @@
-<h3 class="mat-dialog-title">
-  {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.TITLE' | translate }}
-</h3>
+<h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.TITLE' | translate }}</h3>
 
 <div *ngIf="canResize">
-  <form
-    (ngSubmit)="resizeVolume()"
-    #volumeResizeForm="ngForm"
-    novalidate
-  >
+  <form (ngSubmit)="resizeVolume()" #volumeResizeForm="ngForm" novalidate>
     <div class="mat-dialog-content">
       <cs-disk-offering-selector
         name="diskOffering"
         [enableSelector]="!volumeIsRoot && diskOfferings?.length"
         [enableSlider]="isCustomizedForVolume(diskOffering) || volumeIsRoot"
-        [min]="volume.size | division:2:30"
+        [min]="volume.size | division: 2:30"
         [newSize]="newSize"
         [availableStorage]="availableStorage"
         [diskOfferings]="diskOfferings"
@@ -27,12 +21,7 @@
       <button mat-button color="primary" matDialogClose type="button">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <button
-        *ngIf="canResize"
-        mat-button
-        color="primary"
-        [disabled]="volumeResizeForm?.invalid"
-      >
+      <button *ngIf="canResize" mat-button color="primary" [disabled]="volumeResizeForm?.invalid">
         {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.RESIZE' | translate }}
       </button>
     </div>

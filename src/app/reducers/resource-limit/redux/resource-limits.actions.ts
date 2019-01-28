@@ -3,8 +3,10 @@ import { ResourceLimit } from '../../../shared/models';
 
 export const LOAD_RESOURCE_LIMITS_REQUEST = '[RESOURCE_LIMITS] LOAD_RESOURCE_LIMITS_REQUEST';
 export const LOAD_RESOURCE_LIMITS_RESPONSE = '[RESOURCE_LIMITS] LOAD_RESOURCE_LIMITS_RESPONSE';
-export const UPDATE_RESOURCE_LIMITS_REQUEST = '[RESOURCE_LIMITS] UPDATE_RESOURCE_LIMITS_REQUEST';
-export const UPDATE_RESOURCE_LIMITS_ERROR = '[RESOURCE_LIMITS] UPDATE_RESOURCE_LIMITS_ERROR';
+export const LOAD_RESOURCE_LIMITS_FOR_CURRENT_USER =
+  '[RESOURCE_LIMITS] LOAD_RESOURCE_LIMITS_FOR_CURRENT_USER';
+export const UPDATE_RESOURCE_LIMITS_REQUEST = '[RESOURCE_LIMITS] UPDATE_RESOURCE_QUOTAS_REQUEST';
+export const UPDATE_RESOURCE_LIMITS_ERROR = '[RESOURCE_LIMITS] UPDATE_RESOURCE_QUOTAS_ERROR';
 
 export class LoadResourceLimitsRequest implements Action {
   type = LOAD_RESOURCE_LIMITS_REQUEST;
@@ -14,6 +16,12 @@ export class LoadResourceLimitsRequest implements Action {
 
 export class LoadResourceLimitsResponse implements Action {
   type = LOAD_RESOURCE_LIMITS_RESPONSE;
+
+  constructor(public payload: any) {}
+}
+
+export class LoadResourceLimitsForCurrentUser implements Action {
+  type = LOAD_RESOURCE_LIMITS_FOR_CURRENT_USER;
 
   constructor(public payload: any) {}
 }
@@ -33,5 +41,6 @@ export class UpdateResourceLimitsError implements Action {
 export type Actions =
   | LoadResourceLimitsResponse
   | LoadResourceLimitsRequest
+  | LoadResourceLimitsForCurrentUser
   | UpdateResourceLimitsRequest
   | UpdateResourceLimitsError;

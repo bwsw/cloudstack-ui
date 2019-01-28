@@ -40,6 +40,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     webShell: false,
     pulse: false,
     vmLogs: false,
+    resourceLimits: false,
   },
   /*
    * Log View settings
@@ -47,6 +48,10 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   vmLogs: {
     autoUpdateRefreshFrequency: 1,
     autoUpdateRequestedInterval: 30,
+  },
+  resourceLimits: {
+    realm: 'resource-limits',
+    env: 'prod',
   },
   /*
    * Virtual machines settings

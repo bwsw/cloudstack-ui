@@ -5,11 +5,16 @@
   "extensions": {
     "webShell": true,
     "pulse": true,
-    "vmLogs": true
+    "vmLogs": true,
+    "resourceLimits": true
   },
   "vmLogs": {
     "autoUpdateRefreshFrequency": 1,
     "autoUpdateRequestedInterval": 30
+  },
+  "resourceLimits": {
+    "realm": "resource-limits",
+    "env": "prod"
   },
   "vmColors": [
     { "value": "#F44336" },
