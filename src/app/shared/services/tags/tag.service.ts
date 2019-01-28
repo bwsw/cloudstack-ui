@@ -36,7 +36,6 @@ export class TagService extends BaseBackendService<Tag> {
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    console.log('test 39', key, entity);
     return this.getList({ key, resourceid: entity.id }).pipe(map(tags => tags[0]));
   }
 

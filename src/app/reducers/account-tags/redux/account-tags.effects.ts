@@ -13,7 +13,6 @@ import {
   DeleteTag,
   DeleteTagError,
   DeleteTagSuccess,
-  LOAD_ACCOUNT_TAGS_REQUEST,
   LoadAccountTagsRequest,
   LoadAccountTagsResponse,
   UpdateTag,
@@ -29,7 +28,7 @@ import { State } from '../../index';
 export class AccountTagsEffects {
   @Effect()
   loadAccountTags$: Observable<Action> = this.actions$.pipe(
-    ofType(LOAD_ACCOUNT_TAGS_REQUEST),
+    ofType(AccountTagsActionTypes.LoadAccountTagsRequest),
     switchMap((action: LoadAccountTagsRequest) => {
       return this.tagService.getList(action.payload).pipe(
         map(tags => new LoadAccountTagsResponse(tags)),

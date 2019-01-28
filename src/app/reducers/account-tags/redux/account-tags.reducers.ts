@@ -2,8 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState, Update } from '@ngrx/e
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Tag } from '../../../shared/models/tag.model';
 
-import * as accountTagActions from './account-tags.actions';
-import { AccountTagsActionTypes } from './account-tags.actions';
+import { AccountTagsActionTypes, Actions } from './account-tags.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -49,15 +48,15 @@ export const initialState: State = adapter.getInitialState({
   isShowSystemTags: true,
 });
 
-export function reducer(state = initialState, action: accountTagActions.Actions): State {
+export function reducer(state = initialState, action: Actions): State {
   switch (action.type) {
-    case accountTagActions.LOAD_ACCOUNT_TAGS_REQUEST: {
+    case AccountTagsActionTypes.LoadAccountTagsRequest: {
       return {
         ...state,
         loading: true,
       };
     }
-    case accountTagActions.LOAD_ACCOUNT_TAGS_RESPONSE: {
+    case AccountTagsActionTypes.LoadAccountTagsResponse: {
       return {
         /**
          * The addMany function provided by the created adapter

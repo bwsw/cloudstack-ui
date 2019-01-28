@@ -3,9 +3,6 @@ import { Tag, TagUpdatingParams } from '../../../shared/models';
 import { TagCreationParams } from '../../../root-store/server-data/user-tags/tag-creation-params';
 import { UserTagsActionTypes } from '../../../root-store/server-data/user-tags/user-tags.actions';
 
-export const LOAD_ACCOUNT_TAGS_REQUEST = '[ACCOUNT_TAGS] LOAD_ACCOUNT_TAGS_REQUEST';
-export const LOAD_ACCOUNT_TAGS_RESPONSE = '[ACCOUNT_TAGS] LOAD_ACCOUNT_TAGS_RESPONSE';
-
 export enum AccountTagsActionTypes {
   UpdateTag = '[Settings Page] Update account tag',
   UpdateTagError = '[Settings Page] Update account tag error',
@@ -20,6 +17,9 @@ export enum AccountTagsActionTypes {
   CreateTagSuccess = '[Settings Page] Create account tag success',
 
   UpdateAccountTagsFilter = '[Settings Page] Update account tags filter',
+
+  LoadAccountTagsRequest = '[ACCOUNT_TAGS] LOAD_ACCOUNT_TAGS_REQUEST',
+  LoadAccountTagsResponse = '[ACCOUNT_TAGS] LOAD_ACCOUNT_TAGS_RESPONSE',
 }
 
 export class UpdateAccountTagsFilter implements Action {
@@ -29,13 +29,13 @@ export class UpdateAccountTagsFilter implements Action {
 }
 
 export class LoadAccountTagsRequest implements Action {
-  readonly type = LOAD_ACCOUNT_TAGS_REQUEST;
+  readonly type = AccountTagsActionTypes.LoadAccountTagsRequest;
 
   constructor(public payload?: any) {}
 }
 
 export class LoadAccountTagsResponse implements Action {
-  readonly type = LOAD_ACCOUNT_TAGS_RESPONSE;
+  readonly type = AccountTagsActionTypes.LoadAccountTagsResponse;
 
   constructor(readonly payload: Tag[]) {}
 }

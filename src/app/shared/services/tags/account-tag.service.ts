@@ -30,7 +30,6 @@ export class AccountTagService implements EntityTagService {
       .getAccount({ name: this.user.account, domainid: this.user.domainid })
       .pipe(
         switchMap(account => {
-          console.log('test', account);
           return this.tagService.getTag(account, this.getSshKeyDescriptionKey(sshKey)).pipe(
             map(tag => {
               if (tag) {
