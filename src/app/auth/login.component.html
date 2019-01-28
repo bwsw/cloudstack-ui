@@ -10,6 +10,7 @@
             [(ngModel)]="username"
             [placeholder]="'AUTH.USERNAME' | translate"
             autofocus
+            minlength="1"
             required
             #usernameControl="ngModel"
           />
@@ -25,6 +26,7 @@
             name="password"
             [(ngModel)]="password"
             [placeholder]="'AUTH.PASSWORD' | translate"
+            minlength="1"
             required
             #passwordControl="ngModel"
           />
@@ -47,10 +49,7 @@
           mat-button
           color="primary"
           type="submit"
-          [disabled]="
-            (passwordControl.invalid && !passwordControl.pristine) ||
-            (usernameControl.invalid && !usernameControl.pristine)
-          "
+          [disabled]="passwordControl.invalid || usernameControl.invalid"
         >
           {{ 'AUTH.LOGIN' | translate }}
         </button>
