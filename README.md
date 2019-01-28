@@ -109,6 +109,17 @@ Then, it is necessary to enable the LogView UI-plugin via the CloudStack-UI conf
 
 Plugin deployment and configuration instructions can be found at the [plugin page](https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin).
 
+**Resource Limits Management Plugin**
+
+We developed the Resource Limits Management plugin to make it possible for administrators to manage resource quotas, and for users to change resource limits. With the new plugin a user does not need to request an administrator to provide more resources or to reduce the available amount of resources. A user gets access to resource limits, and an administrator can manage resoure quotas via UI. The extension uses two backend plugins:
+
+* the [µAPI Gateway plugin](https://bitworks.software/en/products/cloudstack-micro-api-gateway/) developed by us to help developers to create extensions for CloudStack using any programming language. 
+* the *Resource Limits Management* backend plugin that extends CloudStack API with additional endpoints.
+
+After the backend plugins are deployed and configured the Resource Limits management UI-plugin can be activated and configured via the configuration file (see the [configuration guide](https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#resource-limits-plugin)). Once it is activated, users and administrators get access to resource limits and quotas management via UI.
+
+Please, visit the [plugin page](https://github.com/bwsw/cloudstack-ui/wiki/Resource-Limits-Management-Plugin) to find more information.
+ 
 ## Features Yet Unsupported
 
 We intensively use features like projects in our own CloudStack cloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
