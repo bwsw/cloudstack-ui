@@ -39,6 +39,8 @@ export interface KeyValuePair {
   styleUrls: ['tags-view.component.scss'],
 })
 export class TagsViewComponent implements OnInit, OnChanges {
+  public defaultTagPageValue = 'default';
+
   @Input()
   public tags: Tag[];
   @Input()
@@ -46,7 +48,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
   @Input()
   public hasPermissions = false;
   @Input()
-  public tagPage: string = 'default';
+  public tagPage = this.defaultTagPageValue;
   @Output()
   public tagAdded: EventEmitter<Partial<Tag>>;
   @Output()
@@ -67,7 +69,6 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.getSystemTagState().subscribe(show => {
-      console.log('test', show);
       this.showSystemTags = show;
       this.updateFilterResults();
     });
