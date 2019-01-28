@@ -49,10 +49,7 @@
           mat-button
           color="primary"
           type="submit"
-          [disabled]="
-            (passwordControl.invalid && !passwordControl.pristine) ||
-            (usernameControl.invalid && !usernameControl.pristine)
-          "
+          [disabled]="passwordControl.invalid || usernameControl.invalid"
         >
           {{ 'AUTH.LOGIN' | translate }}
         </button>
