@@ -23,7 +23,7 @@ export class DiskOfferingDialogComponent {
     public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
   ) {
     this.diskOfferings = data.diskOfferings;
-    this.selectedDiskOffering = data.diskOffering;
+    this.selectedDiskOffering = data.diskOffering || this.diskOfferings[0];
     this.storageAvailable = data.storageAvailable;
     this.minSize = data.customDiskOfferingMinSize;
     this.checkResourcesLimit();
