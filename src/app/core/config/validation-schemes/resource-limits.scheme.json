@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "resourceLimits",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["realm", "env"],
+  "properties": {
+    "realm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "env": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

@@ -13,6 +13,7 @@ import * as event from './resource-limits.actions';
  */
 export interface State extends EntityState<ResourceLimit> {
   loading: boolean;
+  loaded: boolean;
 }
 
 export interface ResourceLimitsState {
@@ -44,6 +45,7 @@ export const adapter: EntityAdapter<ResourceLimit> = createEntityAdapter<Resourc
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  loaded: false,
 });
 
 export function reducer(state = initialState, action: event.Actions): State {
@@ -65,6 +67,7 @@ export function reducer(state = initialState, action: event.Actions): State {
          */
         ...adapter.addAll([...action.payload], state),
         loading: false,
+        loaded: true,
       };
     }
 
@@ -88,4 +91,7 @@ export const {
   selectTotal,
 } = adapter.getSelectors(getResourceLimitsEntitiesState);
 
-export const isLoading = createSelector(getResourceLimitsEntitiesState, state => state.loading);
+export const isLoaded = createSelector(
+  getResourceLimitsEntitiesState,
+  state => state.loaded,
+);

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatBadgeModule } from '@angular/material';
+import { MatBadgeModule, MatExpansionModule } from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -151,6 +151,10 @@ import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { UrlDirective } from './validators/directives';
 import { CapabilityService } from './services/capability.service';
+import { GatewayApiService } from './services/gateway-api.service';
+import { RequestResourcesButtonComponent } from './components/vm-statistics/request-resources-button.component';
+import { RequestResourcesButtonContainerComponent } from './components/vm-statistics/request-resources-button.container';
+import { LogViewGuard } from './services/log-view-guard.service';
 
 const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
 
@@ -173,6 +177,7 @@ const SHARED_COMPONENTS = [
     AngularDraggableModule,
     TranslateModule,
     MatBadgeModule,
+    MatExpansionModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
@@ -247,6 +252,9 @@ const SHARED_COMPONENTS = [
     TimePickerComponent,
     DayPeriodComponent,
     ErrorMessageComponent,
+    RequestResourcesButtonComponent,
+    RequestResourcesButtonContainerComponent,
+    MatExpansionModule,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -343,6 +351,8 @@ const SHARED_COMPONENTS = [
     DayPeriodComponent,
     ErrorMessageComponent,
     VolumeSnapshotFromVmSnapshotDialogComponent,
+    RequestResourcesButtonComponent,
+    RequestResourcesButtonContainerComponent,
   ],
   providers: [
     AccountService,
@@ -350,6 +360,7 @@ const SHARED_COMPONENTS = [
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,
+    LogViewGuard,
     AuthService,
     CacheService,
     CapabilityService,
@@ -359,6 +370,7 @@ const SHARED_COMPONENTS = [
     DiskOfferingService,
     DomainService,
     ErrorService,
+    GatewayApiService,
     JobsNotificationService,
     LocalStorageService,
     LoginGuard,

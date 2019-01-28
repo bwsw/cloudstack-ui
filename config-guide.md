@@ -8,6 +8,7 @@ You can see examples of the configurations in the [config-example.json](https://
   - [API Doc Link](#api-doc-link)
 - [Extensions](#extensions)
   - [Log View Plugin](#log-view-plugin)
+  - [Resource Limits Plugin](#resource-limits-plugin)
 - [Virtual Machines Settings](#virtual-machines-settings)
   - [VM Colors](#vm-colors)
 - [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
@@ -21,6 +22,7 @@ You can see examples of the configurations in the [config-example.json](https://
   - [Default Time Format](#default-time-format)
   - [Default Theme](#default-theme)
   - [Session Timeout](#session-timeout)
+  - [Automatically generate secret key and API key for users](#auto-generate-user-keys)
 - [Service Offering Setting](#service-offering-setting)
   - [Custom Compute Offering Parameters](#custom-compute-offering-parameters)
   - [Default Compute Offering](#default-compute-offering)
@@ -74,7 +76,8 @@ For example,
 "extensions": {
   "webShell": true,
   "pulse": false,
-  "vmLogs": false
+  "vmLogs": false,
+  "resourceLimits": false
 }
 ```
 
@@ -99,6 +102,23 @@ For example,
 "vmLogs": {
   "autoUpdateRefreshFrequency": 1,
   "autoUpdateRequestedInterval": 30
+}
+```
+
+### Resource Limits Plugin
+
+Allows you to configure Resource Limits plugin.
+
+`realm` - realm of the configured gateway.
+
+`env` - environment of the configured gateway.
+
+For example,
+
+```
+"resourceLimits": {
+  "realm": "resource-limits",
+  "env": "prod"
 }
 ```
 
@@ -298,6 +318,15 @@ For example,
 "sessionTimeout": 30
 ```
 
+### Automatically generate secret key and API key for users
+
+Allows you to enable auto generation of secret key and API key for user upon the login if they are missing. By default, auto generation is enabled.
+
+For example,
+```
+"autoGenerateUserKeys": true
+```
+              
 ## Service Offering Setting
 
 ### Custom Compute Offering Parameters

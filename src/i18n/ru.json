@@ -95,6 +95,7 @@
     }
   },
   "ERRORS": {
+    "SUPPORT_INFORMATION": "Информация о тех. поддержке",
     "COMMON": {
       "THE_NAME_IS_TAKEN": "Имя {{ val1 }} уже занято"
     },
@@ -108,7 +109,11 @@
       "VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется следующими машинами:<br>{{ vms }}"
     },
     "SNAPSHOT": {
-      "LIMIT_EXCEEDED": "Лимит снимков превышен. Для создания новых снимков Вам необходимо удалить какие-либо из ранее созданных снимков."
+      "LIMIT_EXCEEDED": "Лимит снимков превышен. Для создания новых снимков Вам необходимо удалить какие-либо из ранее созданных снимков.",
+      "CREATION_UNAVAILABLE_FOR_STOPPED": "Создание снимков ВМ недоступно для остановленных ВМ",
+      "CREATION_UNAVAILABLE_FOR_DELETED": "Создание снимков ВМ недоступно для удаленных ВМ",
+      "CREATION_UNAVAILABLE": "Снимок ВМ не может быть создан. Обратитесь к администратору",
+      "REVERT_UNAVAILABLE_FOR_STOPPED": "Возвращение ВМ к снимку ВМ недоступно для остановленных ВМ"
     },
     "SSH": {
       "KEY_PAIR_ALREADY_EXISTS": "SSH ключ с именем \"{{ val1 }}\" уже существует"
@@ -140,6 +145,11 @@
     "VM_LOGS": {
       "TOKEN_DOES_NOT_EXIST": "Указанный токен не существует",
       "INVALID_TOKEN": "Невалидный токен"
+    },
+    "RESOURCE_QUOTAS": {
+      "FAILED_RETRIEVE": "Невозможно изменить ресурсы",
+      "MAX_MUST_BE_GREATER": "Максимальное значение должно быть больше или равно минимальному",
+      "MAX_MUST_BE_BETWEEN": "Максимальное значение должно быть между {{ val1 }} и {{ val2 }}"
     }
   },
   "NOTIFICATIONS": {
@@ -315,6 +325,7 @@
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
     "ACCOUNTS": "Аккаунты",
+    "RESOURCE_QUOTAS": "Квоты ресурсов",
     "LOGS": "Просмотр логов",
     "SETTINGS": "Настройки",
     "LOGOUT": "Выйти",
@@ -821,7 +832,8 @@
       "SELECT_DATE": "Выберите дату",
       "GROUP_BY_TYPES": "Типам",
       "GROUP_BY_VMS": "ВМ",
-      "GROUP_BY_ACCOUNTS": "Аккаунтам"
+      "GROUP_BY_ACCOUNTS": "Аккаунтам",
+      "NO_VM": "Нет виртуальной машины"
     },
     "SIDEBAR": {
       "DETAILS": "Детали",
@@ -1497,6 +1509,36 @@
       "API_KEY": "API ключ",
       "SECRET_KEY": "Секретный ключ"
     }
+  },
+  "RESOURCE_QUOTAS_PAGE": {
+    "RESOURCES": {
+      "INSTANCES": "Машины",
+      "IPS": "Маршрутизируемые IP адреса",
+      "VOLUMES": "Диски",
+      "SNAPSHOTS": "Снимки",
+      "TEMPLATES": "Шаблоны",
+      "PROJECTS": "Проекты",
+      "NETWORK": "Сеть",
+      "VPCS": "VPC",
+      "CPUS": "CPU",
+      "MEMORY": "Память (МБ)",
+      "PRIMARY_STORAGE": "Основное хранилище (ГБ)",
+      "SECONDARY_STORAGE": "Дополнительное хранилище (ГБ)"
+    },
+    "REQUEST": {
+      "REQUEST_RESOURCES_BUTTON": "Обновить ресурсы",
+      "REQUEST_RESOURCES_TITLE": "Запрос ресурсов",
+      "LIMIT_UPDATED": "Лимиты ресурсов успешно изменены",
+      "CAN_NOT_CHANGE_RESOURCES": "Невозможно изменить ресурсы",
+      "REQUEST_BUTTON": "Обновить"
+    },
+    "ADMIN_PAGE": {
+      "QUOTA_UPDATED": "Квоты ресурсов успешно изменены",
+      "QUOTA_LOAD_ERROR": "Не удалось загрузить квоты ресурсов"
+    },
+    "MIN": "От",
+    "MAX": "До",
+    "UPDATE": "Обновить"
   },
   "LOGS_PAGE": {
     "FILTERS": {

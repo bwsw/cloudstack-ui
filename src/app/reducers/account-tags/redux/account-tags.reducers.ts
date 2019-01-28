@@ -76,12 +76,21 @@ export function reducer(state = initialState, action: accountTagActions.Actions)
 
 export const getAccountTagsState = createFeatureSelector<AccountTagsState>('tags');
 
-export const getAccountTagsEntitiesState = createSelector(getAccountTagsState, state => state.list);
+export const getAccountTagsEntitiesState = createSelector(
+  getAccountTagsState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getAccountTagsEntitiesState,
 );
 
-export const isLoading = createSelector(getAccountTagsEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getAccountTagsEntitiesState,
+  state => state.loading,
+);
 
-export const isLoaded = createSelector(getAccountTagsEntitiesState, state => state.loaded);
+export const isLoaded = createSelector(
+  getAccountTagsEntitiesState,
+  state => state.loaded,
+);

@@ -113,7 +113,8 @@ cs-divider-vertical {
   vertical-align: middle;
 }
 
-:host /deep/ .mat-button-toggle-group {
+:host /deep/ .mat-button-toggle-group,
+.request-resources {
   margin-left: 15px;
   margin-bottom: 5px;
 }

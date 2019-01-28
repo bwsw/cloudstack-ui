@@ -5,11 +5,16 @@
   "extensions": {
     "webShell": true,
     "pulse": true,
-    "vmLogs": true
+    "vmLogs": true,
+    "resourceLimits": true
   },
   "vmLogs": {
     "autoUpdateRefreshFrequency": 1,
     "autoUpdateRequestedInterval": 30
+  },
+  "resourceLimits": {
+    "realm": "resource-limits",
+    "env": "prod"
   },
   "vmColors": [
     { "value": "#F44336" },
@@ -74,6 +79,7 @@
   "defaultTimeFormat": "hour24",
   "defaultTheme": "blue-red",
   "sessionTimeout": 30,
+  "autoGenerateUserKeys": true,
   "customComputeOfferingParameters": [
     {
       "offeringId": "REPLACE_WITH_ID",
