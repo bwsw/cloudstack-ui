@@ -131,7 +131,7 @@ For example,
 
 ```
 "vmSnapLimit": {
-  "enable": false
+  "enable": false,
   "snapshotsLimit": 0
 }
 
