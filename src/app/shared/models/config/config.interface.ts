@@ -12,6 +12,7 @@ export interface ExtensionsConfig {
   webShell: boolean;
   pulse: boolean;
   vmLogs: boolean;
+  resourceLimits: boolean;
 }
 
 export interface CustomizableConfig {
@@ -28,6 +29,10 @@ export interface CustomizableConfig {
   vmLogs: {
     autoUpdateRefreshFrequency: number;
     autoUpdateRequestedInterval: number;
+  };
+  resourceLimits: {
+    realm: string;
+    env: string;
   };
   /*
    * Virtual machines settings

@@ -1,0 +1,43 @@
+<cs-top-bar></cs-top-bar>
+
+<div class="container">
+  <div class="form">
+    <table>
+      <tr class="row" *ngFor="let resourceName of resourceQuotaNames; let i = index">
+        <td class="title">{{ resourceName | translate }}</td>
+        <td class="min">
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              [min]="-1"
+              [csMinValue]="-1"
+              [placeholder]="'RESOURCE_QUOTAS_PAGE.MIN' | translate"
+              [ngModel]="resourceQuotas[i].minimum"
+              (ngModelChange)="onMinChange(i, +$event)"
+              required
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              [min]="-1"
+              [csMinValue]="-1"
+              [placeholder]="'RESOURCE_QUOTAS_PAGE.MAX' | translate"
+              [ngModel]="resourceQuotas[i].maximum"
+              (ngModelChange)="onMaxChange(i, +$event)"
+              required
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+
+    <button class="button" mat-button (click)="onUpdate()" [disabled]="!isUpdateButtonActive">
+      {{ 'COMMON.UPDATE' | translate }}
+    </button>
+  </div>
+</div>

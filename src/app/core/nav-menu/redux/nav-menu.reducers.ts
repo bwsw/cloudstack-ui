@@ -4,6 +4,7 @@ import { appNavRoutes } from '../routes';
 import { getUrl } from '../../../root-store/router/router.selectors';
 const flatten = require('lodash/flatten');
 import { get } from '../../../root-store/config/config.selectors';
+import { selectIsAdminResourceQuotasEnabled } from '../../../resource-quotas/redux/selectors/is-admin-resource-quotas-enabled.selector';
 
 export interface State {
   routes: Route[];
@@ -28,6 +29,13 @@ const vmLogsSubroute = {
   routeId: 'virtual-machines',
 };
 
+const resourceQuotasSubroute = {
+  text: 'NAVIGATION_SIDEBAR.RESOURCE_QUOTAS',
+  path: '/resource-quotas',
+  icon: 'mdi-tune',
+  routeId: 'accounts',
+};
+
 export const getNavMenuState = createFeatureSelector<State>('navMenu');
 
 export const getRoutes = createSelector(
@@ -43,11 +51,16 @@ const getCurrentSubroutePath = createSelector(
 const getAllSubroutes = createSelector(
   getRoutes,
   get('extensions'),
-  (routes, { vmLogs }) => {
+  selectIsAdminResourceQuotasEnabled,
+  (routes, { vmLogs }, isAdminResourceQuotasEnabled) => {
     const subroutes = flatten(routes.map(route => route.subroutes));
 
     if (vmLogs) {
-      return subroutes.concat(vmLogsSubroute);
+      subroutes.push(vmLogsSubroute);
+    }
+
+    if (isAdminResourceQuotasEnabled) {
+      subroutes.push(resourceQuotasSubroute);
     }
 
     return subroutes;
@@ -69,7 +82,8 @@ export const getCurrentRoute = createSelector(
 export const getSubroutes = createSelector(
   getCurrentRoute,
   get('extensions'),
-  (route, { vmLogs }) => {
+  selectIsAdminResourceQuotasEnabled,
+  (route, { vmLogs }, isAdminResourceQuotasEnabled) => {
     // todo: replace with plugin system
     if (!route) {
       return [];
@@ -77,6 +91,10 @@ export const getSubroutes = createSelector(
 
     if (route.id === 'virtual-machines' && vmLogs) {
       return route.subroutes.concat(vmLogsSubroute);
+    }
+
+    if (route.id === 'accounts' && isAdminResourceQuotasEnabled) {
+      return [route.subroutes[0], resourceQuotasSubroute, ...route.subroutes.slice(1)];
     }
 
     return route.subroutes;

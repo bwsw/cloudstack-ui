@@ -2,17 +2,19 @@
   <mat-card-header>
     <mat-card-title>
       <h2 class="mat-card-title-text">
-        {{ 'VM_PAGE.NETWORK_DETAILS.FIREWALL_RULES' | translate }}</h2>
+        {{ 'VM_PAGE.NETWORK_DETAILS.FIREWALL_RULES' | translate }}
+      </h2>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="grid security-group">
-      <div class="row"*ngFor="let group of vm.securitygroup">
+      <div class="row" *ngFor="let group of vm.securitygroup">
         <span class="sg-name">{{ group.name }}</span>
         <button
           mat-icon-button
           class="mat-icon-button mat-icon-button--small"
-          (click)="showRulesDialog(group)">
+          (click)="showRulesDialog(group)"
+        >
           <mat-icon class="mdi-eye mdi-18px"></mat-icon>
         </button>
       </div>

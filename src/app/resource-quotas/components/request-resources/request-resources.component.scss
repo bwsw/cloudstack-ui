@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  margin: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.table {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.row {
+  vertical-align: baseline;
+}
+
+.title {
+  padding-right: 20px;
+  font-size: 16px;
+}
+
+.button {
+  margin-left: auto;
+}
+
+.slider-cell {
+  padding-right: 20px;
+}
+
+.slider {
+  min-width: 300px;
+}
+
+:host .mat-form-field {
+  width: 60px !important;
+}

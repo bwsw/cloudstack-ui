@@ -35,7 +35,8 @@ const getGroupName = (vm: VirtualMachine) => {
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
       [allowedToViewDestroyedVms]="allowedToViewDestroyedVms$ | async"
-    ></cs-vm-page>`,
+    ></cs-vm-page>
+  `,
 })
 export class VirtualMachinePageContainerComponent implements OnInit, AfterViewInit {
   readonly vms$ = this.store.pipe(select(fromVMs.selectFilteredVMs));

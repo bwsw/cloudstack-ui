@@ -119,6 +119,11 @@ export const isLoaded = createSelector(
   state => state.loaded,
 );
 
+export const isLoaded = createSelector(
+  getAccountTagsEntitiesState,
+  state => state.loaded,
+);
+
 export const getIsShowAccountSystemTags = createSelector(
   getAccountTagsEntitiesState,
   state => state.isShowSystemTags,

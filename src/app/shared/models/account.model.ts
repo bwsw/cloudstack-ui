@@ -1,6 +1,9 @@
 import { TimeZone } from '../components/time-zone/time-zone.service';
 import { AccountUser } from './account-user.model';
 import { BaseModel } from './base.model';
+import { resourceTypeMap } from '../utils/resource-type-map';
+
+const mapValues = require('lodash/mapValues');
 
 export const enum AccountType {
   User = '0',
@@ -93,6 +96,14 @@ export interface Account extends BaseModel {
   fullDomain?: string;
 }
 
-export const isAdmin = (account: Account) => account.accounttype !== AccountType.User;
+export const isAdmin = (account: Account) => {
+  return account && String(account.accounttype) !== AccountType.User;
+};
 
-export const isRootAdmin = (account: Account) => account.accounttype === AccountType.RootAdmin;
+export const isRootAdmin = (account: Account) => {
+  return account && String(account.accounttype) === AccountType.RootAdmin;
+};
+
+export const getTotalResources = (account: Account) => {
+  return mapValues(resourceTypeMap, resourceTypeName => account[`${resourceTypeName}total`]);
+};

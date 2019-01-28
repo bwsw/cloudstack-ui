@@ -12,6 +12,9 @@
     },
     "vmLogs": {
       "type": "boolean"
+    },
+    "resourceLimits": {
+      "type": "boolean"
     }
   }
 }
