@@ -341,6 +341,17 @@ export class VolumesEffects {
           map(() => {
             const message = 'NOTIFICATIONS.VOLUME.DELETION_DONE';
             this.showNotificationsOnFinish(message, notificationId);
+            if (removeVolume.snapshots && !!removeVolume.snapshots.length) {
+              this.dialogService
+                .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_ALL_DELETION' })
+                .pipe(
+                  onErrorResumeNext(),
+                  filter(Boolean),
+                )
+                .subscribe(() =>
+                  this.store.dispatch(new snapshotActions.DeleteSnapshots(removeVolume.snapshots)),
+                );
+            }
             return new volumeActions.DeleteSuccess(removeVolume);
           }),
           catchError((error: Error) => {
