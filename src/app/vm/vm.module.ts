@@ -106,6 +106,7 @@ import { VmSnapshotCreationDialogComponent } from './vm-sidebar/vm-detail/vm-sna
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { VmLogsModule } from '../vm-logs/vm-logs.module';
+import { ResourceQuotasModule } from '../resource-quotas/resource-quotas.module';
 import { VmApiLogComponent } from './vm-creation/api-log/vm-api-log.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MatExpansionModule } from '@angular/material';
@@ -129,6 +130,7 @@ import { MatExpansionModule } from '@angular/material';
     TagsModule,
     TemplateModule,
     TranslateModule,
+    ResourceQuotasModule,
     VmLogsModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),

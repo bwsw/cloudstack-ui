@@ -108,27 +108,54 @@ export function reducer(state = initialState, action: eventActions.Actions): Sta
 
 export const getEventsState = createFeatureSelector<EventsState>('events');
 
-export const getEventsEntitiesState = createSelector(getEventsState, state => state.list);
+export const getEventsEntitiesState = createSelector(
+  getEventsState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getEventsEntitiesState,
 );
 
-export const isLoading = createSelector(getEventsEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getEventsEntitiesState,
+  state => state.loading,
+);
 
-export const eventTypes = createSelector(getEventsEntitiesState, state => state.eventTypes);
+export const eventTypes = createSelector(
+  getEventsEntitiesState,
+  state => state.eventTypes,
+);
 
-export const filters = createSelector(getEventsEntitiesState, state => state.filters);
+export const filters = createSelector(
+  getEventsEntitiesState,
+  state => state.filters,
+);
 
-export const filterDate = createSelector(filters, state => state.date);
+export const filterDate = createSelector(
+  filters,
+  state => state.date,
+);
 
-export const filterQuery = createSelector(filters, state => state.query);
+export const filterQuery = createSelector(
+  filters,
+  state => state.query,
+);
 
-export const filterSelectedTypes = createSelector(filters, state => state.selectedTypes);
+export const filterSelectedTypes = createSelector(
+  filters,
+  state => state.selectedTypes,
+);
 
-export const filterSelectedLevels = createSelector(filters, state => state.selectedLevels);
+export const filterSelectedLevels = createSelector(
+  filters,
+  state => state.selectedLevels,
+);
 
-export const filterSelectedAccountIds = createSelector(filters, state => state.selectedAccountIds);
+export const filterSelectedAccountIds = createSelector(
+  filters,
+  state => state.selectedAccountIds,
+);
 
 export const selectFilteredEvents = createSelector(
   selectAll,

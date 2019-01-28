@@ -30,7 +30,8 @@ import { capabilitiesSelectors } from '../../root-store';
       (volumeCreated)="createVolume($event)"
       (zoneUpdated)="updateZone($event)"
     >
-    </cs-volume-creation-dialog>`,
+    </cs-volume-creation-dialog>
+  `,
 })
 export class VolumeCreationContainerComponent extends WithUnsubscribe() implements OnInit {
   @ViewChild(VolumeCreationDialogComponent)

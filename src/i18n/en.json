@@ -108,6 +108,9 @@
     "ISO": {
       "VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
     },
+    "VM_SNAPSHOT": {
+      "LIMIT_EXCEEDED": "The maximum amount of VM snapshots is exceeded. Please check your configurations"
+    },
     "SNAPSHOT": {
       "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first.",
       "CREATION_UNAVAILABLE_FOR_STOPPED": "VM snapshot creation is unavailable for stopped VMs",
@@ -141,6 +144,11 @@
     "VM_LOGS": {
       "TOKEN_DOES_NOT_EXIST": "The token does not exist",
       "INVALID_TOKEN": "Invalid token"
+    },
+    "RESOURCE_QUOTAS": {
+      "FAILED_RETRIEVE": "You can not change any resource limits",
+      "MAX_MUST_BE_GREATER": "Maximum must be greater than or equal to minimum",
+      "MAX_MUST_BE_BETWEEN": "Maximum must be between {{ val1 }} and {{ val2 }}"
     }
   },
   "NOTIFICATIONS": {
@@ -316,6 +324,7 @@
     "ACTIVITY_LOG": "Activity log",
     "SSH_KEYS": "SSH keys",
     "ACCOUNTS": "Accounts",
+    "RESOURCE_QUOTAS": "Resource quotas",
     "LOGS": "View logs",
     "SETTINGS": "Settings",
     "LOGOUT": "Logout",
@@ -1504,6 +1513,36 @@
       "API_KEY": "API key",
       "SECRET_KEY": "Secret key"
     }
+  },
+  "RESOURCE_QUOTAS_PAGE": {
+    "RESOURCES": {
+      "INSTANCES": "Instances",
+      "IPS": "IPs",
+      "VOLUMES": "Volumes",
+      "SNAPSHOTS": "Snapshots",
+      "TEMPLATES": "Templates",
+      "PROJECTS": "Projects",
+      "NETWORK": "Network",
+      "VPCS": "VPCs",
+      "CPUS": "CPUs",
+      "MEMORY": "Memory (MB)",
+      "PRIMARY_STORAGE": "Primary storage (GB)",
+      "SECONDARY_STORAGE": "Secondary storage (GB)"
+    },
+    "REQUEST": {
+      "REQUEST_RESOURCES_BUTTON": "Update resources",
+      "REQUEST_RESOURCES_TITLE": "Request resources",
+      "LIMIT_UPDATED": "Resource limits updated successfully",
+      "CAN_NOT_CHANGE_RESOURCES": "You can not change any resource limits",
+      "REQUEST_BUTTON": "Update"
+    },
+    "ADMIN_PAGE": {
+      "QUOTA_UPDATED": "Resource quotas updated successfully",
+      "QUOTA_LOAD_ERROR": "Failed to load resource quotas"
+    },
+    "MIN": "Min",
+    "MAX": "Max",
+    "UPDATE": "Update"
   },
   "LOGS_PAGE": {
     "FILTERS": {

@@ -12,6 +12,7 @@ export interface ExtensionsConfig {
   webShell: boolean;
   pulse: boolean;
   vmLogs: boolean;
+  resourceLimits: boolean;
 }
 
 export interface CustomizableConfig {
@@ -29,10 +30,15 @@ export interface CustomizableConfig {
     autoUpdateRefreshFrequency: number;
     autoUpdateRequestedInterval: number;
   };
+  resourceLimits: {
+    realm: string;
+    env: string;
+  };
   /*
    * Virtual machines settings
    */
   vmColors: { value: string }[];
+  vmSnapLimit: { enable: boolean; snapshotsLimit: number };
   /*
    * Firewall (Security groups) settings
    */
