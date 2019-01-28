@@ -22,7 +22,8 @@ import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.act
       (volumeResized)="onVolumeResize($event)"
       (volumeScheduled)="onVolumeSchedule($event)"
     >
-    </cs-volume-actions>`,
+    </cs-volume-actions>
+  `,
 })
 export class VolumeActionsContainerComponent {
   @Input()
@@ -44,17 +45,6 @@ export class VolumeActionsContainerComponent {
         filter(Boolean),
       )
       .subscribe(() => {
-        if (volume.snapshots && !!volume.snapshots.length) {
-          this.dialogService
-            .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_ALL_DELETION' })
-            .pipe(
-              onErrorResumeNext(),
-              filter(Boolean),
-            )
-            .subscribe(() =>
-              this.store.dispatch(new snapshotActions.DeleteSnapshots(volume.snapshots)),
-            );
-        }
         this.store.dispatch(new volumeActions.DeleteVolume(volume));
       });
   }

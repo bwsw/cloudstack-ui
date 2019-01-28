@@ -101,6 +101,18 @@ export class ErrorService {
       regex: /max must be between (\d+) and (\d+)/,
       translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_BETWEEN',
     },
+    {
+      regex: /Unable to detach volume, please specify a VM that does not have VM snapshots/,
+      translation: 'ERRORS.VOLUME.VOLUME_DETACH_UNAVAILABLE',
+    },
+    {
+      regex: /Unable to attach volume, please specify a VM that does not have VM snapshots/,
+      translation: 'ERRORS.VOLUME.VOLUME_ATTACH_UNAVAILABLE',
+    },
+    {
+      regex: /A volume that is attached to a VM with any VM snapshots cannot be resized./,
+      translation: 'ERRORS.VOLUME.VOLUME_RESIZE_UNAVAILABLE',
+    },
   ];
 
   public static parseError(error: any): any {
