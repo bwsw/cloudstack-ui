@@ -99,6 +99,55 @@ The following options are available:
 
 The selected option will appear in the VNC console kayboard layout parameter when accessing a VM via concole. The selected option is also saved to user tags.
 
+Account tags
+~~~~~~~~~~~~~~~~~~~~~~
+In this section, you can view and manage account tags. 
+
+.. figure:: _static/Settings_AccTags.png
+
+Tags can be system or non-system. System tags are used to provide the functionality from the user interface perspective. Changing these tags affects the functionality of the application. The “Show system tags” checkbox allows to view or hide system tags of an account. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of such tags, the system will remember it and next time tags will also be hidden. Uncheck the “Show system tags” checkbox to hide system tags from the list.
+
+The following system tags can be used for accounts:
+
+* ``csui.account.ssh-description`` - Used to provide an SSH description. 
+ 
+To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list.
+
+To add a tag for the template/ISO click “Create” create icon. In the appeared form enter:
+
+* Key *
+* Value *
+
+.. note:: Required fields are marked with an asterisk (*). The values in the fields cannot start with a space.
+
+Click “Create” to assign a new tag to the account.
+
+.. figure:: _static/Settings_CreateAccTag.png
+
+User tags
+~~~~~~~~~~~~~~~~~~~~~~
+
+In this section, you can view and manage user tags. 
+
+.. figure:: _static/Settings_UserTags.png
+
+Tags can be system or non-system. System tags are used to provide the functionality from the user interface perspective. Changing these tags affects the functionality of the application. The “Show system tags” checkbox allows to view or hide system tags of a user. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of such tags, the system will remember it and next time tags will also be hidden. Uncheck the “Show system tags” checkbox to hide system tags from the list.
+
+User system tags has the format of ``csui.user.<tag_name>``. You can view a full list of user tags at the `wiki-page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
+
+To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list.
+
+To add a tag for the template/ISO click “Create” create icon. In the appeared form enter:
+
+* Key *
+* Value *
+
+.. note:: Required fields are marked with an asterisk (*). The values in the fields cannot start with a space.
+
+Click “Create” to assign a new tag to the user.
+
+.. figure:: _static/Settings_CreateUserTag.png
+
 Look and Feel
 ~~~~~~~~~~~~~~~~~~~~~~
 In this section you can adjust the interface look.
