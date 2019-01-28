@@ -1573,6 +1573,12 @@
       "TITLE": "VM preferences",
       "KEYBOARD_LAYOUT": "Keyboard layout"
     },
+    "ACCOUNT_TAGS": {
+      "TITLE": "Account tags"
+    },
+    "USER_TAGS": {
+      "TITLE": "User tags"
+    },
     "VM_LOGS": {
       "TITLE": "Log View (real-time mode)",
       "SHOW_LAST_MESSAGES": "Show last (messages)",

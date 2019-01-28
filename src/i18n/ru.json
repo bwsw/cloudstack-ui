@@ -1569,6 +1569,12 @@
       "TITLE": "Настройки ВМ",
       "KEYBOARD_LAYOUT": "Раскладка клавиатуры"
     },
+    "ACCOUNT_TAGS": {
+      "TITLE": "Account tags"
+    },
+    "USER_TAGS": {
+      "TITLE": "User tags"
+    },
     "VM_LOGS": {
       "TITLE": "Просмотр логов (режим реального времени)",
       "SHOW_LAST_MESSAGES": "Максимальное количество сообщений",
