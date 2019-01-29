@@ -577,7 +577,7 @@ The following general information on a root disk is presented (expand the card t
 
 2. **Attach a volume** - Allows attaching a data disk to the VM.
 
-.. note:: Attaching a volume is not available for machines with active snapshots.
+.. note:: Attaching volumes available for machines in the \"Running\" status only. Attaching a volume is not available for machines with active snapshots.
 
 Additional volume (a data disk) can be attached to the VM. Click "Select" to select a data disk. Select a disk in the drop-down list and click "SELECT". 
 
