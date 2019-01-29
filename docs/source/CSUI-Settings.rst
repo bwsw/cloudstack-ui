@@ -150,7 +150,7 @@ Click “Create” to assign a new tag to the user.
 
 Look and Feel
 ~~~~~~~~~~~~~~~~~~~~~~
-In this section you can adjust the interface look.
+In this section, you can adjust the interface look.
 
 Interface Language
 """""""""""""""""""
