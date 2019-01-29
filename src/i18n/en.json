@@ -1527,7 +1527,7 @@
     },
     "REQUEST": {
       "REQUEST_RESOURCES_BUTTON": "Update resources",
-      "REQUEST_RESOURCES_TITLE": "Request resources",
+      "REQUEST_RESOURCES_TITLE": "Update resources",
       "LIMIT_UPDATED": "Resource limits updated successfully",
       "CAN_NOT_CHANGE_RESOURCES": "You can not change any resource limits",
       "REQUEST_BUTTON": "Update"

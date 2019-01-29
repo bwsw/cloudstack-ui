@@ -1523,7 +1523,7 @@
     },
     "REQUEST": {
       "REQUEST_RESOURCES_BUTTON": "Обновить ресурсы",
-      "REQUEST_RESOURCES_TITLE": "Запрос ресурсов",
+      "REQUEST_RESOURCES_TITLE": "Обновить ресурсы",
       "LIMIT_UPDATED": "Лимиты ресурсов успешно изменены",
       "CAN_NOT_CHANGE_RESOURCES": "Невозможно изменить ресурсы",
       "REQUEST_BUTTON": "Обновить"
