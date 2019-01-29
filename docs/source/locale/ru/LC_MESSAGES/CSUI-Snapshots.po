@@ -164,7 +164,7 @@ msgstr "Снимки можно группировать:"
 
 #: ../../CSUI-Snapshots.rst:49
 msgid "by Accounts (available for Administrators) and/or"
-msgstr "по аккаунтам (доступно для Администраторов) и/или "
+msgstr "по аккаунтам (доступно Администраторам) и/или "
 
 #: ../../CSUI-Snapshots.rst:50
 msgid "by Type (for Volume snapshots) or"
@@ -172,7 +172,7 @@ msgstr "по типу (доступно для снимков дисков) ил
 
 #: ../../CSUI-Snapshots.rst:51
 msgid "by VM (for VM snapshots)(*is not currently available*)."
-msgstr "по виртуальным машинам (*в данный момент не доступна*)."
+msgstr "по виртуальным машинам (для снимков машин) (*в данный момент не доступна*)."
 
 #: ../../CSUI-Snapshots.rst:53
 msgid "The searching tool allows to find a snapshot by:"
