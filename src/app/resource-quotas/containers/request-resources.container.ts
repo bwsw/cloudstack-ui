@@ -31,7 +31,7 @@ import { getModifiedLimits } from '../redux/selectors/modified-limits.selector';
       </div>
       <div class="mat-dialog-actions">
         <button mat-button color="primary" matDialogClose type="button">
-          {{ 'COMMON.CANCEL' | translate }}
+          {{ 'COMMON.OK' | translate }}
         </button>
       </div>
     </div>
