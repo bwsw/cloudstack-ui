@@ -137,7 +137,7 @@ User system tags has the format of ``csui.user.<tag_name>``. You can view a full
 
 To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list.
 
-To add an user tag click “Create” |create icon|. In the appeared form enter:
+To add a user tag click “Create” |create icon|. In the appeared form enter:
 
 * Key *
 * Value *
