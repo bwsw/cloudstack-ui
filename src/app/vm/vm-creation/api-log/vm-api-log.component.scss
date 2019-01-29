@@ -16,3 +16,7 @@ mat-expansion-panel {
 td {
   vertical-align: top;
 }
+
+:host /deep/ mat-card-actions {
+  margin: 0;
+}
