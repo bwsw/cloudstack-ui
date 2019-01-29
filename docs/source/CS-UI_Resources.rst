@@ -16,8 +16,6 @@ The extension uses two backend plugins:
 
 * the *Resource Limits Management* backend plugin that extends CloudStack API with additional endpoints.
 
-To get detailed instructions on plugins deployment you will need access to projects at GitLab.
-
 After the backend plugins are deployed and configured the Resource Limits Management UI-plugin can be activated and configured via the configuration file (see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#resource-limits-plugin>`_). Once it is activated, users and administrators get access to resource limits and quotas management via UI.
 
 Plugin Deployment
