@@ -12,7 +12,7 @@ A Volume snapshot is a capture of virtual machine disks. You can find more infor
 
 Virtual Machine snapshots allow users to preserve the VM data volumes and its CPU/memory state. Currently we support VM snapshots for the KVM hypervisor only. For more information about Virtual Machine snapshots check out the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/virtual_machines.html?highlight=snapshots#virtual-machine-snapshots>`_.
 
-.. warning:: Virtual Machine snapshots are currently under development!
+.. Virtual Machine snapshots are currently under development!
 
 Snapshots List
 -------------------
