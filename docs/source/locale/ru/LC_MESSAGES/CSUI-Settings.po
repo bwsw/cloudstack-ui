@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-24 15:48+0700\n"
-"PO-Revision-Date: 2019-01-24 15:51+0700\n"
+"POT-Creation-Date: 2019-01-29 14:50+0700\n"
+"PO-Revision-Date: 2019-01-29 14:58+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -273,18 +273,139 @@ msgstr ""
 "доступе к ВМ через консоль. Заданные настройки сохраняются в теги пользователя."
 
 #: ../../CSUI-Settings.rst:103
+msgid "Account tags"
+msgstr "Теги аккаунта"
+
+#: ../../CSUI-Settings.rst:104
+msgid "In this section, you can view and manage account tags."
+msgstr "В этом разделе можно просматривать и управлять тегами аккаунта."
+
+#: ../../CSUI-Settings.rst:108
+msgid ""
+"Tags can be system or non-system. System tags are used to provide the "
+"functionality from the user interface perspective. Changing these tags affects "
+"the functionality of the application. The “Show system tags” checkbox allows "
+"to view or hide system tags of an account. Hiding system tags helps to avoid "
+"accidental unwanted changes. If a user has disabled displaying of such tags, "
+"the system will remember it and next time tags will also be hidden. Uncheck "
+"the “Show system tags” checkbox to hide system tags from the list."
+msgstr ""
+"Теги могут быть системными и несистемными. Системные теги обеспечивают "
+"дополнительную функциональность с точки зрения пользовательского интерфейса. "
+"Изменение этих тегов может затронуть работу всего приложения. Можно включить "
+"или выключить отображение системных тегов с помощью опции «Показывать "
+"системные теги». При выключении данной опции системные теги будут скрыты из "
+"списка, что поможет избежать случайных нежелательных изменений в них. Система "
+"запомнит, что отображение системных тегов отключено, и в дальнейшем системные "
+"теги не будут отображаться в списке."
+
+#: ../../CSUI-Settings.rst:110
+msgid "The following system tags can be used for accounts:"
+msgstr "Для аккаунтов используются следующие системные теги:"
+
+#: ../../CSUI-Settings.rst:112
+msgid "``csui.account.ssh-description`` - Used to provide an SSH description."
+msgstr ""
+"``csui.account.ssh-description`` -  используется для сохранения описания для "
+"ключа SSH."
+
+#: ../../CSUI-Settings.rst:114 ../../CSUI-Settings.rst:138
+msgid ""
+"To find the tag you are interested in, please, use the search tool above the "
+"tag list. You can enter a name or a part of the tag name to distinguish it in "
+"the list."
+msgstr ""
+"Для быстрого поиска тега в списке воспользуйтесь инструментом поиска вверху. "
+"Введите название или часть названия тега, и оно будет выделено в списке."
+
+#: ../../CSUI-Settings.rst:116
+msgid ""
+"To add an account tag click “Create” |create icon|. In the appeared form enter:"
+msgstr ""
+"Для добавления тега аккаунта нажмите «Создать» |create icon|. В появившейся "
+"форме введите:"
+
+#: ../../CSUI-Settings.rst:118 ../../CSUI-Settings.rst:142
+msgid "Key *"
+msgstr "Ключ *"
+
+#: ../../CSUI-Settings.rst:119 ../../CSUI-Settings.rst:143
+msgid "Value *"
+msgstr "Значение *"
+
+#: ../../CSUI-Settings.rst:121 ../../CSUI-Settings.rst:145
+msgid ""
+"Required fields are marked with an asterisk (*). The values in the fields "
+"cannot start with a space."
+msgstr ""
+"Обязательные поля отмечены «звездочкой» (*). Значения в полях не могут "
+"начинаться с пробела."
+
+#: ../../CSUI-Settings.rst:123
+msgid "Click “Create” to assign a new tag to the account."
+msgstr "Нажмите «СОЗДАТЬ» для добавления нового тега к аккаунту."
+
+#: ../../CSUI-Settings.rst:128
+msgid "User tags"
+msgstr "Теги пользователя"
+
+#: ../../CSUI-Settings.rst:130
+msgid "In this section, you can view and manage user tags."
+msgstr "В данном подразделе можно просматривать и управлять тегами пользователя."
+
+#: ../../CSUI-Settings.rst:134
+msgid ""
+"Tags can be system or non-system. System tags are used to provide the "
+"functionality from the user interface perspective. Changing these tags affects "
+"the functionality of the application. The “Show system tags” checkbox allows "
+"to view or hide system tags of a user. Hiding system tags helps to avoid "
+"accidental unwanted changes. If a user has disabled displaying of such tags, "
+"the system will remember it and next time tags will also be hidden. Uncheck "
+"the “Show system tags” checkbox to hide system tags from the list."
+msgstr ""
+"Теги могут быть системными и несистемными. Системные теги обеспечивают "
+"дополнительную функциональность с точки зрения пользовательского интерфейса. "
+"Изменение этих тегов может затронуть работу всего приложения. Можно включить "
+"или выключить отображение системных тегов с помощью опции «Показывать "
+"системные теги». При выключении данной опции системные теги будут скрыты из "
+"списка, что поможет избежать случайных нежелательных изменений в них. Система "
+"запомнит, что отображение системных тегов отключено, и в дальнейшем системные "
+"теги не будут отображаться в списке."
+
+#: ../../CSUI-Settings.rst:136
+msgid ""
+"User system tags has the format of ``csui.user.<tag_name>``. You can view a "
+"full list of user tags at the `wiki-page <https://github.com/bwsw/cloudstack-"
+"ui/wiki/Tags>`_."
+msgstr ""
+"Системные теги пользователя имеют формат ``csui.user.<tag_name>``. Просмотреть "
+"полный список тегов пользователя можно на `странице wiki <https://github.com/"
+"bwsw/cloudstack-ui/wiki/Tags>`_."
+
+#: ../../CSUI-Settings.rst:140
+msgid ""
+"To add a user tag click “Create” |create icon|. In the appeared form enter:"
+msgstr ""
+"Для добавления тега пользователя нажмите «Создать» |create icon|. В "
+"появившейся форме введите:"
+
+#: ../../CSUI-Settings.rst:147
+msgid "Click “Create” to assign a new tag to the user."
+msgstr "Нажмите «СОЗДАТЬ» для добавления нового тега пользователя."
+
+#: ../../CSUI-Settings.rst:153
 msgid "Look and Feel"
 msgstr "Настройки интерфейса"
 
-#: ../../CSUI-Settings.rst:104
-msgid "In this section you can adjust the interface look."
+#: ../../CSUI-Settings.rst:154
+msgid "In this section, you can adjust the interface look."
 msgstr "В данном подразделе можно настроить вид интерфейса."
 
-#: ../../CSUI-Settings.rst:107
+#: ../../CSUI-Settings.rst:157
 msgid "Interface Language"
 msgstr "Язык интерфейса"
 
-#: ../../CSUI-Settings.rst:108
+#: ../../CSUI-Settings.rst:158
 msgid ""
 "Select the language of your interface. Currently two options are available in "
 "the drop-down list: Russian and English."
@@ -292,11 +413,11 @@ msgstr ""
 "Выберите язык интерфейса из представленных в списке вариантов: русский или "
 "английский."
 
-#: ../../CSUI-Settings.rst:114
+#: ../../CSUI-Settings.rst:164
 msgid "First Day of Week"
 msgstr "Первый день недели"
 
-#: ../../CSUI-Settings.rst:115
+#: ../../CSUI-Settings.rst:165
 msgid ""
 "In this block, you have the opportunity to choose between two types of weeks: "
 "Sunday - Saturday or Monday - Sunday."
@@ -304,18 +425,18 @@ msgstr ""
 "В данном блоке можно выбрать один из типов недели: воскресенье - суббота или "
 "понедельник - воскресенье. "
 
-#: ../../CSUI-Settings.rst:117
+#: ../../CSUI-Settings.rst:167
 msgid ""
 "From the drop-down list select the day when a week starts: Monday or Sanday."
 msgstr ""
 "Выберите из ниспадающего списка день, с которого будет начинаться неделя: "
 "понедельник или воскресенье. "
 
-#: ../../CSUI-Settings.rst:124
+#: ../../CSUI-Settings.rst:174
 msgid "Time Format"
 msgstr "Формат времени"
 
-#: ../../CSUI-Settings.rst:125
+#: ../../CSUI-Settings.rst:175
 msgid ""
 "Here you have the opportunity to switch the time format from AM/PM to 24H. You "
 "can set it to \"Auto\" and the time format will be set in correspondence to "
@@ -327,11 +448,11 @@ msgstr ""
 "зависимости от выбранного языка интерфейса: если язык интерфейса английский - "
 "12-часовой формат; если язык интерфейса русский - 24-часовой формат. "
 
-#: ../../CSUI-Settings.rst:132
+#: ../../CSUI-Settings.rst:182
 msgid "Theme Color"
 msgstr "Цвет темы"
 
-#: ../../CSUI-Settings.rst:133
+#: ../../CSUI-Settings.rst:183
 msgid ""
 "Select a preferred theme color. Currently two options are available: \"blue-red"
 "\" and \"indigo-pink\". The blue-red one is used by default."
@@ -339,11 +460,11 @@ msgstr ""
 "Выберите желаемый цвет темы. В текущей реализации доступны два варианта: сине-"
 "красный или индиго-розовый. Сине-красный цвет темы используется по умолчанию. "
 
-#: ../../CSUI-Settings.rst:135
+#: ../../CSUI-Settings.rst:185
 msgid "Click the field and select another color if you wish."
 msgstr "Кликните на поле и выберите желаемый цвет."
 
-#: ../../CSUI-Settings.rst:139
+#: ../../CSUI-Settings.rst:189
 msgid ""
 "A theme color can be set in the configuration JSON file. You will find more "
 "information in the `configuration guide <https://github.com/bwsw/cloudstack-ui/"
@@ -353,11 +474,11 @@ msgstr ""
 "`руководство по конфигурациям <https://github.com/bwsw/cloudstack-ui/blob/"
 "master/config-guide.md#default-theme-name>`_."
 
-#: ../../CSUI-Settings.rst:142
+#: ../../CSUI-Settings.rst:192
 msgid "Log View (real-time mode)"
 msgstr "Просмотр журналов в режиме реального времени"
 
-#: ../../CSUI-Settings.rst:143
+#: ../../CSUI-Settings.rst:193
 msgid ""
 "This section is available if the LogView UI-plugin is activated. See the "
 "`plugin page <https://github.com/bwsw/cloudstack-ui/wiki/Log-View-Plugin>`_ "
@@ -367,7 +488,7 @@ msgstr ""
 "установке плагина можно найти на `странице плагина <https://github.com/bwsw/"
 "cloudstack-ui/wiki/Log-View-Plugin>`_."
 
-#: ../../CSUI-Settings.rst:145
+#: ../../CSUI-Settings.rst:195
 msgid ""
 "In this settings block you can configure viewing VM logs in a real-time mode. "
 "The following parameters can be set:"
@@ -375,7 +496,7 @@ msgstr ""
 "В данном разделе настроек можно задать параметра просмотра журналов ВМ в "
 "режиме реального времени. Можно задать следующие параметры:"
 
-#: ../../CSUI-Settings.rst:147
+#: ../../CSUI-Settings.rst:197
 msgid ""
 "Show last (minutes) - allows viewing logs for the last set period. You can set "
 "the number of minutes from 1 (default) to 10."
@@ -383,7 +504,7 @@ msgstr ""
 "Показывать за последние (минуты) - время, за которое вы желаете видеть записи; "
 "допустимые значения - от 1 (по умолчанию) до 10 минут."
 
-#: ../../CSUI-Settings.rst:148
+#: ../../CSUI-Settings.rst:198
 msgid ""
 "Show last (messages) - allows setting a maximum amount of logs to display. You "
 "can set from 1 to any number of log records. By default, 1000 messages are "
@@ -393,7 +514,7 @@ msgstr ""
 "число записей для показа; допустимые значения - от 1 до бесконечности. По "
 "умолчанию, показываются 1000 записей."
 
-#: ../../CSUI-Settings.rst:150
+#: ../../CSUI-Settings.rst:200
 msgid "Click \"Update\" to apply the set parameters."
 msgstr "Нажмите «Обновить» для применения заданных значений."
 
