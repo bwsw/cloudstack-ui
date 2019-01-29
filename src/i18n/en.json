@@ -616,7 +616,10 @@
       "NO_OFFERINGS": "No offerings available",
       "GENERAL": "General",
       "ADVANCED": "Advanced",
-      "DETAILS": "Details"
+      "DETAILS": "Details",
+      "REQUEST": "REQUEST",
+      "PARAMS": "PARAMS",
+      "RESPONSE": "RESPONSE"
     },
     "MODALS": {
       "TAKE_VM_SNAPSHOT": {

@@ -616,7 +616,10 @@
       "NO_OFFERINGS": "Нет доступных сервисных предложений",
       "GENERAL": "Основные",
       "ADVANCED": "Дополнительные",
-      "DETAILS": "Детали"
+      "DETAILS": "Детали",
+      "REQUEST": "ЗАПРОС",
+      "PARAMS": "ПАРАМЕТРЫ",
+      "RESPONSE": "ОТВЕТ"
     },
     "MODALS": {
       "TAKE_VM_SNAPSHOT": {
