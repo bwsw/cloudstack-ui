@@ -5,6 +5,7 @@ import { AccountSidebarContainerComponent } from './account-container/account-si
 import { AccountUsersContainerComponent } from './account-container/account-users.container';
 import { AccountPageContainerComponent } from './account-container/account.container';
 import { AccountCreationComponent } from './creation-form/account-creation.component';
+import { AccountCreationGuard } from './services/account-creation-guard.service';
 
 export const accountsRoutes: Routes = [
   {
@@ -15,6 +16,7 @@ export const accountsRoutes: Routes = [
       {
         path: 'create',
         component: AccountCreationComponent,
+        canActivate: [AccountCreationGuard],
       },
       {
         path: ':id',
