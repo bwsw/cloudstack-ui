@@ -34,38 +34,55 @@ describe('Snapshot page selectors', () => {
       },
     ];
 
-    const volumesVmIds = ['volume-id-2', 'volume-id-3'];
+    const volumeEntities = [{ 'volume-id-2': { id: 2 } }, { 'volume-id-3': { id: 3 } }];
 
-    let slice = snapshotSelectors.getFilteredSnapshots.projector(volumesVmIds, differentSnapshots, {
-      accounts: [],
-      vmIds: [],
-      date: '2017-10-15T00:00:00.000Z',
-      query: undefined,
-      volumeSnapshotTypes: [],
-      volumeVmIds: [],
-    });
+    const volumesVmIds = [{ id: 'volume-id-2' }, { id: 'volume-id-3' }];
+
+    let slice = snapshotSelectors.getFilteredSnapshots.projector(
+      volumesVmIds,
+      differentSnapshots,
+      {
+        accounts: [],
+        vmIds: [],
+        date: '2017-10-15T00:00:00.000Z',
+        query: undefined,
+        volumeSnapshotTypes: [],
+        volumeVmIds: [],
+      },
+      volumeEntities,
+    );
 
     expect(slice).toEqual([differentSnapshots[1]]);
 
-    slice = snapshotSelectors.getFilteredSnapshots.projector(volumesVmIds, differentSnapshots, {
-      accounts: [],
-      vmIds: [],
-      volumeVmIds: [],
-      date: null,
-      query: undefined,
-      volumeSnapshotTypes: [SnapshotType.Daily],
-    });
+    slice = snapshotSelectors.getFilteredSnapshots.projector(
+      volumesVmIds,
+      differentSnapshots,
+      {
+        accounts: [],
+        vmIds: [],
+        volumeVmIds: [],
+        date: null,
+        query: undefined,
+        volumeSnapshotTypes: [SnapshotType.Daily],
+      },
+      volumeEntities,
+    );
 
     expect(slice).toEqual([differentSnapshots[0]]);
 
-    slice = snapshotSelectors.getFilteredSnapshots.projector(volumesVmIds, differentSnapshots, {
-      accounts: ['develop'],
-      vmIds: [],
-      volumeVmIds: [],
-      date: null,
-      query: undefined,
-      volumeSnapshotTypes: [],
-    });
+    slice = snapshotSelectors.getFilteredSnapshots.projector(
+      volumesVmIds,
+      differentSnapshots,
+      {
+        accounts: ['develop'],
+        vmIds: [],
+        volumeVmIds: [],
+        date: null,
+        query: undefined,
+        volumeSnapshotTypes: [],
+      },
+      volumeEntities,
+    );
 
     expect(slice).toEqual([differentSnapshots[0]]);
   });
