@@ -55,7 +55,7 @@ export class AccountTagsEffects {
   createTag$: Observable<Action> = this.actions$.pipe(
     ofType<CreateTag>(AccountTagsActionTypes.CreateTag),
     map(action => action.payload),
-    exhaustMap((value: TagCreationParams) => {
+    mergeMap((value: TagCreationParams) => {
       return this.createTag(value).pipe(
         map(() => new CreateTagSuccess(value)),
         catchError(error => of(new CreateTagError({ error }))),
@@ -67,7 +67,7 @@ export class AccountTagsEffects {
   deleteTag$: Observable<Action> = this.actions$.pipe(
     ofType<DeleteTag>(AccountTagsActionTypes.DeleteTag),
     map(action => action.payload),
-    exhaustMap((key: string) => {
+    mergeMap((key: string) => {
       return this.deleteTag([{ key }]).pipe(
         map(() => new DeleteTagSuccess(key)),
         catchError(error => of(new DeleteTagError({ error }))),
