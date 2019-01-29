@@ -258,7 +258,7 @@ msgid ""
 "details of the VM for more information."
 msgstr ""
 "Имя виртуальной машины, которой принадлежит снимок. Имя является активной "
-"ссылкой на панель деталей машины."
+"ссылкой на детали машины."
 
 #: ../../CSUI-Snapshots.rst:85
 msgid "Snapshot Actions Box"
@@ -310,7 +310,7 @@ msgstr "Ниже каждое действие описано подробнее
 
 #: ../../CSUI-Snapshots.rst:107
 msgid "**Create Template**"
-msgstr "**Создат шаблон**"
+msgstr "**Создать шаблон**"
 
 #: ../../CSUI-Snapshots.rst:109
 msgid "Open a creation form to register a new template from a Volume snapshot."
