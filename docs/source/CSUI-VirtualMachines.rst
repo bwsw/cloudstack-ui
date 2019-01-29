@@ -294,6 +294,15 @@ Close the dialog window and make sure the newly created VM is in the list of vir
 
 Click "CANCEL" to drop the VM creation.
 
+VM Creation Fails
+""""""""""""""""""""""""""""""
+
+In case an error occurs at VM creation, the dialog box shows the text of the error. Next to it, there is the “Details” button. By clicking it you can open a list of raw logs including JSON requests to the server with their statuses. They can be easily copied by clicking the copy icon below. We implemented this feature to provide access to raw API logs and allow you to copy them and address the support service to get assistance in solving the problem.
+
+.. figure:: _static/CreateVM_ErrorDetails.png
+ 
+Below, we have summarized possible issues that may take place at VM creation.
+
 Possible Issues When Creating a Virtual Machine
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
