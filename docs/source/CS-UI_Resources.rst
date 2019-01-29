@@ -18,18 +18,18 @@ The extension uses two backend plugins:
 
 To get detailed instructions on plugins deployment you will need access to projects at GitLab.
 
-After the backend plugins are deployed and configured the Resource Limits management UI-plugin can be activated and configured via the configuration file (see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#resource-limits-plugin>`_). Once it is activated, users and administrators get access to resource limits and quotas management via UI.
+After the backend plugins are deployed and configured the Resource Limits Management UI-plugin can be activated and configured via the configuration file (see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#resource-limits-plugin>`_). Once it is activated, users and administrators get access to resource limits and quotas management via UI.
 
 Plugin Deployment
 -------------------
 
-The detailed instructions on the plugin deployment are presented at the `project wiki-page <https://github.com/bwsw/cloudstack-ui/wiki/Resource-Limits-Management-Plugin>`_.
+The instructions on plugin deployment are presented at the `project wiki-page <https://github.com/bwsw/cloudstack-ui/wiki/Resource-Limits-Management-Plugin>`_.
 
 To enable the Resource Limits Management UI-plugin you will need to:
 
-* Install and configure the *µAPI Gateway* backend plugin in CloudStack.
-* Deploy the *Resource Limits Management* backend plugin.
-* Enable and configure the *Resource Limits Management* UI extension via the `config.json` file.
+1. Install and configure the *µAPI Gateway* backend plugin in CloudStack.
+2. Deploy the *Resource Limits Management* backend plugin.
+3. Enable and configure the *Resource Limits Management* UI extension via the `config.json` file.
 
 Managing Resource Limits via UI
 ----------------------------------------
@@ -48,9 +48,9 @@ Administrator sets resource quotas for all accounts in the domain.
 Changing resources by users
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After the plugin is enabled, a user can change resource limits in case of the lack of resources or, alternatively, nonuse of extra resources. To send a request a user goes to the Resource usage panel under the *Virtual Machine* section and clicks "Update resources". 
+After the plugin is enabled, a user can change resource limits in case of the lack of resources or, alternatively, nonuse of extra resources. To send a request a user goes to the Resource usage panel under the *Virtual Machine* section and clicks «Update resources».
 
-In the appeared modal window, a user can see resource parameters and a slider for each parameter. The scales are limited in accordance with the quotas set by Administrator. A user can move a slider within the quotas to change a resource parameter value. Then click "Update" to change the resource limits.
+In the appeared modal window, a user can see resource parameters and a slider for each parameter. The scales are limited in accordance with the quotas set by Administrator. A user can move a slider within the quotas to change a resource parameter value. Then click «Update» to change the resource limits.
 
 .. figure:: _static/RLM_User.png
 
