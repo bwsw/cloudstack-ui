@@ -50,7 +50,7 @@ Changing resources by users
 
 After the plugin is enabled, a user can change resource limits in case of the lack of resources or, alternatively, nonuse of extra resources. To send a request a user goes to the Resource usage panel under the *Virtual Machine* section and clicks "Update resources". 
 
-In the appeared modal window, a user can see resource parameters and a slider for each parameter. The scales are limited in accordance with the quotas set by Administrator. A user can move a slider within the quotas to change a resource parameter value. Then click "Update" to change the resorce limits.
+In the appeared modal window, a user can see resource parameters and a slider for each parameter. The scales are limited in accordance with the quotas set by Administrator. A user can move a slider within the quotas to change a resource parameter value. Then click "Update" to change the resource limits.
 
 .. figure:: _static/RLM_User.png
 
