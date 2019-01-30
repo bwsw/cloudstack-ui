@@ -93,10 +93,10 @@ In case of errors at data loading the snackbar also notifies of them. In this ca
 
 .. figure:: _static/VMs_Snackbar2.png
 
-Error messages
-------------------------
+Support Information in Error Messages
+-----------------------------------------------
 
-A user can add the information on support services to all error messages to make it faster to get the support in case of failure. This information should be specified in the ``support-info.md`` file stored in a `special folder <https://github.com/bwsw/cloudstack-ui/tree/master/src/support>`_ of the project.
+A user can add the information on support services to all error messages to let users get assistance faster in case of a failure. Support information should be specified in the ``support-info.md`` file stored in a `special folder <https://github.com/bwsw/cloudstack-ui/tree/master/src/support>`_ of the project. It may include contacts e.g. phone numbers, emails or any other details.
 
 The specified support details will display under a drop-down menu. Click it in the error message window to expand it.
 
