@@ -9,9 +9,9 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { select, Store } from '@ngrx/store';
-import * as cloneDeep from 'lodash/cloneDeep';
-import * as groupBy from 'lodash/groupBy';
-import * as sortBy from 'lodash/sortBy';
+const cloneDeep = require('lodash/cloneDeep');
+const groupBy = require('lodash/groupBy');
+const sortBy = require('lodash/sortBy');
 
 import { categoryName, defaultCategoryName, keyWithoutCategory, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services/utils/utils.service';
@@ -19,6 +19,9 @@ import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
 import { filterWithPredicates } from '../../shared/utils/filter';
 import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
+import { SettingsPageViewMode } from '../../settings/types/settings-page-view-mode';
+import * as AccountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
+import * as accountTagsSelectors from '../../reducers/account-tags/redux/account-tags.reducers';
 
 export interface TagEditAction {
   oldTag: Tag;
@@ -36,12 +39,16 @@ export interface KeyValuePair {
   styleUrls: ['tags-view.component.scss'],
 })
 export class TagsViewComponent implements OnInit, OnChanges {
+  public defaultTagPageValue = 'default';
+
   @Input()
   public tags: Tag[];
   @Input()
   public canAddTag = true;
   @Input()
   public hasPermissions = false;
+  @Input()
+  public tagPage = this.defaultTagPageValue;
   @Output()
   public tagAdded: EventEmitter<Partial<Tag>>;
   @Output()
@@ -61,7 +68,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    this.store.pipe(select(UserTagsSelectors.getIsShowSystemTags)).subscribe(show => {
+    this.getSystemTagState().subscribe(show => {
       this.showSystemTags = show;
       this.updateFilterResults();
     });
@@ -71,6 +78,18 @@ export class TagsViewComponent implements OnInit, OnChanges {
     if ('tags' in changes) {
       this.updateResults();
     }
+  }
+
+  public getSystemTagState() {
+    if (this.tagPage === SettingsPageViewMode.AccountTags) {
+      return this.store.pipe(select(accountTagsSelectors.getIsShowAccountSystemTags));
+    }
+
+    if (this.tagPage === SettingsPageViewMode.UserTags) {
+      return this.store.pipe(select(UserTagsSelectors.getIsShowUserSystemTags));
+    }
+
+    return this.store.pipe(select(UserTagsSelectors.getIsShowSystemTags));
   }
 
   public addTag(category?: TagCategory): void {
@@ -107,7 +126,17 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public onShowSystemTagsChange(): void {
     this.updateFilterResults();
-    this.store.dispatch(new UserTagsActions.UpdateShowSystemTags({ value: this.showSystemTags }));
+    if (this.tagPage === SettingsPageViewMode.AccountTags) {
+      this.store.dispatch(
+        new AccountTagsActions.UpdateAccountTagsFilter({ showSystemTag: this.showSystemTags }),
+      );
+    } else if (this.tagPage === SettingsPageViewMode.UserTags) {
+      this.store.dispatch(
+        new UserTagsActions.UpdateUserTagsFilter({ showSystemTag: this.showSystemTags }),
+      );
+    } else {
+      this.store.dispatch(new UserTagsActions.UpdateShowSystemTags({ value: this.showSystemTags }));
+    }
   }
 
   public removeTag(tag: Tag): void {

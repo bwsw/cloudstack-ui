@@ -1,8 +1,8 @@
-<mat-card class="custom-card">
+<mat-card [ngClass]="{ 'custom-card': isPage }">
   <mat-card-header>
     <mat-card-title>
       <h2 class="mat-card-title-text" [matTooltip]="category.name">
-        <span [innerHTML]="category.name | highlight:query"></span>
+        <span [innerHTML]="category.name | highlight: query"></span>
       </h2>
     </mat-card-title>
   </mat-card-header>

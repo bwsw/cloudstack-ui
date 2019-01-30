@@ -27,7 +27,6 @@ import { StoredNumberComponent } from './recurring-snapshots/stored-number/store
 import { CreateVolumeFromSnapshotComponent } from './snapshots-page/components/create-volume/create-volume.component';
 // tslint:disable-next-line
 import { CreateVolumeFromSnapshotContainerComponent } from './snapshots-page/components/create-volume/create-volume.container';
-import { SnapshotFilterComponent } from './snapshots-page/snapshot-filter/snapshot-filter.component';
 import { SnapshotFilterContainerComponent } from './snapshots-page/snapshot-filter/snapshot-filter.container';
 // tslint:disable-next-line
 import { SnapshotActionComponent } from './snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.component';
@@ -39,6 +38,9 @@ import { SnapshotListItemComponent } from './snapshots-page/snapshot-list-item/s
 import { SnapshotSidebarComponent } from './snapshots-page/snapshot-sidebar/snapshot-sidebar.component';
 import { SnapshotSidebarContainerComponent } from './snapshots-page/snapshot-sidebar/snapshot-sidebar.container';
 import { snapshotPageReducer, snapshotPageStoreName } from './store/snapshot-page.reducer';
+import { VolumeSnapshotFilterComponent } from './snapshots-page/snapshot-filter/volume-snapshot-filter.component';
+import { VmSnapshotFilterComponent } from './snapshots-page/snapshot-filter/vm-snapshot-filter.component';
+import { SnapshotFilterToggleComponent } from './snapshots-page/snapshot-filter/snapshot-filter-toggle.component';
 
 @NgModule({
   imports: [
@@ -67,7 +69,9 @@ import { snapshotPageReducer, snapshotPageStoreName } from './store/snapshot-pag
     SnapshotActionContainerComponent,
     SnapshotActionComponent,
     SnapshotFilterContainerComponent,
-    SnapshotFilterComponent,
+    VolumeSnapshotFilterComponent,
+    VmSnapshotFilterComponent,
+    SnapshotFilterToggleComponent,
     SnapshotSidebarContainerComponent,
     SnapshotSidebarComponent,
     CreateVolumeFromSnapshotContainerComponent,

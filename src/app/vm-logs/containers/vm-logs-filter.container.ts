@@ -27,7 +27,7 @@ const FILTER_KEY = 'logsFilters';
   selector: 'cs-vm-logs-filter-container',
   template: `
     <cs-vm-logs-filter
-      *loading="loading$ | async"
+      *loading="(loading$ | async)"
       [accounts]="accounts$ | async"
       [vms]="vms$ | async"
       [logFiles]="logFiles$ | async"
@@ -53,7 +53,8 @@ const FILTER_KEY = 'logsFilters';
       (endDateChanged)="onEndDateChange($event)"
       (endTimeChanged)="onEndTimeChange($event)"
       (newestFirstChanged)="onNewestFirstChange($event)"
-    ></cs-vm-logs-filter>`,
+    ></cs-vm-logs-filter>
+  `,
 })
 export class VmLogsFilterContainerComponent extends WithUnsubscribe()
   implements OnInit, AfterViewInit {

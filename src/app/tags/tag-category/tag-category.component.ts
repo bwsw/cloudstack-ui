@@ -20,6 +20,8 @@ export class TagCategoryComponent {
   public query: string;
   @Input()
   public hasPermissions = false;
+  @Input()
+  public isPage = false;
   @Output()
   public tagAdded: EventEmitter<TagCategory>;
   @Output()

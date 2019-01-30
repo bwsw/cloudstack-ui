@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { VmSnapshot } from '../../../shared/models/vm-snapshot.model';
-import moment = require('moment');
+import * as moment from 'moment';
 
 export interface VmSnapshotsState extends EntityState<VmSnapshot> {
   isLoading: boolean;

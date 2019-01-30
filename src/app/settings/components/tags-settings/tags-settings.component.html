@@ -1,0 +1,8 @@
+<cs-tags-view
+  [tagPage]="tagPage"
+  [hasPermissions]="true"
+  [tags]="tags"
+  (tagAdded)="addTag.emit($event)"
+  (tagEdited)="editTag.emit($event)"
+  (tagDeleted)="deleteTag.emit($event)"
+></cs-tags-view>

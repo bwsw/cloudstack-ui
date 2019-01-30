@@ -48,6 +48,7 @@
       [ngModel]="selectedGroupings"
       [dragItems]="groupings"
       (ngModelChange)="groupingsChanged.emit($event)"
+      [compareWith]="compare"
     >
       <mat-option *ngFor="let g of groupings" [value]="g"> {{ g.label | translate }} </mat-option>
     </cs-draggable-select>

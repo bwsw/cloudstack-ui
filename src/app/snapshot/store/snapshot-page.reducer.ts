@@ -16,6 +16,7 @@ export const initialState: SnapshotPageState = {
   filters: {
     accounts: [],
     vmIds: [],
+    volumeVmIds: [],
     date: moment().toDate(),
     query: undefined,
     volumeSnapshotTypes: [],

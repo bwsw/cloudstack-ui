@@ -40,13 +40,18 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     webShell: false,
     pulse: false,
     vmLogs: false,
+    resourceLimits: false,
   },
   /*
-  * Log View settings
-  * */
+   * Log View settings
+   * */
   vmLogs: {
     autoUpdateRefreshFrequency: 1,
     autoUpdateRequestedInterval: 30,
+  },
+  resourceLimits: {
+    realm: 'resource-limits',
+    env: 'prod',
   },
   /*
    * Virtual machines settings
@@ -61,8 +66,8 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     ru: 'default',
   },
   /*
-  * Images settings
-  */
+   * Images settings
+   */
   imageGroups: [],
   /*
    * User app settings
@@ -72,6 +77,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   defaultTimeFormat: 'hour24',
   defaultTheme: 'blue-red',
   sessionTimeout: 30,
+  autoGenerateUserKeys: true,
   /*
    * Service offering setting
    */
@@ -81,6 +87,10 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   computeOfferingClasses: [],
   serviceOfferingAvailability: {
     filterOfferings: false,
+  },
+  vmSnapLimit: {
+    enable: false,
+    snapshotsLimit: 0,
   },
 };
 

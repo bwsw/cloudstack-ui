@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { configSelectors, State, UserTagsActions } from '../../../root-store';
 import { SettingsViewModel } from '../../view-models';
@@ -14,6 +14,15 @@ import { BACKEND_API_URL } from '../../../shared/services/base-backend.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { SnackBarService } from '../../../core/services';
 import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
+import { SettingsPageViewMode } from '../../types/settings-page-view-mode';
+import { FilterService } from '../../../shared/services/filter.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SessionStorageService } from '../../../shared/services/session-storage.service';
+import * as userTagsSelectors from '../../../root-store/server-data/user-tags/user-tags.selectors';
+import * as accountTagsSelectors from '../../../reducers/account-tags/redux/account-tags.reducers';
+import { accountResourceType } from '../../../shared/models';
+import { TagCreationParams } from '../../../root-store/server-data/user-tags/tag-creation-params';
+import * as accountTagActions from '../../../reducers/account-tags/redux/account-tags.actions';
 
 @Component({
   selector: 'cs-settings',
@@ -21,12 +30,54 @@ import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  public settings$: Observable<SettingsViewModel>;
+  public settings$: Observable<SettingsViewModel> = this.store.pipe(select(getSettingsViewModel));
   public userKeys: ApiKeys;
   public apiUrl: string;
-  public apiDocumentationLink$: Observable<string>;
+  public apiDocumentationLink$: Observable<string> = this.store.pipe(
+    select(configSelectors.get('apiDocLink')),
+  );
+  public viewMode: any;
+  public viewModeList = SettingsPageViewMode;
+  public logViewEnabled$ = this.store.pipe(
+    select(configSelectors.get('extensions')),
+    map(extensions => extensions.vmLogs),
+  );
+
+  public userTags$ = this.store.pipe(select(userTagsSelectors.selectAll));
+  public userTagsIsLoading$ = this.store.pipe(
+    select(userTagsSelectors.getIsLoaded),
+    map(isLoaded => !isLoaded),
+  );
+
+  public accountTags$ = this.store.pipe(select(accountTagsSelectors.selectAll));
+  public accountTagIsLoading$ = this.store.pipe(
+    select(accountTagsSelectors.isLoaded),
+    map(isLoaded => !isLoaded),
+  );
 
   private readonly userId: string;
+
+  private filterService = new FilterService(
+    {
+      viewMode: {
+        type: 'string',
+        options: [
+          SettingsPageViewMode.Security,
+          SettingsPageViewMode.API,
+          SettingsPageViewMode.VmPreferences,
+          SettingsPageViewMode.UserTags,
+          SettingsPageViewMode.AccountTags,
+          SettingsPageViewMode.LookAndFeel,
+          SettingsPageViewMode.LogView,
+        ],
+        defaultOption: SettingsPageViewMode.Security,
+      },
+    },
+    this.router,
+    this.sessionStorage,
+    'settingsFilters',
+    this.activatedRoute,
+  );
 
   constructor(
     private store: Store<State>,
@@ -35,11 +86,21 @@ export class SettingsComponent {
     private routerUtilsService: RouterUtilsService,
     private dialogService: DialogService,
     private snackBarService: SnackBarService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private sessionStorage: SessionStorageService,
   ) {
-    this.settings$ = this.store.pipe(select(getSettingsViewModel));
+    this.store.dispatch(
+      new accountTagActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
+    );
+    this.viewMode = this.filterService.getParams().viewMode;
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['viewMode']) {
+        this.viewMode = params['viewMode'];
+      }
+    });
     this.userId = this.authService.user.userid;
     this.userService.getUserKeys(this.userId).subscribe(keys => (this.userKeys = keys));
-    this.apiDocumentationLink$ = this.store.pipe(select(configSelectors.get('apiDocLink')));
     this.apiUrl = this.getApiUrl();
   }
 
@@ -103,6 +164,38 @@ export class SettingsComponent {
 
   public onVmLogsMinutesChange(minutes: number) {
     this.store.dispatch(new UserTagsActions.UpdateVmLogsShowLastMinutes({ value: minutes }));
+  }
+
+  public onViewModeChange(viewMode: SettingsPageViewMode) {
+    this.filterService.update({ viewMode });
+  }
+
+  public onAddUserTag(tag: TagCreationParams) {
+    this.store.dispatch(new UserTagsActions.CreateTag(tag));
+  }
+
+  public onDeleteUserTag(tag: TagCreationParams) {
+    this.store.dispatch(new UserTagsActions.DeleteTag(tag.key));
+  }
+
+  public onEditUserTag(tag) {
+    this.store.dispatch(
+      new UserTagsActions.UpdateTag({ newTag: tag.newTag, oldKey: tag.oldTag.key }),
+    );
+  }
+
+  public onAddAccountTag(tag: TagCreationParams) {
+    this.store.dispatch(new accountTagActions.CreateTag(tag));
+  }
+
+  public onDeleteAccountTag(tag: TagCreationParams) {
+    this.store.dispatch(new accountTagActions.DeleteTag(tag.key));
+  }
+
+  public onEditAccountTag(tag) {
+    this.store.dispatch(
+      new accountTagActions.UpdateTag({ newTag: tag.newTag, oldKey: tag.oldTag.key }),
+    );
   }
 
   private getApiUrl() {

@@ -1,15 +1,6 @@
 <div class="filter-wrapper">
-  <mat-button-toggle-group
-    [value]="viewMode"
-    (change)="onViewModeChange($event.value)"
-  >
-    <mat-button-toggle [value]="snapshotPageViewMode.Volume">
-      {{ 'SNAPSHOT_PAGE.FILTERS.VOLUME' | translate }}
-    </mat-button-toggle>
-    <mat-button-toggle [value]="snapshotPageViewMode.VM">
-      {{ 'SNAPSHOT_PAGE.FILTERS.VM' | translate }}
-    </mat-button-toggle>
-  </mat-button-toggle-group>
+  <cs-snapshots-filter-toggle [viewMode]="viewMode" (viewModeChange)="viewModeChange.emit($event)">
+  </cs-snapshots-filter-toggle>
 
   <mat-form-field *ngIf="accounts.length > 1">
     <mat-select
@@ -18,41 +9,36 @@
       [ngModel]="selectedAccounts"
       (selectionChange)="selectedAccountsChange.emit($event.value)"
     >
-      <mat-option
-        *ngFor="let account of accounts"
-        [value]="account.name"
-      >{{ account.fullDomain }}{{ account.name }}
+      <mat-option *ngFor="let account of accounts" [value]="account.name"
+        >{{ account.fullDomain }} {{ account.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.Volume">
+  <mat-form-field>
     <mat-select
       multiple="true"
       [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_TYPES' | translate"
       [ngModel]="selectedTypes"
       (selectionChange)="selectedTypesChange.emit($event.value)"
     >
-      <mat-option *ngFor="let t of types" [value]="t.type">
-        {{ t.name | translate }}
-      </mat-option>
+      <mat-option *ngFor="let t of types" [value]="t.type"> {{ t.name | translate }} </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.VM">
+  <mat-form-field *ngIf="vms && vms.length !== 0">
     <mat-select
       multiple="true"
       [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_VMS' | translate"
       [ngModel]="selectedVms"
-      (selectionChange)="selectedVmsChange.emit($event.value)"
+      (selectionChange)="selectedVolumeVmsChange.emit($event.value)"
     >
-      <mat-option *ngFor="let vm of vms" [value]="vm.id">
-        {{ vm.displayname }}
-      </mat-option>
+      <mat-option [value]="'noVm'">{{ 'SNAPSHOT_PAGE.FILTERS.NO_VM' | translate }}</mat-option>
+      <mat-option *ngFor="let vm of vms" [value]="vm?.id"> {{ vm?.displayname }} </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field *ngIf="viewMode === snapshotPageViewMode.Volume">
+  <mat-form-field>
     <cs-draggable-select
       multiple="true"
       [placeholder]="'SNAPSHOT_PAGE.FILTERS.GROUP_BY' | translate"
@@ -61,9 +47,7 @@
       (selectionChange)="selectedGroupingsChange.emit($event.value)"
     >
       <ng-container *ngFor="let g of availableGroupings">
-        <mat-option *ngIf="!(g.enabled())" [value]="g">
-          {{ g.label | translate }}
-        </mat-option>
+        <mat-option *ngIf="!g.enabled()" [value]="g"> {{ g.label | translate }} </mat-option>
       </ng-container>
     </cs-draggable-select>
   </mat-form-field>
@@ -80,9 +64,6 @@
   ></cs-date-picker>
 </div>
 
-<div class="filter-wrapper" *ngIf="viewMode === snapshotPageViewMode.Volume">
-  <cs-search
-    [ngModel]="query"
-    (ngModelChange)="queryChange.emit($event)"
-  ></cs-search>
+<div class="filter-wrapper">
+  <cs-search [ngModel]="query" (ngModelChange)="queryChange.emit($event)"></cs-search>
 </div>

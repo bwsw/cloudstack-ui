@@ -7,6 +7,7 @@ import { combineLatest } from 'rxjs';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
 import * as fromVm from '../../../reducers/vm/redux/vm.reducers';
+import * as fromVolumes from '../../../reducers/volumes/redux/volumes.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import { State, UserTagsSelectors } from '../../../root-store';
 
@@ -24,37 +25,56 @@ const getGroupName = (snapshot: Snapshot | VmSnapshotViewModel) => {
 };
 
 const FILTER_KEY = 'snapshotFilters';
-
 @Component({
   selector: 'cs-snapshots-filter-container',
   template: `
-    <cs-snapshots-filter
-      [accounts]="accounts$ | async"
-      [vms]="vms$ | async"
-      [types]="types"
-      [availableGroupings]="groupings"
-      [isLoading]="isLoading$ | async"
-      [firstDayOfWeek]="firstDayOfWeek$ | async"
-      [selectedAccounts]="(filters$ | async).accounts"
-      [selectedVms]="(filters$ | async).vmIds"
-      [selectedTypes]="(filters$ | async).volumeSnapshotTypes"
-      [selectedDate]="(filters$ | async).date"
-      [selectedGroupings]="selectedGroupings$ | async"
-      [query]="(filters$ | async).query"
-      [viewMode]="viewMode$ | async"
-      (selectedAccountsChange)="onAccountsChange($event)"
-      (selectedVmsChange)="onSelectedVmsChange($event)"
-      (selectedTypesChange)="onTypesChange($event)"
-      (selectedDateChange)="onDateChange($event)"
-      (selectedGroupingsChange)="onGroupingsChange($event)"
-      (queryChange)="onQueryChange($event)"
-      (viewModeChange)="onViewModeChange($event)"
-    ></cs-snapshots-filter>
+    <ng-container *ngIf="viewMode === snapshotPageViewMode.Volume">
+      <cs-volume-snapshots-filter
+        [viewMode]="viewMode$ | async"
+        [accounts]="accounts$ | async"
+        [vms]="vmsWithSnapshots$ | async"
+        [types]="types"
+        [availableGroupings]="groupings"
+        [isLoading]="isLoading$ | async"
+        [firstDayOfWeek]="firstDayOfWeek$ | async"
+        [selectedAccounts]="(filters$ | async).accounts"
+        [selectedVms]="(filters$ | async).volumeVmIds"
+        [selectedTypes]="(filters$ | async).volumeSnapshotTypes"
+        [selectedDate]="(filters$ | async).date"
+        [selectedGroupings]="selectedGroupings$ | async"
+        [query]="(filters$ | async).query"
+        (selectedAccountsChange)="onAccountsChange($event)"
+        (selectedVolumeVmsChange)="onSelectedVolumeVmsChange($event)"
+        (selectedTypesChange)="onTypesChange($event)"
+        (selectedDateChange)="onDateChange($event)"
+        (selectedGroupingsChange)="onGroupingsChange($event)"
+        (queryChange)="onQueryChange($event)"
+        (viewModeChange)="onViewModeChange($event)"
+      ></cs-volume-snapshots-filter>
+    </ng-container>
+
+    <ng-container *ngIf="viewMode === snapshotPageViewMode.VM">
+      <cs-vm-snapshots-filter
+        [viewMode]="viewMode$ | async"
+        [accounts]="accounts$ | async"
+        [vms]="vms$ | async"
+        [isLoading]="isLoading$ | async"
+        [firstDayOfWeek]="firstDayOfWeek$ | async"
+        [selectedAccounts]="(filters$ | async).accounts"
+        [selectedVms]="(filters$ | async).vmIds"
+        [selectedDate]="(filters$ | async).date"
+        (selectedAccountsChange)="onAccountsChange($event)"
+        (selectedVmsChange)="onSelectedVmsChange($event)"
+        (selectedDateChange)="onDateChange($event)"
+        (viewModeChange)="onViewModeChange($event)"
+      ></cs-vm-snapshots-filter>
+    </ng-container>
   `,
 })
 export class SnapshotFilterContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly filters$ = this.store.pipe(select(snapshotPageSelectors.getFilters));
   readonly vms$ = this.store.pipe(select(fromVm.selectAll));
+  readonly vmsWithSnapshots$ = this.store.pipe(select(fromVolumes.selectVmWithVolumeSnapshot));
   readonly selectedGroupings$ = this.store.pipe(select(snapshotPageSelectors.getGroupings));
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
   readonly isLoading$ = this.store.pipe(select(fromSnapshots.isLoading));
@@ -108,7 +128,8 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     },
   ];
 
-  private viewMode: SnapshotPageViewMode;
+  public snapshotPageViewMode = SnapshotPageViewMode;
+  public viewMode: SnapshotPageViewMode;
 
   private filterService = new FilterService(
     {
@@ -120,6 +141,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
       accounts: { type: 'array', defaultOption: [] },
       types: { type: 'array', defaultOption: [] },
       vms: { type: 'array', defaultOption: [] },
+      volumeVmIds: { type: 'array', defaultOption: [] },
       date: { type: 'string', defaultOption: moment().toString() },
       groupings: { type: 'array', defaultOption: [] },
       query: { type: 'string' },
@@ -156,6 +178,8 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
         accounts: filters.accounts,
         types: filters.volumeSnapshotTypes,
         vms: filters.vmIds,
+        volumeVmIds: filters.volumeVmIds,
+
         date: moment(filters.date).format('YYYY-MM-DD'),
         query: filters.query,
         groupings: groupings.map(grouping => grouping.key),
@@ -169,6 +193,10 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
 
   public onSelectedVmsChange(vmIds: string[]) {
     this.store.dispatch(new snapshotPageActions.UpdateFilters({ vmIds }));
+  }
+
+  public onSelectedVolumeVmsChange(volumeVmIds: string[]): void {
+    this.store.dispatch(new snapshotPageActions.UpdateFilters({ volumeVmIds }));
   }
 
   public onTypesChange(selectedTypes) {
@@ -199,6 +227,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     const accounts = params['accounts'];
     const vms = params['vms'];
     const volumeSnapshotTypes = params['types'];
+    const volumeVmIds = params['volumeVmIds'];
     const date = moment(params['date']).toDate();
     const groupings = params['groupings'].reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
@@ -215,6 +244,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
       new snapshotPageActions.UpdateFilters({
         accounts,
         volumeSnapshotTypes,
+        volumeVmIds,
         date,
         query,
         vmIds: vms,

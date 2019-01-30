@@ -48,6 +48,8 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
   public accounts: Account[];
   @Input()
   public user: Account;
+  @Input()
+  public showRequestResources: boolean;
 
   public resourceUsage: ResourceStats;
   public isOpen = true;

@@ -53,10 +53,22 @@ export function reducer(state = initialUserAccountState, action: event.Actions):
 
 export const getUserAccountState = createFeatureSelector<UserAccountState>('userAccount');
 
-export const getUserAccountEntity = createSelector(getUserAccountState, state => state.entity);
+export const getUserAccountEntity = createSelector(
+  getUserAccountState,
+  state => state.entity,
+);
 
-export const getUserAccountId = createSelector(getUserAccountEntity, state => state.accountId);
+export const getUserAccountId = createSelector(
+  getUserAccountEntity,
+  state => state.accountId,
+);
 
-export const isLoading = createSelector(getUserAccountEntity, state => state.loading);
+export const isLoading = createSelector(
+  getUserAccountEntity,
+  state => state.loading,
+);
 
-export const isLoaded = createSelector(getUserAccountEntity, state => state.loaded);
+export const isLoaded = createSelector(
+  getUserAccountEntity,
+  state => state.loaded,
+);

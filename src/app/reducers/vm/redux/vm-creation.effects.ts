@@ -47,6 +47,8 @@ import * as fromVMs from './vm.reducers';
 import * as fromVMModule from '../../../vm/selectors';
 import { KeyboardLayout } from '../../../shared/types';
 import { ComputeOfferingViewModel } from '../../../vm/view-models';
+import { ApiLoggerStage, ApiLogService } from '../../../shared/services/api-log.service';
+import { virtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -308,6 +310,7 @@ export class VirtualMachineCreationEffects {
     ofType(vmActions.VM_DEPLOYMENT_REQUEST),
     withLatestFrom(this.store.pipe(select(UserTagsSelectors.getKeyboardLayout))),
     switchMap(([action, keyboard]: [vmActions.DeploymentRequest, KeyboardLayout]) => {
+      this.apiLogService.resetLog();
       return this.doCreateSecurityGroup(action.payload).pipe(
         switchMap(securityGroups => {
           if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
@@ -325,9 +328,16 @@ export class VirtualMachineCreationEffects {
           const params = this.getVmCreationParams(action.payload, keyboard, securityGroups);
           let deployResponse;
 
+          const messageId = this.apiLogService.add({
+            params,
+            request: ApiLoggerStage.DEPLOY_VM,
+          });
+
           return this.vmService.deploy(params).pipe(
             switchMap(response => {
               deployResponse = response;
+
+              this.apiLogService.update(messageId, deployResponse);
               return this.vmService.get(deployResponse.id);
             }),
             switchMap(() => {
@@ -347,7 +357,11 @@ export class VirtualMachineCreationEffects {
               }
               return new vmActions.DeploymentRequestSuccess(vmWithTags);
             }),
-            catchError(error => of(new vmActions.DeploymentRequestError(error))),
+            catchError(error => {
+              this.apiLogService.update(messageId, error);
+
+              return of(new vmActions.DeploymentRequestError(error));
+            }),
           );
         }),
         catchError(error => of(new vmActions.DeploymentRequestError(error))),
@@ -405,6 +419,7 @@ export class VirtualMachineCreationEffects {
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private vmTagService: VmTagService,
     private snackBar: SnackBarService,
+    private apiLogService: ApiLogService,
   ) {}
 
   private handleDeploymentMessages(deploymentMessage: VmDeploymentMessage): void {
@@ -541,9 +556,25 @@ export class VirtualMachineCreationEffects {
   private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
     this.handleDeploymentMessages({ stage: VmDeploymentStage.TAG_COPYING });
     return this.vmTagService.copyTagsToEntity(state.template.tags, vm).pipe(
+      tap(() => {
+        state.template.tags.map(tag =>
+          this.apiLogService.add({
+            request: ApiLoggerStage.CREATE_TAGS,
+            params: { key: tag.key, value: tag.value },
+          }),
+        );
+      }),
       switchMap(() => {
         if (state.agreement) {
-          return this.vmTagService.setAgreement(vm);
+          return this.vmTagService.setAgreement(vm).pipe(
+            tap(res => {
+              this.apiLogService.add({
+                request: ApiLoggerStage.CREATE_TAGS,
+                params: { key: virtualMachineTagKeys.agreementAccepted, value: true },
+                response: res,
+              });
+            }),
+          );
         }
         return of(null);
       }),
@@ -553,7 +584,7 @@ export class VirtualMachineCreationEffects {
             stage: VmDeploymentStage.TAG_COPYING_FINISHED,
           }),
         );
-        return { ...vm, tags: [...vm.tags] } as VirtualMachine;
+        return { ...vm, tags: state.template.tags } as VirtualMachine;
       }),
     );
   }

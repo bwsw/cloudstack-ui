@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import * as clone from 'lodash/clone';
+const clone = require('lodash/clone');
 
 import {
   Account,
@@ -52,6 +52,8 @@ export class VmCreationComponent {
   public deploymentInProgress: boolean;
   @Input()
   public loggerStageList: ProgressLoggerMessage[];
+  @Input()
+  public isError: boolean;
   @Input()
   public deployedVm: VirtualMachine;
   @Input()

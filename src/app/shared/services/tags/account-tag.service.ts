@@ -41,6 +41,11 @@ export class AccountTagService implements EntityTagService {
       );
   }
 
+  public loadTags(): Observable<any> {
+    const resourceid = '162b26e6-052a-43bb-9116-acb7555b6d7d';
+    return this.tagService.getList({ resourceid });
+  }
+
   public setSshKeyDescription(sshKey: SSHKeyPair, description: string): Observable<string> {
     return this.writeTag(this.getSshKeyDescriptionKey(sshKey), description).pipe(
       map(() => description),

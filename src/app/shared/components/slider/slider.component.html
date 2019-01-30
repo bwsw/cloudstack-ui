@@ -1,6 +1,6 @@
 <div class="custom-slider">
   <h4 *ngIf="label">{{ label }}</h4>
-  <div class="current-value">
+  <div>
     <mat-form-field class="custom-slider-input">
       <input
         matInput
@@ -13,7 +13,7 @@
         [csMinValue]="min"
         [csMaxValue]="max"
         (blur)="onBlur($event)"
-      >
+      />
     </mat-form-field>
     <div class="custom-slider-label">{{ units }}</div>
   </div>
@@ -25,4 +25,3 @@
   [ngModel]="sliderValue"
   (ngModelChange)="handleSliderChange($event)"
 ></mat-slider>
-

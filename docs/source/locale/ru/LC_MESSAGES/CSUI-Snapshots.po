@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-06 11:19+0700\n"
-"PO-Revision-Date: 2018-12-06 11:48+0700\n"
+"POT-Creation-Date: 2018-12-25 15:59+0700\n"
+"PO-Revision-Date: 2018-12-25 16:01+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -439,14 +439,22 @@ msgstr ""
 "в диалоговом окне. Состояние машины вернется к состоянию снимка."
 
 #: ../../CSUI-Snapshots.rst:156
+msgid ""
+"It is not allowed to revert a machine to snapshot if the current Service "
+"Offering of the VM differs from that used at the moment the snapshot was taken."
+msgstr ""
+"Нельзя вернуть машину к состоянию снимка, если вычислительное предложение "
+"машины отличается от того, что использовалось на момент создания снимка."
+
+#: ../../CSUI-Snapshots.rst:158
 msgid "**Delete**"
 msgstr "**Удалить**"
 
-#: ../../CSUI-Snapshots.rst:158
+#: ../../CSUI-Snapshots.rst:160
 msgid "This action allows deleting a snapshot from the system."
 msgstr "Данное действие позволяет удалить снимок из системы."
 
-#: ../../CSUI-Snapshots.rst:160
+#: ../../CSUI-Snapshots.rst:162
 msgid ""
 "Click \"Delete\" in the Action box and confirm your action in modal window. The "
 "snapshot will be deleted."
@@ -454,7 +462,7 @@ msgstr ""
 "Нажмите \"Удалить\" в списке действия и подтвердите свое действие в появившемся "
 "окне. Снимок будет удален.  "
 
-#: ../../CSUI-Snapshots.rst:164
+#: ../../CSUI-Snapshots.rst:166
 msgid "Click \"NO\" to cancel the snapshot deleting."
 msgstr "Чтобы отменить удаление снимка, нажмите \"НЕТ\"."
 
