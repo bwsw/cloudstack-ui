@@ -45,6 +45,7 @@ export interface FormState {
   loaded: boolean;
   showOverlay: boolean;
   deploymentInProgress: boolean;
+  isError: boolean;
   enoughResources: boolean;
   insufficientResources: string[];
   loggerStageList: ProgressLoggerMessage[];
@@ -366,6 +367,7 @@ export const initialFormState: FormState = {
   loaded: false,
   showOverlay: false,
   deploymentInProgress: false,
+  isError: false,
   enoughResources: false,
   insufficientResources: [],
   loggerStageList: [],
@@ -419,6 +421,7 @@ export function formReducer(
         ...state,
         showOverlay: true,
         deploymentInProgress: true,
+        isError: false,
       };
     }
     case vmActions.VM_DEPLOYMENT_INIT_ACTION_LIST: {
@@ -452,7 +455,12 @@ export function formReducer(
         return message;
       });
 
-      return { ...state, loggerStageList: [...messages], deploymentInProgress: false };
+      return {
+        ...state,
+        loggerStageList: [...messages],
+        deploymentInProgress: false,
+        isError: true,
+      };
     }
     case vmActions.VM_DEPLOYMENT_COPY_TAGS: {
       return {
@@ -508,6 +516,11 @@ export const insufficientResources = createSelector(
 export const deploymentInProgress = createSelector(
   getVmForm,
   state => state.deploymentInProgress,
+);
+
+export const isError = createSelector(
+  getVmForm,
+  state => state.isError,
 );
 
 export const loggerStageList = createSelector(

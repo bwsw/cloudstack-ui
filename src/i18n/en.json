@@ -618,7 +618,11 @@
       "NO_TEMPLATES": "No templates available",
       "NO_OFFERINGS": "No offerings available",
       "GENERAL": "General",
-      "ADVANCED": "Advanced"
+      "ADVANCED": "Advanced",
+      "DETAILS": "Details",
+      "REQUEST": "REQUEST",
+      "PARAMS": "PARAMS",
+      "RESPONSE": "RESPONSE"
     },
     "MODALS": {
       "TAKE_VM_SNAPSHOT": {

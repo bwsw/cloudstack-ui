@@ -23,7 +23,7 @@ You can see examples of the configurations in the [config-example.json](https://
   - [Default Time Format](#default-time-format)
   - [Default Theme](#default-theme)
   - [Session Timeout](#session-timeout)
-  - [Automatically generate secret key and API key for users](#auto-generate-user-keys)
+  - [Automatically generate secret key and API key for users](#automatically-generate-secret-key-and-API-key-for-users)
 - [Service Offering Setting](#service-offering-setting)
   - [Custom Compute Offering Parameters](#custom-compute-offering-parameters)
   - [Default Compute Offering](#default-compute-offering)

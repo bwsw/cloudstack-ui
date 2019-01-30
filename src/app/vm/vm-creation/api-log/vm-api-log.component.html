@@ -1,0 +1,38 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header class="panel-wrapper">
+      <mat-panel-title> {{ 'VM_PAGE.VM_CREATION.DETAILS' | translate }} </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="table-wrapper">
+      <table class="mat-table">
+        <thead>
+          <tr>
+            <th class="mat-header-cell">{{ 'VM_PAGE.VM_CREATION.REQUEST' | translate }}</th>
+            <th class="mat-header-cell">{{ 'VM_PAGE.VM_CREATION.PARAMS' | translate }}</th>
+            <th class="mat-header-cell">{{ 'VM_PAGE.VM_CREATION.RESPONSE' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="mat-row" *ngFor="let log of apiLog">
+            <td>{{ log.request }}</td>
+            <td>"id": {{ log.id | json }}, {{ log.params | json }}</td>
+            <td>{{ log.response | json }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <mat-card-actions>
+      <button
+        mat-icon-button
+        ngxClipboard
+        [matTooltip]="'CLIPBOARD.COPY' | translate"
+        [cbContent]="apiLog | json"
+        (cbOnSuccess)="onCopySuccess()"
+        (cbOnError)="onCopyFail()"
+      >
+        <mat-icon class="mdi-content-copy"></mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -53,6 +53,8 @@ export class VmCreationComponent {
   @Input()
   public loggerStageList: ProgressLoggerMessage[];
   @Input()
+  public isError: boolean;
+  @Input()
   public deployedVm: VirtualMachine;
   @Input()
   public enoughResources: boolean;
