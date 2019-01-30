@@ -268,6 +268,9 @@
       "CHANGE_AFFINITY_GROUP_IN_PROGRESS": "Изменение аффинитетной группы",
       "CHANGE_AFFINITY_GROUP_DONE": "Аффинитетная группа изменена",
       "CHANGE_AFFINITY_GROUP_FAILED": "Не удалось изменить аффинитетную группу",
+      "CHANGE_SECURITY_GROUP_DONE": "Группа безопасности изменена",
+      "CHANGE_SECURITY_GROUP_FAILED": "Не удалось изменить группу безопасности",
+      "CHANGE_SECURITY_GROUP_IN_PROGRESS": "Изменение группы безопасности",
       "CHANGE_INSTANCE_GROUP_IN_PROGRESS": "Изменение группы",
       "CHANGE_INSTANCE_GROUP_DONE": "Группа изменена",
       "CHANGE_INSTANCE_GROUP_FAILED": "Не удалось изменить группу",
@@ -409,6 +412,10 @@
         "ZONE": "Зона",
         "HOST_NAME": "Имя хоста",
         "ID": "ID"
+      },
+      "SECURITY_GROUP": {
+        "STOP_MACHINE_FOR_SG": "Для того, чтобы изменить группу безопасности, необходимо остановить виртуальную машину. Хотите остановить сейчас?",
+        "ASK_TO_CHANGE_SG": "Are you sure you want to detach security group?"
       },
       "INSTANCE_GROUP": {
         "TITLE": "Группа",
@@ -581,7 +588,11 @@
       "type": "Тип",
       "FIREWALL_RULES": "Правила брандмауэра",
       "INGRESS": "Входящее",
-      "EGRESS": "Исходящее"
+      "EGRESS": "Исходящее",
+      "ATTACH": "Прикрепить",
+      "DETACH": "Открепить",
+      "VIEW": "Просмотреть",
+      "NO_SG": "Нет групп безопасности"
     },
     "VM_CREATION": {
       "NEW_VM": "Новая виртуальная машина",
@@ -1680,7 +1691,8 @@
     "ALL_GROUPS": "Все",
     "SELECTED_GROUPS": "Выбранные шаблоны",
     "NETWORK_RULES": "Сетевые правила",
-    "SELECT_SECURITY_GROUP": "Выбор группы"
+    "SELECT_SECURITY_GROUP": "Выбор группы",
+    "ATTACHMENT": "Прикрепление общих групп безопасности"
   },
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Изменить предложение",

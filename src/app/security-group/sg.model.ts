@@ -32,6 +32,8 @@ export interface SecurityGroupNative {
   ingressrule: NetworkRule[];
   tags: Tag[];
   preselected?: boolean; // used by custom templates, described in config
+  // custom: used for vm details
+  isPreselected?: boolean;
 }
 
 export interface SecurityGroupTemplate {
@@ -41,6 +43,8 @@ export interface SecurityGroupTemplate {
   preselected?: boolean;
   egressrule: NetworkRule[];
   ingressrule: NetworkRule[];
+  // custom: used for vm details
+  isPreselected?: boolean;
 }
 
 export type SecurityGroup = SecurityGroupNative | SecurityGroupTemplate;

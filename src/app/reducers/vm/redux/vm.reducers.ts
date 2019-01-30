@@ -16,9 +16,9 @@ import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state'
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 import { notSelectedSshKey } from '../../../vm/vm-creation/ssh-key-selector/ssh-key-selector.component';
 import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
+
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as affinityGroupActions from '../../affinity-groups/redux/affinity-groups.actions';
-import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
 
@@ -231,6 +231,11 @@ export const getSelectedVmAffinityGroups = createSelector(
   vm => vm && vm.affinitygroup,
 );
 
+export const getSelectedVmSecurityGroup = createSelector(
+  getSelectedVM,
+  vm => vm && vm.securitygroup,
+);
+
 export const filters = createSelector(
   getVMsEntitiesState,
   state => state.filters,
@@ -276,16 +281,6 @@ export const selectVmGroups = createSelector(
   vms => {
     const groups = vms.map(vm => vm.group).filter(Boolean);
     return uniq(groups);
-  },
-);
-
-export const getUsingSGVMs = createSelector(
-  selectAll,
-  fromSGroup.getSelectedId,
-  (vms: VirtualMachine[], sGroupId: string) => {
-    const sGroupFilter = (vm: VirtualMachine) =>
-      vm.securitygroup.find(group => group.id === sGroupId);
-    return vms.filter(sGroupFilter);
   },
 );
 
