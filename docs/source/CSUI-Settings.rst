@@ -4,7 +4,7 @@ Settings
 -------------
 .. Contents::
 
-In the *Accounts* -> *Settings* section a user can modify the interface by changing settings. The interface settings are presented in separate sections: *Security, API configurations, VM preferences, Look and Feel*. Moving between sections is possible using the switcher above.
+In the *Accounts* -> *Settings* section a user can modify the interface by changing settings. The interface settings are presented in separate sections: *Security, API configurations, VM preferences, Look and Feel, Account tags, User tags*. Moving between sections is possible using the switcher above.
 
 .. figure:: _static/Settings_List1.png
    
