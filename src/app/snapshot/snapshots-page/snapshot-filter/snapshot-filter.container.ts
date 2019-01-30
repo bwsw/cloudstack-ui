@@ -7,6 +7,7 @@ import { combineLatest } from 'rxjs';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
 import * as fromVm from '../../../reducers/vm/redux/vm.reducers';
+import * as fromVolumes from '../../../reducers/volumes/redux/volumes.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import { State, UserTagsSelectors } from '../../../root-store';
 
@@ -31,7 +32,7 @@ const FILTER_KEY = 'snapshotFilters';
       <cs-volume-snapshots-filter
         [viewMode]="viewMode$ | async"
         [accounts]="accounts$ | async"
-        [vms]="vms$ | async"
+        [vms]="vmsWithSnapshots$ | async"
         [types]="types"
         [availableGroupings]="groupings"
         [isLoading]="isLoading$ | async"
@@ -73,6 +74,7 @@ const FILTER_KEY = 'snapshotFilters';
 export class SnapshotFilterContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly filters$ = this.store.pipe(select(snapshotPageSelectors.getFilters));
   readonly vms$ = this.store.pipe(select(fromVm.selectAll));
+  readonly vmsWithSnapshots$ = this.store.pipe(select(fromVolumes.selectVmWithVolumeSnapshot));
   readonly selectedGroupings$ = this.store.pipe(select(snapshotPageSelectors.getGroupings));
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
   readonly isLoading$ = this.store.pipe(select(fromSnapshots.isLoading));

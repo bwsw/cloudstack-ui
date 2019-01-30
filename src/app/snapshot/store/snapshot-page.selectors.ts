@@ -12,6 +12,7 @@ import { Filters } from '../models/filters.model';
 import { VmSnapshotSidebarViewModel } from '../models/vm-snapshot-sidebar.view-model';
 import { VmSnapshotViewModel } from '../models/vm-snapshot.view-model';
 import { SnapshotPageState, snapshotPageStoreName } from './snapshot-page.reducer';
+import { isUndefined } from 'util';
 
 const getSnapshotPageState = createFeatureSelector<SnapshotPageState>(snapshotPageStoreName);
 
@@ -136,16 +137,18 @@ export const getVmSnapshots = createSelector(
 export const getFilteredVolumesByVmId = createSelector(
   volumeSelectors.selectAll,
   getFilters,
-  (volumesWithSnapshot, filter) => {
+  (volumes, filter) => {
     const filterByVms = (volume: Volume) => {
       const filterEnabled = filter.volumeVmIds.length > 0;
-      if (!filterEnabled) {
+      const noVmEnabled =
+        !isUndefined(filter.volumeVmIds.find(id => id === 'noVm')) &&
+        isUndefined(volume.virtualmachineid);
+      if (!filterEnabled || noVmEnabled) {
         return true;
       }
       return filter.volumeVmIds.includes(volume.virtualmachineid);
     };
-
-    return volumesWithSnapshot.filter(filterByVms).map(vol => vol.id);
+    return volumes.filter(filterByVms).map(vol => vol.id);
   },
 );
 
@@ -182,8 +185,7 @@ export const getFilteredSnapshots = createSelector(
 
     const filterByVms = (snapshot: Snapshot) => {
       if (
-        filter.volumeVmIds.length === 0 &&
-        filter.volumeVmIds.find(id => id === 'noVm') &&
+        (filter.volumeVmIds.length === 0 || !!filter.volumeVmIds.find(id => id === 'noVm')) &&
         !volumesEntities[snapshot.volumeid]
       ) {
         return true;
