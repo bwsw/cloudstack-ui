@@ -852,6 +852,9 @@ export class VirtualMachinesEffects {
               this.showNotificationsOnFinish(message, notificationId);
             }),
             switchMap(newVm => {
+              if (vm.state === VmState.Running) {
+                return this.start(newVm);
+              }
               return of(new vmActions.UpdateVM(newVm));
             }),
             catchError((error: Error) => {

@@ -1248,4 +1248,60 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.vmCreateSuccessLoadVolumes$).toBeObservable(expected);
   });
+
+  it('should change affinity group for stopped vm', () => {
+    const spyChangeSG = spyOn(service, 'updateSecurityGroup').and.returnValue(of(list[1]));
+
+    const action = new vmActions.ChangeSecurityGroup({
+      securityGroups: ['sg1_id'],
+      vm: list[1],
+    });
+    const completion = new vmActions.UpdateVM(list[1]);
+
+    actions$.stream = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+
+    expect(effects.changeSecurityGroup$).toBeObservable(expected);
+    expect(spyChangeSG).toHaveBeenCalled();
+    expect(jobsNotificationService.add).toHaveBeenCalled();
+  });
+
+  it('should change affinity group for running vm', () => {
+    const spyChangeSG = spyOn(service, 'updateSecurityGroup').and.returnValue(of(list[0]));
+    const spyCommand = spyOn(service, 'command').and.returnValue(of(list[0]));
+    spyOn(dialogService, 'confirm').and.returnValue(of(true));
+
+    const action = new vmActions.ChangeSecurityGroup({
+      securityGroups: ['sg1_id'],
+      vm: list[0],
+    });
+    const completion = new vmActions.UpdateVM(list[0]);
+
+    actions$.stream = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+
+    expect(effects.changeSecurityGroup$).toBeObservable(expected);
+    expect(spyChangeSG).toHaveBeenCalled();
+    expect(spyCommand).toHaveBeenCalled();
+    expect(jobsNotificationService.add).toHaveBeenCalled();
+  });
+
+  it('should not change affinity group for running vm', () => {
+    const spyChangeSG = spyOn(service, 'updateSecurityGroup');
+    const spyCommand = spyOn(service, 'command');
+    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(false));
+
+    const action = new vmActions.ChangeSecurityGroup({
+      securityGroups: ['sg1_id'],
+      vm: list[0],
+    });
+
+    actions$.stream = hot('-a', { a: action });
+    const expected = cold('', []);
+
+    expect(effects.changeSecurityGroup$).toBeObservable(expected);
+    expect(spyDialog).toHaveBeenCalled();
+    expect(spyChangeSG).not.toHaveBeenCalled();
+    expect(spyCommand).not.toHaveBeenCalled();
+  });
 });
