@@ -54,6 +54,11 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
       return adapter.updateOne(update, state);
     }
 
+    case UserTagsActionTypes.UpdateTagSuccess: {
+      const update: Update<Tag> = { id: action.payload.oldKey, changes: action.payload.newTag };
+      return adapter.updateOne(update, state);
+    }
+
     /**
      * We skip confirmation from the server that a value successfully changed,
      * so we do not slow down UI interaction.
@@ -61,6 +66,21 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.UpdateSidebarWidth: {
       const update: Update<Tag> = { id: userTagKeys.sidebarWidth, changes: action.payload };
       return adapter.updateOne(update, state);
+    }
+
+    case UserTagsActionTypes.CreateTagSuccess: {
+      return adapter.addOne(action.payload, state);
+    }
+
+    case UserTagsActionTypes.DeleteTagSuccess: {
+      return adapter.removeOne(action.payload, state);
+    }
+
+    case UserTagsActionTypes.UpdateUserTagsFilter: {
+      return {
+        ...state,
+        isShowSystemTags: action.payload.showSystemTag,
+      };
     }
 
     default: {

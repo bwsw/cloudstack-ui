@@ -4,17 +4,21 @@ import { Action, select, Store } from '@ngrx/store';
 import { forkJoin, Observable, of } from 'rxjs';
 import {
   catchError,
+  debounceTime,
   exhaustMap,
+  filter,
   first,
   map,
   mergeMap,
   switchMap,
-  debounceTime,
-  filter,
 } from 'rxjs/operators';
-const kebabCase = require('lodash/kebabCase');
-
 import {
+  CreateTag,
+  CreateTagError,
+  CreateTagSuccess,
+  DeleteTag,
+  DeleteTagError,
+  DeleteTagSuccess,
   IncrementLastVMId,
   IncrementLastVMIdError,
   IncrementLastVMIdSuccess,
@@ -53,6 +57,9 @@ import {
   UpdateShowSystemTagsError,
   UpdateShowSystemTagsSuccess,
   UpdateSidebarWidth,
+  UpdateTag,
+  UpdateTagError,
+  UpdateTagSuccess,
   UpdateTheme,
   UpdateThemeError,
   UpdateThemeSuccess,
@@ -72,7 +79,7 @@ import {
 } from './user-tags.actions';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { AuthService } from '../../../shared/services/auth.service';
-import { ServiceOffering, Tag } from '../../../shared/models';
+import { ServiceOffering, Tag, TagUpdatingParams } from '../../../shared/models';
 import { userTagKeys } from '../../../tags/tag-keys';
 import { State } from '../../state';
 import * as userTagsSelectors from './user-tags.selectors';
@@ -83,6 +90,8 @@ import {
 import { Serializer } from '../../../shared/utils/serializer';
 import removeNullsAndEmptyArrays from '../../../vm-logs/remove-nulls-and-empty-arrays';
 import { TagCreationParams } from './tag-creation-params';
+
+const kebabCase = require('lodash/kebabCase');
 
 @Injectable()
 export class UserTagsEffects {
@@ -361,6 +370,44 @@ export class UserTagsEffects {
     mergeMap(action => this.setComputeOfferingParams(action.payload.offering)),
   );
 
+  @Effect()
+  updateTag$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateTag>(UserTagsActionTypes.UpdateTag),
+    map(action => action.payload),
+    mergeMap((value: TagUpdatingParams) => {
+      const { newTag, oldKey } = value;
+
+      return this.updateTag(newTag, oldKey).pipe(
+        map(() => new UpdateTagSuccess({ newTag, oldKey })),
+        catchError(error => of(new UpdateTagError({ error }))),
+      );
+    }),
+  );
+
+  @Effect()
+  createTag$: Observable<Action> = this.actions$.pipe(
+    ofType<CreateTag>(UserTagsActionTypes.CreateTag),
+    map(action => action.payload),
+    mergeMap((value: TagCreationParams) => {
+      return this.createTag(value).pipe(
+        map(() => new CreateTagSuccess(value)),
+        catchError(error => of(new CreateTagError({ error }))),
+      );
+    }),
+  );
+
+  @Effect()
+  deleteTag$: Observable<Action> = this.actions$.pipe(
+    ofType<DeleteTag>(UserTagsActionTypes.DeleteTag),
+    map(action => action.payload),
+    mergeMap((key: string) => {
+      return this.deleteTag([{ key }]).pipe(
+        map(() => new DeleteTagSuccess(key)),
+        catchError(error => of(new DeleteTagError({ error }))),
+      );
+    }),
+  );
+
   private readonly resourceType = 'User';
 
   // todo: make sure it's loaded before app starts
@@ -406,6 +453,13 @@ export class UserTagsEffects {
           resourceid: resourceId,
         });
       }),
+    );
+  }
+
+  private updateTag(tag: TagCreationParams, oldTagKey: string) {
+    return this.deleteTag([{ key: oldTagKey }]).pipe(
+      switchMap(() => this.createTag(tag)),
+      catchError(() => this.createTag(tag)),
     );
   }
 

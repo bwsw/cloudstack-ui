@@ -18,14 +18,17 @@ import {
   VmSettingsComponent,
 } from './components';
 import { SettingsComponent } from './containers';
+import { TagsSettingsComponent } from './components/tags-settings/tags-settings.component';
+import { TagsModule } from '../tags/tags.module';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, MaterialModule, ClipboardModule],
+  imports: [CommonModule, SharedModule, MaterialModule, ClipboardModule, TagsModule],
   exports: [SettingsComponent],
   providers: [ClipboardService],
   declarations: [
     SettingsComponent,
     SecuritySettingsComponent,
+    TagsSettingsComponent,
     VmSettingsComponent,
     ApiSettingsComponentComponent,
     InterfaceSettingsComponent,

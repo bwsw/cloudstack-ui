@@ -1534,7 +1534,7 @@
     },
     "REQUEST": {
       "REQUEST_RESOURCES_BUTTON": "Обновить ресурсы",
-      "REQUEST_RESOURCES_TITLE": "Запрос ресурсов",
+      "REQUEST_RESOURCES_TITLE": "Обновить ресурсы",
       "LIMIT_UPDATED": "Лимиты ресурсов успешно изменены",
       "CAN_NOT_CHANGE_RESOURCES": "Невозможно изменить ресурсы",
       "REQUEST_BUTTON": "Обновить"
@@ -1615,6 +1615,12 @@
     "VM_PREFERENCES": {
       "TITLE": "Настройки ВМ",
       "KEYBOARD_LAYOUT": "Раскладка клавиатуры"
+    },
+    "ACCOUNT_TAGS": {
+      "TITLE": "Теги аккаунта"
+    },
+    "USER_TAGS": {
+      "TITLE": "Теги пользователя"
     },
     "VM_LOGS": {
       "TITLE": "Просмотр логов (режим реального времени)",

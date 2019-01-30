@@ -4,4 +4,6 @@ export enum SettingsPageViewMode {
   VmPreferences = 'VmPreferences',
   LookAndFeel = 'LookAndFeel',
   LogView = 'LogView',
+  AccountTags = 'AccountTags',
+  UserTags = 'UserTags',
 }

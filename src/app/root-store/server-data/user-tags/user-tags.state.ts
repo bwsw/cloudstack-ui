@@ -6,6 +6,7 @@ import { Tag } from '../../../shared/models';
 
 export interface UserTagsState extends EntityState<Tag> {
   isLoaded: boolean;
+  isShowSystemTags: boolean;
 }
 
 export const adapter: EntityAdapter<Tag> = createEntityAdapter<Tag>({
@@ -95,4 +96,5 @@ export const initialState: UserTagsState = adapter.getInitialState({
   isLoaded: false,
   ids: initialIds,
   entities: initialEntities,
+  isShowSystemTags: true,
 });

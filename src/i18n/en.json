@@ -1537,7 +1537,7 @@
     },
     "REQUEST": {
       "REQUEST_RESOURCES_BUTTON": "Update resources",
-      "REQUEST_RESOURCES_TITLE": "Request resources",
+      "REQUEST_RESOURCES_TITLE": "Update resources",
       "LIMIT_UPDATED": "Resource limits updated successfully",
       "CAN_NOT_CHANGE_RESOURCES": "You can not change any resource limits",
       "REQUEST_BUTTON": "Update"
@@ -1618,6 +1618,12 @@
     "VM_PREFERENCES": {
       "TITLE": "VM preferences",
       "KEYBOARD_LAYOUT": "Keyboard layout"
+    },
+    "ACCOUNT_TAGS": {
+      "TITLE": "Account tags"
+    },
+    "USER_TAGS": {
+      "TITLE": "User tags"
     },
     "VM_LOGS": {
       "TITLE": "Log View (real-time mode)",
