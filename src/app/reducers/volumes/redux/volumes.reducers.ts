@@ -320,11 +320,13 @@ export const selectVmWithVolumeSnapshot = createSelector(
   fromVMs.selectEntities,
   selectVolumesWithSnapshots,
   (vmEntities, volumesWithSnap) => {
-    const vmWithVolume = volumesWithSnap.map(volume => {
-      if (volume && volume.snapshots) {
-        return vmEntities[volume.virtualmachineid];
-      }
-    });
+    const vmWithVolume = volumesWithSnap
+      .map(volume => {
+        if (volume && volume.snapshots) {
+          return vmEntities[volume.virtualmachineid];
+        }
+      })
+      .filter(Boolean);
     return uniq(vmWithVolume);
   },
 );
