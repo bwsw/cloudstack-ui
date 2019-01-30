@@ -94,7 +94,7 @@ The list of available service offerings is managed by an Administrator. Service 
 
 *Custom* service offerings are offerings with adjustable parameters. You can set the amount of CPU cores, CPU memory and Network rate as you need. 
 
-By default, the dialog box opens at a list the default service offering belongs to (if it is defined in the configuration file). If no default offering is set, the "Fixed" list opens first. If there are no offerings in the *Fixed *list, the *Custom* list of offerings opens first. If there are no available service offerings, you will see a notification.
+.. By default, the dialog box opens at a list the default service offering belongs to (if it is defined in the configuration file). If no default offering is set, the "Fixed" list opens first. If there are no offerings in the *Fixed *list, the *Custom* list of offerings opens first. If there are no available service offerings, you will see a notification.
 
 Use the switcher "Fixed/Custom" above the list to select a necessary type of offerings. 
 
