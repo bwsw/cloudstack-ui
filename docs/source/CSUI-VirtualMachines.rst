@@ -294,13 +294,6 @@ Close the dialog window and make sure the newly created VM is in the list of vir
 
 Click "CANCEL" to drop the VM creation.
 
-VM Creation Fails
-""""""""""""""""""""""""""""""
-
-In case an error occurs at VM creation, the dialog box shows the text of the error. Next to it, there is the “Details” button. By clicking it you can open a list of raw logs including JSON requests to the server with their statuses. They can be easily copied by clicking the copy icon below. We implemented this feature to provide access to raw API logs and allow you to copy them and address the support service to get assistance in solving the problem.
-
-.. figure:: _static/CreateVM_ErrorDetails.png
- 
 Below, we have summarized possible issues that may take place at VM creation.
 
 Possible Issues When Creating a Virtual Machine
@@ -322,7 +315,16 @@ You can face the following issues when creating a virtual machine:
 
 - VM host name you specified is not unique.
 
-  If the name specified for the virtual machine is not unique within a zone, the dialog window after VM creation will show an error. The VM will not be created. The creation form will be closed. You will have to open the VM creation form and fill it in again. You will have to specify another host name for your VM or leave it empty to let the system autogenerate a correct unique host name in the form of ```vm-<UID>```.
+  If the name specified for the virtual machine is not unique within a zone, the dialog window after VM creation will show an error. The VM will not be created. The creation form will be closed. You will have to open the VM creation form and fill it in again. You will have to specify another host name for your VM or leave it empty to let the system autogenerate a correct unique host name in the form of ``vm-<UID>``.
+  
+View API logs at VM creation failures
+"""""""""""""""""""""""""""""""""""""""""""""
+
+In case an error occurs at VM creation, the dialog box shows the text of the error. Next to it, there is the “Details” button. By clicking it you can open a list of raw logs including JSON requests to the server with their statuses. They can be easily copied by clicking the copy icon below. 
+
+.. figure:: _static/CreateVM_ErrorDetails.png
+
+We implemented this feature to provide access to raw API logs and allow you to copy them and address the support service to get assistance in solving the problem in the shortest time.
 
 .. _VM_Actions:
 
