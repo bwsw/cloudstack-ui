@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-23 14:31+0700\n"
-"PO-Revision-Date: 2019-01-23 15:40+0700\n"
+"POT-Creation-Date: 2019-01-30 11:07+0700\n"
+"PO-Revision-Date: 2019-01-30 11:08+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -131,7 +131,7 @@ msgstr "Фильтровать список можно по следующим �
 
 #: ../../CSUI-Snapshots.rst:42
 msgid "by Accounts (available to Administrators)."
-msgstr "по аккаунтам (доступно Администраторам)."
+msgstr "по аккаунтам (доступно для Администраторов)."
 
 #: ../../CSUI-Snapshots.rst:43
 msgid ""
@@ -145,10 +145,10 @@ msgstr ""
 #: ../../CSUI-Snapshots.rst:44
 msgid ""
 "by Virtual Machine - Select a VM or VMs in the drop-down list to filter the "
-"list for the snapshots for those belonging to the VM or VMs."
+"list for the snapshots belonging to the disks of the VM or VMs."
 msgstr ""
 "по виртуальным машинам - выберите машину или несколько машин в ниспадающем "
-"списке для фильтрации снимков, принадлежащих этой машине/этим машинам."
+"списке для фильтрации снимков, принадлежащих дискам этой машины/этих машин."
 
 #: ../../CSUI-Snapshots.rst:45
 msgid ""
@@ -164,7 +164,7 @@ msgstr "Снимки можно группировать:"
 
 #: ../../CSUI-Snapshots.rst:49
 msgid "by Accounts (available for Administrators) and/or"
-msgstr "по аккаунтам (доступно Администраторам) и/или "
+msgstr "по аккаунтам (доступно для Администраторов) и/или "
 
 #: ../../CSUI-Snapshots.rst:50
 msgid "by Type (for Volume snapshots) or"
@@ -172,7 +172,7 @@ msgstr "по типу (доступно для снимков дисков) ил
 
 #: ../../CSUI-Snapshots.rst:51
 msgid "by VM (for VM snapshots)(*is not currently available*)."
-msgstr "по виртуальным машинам (для снимков машин) (*в данный момент не доступна*)."
+msgstr "по виртуальным машинам (*в данный момент не доступна*)."
 
 #: ../../CSUI-Snapshots.rst:53
 msgid "The searching tool allows to find a snapshot by:"
@@ -258,7 +258,7 @@ msgid ""
 "details of the VM for more information."
 msgstr ""
 "Имя виртуальной машины, которой принадлежит снимок. Имя является активной "
-"ссылкой на детали машины."
+"ссылкой на панель деталей машины."
 
 #: ../../CSUI-Snapshots.rst:85
 msgid "Snapshot Actions Box"
@@ -310,7 +310,7 @@ msgstr "Ниже каждое действие описано подробнее
 
 #: ../../CSUI-Snapshots.rst:107
 msgid "**Create Template**"
-msgstr "**Создать шаблон**"
+msgstr "**Создат шаблон**"
 
 #: ../../CSUI-Snapshots.rst:109
 msgid "Open a creation form to register a new template from a Volume snapshot."

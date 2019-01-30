@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 10:24+0700\n"
-"PO-Revision-Date: 2019-01-30 10:29+0700\n"
+"POT-Creation-Date: 2019-01-30 11:07+0700\n"
+"PO-Revision-Date: 2019-01-30 11:12+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -1775,11 +1775,11 @@ msgstr "**Присоединить диск**  — Позволяет присо
 
 #: ../../CSUI-VirtualMachines.rst:580
 msgid ""
-"Attaching volumes available for machines in the \"Running\" status only. "
-"Attaching a volume is not available for machines with active snapshots."
+"Attaching volumes available for machines in the «Running» status only. Attaching "
+"a volume is not available for machines with active snapshots."
 msgstr ""
-"Присоединение дисков доступно только для запущенных машин. Нельзя прикрепить "
-"диск, если у машины есть активные снимки."
+"Нельзя прикрепить диск, если у машины есть активные снимки или машина "
+"остановлена."
 
 #: ../../CSUI-VirtualMachines.rst:582
 msgid ""
