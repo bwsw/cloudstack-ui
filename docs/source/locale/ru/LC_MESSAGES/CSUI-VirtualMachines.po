@@ -1778,7 +1778,7 @@ msgid ""
 "Attaching volumes available for machines in the «Running» status only. Attaching "
 "a volume is not available for machines with active snapshots."
 msgstr ""
-"Нельзя прикрепить диск, если у машины есть активные снимки или машина "
+"Нельзя присоединить диск, если у машины есть активные снимки или машина "
 "остановлена."
 
 #: ../../CSUI-VirtualMachines.rst:582
