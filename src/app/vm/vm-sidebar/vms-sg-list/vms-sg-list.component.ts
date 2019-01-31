@@ -8,8 +8,6 @@ import { SecurityGroup } from '../../../security-group/sg.model';
 })
 export class VmsSgListComponent {
   @Input()
-  public selectedSecurityGroups: SecurityGroup[] = [];
-  @Input()
   public securityGroups: SecurityGroup[];
   @Input()
   public isLoading: boolean;

@@ -836,6 +836,7 @@ export class VirtualMachinesEffects {
       ).pipe(
         switchMap(() => {
           if (action.payload.vm.state === VmState.Running) {
+            return this.stop(action.payload.vm).pipe(map(() => action));
           }
           return of(action);
         }),

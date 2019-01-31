@@ -34,7 +34,6 @@ export class FirewallRulesDetailComponent {
     this.dialog
       .open(SgListContainerComponent, {
         width: '776px',
-        data: this.vm.securitygroup,
       } as MatDialogConfig)
       .afterClosed()
       .subscribe((sg: SecurityGroup) => {

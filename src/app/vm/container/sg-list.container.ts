@@ -12,7 +12,6 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
   template: `
     <cs-vms-sg-list
       [securityGroups]="sortedGroups$ | async"
-      [selectedSecurityGroups]="selectedSecurityGroups"
       [isLoading]="loading$ | async"
       (save)="onSave($event)"
       (cancel)="onCancel()"
@@ -24,15 +23,12 @@ export class SgListContainerComponent {
     select(fromSecurityGroups.getSortedSecurityGroupForVmDetails),
   );
   readonly loading$ = this.store.pipe(select(fromSecurityGroups.isListLoading));
-  public selectedSecurityGroups: SecurityGroup[];
 
   constructor(
     private store: Store<State>,
     private dialogRef: MatDialogRef<SgListContainerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: SecurityGroup[],
   ) {
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
-    this.selectedSecurityGroups = data;
   }
 
   public onSave(savedData: SecurityGroup): void {

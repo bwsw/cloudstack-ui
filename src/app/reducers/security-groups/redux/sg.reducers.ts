@@ -21,10 +21,7 @@ const sortBySelected = (a: SecurityGroup, b: SecurityGroup) => {
   const aIsPreselected = a.isPreselected;
   const bIsPreselected = b.isPreselected;
 
-  if (aIsPreselected && bIsPreselected) {
-    return a.name.localeCompare(b.name);
-  }
-  if (!aIsPreselected && !bIsPreselected) {
+  if ((aIsPreselected && bIsPreselected) || (!aIsPreselected && !bIsPreselected)) {
     return a.name.localeCompare(b.name);
   }
   if (aIsPreselected && !bIsPreselected) {
