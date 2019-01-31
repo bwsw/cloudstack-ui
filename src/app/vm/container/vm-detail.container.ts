@@ -166,7 +166,9 @@ export class VmDetailContainerComponent implements OnInit {
 
   public ngOnInit() {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      this.store.dispatch(new zoneActions.LoadSelectedZone(vm.zoneid));
+      if (vm) {
+        this.store.dispatch(new zoneActions.LoadSelectedZone(vm.zoneid));
+      }
     });
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.store.dispatch(new fromAffinityGroupsActions.LoadAffinityGroupsRequest());
