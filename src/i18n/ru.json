@@ -415,7 +415,7 @@
       },
       "SECURITY_GROUP": {
         "STOP_MACHINE_FOR_SG": "Для того, чтобы изменить группу безопасности, необходимо остановить виртуальную машину. Хотите остановить сейчас?",
-        "ASK_TO_CHANGE_SG": "Are you sure you want to detach security group?"
+        "ASK_TO_CHANGE_SG": "Вы уверены, что хотите открепить группу безопасности?"
       },
       "INSTANCE_GROUP": {
         "TITLE": "Группа",
