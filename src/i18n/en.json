@@ -616,7 +616,7 @@
       "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template",
       "NO_TEMPLATES": "No templates available",
-      "NO_OFFERINGS": "No offerings available",
+      "NO_OFFERINGS": "There are no service offering available",
       "GENERAL": "General",
       "ADVANCED": "Advanced",
       "DETAILS": "Details",

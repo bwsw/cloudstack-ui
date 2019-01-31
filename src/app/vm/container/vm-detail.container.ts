@@ -15,6 +15,7 @@ import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { VmSnapshotListDialogComponent } from '../components/vm-snapshot-list-dialog/vm-snapshot-list-dialog.component';
 import { VirtualMachine } from '../shared/vm.model';
 import { areOfferingsAvailable } from '../selectors';
+import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 
 const vmDescriptionKey = 'csui.vm.description';
 
@@ -164,13 +165,15 @@ export class VmDetailContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
+      this.store.dispatch(new zoneActions.LoadSelectedZone(vm.zoneid));
+    });
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.store.dispatch(new fromAffinityGroupsActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new vmSnapshotsActions.Load());
-    this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
-
     this.store.dispatch(
       new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters),
     );
+    this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
   }
 }
