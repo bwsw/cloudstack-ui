@@ -1,7 +1,3 @@
-.. Test Branch documentation master file, created by
-   sphinx-quickstart on Thu Jun  8 13:48:55 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
 Welcome to CloudStack-UI!
 =======================================
@@ -25,9 +21,10 @@ Contents:
 
    CS-UI_Overview
    CS-UI_Guide
-   CSUI-LogView
    CS-UI_Pulse
    CS-UI_Webshell
+   CSUI-LogView
+   CS-UI_Resources
 
    
    
