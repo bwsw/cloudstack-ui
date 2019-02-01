@@ -31,9 +31,9 @@ export class FirewallRulesDetailContainerComponent implements OnInit {
   }
 
   public onDetachFirewall(securityGroupId: string) {
-    const securityGroups = this.vm.securitygroup.map(sg => sg.id);
-    const index = securityGroups.findIndex(_ => _ === securityGroupId);
-    securityGroups.splice(index);
+    const securityGroups = this.vm.securitygroup
+      .map(sg => sg.id)
+      .filter(id => id !== securityGroupId);
 
     this.askToDetachFirewall()
       .pipe(filter(Boolean))

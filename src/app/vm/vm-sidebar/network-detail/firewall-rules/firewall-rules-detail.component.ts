@@ -24,7 +24,7 @@ export class FirewallRulesDetailComponent {
     const vmId = this.vm.id;
     this.dialog
       .open(SgRulesContainerComponent, {
-        width: '776px',
+        width: '880px',
         data: { vmId, securityGroupId: entity.id },
       } as MatDialogConfig)
       .afterClosed();
@@ -33,7 +33,7 @@ export class FirewallRulesDetailComponent {
   public showAttachFirewallDialog() {
     this.dialog
       .open(SgListContainerComponent, {
-        width: '776px',
+        width: '600px',
       } as MatDialogConfig)
       .afterClosed()
       .subscribe((sg: SecurityGroup) => {

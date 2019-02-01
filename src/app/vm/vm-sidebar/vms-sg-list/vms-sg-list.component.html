@@ -3,24 +3,21 @@
   <mat-list>
     <mat-list-item
       *ngFor="let sg of securityGroups"
-      lines="2"
       [ngClass]="sg?.isPreselected ? 'preselected' : 'list-item'"
     >
-      <span class="mat-list-text" (click)="$event.stopPropagation(); selectSecurityGroup(sg)">
-        <h4 matLine>
-          <span>{{ sg.name }}</span>
-        </h4>
+      <div class="mat-list-text" (click)="$event.stopPropagation(); selectSecurityGroup(sg)">
+        <h4 matLine>{{ sg.name }}</h4>
         <p matLine class="matLine-secondary">{{ sg.description }}</p>
-      </span>
-      <span>
-        <mat-radio-button
-          *ngIf="!sg?.isPreselected"
-          name="security-group"
-          [checked]="sg?.id === currentSelectedSecurityGroup?.id"
-          [value]="sg"
-          (click)="selectSecurityGroup(sg)"
-        ></mat-radio-button>
-      </span>
+      </div>
+
+      <mat-radio-button
+        *ngIf="!sg?.isPreselected"
+        name="security-group"
+        [tabIndex]="-1"
+        [checked]="sg?.id === currentSelectedSecurityGroup?.id"
+        [value]="sg"
+        (click)="selectSecurityGroup(sg)"
+      ></mat-radio-button>
     </mat-list-item>
   </mat-list>
 </div>
