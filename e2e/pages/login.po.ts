@@ -44,7 +44,10 @@ export class Login extends CloudstackUiPage {
   }
 
   logout() {
-    element(by.css('.link-element.mat-icon.mdi-exit-to-app.mdi')).click();
+    element
+      .all(by.css('.mat-icon.mdi-exit-to-app.mdi'))
+      .last()
+      .click();
   }
 
   domainIsPresent() {
