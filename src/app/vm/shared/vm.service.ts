@@ -57,7 +57,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public deploy(params: {}): Observable<any> {
-    return this.sendCommand(CSCommands.Deploy, params);
+    return this.sendPostCommand(CSCommands.Deploy, params);
   }
 
   public command(vm: VirtualMachine, command: string, params?: {}): Observable<VirtualMachine> {
