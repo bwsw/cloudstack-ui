@@ -163,4 +163,26 @@ export class Utils {
       period: DayPeriod.Pm,
     };
   }
+
+  public static encodeStringToBase64(str: string): string {
+    if (!str) {
+      return null;
+    }
+    return btoa(str);
+  }
+
+  public static decodeStringFromBase64(base64: string): string {
+    if (!base64) {
+      return null;
+    }
+    return atob(base64);
+  }
+
+  public static sizeOfBase64String(base64String: string): number {
+    if (!base64String) {
+      return 0;
+    }
+    const padding = base64String.match(/(=*)$/)[1].length;
+    return 4 * Math.ceil(base64String.length / 3) - padding;
+  }
 }

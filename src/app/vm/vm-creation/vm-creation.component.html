@@ -221,6 +221,20 @@
                 </div>
               </div>
             </mat-tab>
+
+            <mat-tab [label]="'VM_PAGE.VM_CREATION.USER_DATA' | translate">
+              <mat-form-field class="full-width-input">
+                <textarea
+                  matInput
+                  name="userData"
+                  rows="3"
+                  matTextareaAutosize
+                  [ngModel]="vmCreationState.userData"
+                  (ngModelChange)="userDataChanged.emit($event)"
+                  [placeholder]="'VM_PAGE.VM_CREATION.USER_DATA' | translate"
+                ></textarea>
+              </mat-form-field>
+            </mat-tab>
           </mat-tab-group>
         </ng-template>
 

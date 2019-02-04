@@ -185,6 +185,17 @@ export function listReducer(state = initialListState, action: vmActions.Actions)
       };
     }
 
+    case vmActions.LOAD_VM_USER_DATA_RESPONSE: {
+      const { id, userdata } = action.payload;
+      return adapter.updateOne(
+        {
+          id,
+          changes: { userdata },
+        },
+        state,
+      );
+    }
+
     default: {
       return state;
     }

@@ -122,7 +122,8 @@
       "KEY_PAIR_ALREADY_EXISTS": "SSH ключ с именем \"{{ val1 }}\" уже существует"
     },
     "VM": {
-      "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов"
+      "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов",
+      "USER_DATA_TOO_BIG": "Максимально допустимый размер user data превышен"
     },
     "VM_POST_ACTION": {
       "INVALID_URL": "Неподдерживаемый URL. Проверьте значения, задаваемые в тэгах ВМ"
@@ -282,7 +283,10 @@
       "COLOR_CHANGE_DONE": "Цвет ВМ изменен",
       "CHANGE_SSH_IN_PROGRESS": "Изменение SSH-ключа",
       "CHANGE_SSH_DONE": "SSH-ключ изменен",
-      "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ"
+      "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ",
+      "CHANGE_USER_DATA_IN_PROGRESS": "Изменение user data",
+      "CHANGE_USER_DATA_DONE": "User data изменена",
+      "CHANGE_USER_DATA_FAILED": "Не удалось изменить user data"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Открепление диска",
@@ -411,7 +415,8 @@
         "TITLE": "Общая информация",
         "ZONE": "Зона",
         "HOST_NAME": "Имя хоста",
-        "ID": "ID"
+        "ID": "ID",
+        "USER_DATA": "User data"
       },
       "SECURITY_GROUP": {
         "STOP_MACHINE_FOR_SG": "Для того, чтобы изменить группу безопасности, необходимо остановить виртуальную машину. Хотите остановить сейчас?",
@@ -631,6 +636,7 @@
       "NO_OFFERINGS": "Нет доступных вычислительных предложений",
       "GENERAL": "Основные",
       "ADVANCED": "Дополнительные",
+      "USER_DATA": "User data",
       "DETAILS": "Детали",
       "REQUEST": "ЗАПРОС",
       "PARAMS": "ПАРАМЕТРЫ",
@@ -648,6 +654,11 @@
         "DESCRIPTION": "Описание",
         "DATE": "Дата",
         "ACTIONS": "Действия"
+      },
+      "VM_USER_DATA": {
+        "TITLE": "User data",
+        "USER_DATA": "User data",
+        "NO_USER_DATA": "User data не задана"
       }
     }
   },

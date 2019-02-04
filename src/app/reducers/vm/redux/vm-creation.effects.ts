@@ -69,6 +69,7 @@ interface VmCreationParams {
   size?: number;
   templateId?: string;
   zoneId?: string;
+  userData?: string;
 }
 
 export enum VmDeploymentStage {
@@ -648,6 +649,10 @@ export class VirtualMachineCreationEffects {
 
     if (!state.name.length) {
       delete params.name;
+    }
+
+    if (state.userData) {
+      params.userData = Utils.encodeStringToBase64(state.userData);
     }
 
     return params;
