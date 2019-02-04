@@ -9,7 +9,7 @@ describe('e2e-test-login', () => {
   beforeEach(() => {
     page = new Login();
     vmlist = new VMList();
-    page.navigateTo();
+    page.navigateTo('/');
   });
 
   it('Show/Hide options: domain', () => {
@@ -70,8 +70,8 @@ describe('e2e-test-login', () => {
     browser.waitForAngularEnabled(false);
     page.waitRedirect('instances');
     page.checkUrlToContain('instances');
-    vmlist.waitVMPropose();
-    vmlist.cancelVMPropose();
+    vmlist.waitDialogModal();
+    vmlist.cancelDialog();
     page.logout();
     page.waitUrlContains('login');
   });
@@ -81,8 +81,8 @@ describe('e2e-test-login', () => {
     page.login();
     browser.waitForAngularEnabled(false);
     page.waitRedirect('instances');
-    vmlist.waitVMPropose();
-    vmlist.cancelVMPropose();
+    vmlist.waitDialogModal();
+    vmlist.cancelDialog();
     page.logout();
     page.waitUrlContains('login');
     browser.get(`${browser.baseUrl}/instances`);

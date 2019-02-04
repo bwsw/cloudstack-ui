@@ -8,8 +8,10 @@ You can see examples of the configurations in the [config-example.json](https://
   - [API Doc Link](#api-doc-link)
 - [Extensions](#extensions)
   - [Log View Plugin](#log-view-plugin)
+  - [Resource Limits Plugin](#resource-limits-plugin)
 - [Virtual Machines Settings](#virtual-machines-settings)
   - [VM Colors](#vm-colors)
+  - [VM Snapshots Limit](#vm-snapshots-limit)
 - [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
   - [Security Group Templates](#security-group-templates)
   - [Default Security Group Name](#default-security-group-name)
@@ -21,7 +23,7 @@ You can see examples of the configurations in the [config-example.json](https://
   - [Default Time Format](#default-time-format)
   - [Default Theme](#default-theme)
   - [Session Timeout](#session-timeout)
-  - [Automatically generate secret key and API key for users](#auto-generate-user-keys)
+  - [Automatically generate secret key and API key for users](#automatically-generate-secret-key-and-API-key-for-users)
 - [Service Offering Setting](#service-offering-setting)
   - [Custom Compute Offering Parameters](#custom-compute-offering-parameters)
   - [Default Compute Offering](#default-compute-offering)
@@ -75,7 +77,8 @@ For example,
 "extensions": {
   "webShell": true,
   "pulse": false,
-  "vmLogs": false
+  "vmLogs": false,
+  "resourceLimits": false
 }
 ```
 
@@ -103,6 +106,23 @@ For example,
 }
 ```
 
+### Resource Limits Plugin
+
+Allows you to configure Resource Limits plugin.
+
+`realm` - realm of the configured gateway.
+
+`env` - environment of the configured gateway.
+
+For example,
+
+```
+"resourceLimits": {
+  "realm": "resource-limits",
+  "env": "prod"
+}
+```
+
 ## Virtual Machines Settings
 
 ### VM Colors
@@ -120,6 +140,20 @@ For example,
   { "value": "#673AB7" },
   { "value": "#3F51B5" }
 ]
+```
+
+### VM Snapshots Limit
+
+Allows you to set the maximum number of VM snapshots. You can enable feature  like this``` "enable": true ```. By default, this feature is disabled. The minimum value for snapshots limit is 0.
+
+For example,
+
+```
+"vmSnapLimit": {
+  "enable": false,
+  "snapshotsLimit": 0
+}
+
 ```
 
 ## Firewall (Security Groups) Settings

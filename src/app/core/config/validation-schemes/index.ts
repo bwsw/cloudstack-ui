@@ -3,6 +3,7 @@ import * as defaultDomain from './default-domain.scheme.json';
 import * as apiDocLink from './api-doc-link.scheme.json';
 import * as extensions from './extensions.scheme.json';
 import * as vmLogs from './vm-logs.scheme.json';
+import * as resourceLimits from './resource-limits.scheme.json';
 
 import * as vmColors from './vm-colors.scheme.json';
 
@@ -22,6 +23,7 @@ import * as securityGroupTemplates from './security-group-templates.scheme.json'
 
 import * as imageGroups from './image-groups.scheme.json';
 import * as defaultSecurityGroupName from './default-security-group-name.scheme.json';
+import * as vmSnapLimit from './vm-snap-limit.scheme.json';
 import * as autoGenerateUserKeys from './auto-generate-user-keys.scheme.json';
 
 export {
@@ -32,8 +34,11 @@ export {
   extensions,
   // Log View settings
   vmLogs,
+  // Resource limits settings
+  resourceLimits,
   // Virtual machines settings
   vmColors,
+  vmSnapLimit,
   // User app settings
   defaultFirstDayOfWeek,
   defaultInterfaceLanguage,

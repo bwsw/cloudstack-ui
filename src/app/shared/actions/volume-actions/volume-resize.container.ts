@@ -28,7 +28,8 @@ import { capabilitiesSelectors } from '../../../root-store';
       [maxRootCapability]="maxRootCapability$ | async"
       (diskResized)="resizeDisk($event)"
     >
-    </cs-volume-resize>`,
+    </cs-volume-resize>
+  `,
 })
 export class VolumeResizeContainerComponent implements OnInit {
   readonly offerings$ = this.store.pipe(select(fromDiskOfferings.getAvailableOfferings));

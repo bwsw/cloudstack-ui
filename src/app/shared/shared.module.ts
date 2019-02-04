@@ -151,6 +151,10 @@ import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { UrlDirective } from './validators/directives';
 import { CapabilityService } from './services/capability.service';
+import { GatewayApiService } from './services/gateway-api.service';
+import { RequestResourcesButtonComponent } from './components/vm-statistics/request-resources-button.component';
+import { RequestResourcesButtonContainerComponent } from './components/vm-statistics/request-resources-button.container';
+import { ApiLogService } from './services/api-log.service';
 import { LogViewGuard } from './services/log-view-guard.service';
 
 const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
@@ -249,6 +253,8 @@ const SHARED_COMPONENTS = [
     TimePickerComponent,
     DayPeriodComponent,
     ErrorMessageComponent,
+    RequestResourcesButtonComponent,
+    RequestResourcesButtonContainerComponent,
     MatExpansionModule,
   ],
   entryComponents: [
@@ -346,11 +352,14 @@ const SHARED_COMPONENTS = [
     DayPeriodComponent,
     ErrorMessageComponent,
     VolumeSnapshotFromVmSnapshotDialogComponent,
+    RequestResourcesButtonComponent,
+    RequestResourcesButtonContainerComponent,
   ],
   providers: [
     AccountService,
     AccountActionsService,
     AffinityGroupService,
+    ApiLogService,
     AsyncJobService,
     AuthGuard,
     LogViewGuard,
@@ -363,6 +372,7 @@ const SHARED_COMPONENTS = [
     DiskOfferingService,
     DomainService,
     ErrorService,
+    GatewayApiService,
     JobsNotificationService,
     LocalStorageService,
     LoginGuard,

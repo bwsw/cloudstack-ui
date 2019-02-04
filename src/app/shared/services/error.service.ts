@@ -77,6 +77,42 @@ export class ErrorService {
       regex: /VM Snapshot revert not allowed. This will result in VM state change. You can revert running VM to disk and memory type snapshot and stopped VM to disk type snapshot/,
       translation: 'ERRORS.SNAPSHOT.REVERT_UNAVAILABLE_FOR_STOPPED',
     },
+    {
+      regex: /Failed to retrieve resource limits/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /Failed to retrieve user account/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /Failed to retrieve accounts/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /Failed to retrieve domains/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
+    },
+    {
+      regex: /maximum must be greater than or equal to minimum/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_GREATER',
+    },
+    {
+      regex: /max must be between (\d+) and (\d+)/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_BETWEEN',
+    },
+    {
+      regex: /Unable to detach volume, please specify a VM that does not have VM snapshots/,
+      translation: 'ERRORS.VOLUME.VOLUME_DETACH_UNAVAILABLE',
+    },
+    {
+      regex: /Unable to attach volume, please specify a VM that does not have VM snapshots/,
+      translation: 'ERRORS.VOLUME.VOLUME_ATTACH_UNAVAILABLE',
+    },
+    {
+      regex: /A volume that is attached to a VM with any VM snapshots cannot be resized./,
+      translation: 'ERRORS.VOLUME.VOLUME_RESIZE_UNAVAILABLE',
+    },
   ];
 
   public static parseError(error: any): any {

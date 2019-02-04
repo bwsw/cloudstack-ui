@@ -1,4 +1,5 @@
 import { BaseModel } from './base.model';
+import { TagCreationParams } from '../../root-store/server-data/user-tags/tag-creation-params';
 
 export const resourceTypes = {
   USER: 'User',
@@ -9,6 +10,11 @@ export const deletionMark = {
   TAG: 'status',
   VALUE: 'removed',
 };
+
+export interface TagUpdatingParams {
+  newTag: TagCreationParams;
+  oldKey: string;
+}
 
 export const defaultCategoryName = 'Common';
 

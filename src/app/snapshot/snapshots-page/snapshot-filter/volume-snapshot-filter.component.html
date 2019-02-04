@@ -26,14 +26,15 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field *ngIf="vms && vms.length !== 0">
     <mat-select
       multiple="true"
       [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_VMS' | translate"
       [ngModel]="selectedVms"
       (selectionChange)="selectedVolumeVmsChange.emit($event.value)"
     >
-      <mat-option *ngFor="let vm of vms" [value]="vm.id"> {{ vm.displayname }} </mat-option>
+      <mat-option [value]="'noVm'">{{ 'SNAPSHOT_PAGE.FILTERS.NO_VM' | translate }}</mat-option>
+      <mat-option *ngFor="let vm of vms" [value]="vm?.id"> {{ vm?.displayname }} </mat-option>
     </mat-select>
   </mat-form-field>
 

@@ -23,6 +23,7 @@ import {
   getComputeOfferingForVmCreation,
   getComputeOfferingForVmEditing,
 } from './view-models/compute-offering-view-model.selector';
+const keyBy = require('lodash/keyBy');
 
 const isComputeOfferingAvailableInZone = (
   offering: ServiceOffering,
@@ -177,5 +178,32 @@ export const selectFilteredOfferings = createSelector(
         queryFilter(offering) &&
         selectedClassesFilter(offering),
     );
+  },
+);
+
+export const areOfferingsAvailable = createSelector(
+  getAvailableOfferings,
+  filterSelectedClasses,
+  filterQuery,
+  configSelectors.get('computeOfferingClasses'),
+  (offerings, selectedClasses, query, classes) => {
+    const classesMap = keyBy(selectedClasses);
+    const queryLower = query && query.toLowerCase();
+
+    const selectedClassesFilter = (offering: ServiceOffering) => {
+      if (selectedClasses.length) {
+        return classesFilter(offering, classes, classesMap);
+      }
+      return true;
+    };
+
+    const queryFilter = (offering: ServiceOffering) =>
+      !query || offering.name.toLowerCase().includes(queryLower);
+
+    const available = offerings.filter(
+      (offering: ServiceOffering) => queryFilter(offering) && selectedClassesFilter(offering),
+    );
+
+    return available.length !== 0;
   },
 );

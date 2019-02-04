@@ -106,6 +106,10 @@ import { VmSnapshotCreationDialogComponent } from './vm-sidebar/vm-detail/vm-sna
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { VmLogsModule } from '../vm-logs/vm-logs.module';
+import { ResourceQuotasModule } from '../resource-quotas/resource-quotas.module';
+import { VmApiLogComponent } from './vm-creation/api-log/vm-api-log.component';
+import { ClipboardModule } from 'ngx-clipboard';
+import { MatExpansionModule } from '@angular/material';
 
 // tslint:enable max-line-length
 
@@ -117,13 +121,16 @@ import { VmLogsModule } from '../vm-logs/vm-logs.module';
     DynamicModule.withComponents([VmListCardItemComponent]),
     DynamicModule.withComponents([VmListRowItemComponent]),
     DraggableSelectModule,
+    ClipboardModule,
     PulseModule,
+    MatExpansionModule,
     RouterModule,
     ServiceOfferingModule,
     SnapshotModule,
     TagsModule,
     TemplateModule,
     TranslateModule,
+    ResourceQuotasModule,
     VmLogsModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),
@@ -208,6 +215,7 @@ import { VmLogsModule } from '../vm-logs/vm-logs.module';
     SecondaryIpListComponent,
     NicFieldsComponent,
     PostdeploymentComponent,
+    VmApiLogComponent,
     VmPasswordDialogComponent,
     ServiceOfferingSelectorComponent,
     InstallationSourceDialogComponent,
@@ -233,6 +241,7 @@ import { VmLogsModule } from '../vm-logs/vm-logs.module';
     VmCreationSecurityGroupContainerComponent,
     VmCreationServiceOfferingContainerComponent,
     PostdeploymentComponent,
+    VmApiLogComponent,
     VmPasswordDialogComponent,
     VmAccessComponent,
     ServiceOfferingDialogContainerComponent,

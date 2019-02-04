@@ -5,3 +5,8 @@
 mat-card {
   z-index: auto;
 }
+
+.custom-card {
+  max-width: 500px !important;
+  width: auto;
+}
