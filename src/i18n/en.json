@@ -267,7 +267,7 @@
       "CHANGE_AFFINITY_GROUP_IN_PROGRESS": "Changing an affinity group",
       "CHANGE_AFFINITY_GROUP_DONE": "Affinity group changed",
       "CHANGE_AFFINITY_GROUP_FAILED": "Failed to change an affinity group",
-      "CHANGE_SECURITY_GROUP_DONE": "Changing a security group",
+      "CHANGE_SECURITY_GROUP_DONE": "Security group changed",
       "CHANGE_SECURITY_GROUP_FAILED": "Failed to change a security group",
       "CHANGE_SECURITY_GROUP_IN_PROGRESS": "Changing a security group",
       "CHANGE_INSTANCE_GROUP_IN_PROGRESS": "Changing an instance group",
