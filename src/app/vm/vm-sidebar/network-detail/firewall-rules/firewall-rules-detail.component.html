@@ -6,18 +6,45 @@
       </h2>
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content>
-    <div class="grid security-group">
-      <div class="row" *ngFor="let group of vm.securitygroup">
-        <span class="sg-name">{{ group.name }}</span>
-        <button
-          mat-icon-button
-          class="mat-icon-button mat-icon-button--small"
-          (click)="showRulesDialog(group)"
-        >
-          <mat-icon class="mdi-eye mdi-18px"></mat-icon>
-        </button>
-      </div>
+  <mat-card-content class="mat-card-content-with-actions">
+    <div class="grid details mat-card-content-container">
+      <ng-container *ngIf="vm?.securitygroup?.length; then vmSG; else noSG"></ng-container>
+      <ng-template #vmSG>
+        <div class="row" *ngFor="let group of vm.securitygroup">
+          <span class="ellipsis-overflow" [matTooltip]="group.name">{{ group.name }}</span>
+
+          <div>
+            <button
+              mat-icon-button
+              [matTooltip]="'VM_PAGE.NETWORK_DETAILS.VIEW' | translate"
+              class="mat-icon-button mat-icon-button--small"
+              (click)="showRulesDialog(group)"
+            >
+              <mat-icon class="mdi-eye mdi-18px"></mat-icon>
+            </button>
+
+            <button
+              class="button-18px"
+              mat-icon-button
+              [matTooltip]="'VM_PAGE.NETWORK_DETAILS.DETACH' | translate"
+              (click)="detachFirewall.emit(group?.id)"
+            >
+              <mat-icon class="mdi-minus"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #noSG> {{ 'VM_PAGE.NETWORK_DETAILS.NO_SG' | translate }} </ng-template>
     </div>
+    <mat-card-actions>
+      <button
+        mat-icon-button
+        [matTooltip]="'VM_PAGE.NETWORK_DETAILS.ATTACH' | translate"
+        (click)="showAttachFirewallDialog()"
+      >
+        <mat-icon class="mdi-plus"></mat-icon>
+      </button>
+    </mat-card-actions>
   </mat-card-content>
 </mat-card>

@@ -267,6 +267,9 @@
       "CHANGE_AFFINITY_GROUP_IN_PROGRESS": "Changing an affinity group",
       "CHANGE_AFFINITY_GROUP_DONE": "Affinity group changed",
       "CHANGE_AFFINITY_GROUP_FAILED": "Failed to change an affinity group",
+      "CHANGE_SECURITY_GROUP_DONE": "Security group changed",
+      "CHANGE_SECURITY_GROUP_FAILED": "Failed to change a security group",
+      "CHANGE_SECURITY_GROUP_IN_PROGRESS": "Changing a security group",
       "CHANGE_INSTANCE_GROUP_IN_PROGRESS": "Changing an instance group",
       "CHANGE_INSTANCE_GROUP_DONE": "Instance group changed",
       "CHANGE_INSTANCE_GROUP_FAILED": "Failed to change an instance group",
@@ -408,6 +411,10 @@
         "ZONE": "Zone",
         "HOST_NAME": "VM host name",
         "ID": "ID"
+      },
+      "SECURITY_GROUP": {
+        "STOP_MACHINE_FOR_SG": "You need to stop the virtual machine to change security group. Do you want to stop it now?",
+        "ASK_TO_CHANGE_SG": "Are you sure you want to detach security group?"
       },
       "INSTANCE_GROUP": {
         "TITLE": "Group",
@@ -580,7 +587,11 @@
       "type": "Type",
       "FIREWALL_RULES": "Firewall rules",
       "INGRESS": "Incoming",
-      "EGRESS": "Outgoing"
+      "EGRESS": "Outgoing",
+      "ATTACH": "Attach",
+      "DETACH": "Detach",
+      "VIEW": "View",
+      "NO_SG": "No security group"
     },
     "VM_CREATION": {
       "NEW_VM": "New virtual machine",
@@ -1683,7 +1694,8 @@
     "ALL_GROUPS": "All templates",
     "SELECTED_GROUPS": "Selected templates",
     "NETWORK_RULES": "Network rules",
-    "SELECT_SECURITY_GROUP": "Select a group"
+    "SELECT_SECURITY_GROUP": "Select a group",
+    "ATTACHMENT": "Shared Security Group attachment"
   },
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Change service offering",

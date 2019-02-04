@@ -8,6 +8,7 @@ import { VmState } from '../../../vm/shared/vm.model';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmDeploymentMessage } from './vm-creation.effects';
 import { FormState } from './vm.reducers';
+import { SecurityGroup } from '../../../security-group/sg.model';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -20,6 +21,7 @@ export const LOAD_SELECTED_VM = '[VM] LOAD_SELECTED_VM';
 export const VM_CHANGE_DESCRIPTION = '[VM] VM_CHANGE_DESCRIPTION';
 export const VM_CHANGE_SERVICE_OFFERING = '[VM] VM_CHANGE_SERVICE_OFFERING';
 export const VM_CHANGE_AFFINITY_GROUP = '[VM] VM_CHANGE_AFFINITY_GROUP';
+export const VM_CHANGE_SECURITY_GROUP = '[VM] VM_CHANGE_SECURITY_GROUP';
 export const VM_CHANGE_INSTANCE_GROUP = '[VM] VM_CHANGE_INSTANCE_GROUP';
 export const VM_REMOVE_INSTANCE_GROUP = '[VM] VM_REMOVE_INSTANCE_GROUP';
 export const VM_ADD_SECONDARY_IP = '[VM] VM_ADD_SECONDARY_IP';
@@ -149,6 +151,17 @@ export class ChangeAffinityGroup implements Action {
     public payload: {
       vm: VirtualMachine;
       affinityGroupIds: string[];
+    },
+  ) {}
+}
+
+export class ChangeSecurityGroup implements Action {
+  type = VM_CHANGE_SECURITY_GROUP;
+
+  constructor(
+    public payload: {
+      vm: VirtualMachine;
+      securityGroups: string[];
     },
   ) {}
 }
@@ -489,6 +502,7 @@ export type Actions =
   | LoadSelectedVM
   | ChangeDescription
   | ChangeServiceOffering
+  | ChangeSecurityGroup
   | ChangeAffinityGroup
   | ChangeInstanceGroup
   | RemoveInstanceGroup

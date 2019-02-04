@@ -107,6 +107,8 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { VmLogsModule } from '../vm-logs/vm-logs.module';
 import { ResourceQuotasModule } from '../resource-quotas/resource-quotas.module';
+import { SgListContainerComponent } from './container/sg-list.container';
+import { VmsSgListComponent } from './vm-sidebar/vms-sg-list/vms-sg-list.component';
 import { VmApiLogComponent } from './vm-creation/api-log/vm-api-log.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MatExpansionModule } from '@angular/material';
@@ -223,6 +225,9 @@ import { MatExpansionModule } from '@angular/material';
     VmSnapshotsSidebarCardComponent,
     VmSnapshotCreationDialogComponent,
     VmSnapshotListDialogComponent,
+    VmTagsContainerComponent,
+    VmsSgListComponent,
+    SgListContainerComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
@@ -247,6 +252,8 @@ import { MatExpansionModule } from '@angular/material';
     ServiceOfferingDialogContainerComponent,
     VmSnapshotCreationDialogComponent,
     VmSnapshotListDialogComponent,
+    ServiceOfferingDialogContainerComponent,
+    SgListContainerComponent,
   ],
 })
 export class VmModule {}

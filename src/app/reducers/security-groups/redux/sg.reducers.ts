@@ -14,6 +14,23 @@ import * as securityGroupActions from './sg.actions';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { configSelectors } from '../../../root-store/config';
 import { UserTagsSelectors } from '../../../root-store/server-data/user-tags';
+import * as fromVMs from '../../vm/redux/vm.reducers';
+import { VirtualMachine } from '../../../vm';
+
+const sortBySelected = (a: SecurityGroup, b: SecurityGroup) => {
+  const aIsPreselected = a.isPreselected;
+  const bIsPreselected = b.isPreselected;
+
+  if ((aIsPreselected && bIsPreselected) || (!aIsPreselected && !bIsPreselected)) {
+    return a.name.localeCompare(b.name);
+  }
+  if (aIsPreselected && !bIsPreselected) {
+    return -1;
+  }
+  if (!aIsPreselected && bIsPreselected) {
+    return 1;
+  }
+};
 
 export interface State {
   list: ListState;
@@ -160,15 +177,30 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getSecurityGroupsEntitiesState,
 );
 
-export const filters = createSelector(getSecurityGroupsEntitiesState, state => state.filters);
+export const filters = createSelector(
+  getSecurityGroupsEntitiesState,
+  state => state.filters,
+);
 
-export const viewMode = createSelector(filters, state => state.viewMode);
+export const viewMode = createSelector(
+  filters,
+  state => state.viewMode,
+);
 
-export const query = createSelector(filters, state => state.query);
+export const query = createSelector(
+  filters,
+  state => state.query,
+);
 
-export const selectOrphanSG = createSelector(filters, state => state.selectOrphanSG);
+export const selectOrphanSG = createSelector(
+  filters,
+  state => state.selectOrphanSG,
+);
 
-export const filterSelectedAccountIds = createSelector(filters, state => state.selectedAccountIds);
+export const filterSelectedAccountIds = createSelector(
+  filters,
+  state => state.selectedAccountIds,
+);
 
 export const getSelectedId = createSelector(
   getSecurityGroupsEntitiesState,
@@ -181,9 +213,15 @@ export const getSelectedSecurityGroup = createSelector(
   (state, selectedId) => state.entities[selectedId],
 );
 
-export const isListLoading = createSelector(getSecurityGroupsEntitiesState, state => state.loading);
+export const isListLoading = createSelector(
+  getSecurityGroupsEntitiesState,
+  state => state.loading,
+);
 
-export const isFormLoading = createSelector(getSecurityGroupsFormState, state => state.loading);
+export const isFormLoading = createSelector(
+  getSecurityGroupsFormState,
+  state => state.loading,
+);
 
 const selectDefaultSecurityGroupName = createSelector(
   configSelectors.get('defaultSecurityGroupName'),
@@ -275,6 +313,37 @@ export const selectSecurityGroupsForVmCreation = createSelector(
   },
 );
 
+const sortSecurityGroups = (securityGroups: SecurityGroup[]) => {
+  return securityGroups.sort(sortBySelected);
+};
+
+export const setSecurityGroupState = (
+  securityGroups: SecurityGroup[],
+  preselectedGroups: SecurityGroup[],
+): SecurityGroup[] => {
+  if (preselectedGroups) {
+    const list = securityGroups.map(group => {
+      const isPreselected = !!preselectedGroups.find(preselected => {
+        if (preselected && group) {
+          return preselected.id === group.id;
+        }
+      });
+      return { ...group, isPreselected };
+    });
+    return list;
+  }
+  return securityGroups;
+};
+
+export const getSortedSecurityGroupForVmDetails = createSelector(
+  selectSecurityGroupsForVmCreation,
+  fromVMs.getSelectedVmSecurityGroup,
+  (securityGroup: SecurityGroup[], preselectedGroups: SecurityGroup[]): SecurityGroup[] => {
+    const list = setSecurityGroupState(securityGroup, preselectedGroups);
+    return sortSecurityGroups(list);
+  },
+);
+
 export const selectDefaultSecurityGroup = createSelector(
   selectAll,
   selectDefaultSecurityGroupName,
@@ -285,5 +354,15 @@ export const selectDefaultSecurityGroup = createSelector(
         isSecurityGroupNative(sg) && sg.account === (user && user.name) && sg.name === 'default',
     );
     return { ...defaultGroup, name: defaultSecurityGroupName };
+  },
+);
+
+export const getUsingSGVMs = createSelector(
+  fromVMs.selectAll,
+  getSelectedId,
+  (vms: VirtualMachine[], sGroupId: string) => {
+    const sGroupFilter = (vm: VirtualMachine) =>
+      vm.securitygroup.find(group => group.id === sGroupId);
+    return vms.filter(sGroupFilter);
   },
 );
