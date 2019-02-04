@@ -1,12 +1,16 @@
 <mat-card class="vm-card" *ngIf="offering">
   <mat-card-header>
     <mat-card-title>
-      <h2 class="mat-card-title-text">{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.TITLE' | translate }}</h2>
+      <h2 class="mat-card-title-text">
+        {{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.TITLE' | translate }}
+      </h2>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content class="mat-card-content-with-actions">
-    <div class="grid service-offering mat-card-content-container" [class.open]="expandServiceOffering">
-
+    <div
+      class="grid service-offering mat-card-content-container"
+      [class.open]="expandServiceOffering"
+    >
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.name' | translate }}</div>
         <div>{{ offering.name }}</div>
@@ -79,12 +83,12 @@
 
       <div *ngIf="offering?.diskBytesReadRate" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.diskBytesReadRate' | translate }}</div>
-        <div>{{ offering.diskBytesReadRate | division:10:6 }}</div>
+        <div>{{ offering.diskBytesReadRate | division: 10:6 }}</div>
       </div>
 
       <div *ngIf="offering?.diskIopsWriteRate != null" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.diskBytesWriteRate' | translate }}</div>
-        <div>{{ offering.diskBytesWriteRate | division:10:6 }}</div>
+        <div>{{ offering.diskBytesWriteRate | division: 10:6 }}</div>
       </div>
 
       <div *ngIf="offering?.diskIopsReadRate != null" class="row">
@@ -106,8 +110,14 @@
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.storageType' | translate }}</div>
         <div>{{ offering.storagetype | translate }}</div>
       </div>
-
     </div>
+
+    <div class="row">
+      <div class="warning-message" *ngIf="!areOfferingsAvailable">
+        {{ 'VM_PAGE.VM_CREATION.NO_OFFERINGS' | translate }}
+      </div>
+    </div>
+
     <mat-card-actions>
       <div class="card-left-button">
         <button

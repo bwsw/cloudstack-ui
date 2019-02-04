@@ -15,6 +15,8 @@ export class ServiceOfferingDetailsComponent {
   @Input()
   public offering: ServiceOffering;
   @Input()
+  public areOfferingsAvailable: boolean;
+  @Input()
   public vm: VirtualMachine;
 
   public expandServiceOffering: boolean;
@@ -42,6 +44,6 @@ export class ServiceOfferingDetailsComponent {
   }
 
   public get canActivate() {
-    return this.vm.state !== VmState.InProgress;
+    return this.vm.state !== VmState.InProgress && this.areOfferingsAvailable;
   }
 }
