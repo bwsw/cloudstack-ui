@@ -183,13 +183,20 @@ export abstract class BaseBackendService<M> {
     return result[responseKeys[0]];
   }
 
-  protected postRequest(command: string, params?: {}): Observable<any> {
+  protected postRequest(command: string, params?: {}, entity?: string): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-    return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers });
+    return this.http.post(BACKEND_API_URL, this.buildParams(command, params, entity), { headers });
   }
 
   protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
     return this.getRequest(command, params, entity).pipe(
+      map(res => this.getResponse(res)),
+      catchError(e => this.handleCommandError(e.error)),
+    );
+  }
+
+  protected sendPostCommand(command: string, params?: {}, entity?: string): Observable<any> {
+    return this.postRequest(command, params, entity).pipe(
       map(res => this.getResponse(res)),
       catchError(e => this.handleCommandError(e.error)),
     );
