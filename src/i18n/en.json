@@ -137,7 +137,8 @@
       "VOLUME_DELETING_UNAVAILABLE": "Data disk deleting is unavailable for VMs with active snapshots",
       "VOLUME_ATTACH_UNAVAILABLE": "Data disk attachment is unavailable for VMs with active snapshots",
       "VOLUME_DETACH_UNAVAILABLE": "Data disk detachment is unavailable for VMs with active snapshots",
-      "VOLUME_RESIZE_UNAVAILABLE": "Data disk resize is unavailable for VMs with active snapshots"
+      "VOLUME_RESIZE_UNAVAILABLE": "Data disk resize is unavailable for VMs with active snapshots",
+      "VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED": "The disk cannot be created, because volume count resource quota exceeded."
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Hourly schedule is turned off"
