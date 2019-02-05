@@ -1607,7 +1607,7 @@
       "SAVE_PASSWORD_FOR_ALL_VMS": "Save VM passwords by default"
     },
     "API_CONFIGURATION": {
-      "TITLE": "API configuration",
+      "TITLE": "API Configuration",
       "API_KEY": "API Key",
       "API_SECRET_KEY": "Secret key",
       "API_URL": "Connection URL",
@@ -1627,14 +1627,14 @@
       "THEME": "Theme Color"
     },
     "VM_PREFERENCES": {
-      "TITLE": "VM preferences",
+      "TITLE": "VM Preferences",
       "KEYBOARD_LAYOUT": "Keyboard layout"
     },
     "ACCOUNT_TAGS": {
-      "TITLE": "Account tags"
+      "TITLE": "Account Tags"
     },
     "USER_TAGS": {
-      "TITLE": "User tags"
+      "TITLE": "User Tags"
     },
     "VM_LOGS": {
       "TITLE": "Log View (real-time mode)",
