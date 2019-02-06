@@ -1,48 +1,58 @@
-<ng-template #selector>
-  <cs-aggregation-selector
-    [permittedIntervals]="permittedIntervals"
-    [(scale)]="selectedScale"
-    [(shift)]="selectedShift"
-    [(aggregations)]="selectedAggregations"
-    [(shiftAmount)]="shiftAmount"
-    (refreshHandle)="refresh()"
-  ></cs-aggregation-selector>
-</ng-template>
-<mat-tab-group
-  *ngIf="translations"
-  [dynamicHeight]="true"
-  [(selectedIndex)]="tabIndex"
-  (selectedTabChange)="handleSelectChange($event)"
->
-  <mat-tab [label]="'PULSE.CPU_RAM' | translate">
-    <ng-container *ngTemplateOutlet="selector"></ng-container>
-    <cs-pulse-cpu-chart
-      [translations]="translations"
-      [shift]="shiftAmount"
-      (previous)="handlePrevious()"
-      (next)="handleNext()"
-    ></cs-pulse-cpu-chart>
-  </mat-tab>
-  <mat-tab [label]="'PULSE.NETWORK' | translate">
-    <ng-container *ngTemplateOutlet="selector"></ng-container>
-    <cs-pulse-network-chart
-      [translations]="translations"
-      [vmId]="vmId"
-      [shift]="shiftAmount"
-      (nicChange)="refresh(false)"
-      (previous)="handlePrevious()"
-      (next)="handleNext()"
-    ></cs-pulse-network-chart>
-  </mat-tab>
-  <mat-tab [label]="'PULSE.DISK' | translate">
-    <ng-container *ngTemplateOutlet="selector"></ng-container>
-    <cs-pulse-disk-chart
-      [translations]="translations"
-      [vmId]="vmId"
-      [shift]="shiftAmount"
-      (volumeChange)="refresh(false)"
-      (previous)="handlePrevious()"
-      (next)="handleNext()"
-    ></cs-pulse-disk-chart>
-  </mat-tab>
-</mat-tab-group>
+<h3 class="mat-dialog-title">{{ 'PULSE.DIALOG_TITLE' | translate }}</h3>
+
+<div class="mat-dialog-content">
+  <ng-template #selector>
+    <cs-aggregation-selector
+      [permittedIntervals]="permittedIntervals"
+      [(scale)]="selectedScale"
+      [(shift)]="selectedShift"
+      [(aggregations)]="selectedAggregations"
+      [(shiftAmount)]="shiftAmount"
+      (refreshHandle)="refresh()"
+    ></cs-aggregation-selector>
+  </ng-template>
+  <mat-tab-group
+    *ngIf="translations"
+    [dynamicHeight]="true"
+    [(selectedIndex)]="tabIndex"
+    (selectedTabChange)="handleSelectChange($event)"
+  >
+    <mat-tab [label]="'PULSE.CPU_RAM' | translate">
+      <ng-container *ngTemplateOutlet="selector"></ng-container>
+      <cs-pulse-cpu-chart
+        [translations]="translations"
+        [shift]="shiftAmount"
+        (previous)="handlePrevious()"
+        (next)="handleNext()"
+      ></cs-pulse-cpu-chart>
+    </mat-tab>
+    <mat-tab [label]="'PULSE.NETWORK' | translate">
+      <ng-container *ngTemplateOutlet="selector"></ng-container>
+      <cs-pulse-network-chart
+        [translations]="translations"
+        [vmId]="vmId"
+        [shift]="shiftAmount"
+        (nicChange)="refresh(false)"
+        (previous)="handlePrevious()"
+        (next)="handleNext()"
+      ></cs-pulse-network-chart>
+    </mat-tab>
+    <mat-tab [label]="'PULSE.DISK' | translate">
+      <ng-container *ngTemplateOutlet="selector"></ng-container>
+      <cs-pulse-disk-chart
+        [translations]="translations"
+        [vmId]="vmId"
+        [shift]="shiftAmount"
+        (volumeChange)="refresh(false)"
+        (previous)="handlePrevious()"
+        (next)="handleNext()"
+      ></cs-pulse-disk-chart>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<div class="mat-dialog-actions">
+  <button mat-button color="primary" matDialogClose type="button">
+    {{ 'COMMON.CLOSE' | translate }}
+  </button>
+</div>
