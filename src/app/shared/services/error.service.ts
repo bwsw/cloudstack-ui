@@ -114,8 +114,8 @@ export class ErrorService {
       translation: 'ERRORS.VOLUME.VOLUME_RESIZE_UNAVAILABLE',
     },
     {
-      regex: /Maximum amount of resources of Type = '(.*)' .* is exceeded.* Account Resource Limit = (\d+), Current Account Resource Amount = (\d+), Requested Resource Amount = (\d+)/,
-      translation: 'ERRORS.RESOURCE_QUOTAS.RESOURCE_LIMIT_EXCEEDED',
+      regex: /Maximum amount of resources of Type = 'volume' .* is exceeded.* Account Resource Limit = (\d+), Current Account Resource Amount = (\d+), Requested Resource Amount = (\d+)/,
+      translation: 'ERRORS.VOLUME.VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED',
     },
   ];
 

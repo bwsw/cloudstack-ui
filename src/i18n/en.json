@@ -137,7 +137,8 @@
       "VOLUME_DELETING_UNAVAILABLE": "Data disk deleting is unavailable for VMs with active snapshots",
       "VOLUME_ATTACH_UNAVAILABLE": "Data disk attachment is unavailable for VMs with active snapshots",
       "VOLUME_DETACH_UNAVAILABLE": "Data disk detachment is unavailable for VMs with active snapshots",
-      "VOLUME_RESIZE_UNAVAILABLE": "Data disk resize is unavailable for VMs with active snapshots"
+      "VOLUME_RESIZE_UNAVAILABLE": "Data disk resize is unavailable for VMs with active snapshots",
+      "VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED": "Maximum amount of disks is exceeded. Account Resource Limit is {{ val1 }}"
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Hourly schedule is turned off"
@@ -152,8 +153,7 @@
     "RESOURCE_QUOTAS": {
       "FAILED_RETRIEVE": "You can not change any resource limits",
       "MAX_MUST_BE_GREATER": "Maximum must be greater than or equal to minimum",
-      "MAX_MUST_BE_BETWEEN": "Maximum must be between {{ val1 }} and {{ val2 }}",
-      "RESOURCE_LIMIT_EXCEEDED": "Available amount of resource {{ val2 }} is exceeded"
+      "MAX_MUST_BE_BETWEEN": "Maximum must be between {{ val1 }} and {{ val2 }}"
     }
   },
   "NOTIFICATIONS": {
