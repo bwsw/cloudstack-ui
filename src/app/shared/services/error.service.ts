@@ -10,7 +10,7 @@ export class ErrorService {
       translation: 'ERRORS.VOLUME.NEW_SIZE_IS_LOWER',
     },
     {
-      regex: /Maximum number of resources of type \'primary_storage\'.*/,
+      regex: /Maximum ((amount)|(number)) of resources of Type (=\s)?'primary_storage'.* is exceeded.*/i,
       translation: 'ERRORS.VOLUME.PRIMARY_STORAGE_EXCEEDED',
     },
     {
@@ -112,6 +112,10 @@ export class ErrorService {
     {
       regex: /A volume that is attached to a VM with any VM snapshots cannot be resized./,
       translation: 'ERRORS.VOLUME.VOLUME_RESIZE_UNAVAILABLE',
+    },
+    {
+      regex: /Maximum amount of resources of Type = 'volume' .* is exceeded.* Account Resource Limit = (\d+), Current Account Resource Amount = (\d+), Requested Resource Amount = (\d+)/,
+      translation: 'ERRORS.VOLUME.VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED',
     },
   ];
 
