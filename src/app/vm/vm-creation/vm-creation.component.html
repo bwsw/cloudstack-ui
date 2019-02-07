@@ -227,8 +227,10 @@
                 <textarea
                   matInput
                   name="userData"
-                  rows="3"
+                  class="userdata-field"
                   matTextareaAutosize
+                  matAutosizeMinRows="1"
+                  matAutosizeMaxRows="10"
                   [ngModel]="vmCreationState.userData"
                   (ngModelChange)="userDataChanged.emit($event)"
                   [placeholder]="'VM_PAGE.VM_CREATION.USER_DATA' | translate"

@@ -12,7 +12,7 @@ import { DialogService } from '../../../../dialog/dialog-service/dialog.service'
   selector: 'cs-vm-user-data-dialog',
   templateUrl: './vm-user-data-dialog.component.html',
   styleUrls: ['./vm-user-data-dialog.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VmUserDataDialogComponent {
   public isEditMode = false;

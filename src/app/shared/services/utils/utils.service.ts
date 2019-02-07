@@ -1,6 +1,7 @@
 import * as uuid from 'uuid';
 import { Time } from '../../components/time-picker/time-picker.component';
 import { DayPeriod } from '../../components/day-period/day-period.component';
+import { Base64 } from 'js-base64';
 
 interface RouterState {
   snapshot: {
@@ -168,14 +169,14 @@ export class Utils {
     if (!str) {
       return null;
     }
-    return btoa(str);
+    return Base64.encode(str);
   }
 
   public static decodeStringFromBase64(base64: string): string {
     if (!base64) {
       return null;
     }
-    return atob(base64);
+    return Base64.decode(base64);
   }
 
   public static sizeOfBase64String(base64String: string): number {

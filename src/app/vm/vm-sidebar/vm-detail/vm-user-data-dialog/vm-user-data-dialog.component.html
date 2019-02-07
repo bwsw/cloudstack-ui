@@ -6,8 +6,10 @@
       <textarea
         matInput
         name="userData"
-        rows="3"
+        class="userdata-field"
         matTextareaAutosize
+        matAutosizeMinRows="1"
+        matAutosizeMaxRows="10"
         formControlName="userdata"
         [placeholder]="'VM_PAGE.MODALS.VM_USER_DATA.NO_USER_DATA' | translate"
       ></textarea>
