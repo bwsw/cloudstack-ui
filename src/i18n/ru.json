@@ -1545,11 +1545,11 @@
       "SECONDARY_STORAGE": "Дополнительное хранилище (ГБ)"
     },
     "REQUEST": {
-      "REQUEST_RESOURCES_BUTTON": "Обновить ресурсы",
-      "REQUEST_RESOURCES_TITLE": "Обновить ресурсы",
+      "REQUEST_RESOURCES_BUTTON": "Запросить ресурсы",
+      "REQUEST_RESOURCES_TITLE": "Запросить ресурсы",
       "LIMIT_UPDATED": "Лимиты ресурсов успешно изменены",
-      "CAN_NOT_CHANGE_RESOURCES": "Невозможно изменить ресурсы",
-      "REQUEST_BUTTON": "Обновить"
+      "CAN_NOT_CHANGE_RESOURCES": "Вы не можете выполнить ни один запрос изменения лимитов ресурсов",
+      "REQUEST_BUTTON": "Запросить"
     },
     "ADMIN_PAGE": {
       "QUOTA_UPDATED": "Квоты ресурсов успешно изменены",
