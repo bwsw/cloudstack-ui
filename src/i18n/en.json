@@ -1659,6 +1659,7 @@
   "ACCOUNT_NOT_FOUND": "Account not found",
   "PULSE": {
     "PULSE": "Pulse",
+    "DIALOG_TITLE": "Pulse plugin",
     "CPU_RAM": "CPU / RAM",
     "NETWORK": "Network",
     "DISK": "Disk",

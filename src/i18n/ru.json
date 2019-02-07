@@ -1656,6 +1656,7 @@
   "ACCOUNT_NOT_FOUND": "Аккаунт не найден",
   "PULSE": {
     "PULSE": "Pulse",
+    "DIALOG_TITLE": "Плагин Pulse",
     "CPU_RAM": "ЦП / ОЗУ",
     "NETWORK": "Сеть",
     "DISK": "Диск",
