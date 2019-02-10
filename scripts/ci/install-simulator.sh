@@ -5,6 +5,9 @@ set -u -o pipefail
 SIMULATOR_IMAGE=tamazlykar/cs-sim-no-kafka
 STATUS_CHECK_PORT=8888
 
+docker stop cloudstack-simulator
+docker rm cloudstack-simulator
+
 docker run --name cloudstack-simulator -d -p 4220:8888 ${SIMULATOR_IMAGE}
 echo "Docker container is started"
 
