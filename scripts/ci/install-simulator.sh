@@ -2,7 +2,7 @@
 
 set -u -o pipefail
 
-SIMULATOR_IMAGE=tamazlykar/cs-sim-no-kafka
+SIMULATOR_IMAGE=quay.io/ansible/cloudstack-test-container
 STATUS_CHECK_PORT=8888
 
 docker stop cloudstack-simulator
