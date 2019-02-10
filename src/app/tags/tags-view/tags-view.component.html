@@ -3,11 +3,7 @@
     <mat-icon class="mdi-plus"></mat-icon>
   </button>
 
-  <cs-search
-    [(ngModel)]="query"
-    (ngModelChange)="updateFilterResults()"
-  ></cs-search>
-
+  <cs-search [(ngModel)]="query" (ngModelChange)="updateFilterResults()"></cs-search>
 </div>
 
 <mat-checkbox
@@ -18,12 +14,12 @@
   {{ 'TAGS.SHOW_SYSTEM_TAGS' | translate }}
 </mat-checkbox>
 
-
 <cs-tag-category
   *ngFor="let category of visibleCategories"
   [category]="category"
   [tags]="tags"
   [query]="query"
+  [isPage]="tagPage !== defaultTagPageValue"
   [hasPermissions]="hasPermissions"
   (tagAdded)="addTag($event)"
   (tagEdited)="editTag($event)"

@@ -1,0 +1,41 @@
+<h4>{{ 'SECURITY_GROUP_SELECTOR.ATTACHMENT' | translate }}</h4>
+<div *ngIf="securityGroups?.length" class="security-group-checkbox-list">
+  <mat-list>
+    <mat-list-item
+      *ngFor="let sg of securityGroups"
+      [ngClass]="sg?.isPreselected ? 'preselected' : 'list-item'"
+    >
+      <div class="mat-list-text" (click)="$event.stopPropagation(); selectSecurityGroup(sg)">
+        <h4 matLine>{{ sg.name }}</h4>
+        <p matLine class="matLine-secondary">{{ sg.description }}</p>
+      </div>
+
+      <mat-radio-button
+        *ngIf="!sg?.isPreselected"
+        name="security-group"
+        [tabIndex]="-1"
+        [checked]="sg?.id === currentSelectedSecurityGroup?.id"
+        [value]="sg"
+        (click)="selectSecurityGroup(sg)"
+      ></mat-radio-button>
+    </mat-list-item>
+  </mat-list>
+</div>
+
+<cs-no-results *ngIf="!securityGroups?.length"></cs-no-results>
+
+<div class="mat-dialog-actions">
+  <button mat-button type="button" color="primary" (click)="cancel.emit()">
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+
+  <button
+    mat-button
+    type="button"
+    color="primary"
+    [disabled]="!currentSelectedSecurityGroup"
+    (click)="save.emit(currentSelectedSecurityGroup)"
+  >
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+</div>

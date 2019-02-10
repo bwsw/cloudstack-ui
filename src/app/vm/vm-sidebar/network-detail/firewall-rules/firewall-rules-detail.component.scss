@@ -1,0 +1,11 @@
+.ellipsis-overflow {
+  user-select: text !important;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row {
+  align-items: center !important;
+}

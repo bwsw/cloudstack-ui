@@ -88,6 +88,7 @@ export class LoginComponent implements OnInit {
       queryParams['next'] && queryParams['next'] !== '/login' && queryParams['next'] !== 'login'
         ? queryParams['next']
         : '';
+    this.auth.generateKey().subscribe();
 
     this.router.navigateByUrl(next);
   }

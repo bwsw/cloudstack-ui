@@ -3,13 +3,11 @@
     <mat-select
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-      [ngModel]=" selectedAccountIds"
+      [ngModel]="selectedAccountIds"
       (selectionChange)="accountsChanged.emit($event.value)"
     >
-      <mat-option
-        *ngFor="let account of accounts"
-        [value]="account.id"
-      >{{ account.fullDomain }}{{ account.name }}
+      <mat-option *ngFor="let account of accounts" [value]="account.id"
+        >{{ account.fullDomain }}{{ account.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -33,12 +31,7 @@
       <mat-option [value]="noGroup">
         <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
       </mat-option>
-      <mat-option
-        *ngFor="let group of groups"
-        [value]="group"
-      >
-        {{ group }}
-      </mat-option>
+      <mat-option *ngFor="let group of groups" [value]="group"> {{ group }} </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
@@ -48,9 +41,7 @@
       [ngModel]="selectedStates"
       (selectionChange)="statesChanged.emit($event.value)"
     >
-      <mat-option *ngFor="let s of states" [value]="s.state">
-        {{ s.name | translate }}
-      </mat-option>
+      <mat-option *ngFor="let s of states" [value]="s.state"> {{ s.name | translate }} </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
@@ -61,16 +52,11 @@
       [dragItems]="groupings"
       (selectionChange)="groupingsChanged.emit($event.value)"
     >
-      <mat-option *ngFor="let g of groupings" [value]="g">
-        {{ g.label | translate }}
-      </mat-option>
+      <mat-option *ngFor="let g of groupings" [value]="g"> {{ g.label | translate }} </mat-option>
     </cs-draggable-select>
   </mat-form-field>
 </div>
 
 <div class="filter-wrapper">
-  <cs-search
-    [ngModel]="query"
-    (ngModelChange)="queryChanged.emit($event)"
-  ></cs-search>
+  <cs-search [ngModel]="query" (ngModelChange)="queryChanged.emit($event)"></cs-search>
 </div>

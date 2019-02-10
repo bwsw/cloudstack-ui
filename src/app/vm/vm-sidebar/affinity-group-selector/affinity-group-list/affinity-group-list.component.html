@@ -1,11 +1,14 @@
 <div class="mat-dialog-content" *ngIf="affinityGroups?.length">
   <table mat-table [dataSource]="affinityGroups">
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> {{ 'AFFINITY_GROUP.NAME' | translate }}</th>
-      <td [class.preselected]="element.isPreselected && enablePreselected"  class="name-column" mat-cell *matCellDef="let element">
-        <span
-          *ngIf="element.description; else noDescription"
-          [matTooltip]="element.description">
+      <th mat-header-cell *matHeaderCellDef>{{ 'AFFINITY_GROUP.NAME' | translate }}</th>
+      <td
+        [class.preselected]="element.isPreselected && enablePreselected"
+        class="name-column"
+        mat-cell
+        *matCellDef="let element"
+      >
+        <span *ngIf="element.description; else noDescription" [matTooltip]="element.description">
           {{ element.name }}
         </span>
         <ng-template #noDescription>
@@ -19,14 +22,22 @@
 
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>{{ 'AFFINITY_GROUP.TYPE' | translate }}</th>
-      <td [class.preselected]="element.isPreselected && enablePreselected" mat-cell *matCellDef="let element">
+      <td
+        [class.preselected]="element.isPreselected && enablePreselected"
+        mat-cell
+        *matCellDef="let element"
+      >
         <span>{{ element.type | csAffinityGroupType }}</span>
       </td>
     </ng-container>
 
     <ng-container class="mat-column-radioButton" matColumnDef="radioButton">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td [class.preselected]="element.isPreselected && enablePreselected" mat-cell *matCellDef="let element">
+      <td
+        [class.preselected]="element.isPreselected && enablePreselected"
+        mat-cell
+        *matCellDef="let element"
+      >
         <mat-radio-button
           *ngIf="!isDisabledAffinityGroup(element.id)"
           name="service-offering"
@@ -38,11 +49,11 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row
-        *matRowDef="let row; columns: displayedColumns;"
-        (click)="selectAffinityGroup(row)"
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="selectAffinityGroup(row)"
     ></tr>
-
   </table>
 </div>
 

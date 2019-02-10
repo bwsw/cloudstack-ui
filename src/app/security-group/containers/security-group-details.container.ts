@@ -8,9 +8,7 @@ import * as fromVM from '../../reducers/vm/redux/vm.reducers';
 @Component({
   selector: 'cs-sg-details-container',
   template: `
-    <cs-security-group-details
-      [securityGroup]="securityGroup$ | async"
-    ></cs-security-group-details>
+    <cs-security-group-details [securityGroup]="securityGroup$ | async"></cs-security-group-details>
     <cs-security-group-vm-list
       [viewMode]="viewMode$ | async"
       [vmList]="vmList$ | async"
@@ -19,7 +17,7 @@ import * as fromVM from '../../reducers/vm/redux/vm.reducers';
 })
 export class SecurityGroupDetailsContainerComponent {
   readonly securityGroup$ = this.store.pipe(select(fromSecurityGroups.getSelectedSecurityGroup));
-  readonly vmList$ = this.store.pipe(select(fromVM.getUsingSGVMs));
+  readonly vmList$ = this.store.pipe(select(fromSecurityGroups.getUsingSGVMs));
   readonly viewMode$ = this.store.pipe(select(fromSecurityGroups.viewMode));
 
   constructor(private store: Store<State>) {}

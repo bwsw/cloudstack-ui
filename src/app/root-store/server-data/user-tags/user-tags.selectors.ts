@@ -7,6 +7,7 @@ import { DayOfWeek, KeyboardLayout, Language, TimeFormat } from '../../../shared
 import { Tag } from '../../../shared/models';
 import { Serializer } from '../../../shared/utils/serializer';
 import { vmLogsFilters } from '../../../vm-logs/vm-logs-filters';
+import { getAccountTagsEntitiesState } from '../../../reducers/account-tags/redux/account-tags.reducers';
 
 function convertToBoolean(input: string): boolean {
   try {
@@ -151,4 +152,9 @@ export const getVmLogsFilters = createSelector(
 
     return Serializer.decode([params], vmLogsFilters);
   },
+);
+
+export const getIsShowUserSystemTags = createSelector(
+  getUserTagsState,
+  state => state.isShowSystemTags,
 );

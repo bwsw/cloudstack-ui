@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { State } from '../../../reducers';
 import { select, Store } from '@ngrx/store';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
+import * as configSelectors from '../../../root-store/config/config.selectors';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cs-vm-statistics-container',
@@ -10,7 +12,8 @@ import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducer
       [fetching]="loading$ | async"
       [accounts]="accounts$ | async"
       [user]="user$ | async"
-    ></cs-vm-statistics>`,
+    ></cs-vm-statistics>
+  `,
 })
 export class VmStatisticContainerComponent {
   readonly user$ = this.store.pipe(select(fromAccounts.selectUserAccount));

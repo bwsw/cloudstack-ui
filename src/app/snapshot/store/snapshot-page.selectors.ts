@@ -2,8 +2,9 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as moment from 'moment';
 import * as volumeSnapshotsSelectors from '../../reducers/snapshots/redux/snapshot.reducers';
 import * as vmSelectors from '../../reducers/vm/redux/vm.reducers';
+import * as volumeSelectors from '../../reducers/volumes/redux/volumes.reducers';
 import { vmSnapshotsSelectors } from '../../root-store/server-data/vm-snapshots';
-import { getSnapshotDescription, Snapshot } from '../../shared/models';
+import { getSnapshotDescription, Snapshot, Volume } from '../../shared/models';
 import { getSnapshotType, VmSnapshot } from '../../shared/models/vm-snapshot.model';
 import { SnapshotType } from '../../shared/types';
 import { VirtualMachine, VmState } from '../../vm';
@@ -11,6 +12,7 @@ import { Filters } from '../models/filters.model';
 import { VmSnapshotSidebarViewModel } from '../models/vm-snapshot-sidebar.view-model';
 import { VmSnapshotViewModel } from '../models/vm-snapshot.view-model';
 import { SnapshotPageState, snapshotPageStoreName } from './snapshot-page.reducer';
+import { isUndefined } from 'util';
 
 const getSnapshotPageState = createFeatureSelector<SnapshotPageState>(snapshotPageStoreName);
 
@@ -120,10 +122,30 @@ export const getVmSnapshots = createSelector(
   },
 );
 
+export const getFilteredVolumesByVmId = createSelector(
+  volumeSelectors.selectAll,
+  getFilters,
+  (volumes, filter) => {
+    const filterByVms = (volume: Volume) => {
+      const filterEnabled = filter.volumeVmIds.length > 0;
+      const noVmEnabled =
+        !isUndefined(filter.volumeVmIds.find(id => id === 'noVm')) &&
+        isUndefined(volume.virtualmachineid);
+      if (!filterEnabled || noVmEnabled) {
+        return true;
+      }
+      return filter.volumeVmIds.includes(volume.virtualmachineid);
+    };
+    return volumes.filter(filterByVms).map(vol => vol.id);
+  },
+);
+
 export const getFilteredSnapshots = createSelector(
+  getFilteredVolumesByVmId,
   volumeSnapshotsSelectors.selectAll,
   getFilters,
-  (snapshots, filter) => {
+  volumeSelectors.selectEntities,
+  (filteredVolumes, snapshots, filter, volumesEntities) => {
     const filterByTypes = (snapshot: Snapshot) =>
       !filter.volumeSnapshotTypes.length ||
       filter.volumeSnapshotTypes.includes(snapshot.snapshottype);
@@ -139,6 +161,7 @@ export const getFilteredSnapshots = createSelector(
       );
 
     const queryLower = filter.query && filter.query.toLowerCase();
+
     const filterByQuery = (snapshot: Snapshot) => {
       const snapshotDescription = getSnapshotDescription(snapshot);
       return (
@@ -148,11 +171,23 @@ export const getFilteredSnapshots = createSelector(
       );
     };
 
+    const filterByVms = (snapshot: Snapshot) => {
+      if (
+        (filter.volumeVmIds.length === 0 || !!filter.volumeVmIds.find(id => id === 'noVm')) &&
+        !volumesEntities[snapshot.volumeid]
+      ) {
+        return true;
+      }
+
+      return filteredVolumes.includes(snapshot.volumeid);
+    };
+
     return snapshots.filter(
       (snapshot: Snapshot) =>
         filterByAccount(snapshot) &&
         filterByTypes(snapshot) &&
         filterByDate(snapshot) &&
+        filterByVms(snapshot) &&
         filterByQuery(snapshot),
     );
   },

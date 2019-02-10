@@ -39,12 +39,19 @@ import { TagService } from '../../../shared/services/tags/tag.service';
 import { virtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
 
+import * as zoneActions from '../../zones/redux/zones.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
 import { capabilitiesSelectors } from '../../../root-store/server-data/capabilities';
 
 @Injectable()
 export class VirtualMachinesEffects {
+  @Effect()
+  loadSelectedVm$: Observable<Action> = this.actions$.pipe(
+    ofType(vmActions.LOAD_SELECTED_VM),
+    map((action: vmActions.LoadSelectedVM) => new zoneActions.LoadSelectedZone(action.payload)),
+  );
+
   @Effect()
   loadVMs$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.LOAD_VMS_REQUEST),
@@ -824,6 +831,55 @@ export class VirtualMachinesEffects {
         },
       }),
     ),
+  );
+
+  @Effect()
+  changeSecurityGroup$: Observable<Action> = this.actions$.pipe(
+    ofType(vmActions.VM_CHANGE_SECURITY_GROUP),
+    mergeMap((action: vmActions.ChangeSecurityGroup) => {
+      return this.askToStopVM(
+        action.payload.vm,
+        'VM_PAGE.VM_DETAILS.SECURITY_GROUP.STOP_MACHINE_FOR_SG',
+      ).pipe(
+        switchMap(() => {
+          if (action.payload.vm.state === VmState.Running) {
+            return this.stop(action.payload.vm).pipe(map(() => action));
+          }
+          return of(action);
+        }),
+        switchMap(() => {
+          const notificationId = this.jobsNotificationService.add(
+            'NOTIFICATIONS.VM.CHANGE_SECURITY_GROUP_IN_PROGRESS',
+          );
+          const vm = action.payload.vm;
+          const securityGroupIds = action.payload.securityGroups.join();
+
+          return this.vmService.updateSecurityGroup(vm, securityGroupIds).pipe(
+            tap(() => {
+              const message = 'NOTIFICATIONS.VM.CHANGE_SECURITY_GROUP_DONE';
+              this.showNotificationsOnFinish(message, notificationId);
+            }),
+            switchMap(newVm => {
+              if (vm.state === VmState.Running) {
+                return this.start(newVm);
+              }
+              return of(new vmActions.UpdateVM(newVm));
+            }),
+            catchError((error: Error) => {
+              const message = 'NOTIFICATIONS.VM.CHANGE_SECURITY_GROUP_FAILED';
+              this.dialogService.showNotificationsOnFail(error, message, notificationId);
+              return of(
+                new vmActions.VMUpdateError({
+                  error,
+                  vm,
+                  state: VmState.Stopped,
+                }),
+              );
+            }),
+          );
+        }),
+      );
+    }),
   );
 
   constructor(

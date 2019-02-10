@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-12 15:13+0700\n"
-"PO-Revision-Date: 2018-12-06 11:23+0700\n"
+"POT-Creation-Date: 2019-01-30 11:07+0700\n"
+"PO-Revision-Date: 2019-01-30 11:08+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -27,36 +27,43 @@ msgstr "Настройки"
 #: ../../CSUI-Settings.rst:7
 msgid ""
 "In the *Accounts* -> *Settings* section a user can modify the interface by "
-"changing settings."
+"changing settings. The interface settings are presented in separate sections: "
+"*Security, API configurations, VM preferences, Look and Feel, Account tags, "
+"User tags*. Moving between sections is possible using the switcher above."
 msgstr ""
-"В разделе *Аккаунты* -> *Настройки* пользователь может менять настройки "
-"интерфейса."
+"В разделе *Аккаунты -> Настройки* пользователь может менять настройки "
+"интерфейса. Все настройки разделены по разделам: *\"Настройки безопасности\", "
+"\"Конфигурации API\", \"Настройки ВМ\", \"Настройки интерфейса\", \"Теги "
+"аккаунта\", \"Теги пользователя\".* Для перемещения между разделами "
+"используется переключатель вверху."
 
-#: ../../CSUI-Settings.rst:13
+#: ../../CSUI-Settings.rst:12
 msgid "Security"
 msgstr "Безопасность"
 
-#: ../../CSUI-Settings.rst:14
-msgid "A user can manage the following security settings:"
-msgstr "Пользователь может управлять следующими настройками безопасности:"
+#: ../../CSUI-Settings.rst:13
+msgid "In this section a user can manage the following security settings:"
+msgstr ""
+"В этом подразделе  пользователь может управлять следующими настройками "
+"безопасности:"
 
-#: ../../CSUI-Settings.rst:16
+#: ../../CSUI-Settings.rst:15
 msgid "Change password;"
 msgstr "Изменение пароля;"
 
-#: ../../CSUI-Settings.rst:17
+#: ../../CSUI-Settings.rst:16
 msgid "Set the session timeout interval;"
 msgstr "Лимит времени сеанса;"
 
-#: ../../CSUI-Settings.rst:18
+#: ../../CSUI-Settings.rst:17
 msgid "the \"Save VM passwords by default\" option."
 msgstr "Опция \"Сохранять пароли ВМ по умолчанию\""
 
-#: ../../CSUI-Settings.rst:21
+#: ../../CSUI-Settings.rst:20
 msgid "Change Password"
 msgstr "Изменение пароля"
 
-#: ../../CSUI-Settings.rst:22
+#: ../../CSUI-Settings.rst:21
 msgid ""
 "Here you can change the password provided by your Administrator to the one you "
 "like. This will improve the account security."
@@ -64,24 +71,24 @@ msgstr ""
 "В данной секции можно изменить пароль, предоставленный Администратором, на "
 "желаемый пароль, что может улучшить безопасность аккаунта."
 
-#: ../../CSUI-Settings.rst:24
+#: ../../CSUI-Settings.rst:23
 msgid "Enter a new password and re-enter it in the next field to confirm it:"
 msgstr "Введите новый пароль и подтвердите его во втором поле:"
 
-#: ../../CSUI-Settings.rst:28
+#: ../../CSUI-Settings.rst:27
 msgid "Click \"UPDATE\" to save the new password."
 msgstr "Нажмите \"ОБНОВИТЬ\" и сохраните новый пароль."
 
-#: ../../CSUI-Settings.rst:30
+#: ../../CSUI-Settings.rst:29
 msgid ""
 "In case you have lost or forgotten your password, contact your Administrator."
 msgstr "Если Вы забыли или потеряли пароль, обратитесь к Администратору."
 
-#: ../../CSUI-Settings.rst:33
+#: ../../CSUI-Settings.rst:32
 msgid "Session Timeout"
 msgstr "Лимит времени сеанса"
 
-#: ../../CSUI-Settings.rst:35
+#: ../../CSUI-Settings.rst:34
 msgid ""
 "Here you can specify the maximum amount of time that an active session can be "
 "idle (without user activity) before it automatically closes. The default "
@@ -92,7 +99,7 @@ msgstr ""
 "пользователя. По истечение установленного времени сессия будет автоматически "
 "завершена. По умолчанию установлен интервал 30 минут."
 
-#: ../../CSUI-Settings.rst:37
+#: ../../CSUI-Settings.rst:36
 msgid ""
 "Set the desired time limit in minutes using the switch button |switch icon| to "
 "the right or typing it just into the field. Then click \"UPDATE\" to save the "
@@ -102,11 +109,11 @@ msgstr ""
 "icon| справа или посредством ввода значения в поле. Затем нажмите \"ОБНОВИТЬ"
 "\", чтобы сохранить изменения."
 
-#: ../../CSUI-Settings.rst:41
+#: ../../CSUI-Settings.rst:40
 msgid "The value is stored in user’s tags."
 msgstr "Установленное значение сохраняется в теги пользователя."
 
-#: ../../CSUI-Settings.rst:43
+#: ../../CSUI-Settings.rst:42
 msgid ""
 "The maximum allowed value is 300 minutes. Please, note that a long time period "
 "of an idle session decreases the account security."
@@ -114,7 +121,7 @@ msgstr ""
 "Максимальное разрешенное значение - 300 минут. Обратите внимание, что более "
 "длительный период сессии снижает безопасность аккаунта. "
 
-#: ../../CSUI-Settings.rst:45
+#: ../../CSUI-Settings.rst:44
 msgid ""
 "The session timeout can be set in the configuration file. You will find more "
 "information in the  `configuration guide <https://github.com/bwsw/cloudstack-"
@@ -124,11 +131,11 @@ msgstr ""
 "`руководство по конфигурациям <https://github.com/bwsw/cloudstack-ui/blob/"
 "master/config-guide.md#session-timeout>`_."
 
-#: ../../CSUI-Settings.rst:50
+#: ../../CSUI-Settings.rst:49
 msgid "Save VM passwords by default"
 msgstr "Сохранять пароли ВМ по умолчанию"
 
-#: ../../CSUI-Settings.rst:51
+#: ../../CSUI-Settings.rst:50
 msgid ""
 "This checkbox allows saving passwords to VM tags automatically for all created "
 "virtual machines requiring passwords."
@@ -136,7 +143,7 @@ msgstr ""
 "Данная опция позволяет автоматически сохранять пароли в теги ВМ при создании "
 "машин, для которых необходимы пароли."
 
-#: ../../CSUI-Settings.rst:53
+#: ../../CSUI-Settings.rst:54
 msgid ""
 "Tick this option here. The passwords will be saved to VM tags right at the "
 "moment VMs are created. You will see a password (if it is required for the VM) "
@@ -146,7 +153,7 @@ msgstr ""
 "сохранятся в теги ВМ. В диалоговом окне создания ВМ пароль (если он требуется "
 "для данной ВМ) будет отмечен как сохраненный:"
 
-#: ../../CSUI-Settings.rst:57
+#: ../../CSUI-Settings.rst:58
 msgid ""
 "If this option is not activated, every time when creating a machine the system "
 "will ask you to save the password by clicking \"SAVE\" next to it:"
@@ -155,7 +162,7 @@ msgstr ""
 "спрашивать о необходимости сохранить пароль, нажав \"СОХРАНИТЬ\" рядом с "
 "паролем:"
 
-#: ../../CSUI-Settings.rst:61
+#: ../../CSUI-Settings.rst:62
 msgid ""
 "Then the system will ask you if you wish to save passwords to VM tags "
 "automatically. If you click \"Yes\", the \"Save VM passwords by default\" "
@@ -166,19 +173,35 @@ msgstr ""
 "\", Вы активируете опцию \"Сохранять пароли ВМ по умолчанию\" в разделе "
 "*Настройки*. См.подробнее о создании ВМ в разделе :ref:`Create_VM`."
 
-#: ../../CSUI-Settings.rst:64
+#: ../../CSUI-Settings.rst:65
 msgid "API Configuration"
 msgstr "Конфигурация API"
 
-#: ../../CSUI-Settings.rst:66
+#: ../../CSUI-Settings.rst:67
 msgid ""
 "In this block of settings you can see and manage the API configurations: "
-"regenerate API keys, see the connection URL."
+"regenerate API keys, see the connection URL, get the link to the Apache "
+"CloudStack API documentation."
 msgstr ""
 "В данном блоке настроек можно просматривать и управлять настройками API: "
-"cгенерерировать новый ключ API, просматривать URL подключения."
+"создать новые ключи API, просматривать URL подключения, перейти к официальной "
+"документации по API Apache CloudStack."
 
-#: ../../CSUI-Settings.rst:68
+#: ../../CSUI-Settings.rst:69
+msgid ""
+"For users with no API keys, the system autogenerates the keys when a user logs "
+"in if this option is enabled in the configuration file. Find more information "
+"in `the configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/"
+"config-guide.md#automatically-generate-secret-key-and-api-key-for-users>`_."
+msgstr ""
+"Для автоматического создания ключей API для пользователей, не имеющих ключей, "
+"можно через конфигурационный файл  включить опцию, которая позволяет "
+"автоматически создавать ключ API и секретный ключ при входе пользователя в "
+"систему . Подробнее об этой настройке можно прочитать в `руководстве по "
+"конфигурациям <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide."
+"md#automatically-generate-secret-key-and-api-key-for-users>`_. "
+
+#: ../../CSUI-Settings.rst:71
 msgid ""
 "You can see an API key and a Secret key in corresponding fields. You can copy "
 "any of them clicking |copy icon| to the right."
@@ -186,7 +209,7 @@ msgstr ""
 "Ключ API и Секретный ключ отображаются в соответствующих полях. Их можно "
 "скопировать нажатием на |copy icon| справа."
 
-#: ../../CSUI-Settings.rst:72
+#: ../../CSUI-Settings.rst:75
 msgid ""
 "Regenerate the keys by clicking |refresh icon| above the fields. New keys will "
 "be generated."
@@ -194,7 +217,7 @@ msgstr ""
 "Для генерации нового ключа нажмите |refresh icon| вверху блока. В "
 "соответствующих полях появятся новые открытый и закрытый ключи."
 
-#: ../../CSUI-Settings.rst:76
+#: ../../CSUI-Settings.rst:79
 msgid ""
 "Below you can view a connection URL which is used to send requests to "
 "CloudStack API. All requests are listed in the Apache CloudStack documentation "
@@ -205,43 +228,43 @@ msgstr ""
 "официальной документации Apache CloudStack, доступной по предоставленной "
 "ссылке."
 
-#: ../../CSUI-Settings.rst:81
+#: ../../CSUI-Settings.rst:84
 msgid "VM preferences"
 msgstr "Настройки ВМ"
 
-#: ../../CSUI-Settings.rst:82
+#: ../../CSUI-Settings.rst:85
 msgid "In this block you may set up the keyboard layout."
 msgstr "В данном блоке настроек можно задать раскладку клавиатуры для ВМ."
 
-#: ../../CSUI-Settings.rst:85
+#: ../../CSUI-Settings.rst:88
 msgid "Keyboard layout"
 msgstr "Раскладка клавиатуры"
 
-#: ../../CSUI-Settings.rst:86
+#: ../../CSUI-Settings.rst:89
 msgid "Select a keyboard layout in the drop-down list."
 msgstr "Выберите подходящий вариант раскладки клавиатуры из ниспадающего списка."
 
-#: ../../CSUI-Settings.rst:88
+#: ../../CSUI-Settings.rst:91
 msgid "The following options are available:"
 msgstr "Доступные варианты:"
 
-#: ../../CSUI-Settings.rst:90
+#: ../../CSUI-Settings.rst:93
 msgid "Standard US keyboard (default value)"
 msgstr "Стандартная раскладка (США) (выбран по умолчанию)"
 
-#: ../../CSUI-Settings.rst:91
+#: ../../CSUI-Settings.rst:94
 msgid "UK keyboard"
 msgstr "Английская раскладка (UK)"
 
-#: ../../CSUI-Settings.rst:92
+#: ../../CSUI-Settings.rst:95
 msgid "Japanese keyboard"
 msgstr "Японская раскладка"
 
-#: ../../CSUI-Settings.rst:93
+#: ../../CSUI-Settings.rst:96
 msgid "Simplified Chinese keyboard."
 msgstr "Упрощенная китайская раскладка"
 
-#: ../../CSUI-Settings.rst:97
+#: ../../CSUI-Settings.rst:100
 msgid ""
 "The selected option will appear in the VNC console kayboard layout parameter "
 "when accessing a VM via concole. The selected option is also saved to user "
@@ -250,21 +273,140 @@ msgstr ""
 "Выбранная опция появится в параметрах раскладки клавиатуры в консоли VNC  при "
 "доступе к ВМ через консоль. Заданные настройки сохраняются в теги пользователя."
 
-#: ../../CSUI-Settings.rst:100
+#: ../../CSUI-Settings.rst:103
+msgid "Account tags"
+msgstr "Теги аккаунта"
+
+#: ../../CSUI-Settings.rst:104
+msgid "In this section, you can view and manage account tags."
+msgstr "В этом разделе можно просматривать и управлять тегами аккаунта."
+
+#: ../../CSUI-Settings.rst:108
+msgid ""
+"Tags can be system or non-system. System tags are used to provide the "
+"functionality from the user interface perspective. Changing these tags affects "
+"the functionality of the application. The “Show system tags” checkbox allows "
+"to view or hide system tags of an account. Hiding system tags helps to avoid "
+"accidental unwanted changes. If a user has disabled displaying of such tags, "
+"the system will remember it and next time tags will also be hidden. Uncheck "
+"the “Show system tags” checkbox to hide system tags from the list."
+msgstr ""
+"Теги могут быть системными и несистемными. Системные теги обеспечивают "
+"дополнительную функциональность с точки зрения пользовательского интерфейса. "
+"Изменение этих тегов может затронуть работу всего приложения. Можно включить "
+"или выключить отображение системных тегов с помощью опции «Показывать "
+"системные теги». При выключении данной опции системные теги будут скрыты из "
+"списка, что поможет избежать случайных нежелательных изменений в них. Система "
+"запомнит, что отображение системных тегов отключено, и в дальнейшем системные "
+"теги не будут отображаться в списке."
+
+#: ../../CSUI-Settings.rst:110
+msgid "The following system tags can be used for accounts:"
+msgstr "Для аккаунтов используются следующие системные теги:"
+
+#: ../../CSUI-Settings.rst:112
+msgid "``csui.account.ssh-description`` - Used to provide an SSH description."
+msgstr ""
+"``csui.account.ssh-description`` -  используется для сохранения описания для "
+"ключа SSH."
+
+#: ../../CSUI-Settings.rst:114 ../../CSUI-Settings.rst:138
+msgid ""
+"To find the tag you are interested in, please, use the search tool above the "
+"tag list. You can enter a name or a part of the tag name to distinguish it in "
+"the list."
+msgstr ""
+"Для быстрого поиска тега в списке воспользуйтесь инструментом поиска вверху. "
+"Введите название или часть названия тега, и оно будет выделено в списке."
+
+#: ../../CSUI-Settings.rst:116
+msgid ""
+"To add an account tag click “Create” |create icon|. In the appeared form enter:"
+msgstr ""
+"Для добавления тега аккаунта нажмите «Создать» |create icon|. В появившейся "
+"форме введите:"
+
+#: ../../CSUI-Settings.rst:118 ../../CSUI-Settings.rst:142
+msgid "Key *"
+msgstr "Ключ *"
+
+#: ../../CSUI-Settings.rst:119 ../../CSUI-Settings.rst:143
+msgid "Value *"
+msgstr "Значение *"
+
+#: ../../CSUI-Settings.rst:121 ../../CSUI-Settings.rst:145
+msgid ""
+"Required fields are marked with an asterisk (*). The values in the fields "
+"cannot start with a space."
+msgstr ""
+"Обязательные поля отмечены «звездочкой» (*). Значения в полях не могут "
+"начинаться с пробела."
+
+#: ../../CSUI-Settings.rst:123
+msgid "Click “Create” to assign a new tag to the account."
+msgstr "Нажмите «СОЗДАТЬ» для добавления нового тега к аккаунту."
+
+#: ../../CSUI-Settings.rst:128
+msgid "User tags"
+msgstr "Теги пользователя"
+
+#: ../../CSUI-Settings.rst:130
+msgid "In this section, you can view and manage user tags."
+msgstr "В данном подразделе можно просматривать и управлять тегами пользователя."
+
+#: ../../CSUI-Settings.rst:134
+msgid ""
+"Tags can be system or non-system. System tags are used to provide the "
+"functionality from the user interface perspective. Changing these tags affects "
+"the functionality of the application. The “Show system tags” checkbox allows "
+"to view or hide system tags of a user. Hiding system tags helps to avoid "
+"accidental unwanted changes. If a user has disabled displaying of such tags, "
+"the system will remember it and next time tags will also be hidden. Uncheck "
+"the “Show system tags” checkbox to hide system tags from the list."
+msgstr ""
+"Теги могут быть системными и несистемными. Системные теги обеспечивают "
+"дополнительную функциональность с точки зрения пользовательского интерфейса. "
+"Изменение этих тегов может затронуть работу всего приложения. Можно включить "
+"или выключить отображение системных тегов с помощью опции «Показывать "
+"системные теги». При выключении данной опции системные теги будут скрыты из "
+"списка, что поможет избежать случайных нежелательных изменений в них. Система "
+"запомнит, что отображение системных тегов отключено, и в дальнейшем системные "
+"теги не будут отображаться в списке."
+
+#: ../../CSUI-Settings.rst:136
+msgid ""
+"User system tags has the format of ``csui.user.<tag_name>``. You can view a "
+"full list of user tags at the `wiki-page <https://github.com/bwsw/cloudstack-"
+"ui/wiki/Tags>`_."
+msgstr ""
+"Системные теги пользователя имеют формат ``csui.user.<tag_name>``. Просмотреть "
+"полный список тегов пользователя можно на `странице wiki <https://github.com/"
+"bwsw/cloudstack-ui/wiki/Tags>`_."
+
+#: ../../CSUI-Settings.rst:140
+msgid ""
+"To add a user tag click “Create” |create icon|. In the appeared form enter:"
+msgstr ""
+"Для добавления тега пользователя нажмите «Создать» |create icon|. В "
+"появившейся форме введите:"
+
+#: ../../CSUI-Settings.rst:147
+msgid "Click “Create” to assign a new tag to the user."
+msgstr "Нажмите «СОЗДАТЬ» для добавления нового тега пользователя."
+
+#: ../../CSUI-Settings.rst:153
 msgid "Look and Feel"
 msgstr "Настройки интерфейса"
 
-#: ../../CSUI-Settings.rst:101
-msgid "In this block you can adjust the interface look."
-msgstr ""
-"В данном блоке можно выбрать один из типов недели: воскресенье - суббота или "
-"понедельник - воскресенье. "
+#: ../../CSUI-Settings.rst:154
+msgid "In this section, you can adjust the interface look."
+msgstr "В данном подразделе можно настроить вид интерфейса."
 
-#: ../../CSUI-Settings.rst:104
+#: ../../CSUI-Settings.rst:157
 msgid "Interface Language"
 msgstr "Язык интерфейса"
 
-#: ../../CSUI-Settings.rst:105
+#: ../../CSUI-Settings.rst:158
 msgid ""
 "Select the language of your interface. Currently two options are available in "
 "the drop-down list: Russian and English."
@@ -272,11 +414,11 @@ msgstr ""
 "Выберите язык интерфейса из представленных в списке вариантов: русский или "
 "английский."
 
-#: ../../CSUI-Settings.rst:111
+#: ../../CSUI-Settings.rst:164
 msgid "First Day of Week"
 msgstr "Первый день недели"
 
-#: ../../CSUI-Settings.rst:112
+#: ../../CSUI-Settings.rst:165
 msgid ""
 "In this block, you have the opportunity to choose between two types of weeks: "
 "Sunday - Saturday or Monday - Sunday."
@@ -284,18 +426,18 @@ msgstr ""
 "В данном блоке можно выбрать один из типов недели: воскресенье - суббота или "
 "понедельник - воскресенье. "
 
-#: ../../CSUI-Settings.rst:114
+#: ../../CSUI-Settings.rst:167
 msgid ""
 "From the drop-down list select the day when a week starts: Monday or Sanday."
 msgstr ""
 "Выберите из ниспадающего списка день, с которого будет начинаться неделя: "
 "понедельник или воскресенье. "
 
-#: ../../CSUI-Settings.rst:121
+#: ../../CSUI-Settings.rst:174
 msgid "Time Format"
 msgstr "Формат времени"
 
-#: ../../CSUI-Settings.rst:122
+#: ../../CSUI-Settings.rst:175
 msgid ""
 "Here you have the opportunity to switch the time format from AM/PM to 24H. You "
 "can set it to \"Auto\" and the time format will be set in correspondence to "
@@ -307,11 +449,11 @@ msgstr ""
 "зависимости от выбранного языка интерфейса: если язык интерфейса английский - "
 "12-часовой формат; если язык интерфейса русский - 24-часовой формат. "
 
-#: ../../CSUI-Settings.rst:129
+#: ../../CSUI-Settings.rst:182
 msgid "Theme Color"
 msgstr "Цвет темы"
 
-#: ../../CSUI-Settings.rst:130
+#: ../../CSUI-Settings.rst:183
 msgid ""
 "Select a preferred theme color. Currently two options are available: \"blue-red"
 "\" and \"indigo-pink\". The blue-red one is used by default."
@@ -319,11 +461,11 @@ msgstr ""
 "Выберите желаемый цвет темы. В текущей реализации доступны два варианта: сине-"
 "красный или индиго-розовый. Сине-красный цвет темы используется по умолчанию. "
 
-#: ../../CSUI-Settings.rst:132
+#: ../../CSUI-Settings.rst:185
 msgid "Click the field and select another color if you wish."
 msgstr "Кликните на поле и выберите желаемый цвет."
 
-#: ../../CSUI-Settings.rst:136
+#: ../../CSUI-Settings.rst:189
 msgid ""
 "A theme color can be set in the configuration JSON file. You will find more "
 "information in the `configuration guide <https://github.com/bwsw/cloudstack-ui/"
@@ -333,11 +475,11 @@ msgstr ""
 "`руководство по конфигурациям <https://github.com/bwsw/cloudstack-ui/blob/"
 "master/config-guide.md#default-theme-name>`_."
 
-#: ../../CSUI-Settings.rst:139
+#: ../../CSUI-Settings.rst:192
 msgid "Log View (real-time mode)"
 msgstr "Просмотр журналов в режиме реального времени"
 
-#: ../../CSUI-Settings.rst:140
+#: ../../CSUI-Settings.rst:193
 msgid ""
 "This section is available if the LogView UI-plugin is activated. See the "
 "`plugin page <https://github.com/bwsw/cloudstack-ui/wiki/Log-View-Plugin>`_ "
@@ -347,7 +489,7 @@ msgstr ""
 "установке плагина можно найти на `странице плагина <https://github.com/bwsw/"
 "cloudstack-ui/wiki/Log-View-Plugin>`_."
 
-#: ../../CSUI-Settings.rst:142
+#: ../../CSUI-Settings.rst:195
 msgid ""
 "In this settings block you can configure viewing VM logs in a real-time mode. "
 "The following parameters can be set:"
@@ -355,7 +497,7 @@ msgstr ""
 "В данном разделе настроек можно задать параметра просмотра журналов ВМ в "
 "режиме реального времени. Можно задать следующие параметры:"
 
-#: ../../CSUI-Settings.rst:144
+#: ../../CSUI-Settings.rst:197
 msgid ""
 "Show last (minutes) - allows viewing logs for the last set period. You can set "
 "the number of minutes from 1 (default) to 10."
@@ -363,7 +505,7 @@ msgstr ""
 "Показывать за последние (минуты) - время, за которое вы желаете видеть записи; "
 "допустимые значения - от 1 (по умолчанию) до 10 минут."
 
-#: ../../CSUI-Settings.rst:145
+#: ../../CSUI-Settings.rst:198
 msgid ""
 "Show last (messages) - allows setting a maximum amount of logs to display. You "
 "can set from 1 to any number of log records. By default, 1000 messages are "
@@ -373,6 +515,13 @@ msgstr ""
 "число записей для показа; допустимые значения - от 1 до бесконечности. По "
 "умолчанию, показываются 1000 записей."
 
-#: ../../CSUI-Settings.rst:147
+#: ../../CSUI-Settings.rst:200
 msgid "Click \"Update\" to apply the set parameters."
 msgstr "Нажмите «Обновить» для применения заданных значений."
+
+#~ msgid ""
+#~ "In the *Accounts* -> *Settings* section a user can modify the interface by "
+#~ "changing settings."
+#~ msgstr ""
+#~ "В разделе *Аккаунты* -> *Настройки* пользователь может менять настройки "
+#~ "интерфейса."

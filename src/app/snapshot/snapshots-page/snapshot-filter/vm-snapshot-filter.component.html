@@ -1,0 +1,39 @@
+<div class="filter-wrapper">
+  <cs-snapshots-filter-toggle [viewMode]="viewMode" (viewModeChange)="viewModeChange.emit($event)">
+  </cs-snapshots-filter-toggle>
+
+  <mat-form-field *ngIf="accounts.length > 1">
+    <mat-select
+      multiple="true"
+      [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+      [ngModel]="selectedAccounts"
+      (selectionChange)="selectedAccountsChange.emit($event.value)"
+    >
+      <mat-option *ngFor="let account of accounts" [value]="account.name"
+        >{{ account.fullDomain }}{{ account.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select
+      multiple="true"
+      [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_VMS' | translate"
+      [ngModel]="selectedVms"
+      (selectionChange)="selectedVmsChange.emit($event.value)"
+    >
+      <mat-option *ngFor="let vm of vms" [value]="vm.id"> {{ vm.displayname }} </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <cs-date-picker
+    [label]="'SNAPSHOT_PAGE.FILTERS.SELECT_DATE' | translate"
+    [okLabel]="'COMMON.OK' | translate"
+    [locale]="locale"
+    [firstDayOfWeek]="firstDayOfWeek"
+    [dateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+    [cancelLabel]="'COMMON.CANCEL' | translate"
+    [ngModel]="selectedDate"
+    (changed)="selectedDateChange.emit($event)"
+  ></cs-date-picker>
+</div>

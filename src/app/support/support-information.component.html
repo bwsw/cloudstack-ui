@@ -1,0 +1,11 @@
+<div class="panel-wrapper" *ngIf="isShow">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> {{ 'ERRORS.SUPPORT_INFORMATION' | translate }} </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+      <div [innerHTML]="supportInformation"></div>
+    </ng-template>
+  </mat-expansion-panel>
+</div>

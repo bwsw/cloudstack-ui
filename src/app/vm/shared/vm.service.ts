@@ -12,6 +12,7 @@ import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared';
 import { VirtualMachine } from './vm.model';
 import { IpAddress } from '../../shared/models/ip-address.model';
+import { SecurityGroup } from '../../security-group/sg.model';
 
 export const virtualMachineEntityName = 'VirtualMachine';
 export const nicEntityName = 'Nic';
@@ -57,7 +58,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public deploy(params: {}): Observable<any> {
-    return this.sendCommand(CSCommands.Deploy, params);
+    return this.sendPostCommand(CSCommands.Deploy, params);
   }
 
   public command(vm: VirtualMachine, command: string, params?: {}): Observable<VirtualMachine> {
@@ -121,6 +122,16 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.sendCommand(CSCommands.ChangeServiceFor, params).pipe(
       map(result => result.virtualmachine),
     );
+  }
+
+  public updateSecurityGroup(
+    virtualMachine: VirtualMachine,
+    securitygroupids: string,
+  ): Observable<VirtualMachine> {
+    return this.sendCommand(CSCommands.Update, {
+      securitygroupids,
+      id: virtualMachine.id,
+    }).pipe(map(result => result.virtualmachine));
   }
 
   public updateGroup(virtualMachine: VirtualMachine, group: string): Observable<VirtualMachine> {

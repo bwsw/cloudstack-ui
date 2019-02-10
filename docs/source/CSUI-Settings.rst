@@ -4,13 +4,13 @@ Settings
 -------------
 .. Contents::
 
-In the *Accounts* -> *Settings* section a user can modify the interface by changing settings.
+In the *Accounts* -> *Settings* section a user can modify the interface by changing settings. The interface settings are presented in separate sections: *Security, API configurations, VM preferences, Look and Feel, Account tags, User tags*. Moving between sections is possible using the switcher above.
 
-.. figure:: _static/Settings_List.png
+.. figure:: _static/Settings_List1.png
    
 Security
 ~~~~~~~~~~~~~~~~~~
-A user can manage the following security settings:
+In this section a user can manage the following security settings:
 
 - Change password;
 - Set the session timeout interval;
@@ -49,6 +49,8 @@ Save VM passwords by default
 """""""""""""""""""""""""""""""
 This checkbox allows saving passwords to VM tags automatically for all created virtual machines requiring passwords.
 
+.. figure:: _static/Settings_SavePass2.png
+
 Tick this option here. The passwords will be saved to VM tags right at the moment VMs are created. You will see a password (if it is required for the VM) is marked as saved in a dialog window after the new VM is deployed:
 
 .. figure:: _static/VMs_Create_Dialogue_SavedPass.png
@@ -62,7 +64,9 @@ Then the system will ask you if you wish to save passwords to VM tags automatica
 API Configuration
 ~~~~~~~~~~~~~~~~~~~~
 
-In this block of settings you can see and manage the API configurations: regenerate API keys, see the connection URL.
+In this block of settings you can see and manage the API configurations: regenerate API keys, see the connection URL, get the link to the Apache CloudStack API documentation.
+
+For users with no API keys, the system autogenerates the keys when a user logs in if this option is enabled in the configuration file. Find more information in `the configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#automatically-generate-secret-key-and-api-key-for-users>`_. 
 
 You can see an API key and a Secret key in corresponding fields. You can copy any of them clicking |copy icon| to the right. 
 
@@ -95,9 +99,58 @@ The following options are available:
 
 The selected option will appear in the VNC console kayboard layout parameter when accessing a VM via concole. The selected option is also saved to user tags.
 
+Account tags
+~~~~~~~~~~~~~~~~~~~~~~
+In this section, you can view and manage account tags. 
+
+.. figure:: _static/Settings_AccTags.png
+
+Tags can be system or non-system. System tags are used to provide the functionality from the user interface perspective. Changing these tags affects the functionality of the application. The “Show system tags” checkbox allows to view or hide system tags of an account. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of such tags, the system will remember it and next time tags will also be hidden. Uncheck the “Show system tags” checkbox to hide system tags from the list.
+
+The following system tags can be used for accounts:
+
+* ``csui.account.ssh-description`` - Used to provide an SSH description. 
+ 
+To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list.
+
+To add an account tag click “Create” |create icon|. In the appeared form enter:
+
+* Key *
+* Value *
+
+.. note:: Required fields are marked with an asterisk (*). The values in the fields cannot start with a space.
+
+Click “Create” to assign a new tag to the account.
+
+.. figure:: _static/Settings_CreateAccTag.png
+
+User tags
+~~~~~~~~~~~~~~~~~~~~~~
+
+In this section, you can view and manage user tags. 
+
+.. figure:: _static/Settings_UserTags.png
+
+Tags can be system or non-system. System tags are used to provide the functionality from the user interface perspective. Changing these tags affects the functionality of the application. The “Show system tags” checkbox allows to view or hide system tags of a user. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of such tags, the system will remember it and next time tags will also be hidden. Uncheck the “Show system tags” checkbox to hide system tags from the list.
+
+User system tags has the format of ``csui.user.<tag_name>``. You can view a full list of user tags at the `wiki-page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
+
+To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list.
+
+To add a user tag click “Create” |create icon|. In the appeared form enter:
+
+* Key *
+* Value *
+
+.. note:: Required fields are marked with an asterisk (*). The values in the fields cannot start with a space.
+
+Click “Create” to assign a new tag to the user.
+
+.. figure:: _static/Settings_CreateUserTag.png
+
 Look and Feel
 ~~~~~~~~~~~~~~~~~~~~~~
-In this block you can adjust the interface look.
+In this section, you can adjust the interface look.
 
 Interface Language
 """""""""""""""""""

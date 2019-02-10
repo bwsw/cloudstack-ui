@@ -8,6 +8,7 @@ import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromSnapshots from '../../snapshots/redux/snapshot.reducers';
 import { Snapshot } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
+const uniq = require('lodash/uniq');
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -279,6 +280,21 @@ export const selectVmVolumes = createSelector(
     return volumes.filter(volume => {
       return virtualMachineIdFilter(volume);
     });
+  },
+);
+
+export const selectVmWithVolumeSnapshot = createSelector(
+  fromVMs.selectEntities,
+  selectVolumesWithSnapshots,
+  (vmEntities, volumesWithSnap) => {
+    const vmWithVolume = volumesWithSnap
+      .map(volume => {
+        if (volume && volume.snapshots) {
+          return vmEntities[volume.virtualmachineid];
+        }
+      })
+      .filter(Boolean);
+    return uniq(vmWithVolume);
   },
 );
 

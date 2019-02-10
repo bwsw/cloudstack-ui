@@ -12,6 +12,7 @@ export interface ExtensionsConfig {
   webShell: boolean;
   pulse: boolean;
   vmLogs: boolean;
+  resourceLimits: boolean;
 }
 
 export interface CustomizableConfig {
@@ -23,16 +24,21 @@ export interface CustomizableConfig {
   apiDocLink: string;
   extensions: ExtensionsConfig;
   /*
-  *  Log View settings
-  * */
+   *  Log View settings
+   * */
   vmLogs: {
     autoUpdateRefreshFrequency: number;
     autoUpdateRequestedInterval: number;
+  };
+  resourceLimits: {
+    realm: string;
+    env: string;
   };
   /*
    * Virtual machines settings
    */
   vmColors: { value: string }[];
+  vmSnapLimit: { enable: boolean; snapshotsLimit: number };
   /*
    * Firewall (Security groups) settings
    */
@@ -50,6 +56,7 @@ export interface CustomizableConfig {
   defaultTimeFormat: string;
   defaultTheme: string;
   sessionTimeout: number;
+  autoGenerateUserKeys: boolean;
   /*
    * Service offering setting
    */

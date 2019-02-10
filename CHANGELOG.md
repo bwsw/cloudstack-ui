@@ -1,3 +1,35 @@
+<a name="1.411.28"></a>
+## [1.411.28](https://github.com/bwsw/cloudstack-ui/compare/1.411.27...1.411.28) (2019-01-30)
+
+
+### Bug Fixes
+
+* **accounts:** account grouping ([#1527](https://github.com/bwsw/cloudstack-ui/issues/1527)) ([f038193](https://github.com/bwsw/cloudstack-ui/commit/f038193)), closes [#1526](https://github.com/bwsw/cloudstack-ui/issues/1526)
+* **accounts:** added account creation guard ([68c1662](https://github.com/bwsw/cloudstack-ui/commit/68c1662))
+* **idle:** fix idle for protractor ([#1511](https://github.com/bwsw/cloudstack-ui/issues/1511)) ([09e7734](https://github.com/bwsw/cloudstack-ui/commit/09e7734))
+* **login:** disable login button when Username or Password or both are empty ([#1536](https://github.com/bwsw/cloudstack-ui/issues/1536)) ([e5eab56](https://github.com/bwsw/cloudstack-ui/commit/e5eab56)), closes [#1534](https://github.com/bwsw/cloudstack-ui/issues/1534)
+* **project:** lodash imports ([#1517](https://github.com/bwsw/cloudstack-ui/issues/1517)) ([3ce344f](https://github.com/bwsw/cloudstack-ui/commit/3ce344f))
+* **snapshots:** show noVm option for snapshot page ([#1543](https://github.com/bwsw/cloudstack-ui/issues/1543)) ([9478ff4](https://github.com/bwsw/cloudstack-ui/commit/9478ff4)), closes [#1541](https://github.com/bwsw/cloudstack-ui/issues/1541)
+* **vm-creation:** slider layout ([#1525](https://github.com/bwsw/cloudstack-ui/issues/1525)) ([07e239e](https://github.com/bwsw/cloudstack-ui/commit/07e239e)), closes [#1512](https://github.com/bwsw/cloudstack-ui/issues/1512)
+* **volume-creation:** the first disk offering is selected in disk offering if data disk is creating ([#1535](https://github.com/bwsw/cloudstack-ui/issues/1535)) ([3d2ced4](https://github.com/bwsw/cloudstack-ui/commit/3d2ced4)), closes [#1530](https://github.com/bwsw/cloudstack-ui/issues/1530)
+
+
+### Features
+
+* **domain:** use domain path instead of domain name ([#1524](https://github.com/bwsw/cloudstack-ui/issues/1524)) ([2a5571d](https://github.com/bwsw/cloudstack-ui/commit/2a5571d)), closes [#1479](https://github.com/bwsw/cloudstack-ui/issues/1479)
+* **error:** create support-info.md and show it in all error messages ([#1531](https://github.com/bwsw/cloudstack-ui/issues/1531)) ([e2ade54](https://github.com/bwsw/cloudstack-ui/commit/e2ade54)), closes [#904](https://github.com/bwsw/cloudstack-ui/issues/904)
+* **resource-quotas:** admin and user interface ([#1532](https://github.com/bwsw/cloudstack-ui/issues/1532)) ([f0a5745](https://github.com/bwsw/cloudstack-ui/commit/f0a5745)), closes [#1458](https://github.com/bwsw/cloudstack-ui/issues/1458)
+* **settings:** add "Account tags" and "User tags" tabs to Settings ([#1537](https://github.com/bwsw/cloudstack-ui/issues/1537)) ([24c1027](https://github.com/bwsw/cloudstack-ui/commit/24c1027)), closes [#947](https://github.com/bwsw/cloudstack-ui/issues/947)
+* **settings:** rework settings - display all sections in switcher ([#1518](https://github.com/bwsw/cloudstack-ui/issues/1518)) ([f7402f4](https://github.com/bwsw/cloudstack-ui/commit/f7402f4)), closes [#946](https://github.com/bwsw/cloudstack-ui/issues/946)
+* **snapshot:** manage "Revert VM to snapshot" and "Create VM snapsho… ([#1522](https://github.com/bwsw/cloudstack-ui/issues/1522)) ([14c6282](https://github.com/bwsw/cloudstack-ui/commit/14c6282)), closes [#1428](https://github.com/bwsw/cloudstack-ui/issues/1428)
+* **user:** Generate Access key/Secret key upon the login if they are… ([#1528](https://github.com/bwsw/cloudstack-ui/issues/1528)) ([99cd98f](https://github.com/bwsw/cloudstack-ui/commit/99cd98f)), closes [#1449](https://github.com/bwsw/cloudstack-ui/issues/1449)
+* **validations:** support letters of all existing languages as the 1st letter of entities ([#1514](https://github.com/bwsw/cloudstack-ui/issues/1514)) ([1909c1f](https://github.com/bwsw/cloudstack-ui/commit/1909c1f)), closes [#1391](https://github.com/bwsw/cloudstack-ui/issues/1391)
+* **vm-creation:** add a capability to copy API Log in case of error during VM creation ([#1533](https://github.com/bwsw/cloudstack-ui/issues/1533)) ([0fe41ba](https://github.com/bwsw/cloudstack-ui/commit/0fe41ba)), closes [#645](https://github.com/bwsw/cloudstack-ui/issues/645)
+* **vm-snapshot:** manage maximum VM snapshots amount in config.json ([#1523](https://github.com/bwsw/cloudstack-ui/issues/1523)) ([0ba17bf](https://github.com/bwsw/cloudstack-ui/commit/0ba17bf)), closes [#1415](https://github.com/bwsw/cloudstack-ui/issues/1415)
+* **volume:** support data volume management limitations for VMs with snapshots ([#1521](https://github.com/bwsw/cloudstack-ui/issues/1521)) ([7d98118](https://github.com/bwsw/cloudstack-ui/commit/7d98118)), closes [#934](https://github.com/bwsw/cloudstack-ui/issues/934)
+
+
+
 <a name="1.411.27"></a>
 ## [1.411.27](https://github.com/bwsw/cloudstack-ui/compare/1.411.26...1.411.27) (2018-12-27)
 

@@ -95,6 +95,7 @@
     }
   },
   "ERRORS": {
+    "SUPPORT_INFORMATION": "Support information",
     "COMMON": {
       "THE_NAME_IS_TAKEN": "The name {{ val1 }} is taken"
     },
@@ -107,8 +108,15 @@
     "ISO": {
       "VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
     },
+    "VM_SNAPSHOT": {
+      "LIMIT_EXCEEDED": "The maximum amount of VM snapshots is exceeded. Please check your configurations"
+    },
     "SNAPSHOT": {
-      "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first."
+      "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first.",
+      "CREATION_UNAVAILABLE_FOR_STOPPED": "VM snapshot creation is unavailable for stopped VMs",
+      "CREATION_UNAVAILABLE_FOR_DELETED": "VM snapshot creation is unavailable for destroyed VMs",
+      "CREATION_UNAVAILABLE": "VM snapshot can not be created. Contact your administrator",
+      "REVERT_UNAVAILABLE_FOR_STOPPED": "Revert VM to snapshot is unavailable for stopped VMs"
     },
     "SSH": {
       "KEY_PAIR_ALREADY_EXISTS": "SSH key with name '{{ val1 }}' already exists"
@@ -125,7 +133,12 @@
       "PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
       "UNABLE_TO_FIND_PRIMARY_STORAGE": "Unable to find suitable primary storage when creating volume {{ val1 }}",
       "VOLUME_BUSY": "There is other active snapshot tasks on the instance to which the volume is attached. Please try again later.",
-      "VOLUME_RESOURCES_LIMIT_EXCEEDED": "The disk offering cannot be selected because it doesn't fit the account resources available"
+      "VOLUME_RESOURCES_LIMIT_EXCEEDED": "The disk offering cannot be selected because it doesn't fit the account resources available",
+      "VOLUME_DELETING_UNAVAILABLE": "Data disk deleting is unavailable for VMs with active snapshots",
+      "VOLUME_ATTACH_UNAVAILABLE": "Data disk attachment is unavailable for VMs with active snapshots",
+      "VOLUME_DETACH_UNAVAILABLE": "Data disk detachment is unavailable for VMs with active snapshots",
+      "VOLUME_RESIZE_UNAVAILABLE": "Data disk resize is unavailable for VMs with active snapshots",
+      "VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED": "Maximum amount of disks is exceeded. Account Resource Limit is {{ val1 }}"
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Hourly schedule is turned off"
@@ -136,6 +149,11 @@
     "VM_LOGS": {
       "TOKEN_DOES_NOT_EXIST": "The token does not exist",
       "INVALID_TOKEN": "Invalid token"
+    },
+    "RESOURCE_QUOTAS": {
+      "FAILED_RETRIEVE": "You can not change any resource limits",
+      "MAX_MUST_BE_GREATER": "Maximum must be greater than or equal to minimum",
+      "MAX_MUST_BE_BETWEEN": "Maximum must be between {{ val1 }} and {{ val2 }}"
     }
   },
   "NOTIFICATIONS": {
@@ -174,7 +192,6 @@
       "TAKE_FAILED": "Failed to take a snapshot",
       "DELETION_IN_PROGRESS": "Deleting a snapshot",
       "DELETION_DONE": "Snapshot deleted",
-      "DELETION_FAILED": "Failed to delete a snapshot",
       "REVERT_IN_PROGRESS": "Reverting a disk",
       "REVERT_DONE": "Disk reverted",
       "REVERT_FAILED": "Failed to revert a disk"
@@ -251,6 +268,9 @@
       "CHANGE_AFFINITY_GROUP_IN_PROGRESS": "Changing an affinity group",
       "CHANGE_AFFINITY_GROUP_DONE": "Affinity group changed",
       "CHANGE_AFFINITY_GROUP_FAILED": "Failed to change an affinity group",
+      "CHANGE_SECURITY_GROUP_DONE": "Security group changed",
+      "CHANGE_SECURITY_GROUP_FAILED": "Failed to change a security group",
+      "CHANGE_SECURITY_GROUP_IN_PROGRESS": "Changing a security group",
       "CHANGE_INSTANCE_GROUP_IN_PROGRESS": "Changing an instance group",
       "CHANGE_INSTANCE_GROUP_DONE": "Instance group changed",
       "CHANGE_INSTANCE_GROUP_FAILED": "Failed to change an instance group",
@@ -311,6 +331,7 @@
     "ACTIVITY_LOG": "Activity log",
     "SSH_KEYS": "SSH keys",
     "ACCOUNTS": "Accounts",
+    "RESOURCE_QUOTAS": "Resource quotas",
     "LOGS": "View logs",
     "SETTINGS": "Settings",
     "LOGOUT": "Logout",
@@ -391,6 +412,10 @@
         "ZONE": "Zone",
         "HOST_NAME": "VM host name",
         "ID": "ID"
+      },
+      "SECURITY_GROUP": {
+        "STOP_MACHINE_FOR_SG": "You need to stop the virtual machine to change security group. Do you want to stop it now?",
+        "ASK_TO_CHANGE_SG": "Are you sure you want to detach security group?"
       },
       "INSTANCE_GROUP": {
         "TITLE": "Group",
@@ -563,7 +588,11 @@
       "type": "Type",
       "FIREWALL_RULES": "Firewall rules",
       "INGRESS": "Incoming",
-      "EGRESS": "Outgoing"
+      "EGRESS": "Outgoing",
+      "ATTACH": "Attach",
+      "DETACH": "Detach",
+      "VIEW": "View",
+      "NO_SG": "No security group"
     },
     "VM_CREATION": {
       "NEW_VM": "New virtual machine",
@@ -599,9 +628,13 @@
       "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template",
       "NO_TEMPLATES": "No templates available",
-      "NO_OFFERINGS": "No offerings available",
+      "NO_OFFERINGS": "There are no service offering available",
       "GENERAL": "General",
-      "ADVANCED": "Advanced"
+      "ADVANCED": "Advanced",
+      "DETAILS": "Details",
+      "REQUEST": "REQUEST",
+      "PARAMS": "PARAMS",
+      "RESPONSE": "RESPONSE"
     },
     "MODALS": {
       "TAKE_VM_SNAPSHOT": {
@@ -817,7 +850,8 @@
       "SELECT_DATE": "Select a date",
       "GROUP_BY_TYPES": "Types",
       "GROUP_BY_VMS": "VMs",
-      "GROUP_BY_ACCOUNTS": "Accounts"
+      "GROUP_BY_ACCOUNTS": "Accounts",
+      "NO_VM": "No VM"
     },
     "SIDEBAR": {
       "DETAILS": "Details",
@@ -1498,6 +1532,36 @@
       "SECRET_KEY": "Secret key"
     }
   },
+  "RESOURCE_QUOTAS_PAGE": {
+    "RESOURCES": {
+      "INSTANCES": "Instances",
+      "IPS": "IPs",
+      "VOLUMES": "Volumes",
+      "SNAPSHOTS": "Snapshots",
+      "TEMPLATES": "Templates",
+      "PROJECTS": "Projects",
+      "NETWORK": "Network",
+      "VPCS": "VPCs",
+      "CPUS": "CPUs",
+      "MEMORY": "Memory (MB)",
+      "PRIMARY_STORAGE": "Primary storage (GB)",
+      "SECONDARY_STORAGE": "Secondary storage (GB)"
+    },
+    "REQUEST": {
+      "REQUEST_RESOURCES_BUTTON": "Request resources",
+      "REQUEST_RESOURCES_TITLE": "Request resources",
+      "LIMIT_UPDATED": "Resource limits updated successfully",
+      "CAN_NOT_CHANGE_RESOURCES": "You can not make any request to change resource limits",
+      "REQUEST_BUTTON": "Request"
+    },
+    "ADMIN_PAGE": {
+      "QUOTA_UPDATED": "Resource quotas updated successfully",
+      "QUOTA_LOAD_ERROR": "Failed to load resource quotas"
+    },
+    "MIN": "Min",
+    "MAX": "Max",
+    "UPDATE": "Update"
+  },
   "LOGS_PAGE": {
     "FILTERS": {
       "SELECT_ACCOUNTS": "Select accounts",
@@ -1544,7 +1608,7 @@
       "SAVE_PASSWORD_FOR_ALL_VMS": "Save VM passwords by default"
     },
     "API_CONFIGURATION": {
-      "TITLE": "API configuration",
+      "TITLE": "API Configuration",
       "API_KEY": "API Key",
       "API_SECRET_KEY": "Secret key",
       "API_URL": "Connection URL",
@@ -1564,8 +1628,14 @@
       "THEME": "Theme Color"
     },
     "VM_PREFERENCES": {
-      "TITLE": "VM preferences",
+      "TITLE": "VM Preferences",
       "KEYBOARD_LAYOUT": "Keyboard layout"
+    },
+    "ACCOUNT_TAGS": {
+      "TITLE": "Account Tags"
+    },
+    "USER_TAGS": {
+      "TITLE": "User Tags"
     },
     "VM_LOGS": {
       "TITLE": "Log View (real-time mode)",
@@ -1589,6 +1659,7 @@
   "ACCOUNT_NOT_FOUND": "Account not found",
   "PULSE": {
     "PULSE": "Pulse",
+    "DIALOG_TITLE": "Pulse plugin",
     "CPU_RAM": "CPU / RAM",
     "NETWORK": "Network",
     "DISK": "Disk",
@@ -1625,7 +1696,8 @@
     "ALL_GROUPS": "All templates",
     "SELECTED_GROUPS": "Selected templates",
     "NETWORK_RULES": "Network rules",
-    "SELECT_SECURITY_GROUP": "Select a group"
+    "SELECT_SECURITY_GROUP": "Select a group",
+    "ATTACHMENT": "Shared Security Group attachment"
   },
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Change service offering",

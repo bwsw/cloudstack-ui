@@ -29,6 +29,11 @@
         {{ 'VM_PAGE.RESOURCE_USAGE.FREE' | translate }}
       </mat-button-toggle>
     </mat-button-toggle-group>
+
+    <cs-request-resources-button-container
+      class="request-resources"
+    ></cs-request-resources-button-container>
+
     <div class="stat-list-container">
       <mat-card *ngFor="let stat of statsList" class="stat-card-md">
         <mat-card-header>

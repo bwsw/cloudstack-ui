@@ -60,4 +60,5 @@ __build__/**
 
 # Configurations #
 proxy-conf.js
+proxy-conf-e2e.js
 /src/config/config.json

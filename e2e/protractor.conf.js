@@ -5,7 +5,7 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
   allScriptsTimeout: 15000,
-  specs: ['./**/*.e2e-spec.ts'],
+  specs: ['./e2e/**/*.e2e-spec.ts'],
   /*
   multiCapabilities: [{
     'browserName': 'firefox',
@@ -22,16 +22,23 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: ['--headless', '--no-sandbox', '--disable-gpu'],
+      args: ['--headless', '--disable-gpu', '--window-size=800,600', '--no-sandbox'],
     },
-  },
-
-  suites: {
-    login: './e2e/login.e2e-spec.ts',
   },
   directConnect: true,
   baseUrl: 'http://localhost:8081',
   framework: 'jasmine',
+  suites: {
+    login: './e2e/login.e2e-spec.ts',
+    vm_creation: './e2e/vm-creation.e2e-spec.ts',
+  },
+  params: {
+    so: 'Small Instance',
+    template: 'CentOS 5.6 (64-bit)',
+    zone: 'Sandbox-simulator',
+    rule: 'default',
+  },
+  //  * other config options *
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,

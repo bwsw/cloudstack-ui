@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  margin: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  vertical-align: baseline;
+}
+
+.title {
+  padding-right: 20px;
+}
+
+.min {
+  padding-right: 10px;
+}
+
+.button {
+  margin-left: auto;
+}
