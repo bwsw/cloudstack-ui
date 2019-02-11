@@ -3,12 +3,15 @@
 set -u -o pipefail
 
 SIMULATOR_IMAGE=quay.io/ansible/cloudstack-test-container
-STATUS_CHECK_PORT=8888
+HOST_PORT=4200
+APP_CONTAINER_PORT=8888
+STATUS_CHECK_PORT=4200
 
 docker stop cloudstack-simulator
 docker rm cloudstack-simulator
 
-docker run --name cloudstack-simulator -d -p 4220:8888 ${SIMULATOR_IMAGE}
+# Don't forget to map STATUS_CHECK_PORT if it differs from APP_CONTAINER_PORT
+docker run --name cloudstack-simulator -d -p ${HOST_PORT}:${APP_CONTAINER_PORT} ${SIMULATOR_IMAGE}
 echo "Docker container is started"
 
 echo "Wait until simulator initialized"
