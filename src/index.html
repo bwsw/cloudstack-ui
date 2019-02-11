@@ -1,35 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Cloudstack UI</title>
-  <base href="/">
-  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-  <link rel="stylesheet" href="css/loader.css">
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.ru"></script>
-</head>
-<body>
-<cs-app>
-  <div class="preloader">
-    <img src="img/cloudstack_logo.png">
-    <div class="loader"></div>
-  </div>
-</cs-app>
-<script>
-  var $buoop = {vs: {i: 11, f: -8, o: -4, s: 9, c: -4}, mobile: false, api: 4};
+  <head>
+    <meta charset="utf-8" />
+    <title>Cloudstack UI</title>
+    <base href="/" />
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+    <link rel="stylesheet" href="css/loader.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.ru"></script>
+  </head>
+  <body>
+    <cs-app>
+      <div class="preloader">
+        <img src="img/cloudstack_logo.png" />
+        <div class="loader"></div>
+      </div>
+    </cs-app>
+    <script>
+      var $buoop = { vs: { i: 11, f: -8, o: -4, s: 9, c: -4 }, mobile: false, api: 4 };
 
-  function $buo_f() {
-    var e = document.createElement("script");
-    e.src = "//browser-update.org/update.min.js";
-    document.body.appendChild(e);
-  };
-  try {
-    document.addEventListener("DOMContentLoaded", $buo_f, false)
-  }
-  catch (e) {
-    window.attachEvent("onload", $buo_f)
-  }
-</script>
-</body>
+      function $buo_f() {
+        var e = document.createElement('script');
+        e.src = '//browser-update.org/update.min.js';
+        document.body.appendChild(e);
+      }
+      try {
+        document.addEventListener('DOMContentLoaded', $buo_f, false);
+      } catch (e) {
+        window.attachEvent('onload', $buo_f);
+      }
+    </script>
+  </body>
 </html>
-
