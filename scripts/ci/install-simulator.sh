@@ -3,9 +3,9 @@
 set -u -o pipefail
 
 SIMULATOR_IMAGE=quay.io/ansible/cloudstack-test-container
-HOST_PORT=4200
+HOST_PORT=4220
 APP_CONTAINER_PORT=8888
-STATUS_CHECK_PORT=4200
+STATUS_CHECK_PORT=4220
 
 docker stop cloudstack-simulator
 docker rm cloudstack-simulator
