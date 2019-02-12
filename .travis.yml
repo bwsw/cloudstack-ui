@@ -28,13 +28,6 @@ env:
 install:
   - yarn install
 
-before_script:
-  - ./scripts/ci/add-proxy-conf.sh
-  - ./scripts/ci/install-simulator.sh
-
-script:
-  - yarn e2e
-
 after_success:
   - yarn coveralls
 
