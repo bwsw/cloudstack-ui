@@ -1,6 +1,5 @@
 <mat-form-field class="aggregation-select">
   <mat-select
-
     [(ngModel)]="selectedScale"
     (selectionChange)="handleScaleChange($event)"
     [placeholder]="'PULSE.RANGE' | translate"
@@ -18,10 +17,7 @@
     #aggregationSelect="ngModel"
     (selectionChange)="handleAggregationsChange($event)"
   >
-    <mat-option
-      *ngFor="let aggregation of selectedScale?.aggregations"
-      [value]="aggregation"
-    >
+    <mat-option *ngFor="let aggregation of selectedScale?.aggregations" [value]="aggregation">
       {{ aggregation }}
     </mat-option>
   </mat-select>
@@ -33,11 +29,9 @@
     type="number"
     value="0"
     [min]="0"
-    [max]="100"
-    csMaxNumber="0"
-    csMinNumber="100"
+    [csMinValue]="0"
     (input)="handleShiftAmountChange($event)"
-  >
+  />
 </mat-form-field>
 <mat-form-field class="aggregation-select shift-select">
   <mat-select
