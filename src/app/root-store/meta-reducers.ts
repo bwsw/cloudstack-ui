@@ -23,9 +23,12 @@ export function logout(reducer: ActionReducer<State>) {
     if (action.type === AuthActionTypes.LogoutComplete) {
       // Keep config state because it common for all users
       const configState = state['config'];
+      // Keep userTags state because it should be changed by SetDefaultUserTagsDueToLogout action
+      const userTagsState = state['userTags'];
       // tslint:disable-next-line:no-parameter-reassignment
       state = {} as State;
       state['config'] = configState;
+      state['userTags'] = userTagsState;
     }
 
     return reducer(state, action);
