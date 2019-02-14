@@ -22,9 +22,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
             yAxes: [
               {
                 ticks: {
-                  padding: 40,
-                  mirror: true,
-                  suggestedMin: 0,
+                  ...defaultChartOptions.scales.yAxes[0].ticks,
                   suggestedMax: 100,
                   userCallback(val) {
                     return `${val}%`;
@@ -44,9 +42,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
             yAxes: [
               {
                 ticks: {
-                  padding: 40,
-                  mirror: true,
-                  suggestedMin: 0,
+                  ...defaultChartOptions.scales.yAxes[0].ticks,
                   userCallback(val) {
                     return humanReadableSize(val * 1024);
                   },
