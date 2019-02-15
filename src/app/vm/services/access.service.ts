@@ -11,9 +11,11 @@ export abstract class AccessService {
   protected readonly authMode: AuthModeType;
   protected readonly defaultLogin = 'root';
 
-  public openWindow(vm: VirtualMachine) {
+  public openWindow(vm: VirtualMachine, target: string = this.authMode) {
     const address = this.getAddress(vm);
-    window.open(address, this.authMode, 'resizable=0,width=820,height=640');
+    const params =
+      target === this.authMode ? 'resizable=0,toolbar=no,menubar=no,width=820,height=640' : '';
+    window.open(address, target, params);
   }
 
   public abstract getLogin(vm: VirtualMachine): string;
