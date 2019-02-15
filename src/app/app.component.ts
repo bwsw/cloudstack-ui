@@ -12,6 +12,11 @@ import { StyleService } from './shared/services/style.service';
 import { DateTimeFormatterService } from './shared/services/date-time-formatter.service';
 import { State, UserTagsSelectors } from './root-store';
 
+import * as chart_moment from 'chart.js/node_modules/moment';
+import 'moment/locale/ru';
+import { Language } from './shared/types';
+import { Utils } from './shared/services/utils/utils.service';
+
 @Component({
   selector: 'cs-app',
   templateUrl: './app.component.html',
@@ -40,14 +45,22 @@ export class AppComponent implements OnInit {
   }
 
   private configureInterface() {
-    this.store
-      .pipe(select(UserTagsSelectors.getInterfaceLanguage))
-      .subscribe(language => this.translateService.use(language));
+    this.store.pipe(select(UserTagsSelectors.getInterfaceLanguage)).subscribe(language => {
+      this.translateService.use(language);
+      // set locale for moment in the chart.js
+      chart_moment.locale(language);
+    });
 
-    this.store
-      .pipe(select(UserTagsSelectors.getTimeFormat))
-      .subscribe(timeFormat => this.dateTimeFormatterService.updateFormatters(timeFormat));
-
+    this.store.pipe(select(UserTagsSelectors.getTimeFormat)).subscribe(timeFormat => {
+      this.dateTimeFormatterService.updateFormatters(timeFormat);
+      // set time formats for locale of moment in the chart.js
+      chart_moment.updateLocale('en', {
+        longDateFormat: Utils.getMomentLongDateFormat(Language.en, timeFormat),
+      });
+      chart_moment.updateLocale('ru', {
+        longDateFormat: Utils.getMomentLongDateFormat(Language.ru, timeFormat),
+      });
+    });
     this.store
       .pipe(select(UserTagsSelectors.getTheme))
       .subscribe(themeName => this.styleService.useTheme(themeName));

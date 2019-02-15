@@ -12,6 +12,7 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 })
 export class PulseCpuRamChartComponent extends PulseChartComponent implements OnInit {
   public ngOnInit() {
+    const unitTranslations = this.unitTranslations;
     this.charts = getChart([
       {
         id: 'cpu',
@@ -48,7 +49,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
                   mirror: true,
                   suggestedMin: 0,
                   userCallback(val) {
-                    return humanReadableSize(val * 1000, true);
+                    return humanReadableSize(val * 1000, true, unitTranslations);
                   },
                 },
               },

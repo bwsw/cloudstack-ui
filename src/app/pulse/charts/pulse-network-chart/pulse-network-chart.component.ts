@@ -35,6 +35,8 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
   }
 
   public ngOnInit() {
+    const unitTranslations = this.unitTranslations;
+
     this.charts = getChart([
       {
         id: 'bits',
@@ -50,7 +52,7 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
                   suggestedMin: 0,
                   userCallback(val) {
                     return !!humanReadableSizeInBits(val)
-                      ? `${humanReadableSizeInBits(val)}/s`
+                      ? `${humanReadableSizeInBits(val, unitTranslations)}/${unitTranslations['S']}`
                       : null;
                   },
                 },

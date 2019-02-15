@@ -1682,6 +1682,33 @@
       "DISK_READ_IOPS": "Чтение с диска (IOPS)",
       "DISK_WRITE_IOPS": "Запись на диск (IOPS)",
       "DISK_IO_ERRORS": "Ошибки IO"
+    },
+    "INTERVALS": {
+      "RANGES": {
+        "15M": "15 мин",
+        "30M": "30 мин",
+        "1H": "1 ч",
+        "2H": "2 ч",
+        "3H": "3 ч",
+        "12H": "12 ч",
+        "1D": "1 день",
+        "1W": "1 нед",
+        "30D": "30 дн"
+      },
+      "AGGREGATIONS": {
+        "1M": "1 мин",
+        "5M": "5 мин",
+        "15M": "15 мин",
+        "30M": "30 мин",
+        "1H": "1 ч",
+        "4H": "4 ч",
+        "1D": "1 д"
+      },
+      "SHIFTS": {
+        "M": "мин",
+        "H": "час",
+        "D": "день"
+      }
     }
   },
   "SECURITY_GROUP_SELECTOR": {
@@ -1841,16 +1868,29 @@
     }
   },
   "UNITS": {
+    "B": "Б",
+    "KB": "КБ",
+    "MB": "MБ",
     "GB": "ГБ",
+    "TB": "ТБ",
+    "KIB": "КиБ",
+    "MIB": "МиБ",
+    "GIB": "ГиБ",
+    "TIB": "ТиБ",
+    "BITS": "бит",
+    "KBITS": "КБит",
+    "MBITS": "МБит",
+    "GBITS": "ГБит",
+    "TBITS": "ТБит",
     "GB_VALUE": "{{ value }} ГБ",
     "GHZ": "ГГц",
     "IOPS": "IOPS",
     "IOPS_VALUE": "{{ value }} IO/сек",
-    "MB": "MБ",
     "MB_VALUE": "{{ value }} MБ",
     "MBPS": "MБ/сек",
     "MBPS_VALUE": "{{ value }} MБ/сек",
-    "MHZ": "МГц"
+    "MHZ": "МГц",
+    "S": "с"
   },
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Создать снимок",

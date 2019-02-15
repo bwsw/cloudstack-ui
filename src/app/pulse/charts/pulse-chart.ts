@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, EventEmitter, Injectable, Input, Output } from '@angular/core';
+import { Dictionary } from '@ngrx/entity';
 import * as chartJs from 'chart.js';
 import { PulseService } from '../pulse.service';
 
@@ -90,7 +91,9 @@ export function getChart(config: any[]) {
 @Injectable()
 export abstract class PulseChartComponent {
   @Input()
-  public translations;
+  public translations: Dictionary<string>;
+  @Input()
+  public unitTranslations: Dictionary<string>;
   @Input()
   public charts: PulseChart[];
   @Input()

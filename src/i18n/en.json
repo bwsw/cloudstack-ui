@@ -1685,6 +1685,33 @@
       "DISK_READ_IOPS": "Disk read (IOPS)",
       "DISK_WRITE_IOPS": "Disk write (IOPS)",
       "DISK_IO_ERRORS": "Disk IO errors"
+    },
+    "INTERVALS": {
+      "RANGES": {
+        "15M": "15 m",
+        "30M": "30 m",
+        "1H": "1 h",
+        "2H": "2 h",
+        "3H": "3 h",
+        "12H": "12 h",
+        "1D": "1 d",
+        "1W": "1 w",
+        "30D": "30 d"
+      },
+      "AGGREGATIONS": {
+        "1M": "1 m",
+        "5M": "5 m",
+        "15M": "15 m",
+        "30M": "30 m",
+        "1H": "1 h",
+        "4H": "4 h",
+        "1D": "1 d"
+      },
+      "SHIFTS": {
+        "M": "m",
+        "H": "h",
+        "D": "d"
+      }
     }
   },
   "SECURITY_GROUP_SELECTOR": {
@@ -1844,16 +1871,29 @@
     }
   },
   "UNITS": {
+    "B": "B",
+    "KB": "KB",
+    "MB": "MB",
     "GB": "GB",
+    "TB": "TB",
+    "KIB": "KiB",
+    "MIB": "MiB",
+    "GIB": "GiB",
+    "TIB": "TiB",
+    "BITS": "bits",
+    "KBITS": "Kbits",
+    "MBITS": "Mbits",
+    "GBITS": "Gbits",
+    "TBITS": "Tbits",
     "GB_VALUE": "{{ value }} GB",
     "GHZ": "GHz",
     "IOPS": "IOPS",
     "IOPS_VALUE": "{{ value }} IO/s",
-    "MB": "MB",
     "MB_VALUE": "{{ value }} MB",
     "MBPS": "MB/s",
     "MBPS_VALUE": "{{ value }} MB/s",
-    "MHZ": "MHz"
+    "MHZ": "MHz",
+    "S": "s"
   },
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Take a snapshot",

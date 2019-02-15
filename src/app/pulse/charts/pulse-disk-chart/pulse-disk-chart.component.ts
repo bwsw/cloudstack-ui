@@ -35,6 +35,8 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
   }
 
   public ngOnInit() {
+    const unitTranslations = this.unitTranslations;
+
     this.charts = getChart([
       {
         id: 'bytes',
@@ -50,7 +52,7 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
                   suggestedMin: 0,
                   userCallback(val) {
                     return !!humanReadableSize(val, true)
-                      ? `${humanReadableSize(val, true)}/s`
+                      ? `${humanReadableSize(val, true, unitTranslations)}/${unitTranslations['S']}`
                       : null;
                   },
                 },
