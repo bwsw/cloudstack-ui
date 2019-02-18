@@ -1,7 +1,6 @@
 <div class="entity-select-container">
   <mat-form-field class="aggregation-select entity-select">
     <mat-select
-
       [placeholder]="'NIC' | translate"
       [(ngModel)]="selectedNic"
       (selectionChange)="nicChange.emit()"
@@ -12,6 +11,9 @@
     </mat-select>
   </mat-form-field>
 </div>
+
+<div class="clear"></div>
+
 <cs-chart-area-component
   [charts]="charts"
   [hasNext]="shift > 0"
@@ -19,4 +21,3 @@
   (previous)="previous.emit()"
   (next)="next.emit()"
 ></cs-chart-area-component>
-
