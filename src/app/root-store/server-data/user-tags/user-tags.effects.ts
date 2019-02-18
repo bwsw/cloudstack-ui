@@ -410,12 +410,8 @@ export class UserTagsEffects {
 
   private readonly resourceType = 'User';
 
-  // todo: make sure it's loaded before app starts
-  private get resourceId(): Observable<string> {
-    return this.authService.user$.pipe(
-      filter(Boolean),
-      map(user => user.userid),
-    );
+  private get resourceId(): string | null {
+    return this.authService.user.userid;
   }
 
   constructor(
@@ -447,13 +443,9 @@ export class UserTagsEffects {
   }
 
   private loadTags() {
-    return this.resourceId.pipe(
-      switchMap(resourceId => {
-        return this.tagService.getList({
-          resourceid: resourceId,
-        });
-      }),
-    );
+    return this.tagService.getList({
+      resourceid: this.resourceId,
+    });
   }
 
   private updateTag(tag: TagCreationParams, oldTagKey: string) {
@@ -481,15 +473,11 @@ export class UserTagsEffects {
       {},
     );
 
-    return this.resourceId.pipe(
-      switchMap(resourceId => {
-        return this.tagService.remove({
-          resourceids: resourceId,
-          resourcetype: this.resourceType,
-          ...tagsData,
-        });
-      }),
-    );
+    return this.tagService.remove({
+      resourceids: this.resourceId,
+      resourcetype: this.resourceType,
+      ...tagsData,
+    });
   }
 
   private createTag(tag: TagCreationParams | TagCreationParams[]) {
@@ -503,14 +491,10 @@ export class UserTagsEffects {
       {},
     );
 
-    return this.resourceId.pipe(
-      switchMap(resourceId => {
-        return this.tagService.create({
-          resourceids: resourceId,
-          resourcetype: this.resourceType,
-          ...tagsData,
-        });
-      }),
-    );
+    return this.tagService.create({
+      resourceids: this.resourceId,
+      resourcetype: this.resourceType,
+      ...tagsData,
+    });
   }
 }

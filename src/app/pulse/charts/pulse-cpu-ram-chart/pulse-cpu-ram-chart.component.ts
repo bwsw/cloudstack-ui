@@ -48,7 +48,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
                   mirror: true,
                   suggestedMin: 0,
                   userCallback(val) {
-                    return humanReadableSize(val * 1024);
+                    return humanReadableSize(val * 1000, true);
                   },
                 },
               },
