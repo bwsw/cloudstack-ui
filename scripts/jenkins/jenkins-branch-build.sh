@@ -25,4 +25,4 @@ export SIMULATOR_CONTAINER_NAME=cloudstack-simulator
 
 # Deploy
 ./scripts/ci/build.sh
-./scripts/ci/deploy-pr.sh
+./scripts/ci/deploy-branch.sh
