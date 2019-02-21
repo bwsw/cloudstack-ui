@@ -65,7 +65,7 @@ By selecting this option you open a modal window that shows the virtual machine 
 * Network 
 * Disk 
 
-Reports are presented in a graphic form. By default, at the moment the window opens graphics display data for the last 30 minutes with aggregation by 1 minute and 15 minutes and a 1 minute shift (if there is no other settings saved to user tags). You can adjust settings to get statistics for any other period. Read more about settings below.
+Reports are presented in a graphic form. By default, at the moment the window opens graphics display data for the last 30 minutes with aggregation by 1 minute and a 1 minute shift (if there are no other settings saved to user tags). You can adjust settings to get statistics for any other period. Read more about settings below.
 
 .. figure:: _static/Pulse.png
 
@@ -80,7 +80,7 @@ To get statistics for a virtual machine set up general settings:
 
 .. note:: All settings are required.
 
-At the screenshot below you can see statistics for the last day with 30-minute and 1-hour aggregation with the 2-hour shift.
+At the screenshot below, you can see statistics for the last day with 30-minute and 1-hour aggregation with the 2-hour shift.
 
 .. figure:: _static/Pulse_Filters.png
 
@@ -95,7 +95,7 @@ Statistic Metrics
 
 **CPU/Memory**
 
-This is the first tab that opens by default. In the CPU/Memory tab you can view the statistics of CPU/Memory usage by the machine.
+This is the first tab that opens by default. In the CPU/Memory tab, you can view the statistics of CPU/Memory usage by the machine.
 
 CPU and Memory usage statistics is presented in different graphs. To build graphs it is enough to define general settings.
 
@@ -103,7 +103,7 @@ CPU and Memory usage statistics is presented in different graphs. To build graph
 
 **Network**
 
-In this tab you can view the statistics for network traffic usage. To build the graphs you should define general settings and select a NIC for which you want to get the report.
+In this tab, you can view the statistics for network traffic usage. To build the graphs you should define general settings and select a NIC for which you want to get the report.
 
 Network statistics displays in four graphs by the following metrics:
 
@@ -117,7 +117,7 @@ Network statistics displays in four graphs by the following metrics:
 
 **Disk** 
 
-In this tab you can view the statistics for disk space usage. To build the graphs you should define general settings and select a disk for which you want to get the report.
+In this tab, you can view the statistics for disk space usage. To build the graphs you should define general settings and select a disk for which you want to get the report.
 
 Disk statistics displays in three graphs by the following metrics:
 
