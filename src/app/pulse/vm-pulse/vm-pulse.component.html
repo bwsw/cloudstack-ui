@@ -21,7 +21,7 @@
     <mat-tab [label]="'PULSE.CPU_RAM' | translate">
       <ng-container *ngTemplateOutlet="selector"></ng-container>
       <cs-pulse-cpu-chart
-        [translations]="pulseTranslations.LABELS"
+        [translations]="pulseTranslations"
         [unitTranslations]="unitTranslations"
         [shift]="shiftAmount"
         (previous)="handlePrevious()"
@@ -31,7 +31,7 @@
     <mat-tab [label]="'PULSE.NETWORK' | translate">
       <ng-container *ngTemplateOutlet="selector"></ng-container>
       <cs-pulse-network-chart
-        [translations]="pulseTranslations.LABELS"
+        [translations]="pulseTranslations"
         [unitTranslations]="unitTranslations"
         [vmId]="vmId"
         [shift]="shiftAmount"
@@ -43,7 +43,7 @@
     <mat-tab [label]="'PULSE.DISK' | translate">
       <ng-container *ngTemplateOutlet="selector"></ng-container>
       <cs-pulse-disk-chart
-        [translations]="pulseTranslations.LABELS"
+        [translations]="pulseTranslations"
         [unitTranslations]="unitTranslations"
         [vmId]="vmId"
         [shift]="shiftAmount"

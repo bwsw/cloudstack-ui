@@ -192,6 +192,7 @@
       "TAKE_FAILED": "Failed to take a snapshot",
       "DELETION_IN_PROGRESS": "Deleting a snapshot",
       "DELETION_DONE": "Snapshot deleted",
+      "DELETION_FAILED": "Failed to delete a snapshot",
       "REVERT_IN_PROGRESS": "Reverting a disk",
       "REVERT_DONE": "Disk reverted",
       "REVERT_FAILED": "Failed to revert a disk"
@@ -1693,6 +1694,7 @@
         "1H": "1 h",
         "2H": "2 h",
         "3H": "3 h",
+        "4H": "4 h",
         "12H": "12 h",
         "1D": "1 d",
         "1W": "1 w",

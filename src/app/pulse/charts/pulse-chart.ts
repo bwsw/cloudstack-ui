@@ -91,7 +91,7 @@ export function getChart(config: any[]) {
 @Injectable()
 export abstract class PulseChartComponent {
   @Input()
-  public translations: Dictionary<string>;
+  public translations: Dictionary<Dictionary<string>>;
   @Input()
   public unitTranslations: Dictionary<string>;
   @Input()

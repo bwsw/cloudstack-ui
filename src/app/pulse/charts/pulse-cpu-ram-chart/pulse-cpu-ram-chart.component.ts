@@ -90,25 +90,29 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
           ([data, ram]) => {
             this.error = false;
             const datasets = data.map((res: any, ind) => {
-              const aggregation = params.selectedAggregations[ind];
+              const ag = params.selectedAggregations[ind].toUpperCase();
+              const aggregationName =
+                this.translations['INTERVALS']['AGGREGATIONS'][ag.toUpperCase()] || ag;
               return {
                 data: res.map(_ => ({
                   x: new Date(_.time),
                   y: Math.min(+_.cpuTime, 100),
                 })),
-                label: `${this.translations['CPU']} ${aggregation}`,
+                label: `${this.translations['LABELS']['CPU']} ${aggregationName}`,
               };
             });
             this.updateDatasets('cpu', datasets);
 
             const asd = ram.map((res: any, ind) => {
-              const aggregation = params.selectedAggregations[ind];
+              const ag = params.selectedAggregations[ind].toUpperCase();
+              const aggregationName =
+                this.translations['INTERVALS']['AGGREGATIONS'][ag.toUpperCase()] || ag;
               return {
                 data: res.map(_ => ({
                   x: new Date(_.time),
                   y: +_.ram,
                 })),
-                label: `${this.translations['RAM']} ${aggregation}`,
+                label: `${this.translations['LABELS']['RAM']} ${aggregationName}`,
               };
             });
             this.updateDatasets('ram', asd);
