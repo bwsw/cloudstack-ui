@@ -3,8 +3,6 @@
 Log View Plugin
 ===================
 
-.. warning:: The section is under development!
-
 .. Contents::
 
 Overview
