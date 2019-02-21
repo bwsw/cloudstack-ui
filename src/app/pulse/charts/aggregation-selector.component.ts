@@ -64,7 +64,7 @@ export class AggregationSelectorComponent {
   selectedAggregations: string[];
 
   constructor() {
-    this.emitShiftChange = debounce(this.emitShiftChange, 300);
+    this.emitShiftChange = debounce(this.emitShiftChange, 1000);
   }
 
   @Input()
@@ -110,8 +110,8 @@ export class AggregationSelectorComponent {
     this.shiftChange.emit(change.value);
   }
 
-  public handleShiftAmountChange(change) {
-    const amount = parseInt(change.target.value, 10);
+  public handleShiftAmountChange(value) {
+    const amount = parseInt(value, 10);
     this.shiftAmount = amount;
     this.emitShiftChange(amount);
   }

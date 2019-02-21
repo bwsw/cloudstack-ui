@@ -29,10 +29,8 @@
     type="number"
     value="0"
     [min]="0"
-    [max]="100"
-    csMaxNumber="0"
-    csMinNumber="100"
-    (input)="handleShiftAmountChange($event)"
+    [csMinValue]="0"
+    (ngModelChange)="handleShiftAmountChange($event)"
   />
 </mat-form-field>
 <mat-form-field class="aggregation-select shift-select">
