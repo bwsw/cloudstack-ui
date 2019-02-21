@@ -76,7 +76,7 @@ To get statistics for a virtual machine set up general settings:
 
 * **Range** - Select the time interval to show the statistics for. You can select one of the following: 15m, 30m, 1h, 2h, 4h, 12h, 1d, 1w, 30d.
 * **Aggregation** - Select the interval(s) for data aggregation. Available options here depend on the selected range. Aggregation value is always less than the range value. When several options are selected, graphs are marked with different colors and displayed as overlaid.
-* **Shift** - Define a numeric value and select a measurement unit for the graph shift. You can shift the grphs manually by clicking at arrows </> to the right or left from the graph.
+* **Shift** - Define a numeric value and select a measurement unit for the graph shift. You can shift the graphs manually by clicking at arrows </> to the right or left from the graph.
 
 .. note:: All settings are required.
 
