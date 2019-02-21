@@ -417,6 +417,7 @@ It allows performing the following actions with the VM:
     This plugin is convenient for dynamic monitoring of VM performance. Find more information about it in the `official documentation <https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin>`_. Pulse plugin deployment instructions can be found at the :ref:`Pulse_Plugin` page.
 
     .. note:: Please, note, when performing one of the actions from the list, other actions in this list are disabled until the action in progress finishes.
+    
 .. _VM_Info:
 
 VM Details Sidebar
