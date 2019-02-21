@@ -785,7 +785,7 @@ You can detach the ISO file by clicking the "Detach" button.
 
 Network Tab
 """"""""""""""""""""""""""
-Under the Network tab the network configurations of the VM are presented.
+The Network tab presents the network configurations of the VM.
 
 .. figure:: _static/VMs_Details_Network1.png
    
@@ -803,7 +803,7 @@ It is allowed to attach several groups to one machine. They are listed in the bo
 
 **View rules**
 
-Click |view| to open the list of assigned firewall rules(-s). 
+Click |view| to open the list of assigned firewall rules. 
 
 .. figure:: _static/VMs_SG_View2.png
 
