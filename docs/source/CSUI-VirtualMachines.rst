@@ -506,8 +506,9 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
     .. note:: The system checks the amount of available account resources. In case a selected service offering does not fit the amount of available account resources, a warning message will appear saying the offering cannot be selected. 
 
     A started virtual machine will be rebooted at editing the service offering.
+  
+5. Affinity Group - The affinity group(s) assigned to the virtual machine. A name and a type of groups are displayed here. Groups are listed in alphabetic order. Hovering over a group name shows a description of a group (if provided at creation).
 
-5. Affinity Group - The affinity group(s) assigned to the virtual machine. A name and a type of groups are displayed here. Groups are listed in alphabetic order. Hovering over a group name shows a description of a group (if provided at creation). 
     If no affinity group is assigned to the VM, or you wish to add another affinity group to the list, click "Add" (+) in the block. A dialog box appears where you can choose an existing group or create a new one. 
     
     Select a group in the list and click "Assign" to assign it to the VM. A user can add several groups to one virtual machine.
