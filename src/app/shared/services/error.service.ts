@@ -94,12 +94,24 @@ export class ErrorService {
       translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
     },
     {
+      regex: /Can not update resource with a limit equal to -1/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_UPDATE',
+    },
+    {
       regex: /maximum must be greater than or equal to minimum/,
       translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_GREATER',
     },
     {
       regex: /max must be between (\d+) and (\d+)/,
       translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_BETWEEN',
+    },
+    {
+      regex: /billingid must be specified in accountdetails/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.NO_BILLING_ID',
+    },
+    {
+      regex: /Запрошенные ресурсы RAM: (\d+) GB, Первичное хранилище: (\d+) GB, Дополнительное хранилище: (\d+) GB не могут быть предоставлены\. Для автоматического выделения требуется чтобы баланс счета был не менее чем (\d+\.?\d*) Руб\., сейчас - (\d+\.?\d*) Руб\./i,
+      translation: 'ERRORS.RESOURCE_QUOTAS.RESOURCES_CAN_NOT_BE_PROVIDED',
     },
     {
       regex: /Unable to detach volume, please specify a VM that does not have VM snapshots/,
