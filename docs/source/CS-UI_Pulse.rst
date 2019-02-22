@@ -84,11 +84,11 @@ At the screenshot below, you can see statistics for the last day with 30-minute 
 
 .. figure:: _static/Pulse_Filters.png
 
-The system saves defined settings to user tags. They are used in all other tabs that means you will see graphs for NIC and disks with the same settings.
+The system saves defined settings. They are used in all other tabs, that means if you set CPU/memory report setting, you will see graphs for NIC and disks with the same settings.
 
 If you change settings, the graphs change immediately. You can refresh the graph reports as often as you wish by clicking at |refresh icon|.
 
-When hovering on the graph, you can see details: a date, a parameter and its value corresponding to this point.
+When hovering on the graph, you can see details corresponding to this point: a date, a parameter and its value.
 
 Statistic Metrics
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -113,7 +113,6 @@ Network statistics displays in four graphs by the following metrics:
 * Network write errors/Network read errors
 
 .. figure:: _static/Pulse_NIC.png
-
 
 **Disk** 
 
