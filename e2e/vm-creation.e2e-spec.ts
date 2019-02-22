@@ -81,7 +81,7 @@ describe('e2e-test-vm-creation', () => {
     sglist.waitRedirect('instances');
   });
 
-  it('Verify create VM with Template(), group, aff-group, checked start VM, deploy: progress, vnc console', () => {
+  it('Verify create VM with , group, aff-group, checked start VM, deploy: progress, vnc console', () => {
     vmlist.clickImageMenu();
     imlist.clickOpenSidebar();
     imsidebar.clickTagTab();
