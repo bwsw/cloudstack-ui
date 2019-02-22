@@ -1,3 +1,13 @@
 .userdata-field {
   min-height: 20px;
 }
+
+.mat-dialog-content {
+  min-height: 57px;
+}
+
+.mat-dialog-actions {
+  cs-clipboard-button {
+    margin-right: 8px;
+  }
+}

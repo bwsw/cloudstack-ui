@@ -19,7 +19,7 @@
 
 <div class="mat-dialog-actions">
   <cs-clipboard-button
-    *ngIf="!isEditMode"
+    *ngIf="!isEditMode && form.controls['userdata'].value"
     [value]="form.controls['userdata'].value"
     tooltipPosition="below"
     cs-input-group-button
@@ -39,5 +39,5 @@
     {{ 'COMMON.SAVE' | translate }}
   </button>
 
-  <button mat-button matDialogClose color="primary">{{ 'COMMON.CANCEL' | translate }}</button>
+  <button mat-button matDialogClose color="primary">{{ 'COMMON.CLOSE' | translate }}</button>
 </div>
