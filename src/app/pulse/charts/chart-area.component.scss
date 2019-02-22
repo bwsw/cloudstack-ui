@@ -9,6 +9,7 @@
   position: relative;
   margin: auto;
   height: 19vh;
+  min-height: 100px;
 }
 
 .arrow {
@@ -51,7 +52,6 @@
     transform: translate(-50%, -50%);
   }
   img {
-    width: 100%;
     z-index: -1;
   }
 }

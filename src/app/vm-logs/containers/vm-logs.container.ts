@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { debounceTime } from 'rxjs/operators';
 import { State } from '../../reducers';
 import * as fromVmLogsAutoUpdate from '../redux/vm-logs-auto-update.reducers';
 import * as vmLogsActions from '../redux/vm-logs.actions';
-import { debounceTime } from 'rxjs/internal/operators';
 import * as fromVmLogs from '../redux/vm-logs.reducers';
 
 @Component({

@@ -138,7 +138,8 @@
       "VOLUME_DELETING_UNAVAILABLE": "Удаление дополнительных дисков не доступно для ВМ с активными снимками",
       "VOLUME_ATTACH_UNAVAILABLE": "Прикрепление дополнительных дисков не доступно для ВМ с активными снимками",
       "VOLUME_DETACH_UNAVAILABLE": "Открепление дополнительных дисков не доступно для ВМ с активными снимками",
-      "VOLUME_RESIZE_UNAVAILABLE": "Изменение размера диска недоступно для ВМ с активными снимками"
+      "VOLUME_RESIZE_UNAVAILABLE": "Изменение размера диска недоступно для ВМ с активными снимками",
+      "VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED": "Максимальное количество дисков превышено. Лимит аккаунта равен {{ val1 }}"
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Почасовое расписание отключено"
@@ -1555,11 +1556,11 @@
       "SECONDARY_STORAGE": "Дополнительное хранилище (ГБ)"
     },
     "REQUEST": {
-      "REQUEST_RESOURCES_BUTTON": "Обновить ресурсы",
-      "REQUEST_RESOURCES_TITLE": "Обновить ресурсы",
+      "REQUEST_RESOURCES_BUTTON": "Запросить ресурсы",
+      "REQUEST_RESOURCES_TITLE": "Запросить ресурсы",
       "LIMIT_UPDATED": "Лимиты ресурсов успешно изменены",
-      "CAN_NOT_CHANGE_RESOURCES": "Невозможно изменить ресурсы",
-      "REQUEST_BUTTON": "Обновить"
+      "CAN_NOT_CHANGE_RESOURCES": "Вы не можете выполнить ни один запрос изменения лимитов ресурсов",
+      "REQUEST_BUTTON": "Запросить"
     },
     "ADMIN_PAGE": {
       "QUOTA_UPDATED": "Квоты ресурсов успешно изменены",
@@ -1666,6 +1667,7 @@
   "ACCOUNT_NOT_FOUND": "Аккаунт не найден",
   "PULSE": {
     "PULSE": "Pulse",
+    "DIALOG_TITLE": "Плагин Pulse",
     "CPU_RAM": "ЦП / ОЗУ",
     "NETWORK": "Сеть",
     "DISK": "Диск",

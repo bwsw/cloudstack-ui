@@ -26,7 +26,7 @@ export const defaultChartOptions = {
   },
   layout: {
     padding: {
-      left: 80,
+      left: 90,
       right: 40,
     },
   },
@@ -57,7 +57,7 @@ export const defaultChartOptions = {
       {
         ticks: {
           autoSkip: false,
-          padding: 40,
+          padding: 60,
           mirror: true,
           suggestedMin: 0,
           userCallback(val) {

@@ -70,7 +70,6 @@ export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_A
 export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE =
   '[VM deployment] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
-export const VM_DEPLOYMENT_COPY_TAGS = '[VM deployment] VM_DEPLOYMENT_COPY_TAGS';
 
 export const SAVE_VM_PASSWORD = '[VM password component] Save VM password';
 export const SAVE_VM_PASSWORD_SUCCESS = '[Resource tag API] Save VM password success';
@@ -465,12 +464,6 @@ export class DeploymentRequestError implements Action {
   constructor(public payload: any) {}
 }
 
-export class VmDeploymentCopyTags implements Action {
-  type = VM_DEPLOYMENT_COPY_TAGS;
-
-  constructor(public payload: Tag[]) {}
-}
-
 export class SaveVMPassword implements Action {
   readonly type = SAVE_VM_PASSWORD;
 
@@ -560,7 +553,6 @@ export type Actions =
   | DeploymentRequest
   | DeploymentRequestSuccess
   | DeploymentRequestError
-  | VmDeploymentCopyTags
   | LoadVMUserDataRequest
   | LoadVMUserDataResponse
   | ChangeVmUserData

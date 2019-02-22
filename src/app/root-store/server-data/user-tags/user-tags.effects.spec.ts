@@ -41,6 +41,9 @@ function createAuthServiceStub() {
     user$: {
       pipe: () => of({ userid: '100 ' }),
     },
+    user: {
+      userid: '100 ',
+    },
   };
 
   return authService as AuthService;

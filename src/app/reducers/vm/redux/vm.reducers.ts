@@ -49,7 +49,7 @@ export interface FormState {
   enoughResources: boolean;
   insufficientResources: string[];
   loggerStageList: ProgressLoggerMessage[];
-  deployedVm: VirtualMachine;
+  deployedVmId: string;
   state: VmCreationState;
 }
 
@@ -377,7 +377,7 @@ export const initialFormState: FormState = {
   enoughResources: false,
   insufficientResources: [],
   loggerStageList: [],
-  deployedVm: null,
+  deployedVmId: null,
   state: {
     affinityGroup: null,
     affinityGroupNames: [],
@@ -449,7 +449,7 @@ export function formReducer(
     case vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS: {
       return {
         ...state,
-        deployedVm: action.payload,
+        deployedVmId: action.payload.id,
         deploymentInProgress: false,
       };
     }
@@ -468,12 +468,7 @@ export function formReducer(
         isError: true,
       };
     }
-    case vmActions.VM_DEPLOYMENT_COPY_TAGS: {
-      return {
-        ...state,
-        deployedVm: { ...state.deployedVm, tags: action.payload } as VirtualMachine,
-      };
-    }
+
     case affinityGroupActions.LOAD_AFFINITY_GROUPS_RESPONSE: {
       const names = action.payload.map(_ => _.name);
       return { ...state, state: { ...state.state, affinityGroupNames: names } };
@@ -540,8 +535,8 @@ export const showOverlay = createSelector(
 );
 
 export const getDeployedVM = createSelector(
-  getVmForm,
-  state => state.deployedVm,
+  getVMsState,
+  state => state.list.entities[state.form.deployedVmId],
 );
 
 export const getVmCreationZoneId = createSelector(

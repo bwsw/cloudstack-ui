@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { Dictionary } from '@ngrx/entity/src/models';
+import { Dictionary } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { getDateSnapshotCreated, Snapshot, SnapshotStates, Volume } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm';
@@ -29,13 +29,12 @@ export class SnapshotItemComponent {
       SnapshotStates.Error,
     ]
       .filter(state => this.item.state === state)
-      .map(
-        state =>
-          state === SnapshotStates.BackingUp
-            ? 'backing-up'
-            : state === SnapshotStates.BackedUp
-              ? 'backed-up'
-              : state.toLowerCase(),
+      .map(state =>
+        state === SnapshotStates.BackingUp
+          ? 'backing-up'
+          : state === SnapshotStates.BackedUp
+          ? 'backed-up'
+          : state.toLowerCase(),
       );
   }
 

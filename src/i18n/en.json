@@ -138,7 +138,8 @@
       "VOLUME_DELETING_UNAVAILABLE": "Data disk deleting is unavailable for VMs with active snapshots",
       "VOLUME_ATTACH_UNAVAILABLE": "Data disk attachment is unavailable for VMs with active snapshots",
       "VOLUME_DETACH_UNAVAILABLE": "Data disk detachment is unavailable for VMs with active snapshots",
-      "VOLUME_RESIZE_UNAVAILABLE": "Data disk resize is unavailable for VMs with active snapshots"
+      "VOLUME_RESIZE_UNAVAILABLE": "Data disk resize is unavailable for VMs with active snapshots",
+      "VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED": "Maximum amount of disks is exceeded. Account Resource Limit is {{ val1 }}"
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Hourly schedule is turned off"
@@ -1558,11 +1559,11 @@
       "SECONDARY_STORAGE": "Secondary storage (GB)"
     },
     "REQUEST": {
-      "REQUEST_RESOURCES_BUTTON": "Update resources",
-      "REQUEST_RESOURCES_TITLE": "Update resources",
+      "REQUEST_RESOURCES_BUTTON": "Request resources",
+      "REQUEST_RESOURCES_TITLE": "Request resources",
       "LIMIT_UPDATED": "Resource limits updated successfully",
-      "CAN_NOT_CHANGE_RESOURCES": "You can not change any resource limits",
-      "REQUEST_BUTTON": "Update"
+      "CAN_NOT_CHANGE_RESOURCES": "You can not make any request to change resource limits",
+      "REQUEST_BUTTON": "Request"
     },
     "ADMIN_PAGE": {
       "QUOTA_UPDATED": "Resource quotas updated successfully",
@@ -1618,7 +1619,7 @@
       "SAVE_PASSWORD_FOR_ALL_VMS": "Save VM passwords by default"
     },
     "API_CONFIGURATION": {
-      "TITLE": "API configuration",
+      "TITLE": "API Configuration",
       "API_KEY": "API Key",
       "API_SECRET_KEY": "Secret key",
       "API_URL": "Connection URL",
@@ -1638,14 +1639,14 @@
       "THEME": "Theme Color"
     },
     "VM_PREFERENCES": {
-      "TITLE": "VM preferences",
+      "TITLE": "VM Preferences",
       "KEYBOARD_LAYOUT": "Keyboard layout"
     },
     "ACCOUNT_TAGS": {
-      "TITLE": "Account tags"
+      "TITLE": "Account Tags"
     },
     "USER_TAGS": {
-      "TITLE": "User tags"
+      "TITLE": "User Tags"
     },
     "VM_LOGS": {
       "TITLE": "Log View (real-time mode)",
@@ -1669,6 +1670,7 @@
   "ACCOUNT_NOT_FOUND": "Account not found",
   "PULSE": {
     "PULSE": "Pulse",
+    "DIALOG_TITLE": "Pulse plugin",
     "CPU_RAM": "CPU / RAM",
     "NETWORK": "Network",
     "DISK": "Disk",
