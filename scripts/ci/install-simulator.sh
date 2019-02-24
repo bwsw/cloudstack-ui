@@ -2,7 +2,9 @@
 
 set -e -u -o pipefail
 
-docker stop ${SIMULATOR_CONTAINER_NAME} || true && docker rm ${SIMULATOR_CONTAINER_NAME} || true
+if [ "$(docker ps -aq -f name=${SIMULATOR_CONTAINER_NAME})" ]; then
+  docker stop ${SIMULATOR_CONTAINER_NAME} && docker rm ${SIMULATOR_CONTAINER_NAME}
+fi
 
 docker run --name ${SIMULATOR_CONTAINER_NAME} -d \
   --network ${DOCKER_NETWORK_NAME} \
