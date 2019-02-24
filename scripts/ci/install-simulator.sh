@@ -4,8 +4,7 @@ set -e -u -o pipefail
 
 docker stop ${SIMULATOR_CONTAINER_NAME} || true && docker rm ${SIMULATOR_CONTAINER_NAME} || true
 
-docker run --name ${SIMULATOR_CONTAINER_NAME} \
-  -d --rm \
+docker run --name ${SIMULATOR_CONTAINER_NAME} -d \
   --network ${DOCKER_NETWORK_NAME} \
   -p ${SIMULATOR_HOST_PORT}:${SIMULATOR_CONTAINER_PORT} \
   ${SIMULATOR_IMAGE}
