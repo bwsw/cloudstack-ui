@@ -65,7 +65,7 @@ By selecting this option you open a modal window that shows the virtual machine 
 * Network 
 * Disk 
 
-Reports are presented in a graphic form. By default, at the moment the window opens graphics display data for the last 30 minutes with aggregation by 1 minute and a 1 minute shift (if there are no other settings saved to user tags). You can adjust settings to get statistics for any other period. Read more about settings below.
+Reports are presented in a graphic form. By default, at the moment the window opens graphics display data for the last 30 minutes with aggregation by 1 minute and a 1 minute shift. You can adjust settings to get statistics for any other period. Read more about settings below.
 
 .. figure:: _static/Pulse.png
 
@@ -84,7 +84,7 @@ At the screenshot below, you can see statistics for the last day with 30-minute 
 
 .. figure:: _static/Pulse_Filters.png
 
-The system saves defined settings. They are used in all other tabs, that means if you set CPU/memory report setting, you will see graphs for NIC and disks with the same settings.
+The system saves defined settings within the session. They are used in all other tabs, that means if you set CPU/memory report settings, you will see graphs for NIC and disks with the same settings.
 
 If you change settings, the graphs change immediately. You can refresh the graph reports as often as you wish by clicking at |refresh icon|.
 
