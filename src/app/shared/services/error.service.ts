@@ -129,6 +129,10 @@ export class ErrorService {
       regex: /Maximum amount of resources of Type = 'volume' .* is exceeded.* Account Resource Limit = (\d+), Current Account Resource Amount = (\d+), Requested Resource Amount = (\d+)/,
       translation: 'ERRORS.VOLUME.VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED',
     },
+    {
+      regex: /Internal (Server )?Error/,
+      translation: 'ERRORS.COMMON.INTERNAL_ERROR',
+    },
   ];
 
   public static parseError(error: any): any {
