@@ -1,6 +1,7 @@
 import { RouterState } from '@angular/router';
 import { Utils } from './utils.service';
 import timeFormatConverterExamples from './time-format-converter-examples';
+import { Language, TimeFormat } from '../../types';
 
 const divideFixture = [
   {
@@ -158,6 +159,69 @@ describe('Utils service', () => {
       hour: 8,
       minute: 0,
       period: 1,
+    });
+  });
+
+  describe('getMomentLongDateFormat', () => {
+    it('should return format for ru + hour12', () => {
+      expect(Utils.getMomentLongDateFormat(Language.ru, TimeFormat.hour12)).toEqual({
+        LT: 'h:mm A',
+        LTS: 'h:mm:ss A',
+        L: 'DD.MM.YYYY',
+        LL: 'D MMMM YYYY г.',
+        LLL: 'D MMMM YYYY г., LT',
+        LLLL: 'dddd, D MMMM YYYY г., LT',
+      });
+    });
+    it('should return format for ru + hour24', () => {
+      expect(Utils.getMomentLongDateFormat(Language.ru, TimeFormat.hour24)).toEqual({
+        LT: 'H:mm',
+        LTS: 'H:mm:ss',
+        L: 'DD.MM.YYYY',
+        LL: 'D MMMM YYYY г.',
+        LLL: 'D MMMM YYYY г., LT',
+        LLLL: 'dddd, D MMMM YYYY г., LT',
+      });
+    });
+    it('should return format for ru + auto', () => {
+      expect(Utils.getMomentLongDateFormat(Language.ru, TimeFormat.AUTO)).toEqual({
+        LT: 'H:mm',
+        LTS: 'H:mm:ss',
+        L: 'DD.MM.YYYY',
+        LL: 'D MMMM YYYY г.',
+        LLL: 'D MMMM YYYY г., LT',
+        LLLL: 'dddd, D MMMM YYYY г., LT',
+      });
+    });
+    it('should return format for en + hour12', () => {
+      expect(Utils.getMomentLongDateFormat(Language.en, TimeFormat.hour12)).toEqual({
+        LT: 'h:mm A',
+        LTS: 'h:mm:ss A',
+        L: 'MM/DD/YYYY',
+        LL: 'MMMM Do YYYY',
+        LLL: 'MMMM Do YYYY LT',
+        LLLL: 'dddd, MMMM Do YYYY LT',
+      });
+    });
+    it('should return format for en + hour24', () => {
+      expect(Utils.getMomentLongDateFormat(Language.en, TimeFormat.hour24)).toEqual({
+        LT: 'H:mm',
+        LTS: 'H:mm:ss',
+        L: 'MM/DD/YYYY',
+        LL: 'MMMM Do YYYY',
+        LLL: 'MMMM Do YYYY LT',
+        LLLL: 'dddd, MMMM Do YYYY LT',
+      });
+    });
+    it('should return format for en + auto', () => {
+      expect(Utils.getMomentLongDateFormat(Language.en, TimeFormat.AUTO)).toEqual({
+        LT: 'h:mm A',
+        LTS: 'h:mm:ss A',
+        L: 'MM/DD/YYYY',
+        LL: 'MMMM Do YYYY',
+        LLL: 'MMMM Do YYYY LT',
+        LLLL: 'dddd, MMMM Do YYYY LT',
+      });
     });
   });
 });

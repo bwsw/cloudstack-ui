@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { select, Store } from '@ngrx/store';
 import { first, switchMap } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import * as chart_moment from 'chart.js/node_modules/moment';
+import 'moment/locale/ru';
 
 import { AsyncJobService } from './shared/services/async-job.service';
 import { AuthService } from './shared/services/auth.service';
@@ -11,6 +14,7 @@ import { SessionStorageService } from './shared/services/session-storage.service
 import { StyleService } from './shared/services/style.service';
 import { DateTimeFormatterService } from './shared/services/date-time-formatter.service';
 import { State, UserTagsSelectors } from './root-store';
+import { Utils } from './shared/services/utils/utils.service';
 
 @Component({
   selector: 'cs-app',
@@ -40,13 +44,24 @@ export class AppComponent implements OnInit {
   }
 
   private configureInterface() {
-    this.store
-      .pipe(select(UserTagsSelectors.getInterfaceLanguage))
-      .subscribe(language => this.translateService.use(language));
+    this.store.pipe(select(UserTagsSelectors.getInterfaceLanguage)).subscribe(language => {
+      this.translateService.use(language);
+    });
 
-    this.store
-      .pipe(select(UserTagsSelectors.getTimeFormat))
-      .subscribe(timeFormat => this.dateTimeFormatterService.updateFormatters(timeFormat));
+    this.store.pipe(select(UserTagsSelectors.getTimeFormat)).subscribe(timeFormat => {
+      this.dateTimeFormatterService.updateFormatters(timeFormat);
+    });
+
+    // set locale and time formats for moment in the chart.js
+    combineLatest(
+      this.store.pipe(select(UserTagsSelectors.getInterfaceLanguage)),
+      this.store.pipe(select(UserTagsSelectors.getTimeFormat)),
+    ).subscribe(([language, timeFormat]) => {
+      chart_moment.locale(language);
+      chart_moment.updateLocale(language, {
+        longDateFormat: Utils.getMomentLongDateFormat(language, timeFormat),
+      });
+    });
 
     this.store
       .pipe(select(UserTagsSelectors.getTheme))
