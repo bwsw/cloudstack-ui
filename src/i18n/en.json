@@ -1547,7 +1547,7 @@
       "NETWORK": "Network",
       "VPCS": "VPCs",
       "CPUS": "CPUs",
-      "MEMORY": "Memory (MB)",
+      "MEMORY": "Memory (GB)",
       "PRIMARY_STORAGE": "Primary storage (GB)",
       "SECONDARY_STORAGE": "Secondary storage (GB)"
     },

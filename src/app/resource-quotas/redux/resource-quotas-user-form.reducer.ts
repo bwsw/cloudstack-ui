@@ -3,9 +3,14 @@ import { default as update } from 'immutability-helper';
 import * as resourceQuotasActions from './resource-quotas.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { getTotalResources } from '../../shared/models';
+import {
+  convertFromQuotaToLimitMeasurement,
+  convertFromLimitToQuotaMeasurement,
+} from '../models/resource-quota.model';
 
 const pickBy = require('lodash/pickBy');
 const mapValues = require('lodash/mapValues');
+const reduce = require('lodash/reduce');
 
 export interface ResourceQuotasUserFormState {
   quotas: {
@@ -35,7 +40,7 @@ export function resourceQuotasUserFormReducer(
         quotas: state.quotas,
         limits: {
           ...state.limits,
-          [resourceType]: action.payload.limit,
+          [resourceType]: convertFromQuotaToLimitMeasurement(resourceType, action.payload.limit),
         },
       };
     }
@@ -75,9 +80,10 @@ export const getUserResourceQuotas = createSelector(
       bound => bound.minimum !== -1 && bound.maximum !== -1,
     );
     const quotasWithAdjustedMinimum = mapValues(finiteQuotas, (value, key) => {
+      const resourceValue = convertFromLimitToQuotaMeasurement(+key, totalResources[key]);
       return {
-        minimum: Math.max(Math.ceil(totalResources[key]), value.minimum),
-        maximum: Math.max(Math.ceil(totalResources[key]), value.maximum),
+        minimum: Math.max(Math.ceil(resourceValue), value.minimum),
+        maximum: Math.max(Math.ceil(resourceValue), value.maximum),
       };
     });
     return pickBy(quotasWithAdjustedMinimum, bound => bound.maximum >= bound.minimum);
@@ -86,5 +92,13 @@ export const getUserResourceQuotas = createSelector(
 
 export const getUserResourceLimits = createSelector(
   getResourceQuotasUserFormState,
-  state => state.limits,
+  state =>
+    reduce(
+      state.limits,
+      (memo, value, key) => {
+        memo[key] = convertFromLimitToQuotaMeasurement(+key, value);
+        return memo;
+      },
+      {},
+    ),
 );
