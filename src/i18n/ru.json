@@ -97,7 +97,6 @@
   "ERRORS": {
     "SUPPORT_INFORMATION": "Информация о тех. поддержке",
     "COMMON": {
-      "INTERNAL_ERROR": "Internal error",
       "THE_NAME_IS_TAKEN": "Имя {{ val1 }} уже занято"
     },
     "AUTH": {
@@ -153,11 +152,8 @@
     },
     "RESOURCE_QUOTAS": {
       "FAILED_RETRIEVE": "Невозможно изменить ресурсы",
-      "FAILED_UPDATE": "Невозможно изменить ресурс",
       "MAX_MUST_BE_GREATER": "Максимальное значение должно быть больше или равно минимальному",
-      "MAX_MUST_BE_BETWEEN": "Максимальное значение должно быть между {{ val1 }} и {{ val2 }}",
-      "NO_BILLING_ID": "Billing Id не задан для пользователя",
-      "RESOURCES_CAN_NOT_BE_PROVIDED": "Запрошенные ресурсы ОЗУ: {{ val1 }} ГБ, Первичное хранилище: {{ val2 }} ГБ, Дополнительное хранилище: {{ val3 }} ГБ не могут быть предоставлены. Для автоматического выделения требуется чтобы баланс счета был не менее чем {{ val4 }} Руб., сейчас {{ val5 }} Руб."
+      "MAX_MUST_BE_BETWEEN": "Максимальное значение должно быть между {{ val1 }} и {{ val2 }}"
     }
   },
   "NOTIFICATIONS": {
@@ -372,8 +368,8 @@
       "FREE": "Доступно",
       "VMS": "Виртуальные машины",
       "NUMBER_OF_VMS": "Количество",
-      "": "Вычислительные ресурсы",
-      "CPUS": "COMPUTATIONAL_RESOURCESCPU",
+      "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
+      "CPUS": "CPU",
       "RAM": "ОЗУ",
       "VOLUMES": "Диски",
       "SNAPSHOTS": "Снимки",
@@ -1686,6 +1682,36 @@
       "DISK_READ_IOPS": "Чтение с диска (IOPS)",
       "DISK_WRITE_IOPS": "Запись на диск (IOPS)",
       "DISK_IO_ERRORS": "Ошибки IO"
+    },
+    "INTERVALS": {
+      "RANGES": {
+        "15M": "15 мин",
+        "30M": "30 мин",
+        "1H": "1 ч",
+        "2H": "2 ч",
+        "3H": "3 ч",
+        "4H": "4 ч",
+        "12H": "12 ч",
+        "1D": "1 день",
+        "1W": "1 нед",
+        "30D": "30 дн"
+      },
+      "AGGREGATIONS": {
+        "1M": "1 мин",
+        "4M": "4 мин",
+        "5M": "5 мин",
+        "6M": "6 мин",
+        "15M": "15 мин",
+        "30M": "30 мин",
+        "1H": "1 ч",
+        "4H": "4 ч",
+        "1D": "1 д"
+      },
+      "SHIFTS": {
+        "M": "мин",
+        "H": "час",
+        "D": "день"
+      }
     }
   },
   "SECURITY_GROUP_SELECTOR": {
@@ -1845,16 +1871,29 @@
     }
   },
   "UNITS": {
+    "B": "Б",
+    "KB": "КБ",
+    "MB": "MБ",
     "GB": "ГБ",
+    "TB": "ТБ",
+    "KIB": "КиБ",
+    "MIB": "МиБ",
+    "GIB": "ГиБ",
+    "TIB": "ТиБ",
+    "BITS": "бит",
+    "KBITS": "КБит",
+    "MBITS": "МБит",
+    "GBITS": "ГБит",
+    "TBITS": "ТБит",
     "GB_VALUE": "{{ value }} ГБ",
     "GHZ": "ГГц",
     "IOPS": "IOPS",
     "IOPS_VALUE": "{{ value }} IO/сек",
-    "MB": "MБ",
     "MB_VALUE": "{{ value }} MБ",
     "MBPS": "MБ/сек",
     "MBPS_VALUE": "{{ value }} MБ/сек",
-    "MHZ": "МГц"
+    "MHZ": "МГц",
+    "S": "с"
   },
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Создать снимок",
