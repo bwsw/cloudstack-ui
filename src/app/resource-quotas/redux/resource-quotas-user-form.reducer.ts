@@ -3,14 +3,10 @@ import { default as update } from 'immutability-helper';
 import * as resourceQuotasActions from './resource-quotas.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { getTotalResources } from '../../shared/models';
-import {
-  convertFromQuotaToLimitMeasurement,
-  convertFromLimitToQuotaMeasurement,
-} from '../models/resource-quota.model';
+import { convertFromLimitToQuotaMeasurement } from '../models/resource-quota.model';
 
 const pickBy = require('lodash/pickBy');
 const mapValues = require('lodash/mapValues');
-const reduce = require('lodash/reduce');
 
 export interface ResourceQuotasUserFormState {
   quotas: {
@@ -40,7 +36,7 @@ export function resourceQuotasUserFormReducer(
         quotas: state.quotas,
         limits: {
           ...state.limits,
-          [resourceType]: convertFromQuotaToLimitMeasurement(resourceType, action.payload.limit),
+          [resourceType]: action.payload.limit,
         },
       };
     }
@@ -56,7 +52,10 @@ export function resourceQuotasUserFormReducer(
     case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_USER_FORM_LIMITS: {
       return update(state, {
         $merge: {
-          limits: mapValues(action.payload, 'max'),
+          // limits: mapValues(action.payload, 'max'),
+          limits: mapValues(action.payload, (value, key) => {
+            return convertFromLimitToQuotaMeasurement(+key, value.max);
+          }),
         },
       });
     }
@@ -93,17 +92,4 @@ export const getUserResourceQuotas = createSelector(
 export const getUserResourceLimits = createSelector(
   getResourceQuotasUserFormState,
   state => state.limits,
-);
-
-export const getUserResourceLimitsForForm = createSelector(
-  getResourceQuotasUserFormState,
-  state =>
-    reduce(
-      state.limits,
-      (memo, value, key) => {
-        memo[key] = convertFromLimitToQuotaMeasurement(+key, value);
-        return memo;
-      },
-      {},
-    ),
 );

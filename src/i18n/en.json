@@ -157,7 +157,7 @@
       "MAX_MUST_BE_GREATER": "Maximum must be greater than or equal to minimum",
       "MAX_MUST_BE_BETWEEN": "Maximum must be between {{ val1 }} and {{ val2 }}",
       "NO_BILLING_ID": "Billing Id doesn't specified for user",
-      "RESOURCES_CAN_NOT_BE_PROVIDED": "The requested resources RAM: {{ val1 }} GB, Primary Storage: {{ val2 }} GB, Secondary Storage: {{ val3 }} GB cannot be provided. Automatic allocation requires that the account balance is not less than {{ val4 }} Rub., current balance is {{ val3 }} Rub."
+      "RESOURCES_CAN_NOT_BE_PROVIDED": "The requested resources RAM: {{ val1 }} GB, Primary Storage: {{ val2 }} GB, Secondary Storage: {{ val3 }} GB cannot be provided. Automatic allocation requires that the account balance is not less than {{ val4 }} Rub., current balance is {{ val5 }} Rub."
     }
   },
   "NOTIFICATIONS": {
