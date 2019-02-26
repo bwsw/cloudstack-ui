@@ -39,7 +39,7 @@ import { getModifiedLimits } from '../redux/selectors/modified-limits.selector';
 })
 export class RequestResourcesContainerComponent implements OnInit {
   readonly resourceQuotas$ = this.store.pipe(select(fromUserForm.getUserResourceQuotas));
-  readonly resourceLimits$ = this.store.pipe(select(fromUserForm.getUserResourceLimits));
+  readonly resourceLimits$ = this.store.pipe(select(fromUserForm.getUserResourceLimitsForForm));
   readonly failedToLoadQuotas$ = this.store.pipe(select(fromResourceQuotas.isErrorState));
 
   readonly noResourceAvailableForChange$ = this.resourceQuotas$.pipe(

@@ -92,6 +92,11 @@ export const getUserResourceQuotas = createSelector(
 
 export const getUserResourceLimits = createSelector(
   getResourceQuotasUserFormState,
+  state => state.limits,
+);
+
+export const getUserResourceLimitsForForm = createSelector(
+  getResourceQuotasUserFormState,
   state =>
     reduce(
       state.limits,
