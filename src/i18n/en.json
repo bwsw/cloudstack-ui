@@ -143,8 +143,8 @@
       "VOLUME_RESOURCES_LIMIT_EXCEEDED": "The disk offering cannot be selected because it doesn't fit the account resources available",
       "VOLUME_DELETING_UNAVAILABLE": "Data disk deleting is unavailable for VMs with active snapshots",
       "VOLUME_ATTACH_UNAVAILABLE": "Data disk attachment is unavailable for VMs with active snapshots",
-      "VOLUME_ATTACH_UNAVAILABLE_FOR_DELETED": "Data disk attachment is unavailable as migration of local data volume is not allowed",
-      "VOLUME_ATTACH_UNAVAILABLE_AS_MIGRATION_NOT_ALLOWED": "Data disk attachment is unavailable for destroyed VMs",
+      "VOLUME_ATTACH_UNAVAILABLE_FOR_DELETED": "Data disk attachment is unavailable for destroyed VMs",
+      "VOLUME_ATTACH_UNAVAILABLE_AS_MIGRATION_NOT_ALLOWED": "Data disk attachment is unavailable as migration of local data volume does not allowed",
       "VOLUME_DETACH_UNAVAILABLE": "Data disk detachment is unavailable for VMs with active snapshots",
       "VOLUME_RESIZE_UNAVAILABLE": "Data disk resize is unavailable for VMs with active snapshots",
       "VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED": "Maximum amount of disks is exceeded. Account Resource Limit is {{ val1 }}"
