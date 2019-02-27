@@ -1,9 +1,12 @@
+import { Update } from '@ngrx/entity';
 import { LongDateFormatSpec } from 'moment';
 import * as uuid from 'uuid';
 
 import { Time } from '../../components/time-picker/time-picker.component';
 import { DayPeriod } from '../../components/day-period/day-period.component';
 import { Language, TimeFormat } from '../../types';
+
+const omit = require('lodash/omit');
 
 interface RouterState {
   snapshot: {
@@ -205,5 +208,19 @@ export class Utils {
       LT: 'h:mm A',
       LTS: 'h:mm:ss A',
     };
+  }
+
+  public static itemToNGRXEntityUpdate<T>(item: Partial<T>, idField: string = 'id'): Update<T> {
+    return {
+      id: item[idField],
+      changes: omit(item, idField),
+    };
+  }
+
+  public static arrayToNGRXEntityUpdate<T>(
+    array: Partial<T>[],
+    idField: string = 'id',
+  ): Update<T>[] {
+    return array.map(item => Utils.itemToNGRXEntityUpdate(item, idField));
   }
 }

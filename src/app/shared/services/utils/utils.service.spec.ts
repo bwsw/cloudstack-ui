@@ -2,6 +2,18 @@ import { RouterState } from '@angular/router';
 import { Utils } from './utils.service';
 import timeFormatConverterExamples from './time-format-converter-examples';
 import { Language, TimeFormat } from '../../types';
+import { Update } from '@ngrx/entity';
+
+interface IdNameItem {
+  id: number;
+  name: string;
+}
+
+interface KeyValueItem {
+  key: string;
+  value: string;
+  param: string;
+}
 
 const divideFixture = [
   {
@@ -222,6 +234,89 @@ describe('Utils service', () => {
         LLL: 'MMMM Do YYYY LT',
         LLLL: 'dddd, MMMM Do YYYY LT',
       });
+    });
+  });
+
+  describe('itemToNGRXEntityUpdate', () => {
+    it('should return update for item with default id field', () => {
+      const item: IdNameItem = {
+        id: 1,
+        name: 'param',
+      };
+
+      const expected: Update<IdNameItem> = {
+        id: 1,
+        changes: { name: 'param' },
+      };
+      expect(Utils.itemToNGRXEntityUpdate(item)).toEqual(expected);
+    });
+
+    it('should return update for item with custom id field', () => {
+      const item: KeyValueItem = {
+        key: 'key1',
+        value: 'value',
+        param: 'param',
+      };
+
+      const expected: Update<KeyValueItem> = {
+        id: 'key1',
+        changes: { value: 'value', param: 'param' },
+      };
+      expect(Utils.itemToNGRXEntityUpdate(item, 'key')).toEqual(expected);
+    });
+  });
+
+  describe('arrayToNGRXEntityUpdate', () => {
+    it('should return update for items with default id field', () => {
+      const items: IdNameItem[] = [
+        {
+          id: 1,
+          name: 'param',
+        },
+        {
+          id: 2,
+          name: 'param2',
+        },
+      ];
+
+      const expected: Update<IdNameItem>[] = [
+        {
+          id: 1,
+          changes: { name: 'param' },
+        },
+        {
+          id: 2,
+          changes: { name: 'param2' },
+        },
+      ];
+      expect(Utils.arrayToNGRXEntityUpdate(items)).toEqual(expected);
+    });
+
+    it('should return update for items with custom id field', () => {
+      const items: KeyValueItem[] = [
+        {
+          key: 'key1',
+          value: 'value',
+          param: 'param',
+        },
+        {
+          key: 'key2',
+          value: 'value2',
+          param: 'param2',
+        },
+      ];
+
+      const expected: Update<KeyValueItem>[] = [
+        {
+          id: 'key1',
+          changes: { value: 'value', param: 'param' },
+        },
+        {
+          id: 'key2',
+          changes: { value: 'value2', param: 'param2' },
+        },
+      ];
+      expect(Utils.arrayToNGRXEntityUpdate(items, 'key')).toEqual(expected);
     });
   });
 });
