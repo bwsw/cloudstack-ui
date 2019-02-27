@@ -106,7 +106,11 @@
       "DISABLED": "User {{ val1 }} (or their account) {{ val2 }} is disabled. Please contact the administrator."
     },
     "ISO": {
+      "INVALID_ISO": "Invalid ISO. Please specify valid URL.",
       "VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
+    },
+    "TEMPLATE": {
+      "INVALID_TEMPLATE": "Invalid template. Please specify valid URL."
     },
     "VM_SNAPSHOT": {
       "LIMIT_EXCEEDED": "The maximum amount of VM snapshots is exceeded. Please check your configurations"
@@ -116,9 +120,12 @@
       "CREATION_UNAVAILABLE_FOR_STOPPED": "VM snapshot creation is unavailable for stopped VMs",
       "CREATION_UNAVAILABLE_FOR_DELETED": "VM snapshot creation is unavailable for destroyed VMs",
       "CREATION_UNAVAILABLE": "VM snapshot can not be created. Contact your administrator",
+      "UNABLE_TO_REVERT_REMOVE_SNAPSHOTS": "Unable to revert snapshot for VM, please remove VM snapshots before reverting VM from snapshot",
+      "REVERT_UNAVAILABLE_FOR_DELETED": "Revert VM to snapshot is unavailable for destroyed VMs",
       "REVERT_UNAVAILABLE_FOR_STOPPED": "Revert VM to snapshot is unavailable for stopped VMs"
     },
     "SSH": {
+      "PUBLIC_KEY_INVALID": "Public key is invalid",
       "KEY_PAIR_ALREADY_EXISTS": "SSH key with name '{{ val1 }}' already exists"
     },
     "VM": {
@@ -136,6 +143,8 @@
       "VOLUME_RESOURCES_LIMIT_EXCEEDED": "The disk offering cannot be selected because it doesn't fit the account resources available",
       "VOLUME_DELETING_UNAVAILABLE": "Data disk deleting is unavailable for VMs with active snapshots",
       "VOLUME_ATTACH_UNAVAILABLE": "Data disk attachment is unavailable for VMs with active snapshots",
+      "VOLUME_ATTACH_UNAVAILABLE_FOR_DELETED": "Data disk attachment is unavailable for destroyed VMs",
+      "VOLUME_ATTACH_UNAVAILABLE_AS_MIGRATION_NOT_ALLOWED": "Data disk attachment is unavailable as migration of local data volume does not allowed",
       "VOLUME_DETACH_UNAVAILABLE": "Data disk detachment is unavailable for VMs with active snapshots",
       "VOLUME_RESIZE_UNAVAILABLE": "Data disk resize is unavailable for VMs with active snapshots",
       "VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED": "Maximum amount of disks is exceeded. Account Resource Limit is {{ val1 }}"
