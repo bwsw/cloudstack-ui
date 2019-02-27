@@ -12,7 +12,7 @@ import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
   selector: 'cs-vm-sidebar-container',
   template: `
     <cs-vm-sidebar
-      *ngIf="(vm$ | async)"
+      *loading="!(vm$ | async)"
       [entity]="vm$ | async"
       (colorChanged)="changeColor($event)"
     ></cs-vm-sidebar>
