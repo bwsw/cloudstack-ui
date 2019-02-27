@@ -35,6 +35,7 @@ exports.config = {
   baseUrl: 'http://localhost:8081',
   framework: 'jasmine',
   suites: {
+    sg_creation: './e2e/sg-creation.e2e-spec.ts',
     login: './e2e/login.e2e-spec.ts',
     vm_creation: './e2e/vm-creation.e2e-spec.ts',
   },

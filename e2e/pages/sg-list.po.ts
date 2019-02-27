@@ -25,4 +25,34 @@ export class SGList extends CloudstackUiPage {
     const EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
   }
+
+  clickCreateSG() {
+    element(by.css('.mat-fab.mat-accent')).click();
+  }
+
+  getSGNameCard() {
+    return element
+      .all(by.css('.entity-card-title.mat-card-title'))
+      .first()
+      .element(by.tagName('span'))
+      .getText();
+  }
+
+  getSGDescriptionCard() {
+    return element
+      .all(by.css('.entity-card-data-line ng-star-inserted'))
+      .last()
+      .element(by.tagName('span'))
+      .getText();
+  }
+
+  answerForVMcreation(index) {
+    const condition = element(by.css('.cdk-overlay-pane')).isPresent();
+    if (condition) {
+      element
+        .all(by.css('.mat-button.mat-primary.ng-star-inserted'))
+        .get(index)
+        .click();
+    }
+  }
 }
