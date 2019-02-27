@@ -12,9 +12,11 @@ import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
   selector: 'cs-vm-sidebar-container',
   template: `
     <cs-vm-sidebar
+      *ngIf="(vm$ | async)"
       [entity]="vm$ | async"
       (colorChanged)="changeColor($event)"
-    ></cs-vm-sidebar>`,
+    ></cs-vm-sidebar>
+  `,
 })
 export class VmSidebarContainerComponent implements OnInit {
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
