@@ -35,6 +35,8 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
   }
 
   public ngOnInit() {
+    const unitTranslations = this.unitTranslations;
+
     this.charts = getChart([
       {
         id: 'bits',
@@ -48,7 +50,7 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
                   ...defaultChartOptions.scales.yAxes[0].ticks,
                   userCallback(val) {
                     return !!humanReadableSizeInBits(val)
-                      ? `${humanReadableSizeInBits(val)}/s`
+                      ? `${humanReadableSizeInBits(val, unitTranslations)}/${unitTranslations['S']}`
                       : null;
                   },
                 },
@@ -105,20 +107,22 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
         };
 
         data.forEach((res: any, ind) => {
-          const aggregation = params.selectedAggregations[ind];
+          const ag = params.selectedAggregations[ind];
+          const aggregationName =
+            this.translations['INTERVALS']['AGGREGATIONS'][ag.toUpperCase()] || ag;
           const readBits = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.readBits,
             })),
-            label: `${this.translations['NETWORK_READ']} ${aggregation}`,
+            label: `${this.translations['LABELS']['NETWORK_READ']} ${aggregationName}`,
           };
           const writeBits = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeBits,
             })),
-            label: `${this.translations['NETWORK_WRITE']} ${aggregation}`,
+            label: `${this.translations['LABELS']['NETWORK_WRITE']} ${aggregationName}`,
           };
           sets.bits.push(readBits, writeBits);
 
@@ -127,14 +131,14 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               x: new Date(_.time),
               y: +_.readPackets,
             })),
-            label: `${this.translations['NETWORK_READ_PACKETS']} ${aggregation}`,
+            label: `${this.translations['LABELS']['NETWORK_READ_PACKETS']} ${aggregationName}`,
           };
           const writePackets = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writePackets,
             })),
-            label: `${this.translations['NETWORK_WRITE_PACKETS']} ${aggregation}`,
+            label: `${this.translations['LABELS']['NETWORK_WRITE_PACKETS']} ${aggregationName}`,
           };
           sets.packets.push(readPackets, writePackets);
 
@@ -143,14 +147,14 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               x: new Date(_.time),
               y: +_.readDrops,
             })),
-            label: `${this.translations['NETWORK_READ_DROPS']} ${aggregation}`,
+            label: `${this.translations['LABELS']['NETWORK_READ_DROPS']} ${aggregationName}`,
           };
           const writeDrops = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeDrops,
             })),
-            label: `${this.translations['NETWORK_WRITE_DROPS']} ${aggregation}`,
+            label: `${this.translations['LABELS']['NETWORK_WRITE_DROPS']} ${aggregationName}`,
           };
           sets.drops.push(readDrops, writeDrops);
 
@@ -159,14 +163,14 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               x: new Date(_.time),
               y: +_.readErrors,
             })),
-            label: `${this.translations['NETWORK_READ_ERRORS']} ${aggregation}`,
+            label: `${this.translations['LABELS']['NETWORK_READ_ERRORS']} ${aggregationName}`,
           };
           const writeErrors = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeErrors,
             })),
-            label: `${this.translations['NETWORK_WRITE_ERRORS']} ${aggregation}`,
+            label: `${this.translations['LABELS']['NETWORK_WRITE_ERRORS']} ${aggregationName}`,
           };
           sets.errors.push(readErrors, writeErrors);
         });

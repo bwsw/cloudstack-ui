@@ -8,8 +8,10 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatTabChangeEvent } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { Dictionary } from '@ngrx/entity';
 const debounce = require('lodash/debounce');
 import * as moment from 'moment';
+
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { PulseChartComponent } from '../charts/pulse-chart';
 import { PulseCpuRamChartComponent } from '../charts/pulse-cpu-ram-chart/pulse-cpu-ram-chart.component';
@@ -47,7 +49,15 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   public tabIndex = 0;
   public permittedIntervals;
 
-  public translations;
+  public pulseTranslations: {
+    LABELS: Dictionary<string>;
+    INTERVALS: {
+      RANGES: Dictionary<string>;
+      AGGREGATIONS: Dictionary<string>;
+      SHIFTS: Dictionary<string>;
+    };
+  };
+  public unitTranslations: Dictionary<string>;
 
   // tslint:disable:variable-name
   private _selectedScale;
@@ -77,8 +87,11 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     });
 
     this.translateService
-      .get('PULSE.LABELS')
-      .subscribe(translations => (this.translations = translations));
+      .get('PULSE')
+      .subscribe(translations => (this.pulseTranslations = translations));
+    this.translateService
+      .get('UNITS')
+      .subscribe(translations => (this.unitTranslations = translations));
   }
 
   public ngOnDestroy() {

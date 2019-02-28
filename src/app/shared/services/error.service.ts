@@ -117,6 +117,34 @@ export class ErrorService {
       regex: /Maximum amount of resources of Type = 'volume' .* is exceeded.* Account Resource Limit = (\d+), Current Account Resource Amount = (\d+), Requested Resource Amount = (\d+)/,
       translation: 'ERRORS.VOLUME.VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED',
     },
+    {
+      regex: /Please specify a valid iso/,
+      translation: 'ERRORS.ISO.INVALID_ISO',
+    },
+    {
+      regex: /Please specify a valid qcow2/,
+      translation: 'ERRORS.TEMPLATE.INVALID_TEMPLATE',
+    },
+    {
+      regex: /Unable to revert snapshot for VM, please remove VM snapshots before reverting VM from snapshot/,
+      translation: 'ERRORS.SNAPSHOT.UNABLE_TO_REVERT_REMOVE_SNAPSHOTS',
+    },
+    {
+      regex: /The VM the specified disk is attached to is not in the shutdown state./,
+      translation: 'ERRORS.SNAPSHOT.REVERT_UNAVAILABLE_FOR_DELETED',
+    },
+    {
+      regex: /Failed to attach local data volume .* as migration of local data volume is not allowed/,
+      translation: 'ERRORS.VOLUME.VOLUME_ATTACH_UNAVAILABLE_AS_MIGRATION_NOT_ALLOWED',
+    },
+    {
+      regex: /Please specify a VM that is either running or stopped/,
+      translation: 'ERRORS.VOLUME.VOLUME_ATTACH_UNAVAILABLE_FOR_DELETED',
+    },
+    {
+      regex: /Public key is invalid/,
+      translation: 'ERRORS.SSH.PUBLIC_KEY_INVALID',
+    },
   ];
 
   public static parseError(error: any): any {

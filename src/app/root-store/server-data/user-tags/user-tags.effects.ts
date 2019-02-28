@@ -11,6 +11,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import {
   CreateTag,
@@ -25,6 +26,7 @@ import {
   LoadUserTags,
   LoadUserTagsError,
   LoadUserTagsSuccess,
+  SetDefaultUserTagDueToDelete,
   SetSavePasswordForAllVMs,
   SetSavePasswordForAllVMsError,
   SetSavePasswordForAllVMsSuccess,
@@ -90,6 +92,7 @@ import {
 import { Serializer } from '../../../shared/utils/serializer';
 import removeNullsAndEmptyArrays from '../../../vm-logs/remove-nulls-and-empty-arrays';
 import { TagCreationParams } from './tag-creation-params';
+import { configSelectors } from '../../config';
 
 const kebabCase = require('lodash/kebabCase');
 
@@ -405,6 +408,15 @@ export class UserTagsEffects {
         map(() => new DeleteTagSuccess(key)),
         catchError(error => of(new DeleteTagError({ error }))),
       );
+    }),
+  );
+
+  @Effect()
+  deleteTagSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<DeleteTagSuccess>(UserTagsActionTypes.DeleteTagSuccess),
+    withLatestFrom(this.store.pipe(select(configSelectors.getDefaultUserTags))),
+    map(([action, tags]) => {
+      return new SetDefaultUserTagDueToDelete(tags.find(tag => tag.key === action.payload));
     }),
   );
 
