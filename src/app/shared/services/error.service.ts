@@ -110,10 +110,6 @@ export class ErrorService {
       translation: 'ERRORS.RESOURCE_QUOTAS.NO_BILLING_ID',
     },
     {
-      regex: /Запрошенные ресурсы RAM: (\d+) GB, Первичное хранилище: (\d+) GB, Дополнительное хранилище: (\d+) GB не могут быть предоставлены\. Для автоматического выделения требуется чтобы баланс счета был не менее чем (\d+\.?\d*) Руб\., сейчас - (\d+\.?\d*) Руб\./i,
-      translation: 'ERRORS.RESOURCE_QUOTAS.RESOURCES_CAN_NOT_BE_PROVIDED',
-    },
-    {
       regex: /Unable to detach volume, please specify a VM that does not have VM snapshots/,
       translation: 'ERRORS.VOLUME.VOLUME_DETACH_UNAVAILABLE',
     },
