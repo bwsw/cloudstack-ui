@@ -603,7 +603,7 @@ export class VirtualMachinesEffects {
         }),
         map(vm => new vmActions.ReplaceVM(vm)),
         catchError((error: Error) => {
-          const message = 'NOTIFICATIONS.VM.DETACHMENT_FAILED';
+          const message = 'NOTIFICATIONS.ISO.DETACHMENT_FAILED';
           this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new vmActions.VMUpdateError({ error }));
         }),
