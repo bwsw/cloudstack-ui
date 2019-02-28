@@ -8,6 +8,7 @@ import { AccountTagsActionTypes } from '../../../reducers/account-tags/redux/acc
 export enum UserTagsActionTypes {
   SetDefaultUserTagsAtStartup = '[App initializer] Set default user tags',
   SetDefaultUserTagsDueToLogout = '[Logout] Set default user tags',
+  SetDefaultUserTagDueToDelete = '[Resource tag deleted] Set default user tag',
 
   LoadUserTags = '[Home Page] Load User tags',
   LoadUserTagsSuccess = '[Resource tags API] User tags load success',
@@ -108,6 +109,12 @@ export class SetDefaultUserTagsDueToLogout implements Action {
   readonly type = UserTagsActionTypes.SetDefaultUserTagsDueToLogout;
 
   constructor(readonly payload: { tags: Tag[] }) {}
+}
+
+export class SetDefaultUserTagDueToDelete implements Action {
+  readonly type = UserTagsActionTypes.SetDefaultUserTagDueToDelete;
+
+  constructor(readonly payload?: Tag) {}
 }
 
 export class LoadUserTags implements Action {
@@ -531,6 +538,7 @@ export type UserTagsActionsUnion =
   | DeleteTagSuccess
   | SetDefaultUserTagsAtStartup
   | SetDefaultUserTagsDueToLogout
+  | SetDefaultUserTagDueToDelete
   | LoadUserTags
   | LoadUserTagsSuccess
   | LoadUserTagsError
