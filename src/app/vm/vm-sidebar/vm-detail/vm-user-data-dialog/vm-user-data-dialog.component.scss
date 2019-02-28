@@ -4,10 +4,13 @@
 
 .mat-dialog-content {
   min-height: 57px;
+  overflow: initial;
 }
 
 .mat-dialog-actions {
+  position: relative;
   cs-clipboard-button {
-    margin-right: 8px;
+    position: absolute;
+    left: 0;
   }
 }
