@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { configSelectors, State } from '../../root-store';
 import { switchMap } from 'rxjs/operators';
+import { ResourceLimit } from '../../shared/models';
 
 @Injectable()
 export class ResourceQuotaService {
@@ -20,14 +21,25 @@ export class ResourceQuotaService {
     );
   }
 
-  public updateResourceLimit(params: {
-    resourceType: number;
-    minimum?: number;
-    maximum?: number;
-  }): Observable<ResourceQuota> {
+  public updateResourceLimits(
+    resourceQuotas: {
+      resourceType: number;
+      minimum?: number;
+      maximum?: number;
+    }[],
+  ): Observable<ResourceQuota[]> {
+    const params = resourceQuotas.reduce((memo, { resourceType, minimum, maximum }) => {
+      if (minimum) {
+        memo[`minimum${resourceType}`] = minimum;
+      }
+      if (maximum) {
+        memo[`maximum${resourceType}`] = maximum;
+      }
+      return memo;
+    }, {});
     return this.pluginConfig$.pipe(
       switchMap(pluginConfig => {
-        return this.gatewayApiService.execute('updateResourceLimit', {
+        return this.gatewayApiService.execute('updateResourceLimits', {
           ...params,
           ...pluginConfig,
         });
@@ -35,10 +47,15 @@ export class ResourceQuotaService {
     );
   }
 
-  public updateResource(params: { resourceType: number; max: number }): Observable<void> {
+  public updateResources(
+    resourceLimits: { resourceType: number; max: number }[],
+  ): Observable<ResourceLimit[]> {
+    const params = resourceLimits.reduce((memo, { resourceType, max }) => {
+      return { ...memo, [`limit${resourceType}`]: max };
+    }, {});
     return this.pluginConfig$.pipe(
       switchMap(pluginConfig => {
-        return this.gatewayApiService.execute('updateResource', {
+        return this.gatewayApiService.execute('updateResources', {
           ...params,
           ...pluginConfig,
         });

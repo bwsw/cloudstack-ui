@@ -18,11 +18,13 @@ export interface ResourceQuotasUserFormState {
   limits: {
     [resourceType: number]: number;
   };
+  isSaving: boolean;
 }
 
 export const initialState = {
   quotas: {},
   limits: {},
+  isSaving: false,
 };
 
 export function resourceQuotasUserFormReducer(
@@ -33,7 +35,7 @@ export function resourceQuotasUserFormReducer(
     case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_USER_FORM_FIELD: {
       const resourceType = action.payload.resourceType;
       return {
-        quotas: state.quotas,
+        ...state,
         limits: {
           ...state.limits,
           [resourceType]: action.payload.limit,
@@ -58,6 +60,20 @@ export function resourceQuotasUserFormReducer(
           }),
         },
       });
+    }
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_REQUEST: {
+      return {
+        ...state,
+        isSaving: true,
+      };
+    }
+
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_RESPONSE:
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_ERROR: {
+      return {
+        ...state,
+        isSaving: false,
+      };
     }
 
     default:
@@ -92,4 +108,9 @@ export const getUserResourceQuotas = createSelector(
 export const getUserResourceLimits = createSelector(
   getResourceQuotasUserFormState,
   state => state.limits,
+);
+
+export const isUserResourceLimitsSaving = createSelector(
+  getResourceQuotasUserFormState,
+  state => state.isSaving,
 );
