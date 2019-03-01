@@ -32,7 +32,7 @@ exports.config = {
     rule: 'default',
   },
   directConnect: true,
-  baseUrl: 'http://localhost:8081',
+  baseUrl: 'http://localhost:8080',
   framework: 'jasmine',
   suites: {
     sg_creation: './e2e/sg-creation.e2e-spec.ts',

@@ -33,7 +33,7 @@ export class SGList extends CloudstackUiPage {
   getSGNameCard() {
     return element
       .all(by.css('.entity-card-title.mat-card-title'))
-      .first()
+      .last()
       .element(by.tagName('span'))
       .getText();
   }
@@ -46,13 +46,10 @@ export class SGList extends CloudstackUiPage {
       .getText();
   }
 
-  answerForVMcreation(index) {
-    const condition = element(by.css('.cdk-overlay-pane')).isPresent();
-    if (condition) {
-      element
-        .all(by.css('.mat-button.mat-primary.ng-star-inserted'))
-        .get(index)
-        .click();
-    }
+  verifyCardName(name, description) {
+    expect(this.getSGNameCard)
+      .toEqual(name)
+      .expect(this.getSGDescriptionCard)
+      .toEqual(description);
   }
 }
