@@ -3,6 +3,7 @@ import { Tag } from '../../../shared/models';
 import { userTagKeys } from '../../../tags/tag-keys';
 import { UserTagsActionsUnion, UserTagsActionTypes } from './user-tags.actions';
 import { adapter, initialState, UserTagsState } from './user-tags.state';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 export function reducer(state = initialState, action: UserTagsActionsUnion): UserTagsState {
   switch (action.type) {
@@ -13,6 +14,10 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
 
     case UserTagsActionTypes.SetDefaultUserTagDueToDelete: {
       return action.payload ? adapter.upsertOne(action.payload, state) : state;
+    }
+
+    case UserTagsActionTypes.UpdateVmLogsFiltersSuccess: {
+      return adapter.updateMany(Utils.arrayToNGRXEntityUpdate(action.payload, 'key'), state);
     }
 
     case UserTagsActionTypes.LoadUserTagsSuccess: {
