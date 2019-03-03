@@ -13,7 +13,7 @@ function deployPr {
     -e "WEBSHELL_PLUGIN_ENDPOINT=$WEBSHELL_PLUGIN_ENDPOINT" \
     -e "CLIENT_ENDPOINT=$CLIENT_ENDPOINT" \
     -d --name "cloudstack-ui-$ghprbPullId"\
-    cloudstack-ui-pr;
+    cloudstack-ui-${CI_TYPE_LOWER};
 }
 
 function deployUserBranch {
@@ -31,8 +31,10 @@ function deployUserBranch {
     -e "WEBSHELL_PLUGIN_ENDPOINT=$WEBSHELL_PLUGIN_ENDPOINT" \
     -e "CLIENT_ENDPOINT=$CLIENT_ENDPOINT" \
     -d --name "cloudstack-ui-$GITHUB_USER-$BRANCH_LOWER"\
-    cloudstack-ui-branch;
+    cloudstack-ui-${CI_TYPE_LOWER};
 }
+
+CI_TYPE_LOWER=`echo "$CI_TYPE" | tr '[:upper:]' '[:lower:]'`
 
 if [[ "$CI_TYPE" == "PR" ]]; then
   deployPr
