@@ -5,6 +5,6 @@
 echo $BWSW_DOCKER_PASSWORD | docker login --username $BWSW_DOCKER_USERNAME --password-stdin
 
 # Сreates a tagged image if the assembly was launched from the tagged commit
-TAG=${TRAVIS_TAG:-latest}
+TAG=${GIT_TAG_NAME:-latest}
 docker tag ${DOCKER_USER}/${DOCKER_REPO} ${DOCKER_USER}/${DOCKER_REPO}:${TAG}
 docker push ${DOCKER_USER}/${DOCKER_REPO}:${TAG}

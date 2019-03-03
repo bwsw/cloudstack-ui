@@ -19,6 +19,9 @@ export SIMULATOR_CONTAINER_PORT=8888
 export SIMULATOR_STATUS_CHECK_PORT=4220 # Don't forget to map SIMULATOR_STATUS_CHECK_PORT if it differs from SIMULATOR_CONTAINER_PORT
 export SIMULATOR_CONTAINER_NAME=cloudstack-simulator
 
+export DOCKER_USER=bwsw
+export DOCKER_REPO=cloudstack-ui
+
 
 # Preparation
 ./scripts/ci/remove-old-containers.sh

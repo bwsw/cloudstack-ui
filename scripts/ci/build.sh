@@ -2,10 +2,6 @@
 
 set -e -u -o pipefail
 
-DOCKER_USER=bwsw
-DOCKER_REPO=cloudstack-ui
-
-
 function buildForDeployment {
   docker run --rm \
     -v $(pwd):/workspace \
