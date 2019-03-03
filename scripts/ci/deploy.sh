@@ -2,7 +2,7 @@
 
 set -e -u -o pipefail
 
-fucntion deployPr {
+function deployPr {
   docker stop "cloudstack-ui-$ghprbPullId" 2> /dev/null || true
   docker rm "cloudstack-ui-$ghprbPullId" 2> /dev/null || true
 

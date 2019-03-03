@@ -31,7 +31,7 @@ fi
 ./scripts/ci/test.sh
 
 # e2e tests
-./scripts/ci/test-e2e.sh
+#./scripts/ci/test-e2e.sh
 
 # Deploy
 ./scripts/ci/build.sh

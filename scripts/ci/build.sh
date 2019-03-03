@@ -6,12 +6,12 @@ DOCKER_USER=bwsw
 DOCKER_REPO=cloudstack-ui
 
 
-fucntion buildForDeployment {
-   docker run --rm \
-  -v $(pwd):/workspace \
-  -w /workspace \
-  ${NODE_CHROME_YARN_IMAGE} \
-  /bin/bash -ce "yarn build --prod"
+function buildForDeployment {
+  docker run --rm \
+    -v $(pwd):/workspace \
+    -w /workspace \
+    ${NODE_CHROME_YARN_IMAGE} \
+    /bin/bash -ce "yarn build --prod"
 
   docker build -t cloudstack-ui-pr -f ./scripts/ci/Dockerfile .
 }
