@@ -23,7 +23,7 @@ export SIMULATOR_CONTAINER_NAME=cloudstack-simulator
 # Preparation
 ./scripts/ci/remove-old-containers.sh
 
-if [[ "$CI_TYPE" =~ ^(MASTER|PR)$ ]]; then
+if [[ "$CI_TYPE" != "RELEASE" ]]; then
   ./scripts/ci/add-app-config.sh
 fi
 
