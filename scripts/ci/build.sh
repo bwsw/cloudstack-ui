@@ -12,7 +12,7 @@ function buildForDeployment {
   docker build -t cloudstack-ui-${CI_TYPE_LOWER} -f ./scripts/ci/Dockerfile .
 }
 
-CI_TYPE_LOWER=`echo "CI_TYPE" | tr '[:upper:]' '[:lower:]'`
+CI_TYPE_LOWER=`echo "$CI_TYPE" | tr '[:upper:]' '[:lower:]'`
 
 if [[ "$CI_TYPE" == "RELEASE" ]]; then
   docker build -t ${DOCKER_USER}/${DOCKER_REPO} .

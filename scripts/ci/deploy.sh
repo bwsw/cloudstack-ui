@@ -34,7 +34,7 @@ function deployUserBranch {
     cloudstack-ui-${CI_TYPE_LOWER};
 }
 
-CI_TYPE_LOWER=`echo "CI_TYPE" | tr '[:upper:]' '[:lower:]'`
+CI_TYPE_LOWER=`echo "$CI_TYPE" | tr '[:upper:]' '[:lower:]'`
 
 if [[ "$CI_TYPE" == "PR" ]]; then
   deployPr
