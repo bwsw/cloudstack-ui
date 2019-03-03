@@ -2,6 +2,13 @@
 
 set -e
 
+if [[ "$CI_TYPE" =~ ^(MASTER|PR|ON_DEMAND|RELEASE)$ ]]; then
+  echo "CI type is ${CI_TYPE}"
+else
+  echo "Unknown CI_TYPE. Ensure that the correct CI_TYPE env var is specified."
+  exit 1;
+fi
+
 export DOCKER_NETWORK_NAME=cloudstack-network
 
 export NODE_CHROME_YARN_IMAGE=m7ov/node8-chrome:0.4
@@ -15,7 +22,10 @@ export SIMULATOR_CONTAINER_NAME=cloudstack-simulator
 
 # Preparation
 ./scripts/ci/remove-old-containers.sh
-./scripts/ci/add-app-config.sh
+
+if [[ "$CI_TYPE" =~ ^(MASTER|PR)$ ]]; then
+  ./scripts/ci/add-app-config.sh
+fi
 
 # Lint, Unit tests
 ./scripts/ci/test.sh
@@ -25,4 +35,10 @@ export SIMULATOR_CONTAINER_NAME=cloudstack-simulator
 
 # Deploy
 ./scripts/ci/build.sh
-./scripts/ci/deploy-branch.sh
+if [[ "$CI_TYPE" != "RELEASE" ]]; then
+  ./scripts/ci/deploy.sh
+fi
+
+if [[ "$CI_TYPE" == "RELEASE" ]]; then
+  /scripts/ci/publish-docker-image.sh
+fi
