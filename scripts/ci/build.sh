@@ -9,7 +9,7 @@ function buildForDeployment {
     ${NODE_CHROME_YARN_IMAGE} \
     /bin/bash -ce "yarn build --prod"
 
-  docker build -t cloudstack-ui-pr -f ./scripts/ci/Dockerfile .
+  docker build -t cloudstack-ui-${CI_TYPE} -f ./scripts/ci/Dockerfile .
 }
 
 if [[ "$CI_TYPE" == "RELEASE" ]]; then

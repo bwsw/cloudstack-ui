@@ -43,5 +43,5 @@ if [[ "$CI_TYPE" != "RELEASE" ]]; then
 fi
 
 if [[ "$CI_TYPE" == "RELEASE" ]]; then
-  /scripts/ci/publish-docker-image.sh
+  ./scripts/ci/publish-docker-image.sh
 fi
