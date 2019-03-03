@@ -233,97 +233,55 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
 
 export const getVmLogsState = createFeatureSelector<VmLogsState>('vmLogs');
 
-export const getVmLogsEntitiesState = createSelector(
-  getVmLogsState,
-  state => state.list,
-);
+export const getVmLogsEntitiesState = createSelector(getVmLogsState, state => state.list);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getVmLogsEntitiesState,
 );
 
-export const isLoading = createSelector(
-  getVmLogsEntitiesState,
-  state => state.loading,
-);
+export const isLoading = createSelector(getVmLogsEntitiesState, state => state.loading);
 
-export const filters = createSelector(
-  getVmLogsEntitiesState,
-  state => state.filters,
-);
+export const filters = createSelector(getVmLogsEntitiesState, state => state.filters);
 
-export const filterSelectedVmId = createSelector(
-  filters,
-  state => state.vm,
-);
+export const filterSelectedVmId = createSelector(filters, state => state.vm);
 
-export const filterSelectedAccountIds = createSelector(
-  filters,
-  state => state.accounts,
-);
+export const filterSelectedAccountIds = createSelector(filters, state => state.accounts);
 
-export const filterSearch = createSelector(
-  filters,
-  state => state.search,
-);
+export const filterSearch = createSelector(filters, state => state.search);
 
-export const filterStartDate = createSelector(
-  filters,
-  state => state.startDate,
-);
+export const filterStartDate = createSelector(filters, state => state.startDate);
 
-export const filterStartTime = createSelector(
-  filters,
-  state => {
-    if (state.startDate == null) {
-      return null;
-    }
+export const filterStartTime = createSelector(filters, state => {
+  if (state.startDate == null) {
+    return null;
+  }
 
-    return {
-      hour: state.startDate.hours,
-      minute: state.startDate.minutes,
-    };
-  },
-);
+  return {
+    hour: state.startDate.hours,
+    minute: state.startDate.minutes,
+  };
+});
 
-export const filterEndDate = createSelector(
-  filters,
-  state => state.endDate,
-);
+export const filterEndDate = createSelector(filters, state => state.endDate);
 
-export const filterEndTime = createSelector(
-  filters,
-  state => {
-    if (state.endDate == null) {
-      return null;
-    }
+export const filterEndTime = createSelector(filters, state => {
+  if (state.endDate == null) {
+    return null;
+  }
 
-    return {
-      hour: state.endDate.hours,
-      minute: state.endDate.minutes,
-    };
-  },
-);
+  return {
+    hour: state.endDate.hours,
+    minute: state.endDate.minutes,
+  };
+});
 
-export const filterNewestFirst = createSelector(
-  filters,
-  state => Boolean(state.newestFirst),
-);
+export const filterNewestFirst = createSelector(filters, state => Boolean(state.newestFirst));
 
-export const filterSelectedLogFile = createSelector(
-  filters,
-  state => state.logFile,
-);
+export const filterSelectedLogFile = createSelector(filters, state => state.logFile);
 
-export const selectUiPage = createSelector(
-  getVmLogsEntitiesState,
-  state => state.uiPage,
-);
+export const selectUiPage = createSelector(getVmLogsEntitiesState, state => state.uiPage);
 
-export const selectTotalScrollLogs = createSelector(
-  selectUiPage,
-  uiPage => uiPage * 100,
-);
+export const selectTotalScrollLogs = createSelector(selectUiPage, uiPage => uiPage * 100);
 
 const getFirstLogs = <T>(logs: T[], length: number): T[] => logs.slice(0, length);
 

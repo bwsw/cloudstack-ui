@@ -182,10 +182,7 @@ export function vmCreationListReducer(
 
 export const getTemplatesState = createFeatureSelector<TemplatesState>('templates');
 
-export const getTemplatesEntitiesState = createSelector(
-  getTemplatesState,
-  state => state.list,
-);
+export const getTemplatesEntitiesState = createSelector(getTemplatesState, state => state.list);
 
 export const getVmCreationListState = createSelector(
   getTemplatesState,
@@ -196,20 +193,11 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getTemplatesEntitiesState,
 );
 
-export const isLoading = createSelector(
-  getTemplatesEntitiesState,
-  state => state.loading,
-);
+export const isLoading = createSelector(getTemplatesEntitiesState, state => state.loading);
 
-export const isLoaded = createSelector(
-  getTemplatesEntitiesState,
-  state => state.loaded,
-);
+export const isLoaded = createSelector(getTemplatesEntitiesState, state => state.loaded);
 
-export const filters = createSelector(
-  getTemplatesEntitiesState,
-  state => state.filters,
-);
+export const filters = createSelector(getTemplatesEntitiesState, state => state.filters);
 
 export const getSelectedId = createSelector(
   getTemplatesEntitiesState,
@@ -234,49 +222,22 @@ export const getSelectedTemplateTags = createSelector(
   (state, selectedId) => state.list.entities[selectedId] && state.list.entities[selectedId].tags,
 );
 
-export const filterSelectedViewMode = createSelector(
-  filters,
-  state => state.selectedViewMode,
-);
-export const filterSelectedGroupings = createSelector(
-  filters,
-  state => state.selectedGroupings,
-);
+export const filterSelectedViewMode = createSelector(filters, state => state.selectedViewMode);
+export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
 
-export const filterSelectedTypes = createSelector(
-  filters,
-  state => state.selectedTypes,
-);
+export const filterSelectedTypes = createSelector(filters, state => state.selectedTypes);
 
-export const filterSelectedZones = createSelector(
-  filters,
-  state => state.selectedZones,
-);
+export const filterSelectedZones = createSelector(filters, state => state.selectedZones);
 
-export const filterSelectedGroups = createSelector(
-  filters,
-  state => state.selectedGroups,
-);
+export const filterSelectedGroups = createSelector(filters, state => state.selectedGroups);
 
-export const filterSelectedAccountIds = createSelector(
-  filters,
-  state => state.selectedAccountIds,
-);
+export const filterSelectedAccountIds = createSelector(filters, state => state.selectedAccountIds);
 
-export const filterSelectedOsFamilies = createSelector(
-  filters,
-  state => state.selectedOsFamilies,
-);
+export const filterSelectedOsFamilies = createSelector(filters, state => state.selectedOsFamilies);
 
-export const filterQuery = createSelector(
-  filters,
-  state => state.query,
-);
+export const filterQuery = createSelector(filters, state => state.query);
 
-export const vmCreationListFilters = createSelector(
-  getVmCreationListState,
-  state => state.filters,
-);
+export const vmCreationListFilters = createSelector(getVmCreationListState, state => state.filters);
 
 export const vmCreationListViewMode = createSelector(
   vmCreationListFilters,
@@ -298,10 +259,7 @@ export const vmCreationListSelectedGroups = createSelector(
   state => state.selectedGroups,
 );
 
-export const vmCreationListQuery = createSelector(
-  vmCreationListFilters,
-  state => state.query,
-);
+export const vmCreationListQuery = createSelector(vmCreationListFilters, state => state.query);
 
 export const selectByViewModeAndAccounts = createSelector(
   selectAll,

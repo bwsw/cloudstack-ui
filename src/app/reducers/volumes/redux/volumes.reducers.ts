@@ -184,10 +184,7 @@ export function formReducer(state = initialFormState, action: volumeActions.Acti
 
 export const getVolumesState = createFeatureSelector<VolumesState>('volumes');
 
-export const getVolumesEntitiesState = createSelector(
-  getVolumesState,
-  state => state.list,
-);
+export const getVolumesEntitiesState = createSelector(getVolumesState, state => state.list);
 
 export const {
   selectIds,
@@ -196,15 +193,9 @@ export const {
   selectTotal: getVolumesCount,
 } = adapter.getSelectors(getVolumesEntitiesState);
 
-export const isLoading = createSelector(
-  getVolumesEntitiesState,
-  state => state.loading,
-);
+export const isLoading = createSelector(getVolumesEntitiesState, state => state.loading);
 
-export const isLoaded = createSelector(
-  getVolumesEntitiesState,
-  state => state.loaded,
-);
+export const isLoaded = createSelector(getVolumesEntitiesState, state => state.loaded);
 
 export const getSelectedId = createSelector(
   getVolumesEntitiesState,
@@ -217,45 +208,21 @@ export const getSelectedVolume = createSelector(
   (state, selectedId) => state.list.entities[selectedId],
 );
 
-export const filters = createSelector(
-  getVolumesEntitiesState,
-  state => state.filters,
-);
+export const filters = createSelector(getVolumesEntitiesState, state => state.filters);
 
-export const filterSelectedTypes = createSelector(
-  filters,
-  state => state.selectedTypes,
-);
+export const filterSelectedTypes = createSelector(filters, state => state.selectedTypes);
 
-export const filterSelectedZoneIds = createSelector(
-  filters,
-  state => state.selectedZoneIds,
-);
+export const filterSelectedZoneIds = createSelector(filters, state => state.selectedZoneIds);
 
-export const filterSelectedAccountIds = createSelector(
-  filters,
-  state => state.selectedAccountIds,
-);
+export const filterSelectedAccountIds = createSelector(filters, state => state.selectedAccountIds);
 
-export const filterSelectedGroupings = createSelector(
-  filters,
-  state => state.selectedGroupings,
-);
+export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
 
-export const filterQuery = createSelector(
-  filters,
-  state => state.query,
-);
+export const filterQuery = createSelector(filters, state => state.query);
 
-export const filterSpareOnly = createSelector(
-  filters,
-  state => state.spareOnly,
-);
+export const filterSpareOnly = createSelector(filters, state => state.spareOnly);
 
-export const isFormLoading = createSelector(
-  getVolumesState,
-  state => state.form.loading,
-);
+export const isFormLoading = createSelector(getVolumesState, state => state.form.loading);
 
 export const selectVolumesWithSnapshots = createSelector(
   selectAll,

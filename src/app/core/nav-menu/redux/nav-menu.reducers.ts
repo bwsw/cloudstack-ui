@@ -38,15 +38,9 @@ const resourceQuotasSubroute = {
 
 export const getNavMenuState = createFeatureSelector<State>('navMenu');
 
-export const getRoutes = createSelector(
-  getNavMenuState,
-  state => state.routes,
-);
+export const getRoutes = createSelector(getNavMenuState, state => state.routes);
 
-const getCurrentSubroutePath = createSelector(
-  getUrl,
-  url => url.match(/^\/[A-Za-z-]*/)[0],
-);
+const getCurrentSubroutePath = createSelector(getUrl, url => url.match(/^\/[A-Za-z-]*/)[0]);
 
 const getAllSubroutes = createSelector(
   getRoutes,
@@ -73,10 +67,8 @@ const getCurrentSubroute = createSelector(
   (path, subroutes) => subroutes.find(subroute => subroute && subroute.path === path),
 );
 
-export const getCurrentRoute = createSelector(
-  getRoutes,
-  getCurrentSubroute,
-  (routes, subroute) => routes.find(route => subroute && route.id === subroute.routeId),
+export const getCurrentRoute = createSelector(getRoutes, getCurrentSubroute, (routes, subroute) =>
+  routes.find(route => subroute && route.id === subroute.routeId),
 );
 
 export const getSubroutes = createSelector(
