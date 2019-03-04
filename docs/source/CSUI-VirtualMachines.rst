@@ -254,9 +254,9 @@ In the *Advanced* tab you will find the following fields:
 5. **SSH keypair** - Select an SSH keypair. The list of keys contains the SSH keys available for the account under which the VM is being created. Find more information on SSH keys in the :ref:`SSH_Keys` section.
 6. **Start VM** - Tick the box to start the VM right after its deployment. If this option is activated, the VM acquires an IP and a password (if required by the template). If it is not, the machine IP is not available till VM is started, no password is assigned to it.
 
-.. In the *User data* tab you can add any custom data for the machine. It allows adding necessary settings to the machine and deploying it configured with necessary services. In this tab, you will find a text area, where you can enter the configurations in any format. The maximum allowed size of data is 32 KB.
+In the *User data* tab you can add any custom data for the machine. It allows adding necessary settings to the machine and deploying it configured with necessary services. In this tab, you will find a text area, where you can enter the configurations in any format. The maximum allowed size of data is 32 KB.
 
-.. _static/VMs_Create_Udata.png
+.. figure:: _static/VMs_Create_Udata.png
 
 Once all fields are filled in, click "Create".
 
@@ -462,19 +462,19 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
     * VM host name, 
     * Zone selected for the VM to be available in, 
     * Machine ID.
-.. * User data - Allows to view, edit and copy user data applied to the machine. 
+    * User data - Allows to view, edit and copy user data applied to the machine. 
     
-.. Click |view| to open the modal window and view the user data applied to the machine. Use the scroll tool if the text contains many symbols.
+      Click |view| to open the modal window and view the user data applied to the machine. Use the scroll tool if the text contains many symbols.
     
-.. _static/VMs_Udata_View.png
+      .. figure:: _static/VMs_Udata_View.png
     
-.. You can copy data by clicking |copy icon|.
+      You can copy data by clicking |copy icon|.
        
-.. Click EDIT to view the data in the editing mode. Make necessary changes and save them.
+      Click EDIT to view the data in the editing mode. Make necessary changes and save them.
        
-.. _static/VMs_Udata_Edit.png 
+      .. figure:: _static/VMs_Udata_Edit.png 
        
-.. Or click CANCEL to close the dialog window without saving changes.
+      Or click CANCEL to close the dialog window without saving changes.
 
 3. Group - A group the VM is assigned to. Edit this field by clicking the "Edit" button |edit icon|. In the appeared dialog window choose a group from the drop-down list. Click "Assign" to assign the VM to the chosen group. 
 
