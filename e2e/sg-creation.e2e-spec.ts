@@ -50,26 +50,36 @@ describe('e2e-test-sg-creation', () => {
   });
 
   it('Create custom firewall template', () => {
-    // sglist.answerForVMcreation(2);
-    // browser.sleep(2000);
+    browser.sleep(2000);
     sglist.clickFirewallMenu();
+    browser.sleep(2000);
     sglist.clickCreateSG();
-    browser.sleep(1000);
-    const description = page.description;
-    page.setSGDescription(description);
-    browser.sleep(1000);
+    // browser.sleep(2000);
+    page.setSGDescription(page.description);
+    browser.sleep(2000);
     page.clickADDbutton(); // click ADD
-    browser.sleep(1000);
+    expect(page.getSaveButton().isEnabled()).toBeFalsy('Button "Save" should be disabled');
+    browser.sleep(2000);
     page.verifyBuildNewSGModal();
-    browser.sleep(1000);
+    browser.sleep(2000);
+    const rules = page.takeRulesText().then();
+    expect(page.getSaveButton().isEnabled()).toBeTruthy('Button "Save" should be enabled');
+    page.getSaveButton().click();
     expect(page.buttonCreateIsEnabled()).toBeFalsy('Button "Create" should be disabled');
-    browser.sleep(1000);
-    const name = page.name;
-    page.setSGName(name);
+    browser.sleep(2000);
+    page.setSGName(page.name);
     browser.sleep(2000);
     expect(page.buttonCreateIsEnabled()).toBeTruthy('Button "Create" should be enabled');
-    browser.sleep(1000);
     page.clickCreateButton(); // click "Create button"
-    browser.sleep(10000);
+
+    // Verify custom SG card: name, description, rules
+    expect(sglist.getSGNameCard()).toEqual(page.name);
+    expect(sglist.getSGDescriptionCard()).toEqual(page.description);
+    sglist.clickSGMenu();
+    sglist.clickRulesbutton();
+
+    // expect(sglist.verifyCardInfo(page.name, page.description, rules)).toBeTruthy('Card information not correct');
+    // browser.sleep(2000);
+    // expect(sgsidebar.verifySidebar(page.name, page.description)).toBeTruthy('Card information in Sidebar not correct');
   });
 });
