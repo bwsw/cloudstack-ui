@@ -1436,7 +1436,7 @@ msgstr "Детали — отображает детали машины:"
 
 #: ../../CSUI-VirtualMachines.rst:462
 msgid "VM host name,"
-msgstr " заданное или сгенерированное автоматически имя хоста,"
+msgstr "заданное или сгенерированное автоматически имя хоста,"
 
 #: ../../CSUI-VirtualMachines.rst:463
 msgid "Zone selected for the VM to be available in,"
