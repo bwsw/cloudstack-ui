@@ -462,7 +462,7 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
     * VM host name, 
     * Zone selected for the VM to be available in, 
     * Machine ID.
-    * User data - Allows to view, edit and copy user data applied to the machine. 
+    * User data - Allows viewing, editing and copying user data applied to the machine. 
     
       Click |view| to open the modal window and view the user data applied to the machine. Use the scroll tool if the text contains many symbols.
     
