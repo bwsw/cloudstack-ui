@@ -8,7 +8,6 @@ import { VmState } from '../../../vm/shared/vm.model';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmDeploymentMessage } from './vm-creation.effects';
 import { FormState } from './vm.reducers';
-import { SecurityGroup } from '../../../security-group/sg.model';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -27,6 +26,7 @@ export const VM_REMOVE_INSTANCE_GROUP = '[VM] VM_REMOVE_INSTANCE_GROUP';
 export const VM_ADD_SECONDARY_IP = '[VM] VM_ADD_SECONDARY_IP';
 export const VM_REMOVE_SECONDARY_IP = '[VM] VM_REMOVE_SECONDARY_IP';
 export const VM_CHANGE_COLOR = '[VM] VM_CHANGE_COLOR';
+export const VM_CHANGE_USER_DATA = '[VM] VM_CHANGE_USER_DATA';
 export const UPDATE_VM = '[VM] UPDATE_VM';
 export const REPLACE_VM = '[VM] REPLACE_VM';
 export const ATTACH_ISO = '[VM] ATTACH_ISO';
@@ -48,6 +48,8 @@ export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
 export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
 export const VIEW_VM_LOGS = '[VM] VIEW_LOGS';
+export const LOAD_VM_USER_DATA_REQUEST = '[VM] LOAD_VM_USER_DATA_REQUEST';
+export const LOAD_VM_USER_DATA_RESPONSE = '[VM] LOAD_VM_USER_DATA_RESPONSE';
 
 export const VM_FORM_INIT = '[VM creation] VM_FORM_INIT';
 export const VM_FORM_CLEAN = '[VM creation] VM_FORM_CLEAN';
@@ -480,6 +482,24 @@ export class SaveVMPasswordError implements Action {
   constructor(public payload: { error: Error }) {}
 }
 
+export class LoadVMUserDataRequest implements Action {
+  readonly type = LOAD_VM_USER_DATA_REQUEST;
+
+  constructor(public payload: string) {}
+}
+
+export class LoadVMUserDataResponse implements Action {
+  readonly type = LOAD_VM_USER_DATA_RESPONSE;
+
+  constructor(public payload: { id: string; userdata: string }) {}
+}
+
+export class ChangeVmUserData implements Action {
+  readonly type = VM_CHANGE_USER_DATA;
+
+  constructor(public payload: { vm: VirtualMachine; userdata: string }) {}
+}
+
 export type Actions =
   | LoadVMsRequest
   | LoadVMsResponse
@@ -533,6 +553,9 @@ export type Actions =
   | DeploymentRequest
   | DeploymentRequestSuccess
   | DeploymentRequestError
+  | LoadVMUserDataRequest
+  | LoadVMUserDataResponse
+  | ChangeVmUserData
   | SaveVMPassword
   | SaveVMPasswordSuccess
   | SaveVMPasswordError;

@@ -77,6 +77,7 @@ import * as fromAccountTags from '../../../reducers/account-tags/redux/account-t
       (zoneChange)="onZoneChange($event)"
       (doStartVmChange)="onDoStartVmChange($event)"
       (agreementChange)="onAgreementChange($event)"
+      (userDataChanged)="onUserDataChanged($event)"
       (cancel)="onCancel()"
       (deploy)="onDeploy($event)"
       (vmDeploymentFailed)="showOverlayChange()"
@@ -211,6 +212,10 @@ export class VmCreationContainerComponent implements OnDestroy {
 
   public onAgreementChange(agreement: boolean) {
     this.store.dispatch(new vmActions.VmFormUpdate({ agreement }));
+  }
+
+  public onUserDataChanged(userData: string) {
+    this.store.dispatch(new vmActions.VmFormUpdate({ userData }));
   }
 
   public onDeploy(state: VmCreationState) {

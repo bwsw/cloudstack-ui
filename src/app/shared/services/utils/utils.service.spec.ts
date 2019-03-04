@@ -224,4 +224,36 @@ describe('Utils service', () => {
       });
     });
   });
+
+  describe('encodeStringToBase64', () => {
+    it('should return valid encoded string', () => {
+      const data = 'some data';
+      const expected = btoa(data);
+      expect(Utils.encodeStringToBase64(data)).toEqual(expected);
+    });
+
+    it('should return null for no data', () => {
+      expect(Utils.encodeStringToBase64('')).toBeNull();
+    });
+  });
+
+  describe('decodeStringFromBase64', () => {
+    it('should return valid data', () => {
+      const data = 'some data';
+      expect(Utils.decodeStringFromBase64(btoa(data))).toEqual(data);
+    });
+    it('should return null for no data', () => {
+      expect(Utils.decodeStringFromBase64('')).toBeNull();
+    });
+  });
+
+  describe('sizeOfBase64String', () => {
+    it('should return 0 for empty string', () => {
+      expect(Utils.sizeOfBase64String('')).toEqual(0);
+    });
+
+    it('should return size of base64 string', () => {
+      expect(Utils.sizeOfBase64String(Utils.encodeStringToBase64('some string'))).toEqual(23);
+    });
+  });
 });

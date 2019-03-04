@@ -11,10 +11,11 @@ import {
   Zone,
 } from '../../shared/models';
 import { BaseTemplateModel, isTemplate } from '../../template/shared';
-import { VirtualMachine } from '../shared/vm.model';
+import { isVMUserDataValid, VirtualMachine } from '../shared/vm.model';
 import { NotSelected, VmCreationState } from './data/vm-creation-state';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 import { VmCreationContainerComponent } from './containers/vm-creation.container';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
@@ -100,6 +101,8 @@ export class VmCreationComponent {
   @Output()
   public agreementChange = new EventEmitter<boolean>();
   @Output()
+  public userDataChanged = new EventEmitter<string>();
+  @Output()
   public vmDeploymentFailed = new EventEmitter();
   @Output()
   public deploy = new EventEmitter<VmCreationState>();
@@ -118,7 +121,10 @@ export class VmCreationComponent {
   public maxEntityNameLength = 63;
   public visibleInstanceGroups: string[];
 
-  constructor(public dialogRef: MatDialogRef<VmCreationContainerComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
+    private dialogService: DialogService,
+  ) {}
 
   public hostNameIsTaken(): boolean {
     if (!!this.vmCreationState) {
@@ -181,7 +187,11 @@ export class VmCreationComponent {
 
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
-    this.deploy.emit(this.vmCreationState);
+    if (!isVMUserDataValid(this.vmCreationState.userData)) {
+      this.dialogService.alert({ message: 'ERRORS.VM.USER_DATA_TOO_BIG' });
+    } else {
+      this.deploy.emit(this.vmCreationState);
+    }
   }
 
   public isSubmitButtonDisabled(isFormValid: boolean): boolean {

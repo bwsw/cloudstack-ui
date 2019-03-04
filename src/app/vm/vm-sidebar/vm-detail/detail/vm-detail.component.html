@@ -20,6 +20,18 @@
         <div>{{ 'VM_PAGE.VM_DETAILS.DETAILS.ID' | translate }}</div>
         <div class="ellipsis-overflow" [matTooltip]="vm.id">{{ vm.id }}</div>
       </div>
+
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.DETAILS.USER_DATA' | translate }}</div>
+        <button
+          mat-icon-button
+          class="mat-icon-button mat-icon-button--small"
+          [matTooltip]="'COMMON.VIEW' | translate"
+          (click)="viewUserData()"
+        >
+          <mat-icon class="mdi-eye mdi-18px"></mat-icon>
+        </button>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

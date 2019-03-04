@@ -129,7 +129,8 @@
       "KEY_PAIR_ALREADY_EXISTS": "SSH key with name '{{ val1 }}' already exists"
     },
     "VM": {
-      "INSUFFICIENT_RESOURCES": "Insufficient resources"
+      "INSUFFICIENT_RESOURCES": "Insufficient resources",
+      "USER_DATA_TOO_BIG": "Maximum user data size is exceeded"
     },
     "VM_POST_ACTION": {
       "INVALID_URL": "Invalid URL. Please check values in VM tags"
@@ -292,7 +293,10 @@
       "COLOR_CHANGE_DONE": "VM color changed",
       "CHANGE_SSH_IN_PROGRESS": "Changing an SSH-key",
       "CHANGE_SSH_DONE": "SSH-key changed",
-      "CHANGE_SSH_FAILED": "Failed to change an SSH-key"
+      "CHANGE_SSH_FAILED": "Failed to change an SSH-key",
+      "CHANGE_USER_DATA_IN_PROGRESS": "Changing a user data",
+      "CHANGE_USER_DATA_DONE": "User data changed",
+      "CHANGE_USER_DATA_FAILED": "Failed to change a user data"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Detaching a volume",
@@ -421,7 +425,8 @@
         "TITLE": "Details",
         "ZONE": "Zone",
         "HOST_NAME": "VM host name",
-        "ID": "ID"
+        "ID": "ID",
+        "USER_DATA": "User data"
       },
       "SECURITY_GROUP": {
         "STOP_MACHINE_FOR_SG": "You need to stop the virtual machine to change security group. Do you want to stop it now?",
@@ -641,6 +646,7 @@
       "NO_OFFERINGS": "There are no service offering available",
       "GENERAL": "General",
       "ADVANCED": "Advanced",
+      "USER_DATA": "User data",
       "DETAILS": "Details",
       "REQUEST": "REQUEST",
       "PARAMS": "PARAMS",
@@ -658,6 +664,11 @@
         "DESCRIPTION": "Description",
         "DATE": "Date",
         "ACTIONS": "Actions"
+      },
+      "VM_USER_DATA": {
+        "TITLE": "User data",
+        "USER_DATA": "User data",
+        "NO_USER_DATA": "No user data"
       }
     }
   },
