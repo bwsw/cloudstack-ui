@@ -107,6 +107,7 @@
     },
     "ISO": {
       "INVALID_ISO": "Invalid ISO. Please specify valid URL.",
+      "DETACHMENT_FAILED": "Failed to detach an ISO",
       "VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
     },
     "TEMPLATE": {
