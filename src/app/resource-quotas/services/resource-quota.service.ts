@@ -7,6 +7,8 @@ import { configSelectors, State } from '../../root-store';
 import { switchMap } from 'rxjs/operators';
 import { ResourceLimit } from '../../shared/models';
 
+const isNumber = require('lodash/isNumber');
+
 @Injectable()
 export class ResourceQuotaService {
   readonly pluginConfig$ = this.store.pipe(select(configSelectors.get('resourceLimits')));
@@ -29,10 +31,10 @@ export class ResourceQuotaService {
     }[],
   ): Observable<ResourceQuota[]> {
     const params = resourceQuotas.reduce((memo, { resourceType, minimum, maximum }) => {
-      if (minimum) {
+      if (isNumber(minimum)) {
         memo[`minimum${resourceType}`] = minimum;
       }
-      if (maximum) {
+      if (isNumber(maximum)) {
         memo[`maximum${resourceType}`] = maximum;
       }
       return memo;
