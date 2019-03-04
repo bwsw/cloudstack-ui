@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker login --u $BWSW_DOCKER_USERNAME -p $BWSW_DOCKER_PASSWORD
+docker login -u $BWSW_DOCKER_USERNAME -p $BWSW_DOCKER_PASSWORD
 
 # Сreates a tagged image if the assembly was launched from the tagged commit
 TAG=${GIT_TAG_NAME:-latest}
