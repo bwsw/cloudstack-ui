@@ -339,7 +339,7 @@ msgstr "Запись на/Чтение с диска"
 
 #: ../../CS-UI_Pulse.rst:124
 msgid "Disk read/Disk write (IOPS)"
-msgstr " Запись на/Чтение с диска (IOPS)"
+msgstr "Запись на/Чтение с диска (IOPS)"
 
 #: ../../CS-UI_Pulse.rst:125
 msgid "Disk IO errors"
