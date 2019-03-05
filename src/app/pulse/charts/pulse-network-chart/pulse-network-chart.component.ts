@@ -14,7 +14,7 @@ import { NIC } from '../../../shared/models/nic.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { PulseService } from '../../pulse.service';
 import { humanReadableSizeInBits } from '../../units-utils';
-import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
+import { defaultChartOptions, getChart, PulseChartComponent, tooltipLabel } from '../pulse-chart';
 
 @Component({
   selector: 'cs-pulse-network-chart',
@@ -36,6 +36,11 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
 
   public ngOnInit() {
     const unitTranslations = this.unitTranslations;
+    const bitsConverter = val => {
+      return !!humanReadableSizeInBits(val)
+        ? `${humanReadableSizeInBits(val, unitTranslations)}/${unitTranslations['S']}`
+        : null;
+    };
 
     this.charts = getChart([
       {
@@ -49,13 +54,19 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
                 ticks: {
                   ...defaultChartOptions.scales.yAxes[0].ticks,
                   userCallback(val) {
-                    return !!humanReadableSizeInBits(val)
-                      ? `${humanReadableSizeInBits(val, unitTranslations)}/${unitTranslations['S']}`
-                      : null;
+                    return bitsConverter(val);
                   },
                 },
               },
             ],
+          },
+          tooltips: {
+            ...defaultChartOptions.tooltips,
+            callbacks: {
+              label: (tooltipItem, data) => {
+                return tooltipLabel(tooltipItem, data) + bitsConverter(tooltipItem.yLabel);
+              },
+            },
           },
         },
       },

@@ -14,7 +14,7 @@ import { isRoot, Volume } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { PulseService } from '../../pulse.service';
 import { humanReadableSize } from '../../units-utils';
-import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
+import { defaultChartOptions, getChart, PulseChartComponent, tooltipLabel } from '../pulse-chart';
 
 @Component({
   selector: 'cs-pulse-disk-chart',
@@ -37,6 +37,12 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
   public ngOnInit() {
     const unitTranslations = this.unitTranslations;
 
+    const bytesConverter = val => {
+      return !!humanReadableSize(val, true)
+        ? `${humanReadableSize(val, true, unitTranslations)}/${unitTranslations['S']}`
+        : null;
+    };
+
     this.charts = getChart([
       {
         id: 'bytes',
@@ -49,13 +55,19 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
                 ticks: {
                   ...defaultChartOptions.scales.yAxes[0].ticks,
                   userCallback(val) {
-                    return !!humanReadableSize(val, true)
-                      ? `${humanReadableSize(val, true, unitTranslations)}/${unitTranslations['S']}`
-                      : null;
+                    return bytesConverter(val);
                   },
                 },
               },
             ],
+          },
+          tooltips: {
+            ...defaultChartOptions.tooltips,
+            callbacks: {
+              label: (tooltipItem, data) => {
+                return tooltipLabel(tooltipItem, data) + bytesConverter(tooltipItem.yLabel);
+              },
+            },
           },
         },
       },

@@ -3,7 +3,7 @@ import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { humanReadableSize } from '../../units-utils';
-import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
+import { defaultChartOptions, getChart, PulseChartComponent, tooltipLabel } from '../pulse-chart';
 
 @Component({
   selector: 'cs-pulse-cpu-chart',
@@ -13,6 +13,8 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 export class PulseCpuRamChartComponent extends PulseChartComponent implements OnInit {
   public ngOnInit() {
     const unitTranslations = this.unitTranslations;
+    const ramConverter = val => humanReadableSize(val * 1000, true, unitTranslations);
+
     this.charts = getChart([
       {
         id: 'cpu',
@@ -32,6 +34,14 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
               },
             ],
           },
+          tooltips: {
+            ...defaultChartOptions.tooltips,
+            callbacks: {
+              label: (tooltipItem, data) => {
+                return `${tooltipLabel(tooltipItem, data) + tooltipItem.yLabel}%`;
+              },
+            },
+          },
         },
       },
       {
@@ -45,11 +55,19 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
                 ticks: {
                   ...defaultChartOptions.scales.yAxes[0].ticks,
                   userCallback(val) {
-                    return humanReadableSize(val * 1000, true, unitTranslations);
+                    return ramConverter(val);
                   },
                 },
               },
             ],
+          },
+          tooltips: {
+            ...defaultChartOptions.tooltips,
+            callbacks: {
+              label: (tooltipItem, data) => {
+                return tooltipLabel(tooltipItem, data) + ramConverter(tooltipItem.yLabel);
+              },
+            },
           },
         },
       },
