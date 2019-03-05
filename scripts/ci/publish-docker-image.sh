@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e -u -o pipefail
+
 docker login -u $BWSW_DOCKER_USERNAME -p $BWSW_DOCKER_PASSWORD
 
 # Сreates a tagged image if the assembly was launched from the tagged commit
