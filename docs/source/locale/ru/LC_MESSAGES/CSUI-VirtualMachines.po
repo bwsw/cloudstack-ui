@@ -1470,7 +1470,7 @@ msgid ""
 "Click EDIT to view the data in the editing mode. Make necessary changes and save "
 "them."
 msgstr ""
-"Нажмите РЕДАКТИРОВАТЬ для просмотра данные в режиме редактирования. Внесите "
+"Нажмите РЕДАКТИРОВАТЬ для просмотра данных в режиме редактирования. Внесите "
 "изменения в текстовом поле и сохраните их."
 
 #: ../../CSUI-VirtualMachines.rst:477
