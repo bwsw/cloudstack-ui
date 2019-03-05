@@ -97,6 +97,7 @@
   "ERRORS": {
     "SUPPORT_INFORMATION": "Support information",
     "COMMON": {
+      "INTERNAL_ERROR": "Internal error",
       "THE_NAME_IS_TAKEN": "The name {{ val1 }} is taken"
     },
     "AUTH": {
@@ -162,8 +163,10 @@
     },
     "RESOURCE_QUOTAS": {
       "FAILED_RETRIEVE": "You can not change any resource limits",
+      "FAILED_UPDATE": "You can not resource limit",
       "MAX_MUST_BE_GREATER": "Maximum must be greater than or equal to minimum",
-      "MAX_MUST_BE_BETWEEN": "Maximum must be between {{ val1 }} and {{ val2 }}"
+      "MAX_MUST_BE_BETWEEN": "Maximum must be between {{ val1 }} and {{ val2 }}",
+      "NO_BILLING_ID": "Billing Id doesn't specified for user"
     }
   },
   "NOTIFICATIONS": {
@@ -1564,7 +1567,7 @@
       "NETWORK": "Network",
       "VPCS": "VPCs",
       "CPUS": "CPUs",
-      "MEMORY": "Memory (MB)",
+      "MEMORY": "Memory (GB)",
       "PRIMARY_STORAGE": "Primary storage (GB)",
       "SECONDARY_STORAGE": "Secondary storage (GB)"
     },

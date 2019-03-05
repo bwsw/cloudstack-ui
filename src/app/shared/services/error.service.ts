@@ -94,12 +94,20 @@ export class ErrorService {
       translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
     },
     {
+      regex: /Can not update resource with a limit equal to -1/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_UPDATE',
+    },
+    {
       regex: /maximum must be greater than or equal to minimum/,
       translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_GREATER',
     },
     {
       regex: /max must be between (\d+) and (\d+)/,
       translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_BETWEEN',
+    },
+    {
+      regex: /billingid must be specified in accountdetails/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.NO_BILLING_ID',
     },
     {
       regex: /Unable to detach volume, please specify a VM that does not have VM snapshots/,
@@ -144,6 +152,10 @@ export class ErrorService {
     {
       regex: /Public key is invalid/,
       translation: 'ERRORS.SSH.PUBLIC_KEY_INVALID',
+    },
+    {
+      regex: /Internal (Server )?Error/,
+      translation: 'ERRORS.COMMON.INTERNAL_ERROR',
     },
   ];
 
