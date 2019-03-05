@@ -16,6 +16,8 @@ We consider this plugin very important for the CloudStack ecosystem as currently
 
 Plugin deployment and configuration Instructions can be found below.
 
+.. _PulseDeployment:
+
 Deployment Instructions
 ------------------------------
 
