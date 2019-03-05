@@ -84,7 +84,7 @@ At the screenshot below, you can see statistics for the last day with 30-minute 
 
 .. figure:: _static/Pulse_Filters.png
 
-The system saves defined settings within the session. They are used in all other tabs, that means if you set CPU/memory report settings, you will see graphs for NIC and disks with the same settings.
+The system saves defined settings. They are used in all other tabs, that means if you set CPU/memory report settings and then move to other tabs, you will see graphs for NIC and disks built with the same settings.
 
 If you change settings, the graphs change immediately. You can refresh the graph reports as often as you wish by clicking at |refresh icon|.
 
