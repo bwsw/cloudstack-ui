@@ -7,15 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-10 15:17+0700\n"
-"PO-Revision-Date: 2019-01-11 17:02+0700\n"
+"POT-Creation-Date: 2019-03-05 11:59+0700\n"
+"PO-Revision-Date: 2019-03-05 12:03+0700\n"
+"Last-Translator: \n"
+"Language: ru\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.4.0\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: ru\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
 #: ../../CS-UI_Pulse.rst:4
@@ -31,39 +33,39 @@ msgid ""
 "The Pulse plugin is designed for visualization of virtual machines "
 "performance statistics. Currently, this CloudStack-UI extension is only "
 "compatible with ACS clusters that use the KVM hypervisor. With help of "
-"sensors that collect virtual machines performance statistics via the "
-"Libvirt API and store them in an InfluxDB datastore and RESTful "
-"statistics server, CloudStack-UI is able to display CPU, RAM, disk IO and "
-"network traffic utilization in the form of convenient visual charts."
+"sensors that collect virtual machines' performance statistics via the Libvirt "
+"API and store them to an InfluxDB datastore and RESTful statistics server, "
+"CloudStack-UI is able to display CPU, RAM, disk IO and network traffic "
+"utilization in the form of convenient visual charts."
 msgstr ""
-"Плагин Pulse создан для визуализации статистики работы виртуальной "
-"машины. В текущей реализации данное расширение CloudStack-UI совместимо "
-"только с кластерами ACS, использующими гипервизор KVM. С помощью "
-"сенсоров, которые собирают статистику работы виртуальной машины "
-"посредством Libvirt API и сохраняют ее в хранилище InfluxDB и на сервер "
-"статистики с сетевой архитектурой REST, CloudStack-UI может отобразить "
-"объемы используемых ресурсов - CPU, RAM, диски для ввода/вывода данных и "
-"сетевой трафик - в форме наглядных графиков."
+"Плагин Pulse создан для визуализации статистики работы виртуальной машины. В "
+"текущей реализации данное расширение CloudStack-UI совместимо только с "
+"кластерами ACS, использующими гипервизор KVM. С помощью сенсоров, которые "
+"собирают статистику работы виртуальной машины посредством Libvirt API и "
+"сохраняют ее в хранилище InfluxDB и на сервер статистики с сетевой "
+"архитектурой REST, CloudStack-UI может отобразить объемы используемых "
+"ресурсов - CPU, RAM, диски для ввода/вывода данных и сетевой трафик - в форме "
+"наглядных графиков."
 
 #: ../../CS-UI_Pulse.rst:13
 msgid ""
 "Pulse allows users of Apache CloudStack to monitor current and previous "
 "operational states of virtual machines. The plugin supports various view "
-"scales like minutes, hours, days and enables data overlays to monitor "
-"peak and average values."
+"scales like minutes, hours, days and enables data overlays to monitor peak "
+"and average values."
 msgstr ""
-"Pulse дает возможность пользователям Apache CloudStack контролировать "
-"текущее и предшествующие рабочие состояния виртуальных машин. Плагин "
-"поддерживает различную группировку данных по времени - поминутная, "
-"почасовая, посуточная, а также позволяет производить наложение данных для "
-"отслеживания средних и пиковых значений. "
+"Pulse дает возможность пользователям Apache CloudStack контролировать текущее "
+"и предшествующие рабочие состояния виртуальных машин. Плагин поддерживает "
+"различную группировку данных по времени - поминутная, почасовая, посуточная, "
+"а также позволяет производить наложение данных для отслеживания средних и "
+"пиковых значений. "
 
 #: ../../CS-UI_Pulse.rst:15
 msgid ""
 "We consider this plugin very important for the CloudStack ecosystem as "
-"currently there is no built-in functionality to track VM operational "
-"states, although it is vital for system administrators to successfully "
-"operate virtual servers."
+"currently there is no built-in functionality to track VM operational states, "
+"although it is vital for system administrators to successfully operate "
+"virtual servers."
 msgstr ""
 "На наш взгляд, данный плагин важен в экосистеме CloudStack, т.к. сейчас в "
 "CloudStack не существует встроенной системы для отслеживания рабочих "
@@ -84,8 +86,8 @@ msgstr "На данный момент плагин Pulse работает то�
 
 #: ../../CS-UI_Pulse.rst:24
 msgid ""
-"Please, make sure that you have `cs-pulse-server <https://github.com/bwsw/"
-"cs-pulse-server>`_ and `cs-pulse-sensor <https://github.com/bwsw/cs-pulse-"
+"Please, make sure that you have `cs-pulse-server <https://github.com/bwsw/cs-"
+"pulse-server>`_ and `cs-pulse-sensor <https://github.com/bwsw/cs-pulse-"
 "sensor>`_ to be able to work with the Pulse plugin."
 msgstr ""
 "Для работы с плагином Pulse убедитесь, что у вас есть `cs-pulse-server "
@@ -102,24 +104,243 @@ msgstr "Задать настройки для Pulse в ``config.json``."
 
 #: ../../CS-UI_Pulse.rst:29
 msgid ""
-"Run docker container with a correctly specified ``cs-pulse-server`` "
-"endpoint."
+"Run docker container with a correctly specified ``cs-pulse-server`` endpoint."
 msgstr ""
 "Запустить docker-контейнер, в котором указан корректный адрес ``cs-pulse-"
 "server``."
 
 #: ../../CS-UI_Pulse.rst:32
-msgid "Pulse configuration"
+msgid "Pulse Configuration"
 msgstr "Настройка Pulse"
 
 #: ../../CS-UI_Pulse.rst:34
 msgid ""
-"Please, enable ``pulse`` in the extensions section of the ``config."
-"json``::"
+"Please, enable ``pulse`` in the extensions section of the ``config.json``::"
 msgstr ""
 "Включите ``pulse`` в блоке ``extentions`` в файле конфигураций ``config."
 "json``::"
 
 #: ../../CS-UI_Pulse.rst:43
-msgid "Running cloudstack-ui docker container"
+msgid "Running Cloudstack-UI Docker Container"
 msgstr "Запуск ``cloudstack-ui`` из контейнера"
+
+#: ../../CS-UI_Pulse.rst:54
+msgid "View VM Performance Statistics via UI"
+msgstr "Просмотр статистики работы виртуальной машины через интерфейс"
+
+#: ../../CS-UI_Pulse.rst:56
+msgid ""
+"After the plugin is activated in the configuration file, you will see the "
+"\"Pulse\" option in the Action box."
+msgstr ""
+"После активации плагина через файл конфигурации в контекстном меню "
+"виртуальной машины появится опция \"Pulse\"."
+
+#: ../../CS-UI_Pulse.rst:58
+msgid "The option is only available for machines in the Running status."
+msgstr "Данная опция доступна только для запущенных машин."
+
+#: ../../CS-UI_Pulse.rst:62
+msgid ""
+"By selecting this option you open a modal window that shows the virtual "
+"machine performance statistics in graphs. In separate tabs, you can view "
+"statistics for the following metrics:"
+msgstr ""
+"Выберите данную опцию. Откроется модальное окно, в котором отображается "
+"статистика работы машины в виде графиков. В отдельных вкладках можно видеть "
+"отчеты по следующим метрикам:"
+
+#: ../../CS-UI_Pulse.rst:64
+msgid "CPU/Memory"
+msgstr "ЦП / Память"
+
+#: ../../CS-UI_Pulse.rst:65
+msgid "Network"
+msgstr "Сеть"
+
+#: ../../CS-UI_Pulse.rst:66
+msgid "Disk"
+msgstr "Диск"
+
+#: ../../CS-UI_Pulse.rst:68
+msgid ""
+"Reports are presented in a graphic form. By default, at the moment the window "
+"opens graphics display data for the last 30 minutes with aggregation by 1 "
+"minute and a 1 minute shift. You can adjust settings to get statistics for "
+"any other period. Read more about settings below."
+msgstr ""
+"Статистичекие отчеты представляются в виде графиков. По умолчанию, окно "
+"открывается на вкладке \"ЦП / Память\" и отображает статистику за последние "
+"30 минут с агрегацией 1 минута и сдвигом 1 минута (если не сохранены иные "
+"настройки). Для формирования отчетов за другой период необходимо изменить "
+"настройки. Подробнее об этом читайте ниже."
+
+#: ../../CS-UI_Pulse.rst:73
+msgid "General Settings"
+msgstr "Общие настройки"
+
+#: ../../CS-UI_Pulse.rst:75
+msgid "To get statistics for a virtual machine set up general settings:"
+msgstr ""
+"Чтобы получить статистику по работе виртуальной машины, задайте общие "
+"настройки:"
+
+#: ../../CS-UI_Pulse.rst:77
+msgid ""
+"**Range** - Select the time interval to show the statistics for. You can "
+"select one of the following: 15m, 30m, 1h, 2h, 4h, 12h, 1d, 1w, 30d."
+msgstr ""
+"**Диапазон** - Выберите временной интервал, за который вы хотите получить "
+"данные. Можно выбрать одну из следующих опций:  15 минут, 30 минут, 1 час, 2 "
+"часа, 4 часа, 12 часа, 1 день, 1 неделя, 30 дней."
+
+#: ../../CS-UI_Pulse.rst:78
+msgid ""
+"**Aggregation** - Select the interval(s) for data aggregation. Available "
+"options here depend on the selected range. Aggregation value is always less "
+"than the range value. When several options are selected, graphs are marked "
+"with different colors and displayed as overlaid."
+msgstr ""
+"**Агрегация** - Выберите интервал(ы), по которым данные будут агрегироваться. "
+"Список доступных опций зависят от выбранного диапазона.  Значение агрегации "
+"всегда меньше значения диапазона. При выборе нескольких опций  графики по "
+"каждой опции отмечаются разными цветами и накладываются друг на друга."
+
+#: ../../CS-UI_Pulse.rst:79
+msgid ""
+"**Shift** - Define a numeric value and select a measurement unit for the "
+"graph shift. You can shift the graphs manually by clicking at arrows </> to "
+"the right or left from the graph."
+msgstr ""
+"**Сдвиг** - Задайте числовое значение и выберите единицы измерения для сдвига "
+"графика. Также, график можно двигать вручную кликом на стрелки справа и слева "
+"от графика."
+
+#: ../../CS-UI_Pulse.rst:81
+msgid "All settings are required."
+msgstr "Все настройки обязательны."
+
+#: ../../CS-UI_Pulse.rst:83
+msgid ""
+"At the screenshot below, you can see statistics for the last day with 30-"
+"minute and 1-hour aggregation with the 2-hour shift."
+msgstr ""
+"На изображении ниже представлена статистика за последний день с агрегацией 30 "
+"минут и 1 час и сдвигом 2 часа."
+
+#: ../../CS-UI_Pulse.rst:87
+msgid ""
+"The system saves defined settings. They are used in all other tabs, that "
+"means if you set CPU/memory report settings and then move to other tabs, you "
+"will see graphs for NIC and disks built with the same settings."
+msgstr ""
+"Система сохраняет заданные настройки. Они используются в остальных вкладках. "
+"Это значит, что если вы задали настройки для получения отчета по "
+"использованию ЦП/памяти, то при перемещении между вкладками вы увидите, что "
+"графики по сети и дискам будут автоматически построены с заданными "
+"настройками."
+
+#: ../../CS-UI_Pulse.rst:89
+msgid ""
+"If you change settings, the graphs change immediately. You can refresh the "
+"graph reports as often as you wish by clicking at |refresh icon|."
+msgstr ""
+"При изменении настроек графики сразу перестраиваются. Также, графики можно "
+"обновлять вручную так часто, как это нужно, нажатием на |refresh icon|."
+
+#: ../../CS-UI_Pulse.rst:91
+msgid ""
+"When hovering on the graph, you can see details corresponding to this point: "
+"a date, a parameter and its value."
+msgstr ""
+"При наведении мыши на график можно просмотреть детали, соответствующие данной "
+"точке: дата,  параметр, значение параметра."
+
+#: ../../CS-UI_Pulse.rst:94
+msgid "Statistic Metrics"
+msgstr "Метрики статистики"
+
+#: ../../CS-UI_Pulse.rst:96
+msgid "**CPU/Memory**"
+msgstr "**ЦП / Память**"
+
+#: ../../CS-UI_Pulse.rst:98
+msgid ""
+"This is the first tab that opens by default. In the CPU/Memory tab, you can "
+"view the statistics of CPU/Memory usage by the machine."
+msgstr ""
+"Это первая вкладка, которая открывается по умолчанию при выборе опции \"Pulse"
+"\" в контекстном меню машины. Здесь можно просмотреть статистику "
+"использования ЦП / памяти виртуальной машины."
+
+#: ../../CS-UI_Pulse.rst:100
+msgid ""
+"CPU and Memory usage statistics is presented in different graphs. To build "
+"graphs it is enough to define general settings."
+msgstr ""
+"Статистика использования ЦП и памяти представлена на отдельных графиках. "
+"Чтобы построить графики достаточно задать общие настройки."
+
+#: ../../CS-UI_Pulse.rst:104
+msgid "**Network**"
+msgstr "**Сеть**"
+
+#: ../../CS-UI_Pulse.rst:106
+msgid ""
+"In this tab, you can view the statistics for network traffic usage. To build "
+"the graphs you should define general settings and select a NIC for which you "
+"want to get the report."
+msgstr ""
+"В данной вкладке можно просматривать статистику использования сетевого "
+"трафика. Чтобы построить графики, необходимо задать общие настройки  и "
+"выбрать сеть, для которой нужно получить отчет."
+
+#: ../../CS-UI_Pulse.rst:108
+msgid "Network statistics displays in four graphs by the following metrics:"
+msgstr "Статистика сети отображается на четырех графиках по следующим метрикам:"
+
+#: ../../CS-UI_Pulse.rst:110
+msgid "Network read/Network write"
+msgstr "Прочитано по сети/Отправлено по сети"
+
+#: ../../CS-UI_Pulse.rst:111
+msgid "Network read packets/Network write packets"
+msgstr "Прочитано по сети (пакетов)/Отправлено по сети (пакетов)"
+
+#: ../../CS-UI_Pulse.rst:112
+msgid "Network write drops/Network read drops"
+msgstr "Потери при записи/Потери при чтении"
+
+#: ../../CS-UI_Pulse.rst:113
+msgid "Network write errors/Network read errors"
+msgstr "Ошибки при чтении/Ошибки при записи"
+
+#: ../../CS-UI_Pulse.rst:117
+msgid "**Disk**"
+msgstr "**Диск**"
+
+#: ../../CS-UI_Pulse.rst:119
+msgid ""
+"In this tab, you can view the statistics for disk space usage. To build the "
+"graphs you should define general settings and select a disk for which you "
+"want to get the report."
+msgstr ""
+"В данной вкладке можно просматривать статистику использования дискового "
+"пространства. Чтобы построить графики, нужно задать общие настройки  и "
+"выбрать диск, для которого необходимо получить отчет."
+
+#: ../../CS-UI_Pulse.rst:121
+msgid "Disk statistics displays in three graphs by the following metrics:"
+msgstr "Статистика диска отображается на трех графиках по следующим метрикам:"
+
+#: ../../CS-UI_Pulse.rst:123
+msgid "Disk read/Disk write"
+msgstr "Запись на/Чтение с диска"
+
+#: ../../CS-UI_Pulse.rst:124
+msgid "Disk read/Disk write (IOPS)"
+msgstr " Запись на/Чтение с диска (IOPS)"
+
+#: ../../CS-UI_Pulse.rst:125
+msgid "Disk IO errors"
+msgstr "Ошибки IO"
