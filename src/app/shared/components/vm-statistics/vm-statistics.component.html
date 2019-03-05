@@ -11,28 +11,31 @@
     </button>
   </h5>
   <div class="stat-list" [class.closed]="!isOpen">
-    <ng-container *ngIf="isAdmin">
-      <mat-button-toggle-group (change)="switchType()">
-        <mat-button-toggle value="0" [checked]="statsType === 0">
-          {{ 'VM_PAGE.RESOURCE_USAGE.ACCOUNT' | translate }}
+    <div class="stat-list-actions">
+      <ng-container *ngIf="isAdmin">
+        <mat-button-toggle-group (change)="switchType()">
+          <mat-button-toggle value="0" [checked]="statsType === 0">
+            {{ 'VM_PAGE.RESOURCE_USAGE.ACCOUNT' | translate }}
+          </mat-button-toggle>
+          <mat-button-toggle value="1" [checked]="statsType === 1">
+            {{ 'VM_PAGE.RESOURCE_USAGE.DOMAIN' | translate }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </ng-container>
+
+      <mat-button-toggle-group (change)="switchMode()">
+        <mat-button-toggle value="0" [checked]="mode === 0">
+          {{ 'VM_PAGE.RESOURCE_USAGE.USED' | translate }}
         </mat-button-toggle>
-        <mat-button-toggle value="1" [checked]="statsType === 1">
-          {{ 'VM_PAGE.RESOURCE_USAGE.DOMAIN' | translate }}
+        <mat-button-toggle value="1" [checked]="mode === 1">
+          {{ 'VM_PAGE.RESOURCE_USAGE.FREE' | translate }}
         </mat-button-toggle>
       </mat-button-toggle-group>
-    </ng-container>
-    <mat-button-toggle-group (change)="switchMode()">
-      <mat-button-toggle value="0" [checked]="mode === 0">
-        {{ 'VM_PAGE.RESOURCE_USAGE.USED' | translate }}
-      </mat-button-toggle>
-      <mat-button-toggle value="1" [checked]="mode === 1">
-        {{ 'VM_PAGE.RESOURCE_USAGE.FREE' | translate }}
-      </mat-button-toggle>
-    </mat-button-toggle-group>
 
-    <cs-request-resources-button-container
-      class="request-resources"
-    ></cs-request-resources-button-container>
+      <cs-request-resources-button-container
+        class="request-resources"
+      ></cs-request-resources-button-container>
+    </div>
 
     <div class="stat-list-container">
       <mat-card *ngFor="let stat of statsList" class="stat-card-md">
