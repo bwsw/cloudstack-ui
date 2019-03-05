@@ -16,6 +16,8 @@ CI_TYPE_LOWER=`echo "$CI_TYPE" | tr '[:upper:]' '[:lower:]'`
 
 if [[ "$CI_TYPE" == "RELEASE" ]]; then
   docker build -t ${DOCKER_USER}/${DOCKER_REPO} .
+elif [[ "$CI_TYPE" == "MASTER" ]]; then
+  docker build -t cloudstack-ui-${CI_TYPE_LOWER} .
 else
   buildForDeployment
 fi
