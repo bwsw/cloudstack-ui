@@ -37,6 +37,7 @@ exports.config = {
   suites: {
     login: './e2e/login.e2e-spec.ts',
     vm_creation: './e2e/vm-creation.e2e-spec.ts',
+    vm_sidebar: './e2e/vm-sidebar.e2e-spec.ts',
   },
   jasmineNodeOpts: {
     showColors: true,

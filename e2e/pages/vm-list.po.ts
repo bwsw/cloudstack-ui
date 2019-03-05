@@ -2,6 +2,13 @@ import { CloudstackUiPage } from './app.po';
 import { browser, by, element, protractor } from 'protractor';
 
 export class VMList extends CloudstackUiPage {
+  getVMColor(index) {
+    return element
+      .all(by.tagName('cs-vm-list mat-card'))
+      .get(index)
+      .getAttribute('style');
+  }
+
   getVMNameCard() {
     return element
       .all(by.css('.entity-card-title.mat-card-title'))
@@ -27,7 +34,7 @@ export class VMList extends CloudstackUiPage {
 
   clickOpenSidebar(index) {
     element
-      .all(by.css('.entity-card.mat-card.light-background'))
+      .all(by.css('cs-vm-list mat-card'))
       .get(index)
       .click();
     const EC = protractor.ExpectedConditions;

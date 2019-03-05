@@ -182,4 +182,12 @@ export class CloudstackUiPage {
       .toString(36)
       .substr(2, 9);
   }
+
+  clickBell() {
+    element(by.css('cs-notification-box button')).click();
+  }
+
+  verifyBellMessage(text) {
+    return element(by.cssContainingText('.message', text)).isPresent();
+  }
 }
