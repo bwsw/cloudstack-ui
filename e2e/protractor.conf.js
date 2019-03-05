@@ -31,6 +31,7 @@ exports.config = {
   suites: {
     login: './e2e/login.e2e-spec.ts',
     vm_creation: './e2e/vm-creation.e2e-spec.ts',
+    disk_creation: './e2e/disk-creation.e2e-spec.ts',
   },
   params: {
     so: 'Small Instance',
