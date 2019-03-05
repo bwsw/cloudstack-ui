@@ -1451,7 +1451,7 @@ msgid ""
 "User data - Allows viewing, editing and copying user data applied to the machine."
 msgstr ""
 "User data - позволяет просматривать, редактировать и копировать пользовательские "
-"данные, используемые для машине."
+"данные, используемые для машины."
 
 #: ../../CSUI-VirtualMachines.rst:467
 msgid ""
