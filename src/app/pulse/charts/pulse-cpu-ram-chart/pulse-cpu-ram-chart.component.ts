@@ -38,7 +38,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
             ...defaultChartOptions.tooltips,
             callbacks: {
               label: (tooltipItem, data) => {
-                return `${tooltipLabel(tooltipItem, data) + tooltipItem.yLabel}%`;
+                return `${tooltipLabel(tooltipItem, data)}${tooltipItem.yLabel}%`;
               },
             },
           },
