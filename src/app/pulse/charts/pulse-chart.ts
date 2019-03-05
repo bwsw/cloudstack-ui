@@ -88,6 +88,13 @@ export function getChart(config: any[]) {
   });
 }
 
+export function tooltipLabel(tooltipItem, data): string {
+  const label = data.datasets[tooltipItem.datasetIndex].label
+    ? `${data.datasets[tooltipItem.datasetIndex].label}: `
+    : '';
+  return label;
+}
+
 @Injectable()
 export abstract class PulseChartComponent {
   @Input()

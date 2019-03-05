@@ -1,4 +1,4 @@
-export { PulseChart } from './pulse-chart';
+export { PulseChart, PulseChartComponent } from './pulse-chart';
 
 export { PulseDiskChartComponent } from './pulse-disk-chart/pulse-disk-chart.component';
 export { PulseNetworkChartComponent } from './pulse-network-chart/pulse-network-chart.component';
