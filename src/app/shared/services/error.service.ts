@@ -130,6 +130,10 @@ export class ErrorService {
       translation: 'ERRORS.ISO.INVALID_ISO',
     },
     {
+      regex: /Failed to detach iso/,
+      translation: 'ERRORS.ISO.DETACHMENT_FAILED',
+    },
+    {
       regex: /Please specify a valid qcow2/,
       translation: 'ERRORS.TEMPLATE.INVALID_TEMPLATE',
     },
