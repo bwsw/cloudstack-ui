@@ -67,7 +67,7 @@ By selecting this option you open a modal window that shows the virtual machine 
 * Network 
 * Disk 
 
-Reports are presented in a graphic form. By default, at the moment the window opens graphics display data for the last 30 minutes with aggregation by 1 minute and a 1 minute shift. You can adjust settings to get statistics for any other period. Read more about settings below.
+Reports are presented in a graphic form. The building of charts is based on the defined settings. By default, the first option in the list is selected for each setting. You can adjust settings to get statistics for the period you wish. Read more about the settings below.
 
 .. figure:: _static/Pulse.png
 
