@@ -2,6 +2,8 @@ import { browser, by, element, protractor } from 'protractor';
 import { CloudstackUiPage } from './app.po';
 
 export class VMSidebar extends CloudstackUiPage {
+  group = `e2e_group_${this.generateID()}`;
+
   clickColorChange() {
     element(by.css('.color-preview-container')).click();
     const color = element
@@ -29,21 +31,63 @@ export class VMSidebar extends CloudstackUiPage {
     return element(by.tagName('h4')).getText();
   }
 
-  setGroup(text) {
+  clickEditGroup() {
     const edit = element(by.css('cs-instance-group mat-icon.mdi-pencil.mat-icon.mdi'));
     const EC = protractor.ExpectedConditions;
     browser.wait(EC.elementToBeClickable(edit), 2000, 'No edit Group button').then(() => {
       edit.click();
       this.waitDialogModal();
-      element(by.cssContainingText('.mat-radio-label-content', 'Create a new group')).click();
-      element(by.css('cs-create-update-delete-dialog input[name=textValue]'))
-        .clear()
-        .sendKeys(text);
-      element(by.css('mat-dialog-container button[type=submit]')).click();
-      browser.waitForAngular();
-      expect(element(by.css('cs-instance-group div.ng-star-inserted')).getText()).toEqual(text);
     });
   }
+
+  setNewGroupOption(group) {
+    const EC = protractor.ExpectedConditions;
+    element(by.cssContainingText('.mat-radio-label-content', 'Create a new group')).click();
+    element(by.css('cs-create-update-delete-dialog input[name=textValue]'))
+      .clear()
+      .sendKeys(group);
+    element(by.css('mat-dialog-container button[type=submit]')).click();
+  }
+
+  setExistingGroupOption() {
+    element(by.name('selectValue')).click();
+    const group = element(by.css('mat-option[aria-selected=false] span.mat-option-text'));
+    const groupText = group.getText();
+    group.click();
+    element(by.css('mat-dialog-container button[type=submit]')).click();
+    return groupText;
+  }
+
+  setRemoveGroupOption() {}
+
+  waitGroupChanged(group) {
+    const EC = protractor.ExpectedConditions;
+    browser.wait(
+      EC.textToBePresentInElement(element(by.css('cs-instance-group div.ng-star-inserted')), group),
+      5000,
+      'Group name is not changed in sidebar VM',
+    );
+  }
+
+  /* getAllResults() { // returns a promise for 250 results
+    let totalResults = [];
+    let prom = getResults.get();
+    for (let i = 0; i < 4; i++) { // chain four more times
+      prom = prom.then(results => {
+        totalResults = totalResults.concat(results);
+        return getResults.get();
+      });
+    }
+    return prom.then( results => totalResults.concat(results) );
+  }
+
+  let promiseChain = [];
+  for(let i = 0; i <5; i++){
+  promiseChain.push(getResults.get());
+}
+
+Promise.all(promiseChain)
+  .then(callback) */
 
   getGroup() {
     return element(by.tagName('cs-instance-group'))

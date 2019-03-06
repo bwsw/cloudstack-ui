@@ -184,6 +184,11 @@ export class CloudstackUiPage {
   }
 
   clickBell() {
+    browser.wait(
+      protractor.ExpectedConditions.elementToBeClickable(
+        element(by.css('cs-notification-box button')),
+      ),
+    );
     element(by.css('cs-notification-box button')).click();
   }
 

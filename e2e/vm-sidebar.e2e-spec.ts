@@ -1,7 +1,7 @@
 ///<reference path="../node_modules/@types/jasmine/index.d.ts"/>
 import { VMCreation } from './pages/vm-creation.po';
 import { VMDeploy } from './pages/vm-deploy.po';
-import { browser } from 'protractor';
+import { browser, by, element } from 'protractor';
 import { VMList } from './pages/vm-list.po';
 import { Login } from './pages/login.po';
 import { VMSidebar } from './pages/vm-sidebar.po';
@@ -46,11 +46,24 @@ describe('e2e-test-vm-sidebar', () => {
     sidebar.clickClose();
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage("Description changed")).toBeTruthy();
+  });
+
+  it('Verify new group is set', () => {
+    vmlist.clickOpenSidebar(0);
+    sidebar.clickEditGroup();
+    sidebar.setNewGroupOption(sidebar.group);
+    sidebar.waitGroupChanged(sidebar.group);
+    sidebar.clickClose();
+    vmlist.clickBell();
+    expect(vmlist.verifyBellMessage('Instance group changed')).toBeTruthy();
   });*/
 
-  it('Verify group is changed', () => {
+  it('Verify existing group can be set', () => {
     vmlist.clickOpenSidebar(0);
-    sidebar.setGroup('group');
+    sidebar.clickEditGroup();
+    const group = sidebar.setExistingGroupOption();
+    sidebar.waitGroupChanged(group);
+    expect(sidebar.getGroup()).toEqual(group);
     sidebar.clickClose();
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Instance group changed')).toBeTruthy();
