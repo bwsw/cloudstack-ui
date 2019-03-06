@@ -117,6 +117,7 @@ export class AuthService extends BaseBackendService<BaseModel> {
   private setLoggedOut(): void {
     this.userSubject.next(null);
     this.storage.remove('user');
+    this.storage.remove('userAccount');
     this.loggedIn.next(false);
   }
 }
