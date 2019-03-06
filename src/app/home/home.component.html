@@ -1,4 +1,4 @@
-<mat-sidenav-container fullscreen>
+<mat-sidenav-container fullscreen (backdropClick)="closeAppNav()">
   <mat-sidenav [opened]="showAppNav$ | async">
     <cs-app-nav
       [routes]="routes$ | async"
