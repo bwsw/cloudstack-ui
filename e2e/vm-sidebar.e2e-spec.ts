@@ -61,9 +61,10 @@ describe('e2e-test-vm-sidebar', () => {
   it('Verify existing group can be set', () => {
     vmlist.clickOpenSidebar(0);
     sidebar.clickEditGroup();
-    const group = sidebar.setExistingGroupOption();
-    sidebar.waitGroupChanged(group);
-    expect(sidebar.getGroup()).toEqual(group);
+    sidebar.setExistingGroupOption().then(group => {
+      sidebar.waitGroupChanged(group);
+      expect(sidebar.getGroup()).toEqual(group);
+    });
     sidebar.clickClose();
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Instance group changed')).toBeTruthy();
