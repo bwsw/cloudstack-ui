@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-05 14:41+0700\n"
-"PO-Revision-Date: 2019-03-05 14:47+0700\n"
+"POT-Creation-Date: 2019-03-07 11:42+0700\n"
+"PO-Revision-Date: 2019-03-07 11:46+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -187,24 +187,29 @@ msgstr ""
 
 #: ../../CS-UI_Pulse.rst:79
 msgid ""
-"**Range** - Select the time interval to show the statistics for. You can "
-"select one of the following: 15m, 30m, 1h, 2h, 4h, 12h, 1d, 1w, 30d."
+"**Range** - Select the time interval to show the statistics for. The "
+"following options are currently available: 15m, 30m, 1h, 2h, 4h, 12h, 1d, 1w, "
+"30d."
 msgstr ""
 "**Диапазон** - Выберите временной интервал, за который вы хотите получить "
-"данные. Можно выбрать одну из следующих опций:  15 минут, 30 минут, 1 час, 2 "
-"часа, 4 часа, 12 часа, 1 день, 1 неделя, 30 дней."
+"данные. Сейчас доступны следующие опции:  15 минут, 30 минут, 1 час, 2 часа, "
+"4 часа, 12 часа, 1 день, 1 неделя, 30 дней."
 
 #: ../../CS-UI_Pulse.rst:80
 msgid ""
 "**Aggregation** - Select the interval(s) for data aggregation. Available "
-"options here depend on the selected range. Aggregation value is always less "
-"than the range value. When several options are selected, graphs are marked "
-"with different colors and displayed as overlaid."
+"options here depend on the selected range. This can be defined in the "
+"`configuration file <https://github.com/bwsw/cs-pulse-server/blob/master/"
+"config.md>`_. Aggregation value is always less than the range value. When "
+"several options are selected, graphs are marked with different colors and "
+"displayed as overlaid."
 msgstr ""
 "**Агрегация** - Выберите интервал(ы), по которым данные будут агрегироваться. "
-"Список доступных опций зависят от выбранного диапазона.  Значение агрегации "
-"всегда меньше значения диапазона. При выборе нескольких опций  графики по "
-"каждой опции отмечаются разными цветами и накладываются друг на друга."
+"Список доступных опций зависят от выбранного диапазона.  Опции для каждого "
+"диапазона определяются в  `конфигурационном файле <https://github.com/bwsw/cs-"
+"pulse-server/blob/master/config.md>`_. Значение агрегации всегда меньше "
+"значения диапазона. При выборе нескольких опций  графики по каждой опции "
+"отмечаются разными цветами и накладываются друг на друга."
 
 #: ../../CS-UI_Pulse.rst:81
 msgid ""
@@ -222,13 +227,22 @@ msgstr "Все настройки обязательны."
 
 #: ../../CS-UI_Pulse.rst:85
 msgid ""
+"Options for all the settings should be defined in the `configuration file "
+"<https://github.com/bwsw/cs-pulse-server/blob/master/config.md>`_ on backend."
+msgstr ""
+"Доступные опции для всех настроек определяется в `конфигурационном файле "
+"<https://github.com/bwsw/cs-pulse-server/blob/master/config.md>`_ на стороне "
+"бэкенда."
+
+#: ../../CS-UI_Pulse.rst:87
+msgid ""
 "At the screenshot below, you can see statistics for the last day with 30-"
 "minute and 1-hour aggregation with the 2-hour shift."
 msgstr ""
 "На изображении ниже представлена статистика за последний день с агрегацией 30 "
 "минут и 1 час и сдвигом 2 часа."
 
-#: ../../CS-UI_Pulse.rst:89
+#: ../../CS-UI_Pulse.rst:91
 msgid ""
 "The system saves defined settings. They are used in all other tabs, that "
 "means if you set CPU/memory report settings and then move to other tabs, you "
@@ -237,10 +251,10 @@ msgstr ""
 "Система сохраняет заданные настройки. Они используются в остальных вкладках. "
 "Это значит, что если вы задали настройки для получения отчета по "
 "использованию ЦП/памяти, то при перемещении между вкладками вы увидите, что "
-"графики по сети и дискам будут автоматически построены с теми же "
+"графики по сети и дискам будут автоматически построены с заданными "
 "настройками."
 
-#: ../../CS-UI_Pulse.rst:91
+#: ../../CS-UI_Pulse.rst:93
 msgid ""
 "If you change settings, the graphs change immediately. You can refresh the "
 "graph reports as often as you wish by clicking at |refresh icon|."
@@ -248,7 +262,7 @@ msgstr ""
 "При изменении настроек графики сразу перестраиваются. Также, графики можно "
 "обновлять вручную так часто, как это нужно, нажатием на |refresh icon|."
 
-#: ../../CS-UI_Pulse.rst:93
+#: ../../CS-UI_Pulse.rst:95
 msgid ""
 "When hovering on the graph, you can see details corresponding to this point: "
 "a date, a parameter and its value."
@@ -256,15 +270,15 @@ msgstr ""
 "При наведении мыши на график можно просмотреть детали, соответствующие данной "
 "точке: дата,  параметр, значение параметра."
 
-#: ../../CS-UI_Pulse.rst:96
+#: ../../CS-UI_Pulse.rst:98
 msgid "Statistic Metrics"
 msgstr "Метрики статистики"
 
-#: ../../CS-UI_Pulse.rst:98
+#: ../../CS-UI_Pulse.rst:100
 msgid "**CPU/Memory**"
 msgstr "**ЦП / Память**"
 
-#: ../../CS-UI_Pulse.rst:100
+#: ../../CS-UI_Pulse.rst:102
 msgid ""
 "This is the first tab that opens by default. In the CPU/Memory tab, you can "
 "view the statistics of CPU/Memory usage by the machine."
@@ -273,7 +287,7 @@ msgstr ""
 "\" в контекстном меню машины. Здесь можно просмотреть статистику "
 "использования ЦП / памяти виртуальной машины."
 
-#: ../../CS-UI_Pulse.rst:102
+#: ../../CS-UI_Pulse.rst:104
 msgid ""
 "CPU and Memory usage statistics is presented in different graphs. To build "
 "graphs it is enough to define general settings."
@@ -281,11 +295,11 @@ msgstr ""
 "Статистика использования ЦП и памяти представлена на отдельных графиках. "
 "Чтобы построить графики достаточно задать общие настройки."
 
-#: ../../CS-UI_Pulse.rst:106
+#: ../../CS-UI_Pulse.rst:108
 msgid "**Network**"
 msgstr "**Сеть**"
 
-#: ../../CS-UI_Pulse.rst:108
+#: ../../CS-UI_Pulse.rst:110
 msgid ""
 "In this tab, you can view the statistics for network traffic usage. To build "
 "the graphs you should define general settings and select a NIC for which you "
@@ -295,31 +309,31 @@ msgstr ""
 "трафика. Чтобы построить графики, необходимо задать общие настройки  и "
 "выбрать сеть, для которой нужно получить отчет."
 
-#: ../../CS-UI_Pulse.rst:110
+#: ../../CS-UI_Pulse.rst:112
 msgid "Network statistics displays in four graphs by the following metrics:"
 msgstr "Статистика сети отображается на четырех графиках по следующим метрикам:"
 
-#: ../../CS-UI_Pulse.rst:112
+#: ../../CS-UI_Pulse.rst:114
 msgid "Network read/Network write"
 msgstr "Прочитано по сети/Отправлено по сети"
 
-#: ../../CS-UI_Pulse.rst:113
+#: ../../CS-UI_Pulse.rst:115
 msgid "Network read packets/Network write packets"
 msgstr "Прочитано по сети (пакетов)/Отправлено по сети (пакетов)"
 
-#: ../../CS-UI_Pulse.rst:114
+#: ../../CS-UI_Pulse.rst:116
 msgid "Network write drops/Network read drops"
 msgstr "Потери при записи/Потери при чтении"
 
-#: ../../CS-UI_Pulse.rst:115
+#: ../../CS-UI_Pulse.rst:117
 msgid "Network write errors/Network read errors"
 msgstr "Ошибки при чтении/Ошибки при записи"
 
-#: ../../CS-UI_Pulse.rst:119
+#: ../../CS-UI_Pulse.rst:121
 msgid "**Disk**"
 msgstr "**Диск**"
 
-#: ../../CS-UI_Pulse.rst:121
+#: ../../CS-UI_Pulse.rst:123
 msgid ""
 "In this tab, you can view the statistics for disk space usage. To build the "
 "graphs you should define general settings and select a disk for which you "
@@ -329,19 +343,19 @@ msgstr ""
 "пространства. Чтобы построить графики, нужно задать общие настройки  и "
 "выбрать диск, для которого необходимо получить отчет."
 
-#: ../../CS-UI_Pulse.rst:123
+#: ../../CS-UI_Pulse.rst:125
 msgid "Disk statistics displays in three graphs by the following metrics:"
 msgstr "Статистика диска отображается на трех графиках по следующим метрикам:"
 
-#: ../../CS-UI_Pulse.rst:125
+#: ../../CS-UI_Pulse.rst:127
 msgid "Disk read/Disk write"
 msgstr "Запись на/Чтение с диска"
 
-#: ../../CS-UI_Pulse.rst:126
+#: ../../CS-UI_Pulse.rst:128
 msgid "Disk read/Disk write (IOPS)"
 msgstr " Запись на/Чтение с диска (IOPS)"
 
-#: ../../CS-UI_Pulse.rst:127
+#: ../../CS-UI_Pulse.rst:129
 msgid "Disk IO errors"
 msgstr "Ошибки IO"
 
