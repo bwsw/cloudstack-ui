@@ -350,7 +350,7 @@
     "SSH_KEYS": "SSH keys",
     "ACCOUNTS": "Accounts",
     "RESOURCE_QUOTAS": "Resource quotas",
-    "LOGS": "View logs",
+    "LOGS": "System logs",
     "SETTINGS": "Settings",
     "LOGOUT": "Logout",
     "LICENSE": {
