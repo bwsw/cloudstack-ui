@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 11:07+0700\n"
-"PO-Revision-Date: 2019-01-30 11:10+0700\n"
+"POT-Creation-Date: 2019-03-07 11:40+0700\n"
+"PO-Revision-Date: 2019-03-07 11:48+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -293,11 +293,11 @@ msgstr ""
 "данных. В этом случае на ней предусмотрена кнопка \"Обновить\", которая "
 "позволяет обновить всю систему."
 
-#: ../../CSUI-Start.rst:98
+#: ../../CSUI-Start.rst:97
 msgid "Support Information in Error Messages"
 msgstr "Информация о технической поддержке при возникновении ошибок"
 
-#: ../../CSUI-Start.rst:100
+#: ../../CSUI-Start.rst:99
 msgid ""
 "A user can add the information on support services to all error messages to "
 "let users get assistance faster in case of a failure. Support information "
@@ -314,7 +314,7 @@ msgstr ""
 "контакнтые данные, например номера телефонов, адреса электронной почты или "
 "другие данные для быстрой связи со службой технической поддержки."
 
-#: ../../CSUI-Start.rst:102
+#: ../../CSUI-Start.rst:101
 msgid ""
 "The specified support details will display under a drop-down menu. Click it in "
 "the error message window to expand it."
@@ -323,9 +323,41 @@ msgstr ""
 "раскрывающемся блоке \"Информация о технической поддержке\" в окне уведомления "
 "об ошибке. Развернуть его можно кликом на блок."
 
-#: ../../CSUI-Start.rst:106
+#: ../../CSUI-Start.rst:105
 msgid "Localization of the file is supported."
 msgstr "Поддерживается локализация файла."
+
+#: ../../CSUI-Start.rst:108
+msgid "Adding Custom Scripts"
+msgstr "Добавление пользовательских скриптов"
+
+#: ../../CSUI-Start.rst:110
+msgid ""
+"We support adding custom JavaScript scripts to extend the UI functionality "
+"with the services necessary for a user.  For example, using custom scripts a "
+"user can add JivoSite or Google Analytics widgets to the interface."
+msgstr ""
+"В CloudStack-UI есть возможность расширить функциональность UI необходимым для "
+"пользователя образом путем добавления пользовательских скриптов. Так, "
+"например, можно подключить виджеты JivoSite или Google Analytics."
+
+#: ../../CSUI-Start.rst:112
+msgid ""
+"Custom scripts are added at running the CloudStack-UI Docker-container. All "
+"that a user should do is to define the ``/scripts/custom.js`` custom script "
+"content and map it via a Docker-volume. By default, the ``/scripts/custom.js`` "
+"file is empty."
+msgstr ""
+"Интеграция пользовательских скриптов JavaScript производится при запуске "
+"Docker-контейнера с приложением. Пользователю достаточно определить содержимое "
+"файла ``/scripts/custom.js`` и отобразить его через Docker-volume при запуске "
+"контейнера. По умолчанию файл  ``/scripts/custom.js`` пустой."
+
+#: ../../CSUI-Start.rst:114
+msgid "As a result, you can see the added service in the UI:"
+msgstr ""
+"В результате, в UI появится добавленный сервис. На изображении ниже "
+"отображается подключенный виджет JivoSite:"
 
 #~ msgid ""
 #~ "To the left you can see the main navigation bar. It allows moving from "
@@ -387,3 +419,6 @@ msgstr "Поддерживается локализация файла."
 
 #~ msgid "Error messages"
 #~ msgstr "Уведомления об ошибках"
+
+#~ msgid "By default, the ``/scripts/custom.js`` file is empty."
+#~ msgstr "По умолчанию, файл ``/scripts/custom.js`` пустой."
