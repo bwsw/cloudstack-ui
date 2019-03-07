@@ -35,17 +35,32 @@ export class SGList extends CloudstackUiPage {
 
   getSGNameCard() {
     return element
-      .all(by.css('.entity-card-title mat-card-title'))
+      .all(by.css('.entity-card-title.mat-card-title'))
       .last()
       .element(by.tagName('span'))
       .getText();
+
+    // return element(by.cssContainingText('.entity-card-title.mat-card-title',name));
   }
 
   getElementFromRules() {
-    return element(by.css('.mat-list.mat-list-base.ng-star-inserted'))
+    /* let rules = [];
+    element(by.css('.mat-list.mat-list-base.ng-star-inserted span.ng-star-inserted'))
       .all(by.tagName('span'))
       .first()
-      .getText();
+      .getText().then( (text) => {
+        return rules.push(text);
+    });*/
+    const rule = [];
+    // element.all(by.css('cs-security-group-builder-rule h5.mat-line span')).count().then(a => console.log('Count: ', a));
+    return element
+      .all(by.css('cs-security-group-rule tr span.ng-star-inserted'))
+      .each(elem => {
+        rule.push(elem.getText());
+      })
+      .then(() => {
+        return Promise.all(rule);
+      });
   }
 
   getSGDescriptionCard() {
@@ -56,7 +71,7 @@ export class SGList extends CloudstackUiPage {
       .getText();
   }
 
-  clickSGMenu() {
+  clickSGActionBox() {
     element
       .all(by.css('.entity-card-header.mat-card-header'))
       .last()
@@ -64,19 +79,17 @@ export class SGList extends CloudstackUiPage {
       .click();
   }
 
-  clickRulesbutton() {
+  clickSGRules() {
     element(by.css('.mat-menu-content'))
       .all(by.tagName('button'))
       .first()
       .click();
   }
 
-  verifyCardInfo(name, description, sgrules) {
-    // click "Rules" button
-    expect(this.getElementFromRules).toContain(sgrules);
+  closeSGRules() {
     element(by.css('.mat-dialog-actions.ng-star-inserted'))
       .all(by.tagName('button'))
       .last()
-      .click(); // click "close"
+      .click();
   }
 }

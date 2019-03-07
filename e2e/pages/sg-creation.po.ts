@@ -1,45 +1,43 @@
 import { by, element, protractor, browser } from 'protractor';
 import { CloudstackUiPage } from './app.po';
 import { el } from '@angular/platform-browser/testing/src/browser_util';
+import { forEach } from '@angular/router/src/utils/collection';
+import { text } from '@angular/core/src/render3';
 
 export class SGCreation extends CloudstackUiPage {
   name = `e2e${this.generateID()}`;
   description = `e2e${this.generateID()}`;
-  group = `e2e_group_${this.generateID()}`;
-  ssh = 'No SSH key';
-  aff = `e2e_aff_group_${this.generateID()}`;
 
-  buttonCreateIsEnabled() {
+  buttonCreateSGEnabled() {
     return element(by.css('button[type=submit]')).isEnabled();
-    // element.all(by.cssContainingText('.mat-dialog-actions.mat-button.mat-primary', 'Create')).isEnabled();
   }
 
-  clickCreateButton() {
+  clickCreateSGButton() {
     element(by.css('button[type=submit]')).click();
   }
 
   setSGName(name) {
-    // in "Create new template"/"Create new shared group"
-    element(by.name('name')).sendKeys(name);
+    element(by.name('name'))
+      .click()
+      .then(() => {
+        element(by.name('name')).sendKeys(name);
+      });
   }
 
   setSGDescription(description) {
-    // in "Create new template"/"Create new shared group"
-    element(by.name('description')).sendKeys(description);
+    element(by.name('description'))
+      .click()
+      .then(() => {
+        element(by.name('description')).sendKeys(description);
+      });
   }
 
   clickADDbutton() {
     element(by.css('.fancy-select-button.mat-button')).click(); // in "Create new template"/"Create new shared group"
   }
 
-  getSaveButton() {
+  getSaveRulesButton() {
     return element.all(by.css('button.mat-button')).last();
-  }
-
-  checkListNotEmpty(designation) {
-    return element(by.css(designation))
-      .all(element(by.tagName('mat-list-item')))
-      .isPresent();
   }
 
   getTemplateName(index) {
@@ -49,60 +47,65 @@ export class SGCreation extends CloudstackUiPage {
       .getText();
   }
 
-  takeRulesText() {
-    return element.all(by.css('cs-security-group-builder-rule span')).getText();
-    /* let rules;
-     element.all(by.css('cs-security-group-builder-rule span')).each( (elem) => {
-      elem.getText().then( (text) => {
-      rules += text;
+  getRulesFromNetworkRules() {
+    const rules = [];
+    // element.all(by.css('cs-security-group-builder-rule h5.mat-line span')).count().then(a => console.log('Count: ', a));
+    return element
+      .all(by.css('cs-security-group-builder-rule h5.mat-line span'))
+      .each(elem => {
+        rules.push(elem.getText());
+      })
+      .then(() => {
+        return Promise.all(rules);
       });
-    });
-     return rules;*/
+  }
+
+  waitCreatingTemplate(name) {
+    const EC = protractor.ExpectedConditions;
+    browser.wait(
+      EC.presenceOf(element(by.cssContainingText('.entity-card-title.mat-card-title span', name))),
+      17000,
+    );
   }
 
   verifyBuildNewSGModal() {
-    expect(this.checkListNotEmpty('.left-list')).toBeFalsy(
-      '"All templates" list should not be empty',
+    expect(element(by.css('.left-list mat-list.mat-list.mat-list-base h5')).isPresent()).toBeTruthy(
+      'All templates list should not be empty',
     );
-    expect(this.checkListNotEmpty('.right-list')).toBeFalsy(
-      '"Selected templates" list should be empty',
+    expect(element(by.css('.right-list mat-list.mat-list.mat-list-base h5')).isPresent()).toBeFalsy(
+      'Selected templates" list should be empty',
+    );
+    expect(element(by.css('button.mat-button.ng-star-inserted')).isEnabled()).toBeTruthy(
+      'Button Select all should be enabled',
+    );
+
+    element(by.css('button.mat-button.ng-star-inserted')).click(); // click "Select all"
+    expect(element(by.css('.left-list mat-list.mat-list.mat-list-base h5')).isPresent()).toBeFalsy(
+      'All templates list should be empty after click "Select all button',
     );
     expect(
-      element(by.css('.left-list.flex-container.mat-button.ng-star-inserted')).isEnabled,
-    ).toBeTruthy('Button "Select all" should be enabled');
-    browser.sleep(2000);
-    element(by.css('.left-list.flex-container.mat-button.ng-star-inserted')).click(); // click "Select all"
-    expect(this.checkListNotEmpty('.left-list')).toBeFalsy(
-      '"All templates" list should be empty after click "Select all" button',
-    );
-    expect(this.checkListNotEmpty('.rules-list')).toBeTruthy(
-      '"Network rules" list should not be empty after click "Select all" button',
-    );
-    expect(this.checkListNotEmpty('.right-list')).toBeTruthy(
-      '"Selected Templates" list should not be empty after click "Select all" button',
-    );
-    expect(element(by.css('.right-list.mat-button.ng-star-inserted')).isEnabled).toBeTruthy(
+      element(by.css('.rules-list mat-list.mat-list.mat-list-base h5')).isPresent(),
+    ).toBeTruthy('Network rules list should not be empty after click Select all button');
+    expect(
+      element(by.css('.right-list mat-list.mat-list.mat-list-base h5')).isPresent(),
+    ).toBeTruthy('Selected Templates list should not be empty after click Select all button');
+    expect(element(by.css('.right-list button')).isEnabled()).toBeTruthy(
       'Button "Reset" should be enabled',
     );
     element(by.css('.right-list button')).click(); // click "Reset"
-    browser.sleep(2000);
-    expect(this.checkListNotEmpty('.right-list')).toBeFalsy(
+
+    expect(element(by.css('.right-list mat-list.mat-list.mat-list-base h5')).isPresent()).toBeFalsy(
       '"Selected Templates" list should be empty after click "Reset" button',
     );
-    expect(this.checkListNotEmpty('.rules-list')).toBeFalsy(
+    expect(element(by.css('.rules-list mat-list.mat-list.mat-list-base h5')).isPresent()).toBeFalsy(
       '"Network Rules" list should be empty after click "Reset" button',
     );
-    expect(this.checkListNotEmpty('.left-list')).toBeTruthy(
+    expect(element(by.css('.left-list mat-list.mat-list.mat-list-base h5')).isPresent()).toBeTruthy(
       '"All templates" list should not be empty after click "Reset" button',
     );
-    this.selectTemplate(0);
-    browser.sleep(2000);
   }
 
   selectTemplate(index) {
-    // проверить корректное перемещение элемента из правого списка в левый
-    browser.sleep(2000);
-
     element
       .all(by.css('.left-list h5'))
       .get(index)
@@ -119,7 +122,9 @@ export class SGCreation extends CloudstackUiPage {
         expect(element(by.cssContainingText('.left-list h5', name)).isPresent()).toBeFalsy(
           'Selected element should not be in "All templates" list',
         );
-        expect(this.checkListNotEmpty('.rules-list')).toBeTruthy(
+        expect(
+          element(by.css('.rules-list mat-list.mat-list.mat-list-base h5')).isPresent(),
+        ).toBeTruthy(
           '"Network Rules" list should not be empty after added rule in "Selected templates" list',
         );
       });

@@ -1,5 +1,6 @@
-import { by, element } from 'protractor';
+import { browser, by, element, protractor } from 'protractor';
 import { CloudstackUiPage } from './app.po';
+import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 export class SGSidebar extends CloudstackUiPage {
   getVMbyName(name) {
@@ -14,8 +15,29 @@ export class SGSidebar extends CloudstackUiPage {
       .getText();
   }
 
-  clickTagsTab() {
-    element(by.css('.mat-tab-link.ng-star-inserted')).click();
+  getSGName() {
+    return element
+      .all(by.css('div.value.ng-star-inserted'))
+      .get(1)
+      .getText();
+  }
+
+  getSGType() {
+    return element
+      .all(by.css('div.value.ng-star-inserted'))
+      .last()
+      .getText();
+  }
+  getSGDescription() {
+    return element
+      .all(by.css('div.value.ng-star-inserted'))
+      .get(2)
+      .getText();
+  }
+
+  clickChekbox() {
+    // in custom sidebar tags (checkbox1)
+    element(by.css('.mat-checkbox-inner-container')).click();
   }
 
   clickFirewallTab() {
@@ -26,20 +48,20 @@ export class SGSidebar extends CloudstackUiPage {
     element(by.css('.backdrop.ng-star-inserted')).click();
   }
 
-  getFirewallTabInfo(index) {
+  clickTagTab() {
     element
-      .all(by.css('.flex-container.container'))
-      .get(index)
-      .element(by.css('value.ng-star-inserted'))
-      .getText();
+      .all(by.css('.mat-tab-link'))
+      .last()
+      .click();
   }
 
-  verifySidebar(name, description) {
-    expect(this.getFirewallTabInfo(1)).toContain(name);
-    expect(this.getFirewallTabInfo(2)).toContain(description); // from 0 count
-    expect(this.getFirewallTabInfo(3)).toContain('custom-template');
-    this.clickTagsTab();
-    expect(element(by.css('.value')).getText()).toContain('custom-template');
-    this.clickClose();
+  getTagKey(expected) {
+    return element(by.css('.mat-card-content-container')).element(
+      by.cssContainingText('.key', expected),
+    );
+  }
+
+  getTagValue(expected) {
+    return element(by.cssContainingText('div .value', expected));
   }
 }

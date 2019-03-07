@@ -37,7 +37,7 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   clickClose() {
-    element(by.css('.backdrop.ng-star-inserted')).click();
+    element(by.css('div.backdrop.ng-star-inserted')).click();
   }
 
   clickTagTab() {
@@ -58,8 +58,6 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   getTagValue(expected) {
-    return element(by.css('.mat-card-content-container')).element(
-      by.cssContainingText('.value', expected),
-    );
+    return element(by.css('.mat-card-content')).element(by.cssContainingText('.value', expected));
   }
 }
