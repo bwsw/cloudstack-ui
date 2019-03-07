@@ -1,5 +1,5 @@
 <mat-sidenav-container fullscreen>
-  <mat-sidenav [opened]="showAppNav$ | async">
+  <mat-sidenav [opened]="showAppNav$ | async" (closed)="closeAppNavInternal()">
     <cs-app-nav
       [routes]="routes$ | async"
       [currentRoute]="currentRoute$ | async"
