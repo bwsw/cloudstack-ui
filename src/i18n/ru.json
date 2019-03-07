@@ -373,7 +373,7 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
       "VM_ACCESS_TITLE": "Виртуальная машина",
-      "LOGS": "Логи ВМ",
+      "LOGS": "Системные журналы",
       "CREATE_VM_LOGS_TOKEN": "Создать токен",
       "INVALIDATE_VM_LOGS_TOKEN": "Аннулировать токен"
     },
