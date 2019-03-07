@@ -76,11 +76,13 @@ General Settings
 
 To get statistics for a virtual machine set up general settings:
 
-* **Range** - Select the time interval to show the statistics for. You can select one of the following: 15m, 30m, 1h, 2h, 4h, 12h, 1d, 1w, 30d.
-* **Aggregation** - Select the interval(s) for data aggregation. Available options here depend on the selected range. Aggregation value is always less than the range value. When several options are selected, graphs are marked with different colors and displayed as overlaid.
+* **Range** - Select the time interval to show the statistics for. The following options are currently available: 15m, 30m, 1h, 2h, 4h, 12h, 1d, 1w, 30d. 
+* **Aggregation** - Select the interval(s) for data aggregation. Available options here depend on the selected range. This can be defined in the `configuration file <https://github.com/bwsw/cs-pulse-server/blob/master/config.md>`_. Aggregation value is always less than the range value. When several options are selected, graphs are marked with different colors and displayed as overlaid.
 * **Shift** - Define a numeric value and select a measurement unit for the graph shift. You can shift the graphs manually by clicking at arrows </> to the right or left from the graph.
 
 .. note:: All settings are required.
+
+Options for all the settings should be defined in the `configuration file <https://github.com/bwsw/cs-pulse-server/blob/master/config.md>`_ on backend.
 
 At the screenshot below, you can see statistics for the last day with 30-minute and 1-hour aggregation with the 2-hour shift.
 
