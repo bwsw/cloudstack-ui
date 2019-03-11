@@ -35,10 +35,10 @@ describe('e2e-test-sg-creation', () => {
     sglist.waitDialogModal();
     page = new SGCreation();
     page.setSGDescription(page.description);
-    page.clickADDbutton();
+    page.clickADDRules();
     page.verifyBuildNewSGModal();
     page.selectTemplate(0);
-    page.getRulesFromNetworkRules().then(expectedRules => {
+    page.getNetworkRules().then(expectedRules => {
       expect(page.getSaveRulesButton().isEnabled()).toBeTruthy('Button Save should be enabled');
       page.getSaveRulesButton().click();
       expect(page.buttonCreateSGEnabled()).toBeFalsy('Button Create should be disabled');
@@ -61,7 +61,7 @@ describe('e2e-test-sg-creation', () => {
   });
 
   it('Verify custom Sidebar: name, description , type', () => {
-    sglist.clickOpenSidebar();
+    sglist.clickOpenSidebar(page.name);
     expect(sgsidebar.getSGName()).toEqual(page.name);
     expect(sgsidebar.getSGDescription()).toEqual(page.description);
     expect(sgsidebar.getSGType()).toEqual('custom-template');
@@ -81,9 +81,9 @@ describe('e2e-test-sg-creation', () => {
     sglist.waitDialogModal();
     page = new SGCreation();
     page.setSGDescription(page.description);
-    page.clickADDbutton(); // click ADD
+    page.clickADDRules(); // click ADD
     page.selectTemplate(0);
-    page.getRulesFromNetworkRules().then(expectedRules => {
+    page.getNetworkRules().then(expectedRules => {
       expect(page.getSaveRulesButton().isEnabled()).toBeTruthy('Button Save should be enabled');
       page.getSaveRulesButton().click();
       expect(page.buttonCreateSGEnabled()).toBeFalsy('Button Create should be disabled');
@@ -106,7 +106,7 @@ describe('e2e-test-sg-creation', () => {
   });
 
   it('Verify shared Sidebar: name, description , type', () => {
-    sglist.clickOpenSidebar();
+    sglist.clickOpenSidebar(page.name);
     expect(sgsidebar.getSGName()).toEqual(page.name);
     expect(sgsidebar.getSGDescription()).toEqual(page.description);
     expect(sgsidebar.getSGType()).toEqual('shared');

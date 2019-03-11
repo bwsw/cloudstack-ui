@@ -1,8 +1,5 @@
 import { by, element, protractor, browser } from 'protractor';
 import { CloudstackUiPage } from './app.po';
-import { el } from '@angular/platform-browser/testing/src/browser_util';
-import { forEach } from '@angular/router/src/utils/collection';
-import { text } from '@angular/core/src/render3';
 
 export class SGCreation extends CloudstackUiPage {
   name = `e2e${this.generateID()}`;
@@ -32,7 +29,7 @@ export class SGCreation extends CloudstackUiPage {
       });
   }
 
-  clickADDbutton() {
+  clickADDRules() {
     element(by.css('.fancy-select-button.mat-button')).click(); // in "Create new template"/"Create new shared group"
   }
 
@@ -47,9 +44,8 @@ export class SGCreation extends CloudstackUiPage {
       .getText();
   }
 
-  getRulesFromNetworkRules() {
+  getNetworkRules() {
     const rules = [];
-    // element.all(by.css('cs-security-group-builder-rule h5.mat-line span')).count().then(a => console.log('Count: ', a));
     return element
       .all(by.css('cs-security-group-builder-rule h5.mat-line span'))
       .each(elem => {

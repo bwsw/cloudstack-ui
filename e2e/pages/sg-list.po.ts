@@ -20,11 +20,8 @@ export class SGList extends CloudstackUiPage {
     browser.wait(EC.visibilityOf(element(by.css('.entity-card.mat-card'))), 5000);
   }
 
-  clickOpenSidebar() {
-    element
-      .all(by.css('.entity-card.mat-card'))
-      .last()
-      .click();
+  clickOpenSidebar(name) {
+    element(by.xpath(`//span[text()="${name}"]/ancestor:: mat-card`)).click();
     const EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
   }
@@ -39,20 +36,10 @@ export class SGList extends CloudstackUiPage {
       .last()
       .element(by.tagName('span'))
       .getText();
-
-    // return element(by.cssContainingText('.entity-card-title.mat-card-title',name));
   }
 
   getElementFromRules() {
-    /* let rules = [];
-    element(by.css('.mat-list.mat-list-base.ng-star-inserted span.ng-star-inserted'))
-      .all(by.tagName('span'))
-      .first()
-      .getText().then( (text) => {
-        return rules.push(text);
-    });*/
     const rule = [];
-    // element.all(by.css('cs-security-group-builder-rule h5.mat-line span')).count().then(a => console.log('Count: ', a));
     return element
       .all(by.css('cs-security-group-rule tr span.ng-star-inserted'))
       .each(elem => {
