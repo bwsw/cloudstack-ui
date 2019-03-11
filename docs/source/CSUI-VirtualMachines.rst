@@ -94,7 +94,7 @@ The list of available service offerings is managed by an Administrator. Service 
 
 *Custom* service offerings are offerings with adjustable parameters. You can set the amount of CPU cores, CPU memory and Network rate as you need. 
 
-.. By default, the dialog box opens at a list the default service offering belongs to (if it is defined in the configuration file). If no default offering is set, the "Fixed" list opens first. If there are no offerings in the *Fixed *list, the *Custom* list of offerings opens first. If there are no available service offerings, you will see a notification.
+By default, the dialog box opens at a list the default service offering belongs to (if it is defined in the configuration file). If no default offering is defined, the *Fixed* list opens first. If there are no offerings in the *Fixed* list, the *Custom* list of offerings opens first. If there are no available service offerings in either of the lists, you will see a notification.
 
 Use the switcher "Fixed/Custom" above the list to select a necessary type of offerings. 
 
@@ -221,38 +221,42 @@ In the *Advanced* tab you will find the following fields:
     
     What an affinity group is you can read in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/virtual_machines.html?highlight=Affinity%20group#affinity-groups>`_.
     
-4. **Firewall rules** - Select a security group for the machine. Click "EDIT" to specify a security group for the VM. A default security group, defined in `the configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-security-group-name>`_, is shown in this field. To change it click "EDIT". In the appeared window choose between "Create new" or "Select Shared" options. 
+4. **Firewall rules** - Allows to select a security group for the machine. A default security group, if it is defined in `the configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-security-group-name>`_, is selected by default. If you want to change it, click "EDIT" to select another security group for the VM. In the appeared window choose between "Create new" or "Select Shared" options. 
   
-**Create a new security group**
+    **Create a new security group**
 
-A new security group can be created on the base of templates. This security group will be created as a *private* group used for this VM only.
+    A new security group can be created on the base of templates. This security group will be created as a *private* group used for this VM only.
 
-When creating a new security group, you can see the templates in the "All templates" section of the modal window. To form your custom security group, select a template in the "All templates" list at the left and move it to the "Selected templates" list at the right by clicking the arrow icon:
+    When creating a new security group, you can see the templates in the "All templates" section of the modal window. To form your custom security group, select a template in the "All templates" list at the left and move it to the "Selected templates" list at the right by clicking the arrow icon:
    
-.. figure:: _static/VMs_Create_AddSecGr_New.png
+    .. figure:: _static/VMs_Create_AddSecGr_New.png
+    
+    Click "SELECT ALL" to move all templates from left to right at once.
+
+    Click "RESET" to drop all selected templates.
+
+    In the list below you will see the rules corresponding to the selected templates. All of them are checked as selected. Uncheck those you do not wish to add to your VM as firewall rules.
+
+    Click "SAVE" to apply the selected rules to your virtual machine.
+
+    Click "CANCEL" to drop the selected options. No rules will be assigned to the virtual machine. You will return to the "Create new virtual machine" window.
    
-Click "SELECT ALL" to move all templates from left to right at once.
-
-Click "RESET" to drop all selected templates.
-
-In the list below you will see the rules corresponding to the selected templates. All of them are checked as selected. Uncheck those you do not wish to add to your VM as firewall rules.
-
-Click "SAVE" to apply the selected rules to your virtual machine.
-
-Click "CANCEL" to drop the selected options. No rules will be assigned to the virtual machine. You will return to the "Create new virtual machine" window.
+    **Select Shared security group**
    
-**Select Shared security group**
+    If you would like to select an existing group of firewall rules, you can click the "Select Shared" option and tick those groups in the list that you want to assign to your VM. The security groups in the *Shared* list are used by other VMs in the domain. That means you won't be able to uncheck some rules in the group that you do not want to include into the list (like at creating VM from a template). You can assign only the whole shared security group to your VM. 
    
-If you would like to select an existing group of firewall rules, you can click the "Select Shared" option and tick those groups in the list that you want to assign to your VM. The security groups in the *Shared* list are used by other VMs in the domain. That means you won't be able to uncheck some rules in the group that you do not want to include into the list (like at creating VM from a template). You can assign only the whole shared security group to your VM. 
-   
-.. figure:: _static/VMs_Create_AddSecGr_Shared1.png
+    .. figure:: _static/VMs_Create_AddSecGr_Shared1.png
 
-You can edit a shared security group after the VM is created. In the *Network* tab of the VM details sidebar the assigned shared security group(s) can be viewed and edited. Please, find more information on security group editing in the :ref:`VM_Network_Tab` section.
+    You can edit a shared security group after the VM is created. In the *Network* tab of the VM details sidebar the assigned shared security group(s) can be viewed and edited. Please, find more information on security group editing in the :ref:`VM_Network_Tab` section.
 
-Click "Cancel" to drop the selected options. No rules will be assigned to the virtual machine. 
+    Click "Cancel" to drop the selected options. No rules will be assigned to the virtual machine. 
    
 5. **SSH keypair** - Select an SSH keypair. The list of keys contains the SSH keys available for the account under which the VM is being created. Find more information on SSH keys in the :ref:`SSH_Keys` section.
 6. **Start VM** - Tick the box to start the VM right after its deployment. If this option is activated, the VM acquires an IP and a password (if required by the template). If it is not, the machine IP is not available till VM is started, no password is assigned to it.
+
+In the *User data* tab you can add any custom data for the machine. It allows adding necessary settings to the machine and deploying it configured with necessary services. In this tab, you will find a text area, where you can enter the configurations in any format. The maximum allowed size of data is 32 KB.
+
+.. figure:: _static/VMs_Create_Udata.png
 
 Once all fields are filled in, click "Create".
 
@@ -262,7 +266,7 @@ If you are creating a virtual machine on the base of a template/ISO that require
 
 .. figure:: _static/VMs_Create_Agreement.png
 
-Click "CANCEL" to close the terms and move back to the creation form. Change the installation source.
+Or click "CANCEL" to close the terms and move back to the creation form. Change the installation source.
 
 After clicking "CREATE", a dialog window will appear where you can monitor the VM creation process: security group creation, virtual machine deployment, template tags copying, etc. These procedures are fulfilled one by one. A procedure in progress is marked with a spinner in the message. In case of an error occurring at any VM creation step, a user can understand at what step it has happened.
 
@@ -404,7 +408,7 @@ It allows performing the following actions with the VM:
 
         Or you may click CANCEL to close the window. The token will remain valid.
 
-- **Pulse** - It is a new feature created in CloudStack-UI to visualize the VM performance statistics. By clicking "Pulse" at the Actions box you will open a modal window with 3 tabs: CPU/RAM, Network, Disk. There you can see the charts of resources statistics for the VM.
+- **Pulse** - It is a custom feature created in CloudStack-UI to visualize the VM performance statistics. By clicking "Pulse" at the Actions box you open a modal window with 3 tabs: CPU/RAM, Network, Disk. There you can see the charts of resources statistics for the VM.
 
     .. figure:: _static/Pulse.png
 
@@ -413,6 +417,7 @@ It allows performing the following actions with the VM:
     This plugin is convenient for dynamic monitoring of VM performance. Find more information about it in the `official documentation <https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin>`_. Pulse plugin deployment instructions can be found at the :ref:`Pulse_Plugin` page.
 
     .. note:: Please, note, when performing one of the actions from the list, other actions in this list are disabled until the action in progress finishes.
+    
 .. _VM_Info:
 
 VM Details Sidebar
@@ -452,9 +457,26 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
 
     .. figure:: _static/VMs_Tags_EditDescription1.png
 
-2. Details - Displays the VM host name, the zone selected for the VM to be available in, the machine ID.
+2. Details - Displays general information about the VM:
 
-#. Group - A group the VM is assigned to. Edit this field by clicking the "Edit" button |edit icon|. In the appeared dialog window choose a group from the drop-down list. Click "Assign" to assign the VM to the chosen group. 
+    * VM host name, 
+    * Zone selected for the VM to be available in, 
+    * Machine ID.
+    * User data - Allows viewing, editing and copying user data applied to the machine. 
+    
+      Click |view| to open the modal window and view the user data applied to the machine. Use the scroll tool if the text contains many symbols.
+    
+      .. figure:: _static/VMs_Udata_View.png
+    
+      You can copy data by clicking |copy icon|.
+       
+      Click EDIT to view the data in the editing mode. Make necessary changes and save them.
+       
+      .. figure:: _static/VMs_Udata_Edit.png 
+       
+      Or click CANCEL to close the dialog window without saving changes.
+
+3. Group - A group the VM is assigned to. Edit this field by clicking the "Edit" button |edit icon|. In the appeared dialog window choose a group from the drop-down list. Click "Assign" to assign the VM to the chosen group. 
 
     .. figure:: _static/VMs_Details_EditGroup2.png
    
@@ -485,8 +507,8 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
     .. note:: The system checks the amount of available account resources. In case a selected service offering does not fit the amount of available account resources, a warning message will appear saying the offering cannot be selected. 
 
     A started virtual machine will be rebooted at editing the service offering.
-
-5. Affinity Group - The affinity group(s) assigned to the virtual machine. A name and a type of groups are displayed here. Groups are listed in alphabetic order. Hovering over a group name shows a description of a group (if provided at creation). 
+  
+5. Affinity Group - The affinity group(s) assigned to the virtual machine. A name and a type of groups are displayed here. Groups are listed in alphabetic order. Hovering over a group name shows a description of a group (if provided at creation).
 
     If no affinity group is assigned to the VM, or you wish to add another affinity group to the list, click "Add" (+) in the block. A dialog box appears where you can choose an existing group or create a new one. 
     
@@ -506,7 +528,7 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
    
 6. Template - Shows the template used to create the virtual machine.
 
-#. SSH key - Shows the SSH key of the virtual machine. Add the SSH key by clicking "+". In the appeared window select the SSH key in the drop-down list and click "CHANGE":
+7. SSH key - Shows the SSH key of the virtual machine. Add the SSH key by clicking "+". In the appeared window select the SSH key in the drop-down list and click "CHANGE":
 
    .. figure:: _static/VMs_Details_AddSSH2.png
    
@@ -763,7 +785,7 @@ You can detach the ISO file by clicking the "Detach" button.
 
 Network Tab
 """"""""""""""""""""""""""
-Under the Network tab the network configurations of the VM are presented.
+The Network tab presents the network configurations of the VM.
 
 .. figure:: _static/VMs_Details_Network1.png
    
@@ -775,7 +797,13 @@ You can add a secondary IP for the VM from this tab. Click "+" next to the Secon
 
 You can delete the secondary IP by clicking the "Delete" button next to it.
 
-2. **Firewall rules** - Allows viewing the security group assigned to the virtual machine. Click |view| to open the list of assigned security group(-s). 
+2. **Firewall rules** - Allows viewing the security group assigned to the virtual machine, attach and detach groups, edit rules in a group. 
+
+It is allowed to attach several groups to one machine. They are listed in the box. Next to each group, you can see the buttons |view| to view rules of the group and "-" to detach the group from the machine.
+
+**View rules**
+
+Click |view| to open the list of assigned firewall rules. 
 
 .. figure:: _static/VMs_SG_View2.png
 
@@ -783,7 +811,9 @@ You can filter the list by IP version, types and/or protocols. Or you can adjust
 
 .. figure:: _static/VMs_SG_Filter2.png
 
-In the modal window you can edit a security group. Click "EDIT" to move to editing form. There you will be able to add rules, or delete the selected ones from the list.
+**Edit rules**
+
+In the modal window you can edit a security group. Click "EDIT" to move to the editing form. There you will be able to add rules, or delete the selected ones from the list.
 
 To add rules, please, fill in the fields in the bar above the list and click "+":
 
@@ -800,6 +830,22 @@ Please, note, when editing shared security groups, a warning message appears:
 .. figure:: _static/VMs_SharedSG_EditWarning2.png
 
 Click "Yes" if you still want to edit a shared security group. You will be moved to the "Firewall" section where you can edit the security group. After editing, go back to the virtual machine that uses this group. You will see the rules are edited.
+
+**Attach Security Group**
+
+A VM can be a member of any number of security groups. To attach a security group to the virtual machine, you can use the "+" button. Click it to open a modal window. It displays the list of all security groups available for the machine. Groups that are attached to the machine are not available for selecting and look grayish. By default, the first option in the list is preselected. Click the radio-button next to the option you wish and press "SAVE". 
+
+.. figure:: _static/VMs_SG_Attach.png
+
+If you attach a group to the machine in the Running state, the system will inform you that the machine will be stopped. If you agree, the machine gets stopped and the group appears in the list of attached groups. Then, the machine gets started again.
+
+**Detach Security Group**
+
+To detach a security group from the virtual machine, use the "-" button. Click it and confirm your action in the dialog box. 
+
+.. figure:: _static/VMs_SG_Detach.png
+
+If you detach a group from the machine in the Running state, the system will inform you that the machine will be stopped. If you agree, the machine gets stopped and the group disappears from the list of machine's security groups. Then, the machine gets started again.
 
 See the :ref:`Firewall` section for more information on firewall rules in the system.
 

@@ -1,3 +1,78 @@
+<a name="1.411.29"></a>
+## [1.411.29](https://github.com/bwsw/cloudstack-ui/compare/1.411.28...1.411.29) (2019-03-07)
+
+
+### Bug Fixes
+
+* **error:** fix error message when available resources are exceeded ([#1555](https://github.com/bwsw/cloudstack-ui/issues/1555)) ([a009113](https://github.com/bwsw/cloudstack-ui/commit/a009113))
+* **error:** fix error message when available resources are exceeded ([#1555](https://github.com/bwsw/cloudstack-ui/issues/1555)) ([411bca9](https://github.com/bwsw/cloudstack-ui/commit/411bca9))
+* **error:** fix error message when available resources are exceeded ([#1555](https://github.com/bwsw/cloudstack-ui/issues/1555)) ([79262dd](https://github.com/bwsw/cloudstack-ui/commit/79262dd))
+* **lint:** fixed codestyle ([7354614](https://github.com/bwsw/cloudstack-ui/commit/7354614))
+* **lint:** updated packages ([a8d2d25](https://github.com/bwsw/cloudstack-ui/commit/a8d2d25))
+* **pulse-plugin:** added dialog title and close button ([#1561](https://github.com/bwsw/cloudstack-ui/issues/1561)) ([6488429](https://github.com/bwsw/cloudstack-ui/commit/6488429))
+* **pulse-plugin:** added translations 3h range and 4m, 6m aggregations ([#1562](https://github.com/bwsw/cloudstack-ui/issues/1562)) ([73de9ad](https://github.com/bwsw/cloudstack-ui/commit/73de9ad))
+* **pulse-plugin:** added translations for Pulse plugin ([#1562](https://github.com/bwsw/cloudstack-ui/issues/1562)) ([417ee74](https://github.com/bwsw/cloudstack-ui/commit/417ee74))
+* **pulse-plugin:** changed metric to MB for RAM chart ([#1565](https://github.com/bwsw/cloudstack-ui/issues/1565)) ([3b7bfcf](https://github.com/bwsw/cloudstack-ui/commit/3b7bfcf))
+* **pulse-plugin:** fixed chart.js moment locale and date formats ([#1562](https://github.com/bwsw/cloudstack-ui/issues/1562)) ([8325d62](https://github.com/bwsw/cloudstack-ui/commit/8325d62))
+* **pulse-plugin:** fixed lint error([#1617](https://github.com/bwsw/cloudstack-ui/issues/1617)) ([cee4ded](https://github.com/bwsw/cloudstack-ui/commit/cee4ded))
+* **pulse-plugin:** fixed permitted intervals format ([#1617](https://github.com/bwsw/cloudstack-ui/issues/1617)) ([498e59e](https://github.com/bwsw/cloudstack-ui/commit/498e59e))
+* **pulse-plugin:** fixed permitted intervals format ([#1617](https://github.com/bwsw/cloudstack-ui/issues/1617)) ([3183974](https://github.com/bwsw/cloudstack-ui/commit/3183974))
+* **pulse-plugin:** fixed pulse chart and filter layout isues ([#1564](https://github.com/bwsw/cloudstack-ui/issues/1564)) ([2d36c88](https://github.com/bwsw/cloudstack-ui/commit/2d36c88))
+* **pulse-plugin:** fixed shift value change emit ([#1559](https://github.com/bwsw/cloudstack-ui/issues/1559)) ([3c612a5](https://github.com/bwsw/cloudstack-ui/commit/3c612a5))
+* **pulse-plugin:** removed shift max value, added no-chart image ([#1559](https://github.com/bwsw/cloudstack-ui/issues/1559)) ([d8c6944](https://github.com/bwsw/cloudstack-ui/commit/d8c6944))
+* **pulse-plugin:** translations for pulse ([#1562](https://github.com/bwsw/cloudstack-ui/issues/1562)) ([52981c3](https://github.com/bwsw/cloudstack-ui/commit/52981c3))
+* **resource-limits-plugin:** add billing hook translations ([#1602](https://github.com/bwsw/cloudstack-ui/issues/1602)) ([b77ec84](https://github.com/bwsw/cloudstack-ui/commit/b77ec84))
+* **resource-limits-plugin:** add internal errors translations ([#1602](https://github.com/bwsw/cloudstack-ui/issues/1602)) ([f67d0e8](https://github.com/bwsw/cloudstack-ui/commit/f67d0e8))
+* **resource-limits-plugin:** added internal error translation ([#1602](https://github.com/bwsw/cloudstack-ui/issues/1602)) ([9b31cd0](https://github.com/bwsw/cloudstack-ui/commit/9b31cd0))
+* **resource-limits-plugin:** fix changes detection for request resources form ([#1608](https://github.com/bwsw/cloudstack-ui/issues/1608)) ([15bcd4d](https://github.com/bwsw/cloudstack-ui/commit/15bcd4d))
+* **resource-limits-plugin:** fix resources form initialization and fix translations ([#1608](https://github.com/bwsw/cloudstack-ui/issues/1608)) ([4aeec41](https://github.com/bwsw/cloudstack-ui/commit/4aeec41))
+* **resource-limits-plugin:** fix translations ([#1608](https://github.com/bwsw/cloudstack-ui/issues/1608)) ([b955f70](https://github.com/bwsw/cloudstack-ui/commit/b955f70))
+* **resource-limits-plugin:** fixed mat-slider-thumb size to show 20000 value ([#1602](https://github.com/bwsw/cloudstack-ui/issues/1602)) ([3ef43a6](https://github.com/bwsw/cloudstack-ui/commit/3ef43a6))
+* **resource-limits-plugin:** fixed modified limits checking ([#1608](https://github.com/bwsw/cloudstack-ui/issues/1608)) ([4627108](https://github.com/bwsw/cloudstack-ui/commit/4627108))
+* **resource-limits-plugin:** fixed request resources button alignment in firefox ([#1602](https://github.com/bwsw/cloudstack-ui/issues/1602)) ([6d02327](https://github.com/bwsw/cloudstack-ui/commit/6d02327))
+* **resource-limits-plugin:** fixed zero values saving for resource quotas ([#1602](https://github.com/bwsw/cloudstack-ui/issues/1602)) ([954bda7](https://github.com/bwsw/cloudstack-ui/commit/954bda7))
+* **resource-limits-plugin:** remove billing hook translations ([#1602](https://github.com/bwsw/cloudstack-ui/issues/1602)) ([398480f](https://github.com/bwsw/cloudstack-ui/commit/398480f))
+* **resource-limits-plugin:** use gb for RAM measurement ([#1608](https://github.com/bwsw/cloudstack-ui/issues/1608)) ([60ec7eb](https://github.com/bwsw/cloudstack-ui/commit/60ec7eb))
+* **resource-limits-plugin:** use one request to update quotas and limits ([#1602](https://github.com/bwsw/cloudstack-ui/issues/1602)) ([bdfd7d0](https://github.com/bwsw/cloudstack-ui/commit/bdfd7d0))
+* **resource-quotas:** resource quotas messages were fixed ([#1554](https://github.com/bwsw/cloudstack-ui/issues/1554)) ([f2ddbc5](https://github.com/bwsw/cloudstack-ui/commit/f2ddbc5))
+* **settings:** fixed double language change due to logout ([#1568](https://github.com/bwsw/cloudstack-ui/issues/1568)) ([f89b3a1](https://github.com/bwsw/cloudstack-ui/commit/f89b3a1))
+* added translations for errors ([#1593](https://github.com/bwsw/cloudstack-ui/issues/1593)) ([f3314ad](https://github.com/bwsw/cloudstack-ui/commit/f3314ad))
+* **settings:** redundant update tags requests were fixed ([#1578](https://github.com/bwsw/cloudstack-ui/issues/1578)) ([0288dd3](https://github.com/bwsw/cloudstack-ui/commit/0288dd3))
+* **settings:** settings tabs names were fixed ([#1553](https://github.com/bwsw/cloudstack-ui/issues/1553)) ([dd18e08](https://github.com/bwsw/cloudstack-ui/commit/dd18e08))
+* **sidenav:** update sidenav state on backdrop click ([#1616](https://github.com/bwsw/cloudstack-ui/issues/1616)) ([d17aa58](https://github.com/bwsw/cloudstack-ui/commit/d17aa58))
+* **sidenav:** update sidenav state on esc ([#1616](https://github.com/bwsw/cloudstack-ui/issues/1616)) ([4a3b97b](https://github.com/bwsw/cloudstack-ui/commit/4a3b97b))
+* **support:** accordion slamming on loading was fixed ([#1547](https://github.com/bwsw/cloudstack-ui/issues/1547)) ([b494e89](https://github.com/bwsw/cloudstack-ui/commit/b494e89))
+* **user-tags:** restore defaults after tag deleted ([#1599](https://github.com/bwsw/cloudstack-ui/issues/1599)) ([1641a87](https://github.com/bwsw/cloudstack-ui/commit/1641a87))
+* **vm:** added loading indicator ([#1595](https://github.com/bwsw/cloudstack-ui/issues/1595)) ([0203569](https://github.com/bwsw/cloudstack-ui/commit/0203569))
+* **vm:** added tooltip for 'Add secondary IP' button ([#1595](https://github.com/bwsw/cloudstack-ui/issues/1595)) ([08c9987](https://github.com/bwsw/cloudstack-ui/commit/08c9987))
+* **vm:** do not show copy when no userdata ans style fixes ([#1461](https://github.com/bwsw/cloudstack-ui/issues/1461)) ([352e9d6](https://github.com/bwsw/cloudstack-ui/commit/352e9d6))
+* **vm:** fixed ISO Detachment failed error translation ([#1581](https://github.com/bwsw/cloudstack-ui/issues/1581)) ([662c8b4](https://github.com/bwsw/cloudstack-ui/commit/662c8b4))
+* **vm:** fixed ISO Detachment failed translation ([#1581](https://github.com/bwsw/cloudstack-ui/issues/1581)) ([677ab03](https://github.com/bwsw/cloudstack-ui/commit/677ab03))
+* **vm:** fixed selector when no selected vm or account ([#1595](https://github.com/bwsw/cloudstack-ui/issues/1595)) ([6cb278a](https://github.com/bwsw/cloudstack-ui/commit/6cb278a))
+* **vm:** fixed vm userdata bugs ([#1461](https://github.com/bwsw/cloudstack-ui/issues/1461)) ([b3b4088](https://github.com/bwsw/cloudstack-ui/commit/b3b4088))
+* **vm:** open http access window in new tab ([#1576](https://github.com/bwsw/cloudstack-ui/issues/1576)) ([dda5e11](https://github.com/bwsw/cloudstack-ui/commit/dda5e11))
+* **vm:** show loading indicator only for first loading ([#1595](https://github.com/bwsw/cloudstack-ui/issues/1595)) ([c39f324](https://github.com/bwsw/cloudstack-ui/commit/c39f324))
+* added translations for errors ([#1593](https://github.com/bwsw/cloudstack-ui/issues/1593)) ([5446f25](https://github.com/bwsw/cloudstack-ui/commit/5446f25))
+* fixed fix cookies path when use base_href ([123fa56](https://github.com/bwsw/cloudstack-ui/commit/123fa56))
+* **vm:** style fixes for copy button and for Safari ([#1461](https://github.com/bwsw/cloudstack-ui/issues/1461)) ([0747b44](https://github.com/bwsw/cloudstack-ui/commit/0747b44))
+* **vm-create:** fix notification when copy api logs on create error ([#1569](https://github.com/bwsw/cloudstack-ui/issues/1569)) ([daad30d](https://github.com/bwsw/cloudstack-ui/commit/daad30d))
+* **vm-creation:** fix password in access dialog ([#1567](https://github.com/bwsw/cloudstack-ui/issues/1567)) ([4b84e40](https://github.com/bwsw/cloudstack-ui/commit/4b84e40))
+
+
+### Features
+
+
+* **scripts:** added custom scripts support ([#1425](https://github.com/bwsw/cloudstack-ui/issues/1425)), [cc4f2aa](https://github.com/bwsw/cloudstack-ui/commit/cc4f2aa))
+* **security-group:** assign and remove security groups in VM sidebar ([a1dc1df](https://github.com/bwsw/cloudstack-ui/commit/a1dc1df))
+* **security-group:** fixed translation ([#595](https://github.com/bwsw/cloudstack-ui/issues/595)) ([7f3bb8b](https://github.com/bwsw/cloudstack-ui/commit/7f3bb8b))
+* **security-group:** fixes ([#595](https://github.com/bwsw/cloudstack-ui/issues/595)) ([f557afc](https://github.com/bwsw/cloudstack-ui/commit/f557afc))
+* **security-group:** select first not preselected sg ([#595](https://github.com/bwsw/cloudstack-ui/issues/595)) ([a328f76](https://github.com/bwsw/cloudstack-ui/commit/a328f76))
+* **service-offering:** service offerings choice dialog in VM creation: open Fixed/Custom by default depending on availability of SOs ([1001420](https://github.com/bwsw/cloudstack-ui/commit/1001420))
+* **styles:** added custom.css ([#1572](https://github.com/bwsw/cloudstack-ui/issues/1572)) ([8f2befb](https://github.com/bwsw/cloudstack-ui/commit/8f2befb))
+* **vm:** added ability to manage vm userdata ([#1460](https://github.com/bwsw/cloudstack-ui/issues/1460), [#1461](https://github.com/bwsw/cloudstack-ui/issues/1461)) ([894796b](https://github.com/bwsw/cloudstack-ui/commit/894796b))
+
+
+
 <a name="1.411.28"></a>
 ## [1.411.28](https://github.com/bwsw/cloudstack-ui/compare/1.411.27...1.411.28) (2019-01-30)
 

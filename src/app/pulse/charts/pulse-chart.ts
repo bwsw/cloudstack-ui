@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, EventEmitter, Injectable, Input, Output } from '@angular/core';
+import { Dictionary } from '@ngrx/entity';
 import * as chartJs from 'chart.js';
 import { PulseService } from '../pulse.service';
 
@@ -87,10 +88,19 @@ export function getChart(config: any[]) {
   });
 }
 
+export function tooltipLabel(tooltipItem, data): string {
+  const label = data.datasets[tooltipItem.datasetIndex].label
+    ? `${data.datasets[tooltipItem.datasetIndex].label}: `
+    : '';
+  return label;
+}
+
 @Injectable()
 export abstract class PulseChartComponent {
   @Input()
-  public translations;
+  public translations: Dictionary<Dictionary<string>>;
+  @Input()
+  public unitTranslations: Dictionary<string>;
   @Input()
   public charts: PulseChart[];
   @Input()

@@ -1,0 +1,43 @@
+<h3 class="mat-dialog-title">{{ 'VM_PAGE.MODALS.VM_USER_DATA.TITLE' | translate }}</h3>
+
+<div class="mat-dialog-content">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field floatLabel="never" class="full-width-input">
+      <textarea
+        matInput
+        name="userData"
+        class="userdata-field"
+        matTextareaAutosize
+        matAutosizeMinRows="1"
+        matAutosizeMaxRows="10"
+        formControlName="userdata"
+        [placeholder]="'VM_PAGE.MODALS.VM_USER_DATA.NO_USER_DATA' | translate"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</div>
+
+<div class="mat-dialog-actions">
+  <cs-clipboard-button
+    *ngIf="!isEditMode && form.controls['userdata'].value"
+    [value]="form.controls['userdata'].value"
+    tooltipPosition="below"
+    cs-input-group-button
+  ></cs-clipboard-button>
+
+  <button mat-button color="primary" *ngIf="!isEditMode" (click)="onEdit()">
+    {{ 'COMMON.EDIT' | translate }}
+  </button>
+
+  <button
+    mat-button
+    color="primary"
+    *ngIf="isEditMode"
+    [disabled]="vm.userdata == userData"
+    (click)="onSubmit()"
+  >
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+
+  <button mat-button matDialogClose color="primary">{{ 'COMMON.CLOSE' | translate }}</button>
+</div>

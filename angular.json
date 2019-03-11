@@ -30,6 +30,7 @@
               "src/i18n",
               "src/css",
               "src/img",
+              "src/scripts",
               "src/agreements",
               "src/support"
             ],

@@ -6,7 +6,21 @@
 
 .grid.details {
   overflow: hidden;
-  height: 4 * $sidebar-card-line-height;
+  height: 5 * $sidebar-card-line-height;
+
+  .mat-icon-button--small {
+    min-width: 22px;
+    width: 22px !important;
+    height: 22px !important;
+    line-height: 22px !important;
+    margin-left: 5px;
+
+    .mat-icon {
+      line-height: 18px;
+      width: 18px;
+      height: 28px;
+    }
+  }
 }
 
 .ellipsis-overflow {

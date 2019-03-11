@@ -4,6 +4,7 @@
   <ng-template #selector>
     <cs-aggregation-selector
       [permittedIntervals]="permittedIntervals"
+      [translations]="pulseTranslations.INTERVALS"
       [(scale)]="selectedScale"
       [(shift)]="selectedShift"
       [(aggregations)]="selectedAggregations"
@@ -12,7 +13,7 @@
     ></cs-aggregation-selector>
   </ng-template>
   <mat-tab-group
-    *ngIf="translations"
+    *ngIf="pulseTranslations && unitTranslations"
     [dynamicHeight]="true"
     [(selectedIndex)]="tabIndex"
     (selectedTabChange)="handleSelectChange($event)"
@@ -20,7 +21,8 @@
     <mat-tab [label]="'PULSE.CPU_RAM' | translate">
       <ng-container *ngTemplateOutlet="selector"></ng-container>
       <cs-pulse-cpu-chart
-        [translations]="translations"
+        [translations]="pulseTranslations"
+        [unitTranslations]="unitTranslations"
         [shift]="shiftAmount"
         (previous)="handlePrevious()"
         (next)="handleNext()"
@@ -29,7 +31,8 @@
     <mat-tab [label]="'PULSE.NETWORK' | translate">
       <ng-container *ngTemplateOutlet="selector"></ng-container>
       <cs-pulse-network-chart
-        [translations]="translations"
+        [translations]="pulseTranslations"
+        [unitTranslations]="unitTranslations"
         [vmId]="vmId"
         [shift]="shiftAmount"
         (nicChange)="refresh(false)"
@@ -40,7 +43,8 @@
     <mat-tab [label]="'PULSE.DISK' | translate">
       <ng-container *ngTemplateOutlet="selector"></ng-container>
       <cs-pulse-disk-chart
-        [translations]="translations"
+        [translations]="pulseTranslations"
+        [unitTranslations]="unitTranslations"
         [vmId]="vmId"
         [shift]="shiftAmount"
         (volumeChange)="refresh(false)"

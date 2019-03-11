@@ -12,12 +12,15 @@ import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
   selector: 'cs-vm-sidebar-container',
   template: `
     <cs-vm-sidebar
+      *loading="!(isLoaded$ | async)"
       [entity]="vm$ | async"
       (colorChanged)="changeColor($event)"
-    ></cs-vm-sidebar>`,
+    ></cs-vm-sidebar>
+  `,
 })
 export class VmSidebarContainerComponent implements OnInit {
-  readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
+  public readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
+  public readonly isLoaded$ = this.store.pipe(select(fromVMs.isLoaded));
 
   constructor(private store: Store<State>, private activatedRoute: ActivatedRoute) {}
 

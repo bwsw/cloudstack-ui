@@ -32,7 +32,6 @@ describe('e2e-test-vm-creation', () => {
     login.navigateTo('/');
     login.login();
     login.waitRedirect('instances');
-    browser.waitForAngularEnabled(false);
   });
 
   beforeEach(() => {
