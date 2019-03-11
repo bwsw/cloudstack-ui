@@ -41,6 +41,15 @@ export class VMList extends CloudstackUiPage {
     browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
   }
 
+  clickOpenSidebarRunning() {
+    element
+      .all(by.xpath("//mat-icon[contains(@class,'running')]/ancestor::mat-card"))
+      .first()
+      .click();
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
+  }
+
   clickOpenAccessVM() {
     const EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf(element(by.tagName('mat-list'))), 5000);

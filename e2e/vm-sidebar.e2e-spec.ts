@@ -7,7 +7,6 @@ import { Login } from './pages/login.po';
 import { VMSidebar } from './pages/vm-sidebar.po';
 
 describe('e2e-test-vm-sidebar', () => {
-  let page: VMCreation;
   let deploy: VMDeploy;
   let login: Login;
   let vmlist: VMList;
@@ -52,21 +51,59 @@ describe('e2e-test-vm-sidebar', () => {
     vmlist.clickOpenSidebar(0);
     sidebar.clickEditGroup();
     sidebar.setNewGroupOption(sidebar.group);
+    sidebar.clickSubmitGroupButton();
     sidebar.waitGroupChanged(sidebar.group);
     sidebar.clickClose();
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Instance group changed')).toBeTruthy();
-  });*/
+  });
 
   it('Verify existing group can be set', () => {
     vmlist.clickOpenSidebar(0);
     sidebar.clickEditGroup();
     sidebar.setExistingGroupOption().then(group => {
+      sidebar.clickSubmitGroupButton();
       sidebar.waitGroupChanged(group);
       expect(sidebar.getGroup()).toEqual(group);
     });
     sidebar.clickClose();
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Instance group changed')).toBeTruthy();
+  });
+
+  it('Verify group with incorrect name can not be set', () => {
+    vmlist.clickOpenSidebar(0);
+    sidebar.clickEditGroup();
+    sidebar.setNewGroupOption('5214351538713');
+    expect(sidebar.isEnabledSubmitGroupButton()).toBeFalsy('Create button is enabled for incorrect group name');
+    sidebar.clickCancelGroupButton();
+    sidebar.clickClose();
+  });
+
+  it('Verify group is removed', () => {
+    vmlist.clickOpenSidebar(0);
+    sidebar.clickEditGroup();
+    sidebar.setRemoveGroupOption();
+    sidebar.clickSubmitGroupButton();
+    sidebar.waitGroupChanged('Default group');
+    sidebar.clickClose();
+    vmlist.clickBell();
+    expect(vmlist.verifyBellMessage('Instance group removed')).toBeTruthy();
+  });
+*/
+
+  it('Verify new affinity group is set', () => {
+    vmlist.clickOpenSidebarRunning();
+    sidebar.clickAddAffGroup();
+    sidebar.setNewAffGroup('d123'); // sidebar.aff);
+    sidebar.waitDialogModal();
+    browser.sleep(2000);
+    sidebar.clickYesDialogButton();
+    sidebar.waitAffGroupChanged('d123'); // sidebar.aff);
+    sidebar.clickClose();
+    vmlist.clickBell();
+    expect(vmlist.verifyBellMessage('VM stopped')).toBeTruthy();
+    expect(vmlist.verifyBellMessage('Affinity group changed')).toBeTruthy();
+    expect(vmlist.verifyBellMessage('VM started')).toBeTruthy();
   });
 });
