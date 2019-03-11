@@ -81,10 +81,16 @@ export function listReducer(
 
 export const getSnapshotsState = createFeatureSelector<SnapshotState>('snapshots');
 
-export const getSnapshotEntitiesState = createSelector(getSnapshotsState, state => state.list);
+export const getSnapshotEntitiesState = createSelector(
+  getSnapshotsState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getSnapshotEntitiesState,
 );
 
-export const isLoading = createSelector(getSnapshotEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getSnapshotEntitiesState,
+  state => state.loading,
+);

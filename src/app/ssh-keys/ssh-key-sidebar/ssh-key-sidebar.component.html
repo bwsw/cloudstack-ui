@@ -23,6 +23,9 @@
 
 <router-outlet></router-outlet>
 
-<cs-no-results *ngIf="notFound" [text]="'SSH_KEYS.SSH_KEY_PAIR_NOT_FOUND' | translate"></cs-no-results>
+<cs-no-results
+  *ngIf="notFound"
+  [text]="'SSH_KEYS.SSH_KEY_PAIR_NOT_FOUND' | translate"
+></cs-no-results>
 
 <cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>

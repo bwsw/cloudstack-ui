@@ -10,11 +10,8 @@
   </ng-container>
 
   <ng-container cs-list>
-
     <div class="switch-panel">
-      <cs-view-mode-switch
-        (modeChanged)="changeMode($event)"
-        [key]="viewModeKey">
+      <cs-view-mode-switch (modeChanged)="changeMode($event)" [key]="viewModeKey">
       </cs-view-mode-switch>
     </div>
     <cs-volume-list

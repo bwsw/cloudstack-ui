@@ -1,30 +1,27 @@
 <div *ngIf="entity">
   <div class="title-container">
     <h4 class="details-header">{{ entity.name }}</h4>
-    <button mat-icon-button
-            [matMenuTriggerFor]="actionsMenu"
-    >
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </div>
 
-  <nav
-    #tabs
-    [csSidebarTabNav]="tabs"
-    mat-tab-nav-bar
-    *ngIf="!isPredefinedTemplate"
-  >
+  <nav #tabs [csSidebarTabNav]="tabs" mat-tab-nav-bar *ngIf="!isPredefinedTemplate">
     <a
       matTabLink
       [routerLink]="['./sg']"
       queryParamsHandling="preserve"
       [active]="tabIsActive('sg')"
     >
-      <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.FIREWALL' | translate" class="mat-tab-tooltip">
+      <div
+        [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.FIREWALL' | translate"
+        class="mat-tab-tooltip"
+      >
         <mat-icon class="mdi-security"></mat-icon>
       </div>
     </a>
-    <a *ngIf="!entity?.preselected"
+    <a
+      *ngIf="!entity?.preselected"
       matTabLink
       [routerLink]="['./tags']"
       queryParamsHandling="preserve"
@@ -49,4 +46,3 @@
 <router-outlet *ngIf="!isPredefinedTemplate"></router-outlet>
 
 <cs-overlay-loading [active]="!entity"></cs-overlay-loading>
-

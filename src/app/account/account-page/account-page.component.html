@@ -4,16 +4,15 @@
       <cs-account-filter-container
         [groupings]="groupings"
         [selectedGroupings]="selectedGroupings"
-        cs-list>
+        cs-list
+      >
       </cs-account-filter-container>
     </cs-top-bar>
   </ng-container>
 
   <ng-container cs-list>
     <div class="switch-panel">
-      <cs-view-mode-switch
-        (modeChanged)="changeMode($event)"
-        [key]="viewModeKey">
+      <cs-view-mode-switch (modeChanged)="changeMode($event)" [key]="viewModeKey">
       </cs-view-mode-switch>
     </div>
 
@@ -36,9 +35,7 @@
 <div class="detail-list margin-right" *ngIf="!isAdmin()">
   <cs-top-bar></cs-top-bar>
   <div class="switch-panel">
-    <cs-view-mode-switch
-      (modeChanged)="changeMode($event)"
-      [key]="viewModeKey">
+    <cs-view-mode-switch (modeChanged)="changeMode($event)" [key]="viewModeKey">
     </cs-view-mode-switch>
   </div>
   <cs-account-list

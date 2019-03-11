@@ -2,12 +2,11 @@
   {{ 'DISK_OFFERING.CHOOSE_DISK_OFFERING' | translate }}
 </h3>
 
-<ng-container *ngIf="diskOfferings.length; then dataTable else noResults"></ng-container>
+<ng-container *ngIf="diskOfferings.length; then dataTable; else noResults"></ng-container>
 
 <ng-template #dataTable>
   <div class="disk-offering-list">
     <mat-accordion displayMode="flat">
-
       <mat-expansion-panel *ngFor="let offering of diskOfferings">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -20,14 +19,12 @@
             </mat-radio-button>
           </mat-panel-title>
           <mat-panel-description>
-            <div
-              class="truncate"
-              [matTooltip]="offering.displaytext"
-              matTooltipShowDelay="500"
-            >
+            <div class="truncate" [matTooltip]="offering.displaytext" matTooltipShowDelay="500">
               {{ offering.displaytext }}
             </div>
-            <ng-container *ngIf="offering.iscustomized; then customLabel else diskSize"></ng-container>
+            <ng-container
+              *ngIf="offering.iscustomized; then customLabel; else diskSize"
+            ></ng-container>
             <ng-template #diskSize>
               <div class="disk-size">{{ offering.disksize }} {{ 'UNITS.GB' | translate }}</div>
             </ng-template>
@@ -61,7 +58,8 @@
               <td class="text-right">{{ offering.maxiops || '-' }}</td>
             </tr>
           </table>
-          <br>
+
+          <br />
 
           <table>
             <tr>
@@ -70,19 +68,20 @@
             </tr>
             <tr>
               <td>{{ 'DISK_OFFERING.PROVISIONING_TYPE' | translate }}:</td>
-              <td>{{ 'DISK_OFFERING.PROVISIONING_TYPE_VALUES.' + offering.provisioningtype | translate }}</td>
+              <td>
+                {{
+                  'DISK_OFFERING.PROVISIONING_TYPE_VALUES.' + offering.provisioningtype | translate
+                }}
+              </td>
             </tr>
             <tr>
-              <td>{{ 'DISK_OFFERING.CREATED' | translate }}: </td>
+              <td>{{ 'DISK_OFFERING.CREATED' | translate }}:</td>
               <td>{{ offeringCreated(offering.created) | csStringifyDate }}</td>
             </tr>
           </table>
         </div>
-
       </mat-expansion-panel>
-
     </mat-accordion>
-
   </div>
 </ng-template>
 
@@ -90,15 +89,10 @@
   <cs-no-results></cs-no-results>
 </ng-template>
 <mat-error *ngIf="resourcesLimitExceeded">
-  {{ "ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED" | translate }}
+  {{ 'ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED' | translate }}
 </mat-error>
 <div class="mat-dialog-actions">
-  <button
-    mat-button
-    color="primary"
-    matDialogClose
-    type="button"
-  >
+  <button mat-button color="primary" matDialogClose type="button">
     {{ 'COMMON.CANCEL' | translate }}
   </button>
   <button

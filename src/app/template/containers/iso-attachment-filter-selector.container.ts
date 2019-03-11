@@ -33,7 +33,8 @@ import { BaseTemplateModel } from '../shared';
       (selectedOsFamiliesChanged)="onSelectedOsFamiliesChange($event)"
       (selectedGroupsChanged)="onSelectedGroupsChange($event)"
       (queryChanged)="onQueryChange($event)"
-    ></cs-template-filter-list-selector>`,
+    ></cs-template-filter-list-selector>
+  `,
 })
 export class IsoAttachmentFilterSelectorContainerComponent implements AfterViewInit {
   readonly isos$ = this.store.pipe(select(fromTemplates.selectTemplatesForIsoAttachment));

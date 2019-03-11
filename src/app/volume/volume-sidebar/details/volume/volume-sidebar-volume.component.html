@@ -10,7 +10,7 @@
     <div class="grid grid-right">
       <div class="row" *ngIf="volume">
         <div>{{ 'VOLUME_PAGE.DETAILS.SIZE' | translate }}</div>
-        <div>{{ (volume.size | division:2:30:2) }} {{ ('UNITS.GB' | translate) }}</div>
+        <div>{{ volume.size | division: 2:30:2 }} {{ 'UNITS.GB' | translate }}</div>
       </div>
       <div class="row" *ngIf="volume">
         <div>{{ 'VOLUME_PAGE.DETAILS.CREATED' | translate }}</div>

@@ -1,11 +1,7 @@
 <cs-overlay-loading [active]="isLoading"></cs-overlay-loading>
 <div *ngIf="!isLoading">
   <h3 class="mat-dialog-title">{{ 'SSH_KEYS.CREATE_SSH_KEY' | translate }}</h3>
-  <form
-    (ngSubmit)="onSubmit($event)"
-    #sshCreationForm="ngForm"
-    novalidate
-  >
+  <form (ngSubmit)="onSubmit($event)" #sshCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
       <mat-form-field class="full-width-input">
         <input
@@ -15,9 +11,9 @@
           [placeholder]="'SSH_KEYS.NAME' | translate"
           autofocus
           required
-        >
+        />
       </mat-form-field>
-      <br/>
+      <br />
       <span class="public-key-label">{{ 'SSH_KEYS.PUBLIC_KEY' | translate }}</span>
       <mat-form-field floatLabel="never" class="full-width-input">
         <textarea
@@ -30,20 +26,10 @@
       </mat-form-field>
     </div>
     <div class="mat-dialog-actions">
-      <button
-        mat-button
-        color="primary"
-        matDialogClose
-        type="button"
-      >
+      <button mat-button color="primary" matDialogClose type="button">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <button
-        mat-button
-        color="primary"
-        type="submit"
-        [disabled]="!sshCreationForm.valid"
-      >
+      <button mat-button color="primary" type="submit" [disabled]="!sshCreationForm.valid">
         {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>

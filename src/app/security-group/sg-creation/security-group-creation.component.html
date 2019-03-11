@@ -18,12 +18,12 @@
           autofocus
           maxlength="255"
           required
-        >
+        />
         <mat-hint align="end">
           <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
         </mat-hint>
       </mat-form-field>
-      <br/>
+      <br />
       <mat-form-field class="full-width-input">
         <input
           matInput
@@ -31,15 +31,12 @@
           [(ngModel)]="description"
           [placeholder]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate"
           maxlength="255"
-        >
+        />
         <mat-hint align="end">
-          <cs-character-count
-            [value]="description"
-            [maxLength]="255"
-          ></cs-character-count>
+          <cs-character-count [value]="description" [maxLength]="255"></cs-character-count>
         </mat-hint>
       </mat-form-field>
-      <br/>
+      <br />
 
       <cs-security-group-creation-rules-manager
         class="basic-rules"
@@ -48,20 +45,10 @@
       ></cs-security-group-creation-rules-manager>
     </div>
     <div class="mat-dialog-actions">
-      <button
-        mat-button
-        color="primary"
-        matDialogClose
-        type="button"
-      >
+      <button mat-button color="primary" matDialogClose type="button">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <button
-        mat-button
-        color="primary"
-        type="submit"
-        [disabled]="!templateCreationForm.valid"
-      >
+      <button mat-button color="primary" type="submit" [disabled]="!templateCreationForm.valid">
         {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>

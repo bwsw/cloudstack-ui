@@ -57,8 +57,8 @@ export class TemplateFilterListSelectorComponent {
     this._selectedTemplate = template
       ? template
       : this.templates && this.templates.length
-        ? this.templates[0]
-        : null;
+      ? this.templates[0]
+      : null;
   }
 
   // tslint:disable-next-line:variable-name

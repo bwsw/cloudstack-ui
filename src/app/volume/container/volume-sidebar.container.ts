@@ -8,9 +8,8 @@ import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 @Component({
   selector: 'cs-volume-sidebar-container',
   template: `
-    <cs-volume-sidebar
-      [entity]="volume$ | async"
-    ></cs-volume-sidebar>`,
+    <cs-volume-sidebar [entity]="volume$ | async"></cs-volume-sidebar>
+  `,
 })
 export class VolumeSidebarContainerComponent implements OnInit {
   readonly volume$ = this.store.pipe(select(fromVolumes.getSelectedVolume));

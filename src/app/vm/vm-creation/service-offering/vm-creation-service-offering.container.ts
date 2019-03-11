@@ -29,7 +29,8 @@ import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducer
       (selectedClassesChanged)="onSelectedClassesChange($event)"
       (queryChange)="onQueryChange($event)"
     >
-    </cs-service-offering-dialog>`,
+    </cs-service-offering-dialog>
+  `,
 })
 export class VmCreationServiceOfferingContainerComponent implements OnInit, AfterViewInit {
   readonly offerings$ = this.store.pipe(select(selectFilteredOfferingsForVmCreation));

@@ -16,7 +16,8 @@ import * as fromTemplates from '../../../../reducers/templates/redux/template.re
       (groupReset)="onGroupReset($event)"
       (groupChange)="onGroupChange($event)"
       (cancel)="onCancel()"
-    ></cs-template-group-selector>`,
+    ></cs-template-group-selector>
+  `,
 })
 export class TemplateGroupSelectorContainerComponent {
   readonly imageGroups$ = this.store.pipe(select(configSelectors.get('imageGroups')));

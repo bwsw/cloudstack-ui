@@ -13,7 +13,8 @@ import * as volumeActions from '../../../../reducers/volumes/redux/volumes.actio
     <cs-create-volume-from-snapshot
       [isLoading]="isFormLoading$ | async"
       (volumeCreate)="onVolumeCreate($event)"
-    ></cs-create-volume-from-snapshot>`,
+    ></cs-create-volume-from-snapshot>
+  `,
 })
 export class CreateVolumeFromSnapshotContainerComponent {
   readonly isFormLoading$ = this.store.pipe(select(fromVolumes.isFormLoading));

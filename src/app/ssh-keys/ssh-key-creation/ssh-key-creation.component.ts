@@ -6,7 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'cs-ssh-create',
   template: `
-    <ng-template></ng-template>`,
+    <ng-template></ng-template>
+  `,
 })
 export class SshKeyCreationComponent {
   constructor(private dialog: MatDialog, private router: Router, private route: ActivatedRoute) {
