@@ -95,11 +95,10 @@ describe('e2e-test-vm-sidebar', () => {
   it('Verify new affinity group is set', () => {
     vmlist.clickOpenSidebarRunning();
     sidebar.clickAddAffGroup();
-    sidebar.setNewAffGroup('d123'); // sidebar.aff);
+    sidebar.setNewAffGroup(sidebar.aff);
     sidebar.waitDialogModal();
-    browser.sleep(2000);
     sidebar.clickYesDialogButton();
-    sidebar.waitAffGroupChanged('d123'); // sidebar.aff);
+    sidebar.waitAffGroupChanged(sidebar.aff);
     sidebar.clickClose();
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('VM stopped')).toBeTruthy();

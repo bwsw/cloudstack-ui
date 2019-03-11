@@ -59,8 +59,7 @@ export class VMSidebar extends CloudstackUiPage {
       5000,
       'New affinity group was not added',
     );
-    const path = `//span[text()="${name}"]/ancestor::tr`;
-    element(by.xpath("//span[text()='d123']/ancestor::tr")).click();
+    element(by.xpath(`//span[text()="${name}"]/ancestor::tr`)).click();
     element
       .all(by.css('.mat-button.mat-primary'))
       .last()
@@ -110,31 +109,11 @@ export class VMSidebar extends CloudstackUiPage {
   waitAffGroupChanged(aff) {
     const EC = protractor.ExpectedConditions;
     browser.wait(
-      EC.presenceOf(element(by.css(`//cs-affinity-group//span[text()='${aff}']`))),
+      EC.presenceOf(element(by.xpath(`//cs-affinity-group//span[text()="${aff}"]`))),
       5000,
       'Group name is not changed in sidebar VM',
     );
   }
-
-  /* getAllResults() { // returns a promise for 250 results
-    let totalResults = [];
-    let prom = getResults.get();
-    for (let i = 0; i < 4; i++) { // chain four more times
-      prom = prom.then(results => {
-        totalResults = totalResults.concat(results);
-        return getResults.get();
-      });
-    }
-    return prom.then( results => totalResults.concat(results) );
-  }
-
-  let promiseChain = [];
-  for(let i = 0; i <5; i++){
-  promiseChain.push(getResults.get());
-}
-
-Promise.all(promiseChain)
-  .then(callback) */
 
   getGroup() {
     return element(by.tagName('cs-instance-group'))
