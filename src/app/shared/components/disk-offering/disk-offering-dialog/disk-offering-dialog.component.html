@@ -1,6 +1,4 @@
-<h3 class="mat-dialog-title">
-  {{ 'DISK_OFFERING.CHOOSE_DISK_OFFERING' | translate }}
-</h3>
+<h3 class="mat-dialog-title">{{ 'DISK_OFFERING.CHOOSE_DISK_OFFERING' | translate }}</h3>
 
 <ng-container *ngIf="diskOfferings.length; then dataTable; else noResults"></ng-container>
 
@@ -85,9 +83,7 @@
   </div>
 </ng-template>
 
-<ng-template #noResults>
-  <cs-no-results></cs-no-results>
-</ng-template>
+<ng-template #noResults> <cs-no-results></cs-no-results> </ng-template>
 <mat-error *ngIf="resourcesLimitExceeded">
   {{ 'ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED' | translate }}
 </mat-error>
