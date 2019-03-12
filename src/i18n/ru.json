@@ -132,7 +132,7 @@
     },
     "VM": {
       "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов",
-      "USER_DATA_TOO_BIG": "Максимально допустимый размер user data превышен"
+      "USER_DATA_TOO_BIG": "Максимально допустимый размер значения параметра UserData превышен"
     },
     "VM_POST_ACTION": {
       "INVALID_URL": "Неподдерживаемый URL. Проверьте значения, задаваемые в тэгах ВМ"
@@ -298,9 +298,9 @@
       "CHANGE_SSH_IN_PROGRESS": "Изменение SSH-ключа",
       "CHANGE_SSH_DONE": "SSH-ключ изменен",
       "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ",
-      "CHANGE_USER_DATA_IN_PROGRESS": "Изменение user data",
-      "CHANGE_USER_DATA_DONE": "User data изменена",
-      "CHANGE_USER_DATA_FAILED": "Не удалось изменить user data"
+      "CHANGE_USER_DATA_IN_PROGRESS": "Изменение параметра UserData для ВМ",
+      "CHANGE_USER_DATA_DONE": "Значение параметра UserData ВМ изменено",
+      "CHANGE_USER_DATA_FAILED": "Не удалось изменить значение параметра UserData для ВМ"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Открепление диска",
@@ -430,7 +430,7 @@
         "ZONE": "Зона",
         "HOST_NAME": "Имя хоста",
         "ID": "ID",
-        "USER_DATA": "User data"
+        "USER_DATA": "UserData ВМ"
       },
       "SECURITY_GROUP": {
         "STOP_MACHINE_FOR_SG": "Для того, чтобы изменить группу безопасности, необходимо остановить виртуальную машину. Хотите остановить сейчас?",
@@ -650,7 +650,7 @@
       "NO_OFFERINGS": "Нет доступных вычислительных предложений",
       "GENERAL": "Основные",
       "ADVANCED": "Дополнительные",
-      "USER_DATA": "User data",
+      "USER_DATA": "UserData ВМ",
       "DETAILS": "Детали",
       "REQUEST": "ЗАПРОС",
       "PARAMS": "ПАРАМЕТРЫ",
@@ -670,9 +670,9 @@
         "ACTIONS": "Действия"
       },
       "VM_USER_DATA": {
-        "TITLE": "User data",
-        "USER_DATA": "User data",
-        "NO_USER_DATA": "User data не задана"
+        "TITLE": "UserData ВМ",
+        "USER_DATA": "UserData ВМ",
+        "NO_USER_DATA": "Параметр UserData ВМ не задан"
       }
     }
   },
