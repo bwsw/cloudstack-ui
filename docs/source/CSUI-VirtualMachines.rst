@@ -431,9 +431,9 @@ By clicking a VM line or card you can open a sidebar to the right.
 
 Here and in all other sections the sidebar width is adjustable - you can change it by hovering over its edge and dragging to the width you wish.
 
-.. figure:: _static/VM_Details_Resize1.png
+.. figure:: _static/VMs_Details_Resize1.png
 
-.. figure:: _static/VM_Details_Resize2.png
+.. figure:: _static/VMs_Details_Resize2.png
 
 In the details sidebar you will find the information for the selected virtual machine:
 
