@@ -373,7 +373,7 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Access VM",
       "VM_ACCESS_TITLE": "Virtual Machine",
-      "LOGS": "Log View",
+      "LOGS": "System Logs",
       "CREATE_VM_LOGS_TOKEN": "Create token",
       "INVALIDATE_VM_LOGS_TOKEN": "Invalidate token"
     },
