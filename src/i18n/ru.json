@@ -350,7 +350,7 @@
     "SSH_KEYS": "SSH ключи",
     "ACCOUNTS": "Аккаунты",
     "RESOURCE_QUOTAS": "Квоты ресурсов",
-    "LOGS": "Просмотр логов",
+    "LOGS": "Системные журналы",
     "SETTINGS": "Настройки",
     "LOGOUT": "Выйти",
     "LICENSE": {
