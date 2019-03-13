@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-04 16:11+0700\n"
-"PO-Revision-Date: 2019-03-13 13:59+0700\n"
+"POT-Creation-Date: 2019-03-13 15:18+0700\n"
+"PO-Revision-Date: 2019-03-13 15:20+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -215,8 +215,12 @@ msgstr ""
 "правом углу."
 
 #: ../../CSUI-VirtualMachines.rst:77
-msgid "The *New virtual machine* form contains two tabs: *General* and *Advanced*."
-msgstr "В форме создания ВМ вы увидите вкладки: Основные и Дополнительные."
+msgid ""
+"The *New virtual machine* form contains three tabs: *General*, *Advanced* and "
+"*VM UserData*."
+msgstr ""
+"В форме создания ВМ вы увидите вкладки: *Основные*, *Дополнительные* и *UserData "
+"ВМ*."
 
 #: ../../CSUI-VirtualMachines.rst:79
 msgid "In the *General* tab the following fields should be filled in:"
@@ -883,15 +887,16 @@ msgstr ""
 
 #: ../../CSUI-VirtualMachines.rst:257
 msgid ""
-"In the *User data* tab you can add any custom data for the machine. It allows "
+"In the *VM UserData* tab you can add any custom data for the machine. It allows "
 "adding necessary settings to the machine and deploying it configured with "
 "necessary services. In this tab, you will find a text area, where you can enter "
 "the configurations in any format. The maximum allowed size of data is 32 KB."
 msgstr ""
-"Во вкладке *User data* можно добавить любые пользовательские данные к настройкам "
-"машины. Это позволяет передать дополнительные настройки внутрь виртуальной "
-"машины и развернуть машину с нужными сервисами. User data добавляется при "
-"создании ВМ в любом формате. Максимальный размер данных - 32 Кбайт."
+"Во вкладке *UserData ВМ* можно добавить любые пользовательские данные к "
+"настройкам машины. Это позволяет передать дополнительные настройки внутрь "
+"виртуальной машины и развернуть машину с нужными сервисами. User data "
+"добавляется при создании ВМ в любом формате. Максимальный размер данных - 32 "
+"Кбайт."
 
 #: ../../CSUI-VirtualMachines.rst:261
 msgid "Once all fields are filled in, click \"Create\"."
@@ -1443,15 +1448,16 @@ msgid "Zone selected for the VM to be available in,"
 msgstr "зону, в которой ВМ будет доступна, "
 
 #: ../../CSUI-VirtualMachines.rst:464
-msgid "Machine ID."
-msgstr "ID виртуальной машины. "
+msgid "Machine ID,"
+msgstr "ID виртуальной машины,"
 
 #: ../../CSUI-VirtualMachines.rst:465
 msgid ""
-"User data - Allows viewing, editing and copying user data applied to the machine."
+"VM UserData - Allows viewing, editing and copying user data applied to the "
+"machine."
 msgstr ""
-"User data - позволяет просматривать, редактировать и копировать пользовательские "
-"данные, используемые для машине."
+"UserData ВМ - позволяет просматривать, редактировать и копировать "
+"пользовательские данные, используемые для машине."
 
 #: ../../CSUI-VirtualMachines.rst:467
 msgid ""
@@ -2310,11 +2316,11 @@ msgstr "ISO можно отсоединить от ВМ, нажав \"Откре
 msgid "Network Tab"
 msgstr "Вкладка \"Сеть\""
 
-#: ../../CSUI-VirtualMachines.rst:788
+#: ../../CSUI-VirtualMachines.rst:789
 msgid "The Network tab presents the network configurations of the VM."
 msgstr "Во вкладке \"Сеть\" представлены конфигурации сети ВМ."
 
-#: ../../CSUI-VirtualMachines.rst:792
+#: ../../CSUI-VirtualMachines.rst:793
 msgid ""
 "**NIC information** - VM network details are shown here: Network namе, Netmask, "
 "Gateway, IP, Broadcast URI, Traffic Type, Type, Default, MAC address."
@@ -2322,7 +2328,7 @@ msgstr ""
 "**Информация о NIC**  — здесь представлена информация о сети ВМ: название сети, "
 "маска сети, шлюз, IP, тип трафика, MAC адрес."
 
-#: ../../CSUI-VirtualMachines.rst:794
+#: ../../CSUI-VirtualMachines.rst:795
 msgid ""
 "You can add a secondary IP for the VM from this tab. Click \"+\" next to the "
 "Secondary IP option and confirm your action in the dialog window. The IP appears "
@@ -2332,12 +2338,12 @@ msgstr ""
 "с опцией \"Дополнительный IPv4\" и подтвердите действие в диалоговом окне. "
 "Дополнительный IPv4 появится в карточке сети ВМ."
 
-#: ../../CSUI-VirtualMachines.rst:798
+#: ../../CSUI-VirtualMachines.rst:799
 msgid ""
 "You can delete the secondary IP by clicking the \"Delete\" button next to it."
 msgstr "Дополнительный IP можно удалить нажатием кнопки \"Удалить\" рядом с ним."
 
-#: ../../CSUI-VirtualMachines.rst:800
+#: ../../CSUI-VirtualMachines.rst:801
 msgid ""
 "**Firewall rules** - Allows viewing the security group assigned to the virtual "
 "machine, attach and detach groups, edit rules in a group."
@@ -2346,7 +2352,7 @@ msgstr ""
 "используемую машиной, присоединять и отсоединять группы, редактировать правила  "
 "в группе."
 
-#: ../../CSUI-VirtualMachines.rst:802
+#: ../../CSUI-VirtualMachines.rst:803
 msgid ""
 "It is allowed to attach several groups to one machine. They are listed in the "
 "box. Next to each group, you can see the buttons |view| to view rules of the "
@@ -2357,16 +2363,16 @@ msgstr ""
 "которая позволяет просматривать правила группы, и \"-\", чтобы открепить группу "
 "от машины."
 
-#: ../../CSUI-VirtualMachines.rst:804
+#: ../../CSUI-VirtualMachines.rst:805
 msgid "**View rules**"
 msgstr "**Просмотр правил**"
 
-#: ../../CSUI-VirtualMachines.rst:806
+#: ../../CSUI-VirtualMachines.rst:807
 msgid "Click |view| to open the list of assigned firewall rules."
 msgstr ""
 "Кликом на |view| открывается список правил присоединенной группы безопасности. "
 
-#: ../../CSUI-VirtualMachines.rst:810
+#: ../../CSUI-VirtualMachines.rst:811
 msgid ""
 "You can filter the list by IP version, types and/or protocols. Or you can adjust "
 "the view by grouping the list by types and/or protocols."
@@ -2374,11 +2380,11 @@ msgstr ""
 "Список правил можно фильтровать по типам и/или протоколам. Также, список можно "
 "группировать по типам и/или протоколам."
 
-#: ../../CSUI-VirtualMachines.rst:814
+#: ../../CSUI-VirtualMachines.rst:815
 msgid "**Edit rules**"
 msgstr "**Редактирование правил**"
 
-#: ../../CSUI-VirtualMachines.rst:816
+#: ../../CSUI-VirtualMachines.rst:817
 msgid ""
 "In the modal window you can edit a security group. Click \"EDIT\" to move to the "
 "editing form. There you will be able to add rules, or delete the selected ones "
@@ -2388,13 +2394,13 @@ msgstr ""
 "\" для перехода к форме редактирования. В ней Вы можете добавить правила, или "
 "удалить правила из списка. "
 
-#: ../../CSUI-VirtualMachines.rst:818
+#: ../../CSUI-VirtualMachines.rst:819
 msgid ""
 "To add rules, please, fill in the fields in the bar above the list and click \"+"
 "\":"
 msgstr "Для добавления правил заполните поля в блоке над списком и нажмите \"+\":"
 
-#: ../../CSUI-VirtualMachines.rst:822
+#: ../../CSUI-VirtualMachines.rst:823
 msgid ""
 "To delete rules, please, click \"Delete\" icon in the list. The rule will be "
 "deleted from the security group."
@@ -2402,17 +2408,17 @@ msgstr ""
 "Чтобы удалить правило, нажмите иконку \"Удалить\" в списке. Правило будет "
 "удалено из группы безопасности. "
 
-#: ../../CSUI-VirtualMachines.rst:826
+#: ../../CSUI-VirtualMachines.rst:827
 msgid "Then you can move back to the view mode, or close the window."
 msgstr "Затем снова вернитесь в режим просмотра, или закройте окно."
 
-#: ../../CSUI-VirtualMachines.rst:828
+#: ../../CSUI-VirtualMachines.rst:829
 msgid ""
 "Please, note, when editing shared security groups, a warning message appears:"
 msgstr ""
 "При редактировании разделяемой группы безопасности появится предупреждение: "
 
-#: ../../CSUI-VirtualMachines.rst:832
+#: ../../CSUI-VirtualMachines.rst:833
 msgid ""
 "Click \"Yes\" if you still want to edit a shared security group. You will be "
 "moved to the \"Firewall\" section where you can edit the security group. After "
@@ -2424,11 +2430,11 @@ msgstr ""
 "внесения изменений вернитесь к машине, которая использует данную группу. Вы "
 "увидите, что правила в группе изменились. "
 
-#: ../../CSUI-VirtualMachines.rst:834
+#: ../../CSUI-VirtualMachines.rst:835
 msgid "**Attach Security Group**"
 msgstr "**Присоединить группу безопасности**"
 
-#: ../../CSUI-VirtualMachines.rst:836
+#: ../../CSUI-VirtualMachines.rst:837
 msgid ""
 "A VM can be a member of any number of security groups. To attach a security "
 "group to the virtual machine, you can use the \"+\" button. Click it to open a "
@@ -2445,7 +2451,7 @@ msgstr ""
 "по умолчанию. С помощью радио-кнопки выберите нужную опцию и нажмите \"СОХРАНИТЬ"
 "\"."
 
-#: ../../CSUI-VirtualMachines.rst:840
+#: ../../CSUI-VirtualMachines.rst:841
 msgid ""
 "If you attach a group to the machine in the Running state, the system will "
 "inform you that the machine will be stopped. If you agree, the machine gets "
@@ -2457,11 +2463,11 @@ msgstr ""
 "машину, присоединенная группа появится в списке групп для данной машины. Затем "
 "машина будет снова запущена."
 
-#: ../../CSUI-VirtualMachines.rst:842
+#: ../../CSUI-VirtualMachines.rst:843
 msgid "**Detach Security Group**"
 msgstr "**Отсоединить группу безопасности**"
 
-#: ../../CSUI-VirtualMachines.rst:844
+#: ../../CSUI-VirtualMachines.rst:845
 msgid ""
 "To detach a security group from the virtual machine, use the \"-\" button. Click "
 "it and confirm your action in the dialog box."
@@ -2469,7 +2475,7 @@ msgstr ""
 "Чтобы отсоединить группу безопасности от виртуальной машины, используйте кнопку "
 "\"-\". Подтвердите свое действие в диалоговом окне."
 
-#: ../../CSUI-VirtualMachines.rst:848
+#: ../../CSUI-VirtualMachines.rst:849
 msgid ""
 "If you detach a group from the machine in the Running state, the system will "
 "inform you that the machine will be stopped. If you agree, the machine gets "
@@ -2481,22 +2487,22 @@ msgstr ""
 "остановит машину, группа исчезнет из списка присоединенных групп. Затем машина "
 "будет снова запущена."
 
-#: ../../CSUI-VirtualMachines.rst:850
+#: ../../CSUI-VirtualMachines.rst:851
 msgid ""
 "See the :ref:`Firewall` section for more information on firewall rules in the "
 "system."
 msgstr "Более подробно о группах безопасности читайте в разделе :ref:`Firewall`."
 
-#: ../../CSUI-VirtualMachines.rst:853
+#: ../../CSUI-VirtualMachines.rst:854
 msgid "Tags Tab"
 msgstr "Вкладка \"Теги\""
 
-#: ../../CSUI-VirtualMachines.rst:855
+#: ../../CSUI-VirtualMachines.rst:856
 msgid "Under this tab, you can create and see the VM tags."
 msgstr ""
 "В данной вкладке Вы можете создавать и просматривать теги виртуальной машины. "
 
-#: ../../CSUI-VirtualMachines.rst:859
+#: ../../CSUI-VirtualMachines.rst:860
 msgid ""
 "CloudStack-UI uses tags very extensively to provide additional UX capabilities. "
 "Tags are key-value pairs. So it makes a kind of a key-value storage for the meta-"
@@ -2513,7 +2519,7 @@ msgstr ""
 "системных тегов CloudStack-UI Вы найдете на `странице <https://github.com/bwsw/"
 "cloudstack-ui/wiki/Tags>`_."
 
-#: ../../CSUI-VirtualMachines.rst:861
+#: ../../CSUI-VirtualMachines.rst:862
 msgid ""
 "System tags are used to provide functionality from the user interface "
 "perspective. Changing these tags affects the functionality of the application. "
@@ -2531,7 +2537,7 @@ msgstr ""
 "запомнит, что системные теги следует скрывать, и в следующий раз не будет их "
 "показывать по умолчанию. "
 
-#: ../../CSUI-VirtualMachines.rst:863
+#: ../../CSUI-VirtualMachines.rst:864
 msgid ""
 "To find the tag you are interested in, please, use the search tool above the tag "
 "list. You can enter a name or a part of the tag name to distinguish it in the "
@@ -2540,7 +2546,7 @@ msgstr ""
 "Для поиска тега в списке воспользуйтесь инструментом поиска. Введите имя или "
 "часть имени тега и нужный тег будет выделен в списке. "
 
-#: ../../CSUI-VirtualMachines.rst:867
+#: ../../CSUI-VirtualMachines.rst:868
 msgid ""
 "The tags assigned to the virtual machine are presented in the list. System tags "
 "are presented in one card, other tags - in a separate card. For each tag in the "
@@ -2548,7 +2554,7 @@ msgid ""
 "key:"
 msgstr "При наведении мышью на имя тега рядом с ним появляется список действий: "
 
-#: ../../CSUI-VirtualMachines.rst:869
+#: ../../CSUI-VirtualMachines.rst:870
 msgid ""
 "Edit - Allows editing the tag. In the appeared form define a new key and/or "
 "value (both fields are required). Click \"Edit\" to save the edits. Click "
@@ -2559,7 +2565,7 @@ msgstr ""
 "\"Редактировать\" для сохранения внесенных изменений. Нажмите \"Отмена\", чтобы "
 "сбросить все изменения и отменить редактирование тега."
 
-#: ../../CSUI-VirtualMachines.rst:871
+#: ../../CSUI-VirtualMachines.rst:872
 msgid ""
 "Delete - Allows deleting the tag. Click \"Delete\" and confirm your action in "
 "the dialog window."
@@ -2567,19 +2573,19 @@ msgstr ""
 "Удалить — позволяет удалить тег. Нажмите \"Удалить\" и подтвердите свое действие "
 "в диалоговом окне. "
 
-#: ../../CSUI-VirtualMachines.rst:875
+#: ../../CSUI-VirtualMachines.rst:876
 msgid "**Create Tags**"
 msgstr "**Создание тега**"
 
-#: ../../CSUI-VirtualMachines.rst:877
+#: ../../CSUI-VirtualMachines.rst:878
 msgid "You can create a tag right from *Tags* tab."
 msgstr "Во вкладке «Теги» можно создать тег. "
 
-#: ../../CSUI-VirtualMachines.rst:879
+#: ../../CSUI-VirtualMachines.rst:880
 msgid "Click \"Create\" |create icon| and fill in the appeared form:"
 msgstr "Нажмите \"Создать\" |create icon| и заполните поля формы:"
 
-#: ../../CSUI-VirtualMachines.rst:881
+#: ../../CSUI-VirtualMachines.rst:882
 msgid ""
 "Required fields are marked with an asterisk (*). You cannot use space as the "
 "first symbol."
@@ -2587,15 +2593,15 @@ msgstr ""
 "Обязательные поля отмечены \"звездочкой\" (*). Значения в полях не должны "
 "начинаться с пробела."
 
-#: ../../CSUI-VirtualMachines.rst:883
+#: ../../CSUI-VirtualMachines.rst:884
 msgid "Key * - Enter a key here."
 msgstr "Ключ * — укажите ключ. "
 
-#: ../../CSUI-VirtualMachines.rst:885
+#: ../../CSUI-VirtualMachines.rst:886
 msgid "Value * - Enter the value here."
 msgstr "Значение * — укажите значение ключа."
 
-#: ../../CSUI-VirtualMachines.rst:889
+#: ../../CSUI-VirtualMachines.rst:890
 msgid ""
 "When adding a system tag, click \"+\" in the card to open the creation form. You "
 "will see that the ``csui`` prefix is automatically prepopulated here."
@@ -2604,7 +2610,7 @@ msgstr ""
 "форма создания тега. Вы увидите, что в ней поле \"Ключ\" уже содержит ``csui``. "
 "Вам останется ввести остальную часть ключа."
 
-#: ../../CSUI-VirtualMachines.rst:893
+#: ../../CSUI-VirtualMachines.rst:894
 msgid ""
 "If you create a non-system tag, it will be saved in a new card. If you have "
 "entered a key in the format ``<prefix>.<example>``, a card will be named as "
@@ -2617,11 +2623,11 @@ msgstr ""
 "``<prefix>``. Создавая тег из этого блока, в форме создания тега поле «Ключ» "
 "будет автоматически содержать значение ``<prefix>``."
 
-#: ../../CSUI-VirtualMachines.rst:900
+#: ../../CSUI-VirtualMachines.rst:901
 msgid "Access a Virtual Machine"
 msgstr "Доступ к виртуальной машине"
 
-#: ../../CSUI-VirtualMachines.rst:901
+#: ../../CSUI-VirtualMachines.rst:902
 msgid ""
 "Access VM component allows a user to obtain all necessary credentials to access "
 "a VM in the final dialog box shown after VM creation, or later when a user "
@@ -2637,23 +2643,23 @@ msgstr ""
 "машина, или для самой машины, в интерфейсе доступа к ВМ отображается необходимая "
 "информация. На сегодня реализованы следующие режимы доступа к машине:"
 
-#: ../../CSUI-VirtualMachines.rst:903
+#: ../../CSUI-VirtualMachines.rst:904
 msgid "Via a VNC console - active by default for all VMs;"
 msgstr "Через VNC консоль  — опция активна по умолчанию для всех машин;"
 
-#: ../../CSUI-VirtualMachines.rst:905
+#: ../../CSUI-VirtualMachines.rst:906
 msgid "Via SSH;"
 msgstr "По SSH;"
 
-#: ../../CSUI-VirtualMachines.rst:907
+#: ../../CSUI-VirtualMachines.rst:908
 msgid "Via HTTP."
 msgstr "По HTTP."
 
-#: ../../CSUI-VirtualMachines.rst:909
+#: ../../CSUI-VirtualMachines.rst:910
 msgid "The three access modes can be used at the same time for one machine."
 msgstr "Все три режима доступа могут использоваться для одной ВМ одновременно."
 
-#: ../../CSUI-VirtualMachines.rst:911
+#: ../../CSUI-VirtualMachines.rst:912
 msgid ""
 "You can find more information on how to enable a necessary access mode at the "
 "`wiki-page <https://github.com/bwsw/cloudstack-ui/wiki/Access-VM:-Supported-"
@@ -2663,7 +2669,7 @@ msgstr ""
 "странице `wiki <https://github.com/bwsw/cloudstack-ui/wiki/Access-VM:-Supported-"
 "Modes>`_  в репозитории проекта."
 
-#: ../../CSUI-VirtualMachines.rst:913
+#: ../../CSUI-VirtualMachines.rst:914
 msgid ""
 "Selecting \"Access VM\" in the VM action list, you open a modal window with "
 "three tabs. The view and contents of the modal window are determined by the "
@@ -2677,7 +2683,7 @@ msgstr ""
 "Это значит, что для машины данный режим доступа отключен. В активных вкладках "
 "можно просматривать  реквизиты доступа к ВМ: логин, пароль, порт, путь и другие."
 
-#: ../../CSUI-VirtualMachines.rst:915
+#: ../../CSUI-VirtualMachines.rst:916
 msgid ""
 "In each tab you can click on a corresponding link to open a console or a window "
 "to access the VM."
@@ -2685,35 +2691,35 @@ msgstr ""
 "В каждой вкладке предоставлена соответствующая ссылка, кликом на которую можно "
 "открыть консоль/окно доступа по SSH/окно доступа по URL."
 
-#: ../../CSUI-VirtualMachines.rst:917
+#: ../../CSUI-VirtualMachines.rst:918
 msgid "Below you will find more information on each access mode."
 msgstr "Ниже более подробно описан каждый помощник доступа к ВМ."
 
-#: ../../CSUI-VirtualMachines.rst:920
+#: ../../CSUI-VirtualMachines.rst:921
 msgid "VNC console"
 msgstr "Доступ через VNC консоль"
 
-#: ../../CSUI-VirtualMachines.rst:921
+#: ../../CSUI-VirtualMachines.rst:922
 msgid "This tab contains the following details:"
 msgstr "В данной вкладке содержится следующая информация:"
 
-#: ../../CSUI-VirtualMachines.rst:923 ../../CSUI-VirtualMachines.rst:984
+#: ../../CSUI-VirtualMachines.rst:924 ../../CSUI-VirtualMachines.rst:985
 msgid "Login;"
 msgstr "Логин;"
 
-#: ../../CSUI-VirtualMachines.rst:925 ../../CSUI-VirtualMachines.rst:986
+#: ../../CSUI-VirtualMachines.rst:926 ../../CSUI-VirtualMachines.rst:987
 msgid "Password (if available);"
 msgstr "Пароль (если он доступен);"
 
-#: ../../CSUI-VirtualMachines.rst:927
+#: ../../CSUI-VirtualMachines.rst:928
 msgid "Open VNC console link that opens a console to access the VM."
 msgstr "Ссылка, чтобы открыть VNC консоль для доступа к ВМ."
 
-#: ../../CSUI-VirtualMachines.rst:932
+#: ../../CSUI-VirtualMachines.rst:933
 msgid "SSH"
 msgstr "Доступ по SSH"
 
-#: ../../CSUI-VirtualMachines.rst:933
+#: ../../CSUI-VirtualMachines.rst:934
 msgid ""
 "This tab is active if the access via SSH is enabled. It is determined by the "
 "following template tags::"
@@ -2721,49 +2727,49 @@ msgstr ""
 "Данная вкладка активна, если для машины включен доступ по SSH. Включить его "
 "можно через следующие теги в шаблоне ВМ::"
 
-#: ../../CSUI-VirtualMachines.rst:940
+#: ../../CSUI-VirtualMachines.rst:941
 msgid "This tab displays the following details:"
 msgstr "Данная вкладка отображает следующую информацию:"
 
-#: ../../CSUI-VirtualMachines.rst:942
+#: ../../CSUI-VirtualMachines.rst:943
 msgid "Connection String (IPv4), that can be copied by clicking on |copy icon|."
 msgstr ""
 "Строка подключения (IPv4), которую можно скопировать кликом на  |copy icon|."
 
-#: ../../CSUI-VirtualMachines.rst:944
+#: ../../CSUI-VirtualMachines.rst:945
 msgid "Connection String (IPv6), that can be copied by clicking on |copy icon|."
 msgstr ""
 "Строка подключения (IPv6), которую можно скопировать кликом на |copy icon|."
 
-#: ../../CSUI-VirtualMachines.rst:946
+#: ../../CSUI-VirtualMachines.rst:947
 msgid "IPv4"
 msgstr "IPv4"
 
-#: ../../CSUI-VirtualMachines.rst:948
+#: ../../CSUI-VirtualMachines.rst:949
 msgid "IPv6"
 msgstr "IPv6"
 
-#: ../../CSUI-VirtualMachines.rst:950
+#: ../../CSUI-VirtualMachines.rst:951
 msgid "Port"
 msgstr "Порт"
 
-#: ../../CSUI-VirtualMachines.rst:952
+#: ../../CSUI-VirtualMachines.rst:953
 msgid "Login"
 msgstr "Логин"
 
-#: ../../CSUI-VirtualMachines.rst:954
+#: ../../CSUI-VirtualMachines.rst:955
 msgid "Password"
 msgstr "Пароль"
 
-#: ../../CSUI-VirtualMachines.rst:956
+#: ../../CSUI-VirtualMachines.rst:957
 msgid "SSH Key"
 msgstr "SSH ключ"
 
-#: ../../CSUI-VirtualMachines.rst:958
+#: ../../CSUI-VirtualMachines.rst:959
 msgid "Open WebShell - a clickable link to open a WebShell console."
 msgstr "Открыть WebShell — активная ссылка, чтобы открыть консоль WebShell."
 
-#: ../../CSUI-VirtualMachines.rst:960
+#: ../../CSUI-VirtualMachines.rst:961
 msgid ""
 "In case the WebShell plugin is enabled, a user can SSH to VM in browser. To find "
 "more information on deployment and using the WebShell plugin, please, refer to "
@@ -2773,11 +2779,11 @@ msgstr ""
 "SSH через браузер. Подробнее об установке и использовании плагине WebShell см. "
 "`страницу плагина <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_."
 
-#: ../../CSUI-VirtualMachines.rst:965
+#: ../../CSUI-VirtualMachines.rst:966
 msgid "HTTP"
 msgstr "Доступ по HTTP"
 
-#: ../../CSUI-VirtualMachines.rst:966
+#: ../../CSUI-VirtualMachines.rst:967
 msgid ""
 "Under this tab you can access a VM via HTTP/HTTPS URL. This mode is defined by "
 "the tags::"
@@ -2785,28 +2791,28 @@ msgstr ""
 "Из данной вкладки можно получить доступ к ВМ через  HTTP/HTTPS URL. Данный режим "
 "доступа включается при определении следующих тегов для ВМ::"
 
-#: ../../CSUI-VirtualMachines.rst:976
+#: ../../CSUI-VirtualMachines.rst:977
 msgid "If no ``csui.vm.http.port`` is defined, then default values are used:"
 msgstr ""
 "Если ``csui.vm.http.port`` не определен, используются значения по умолчанию:"
 
-#: ../../CSUI-VirtualMachines.rst:978
+#: ../../CSUI-VirtualMachines.rst:979
 msgid "for HTTPS protocol: 443"
 msgstr "для протокола HTTPS: 443"
 
-#: ../../CSUI-VirtualMachines.rst:980
+#: ../../CSUI-VirtualMachines.rst:981
 msgid "for HTTP protocol: 80"
 msgstr "для протокола HTTP: 80"
 
-#: ../../CSUI-VirtualMachines.rst:982
+#: ../../CSUI-VirtualMachines.rst:983
 msgid "This tab displays the following information:"
 msgstr "В данной вкладке доступна следующая информация:"
 
-#: ../../CSUI-VirtualMachines.rst:988
+#: ../../CSUI-VirtualMachines.rst:989
 msgid "Open URL with a clickable URL."
 msgstr "Активная ссылка  URL, чтобы открыть консоль."
 
-#: ../../CSUI-VirtualMachines.rst:990
+#: ../../CSUI-VirtualMachines.rst:991
 msgid ""
 "To configure VM access via HTTP/HTTPS, please, refer to `page <https://github."
 "com/bwsw/cloudstack-ui/wiki/Tags>`_."
@@ -2814,7 +2820,7 @@ msgstr ""
 "Подробнее о конфигурировании доступа к ВМ через HTTP см. на `странице <https://"
 "github.com/bwsw/cloudstack-ui/wiki/Tags>`_."
 
-#: ../../CSUI-VirtualMachines.rst:994
+#: ../../CSUI-VirtualMachines.rst:995
 msgid "To close the modal window click \"CLOSE\"."
 msgstr "Чтобы закрыть модальное окно, нажмите \"ЗАКРЫТЬ\"."
 
