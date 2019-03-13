@@ -45,3 +45,5 @@ elif [[ "$CI_TYPE" == "MASTER" ]]; then
   GITHUB_USER=bwsw
   deployUserBranch
 fi
+
+echo "App successfully deployed."
