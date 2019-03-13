@@ -4,38 +4,25 @@ language: node_js
 node_js:
   - '8'
 
-services:
-  - docker
-
 branches:
   only:
     - master
-    - /^\d+\.\d+\.\d+$/
 
-cache: yarn
+cache:
+  yarn: true
+  directories:
+    - node_modules
 
 addons:
   chrome: stable
-  apt:
-    packages:
-      - docker-ce
-
-env:
-  global:
-    - DOCKER_USER=bwsw
-    - DOCKER_REPO=cloudstack-ui
 
 install:
   - yarn install
 
+script:
+  - yarn lint
+  - yarn format:check
+  - yarn test
+
 after_success:
   - yarn coveralls
-
-before_deploy:
-  - docker build -t ${DOCKER_USER}/${DOCKER_REPO} .
-
-deploy:
-  - provider: script
-    script: ./scripts/ci/publish-docker-image.sh
-    on:
-      all_branches: true
