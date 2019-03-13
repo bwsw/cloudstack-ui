@@ -38,6 +38,7 @@ exports.config = {
     login: './e2e/login.e2e-spec.ts',
     vm_creation: './e2e/vm-creation.e2e-spec.ts',
     disk_creation: './e2e/disk-creation.e2e-spec.ts',
+    disk_details: './e2e/disk-details.e2e-spec.ts',
   },
   jasmineNodeOpts: {
     showColors: true,

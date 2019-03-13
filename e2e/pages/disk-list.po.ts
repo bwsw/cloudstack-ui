@@ -40,4 +40,21 @@ export class DiskList extends CloudstackUiPage {
   clickClose() {
     element(by.css('.backdrop.ng-star-inserted')).click();
   }
+
+  clickOnReadyDisk() {
+    element
+      .all(by.css('.entity-card.mat-card'))
+      .first()
+      .click();
+    const EC = browser.ExpectedConditions;
+    browser.wait(EC.presenceOf(element(by.css('.open'))), 5000, "Sidebar doesn't open");
+  }
+
+  findDiskSize(diskname) {
+    return element(
+      by.xpath(
+        `//span[text()="${diskname}"]/ancestor::mat-card//div[@class="entity-card-data-line"][1]`,
+      ),
+    ).getText();
+  }
 }
