@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-04 16:11+0700\n"
-"PO-Revision-Date: 2019-03-04 16:48+0700\n"
+"PO-Revision-Date: 2019-03-13 13:59+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -1322,7 +1322,7 @@ msgid ""
 "found at the :ref:`Pulse_Plugin` page."
 msgstr ""
 "Данный плагин удобен для динамического мониторинга работы машины. Вы найдете "
-"больше информации об этом плагине в разделе :ref:`Pulse_Plugin`. Инструкции по "
+"больше информации об этом плагине в разделе :ref:`Pulse`. Инструкции по "
 "установке плагина Пульс можно найти в разделе :ref:`PulseDeployment`."
 
 #: ../../CSUI-VirtualMachines.rst:419
@@ -1436,7 +1436,7 @@ msgstr "Детали — отображает детали машины:"
 
 #: ../../CSUI-VirtualMachines.rst:462
 msgid "VM host name,"
-msgstr "заданное или сгенерированное автоматически имя хоста,"
+msgstr " заданное или сгенерированное автоматически имя хоста,"
 
 #: ../../CSUI-VirtualMachines.rst:463
 msgid "Zone selected for the VM to be available in,"
@@ -1451,7 +1451,7 @@ msgid ""
 "User data - Allows viewing, editing and copying user data applied to the machine."
 msgstr ""
 "User data - позволяет просматривать, редактировать и копировать пользовательские "
-"данные, используемые для машины."
+"данные, используемые для машине."
 
 #: ../../CSUI-VirtualMachines.rst:467
 msgid ""
@@ -1470,7 +1470,7 @@ msgid ""
 "Click EDIT to view the data in the editing mode. Make necessary changes and save "
 "them."
 msgstr ""
-"Нажмите РЕДАКТИРОВАТЬ для просмотра данных в режиме редактирования. Внесите "
+"Нажмите РЕДАКТИРОВАТЬ для просмотра данные в режиме редактирования. Внесите "
 "изменения в текстовом поле и сохраните их."
 
 #: ../../CSUI-VirtualMachines.rst:477
@@ -2311,7 +2311,6 @@ msgid "Network Tab"
 msgstr "Вкладка \"Сеть\""
 
 #: ../../CSUI-VirtualMachines.rst:788
-#, fuzzy
 msgid "The Network tab presents the network configurations of the VM."
 msgstr "Во вкладке \"Сеть\" представлены конфигурации сети ВМ."
 
