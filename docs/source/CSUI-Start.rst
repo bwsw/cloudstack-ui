@@ -100,7 +100,7 @@ A user can add the information on support services to all error messages to let 
 
 - ``support-info.md`` - the main file that contains contact details of the technical support team in English,
 
-- ``support-info.ru.md`` - contains Russian version of the main file.
+- ``support-info.ru.md`` - contains a Russian version of the main file.
 
 If you use the prepared `Docker image <https://github.com/bwsw/cloudstack-ui#deployment>`_ to deploy the project, you should map your custom support information files via Docker-volume when running the container. For example:
 :: 
