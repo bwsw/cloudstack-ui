@@ -177,15 +177,30 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getSecurityGroupsEntitiesState,
 );
 
-export const filters = createSelector(getSecurityGroupsEntitiesState, state => state.filters);
+export const filters = createSelector(
+  getSecurityGroupsEntitiesState,
+  state => state.filters,
+);
 
-export const viewMode = createSelector(filters, state => state.viewMode);
+export const viewMode = createSelector(
+  filters,
+  state => state.viewMode,
+);
 
-export const query = createSelector(filters, state => state.query);
+export const query = createSelector(
+  filters,
+  state => state.query,
+);
 
-export const selectOrphanSG = createSelector(filters, state => state.selectOrphanSG);
+export const selectOrphanSG = createSelector(
+  filters,
+  state => state.selectOrphanSG,
+);
 
-export const filterSelectedAccountIds = createSelector(filters, state => state.selectedAccountIds);
+export const filterSelectedAccountIds = createSelector(
+  filters,
+  state => state.selectedAccountIds,
+);
 
 export const getSelectedId = createSelector(
   getSecurityGroupsEntitiesState,
@@ -198,9 +213,15 @@ export const getSelectedSecurityGroup = createSelector(
   (state, selectedId) => state.entities[selectedId],
 );
 
-export const isListLoading = createSelector(getSecurityGroupsEntitiesState, state => state.loading);
+export const isListLoading = createSelector(
+  getSecurityGroupsEntitiesState,
+  state => state.loading,
+);
 
-export const isFormLoading = createSelector(getSecurityGroupsFormState, state => state.loading);
+export const isFormLoading = createSelector(
+  getSecurityGroupsFormState,
+  state => state.loading,
+);
 
 const selectDefaultSecurityGroupName = createSelector(
   configSelectors.get('defaultSecurityGroupName'),

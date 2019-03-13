@@ -87,17 +87,29 @@ export function reducer(state = initialState, action: event.Actions): State {
 
 export const getZonesState = createFeatureSelector<ZonesState>('zones');
 
-export const getZonesEntitiesState = createSelector(getZonesState, state => state.list);
+export const getZonesEntitiesState = createSelector(
+  getZonesState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getZonesEntitiesState,
 );
 
-export const isLoading = createSelector(getZonesEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getZonesEntitiesState,
+  state => state.loading,
+);
 
-export const isLoaded = createSelector(getZonesEntitiesState, state => state.loaded);
+export const isLoaded = createSelector(
+  getZonesEntitiesState,
+  state => state.loaded,
+);
 
-export const getSelectedId = createSelector(getZonesEntitiesState, state => state.selectedZoneId);
+export const getSelectedId = createSelector(
+  getZonesEntitiesState,
+  state => state.selectedZoneId,
+);
 
 export const getSelectedZone = createSelector(
   getZonesState,

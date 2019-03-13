@@ -91,4 +91,7 @@ export const {
   selectTotal,
 } = adapter.getSelectors(getResourceLimitsEntitiesState);
 
-export const isLoaded = createSelector(getResourceLimitsEntitiesState, state => state.loaded);
+export const isLoaded = createSelector(
+  getResourceLimitsEntitiesState,
+  state => state.loaded,
+);

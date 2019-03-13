@@ -169,15 +169,24 @@ export function reducer(state = initialState, action: accountActions.Actions): S
 
 export const getAccountsState = createFeatureSelector<AccountsState>('accounts');
 
-export const getAccountsEntitiesState = createSelector(getAccountsState, state => state.list);
+export const getAccountsEntitiesState = createSelector(
+  getAccountsState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getAccountsEntitiesState,
 );
 
-export const isLoading = createSelector(getAccountsEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getAccountsEntitiesState,
+  state => state.loading,
+);
 
-export const isLoaded = createSelector(getAccountsEntitiesState, state => state.loaded);
+export const isLoaded = createSelector(
+  getAccountsEntitiesState,
+  state => state.loaded,
+);
 
 export const getSelectedId = createSelector(
   getAccountsEntitiesState,
@@ -190,17 +199,35 @@ export const getSelectedAccount = createSelector(
   (state, selectedId) => state.list.entities[selectedId],
 );
 
-export const filters = createSelector(getAccountsEntitiesState, state => state.filters);
+export const filters = createSelector(
+  getAccountsEntitiesState,
+  state => state.filters,
+);
 
-export const filterSelectedRoleTypes = createSelector(filters, state => state.selectedRoleTypes);
+export const filterSelectedRoleTypes = createSelector(
+  filters,
+  state => state.selectedRoleTypes,
+);
 
-export const filterSelectedDomainIds = createSelector(filters, state => state.selectedDomainIds);
+export const filterSelectedDomainIds = createSelector(
+  filters,
+  state => state.selectedDomainIds,
+);
 
-export const filterSelectedRoleNames = createSelector(filters, state => state.selectedRoleNames);
+export const filterSelectedRoleNames = createSelector(
+  filters,
+  state => state.selectedRoleNames,
+);
 
-export const filterSelectedStates = createSelector(filters, state => state.selectedStates);
+export const filterSelectedStates = createSelector(
+  filters,
+  state => state.selectedStates,
+);
 
-export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
+export const filterSelectedGroupings = createSelector(
+  filters,
+  state => state.selectedGroupings,
+);
 
 export const selectUserAccount = createSelector(
   selectEntities,
@@ -208,14 +235,20 @@ export const selectUserAccount = createSelector(
   (accountsMap, accountId) => accountsMap[accountId],
 );
 
-export const selectIsUserAdmin = createSelector(selectUserAccount, isAdmin);
+export const selectIsUserAdmin = createSelector(
+  selectUserAccount,
+  isAdmin,
+);
 
-export const selectStorageAvailable = createSelector(selectUserAccount, account => {
-  if (account) {
-    const available = Number(account.primarystorageavailable);
-    return !isNaN(available) ? available : null;
-  }
-});
+export const selectStorageAvailable = createSelector(
+  selectUserAccount,
+  account => {
+    if (account) {
+      const available = Number(account.primarystorageavailable);
+      return !isNaN(available) ? available : null;
+    }
+  },
+);
 
 export const selectFilteredAccounts = createSelector(
   selectAll,

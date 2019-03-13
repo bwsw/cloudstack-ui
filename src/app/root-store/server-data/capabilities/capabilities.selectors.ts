@@ -12,7 +12,10 @@ export const getCapabilities = createSelector(
   (state): Capabilities => state.capabilities,
 );
 
-export const isLoading = createSelector(getCapabilitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getCapabilitiesState,
+  state => state.loading,
+);
 
 export const getIsAllowedToViewDestroyedVms = createSelector(
   getCapabilities,

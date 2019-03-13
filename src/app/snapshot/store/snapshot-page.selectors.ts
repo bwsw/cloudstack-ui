@@ -16,13 +16,25 @@ import { isUndefined } from 'util';
 
 const getSnapshotPageState = createFeatureSelector<SnapshotPageState>(snapshotPageStoreName);
 
-const getSelectedId = createSelector(getSnapshotPageState, state => state.selectedId);
+const getSelectedId = createSelector(
+  getSnapshotPageState,
+  state => state.selectedId,
+);
 
-export const getViewMode = createSelector(getSnapshotPageState, state => state.viewMode);
+export const getViewMode = createSelector(
+  getSnapshotPageState,
+  state => state.viewMode,
+);
 
-export const getFilters = createSelector(getSnapshotPageState, (state): Filters => state.filters);
+export const getFilters = createSelector(
+  getSnapshotPageState,
+  (state): Filters => state.filters,
+);
 
-export const getGroupings = createSelector(getSnapshotPageState, state => state.groupings);
+export const getGroupings = createSelector(
+  getSnapshotPageState,
+  state => state.groupings,
+);
 
 export const getSelectedSnapshot = createSelector(
   getSelectedId,
