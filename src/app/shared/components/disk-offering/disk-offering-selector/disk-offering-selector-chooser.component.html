@@ -7,9 +7,9 @@
 </div>
 
 <div class="mat-form-field-wrapper">
-    <span class="disk-offering-info truncate">
-      <ng-container *ngIf="diskOffering; then offeringName else nameStub"></ng-container>
-      <ng-template #offeringName>{{ diskOffering.name }}</ng-template>
-      <ng-template #nameStub>{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</ng-template>
-    </span>
+  <span class="disk-offering-info truncate">
+    <ng-container *ngIf="diskOffering; then offeringName; else nameStub"></ng-container>
+    <ng-template #offeringName>{{ diskOffering.name }}</ng-template>
+    <ng-template #nameStub>{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</ng-template>
+  </span>
 </div>

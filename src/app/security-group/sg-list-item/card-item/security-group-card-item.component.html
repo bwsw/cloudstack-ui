@@ -1,14 +1,14 @@
-<mat-card
-  (click)="handleClick()"
-  [class.card-selected]="isSelected(item)"
-  class="entity-card"
->
-
+<mat-card (click)="handleClick()" [class.card-selected]="isSelected(item)" class="entity-card">
   <mat-card-header class="entity-card-header">
     <mat-card-title [matTooltip]="item.name" class="entity-card-title">
-      <span [innerHTML]="item.name | highlight:query"></span>
+      <span [innerHTML]="item.name | highlight: query"></span>
     </mat-card-title>
-    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu" (click)="$event.stopPropagation()">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="actionsMenu"
+      class="entity-card-menu"
+      (click)="$event.stopPropagation()"
+    >
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>
@@ -29,12 +29,13 @@
       <span [style.visibility]="item.description ? 'visible' : 'hidden'">
         {{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:
       </span>
-      <span [innerHTML]="item.description | highlight:query"></span>
+      <span [innerHTML]="item.description | highlight: query"></span>
     </div>
   </mat-card-content>
 
   <mat-menu #actionsMenu="matMenu">
-    <cs-security-group-actions-container [securityGroup]="item"></cs-security-group-actions-container>
+    <cs-security-group-actions-container
+      [securityGroup]="item"
+    ></cs-security-group-actions-container>
   </mat-menu>
-
 </mat-card>

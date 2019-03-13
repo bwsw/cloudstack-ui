@@ -64,34 +64,36 @@ export class ResourceStats {
     const maxResources = new ResourcesData();
     const availableResources = new ResourcesData();
 
-    accounts.map(a => this.convertLimits(a)).forEach(a => {
-      consumedResources.instances += +a.vmtotal;
-      consumedResources.cpus += +a.cputotal;
-      consumedResources.ips += +a.iptotal;
-      consumedResources.memory += +a.memorytotal;
-      consumedResources.volumes += +a.volumetotal;
-      consumedResources.snapshots += +a.snapshottotal;
-      consumedResources.primaryStorage += +a.primarystoragetotal;
-      consumedResources.secondaryStorage += +a.secondarystoragetotal;
+    accounts
+      .map(a => this.convertLimits(a))
+      .forEach(a => {
+        consumedResources.instances += +a.vmtotal;
+        consumedResources.cpus += +a.cputotal;
+        consumedResources.ips += +a.iptotal;
+        consumedResources.memory += +a.memorytotal;
+        consumedResources.volumes += +a.volumetotal;
+        consumedResources.snapshots += +a.snapshottotal;
+        consumedResources.primaryStorage += +a.primarystoragetotal;
+        consumedResources.secondaryStorage += +a.secondarystoragetotal;
 
-      maxResources.instances += +a.vmlimit;
-      maxResources.cpus += +a.cpulimit;
-      maxResources.ips += +a.iplimit;
-      maxResources.memory += +a.memorylimit;
-      maxResources.volumes += +a.volumelimit;
-      maxResources.snapshots += +a.snapshotlimit;
-      maxResources.primaryStorage += +a.primarystoragelimit;
-      maxResources.secondaryStorage += +a.secondarystoragelimit;
+        maxResources.instances += +a.vmlimit;
+        maxResources.cpus += +a.cpulimit;
+        maxResources.ips += +a.iplimit;
+        maxResources.memory += +a.memorylimit;
+        maxResources.volumes += +a.volumelimit;
+        maxResources.snapshots += +a.snapshotlimit;
+        maxResources.primaryStorage += +a.primarystoragelimit;
+        maxResources.secondaryStorage += +a.secondarystoragelimit;
 
-      availableResources.instances += +a.vmavailable;
-      availableResources.cpus += +a.cpuavailable;
-      availableResources.ips += +a.ipavailable;
-      availableResources.memory += +a.memoryavailable;
-      availableResources.volumes += +a.volumeavailable;
-      availableResources.snapshots += +a.snapshotavailable;
-      availableResources.primaryStorage += +a.primarystorageavailable;
-      availableResources.secondaryStorage += +a.secondarystorageavailable;
-    });
+        availableResources.instances += +a.vmavailable;
+        availableResources.cpus += +a.cpuavailable;
+        availableResources.ips += +a.ipavailable;
+        availableResources.memory += +a.memoryavailable;
+        availableResources.volumes += +a.volumeavailable;
+        availableResources.snapshots += +a.snapshotavailable;
+        availableResources.primaryStorage += +a.primarystorageavailable;
+        availableResources.secondaryStorage += +a.secondarystorageavailable;
+      });
 
     return new ResourceStats(availableResources, consumedResources, maxResources);
   }

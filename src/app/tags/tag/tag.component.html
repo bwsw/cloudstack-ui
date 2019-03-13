@@ -1,18 +1,9 @@
 <div class="height-container">
   <div class="flex-container container">
     <div class="flex-container left">
-      <span
-        class="key"
-        [matTooltip]="tag.key"
-        [innerHTML]="tag.key | highlight:query"
-      ></span>
+      <span class="key" [matTooltip]="tag.key" [innerHTML]="tag.key | highlight: query"></span>
       <div class="buttons" *ngIf="hasPermissions">
-        <button
-          class="button-18px"
-          mat-icon-button
-          (click)="edit()"
-          [disabled]="loading"
-        >
+        <button class="button-18px" mat-icon-button (click)="edit()" [disabled]="loading">
           <mat-icon class="mdi-pencil"></mat-icon>
         </button>
         <button
@@ -29,7 +20,7 @@
       ngxClipboard
       class="value"
       [matTooltip]="tag.value"
-      [innerHTML]="tag.value | highlight:query"
+      [innerHTML]="tag.value | highlight: query"
       [cbContent]="tag.value"
       (cbOnSuccess)="onCopySuccess()"
       (cbOnError)="onCopyFail()"

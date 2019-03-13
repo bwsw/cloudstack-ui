@@ -5,10 +5,7 @@ import { StateIndicator } from './state-indicator';
   selector: 'cs-round-state-indicator',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <mat-icon
-      class="mdi-circle"
-      [ngClass]="state"
-    ></mat-icon>
+    <mat-icon class="mdi-circle" [ngClass]="state"></mat-icon>
   `,
   styleUrls: ['./state-indicator.scss', './round-state-indicator.component.scss'],
 })

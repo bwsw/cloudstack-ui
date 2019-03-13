@@ -3,9 +3,7 @@
 
   <ng-container *loading="!templates?.length && fetching" cs-list>
     <div class="switch-panel">
-      <cs-view-mode-switch
-        (modeChanged)="changeMode($event)"
-        [key]="viewModeKey">
+      <cs-view-mode-switch (modeChanged)="changeMode($event)" [key]="viewModeKey">
       </cs-view-mode-switch>
     </div>
     <cs-template-card-list
@@ -28,4 +26,3 @@
     </cs-sidebar>
   </ng-container>
 </cs-list>
-

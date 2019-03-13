@@ -1,4 +1,4 @@
-<mat-form-field >
+<mat-form-field>
   <input
     matInput
     name="store"
@@ -12,7 +12,7 @@
     autofocus
     required
     #storedSnapshots="ngModel"
-  >
+  />
   <mat-error *ngIf="storedSnapshots.invalid">
     {{ errorMessage | async }}
   </mat-error>

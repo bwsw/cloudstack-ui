@@ -11,12 +11,8 @@ import { SaveVMPassword } from '../../../reducers/vm/redux/vm.actions';
   selector: 'cs-vm-password',
   template: `
     <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ vm?.password }}
-    <button
-      mat-button
-      color="primary"
-      *ngIf="!saved"
-      (click)="savePassword()"
-    >{{ 'COMMON.SAVE' | translate }}
+    <button mat-button color="primary" *ngIf="!saved" (click)="savePassword()">
+      {{ 'COMMON.SAVE' | translate }}
     </button>
     <div class="saved">
       <mat-icon

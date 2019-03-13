@@ -73,10 +73,16 @@ export function reducer(state = initialState, action: event.Actions): State {
 
 export const getOsTypesState = createFeatureSelector<OsTypeState>('osTypes');
 
-export const getOsTypesEntitiesState = createSelector(getOsTypesState, state => state.list);
+export const getOsTypesEntitiesState = createSelector(
+  getOsTypesState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getOsTypesEntitiesState,
 );
 
-export const isLoading = createSelector(getOsTypesEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getOsTypesEntitiesState,
+  state => state.loading,
+);

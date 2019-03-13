@@ -9,8 +9,7 @@
 
   <mat-card-content class="mat-card-content-with-actions">
     <div class="mat-card-content-container">
-
-      <ng-container *ngIf="isEdit; then editMode else viewMode"></ng-container>
+      <ng-container *ngIf="isEdit; then editMode; else viewMode"></ng-container>
 
       <ng-template #viewMode>
         <div *ngFor="let limit of limits">
@@ -34,7 +33,6 @@
         </ng-container>
       </ng-template>
 
-
       <ng-template #editMode>
         <div *ngFor="let limit of localLimits; let i = index">
           <cs-parameters-edit-pair
@@ -46,25 +44,15 @@
 
         <ng-container *ngIf="isAdmin">
           <mat-card-actions class="buttons">
-            <button
-              mat-button
-              color="primary"
-              (click)="isEdit=!isEdit"
-            >
+            <button mat-button color="primary" (click)="isEdit = !isEdit">
               {{ 'COMMON.CANCEL' | translate }}
             </button>
-            <button
-              mat-button
-              color="primary"
-              (click)="onSave()"
-            >
+            <button mat-button color="primary" (click)="onSave()">
               {{ 'COMMON.SAVE' | translate }}
             </button>
           </mat-card-actions>
         </ng-container>
       </ng-template>
-
     </div>
-
   </mat-card-content>
 </mat-card>

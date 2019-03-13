@@ -14,34 +14,38 @@
   <h2
     class="entity-list-item-title"
     [matTooltip]="item.displayname"
-    [innerHTML]="item.displayname | highlight:query"
+    [innerHTML]="item.displayname | highlight: query"
   ></h2>
 
-  <div class="entity-list-item-data">{{ item.nic[0]?.ipaddress ? item.nic[0].ipaddress : ('VM_PAGE.CARD.IP_NA' | translate) }}</div>
+  <div class="entity-list-item-data">
+    {{ item.nic[0]?.ipaddress ? item.nic[0].ipaddress : ('VM_PAGE.CARD.IP_NA' | translate) }}
+  </div>
 
   <div class="entity-list-item-data">
     <span>{{ 'VM_PAGE.CARD.CPU' | translate }}: </span>
-    <span>{{ 'SERVICE_OFFERING.CPU_MHZ' | translate:({ count: item.cpunumber, speed: item.cpuspeed }) }}</span>
+    <span>{{
+      'SERVICE_OFFERING.CPU_MHZ' | translate: { count: item.cpunumber, speed: item.cpuspeed }
+    }}</span>
   </div>
 
   <div class="entity-list-item-data">
     <span>{{ 'VM_PAGE.CARD.RAM' | translate }}: </span>
     <span>
       <ng-container *ngIf="item.memory < gigabyte">
-        {{ 'UNITS.MB_VALUE' | translate:({ value: getMemoryInMb() }) }}
+        {{ 'UNITS.MB_VALUE' | translate: { value: getMemoryInMb() } }}
       </ng-container>
       <ng-container *ngIf="item.memory >= gigabyte">
-        {{ 'UNITS.GB_VALUE' | translate:({ value: getMemoryInGb() }) }}
+        {{ 'UNITS.GB_VALUE' | translate: { value: getMemoryInGb() } }}
       </ng-container>
     </span>
   </div>
 
   <div class="entity-list-item-data">
     <span>{{ 'VM_PAGE.CARD.DISKS' | translate }}: </span>
-    <span>{{ 'UNITS.GB_VALUE' | translate:({ value: getDisksSize.toFixed(2) }) }}</span>
+    <span>{{ 'UNITS.GB_VALUE' | translate: { value: getDisksSize.toFixed(2) } }}</span>
   </div>
 
-  <div class="entity-list-item-data">OS {{ getOsDescription }} </div>
+  <div class="entity-list-item-data">OS {{ getOsDescription }}</div>
 
   <button mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
     <mat-icon class="mdi-dots-vertical"></mat-icon>

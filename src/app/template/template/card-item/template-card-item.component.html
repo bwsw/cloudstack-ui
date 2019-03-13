@@ -1,16 +1,11 @@
-<mat-card
-  (click)="handleClick()"
-  [class.card-selected]="isSelected(item)"
-  class="entity-card"
->
-
+<mat-card (click)="handleClick()" [class.card-selected]="isSelected(item)" class="entity-card">
   <mat-card-header class="entity-card-header">
     <cs-template-os-icon-container
       [template]="item"
       class="entity-card-thumbnail"
     ></cs-template-os-icon-container>
     <mat-card-title [matTooltip]="item.name" class="entity-card-title">
-      <span [innerHTML]="item.name | highlight:query"></span>
+      <span [innerHTML]="item.name | highlight: query"></span>
     </mat-card-title>
     <button
       [style.visibility]="isSelf ? 'visible' : 'hidden'"
@@ -25,16 +20,15 @@
 
   <mat-card-content>
     <div class="entity-card-data-line">
-     {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:&nbsp;{{ item.ostypename }}
+      {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:&nbsp;{{ item.ostypename }}
     </div>
     <div class="entity-card-data-line">
       {{ 'TEMPLATE_PAGE.CARD.DESCRIPTION' | translate }}:
-      <span [innerHTML]="item.displaytext | highlight:query"></span>
+      <span [innerHTML]="item.displaytext | highlight: query"></span>
     </div>
   </mat-card-content>
 
   <mat-menu #actionsMenu="matMenu">
     <cs-template-actions-container [template]="item"></cs-template-actions-container>
   </mat-menu>
-
 </mat-card>

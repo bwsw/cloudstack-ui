@@ -1,9 +1,8 @@
 <table mat-table [dataSource]="policyViews">
-
   <ng-container matColumnDef="time">
-    <th mat-header-cell *matHeaderCellDef> {{ 'SNAPSHOT_POLICIES.TIME' | translate }} </th>
+    <th mat-header-cell *matHeaderCellDef>{{ 'SNAPSHOT_POLICIES.TIME' | translate }}</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.timeToken | translate:{ value: element.timeValue } }}
+      {{ element.timeToken | translate: { value: element.timeValue } }}
     </td>
   </ng-container>
 
@@ -15,13 +14,13 @@
   </ng-container>
 
   <ng-container matColumnDef="timeZone">
-    <th mat-header-cell *matHeaderCellDef> {{ 'SNAPSHOT_POLICIES.TIME_ZONE' | translate }} </th>
-    <td mat-cell *matCellDef="let element"> {{ element.timeZone }} </td>
+    <th mat-header-cell *matHeaderCellDef>{{ 'SNAPSHOT_POLICIES.TIME_ZONE' | translate }}</th>
+    <td mat-cell *matCellDef="let element">{{ element.timeZone }}</td>
   </ng-container>
 
   <ng-container matColumnDef="keep">
-    <th mat-header-cell *matHeaderCellDef> {{ 'SNAPSHOT_POLICIES.KEEP' | translate }} </th>
-    <td mat-cell *matCellDef="let element"> {{ element.keep }} </td>
+    <th mat-header-cell *matHeaderCellDef>{{ 'SNAPSHOT_POLICIES.KEEP' | translate }}</th>
+    <td mat-cell *matCellDef="let element">{{ element.keep }}</td>
   </ng-container>
 
   <ng-container matColumnDef="delete">
@@ -38,6 +37,9 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let row; columns: columnsToDisplay" (click)="handlePolicyRowClick(row)"></tr>
-
+  <tr
+    mat-row
+    *matRowDef="let row; columns: columnsToDisplay"
+    (click)="handlePolicyRowClick(row)"
+  ></tr>
 </table>

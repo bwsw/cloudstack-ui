@@ -20,9 +20,7 @@ const templates: BaseTemplateModel[] = [...templatesRaw, ...isosRaw];
 @Component({
   selector: 'cs-test',
   template: `
-    <cs-vm-creation-template
-      [(ngModel)]="template"
-    ></cs-vm-creation-template>
+    <cs-vm-creation-template [(ngModel)]="template"></cs-vm-creation-template>
   `,
 })
 class TestComponent {

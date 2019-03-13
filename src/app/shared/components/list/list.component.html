@@ -5,7 +5,4 @@
 
 <ng-content select="[cs-sidebar]"></ng-content>
 
-<cs-fab
-  *ngIf="creationEnabled"
-  (clicked)="action.next()"
-></cs-fab>
+<cs-fab *ngIf="creationEnabled" (clicked)="action.next()"></cs-fab>
