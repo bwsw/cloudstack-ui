@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { concat, Observable, of, timer } from 'rxjs';
-import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import * as moment from 'moment';
 import { VmLogsService } from '../services/vm-logs.service';
 import { VmLog } from '../models/vm-log.model';
@@ -12,13 +12,11 @@ import { VmLogFilesService } from '../services/vm-log-files.service';
 import { VmLogFile } from '../models/vm-log-file.model';
 import { loadVmLogsRequestParams } from './selectors/load-vm-logs-request-params.selector';
 import { loadVmLogFilesRequestParams } from './selectors/load-vm-log-files-request-params.selector';
-import { ROUTER_NAVIGATION } from '@ngrx/router-store';
-import { filter, takeUntil } from 'rxjs/internal/operators';
+import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { loadAutoUpdateVmLogsRequestParams } from './selectors/load-auto-update-vm-logs-request-params.selector';
 import * as fromVmLogsAutoUpdate from './vm-logs-auto-update.reducers';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Router } from '@angular/router';
-import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
 import { configSelectors, UserTagsSelectors } from '../../root-store';
 import { UserTagsActionTypes } from '../../root-store/server-data/user-tags/user-tags.actions';
 const assign = require('lodash/assign');
@@ -236,7 +234,7 @@ export class VmLogsEffects {
 
   @Effect()
   setFiltersFromUserTags$: Observable<Action> = this.actions$.pipe(
-    ofType(UserTagsActionTypes.LoadUserTagsSuccess),
+    ofType(UserTagsActionTypes.LoadUserTagsSuccess, UserTagsActionTypes.UpdateTagSuccess),
     withLatestFrom(
       this.store.pipe(select(UserTagsSelectors.getVmLogsFilters)),
       this.store.pipe(select(vmLogsFilters)),

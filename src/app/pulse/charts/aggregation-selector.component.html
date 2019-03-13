@@ -1,12 +1,11 @@
 <mat-form-field class="aggregation-select">
   <mat-select
-
     [(ngModel)]="selectedScale"
     (selectionChange)="handleScaleChange($event)"
     [placeholder]="'PULSE.RANGE' | translate"
   >
     <mat-option *ngFor="let scale of permittedIntervals?.scales" [value]="scale">
-      {{ scale.range }}
+      {{ translations.RANGES[scale.range.toUpperCase()] || scale.range }}
     </mat-option>
   </mat-select>
 </mat-form-field>
@@ -18,11 +17,8 @@
     #aggregationSelect="ngModel"
     (selectionChange)="handleAggregationsChange($event)"
   >
-    <mat-option
-      *ngFor="let aggregation of selectedScale?.aggregations"
-      [value]="aggregation"
-    >
-      {{ aggregation }}
+    <mat-option *ngFor="let aggregation of selectedScale?.aggregations" [value]="aggregation">
+      {{ translations.AGGREGATIONS[aggregation.toUpperCase()] || aggregation }}
     </mat-option>
   </mat-select>
 </mat-form-field>
@@ -33,11 +29,9 @@
     type="number"
     value="0"
     [min]="0"
-    [max]="100"
-    csMaxNumber="0"
-    csMinNumber="100"
-    (input)="handleShiftAmountChange($event)"
-  >
+    [csMinValue]="0"
+    (ngModelChange)="handleShiftAmountChange($event)"
+  />
 </mat-form-field>
 <mat-form-field class="aggregation-select shift-select">
   <mat-select
@@ -46,7 +40,7 @@
     [placeholder]="'PULSE.SHIFT' | translate"
   >
     <mat-option *ngFor="let shift of permittedIntervals?.shifts" [value]="shift">
-      {{ shift }}
+      {{ translations.SHIFTS[shift.toUpperCase()] || shift }}
     </mat-option>
   </mat-select>
 </mat-form-field>

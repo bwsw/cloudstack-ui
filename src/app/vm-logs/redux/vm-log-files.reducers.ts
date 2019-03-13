@@ -48,10 +48,16 @@ export function reducer(state = initialState, action: vmLogsActions.Actions): St
 
 export const getVmLogFilesState = createFeatureSelector<VmLogFilesState>('vmLogFiles');
 
-export const getVmLogFilesEntitiesState = createSelector(getVmLogFilesState, state => state.list);
+export const getVmLogFilesEntitiesState = createSelector(
+  getVmLogFilesState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getVmLogFilesEntitiesState,
 );
 
-export const isLoading = createSelector(getVmLogFilesEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getVmLogFilesEntitiesState,
+  state => state.loading,
+);

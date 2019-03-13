@@ -1,8 +1,4 @@
-<form
-  (ngSubmit)="save()"
-  #policyEditorForm="ngForm"
-  novalidate
->
+<form (ngSubmit)="save()" #policyEditorForm="ngForm" novalidate>
   <div [ngSwitch]="policyMode">
     <cs-hourly-policy
       name="hourlyPolicy"
@@ -33,24 +29,17 @@
   </div>
 
   <div class="flex-container">
-    <cs-time-zone class="column"
-      name="timeZone"
-      [(ngModel)]="timeZone"
-    ></cs-time-zone>
+    <cs-time-zone class="column" name="timeZone" [(ngModel)]="timeZone"></cs-time-zone>
     <div class="column">
-
-    <cs-stored-number
-      name="storedNumber"
-      [(ngModel)]="storedSnapshots"
-      [min]="minStoredSnapshots"
-      [max]="maxStoredSnapshots"
-    ></cs-stored-number>
+      <cs-stored-number
+        name="storedNumber"
+        [(ngModel)]="storedSnapshots"
+        [min]="minStoredSnapshots"
+        [max]="maxStoredSnapshots"
+      ></cs-stored-number>
 
       <div class="button-wrapper">
-        <button
-          mat-icon-button
-          [disabled]="!policyEditorForm.valid"
-        >
+        <button mat-icon-button [disabled]="!policyEditorForm.valid">
           <mat-icon class="mdi-plus"></mat-icon>
         </button>
       </div>

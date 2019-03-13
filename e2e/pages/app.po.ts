@@ -56,6 +56,14 @@ export class CloudstackUiPage {
     element(by.css('.mat-icon.mdi-security.mdi')).click();
   }
 
+  clickStorageMenu() {
+    const EC = protractor.ExpectedConditions;
+    const storage = EC.elementToBeClickable(element(by.css('.mat-icon.mdi-server.mdi')));
+    browser.wait(EC.and(storage), 5000).then(() => {
+      element(by.css('.mat-icon.mdi-server.mdi')).click();
+    });
+  }
+
   clickVMMenu() {
     element
       .all(by.css('.mat-icon.mdi-cloud.mdi'))
@@ -181,5 +189,18 @@ export class CloudstackUiPage {
     return Math.random()
       .toString(36)
       .substr(2, 9);
+  }
+
+  clickBell() {
+    browser.wait(
+      protractor.ExpectedConditions.elementToBeClickable(
+        element(by.css('cs-notification-box button')),
+      ),
+    );
+    element(by.css('cs-notification-box button')).click();
+  }
+
+  verifyBellMessage(text) {
+    return element(by.cssContainingText('.message', text)).isPresent();
   }
 }

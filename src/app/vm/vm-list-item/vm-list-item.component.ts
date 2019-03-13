@@ -1,5 +1,5 @@
 import { EventEmitter, OnInit } from '@angular/core';
-import { Dictionary } from '@ngrx/entity/src/models';
+import { Dictionary } from '@ngrx/entity';
 import { Color } from '../../shared/models';
 import { OsType } from '../../shared/models/os-type.model';
 import { Volume } from '../../shared/models/volume.model';

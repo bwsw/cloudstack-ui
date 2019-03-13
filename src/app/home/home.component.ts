@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, first, take, takeUntil } from 'rxjs/operators';
 
 import { State, UserTagsActions, layoutStore } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
@@ -53,5 +53,16 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
 
   public closeAppNav() {
     this.store.dispatch(new layoutStore.actions.CloseAppNav());
+  }
+
+  // check and update state when it was closed not by button click,
+  // ex: onEsc or backdrop click
+  public closeAppNavInternal() {
+    this.showAppNav$
+      .pipe(
+        take(1),
+        filter(Boolean),
+      )
+      .subscribe(() => this.closeAppNav());
   }
 }

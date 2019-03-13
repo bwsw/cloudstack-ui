@@ -13,7 +13,7 @@
         [csMaxValue]="offering.customOfferingRestrictions.cpunumber.max"
         formControlName="cpuNumber"
         required
-      >
+      />
     </mat-form-field>
 
     <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_SPEED' | translate }}</h5>
@@ -28,7 +28,7 @@
         [csMaxValue]="offering.customOfferingRestrictions.cpuspeed.max"
         formControlName="cpuSpeed"
         required
-      >
+      />
     </mat-form-field>
 
     <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.MEMORY' | translate }}</h5>
@@ -43,7 +43,7 @@
         [csMaxValue]="offering.customOfferingRestrictions.memory.max"
         formControlName="memory"
         required
-      >
+      />
     </mat-form-field>
   </div>
 
@@ -52,12 +52,7 @@
   </span>
 
   <div class="mat-dialog-actions">
-    <button
-      mat-button
-      color="primary"
-      matDialogClose
-      type="button"
-    >
+    <button mat-button color="primary" matDialogClose type="button">
       {{ 'COMMON.CANCEL' | translate }}
     </button>
     <button

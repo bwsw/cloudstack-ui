@@ -94,12 +94,20 @@ export class ErrorService {
       translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_RETRIEVE',
     },
     {
+      regex: /Can not update resource with a limit equal to -1/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.FAILED_UPDATE',
+    },
+    {
       regex: /maximum must be greater than or equal to minimum/,
       translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_GREATER',
     },
     {
       regex: /max must be between (\d+) and (\d+)/,
       translation: 'ERRORS.RESOURCE_QUOTAS.MAX_MUST_BE_BETWEEN',
+    },
+    {
+      regex: /billingid must be specified in accountdetails/,
+      translation: 'ERRORS.RESOURCE_QUOTAS.NO_BILLING_ID',
     },
     {
       regex: /Unable to detach volume, please specify a VM that does not have VM snapshots/,
@@ -116,6 +124,42 @@ export class ErrorService {
     {
       regex: /Maximum amount of resources of Type = 'volume' .* is exceeded.* Account Resource Limit = (\d+), Current Account Resource Amount = (\d+), Requested Resource Amount = (\d+)/,
       translation: 'ERRORS.VOLUME.VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED',
+    },
+    {
+      regex: /Please specify a valid iso/,
+      translation: 'ERRORS.ISO.INVALID_ISO',
+    },
+    {
+      regex: /Failed to detach iso/,
+      translation: 'ERRORS.ISO.DETACHMENT_FAILED',
+    },
+    {
+      regex: /Please specify a valid qcow2/,
+      translation: 'ERRORS.TEMPLATE.INVALID_TEMPLATE',
+    },
+    {
+      regex: /Unable to revert snapshot for VM, please remove VM snapshots before reverting VM from snapshot/,
+      translation: 'ERRORS.SNAPSHOT.UNABLE_TO_REVERT_REMOVE_SNAPSHOTS',
+    },
+    {
+      regex: /The VM the specified disk is attached to is not in the shutdown state./,
+      translation: 'ERRORS.SNAPSHOT.REVERT_UNAVAILABLE_FOR_DELETED',
+    },
+    {
+      regex: /Failed to attach local data volume .* as migration of local data volume is not allowed/,
+      translation: 'ERRORS.VOLUME.VOLUME_ATTACH_UNAVAILABLE_AS_MIGRATION_NOT_ALLOWED',
+    },
+    {
+      regex: /Please specify a VM that is either running or stopped/,
+      translation: 'ERRORS.VOLUME.VOLUME_ATTACH_UNAVAILABLE_FOR_DELETED',
+    },
+    {
+      regex: /Public key is invalid/,
+      translation: 'ERRORS.SSH.PUBLIC_KEY_INVALID',
+    },
+    {
+      regex: /Internal (Server )?Error/,
+      translation: 'ERRORS.COMMON.INTERNAL_ERROR',
     },
   ];
 

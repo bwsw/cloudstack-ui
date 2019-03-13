@@ -11,7 +11,8 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
   template: `
     <cs-account-user-password-form
       (changePassword)="changePassword($event)"
-    ></cs-account-user-password-form>`,
+    ></cs-account-user-password-form>
+  `,
 })
 export class AccountUserPasswordFormContainerComponent {
   public user: AccountUser;

@@ -11,7 +11,8 @@ import * as templateActions from '../../../../reducers/templates/redux/template.
     <cs-template-actions-sidebar
       [template]="template"
       (deleteTemplate)="onTemplateDelete($event)"
-    ></cs-template-actions-sidebar>`,
+    ></cs-template-actions-sidebar>
+  `,
 })
 export class TemplateActionsSidebarContainerComponent {
   @Input()

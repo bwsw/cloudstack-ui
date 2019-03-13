@@ -67,7 +67,6 @@ describe('e2e-test-login', () => {
   it('Can login by correct settings: login, password, domain', () => {
     page.waitUrlContains('login');
     page.login();
-    browser.waitForAngularEnabled(false);
     page.waitRedirect('instances');
     page.checkUrlToContain('instances');
     vmlist.waitDialogModal();
@@ -79,7 +78,6 @@ describe('e2e-test-login', () => {
   it('After logout no access for instance page', () => {
     page.waitUrlContains('login');
     page.login();
-    browser.waitForAngularEnabled(false);
     page.waitRedirect('instances');
     vmlist.waitDialogModal();
     vmlist.cancelDialog();

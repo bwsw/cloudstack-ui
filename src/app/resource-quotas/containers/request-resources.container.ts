@@ -18,7 +18,7 @@ import { getModifiedLimits } from '../redux/selectors/modified-limits.selector';
         *loading="(isLoading$ | async)"
         [resourceQuotas]="resourceQuotas$ | async"
         [resourceLimits]="resourceLimits$ | async"
-        [isRequestButtonActive]="limitsChanged$ | async"
+        [isRequestButtonActive]="(limitsChanged$ | async) && (isSaving$ | async) === false"
         (limitChange)="onLimitChange($event)"
         (update)="onUpdate($event)"
       ></cs-request-resources>
@@ -40,6 +40,7 @@ import { getModifiedLimits } from '../redux/selectors/modified-limits.selector';
 export class RequestResourcesContainerComponent implements OnInit {
   readonly resourceQuotas$ = this.store.pipe(select(fromUserForm.getUserResourceQuotas));
   readonly resourceLimits$ = this.store.pipe(select(fromUserForm.getUserResourceLimits));
+  readonly isSaving$ = this.store.pipe(select(fromUserForm.isUserResourceLimitsSaving));
   readonly failedToLoadQuotas$ = this.store.pipe(select(fromResourceQuotas.isErrorState));
 
   readonly noResourceAvailableForChange$ = this.resourceQuotas$.pipe(

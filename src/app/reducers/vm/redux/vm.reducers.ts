@@ -49,7 +49,7 @@ export interface FormState {
   enoughResources: boolean;
   insufficientResources: string[];
   loggerStageList: ProgressLoggerMessage[];
-  deployedVm: VirtualMachine;
+  deployedVmId: string;
   state: VmCreationState;
 }
 
@@ -185,6 +185,17 @@ export function listReducer(state = initialListState, action: vmActions.Actions)
       };
     }
 
+    case vmActions.LOAD_VM_USER_DATA_RESPONSE: {
+      const { id, userdata } = action.payload;
+      return adapter.updateOne(
+        {
+          id,
+          changes: { userdata },
+        },
+        state,
+      );
+    }
+
     default: {
       return state;
     }
@@ -193,7 +204,10 @@ export function listReducer(state = initialListState, action: vmActions.Actions)
 
 export const getVMsState = createFeatureSelector<VirtualMachineState>('virtualMachines');
 
-export const getVMsEntitiesState = createSelector(getVMsState, state => state.list);
+export const getVMsEntitiesState = createSelector(
+  getVMsState,
+  state => state.list,
+);
 
 export const {
   selectIds,
@@ -202,11 +216,20 @@ export const {
   selectTotal: getVMCount,
 } = adapter.getSelectors(getVMsEntitiesState);
 
-export const isLoading = createSelector(getVMsEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getVMsEntitiesState,
+  state => state.loading,
+);
 
-export const isLoaded = createSelector(getVMsEntitiesState, state => state.loaded);
+export const isLoaded = createSelector(
+  getVMsEntitiesState,
+  state => state.loaded,
+);
 
-export const getSelectedId = createSelector(getVMsEntitiesState, state => state.selectedVMId);
+export const getSelectedId = createSelector(
+  getVMsEntitiesState,
+  state => state.selectedVMId,
+);
 
 export const getSelectedVM = createSelector(
   getVMsState,
@@ -224,35 +247,63 @@ export const getSelectedVmSecurityGroup = createSelector(
   vm => vm && vm.securitygroup,
 );
 
-export const filters = createSelector(getVMsEntitiesState, state => state.filters);
+export const filters = createSelector(
+  getVMsEntitiesState,
+  state => state.filters,
+);
 
 export const attachmentFilters = createSelector(
   getVMsEntitiesState,
   state => state.attachmentFilters,
 );
 
-export const filterQuery = createSelector(filters, state => state.query);
+export const filterQuery = createSelector(
+  filters,
+  state => state.query,
+);
 
-export const filterSelectedZoneIds = createSelector(filters, state => state.selectedZoneIds);
+export const filterSelectedZoneIds = createSelector(
+  filters,
+  state => state.selectedZoneIds,
+);
 
-export const filterSelectedStates = createSelector(filters, state => state.selectedStates);
+export const filterSelectedStates = createSelector(
+  filters,
+  state => state.selectedStates,
+);
 
-export const filterSelectedGroupNames = createSelector(filters, state => state.selectedGroupNames);
+export const filterSelectedGroupNames = createSelector(
+  filters,
+  state => state.selectedGroupNames,
+);
 
-export const filterSelectedAccountIds = createSelector(filters, state => state.selectedAccountIds);
+export const filterSelectedAccountIds = createSelector(
+  filters,
+  state => state.selectedAccountIds,
+);
 
-export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
+export const filterSelectedGroupings = createSelector(
+  filters,
+  state => state.selectedGroupings,
+);
 
-export const selectVmGroups = createSelector(selectAll, vms => {
-  const groups = vms.map(vm => vm.group).filter(Boolean);
-  return uniq(groups);
-});
+export const selectVmGroups = createSelector(
+  selectAll,
+  vms => {
+    const groups = vms.map(vm => vm.group).filter(Boolean);
+    return uniq(groups);
+  },
+);
 
-export const getAttachmentVMs = createSelector(selectAll, attachmentFilters, (vms, filter) => {
-  const accountFilter = vm => vm.account === filter.account && vm.domainid === filter.domainId;
+export const getAttachmentVMs = createSelector(
+  selectAll,
+  attachmentFilters,
+  (vms, filter) => {
+    const accountFilter = vm => vm.account === filter.account && vm.domainid === filter.domainId;
 
-  return vms.filter(accountFilter);
-});
+    return vms.filter(accountFilter);
+  },
+);
 
 export const selectFilteredVMs = createSelector(
   selectAll,
@@ -326,7 +377,7 @@ export const initialFormState: FormState = {
   enoughResources: false,
   insufficientResources: [],
   loggerStageList: [],
-  deployedVm: null,
+  deployedVmId: null,
   state: {
     affinityGroup: null,
     affinityGroupNames: [],
@@ -398,7 +449,7 @@ export function formReducer(
     case vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS: {
       return {
         ...state,
-        deployedVm: action.payload,
+        deployedVmId: action.payload.id,
         deploymentInProgress: false,
       };
     }
@@ -417,12 +468,7 @@ export function formReducer(
         isError: true,
       };
     }
-    case vmActions.VM_DEPLOYMENT_COPY_TAGS: {
-      return {
-        ...state,
-        deployedVm: { ...state.deployedVm, tags: action.payload } as VirtualMachine,
-      };
-    }
+
     case affinityGroupActions.LOAD_AFFINITY_GROUPS_RESPONSE: {
       const names = action.payload.map(_ => _.name);
       return { ...state, state: { ...state.state, affinityGroupNames: names } };
@@ -433,35 +479,65 @@ export function formReducer(
   }
 }
 
-export const getVmForm = createSelector(getVMsState, state => state.form);
+export const getVmForm = createSelector(
+  getVMsState,
+  state => state.form,
+);
 
-export const getVmFormState = createSelector(getVMsState, state => state.form.state);
+export const getVmFormState = createSelector(
+  getVMsState,
+  state => state.form.state,
+);
 
 export const getVmFormStateAffinityGroup = createSelector(
   getVMsState,
   state => state.form.state.affinityGroup,
 );
 
-export const formIsLoading = createSelector(getVmForm, state => state.loading);
+export const formIsLoading = createSelector(
+  getVmForm,
+  state => state.loading,
+);
 
-export const formIsLoaded = createSelector(getVmForm, state => state.loaded);
+export const formIsLoaded = createSelector(
+  getVmForm,
+  state => state.loaded,
+);
 
-export const enoughResources = createSelector(getVmForm, state => state.enoughResources);
+export const enoughResources = createSelector(
+  getVmForm,
+  state => state.enoughResources,
+);
 
 export const insufficientResources = createSelector(
   getVmForm,
   state => state.insufficientResources,
 );
 
-export const deploymentInProgress = createSelector(getVmForm, state => state.deploymentInProgress);
+export const deploymentInProgress = createSelector(
+  getVmForm,
+  state => state.deploymentInProgress,
+);
 
-export const isError = createSelector(getVmForm, state => state.isError);
+export const isError = createSelector(
+  getVmForm,
+  state => state.isError,
+);
 
-export const loggerStageList = createSelector(getVmForm, state => state.loggerStageList);
+export const loggerStageList = createSelector(
+  getVmForm,
+  state => state.loggerStageList,
+);
 
-export const showOverlay = createSelector(getVmForm, state => state.showOverlay);
+export const showOverlay = createSelector(
+  getVmForm,
+  state => state.showOverlay,
+);
 
-export const getDeployedVM = createSelector(getVmForm, state => state.deployedVm);
+export const getDeployedVM = createSelector(
+  getVMsState,
+  state => state.list.entities[state.form.deployedVmId],
+);
 
 export const getVmCreationZoneId = createSelector(
   getVmFormState,

@@ -1,23 +1,45 @@
 @-webkit-keyframes loader {
-  to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes loader {
-  to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @-webkit-keyframes fade-in {
-  0% { opacity: 1; }
-  50% { opacity: 0.4; }
-  70% { opacity: 1; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes fade-in {
-  0% { opacity: 1; }
-  50% { opacity: 0.4; }
-  70% { opacity: 1; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .preloader {

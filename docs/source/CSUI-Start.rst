@@ -104,6 +104,17 @@ The specified support details will display under a drop-down menu. Click it in t
 
 Localization of the file is supported.
 
+Adding Custom Scripts
+----------------------------------
+
+We support adding custom JavaScript scripts to extend the UI functionality with the services necessary for a user.  For example, using custom scripts a user can add JivoSite or Google Analytics widgets to the interface.
+
+Custom scripts are added at running the CloudStack-UI Docker-container. All that a user should do is to define the ``/scripts/custom.js`` custom script content and map it via a Docker-volume. By default, the ``/scripts/custom.js`` file is empty.
+
+As a result, you can see the added service in the UI:
+
+.. figure:: _static/RN_CustomScr.png
+
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
 .. |view icon| image:: _static/view_list_icon.png

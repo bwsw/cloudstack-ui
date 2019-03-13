@@ -15,7 +15,8 @@ import * as fromTemplates from '../../../../reducers/templates/redux/template.re
       (changed)="changed.emit($event)"
       [templates]="templates$ | async"
       [numberOfTemplates]="numberOfTemplates$ | async"
-    ></cs-vm-creation-template>`,
+    ></cs-vm-creation-template>
+  `,
 })
 export class VmCreationTemplateContainerComponent {
   readonly templates$ = this.store.pipe(select(fromTemplates.selectFilteredTemplatesForVmCreation));

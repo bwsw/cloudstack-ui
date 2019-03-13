@@ -11,8 +11,19 @@ interface TimeParams {
   shift: string;
 }
 
-export interface Interval {
-  scales: Object;
+export interface Scale {
+  range: string;
+  aggregations: string[];
+}
+
+export interface Intervals {
+  scales: Scale[];
+  shifts: string[];
+}
+
+export interface IntervalsResp {
+  scales: { [name: string]: Scale }[];
+  shifts: string[];
 }
 
 @Injectable()

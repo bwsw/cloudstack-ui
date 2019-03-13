@@ -1,5 +1,4 @@
 <mat-card (click)="onClicked()" class="entity-card">
-
   <mat-card-header class="entity-card-header">
     <div class="entity-card-thumbnail">
       <mat-icon class="mdi-key"></mat-icon>
@@ -7,7 +6,12 @@
     <mat-card-title [matTooltip]="item.name" class="entity-card-title">
       {{ item.name }}
     </mat-card-title>
-    <button  mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu" (click)="$event.stopPropagation()">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="actionsMenu"
+      class="entity-card-menu"
+      (click)="$event.stopPropagation()"
+    >
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>
@@ -24,5 +28,4 @@
       <span>{{ 'COMMON.DELETE' | translate }}</span>
     </button>
   </mat-menu>
-
 </mat-card>

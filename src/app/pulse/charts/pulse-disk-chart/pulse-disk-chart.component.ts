@@ -14,7 +14,7 @@ import { isRoot, Volume } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { PulseService } from '../../pulse.service';
 import { humanReadableSize } from '../../units-utils';
-import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
+import { defaultChartOptions, getChart, PulseChartComponent, tooltipLabel } from '../pulse-chart';
 
 @Component({
   selector: 'cs-pulse-disk-chart',
@@ -35,6 +35,14 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
   }
 
   public ngOnInit() {
+    const unitTranslations = this.unitTranslations;
+
+    const bytesConverter = val => {
+      return !!humanReadableSize(val, true)
+        ? `${humanReadableSize(val, true, unitTranslations)}/${unitTranslations['S']}`
+        : null;
+    };
+
     this.charts = getChart([
       {
         id: 'bytes',
@@ -45,17 +53,21 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
             yAxes: [
               {
                 ticks: {
-                  padding: 40,
-                  mirror: true,
-                  suggestedMin: 0,
+                  ...defaultChartOptions.scales.yAxes[0].ticks,
                   userCallback(val) {
-                    return !!humanReadableSize(val, true)
-                      ? `${humanReadableSize(val, true)}/s`
-                      : null;
+                    return bytesConverter(val);
                   },
                 },
               },
             ],
+          },
+          tooltips: {
+            ...defaultChartOptions.tooltips,
+            callbacks: {
+              label: (tooltipItem, data) => {
+                return tooltipLabel(tooltipItem, data) + bytesConverter(tooltipItem.yLabel);
+              },
+            },
           },
         },
       },
@@ -106,20 +118,22 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
           errors: [],
         };
         data.forEach((res: any, ind) => {
-          const aggregation = params.selectedAggregations[ind];
+          const ag = params.selectedAggregations[ind].toUpperCase();
+          const aggregationName =
+            this.translations['INTERVALS']['AGGREGATIONS'][ag.toUpperCase()] || ag;
           const readBytes = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.readBytes,
             })),
-            label: `${this.translations['DISK_READ']} ${aggregation}`,
+            label: `${this.translations['LABELS']['DISK_READ']} ${aggregationName}`,
           };
           const writeBytes = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeBytes,
             })),
-            label: `${this.translations['DISK_WRITE']} ${aggregation}`,
+            label: `${this.translations['LABELS']['DISK_WRITE']} ${aggregationName}`,
           };
           sets.bytes.push(readBytes, writeBytes);
 
@@ -128,14 +142,14 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
               x: new Date(_.time),
               y: +_.readIOPS,
             })),
-            label: `${this.translations['DISK_READ_IOPS']} ${aggregation}`,
+            label: `${this.translations['LABELS']['DISK_READ_IOPS']} ${aggregationName}`,
           };
           const writeIops = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeIOPS,
             })),
-            label: `${this.translations['DISK_WRITE_IOPS']} ${aggregation}`,
+            label: `${this.translations['LABELS']['DISK_WRITE_IOPS']} ${aggregationName}`,
           };
 
           sets.iops.push(readIops, writeIops);
@@ -145,7 +159,7 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
               x: new Date(_.time),
               y: +_.ioErrors,
             })),
-            label: `${this.translations['DISK_IO_ERRORS']} ${aggregation}`,
+            label: `${this.translations['LABELS']['DISK_IO_ERRORS']} ${aggregationName}`,
           };
           sets.errors.push(errors);
         });

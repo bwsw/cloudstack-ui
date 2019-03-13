@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MatOptionSelectionChange, MatSelectChange } from '@angular/material';
+import { Dictionary } from '@ngrx/entity';
+
 const debounce = require('lodash/debounce');
 
 @Component({
@@ -35,6 +37,12 @@ const debounce = require('lodash/debounce');
 export class AggregationSelectorComponent {
   @Input()
   permittedIntervals: any;
+  @Input()
+  public translations: {
+    RANGES: Dictionary<string>;
+    AGGREGATIONS: Dictionary<string>;
+    SHIFTS: Dictionary<string>;
+  };
   @Output()
   scaleChange = new EventEmitter();
   @Output()
@@ -56,7 +64,7 @@ export class AggregationSelectorComponent {
   selectedAggregations: string[];
 
   constructor() {
-    this.emitShiftChange = debounce(this.emitShiftChange, 300);
+    this.emitShiftChange = debounce(this.emitShiftChange, 1000);
   }
 
   @Input()
@@ -102,8 +110,8 @@ export class AggregationSelectorComponent {
     this.shiftChange.emit(change.value);
   }
 
-  public handleShiftAmountChange(change) {
-    const amount = parseInt(change.target.value, 10);
+  public handleShiftAmountChange(value) {
+    const amount = parseInt(value, 10);
     this.shiftAmount = amount;
     this.emitShiftChange(amount);
   }

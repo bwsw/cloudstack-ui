@@ -1,12 +1,35 @@
+import { LongDateFormatSpec } from 'moment';
 import * as uuid from 'uuid';
+
 import { Time } from '../../components/time-picker/time-picker.component';
 import { DayPeriod } from '../../components/day-period/day-period.component';
+import { Language, TimeFormat } from '../../types';
+import { Base64 } from 'js-base64';
 
 interface RouterState {
   snapshot: {
     url: string;
   };
 }
+
+const momentLongDateFormats = {
+  ru: {
+    LT: 'H:mm',
+    LTS: 'H:mm:ss',
+    L: 'DD.MM.YYYY',
+    LL: 'D MMMM YYYY г.',
+    LLL: 'D MMMM YYYY г., LT',
+    LLLL: 'dddd, D MMMM YYYY г., LT',
+  },
+  en: {
+    LT: 'h:mm A',
+    LTS: 'h:mm:ss A',
+    L: 'MM/DD/YYYY',
+    LL: 'MMMM Do YYYY',
+    LLL: 'MMMM Do YYYY LT',
+    LLLL: 'dddd, MMMM Do YYYY LT',
+  },
+};
 
 export class Utils {
   public static defaultPrecision = 0;
@@ -162,5 +185,48 @@ export class Utils {
       minute: time.minute,
       period: DayPeriod.Pm,
     };
+  }
+
+  public static getMomentLongDateFormat(
+    lang: Language,
+    timeFormat: TimeFormat,
+  ): LongDateFormatSpec {
+    if (
+      (lang === Language.en && timeFormat === TimeFormat.hour24) ||
+      (lang === Language.ru && timeFormat !== TimeFormat.hour12)
+    ) {
+      return {
+        ...momentLongDateFormats[lang],
+        LT: 'H:mm',
+        LTS: 'H:mm:ss',
+      };
+    }
+    return {
+      ...momentLongDateFormats[lang],
+      LT: 'h:mm A',
+      LTS: 'h:mm:ss A',
+    };
+  }
+
+  public static encodeStringToBase64(str: string): string {
+    if (!str) {
+      return null;
+    }
+    return Base64.encode(str);
+  }
+
+  public static decodeStringFromBase64(base64: string): string {
+    if (!base64) {
+      return null;
+    }
+    return Base64.decode(base64);
+  }
+
+  public static sizeOfBase64String(base64String: string): number {
+    if (!base64String) {
+      return 0;
+    }
+    const padding = base64String.match(/(=*)$/)[1].length;
+    return 4 * Math.ceil(base64String.length / 3) - padding;
   }
 }

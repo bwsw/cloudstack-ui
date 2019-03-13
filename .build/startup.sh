@@ -10,6 +10,9 @@ sed -i -e 's#WEBSHELL_PLUGIN_ENDPOINT#'"$EXTENSION_WEBSHELL_URL"'#g' /etc/nginx/
 # add base href
 if [ -n "$BASE_HREF" ]; then
     sed -i -e 's#"/"#'"$BASE_HREF"'#g' /static/index.html
+    sed -i -e 's#BASE_HREF#'"$BASE_HREF"'#g' /etc/nginx/conf.d/default.conf
+else
+    sed -i -e 's#BASE_HREF#'"/"'#g' /etc/nginx/conf.d/default.conf
 fi
 
 # check if API is available

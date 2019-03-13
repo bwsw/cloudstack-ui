@@ -1,27 +1,11 @@
 <div>
-  <h3
-    *ngIf="config?.title"
-    class="mat-dialog-title"
-    [innerHTML]=" config?.title | translate"
-  ></h3>
-  <div
-    class="mat-dialog-content notification"
-    [innerHTML]="translatedMessage | async"
-  >
-  </div>
+  <h3 *ngIf="config?.title" class="mat-dialog-title" [innerHTML]="config?.title | translate"></h3>
+  <div class="mat-dialog-content notification" [innerHTML]="translatedMessage | async"></div>
   <div class="mat-dialog-actions">
-    <button
-      mat-button
-      color="primary"
-      matDialogClose
-    >
+    <button mat-button color="primary" matDialogClose>
       {{ config.declineText | translate }}
     </button>
-    <button
-      mat-button
-      color="primary"
-      [matDialogClose]="true"
-    >
+    <button mat-button color="primary" [matDialogClose]="true">
       {{ config.confirmText | translate }}
     </button>
   </div>

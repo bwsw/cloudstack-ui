@@ -45,6 +45,7 @@ import {
   reducer as capabilityReducers,
   capabilitiesFeatureName,
 } from '../../../root-store/server-data/capabilities/capabilities.reducers';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 @Injectable()
 export class MockAccessService {}
@@ -1303,5 +1304,44 @@ describe('Virtual machine Effects', () => {
     expect(spyDialog).toHaveBeenCalled();
     expect(spyChangeSG).not.toHaveBeenCalled();
     expect(spyCommand).not.toHaveBeenCalled();
+  });
+
+  describe('changeVMUserData$', () => {
+    it('should dispatch UpdateVM action on success', () => {
+      const userdata = Utils.encodeStringToBase64('some user data');
+      const vm = list[0];
+      const vmWithUserdata = { ...vm, userdata };
+      const spyUpdateUserData = spyOn(service, 'updateUserData').and.returnValue(
+        of(vmWithUserdata),
+      );
+
+      const action = new vmActions.ChangeVmUserData({ vm, userdata });
+      const completion = new vmActions.UpdateVM(vmWithUserdata);
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.changeVMUserData$).toBeObservable(expected);
+      expect(spyUpdateUserData).toHaveBeenCalledWith(vm, userdata);
+      expect(jobsNotificationService.add).toHaveBeenCalled();
+    });
+
+    it('should dispatch VMUpdateError action on error', () => {
+      const userdata = Utils.encodeStringToBase64('some user data');
+      const vm = list[0];
+      const error = new Error('Error occurred!');
+      const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
+      const spyUpdateUserData = spyOn(service, 'updateUserData').and.returnValue(throwError(error));
+
+      const action = new vmActions.ChangeVmUserData({ vm, userdata });
+      const completion = new vmActions.VMUpdateError({ error });
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.changeVMUserData$).toBeObservable(expected);
+      expect(spyUpdateUserData).toHaveBeenCalledWith(vm, userdata);
+      expect(spyAlert).toHaveBeenCalled();
+    });
   });
 });

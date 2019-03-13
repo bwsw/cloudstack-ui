@@ -4,19 +4,27 @@ Firewall
 --------------
 .. Contents::
 
-The *Virtual Machines* -> *Firewall* section contains templates to create a security group for a virtual machine and shared security groups used for virtual machines of other users.
+The *Virtual Machines* -> *Firewall* section allows managing security groups that are used for isolating traffic to virtual machines. 
+
+.. _static/Firewall_Overview.png
+
+Read more about security groups in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.2.0/adminguide/networking/security_groups.html>`_ of CloudStack.
+
+In this section, a user can see and manage firewall templates, shared and private security groups.
 
 .. figure:: _static/Firewall_List816-1.png
 
-**Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment via the JSON configuration file (find more in `configurations guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#security-group-templates>`_). These presets will be used when creating a new security group.
+**Firewall templates** are presets of rules that can be system or custom (that is created by a user).  These presets will be used when creating a new security group. Administrators can specify system presets during the interface deployment via the JSON configuration file (find more in the `configurations guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#security-group-templates>`_). They will always be available for creation of a new group.
 
 .. Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. 
 
 A custom security group template can be created via the UI. Find more information on how to create a custom security group template at :ref:`Create_FTemplate`.
 
-Upon VM creation the system creates a new security group for a VM on the base of templates (if they exist). Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a **private security group** used for that virtual machine only. 
+Upon VM creation, a user applies templates (if they exist) to create a new security group for a VM. These rules make a **private security group** used for that virtual machine only. Thus, when a user changes the rules for a certain virtual machine, it does not affect other machines. 
 
 The second way is to use a **shared security group** for your virtual machine. Shared groups are used by several VMs. Changes of rules in them may affect other VMs. 
+
+A default security group can be defined for the account. It will be preselected for each new virtual machine. Please, read the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-security-group-name>`_ to find more information on how to set up a default security group.
 
 Users can manage security group rules in two modes: a "view" mode with filtering by types and protocols and an “edit” mode. Security groups editing is available when switching from "view" mode to "editing" mode. If the group is shared, the user is warned that changes will affect other VMs using this group. This behavior allows avoiding undesirable changes for other VMs.
 

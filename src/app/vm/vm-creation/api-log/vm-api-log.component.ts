@@ -17,10 +17,10 @@ export class VmApiLogComponent implements OnInit {
   }
 
   public onCopySuccess(): void {
-    this.notificationService.open('CLIPBOARD.COPY_SUCCESS');
+    this.notificationService.open('CLIPBOARD.COPY_SUCCESS').subscribe();
   }
 
   public onCopyFail(): void {
-    this.notificationService.open('CLIPBOARD.COPY_FAIL');
+    this.notificationService.open('CLIPBOARD.COPY_FAIL').subscribe();
   }
 }

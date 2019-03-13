@@ -16,7 +16,8 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
       [editMode]="editMode"
       (firewallRulesChanged)="onFirewallRulesChange($event)"
       (closeDialog)="closeDialog()"
-    ></cs-security-group-rules>`,
+    ></cs-security-group-rules>
+  `,
 })
 export class SgRulesContainerComponent implements OnInit {
   readonly securityGroup$ = this.store.pipe(select(fromSecurityGroups.getSelectedSecurityGroup));

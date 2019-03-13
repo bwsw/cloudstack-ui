@@ -3,7 +3,7 @@ import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { humanReadableSize } from '../../units-utils';
-import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
+import { defaultChartOptions, getChart, PulseChartComponent, tooltipLabel } from '../pulse-chart';
 
 @Component({
   selector: 'cs-pulse-cpu-chart',
@@ -12,6 +12,9 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 })
 export class PulseCpuRamChartComponent extends PulseChartComponent implements OnInit {
   public ngOnInit() {
+    const unitTranslations = this.unitTranslations;
+    const ramConverter = val => humanReadableSize(val * 1000, true, unitTranslations);
+
     this.charts = getChart([
       {
         id: 'cpu',
@@ -22,9 +25,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
             yAxes: [
               {
                 ticks: {
-                  padding: 40,
-                  mirror: true,
-                  suggestedMin: 0,
+                  ...defaultChartOptions.scales.yAxes[0].ticks,
                   suggestedMax: 100,
                   userCallback(val) {
                     return `${val}%`;
@@ -32,6 +33,14 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
                 },
               },
             ],
+          },
+          tooltips: {
+            ...defaultChartOptions.tooltips,
+            callbacks: {
+              label: (tooltipItem, data) => {
+                return `${tooltipLabel(tooltipItem, data)}${tooltipItem.yLabel}%`;
+              },
+            },
           },
         },
       },
@@ -44,15 +53,21 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
             yAxes: [
               {
                 ticks: {
-                  padding: 40,
-                  mirror: true,
-                  suggestedMin: 0,
+                  ...defaultChartOptions.scales.yAxes[0].ticks,
                   userCallback(val) {
-                    return humanReadableSize(val * 1024);
+                    return ramConverter(val);
                   },
                 },
               },
             ],
+          },
+          tooltips: {
+            ...defaultChartOptions.tooltips,
+            callbacks: {
+              label: (tooltipItem, data) => {
+                return tooltipLabel(tooltipItem, data) + ramConverter(tooltipItem.yLabel);
+              },
+            },
           },
         },
       },
@@ -93,25 +108,29 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
           ([data, ram]) => {
             this.error = false;
             const datasets = data.map((res: any, ind) => {
-              const aggregation = params.selectedAggregations[ind];
+              const ag = params.selectedAggregations[ind].toUpperCase();
+              const aggregationName =
+                this.translations['INTERVALS']['AGGREGATIONS'][ag.toUpperCase()] || ag;
               return {
                 data: res.map(_ => ({
                   x: new Date(_.time),
                   y: Math.min(+_.cpuTime, 100),
                 })),
-                label: `${this.translations['CPU']} ${aggregation}`,
+                label: `${this.translations['LABELS']['CPU']} ${aggregationName}`,
               };
             });
             this.updateDatasets('cpu', datasets);
 
             const asd = ram.map((res: any, ind) => {
-              const aggregation = params.selectedAggregations[ind];
+              const ag = params.selectedAggregations[ind].toUpperCase();
+              const aggregationName =
+                this.translations['INTERVALS']['AGGREGATIONS'][ag.toUpperCase()] || ag;
               return {
                 data: res.map(_ => ({
                   x: new Date(_.time),
                   y: +_.ram,
                 })),
-                label: `${this.translations['RAM']} ${aggregation}`,
+                label: `${this.translations['LABELS']['RAM']} ${aggregationName}`,
               };
             });
             this.updateDatasets('ram', asd);

@@ -1,9 +1,7 @@
 <div *ngIf="entity">
   <div class="title-container">
     <div class="title-container">
-      <cs-template-os-icon-container
-        [template]="entity"
-      ></cs-template-os-icon-container>
+      <cs-template-os-icon-container [template]="entity"></cs-template-os-icon-container>
       <h4 class="details-header">{{ entity.name }}</h4>
     </div>
     <cs-template-actions-sidebar-container
@@ -19,10 +17,7 @@
       queryParamsHandling="preserve"
       [active]="tabIsActive('details')"
     >
-      <div
-        [matTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate"
-        class="mat-tab-tooltip"
-      >
+      <div [matTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate" class="mat-tab-tooltip">
         <mat-icon class="mdi-disc"></mat-icon>
       </div>
     </a>
@@ -42,10 +37,7 @@
       queryParamsHandling="preserve"
       [active]="tabIsActive('tags')"
     >
-      <div
-        [matTooltip]="'TEMPLATE_PAGE.SIDEBAR.TAGS' | translate"
-        class="mat-tab-tooltip"
-      >
+      <div [matTooltip]="'TEMPLATE_PAGE.SIDEBAR.TAGS' | translate" class="mat-tab-tooltip">
         <mat-icon class="mdi-tag"></mat-icon>
       </div>
     </a>

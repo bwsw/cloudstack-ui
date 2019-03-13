@@ -57,6 +57,12 @@ export const selectIsAutoUpdateEnabled = createSelector(
   state => state.isAutoUpdateEnabled,
 );
 
-export const selectStartDate = createSelector(getVmLogsAutoUpdateState, state => state.startDate);
+export const selectStartDate = createSelector(
+  getVmLogsAutoUpdateState,
+  state => state.startDate,
+);
 
-export const selectEndDate = createSelector(getVmLogsAutoUpdateState, state => state.endDate);
+export const selectEndDate = createSelector(
+  getVmLogsAutoUpdateState,
+  state => state.endDate,
+);

@@ -6,14 +6,9 @@
       [(ngModel)]="displayDate"
       [placeholder]="label"
       (focus)="onFocus($event)"
-    >
+    />
   </mat-form-field>
-  <button
-    mat-icon-button
-    cs-input-group-button
-    [disabled]="disabled"
-    (click)="onFocus($event)"
-  >
+  <button mat-icon-button cs-input-group-button [disabled]="disabled" (click)="onFocus($event)">
     <mat-icon class="mdi-calendar-range"></mat-icon>
   </button>
 </cs-input-group>

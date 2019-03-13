@@ -1,23 +1,10 @@
 <mat-list-item>
   <div matLine class="mat-list-item-content">
-
     <ng-container [ngSwitch]="notification.status">
-      <mat-icon
-        *ngSwitchCase="notificationStatus.Finished"
-        matListIcon
-        class="done mdi-check"
-      >
+      <mat-icon *ngSwitchCase="notificationStatus.Finished" matListIcon class="done mdi-check">
       </mat-icon>
-      <mat-spinner
-        *ngSwitchCase="notificationStatus.Pending"
-        [diameter]="32"
-      ></mat-spinner>
-      <mat-icon
-        *ngSwitchCase="notificationStatus.Failed"
-        matListIcon
-        class="mdi-close"
-      >
-      </mat-icon>
+      <mat-spinner *ngSwitchCase="notificationStatus.Pending" [diameter]="32"></mat-spinner>
+      <mat-icon *ngSwitchCase="notificationStatus.Failed" matListIcon class="mdi-close"> </mat-icon>
     </ng-container>
 
     <span
