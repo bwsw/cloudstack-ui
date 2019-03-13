@@ -11,14 +11,14 @@ docker run --name ${SIMULATOR_CONTAINER_NAME} -d \
   -p ${SIMULATOR_HOST_PORT}:${SIMULATOR_CONTAINER_PORT} \
   ${SIMULATOR_IMAGE}
 
-echo "Docker container is started";
+echo -e "\nDocker container is started\n";
 sleep 5;
 
-echo "Wait until simulator initialized"
+echo -e "\nWait until simulator is initialized\n"
 for i in $(seq 1 200); do
   PORT_STATUS=$(curl -LI 127.0.0.1:${SIMULATOR_STATUS_CHECK_PORT} -o /dev/null -w '%{http_code}\n' -s);
   if [ "$PORT_STATUS" = "403" ]; then
-    echo -e "\nSimulator initialization is done";
+    echo -e "\nSimulator initialization is done\n";
     break;
   fi;
   echo -en "\rChecking... ($i/200)";

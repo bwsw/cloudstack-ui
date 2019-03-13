@@ -19,4 +19,4 @@ const PROXY_CONFIG = [
 module.exports = PROXY_CONFIG;
 EOF
 
-echo "Proxy config added"
+echo -e "\nProxy config added\n"

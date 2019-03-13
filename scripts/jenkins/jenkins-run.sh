@@ -25,13 +25,13 @@ export DOCKER_REPO=cloudstack-ui
 
 
 # Preparation
-./scripts/ci/remove-old-containers.sh
+./scripts/ci/docker-cleanup.sh
 
 if [[ "$CI_TYPE" != "RELEASE" ]]; then
   ./scripts/ci/add-app-config.sh
 fi
 
-# Lint, Unit tests
+# Dependencies, Lint, Format, Unit tests
 ./scripts/ci/test.sh
 
 # e2e tests

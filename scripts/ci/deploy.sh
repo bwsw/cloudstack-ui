@@ -2,6 +2,8 @@
 
 set -e -u -o pipefail
 
+echo -e "\nDeployment started\n"
+
 function deployPr {
   docker stop "cloudstack-ui-$ghprbPullId" 2> /dev/null || true
   docker rm "cloudstack-ui-$ghprbPullId" 2> /dev/null || true
@@ -46,4 +48,4 @@ elif [[ "$CI_TYPE" == "MASTER" ]]; then
   deployUserBranch
 fi
 
-echo "App successfully deployed."
+echo -e "\nDeployment complete\n"

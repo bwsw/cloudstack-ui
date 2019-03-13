@@ -2,6 +2,8 @@
 
 set -u -e -o pipefail
 
+echo -e "\nStart of e2e tests\n"
+
 ./scripts/ci/add-proxy-conf.sh
 ./scripts/ci/install-simulator.sh
 
@@ -11,3 +13,5 @@ docker run --rm \
   -w /workspace \
   ${NODE_CHROME_YARN_IMAGE} \
   /bin/bash -ce "yarn && yarn e2e"
+
+echo -e "\nEnd of e2e tests\n"
