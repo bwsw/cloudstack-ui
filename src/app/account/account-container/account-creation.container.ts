@@ -18,7 +18,8 @@ import { AccountData } from '../../shared/models/account.model';
       [roles]="roles$ | async"
       (accountCreated)="createAccount($event)"
     >
-    </cs-account-creation-dialog>`,
+    </cs-account-creation-dialog>
+  `,
 })
 export class AccountCreationContainerComponent {
   public loading$ = this.store.pipe(select(fromAccounts.isLoading));

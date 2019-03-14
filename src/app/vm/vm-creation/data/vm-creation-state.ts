@@ -24,4 +24,5 @@ export interface VmCreationState {
   template: BaseTemplateModel;
   zone: Zone;
   agreement: boolean;
+  userData?: string;
 }

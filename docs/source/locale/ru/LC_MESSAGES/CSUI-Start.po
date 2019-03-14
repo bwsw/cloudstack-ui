@@ -380,6 +380,38 @@ msgstr ""
 "В результате, в UI появится добавленный сервис. На изображении ниже "
 "отображается подключенный виджет JivoSite:"
 
+#: ../../CSUI-Start.rst:108
+msgid "Adding Custom Scripts"
+msgstr "Добавление пользовательских скриптов"
+
+#: ../../CSUI-Start.rst:110
+msgid ""
+"We support adding custom JavaScript scripts to extend the UI functionality "
+"with the services necessary for a user.  For example, using custom scripts a "
+"user can add JivoSite or Google Analytics widgets to the interface."
+msgstr ""
+"В CloudStack-UI есть возможность расширить функциональность UI необходимым для "
+"пользователя образом путем добавления пользовательских скриптов. Так, "
+"например, можно подключить виджеты JivoSite или Google Analytics."
+
+#: ../../CSUI-Start.rst:112
+msgid ""
+"Custom scripts are added at running the CloudStack-UI Docker-container. All "
+"that a user should do is to define the ``/scripts/custom.js`` custom script "
+"content and map it via a Docker-volume. By default, the ``/scripts/custom.js`` "
+"file is empty."
+msgstr ""
+"Интеграция пользовательских скриптов JavaScript производится при запуске "
+"Docker-контейнера с приложением. Пользователю достаточно определить содержимое "
+"файла ``/scripts/custom.js`` и отобразить его через Docker-volume при запуске "
+"контейнера. По умолчанию файл  ``/scripts/custom.js`` пустой."
+
+#: ../../CSUI-Start.rst:114
+msgid "As a result, you can see the added service in the UI:"
+msgstr ""
+"В результате, в UI появится добавленный сервис. На изображении ниже "
+"отображается подключенный виджет JivoSite:"
+
 #~ msgid ""
 #~ "To the left you can see the main navigation bar. It allows moving from "
 #~ "section to section. It is configured by an Administrator in the "

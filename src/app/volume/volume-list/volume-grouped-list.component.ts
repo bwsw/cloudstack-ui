@@ -36,7 +36,7 @@ export class VolumeGroupedListComponent extends GroupedListComponent {
     return group1.name === volumeTypeNames['ROOT']
       ? -1
       : group1.name === volumeTypeNames['DATADISK']
-        ? 1
-        : group1.name.localeCompare(group2.name);
+      ? 1
+      : group1.name.localeCompare(group2.name);
   }
 }

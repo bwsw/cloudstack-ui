@@ -8,8 +8,8 @@ import {
 import { LoaderComponent } from '../components/loader/loader.component';
 
 /*
-* This directive is used to check the condition on the basis of which or shows an element or spinner.
-* This is similar to *ngIf="condition".
+ * This directive is used to check the condition on the basis of which or shows an element or spinner.
+ * This is similar to *ngIf="condition".
  */
 @Directive({
   // tslint:disable-next-line

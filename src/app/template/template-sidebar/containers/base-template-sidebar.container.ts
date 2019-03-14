@@ -9,9 +9,8 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
 @Component({
   selector: 'cs-template-sidebar-container',
   template: `
-    <cs-template-sidebar
-      [entity]="template$ | async"
-    ></cs-template-sidebar>`,
+    <cs-template-sidebar [entity]="template$ | async"></cs-template-sidebar>
+  `,
 })
 export class BaseTemplateSidebarContainerComponent implements OnInit {
   public template$ = this.store.pipe(select(fromTemplates.getSelectedTemplate));

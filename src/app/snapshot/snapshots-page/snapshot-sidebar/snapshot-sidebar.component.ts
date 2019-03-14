@@ -59,13 +59,12 @@ export class SnapshotSidebarComponent {
       SnapshotStates.Error,
     ]
       .filter(state => this.snapshot.state === state)
-      .map(
-        state =>
-          state === SnapshotStates.BackingUp
-            ? 'backing-up'
-            : state === SnapshotStates.BackedUp
-              ? 'backed-up'
-              : state.toLowerCase(),
+      .map(state =>
+        state === SnapshotStates.BackingUp
+          ? 'backing-up'
+          : state === SnapshotStates.BackedUp
+          ? 'backed-up'
+          : state.toLowerCase(),
       );
   }
 }

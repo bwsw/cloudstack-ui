@@ -281,6 +281,9 @@ export const getComputeOfferingForVmEditing = createSelector(
     tags,
     vm,
   ): ComputeOfferingViewModel[] => {
+    if (!vm || !account) {
+      return [];
+    }
     const memoryUsed = vm.memory;
     const cpuNumberUsed = vm.cpunumber;
 

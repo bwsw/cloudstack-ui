@@ -15,7 +15,8 @@ import { SecurityGroup, SecurityGroupNative } from '../sg.model';
       (securityGroupViewSelected)="onViewSecurityGroup($event)"
       (securityGroupDeleted)="onDeleteSecurityGroup($event)"
       (securityGroupConverted)="onSecurityGroupConvert($event)"
-    ></cs-security-group-actions>`,
+    ></cs-security-group-actions>
+  `,
 })
 export class SecurityGroupActionsContainerComponent {
   @Input()

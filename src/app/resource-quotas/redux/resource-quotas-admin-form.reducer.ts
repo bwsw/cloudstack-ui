@@ -11,10 +11,12 @@ export interface ResourceQuotasAdminFormState {
       maximum: number;
     };
   };
+  isSaving: boolean;
 }
 
 export const initialState = {
   form: {},
+  isSaving: false,
 };
 
 export function resourceQuotasAdminFormReducer(
@@ -36,7 +38,23 @@ export function resourceQuotasAdminFormReducer(
 
     case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_ADMIN_FORM: {
       return {
+        ...state,
         form: action.payload,
+      };
+    }
+
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_QUOTAS_REQUEST: {
+      return {
+        ...state,
+        isSaving: true,
+      };
+    }
+
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_QUOTAS_ERROR:
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_QUOTAS_RESPONSE: {
+      return {
+        ...state,
+        isSaving: false,
       };
     }
 
@@ -52,4 +70,9 @@ export const getResourceQuotasAdminFormState = createFeatureSelector<ResourceQuo
 export const getAdminResourceQuotasForm = createSelector(
   getResourceQuotasAdminFormState,
   state => state.form,
+);
+
+export const isAdminResourceQuotasSaving = createSelector(
+  getResourceQuotasAdminFormState,
+  state => state.isSaving,
 );

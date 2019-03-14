@@ -7,7 +7,7 @@
 
   <h2
     [matTooltip]="item.name"
-    [innerHTML]="item.name | highlight:query"
+    [innerHTML]="item.name | highlight: query"
     class="entity-list-item-title"
   ></h2>
 
@@ -17,7 +17,7 @@
 
   <div class="entity-list-item-data">
     {{ 'TEMPLATE_PAGE.CARD.DESCRIPTION' | translate }}:
-    <span [innerHTML]="item.displaytext | highlight:query"></span>
+    <span [innerHTML]="item.displaytext | highlight: query"></span>
   </div>
 
   <!-- Use visibility to make the element take up space and not broke the layout -->

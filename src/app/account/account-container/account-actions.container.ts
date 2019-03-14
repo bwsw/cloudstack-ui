@@ -15,7 +15,8 @@ import { Account } from '../../shared/models/account.model';
       (accountDisabled)="onAccountDisable($event)"
       (accountEnabled)="onAccountEnable($event)"
     >
-    </cs-account-actions>`,
+    </cs-account-actions>
+  `,
 })
 export class AccountActionsContainerComponent {
   @Input()

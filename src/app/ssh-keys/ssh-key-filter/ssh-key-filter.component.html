@@ -6,14 +6,12 @@
       [ngModel]="selectedAccountIds"
       (selectionChange)="accountsChanged.emit($event.value)"
     >
-      <mat-option
-        *ngFor="let account of accounts"
-        [value]="account.id"
-      >{{ account.fullDomain }}{{ account.name }}
+      <mat-option *ngFor="let account of accounts" [value]="account.id"
+        >{{ account.fullDomain }}{{ account.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field  *ngIf="groupings.length">
+  <mat-form-field *ngIf="groupings.length">
     <cs-draggable-select
       multiple="true"
       [placeholder]="'SSH_KEYS.FILTERS.GROUP_BY' | translate"

@@ -11,6 +11,10 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
       return adapter.addAll(action.payload.tags, state);
     }
 
+    case UserTagsActionTypes.SetDefaultUserTagDueToDelete: {
+      return action.payload ? adapter.upsertOne(action.payload, state) : state;
+    }
+
     case UserTagsActionTypes.LoadUserTagsSuccess: {
       return adapter.upsertMany(action.payload.tags, { ...state, isLoaded: true });
     }

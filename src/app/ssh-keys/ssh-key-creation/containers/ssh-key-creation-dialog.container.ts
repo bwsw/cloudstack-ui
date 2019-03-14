@@ -10,11 +10,9 @@ import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers'
 @Component({
   selector: 'cs-ssh-key-creation-dialog-container',
   template: `
-    <cs-ssh-key-creation
-      [isLoading]="loading$ | async"
-      (sshKeyPairCreated)="createSshKey($event)"
-    >
-    </cs-ssh-key-creation>`,
+    <cs-ssh-key-creation [isLoading]="loading$ | async" (sshKeyPairCreated)="createSshKey($event)">
+    </cs-ssh-key-creation>
+  `,
 })
 export class SShKeyCreationDialogContainerComponent {
   public loading$ = this.store.pipe(select(fromSshKeys.isFormLoading));

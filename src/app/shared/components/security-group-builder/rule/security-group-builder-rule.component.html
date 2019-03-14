@@ -1,10 +1,10 @@
 <mat-list-item class="flex-container">
   <h5 matLine>
-      <span
-        [matTooltip]="ruleTranslationToken.tooltip | translate: (ruleParams)"
-        [innerHTML]="ruleTranslationToken.name | translate: (ruleParams)"
-      >
-      </span>
+    <span
+      [matTooltip]="ruleTranslationToken.tooltip | translate: ruleParams"
+      [innerHTML]="ruleTranslationToken.name | translate: ruleParams"
+    >
+    </span>
   </h5>
   <span>
     <mat-checkbox

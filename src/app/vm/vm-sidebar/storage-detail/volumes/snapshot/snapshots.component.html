@@ -1,5 +1,7 @@
 <div class="grid volumes snapshots">
-  <ng-container *ngIf="volume?.snapshots?.length; then lastSnapshotExist else lastSnapshotDoesNotExist">
+  <ng-container
+    *ngIf="volume?.snapshots?.length; then lastSnapshotExist; else lastSnapshotDoesNotExist"
+  >
   </ng-container>
 
   <ng-template #lastSnapshotExist>

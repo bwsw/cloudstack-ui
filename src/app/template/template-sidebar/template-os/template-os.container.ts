@@ -8,7 +8,8 @@ import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers'
 @Component({
   selector: 'cs-template-os-container',
   template: `
-    <cs-template-os [template]="template" [osTypes]="osTypes$ | async"></cs-template-os>`,
+    <cs-template-os [template]="template" [osTypes]="osTypes$ | async"></cs-template-os>
+  `,
 })
 export class TemplateOsContainerComponent {
   public osTypes$ = this.store.pipe(select(fromOsTypes.selectEntities));

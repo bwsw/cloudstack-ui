@@ -785,7 +785,6 @@ You can detach the ISO file by clicking the "Detach" button.
 
 Network Tab
 """"""""""""""""""""""""""
-
 The Network tab presents the network configurations of the VM.
 
 .. figure:: _static/VMs_Details_Network1.png

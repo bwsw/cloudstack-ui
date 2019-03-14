@@ -7,14 +7,14 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   template: `
-  <input
-    type="number"
-    class="input"
-    [csMinValue]="minValue"
-    [csMaxValue]="maxValue"
-    [step]="step"
-    [(ngModel)]="value"
-  >
+    <input
+      type="number"
+      class="input"
+      [csMinValue]="minValue"
+      [csMaxValue]="maxValue"
+      [step]="step"
+      [(ngModel)]="value"
+    />
   `,
 })
 class TestComponent {

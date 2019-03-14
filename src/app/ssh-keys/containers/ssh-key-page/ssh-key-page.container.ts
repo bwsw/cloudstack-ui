@@ -28,7 +28,8 @@ export const sshKeyGroupings: Grouping[] = [
       [isLoading]="isLoading$ | async"
       [selectedGroupings]="selectedGroupings$ | async"
       (keyRemoved)="removeSshKeyPair($event)"
-    ></cs-ssh-keys-page>`,
+    ></cs-ssh-keys-page>
+  `,
 })
 export class SshKeyPageContainerComponent implements OnInit, AfterViewInit {
   readonly isLoading$ = this.store.pipe(select(fromSshKeys.isLoading));

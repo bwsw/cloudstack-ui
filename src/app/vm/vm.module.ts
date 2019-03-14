@@ -112,6 +112,7 @@ import { VmsSgListComponent } from './vm-sidebar/vms-sg-list/vms-sg-list.compone
 import { VmApiLogComponent } from './vm-creation/api-log/vm-api-log.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MatExpansionModule } from '@angular/material';
+import { VmUserDataDialogComponent } from './vm-sidebar/vm-detail/vm-user-data-dialog/vm-user-data-dialog.component';
 
 // tslint:enable max-line-length
 
@@ -228,6 +229,7 @@ import { MatExpansionModule } from '@angular/material';
     VmTagsContainerComponent,
     VmsSgListComponent,
     SgListContainerComponent,
+    VmUserDataDialogComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
@@ -254,6 +256,7 @@ import { MatExpansionModule } from '@angular/material';
     VmSnapshotListDialogComponent,
     ServiceOfferingDialogContainerComponent,
     SgListContainerComponent,
+    VmUserDataDialogComponent,
   ],
 })
 export class VmModule {}

@@ -15,10 +15,7 @@
     [name]="'ACCOUNT_PAGE.USER.TIMEZONE'"
     [value]="user.timezone"
   ></cs-parameters-pair>
-  <cs-parameters-pair
-    [name]="'ACCOUNT_PAGE.USER.EMAIL'"
-    [value]="user.email"
-  ></cs-parameters-pair>
+  <cs-parameters-pair [name]="'ACCOUNT_PAGE.USER.EMAIL'" [value]="user.email"></cs-parameters-pair>
   <cs-parameters-pair
     *ngIf="user.secretkey"
     [name]="'ACCOUNT_PAGE.USER.SECRET_KEY'"

@@ -3,11 +3,12 @@
 }
 
 .root-disk {
-  background: center/4px 4px repeat radial-gradient(
+  background: center/4px 4px repeat
+    radial-gradient(
       circle at center,
       rgba(0, 0, 0, 0.05),
       rgba(0, 0, 0, 0.05) 2px,
       transparent 2px,
       transparent 100%
-  );
+    );
 }

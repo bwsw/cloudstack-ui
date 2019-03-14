@@ -38,6 +38,7 @@ export enum CSCommands {
   Expunge = 'expunge',
   Invalidate = 'invalidate',
   GetKeys = 'get;Keys',
+  GetVMUserData = 'get;UserData',
   List = 'list;s',
   ListCapabilities = 'listCapabilities',
   QueryResult = 'query;Result',

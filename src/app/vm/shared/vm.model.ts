@@ -3,6 +3,7 @@ import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { BaseModel, NIC, OsType, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { BaseTemplateModel } from '../../template/shared';
+import { Utils } from '../../shared/services/utils/utils.service';
 
 export enum VmState {
   Running = 'Running',
@@ -67,4 +68,13 @@ export interface VirtualMachine extends BaseModel, Taggable {
   keypair: string;
   password: string;
   passwordenabled: boolean;
+  userdata?: string;
+}
+
+export function isVMUserDataValid(userData: string): boolean {
+  if (!userData) {
+    return true;
+  }
+  const size = Utils.sizeOfBase64String(Utils.encodeStringToBase64(userData));
+  return size < 32 * 1024;
 }

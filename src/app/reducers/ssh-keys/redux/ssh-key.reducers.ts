@@ -145,23 +145,44 @@ export function formReducer(state = initialFormState, action: sshKeyActions.Acti
 
 export const getSshKeysState = createFeatureSelector<SshKeysState>('sshKeys');
 
-export const getSshKeysEntitiesState = createSelector(getSshKeysState, state => state.list);
+export const getSshKeysEntitiesState = createSelector(
+  getSshKeysState,
+  state => state.list,
+);
 
-export const getSshKeysFormState = createSelector(getSshKeysState, state => state.form);
+export const getSshKeysFormState = createSelector(
+  getSshKeysState,
+  state => state.form,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getSshKeysEntitiesState,
 );
 
-export const filters = createSelector(getSshKeysEntitiesState, state => state.filters);
+export const filters = createSelector(
+  getSshKeysEntitiesState,
+  state => state.filters,
+);
 
-export const isLoading = createSelector(getSshKeysEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getSshKeysEntitiesState,
+  state => state.loading,
+);
 
-export const isFormLoading = createSelector(getSshKeysFormState, state => state.loading);
+export const isFormLoading = createSelector(
+  getSshKeysFormState,
+  state => state.loading,
+);
 
-export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
+export const filterSelectedGroupings = createSelector(
+  filters,
+  state => state.selectedGroupings,
+);
 
-export const filterSelectedAccountIds = createSelector(filters, state => state.selectedAccountIds);
+export const filterSelectedAccountIds = createSelector(
+  filters,
+  state => state.selectedAccountIds,
+);
 
 export const selectFilteredSshKeys = createSelector(
   selectAll,
@@ -182,12 +203,16 @@ export const selectFilteredSshKeys = createSelector(
   },
 );
 
-export const selectSSHKeys = createSelector(selectAll, fromVMs.getSelectedVM, (sshKeys, vm) => {
-  const selectedVMFilter = sshKey =>
-    vm && vm.account === sshKey.account && vm.domainid === sshKey.domainid;
+export const selectSSHKeys = createSelector(
+  selectAll,
+  fromVMs.getSelectedVM,
+  (sshKeys, vm) => {
+    const selectedVMFilter = sshKey =>
+      vm && vm.account === sshKey.account && vm.domainid === sshKey.domainid;
 
-  return sshKeys.filter(selectedVMFilter);
-});
+    return sshKeys.filter(selectedVMFilter);
+  },
+);
 
 export const selectSshKeysForAccount = createSelector(
   selectAll,
