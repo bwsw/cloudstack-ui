@@ -97,6 +97,7 @@
   "ERRORS": {
     "SUPPORT_INFORMATION": "Информация о тех. поддержке",
     "COMMON": {
+      "INTERNAL_ERROR": "Внутренняя ошибка",
       "THE_NAME_IS_TAKEN": "Имя {{ val1 }} уже занято"
     },
     "AUTH": {
@@ -106,7 +107,12 @@
       "DISABLED": "Пользователь {{ val1 }} (или его акаунт) {{ val2 }} деактивирован. Пожалуйста свяжитесь с администратором."
     },
     "ISO": {
+      "INVALID_ISO": "ISO невалиден. Задайте валидный URL.",
+      "DETACHMENT_FAILED": "Не удалось открепить ISO",
       "VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется следующими машинами:<br>{{ vms }}"
+    },
+    "TEMPLATE": {
+      "INVALID_TEMPLATE": "Шаблон невалиден. Задайте валидный URL."
     },
     "VM_SNAPSHOT": {
       "LIMIT_EXCEEDED": "Максимальное количество снимков ВМ превышено. Проверьте конфигурацию"
@@ -116,13 +122,17 @@
       "CREATION_UNAVAILABLE_FOR_STOPPED": "Создание снимков ВМ недоступно для остановленных ВМ",
       "CREATION_UNAVAILABLE_FOR_DELETED": "Создание снимков ВМ недоступно для удаленных ВМ",
       "CREATION_UNAVAILABLE": "Снимок ВМ не может быть создан. Обратитесь к администратору",
+      "UNABLE_TO_REVERT_REMOVE_SNAPSHOTS": "Возвращение ВМ к снимку ВМ невозможно.  Вам необходимо удалить ранее созданные снимки ВМ",
+      "REVERT_UNAVAILABLE_FOR_DELETED": "Возвращение ВМ к снимку ВМ недоступно для удаленных ВМ",
       "REVERT_UNAVAILABLE_FOR_STOPPED": "Возвращение ВМ к снимку ВМ недоступно для остановленных ВМ"
     },
     "SSH": {
+      "PUBLIC_KEY_INVALID": "Открытый ключ невалиден",
       "KEY_PAIR_ALREADY_EXISTS": "SSH ключ с именем \"{{ val1 }}\" уже существует"
     },
     "VM": {
-      "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов"
+      "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов",
+      "USER_DATA_TOO_BIG": "Максимально допустимый размер значения параметра UserData превышен"
     },
     "VM_POST_ACTION": {
       "INVALID_URL": "Неподдерживаемый URL. Проверьте значения, задаваемые в тэгах ВМ"
@@ -136,6 +146,8 @@
       "VOLUME_RESOURCES_LIMIT_EXCEEDED": "Диск не может быть выбран. Размер выбранного диска превышает доступные ресурсы аккаунта.",
       "VOLUME_DELETING_UNAVAILABLE": "Удаление дополнительных дисков не доступно для ВМ с активными снимками",
       "VOLUME_ATTACH_UNAVAILABLE": "Прикрепление дополнительных дисков не доступно для ВМ с активными снимками",
+      "VOLUME_ATTACH_UNAVAILABLE_FOR_DELETED": "Прикрепление дополнительных дисков не доступно для для удаленных ВМ",
+      "VOLUME_ATTACH_UNAVAILABLE_AS_MIGRATION_NOT_ALLOWED": "Прикрепление дополнительных дисков не доступно, запрещена миграция локальных дисков",
       "VOLUME_DETACH_UNAVAILABLE": "Открепление дополнительных дисков не доступно для ВМ с активными снимками",
       "VOLUME_RESIZE_UNAVAILABLE": "Изменение размера диска недоступно для ВМ с активными снимками",
       "VOLUME_COUNT_RESOURCE_LIMIT_EXCEEDED": "Максимальное количество дисков превышено. Лимит аккаунта равен {{ val1 }}"
@@ -152,8 +164,10 @@
     },
     "RESOURCE_QUOTAS": {
       "FAILED_RETRIEVE": "Невозможно изменить ресурсы",
+      "FAILED_UPDATE": "You can not resource limit",
       "MAX_MUST_BE_GREATER": "Максимальное значение должно быть больше или равно минимальному",
-      "MAX_MUST_BE_BETWEEN": "Максимальное значение должно быть между {{ val1 }} и {{ val2 }}"
+      "MAX_MUST_BE_BETWEEN": "Максимальное значение должно быть между {{ val1 }} и {{ val2 }}",
+      "NO_BILLING_ID": "Billing Id не задано для пользователя"
     }
   },
   "NOTIFICATIONS": {
@@ -283,7 +297,10 @@
       "COLOR_CHANGE_DONE": "Цвет ВМ изменен",
       "CHANGE_SSH_IN_PROGRESS": "Изменение SSH-ключа",
       "CHANGE_SSH_DONE": "SSH-ключ изменен",
-      "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ"
+      "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ",
+      "CHANGE_USER_DATA_IN_PROGRESS": "Изменение параметра UserData для ВМ",
+      "CHANGE_USER_DATA_DONE": "Значение параметра UserData ВМ изменено",
+      "CHANGE_USER_DATA_FAILED": "Не удалось изменить значение параметра UserData для ВМ"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Открепление диска",
@@ -333,7 +350,7 @@
     "SSH_KEYS": "SSH ключи",
     "ACCOUNTS": "Аккаунты",
     "RESOURCE_QUOTAS": "Квоты ресурсов",
-    "LOGS": "Просмотр логов",
+    "LOGS": "Системные журналы",
     "SETTINGS": "Настройки",
     "LOGOUT": "Выйти",
     "LICENSE": {
@@ -356,7 +373,7 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
       "VM_ACCESS_TITLE": "Виртуальная машина",
-      "LOGS": "Логи ВМ",
+      "LOGS": "Системные журналы",
       "CREATE_VM_LOGS_TOKEN": "Создать токен",
       "INVALIDATE_VM_LOGS_TOKEN": "Аннулировать токен"
     },
@@ -412,7 +429,8 @@
         "TITLE": "Общая информация",
         "ZONE": "Зона",
         "HOST_NAME": "Имя хоста",
-        "ID": "ID"
+        "ID": "ID",
+        "USER_DATA": "UserData ВМ"
       },
       "SECURITY_GROUP": {
         "STOP_MACHINE_FOR_SG": "Для того, чтобы изменить группу безопасности, необходимо остановить виртуальную машину. Хотите остановить сейчас?",
@@ -632,6 +650,7 @@
       "NO_OFFERINGS": "Нет доступных вычислительных предложений",
       "GENERAL": "Основные",
       "ADVANCED": "Дополнительные",
+      "USER_DATA": "UserData ВМ",
       "DETAILS": "Детали",
       "REQUEST": "ЗАПРОС",
       "PARAMS": "ПАРАМЕТРЫ",
@@ -649,6 +668,11 @@
         "DESCRIPTION": "Описание",
         "DATE": "Дата",
         "ACTIONS": "Действия"
+      },
+      "VM_USER_DATA": {
+        "TITLE": "UserData ВМ",
+        "USER_DATA": "UserData ВМ",
+        "NO_USER_DATA": "Параметр UserData ВМ не задан"
       }
     }
   },
@@ -1540,7 +1564,7 @@
       "NETWORK": "Сеть",
       "VPCS": "VPC",
       "CPUS": "CPU",
-      "MEMORY": "Память (МБ)",
+      "MEMORY": "Память (ГБ)",
       "PRIMARY_STORAGE": "Основное хранилище (ГБ)",
       "SECONDARY_STORAGE": "Дополнительное хранилище (ГБ)"
     },
@@ -1635,7 +1659,7 @@
       "TITLE": "Теги пользователя"
     },
     "VM_LOGS": {
-      "TITLE": "Просмотр логов (режим реального времени)",
+      "TITLE": "Системные журналы (режим реального времени)",
       "SHOW_LAST_MESSAGES": "Максимальное количество сообщений",
       "SHOW_LAST_MINUTES": "Показывать последние (минут)"
     }
@@ -1682,6 +1706,36 @@
       "DISK_READ_IOPS": "Чтение с диска (IOPS)",
       "DISK_WRITE_IOPS": "Запись на диск (IOPS)",
       "DISK_IO_ERRORS": "Ошибки IO"
+    },
+    "INTERVALS": {
+      "RANGES": {
+        "15M": "15 мин",
+        "30M": "30 мин",
+        "1H": "1 ч",
+        "2H": "2 ч",
+        "3H": "3 ч",
+        "4H": "4 ч",
+        "12H": "12 ч",
+        "1D": "1 день",
+        "1W": "1 нед",
+        "30D": "30 дн"
+      },
+      "AGGREGATIONS": {
+        "1M": "1 мин",
+        "4M": "4 мин",
+        "5M": "5 мин",
+        "6M": "6 мин",
+        "15M": "15 мин",
+        "30M": "30 мин",
+        "1H": "1 ч",
+        "4H": "4 ч",
+        "1D": "1 д"
+      },
+      "SHIFTS": {
+        "M": "мин",
+        "H": "час",
+        "D": "день"
+      }
     }
   },
   "SECURITY_GROUP_SELECTOR": {
@@ -1841,16 +1895,29 @@
     }
   },
   "UNITS": {
+    "B": "Б",
+    "KB": "КБ",
+    "MB": "MБ",
     "GB": "ГБ",
+    "TB": "ТБ",
+    "KIB": "КиБ",
+    "MIB": "МиБ",
+    "GIB": "ГиБ",
+    "TIB": "ТиБ",
+    "BITS": "бит",
+    "KBITS": "КБит",
+    "MBITS": "МБит",
+    "GBITS": "ГБит",
+    "TBITS": "ТБит",
     "GB_VALUE": "{{ value }} ГБ",
     "GHZ": "ГГц",
     "IOPS": "IOPS",
     "IOPS_VALUE": "{{ value }} IO/сек",
-    "MB": "MБ",
     "MB_VALUE": "{{ value }} MБ",
     "MBPS": "MБ/сек",
     "MBPS_VALUE": "{{ value }} MБ/сек",
-    "MHZ": "МГц"
+    "MHZ": "МГц",
+    "S": "с"
   },
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Создать снимок",
