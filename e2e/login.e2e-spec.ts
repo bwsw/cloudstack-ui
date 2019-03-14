@@ -12,7 +12,7 @@ describe('e2e-test-login', () => {
     page.navigateTo('/');
   });
 
-  fit('Show/Hide options: domain', () => {
+  it('Show/Hide options: domain', () => {
     expect(page.domainIsPresent()).toBeFalsy();
     page.clickShowOptions();
     expect(page.domainIsPresent()).toBeTruthy();
