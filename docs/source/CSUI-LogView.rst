@@ -28,7 +28,11 @@ To enable the Log View plugin you need to:
 View System Logs 
 -------------------------
 
-After successful deployment you can see the *System logs* section under the *Virtual Machines* menu in UI. In this section you can view the log files for a defined period of time or in a real-time mode. To view logs you should specify an account (for Administrators), a VM for which you wish to see the logs, and a log file to view the logs from. More details are provided below.
+After successful deployment you can see the *System logs* section under the *Virtual Machines* menu in UI. In this section you can view the log files for a defined period of time or in a real-time mode. 
+
+.. figure:: _static/LogView.png 
+
+To view logs you should specify an account (for Administrators), a VM for which you wish to see the logs, and a log file to view the logs from. More details are provided below.
 
 Filtering Logs
 '''''''''''''''''''''''''
@@ -117,7 +121,7 @@ You can set up parameters of log following in the "System Logs (real-time mode)"
 
 Click "Update" to apply the settings.
 
-.. figure:: _static/_static/Settings_LogView.png
+.. figure:: _static/Settings_LogView.png
 
 To stop following logs click on |unfollow icon|.
 
