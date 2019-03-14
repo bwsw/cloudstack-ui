@@ -2,6 +2,8 @@
 
 set -e -u -o pipefail
 
+echo -e "\nBuild an app image from a Dockerfile started\n"
+
 function buildForDeployment {
   docker run --rm \
     -v $(pwd):/workspace \
@@ -22,3 +24,4 @@ else
   buildForDeployment
 fi
 
+echo -e "\nBuild an app image from a Dockerfile finished\n"
