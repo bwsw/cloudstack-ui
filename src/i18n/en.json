@@ -1663,7 +1663,7 @@
       "TITLE": "User Tags"
     },
     "VM_LOGS": {
-      "TITLE": "Log View (real-time mode)",
+      "TITLE": "System Logs (real-time mode)",
       "SHOW_LAST_MESSAGES": "Show last (messages)",
       "SHOW_LAST_MINUTES": "Show last (minutes)"
     }
