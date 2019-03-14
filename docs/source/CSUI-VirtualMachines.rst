@@ -382,11 +382,11 @@ It allows performing the following actions with the VM:
 
     In the :ref:`VM_Access` section you can find more information on accessing a VM.
 
-- **Log View** - This option is available if the Log View plugin is activated via the configuration file. It allows creating and managing a secret token required for secure publishing of VM logs (see more details in `the plugin documentation <https://github.com/bwsw/cloud-plugin-vm-logs#filebeat-63>`_). 
+- **System Logs** - This option is available if the Log View plugin is activated via the configuration file. It allows creating and managing a secret token required for secure publishing of VM logs (see more details in `the plugin documentation <https://github.com/bwsw/cloud-plugin-vm-logs#filebeat-63>`_). 
 
     .. figure:: _static/VMactions_ViewLogs.png
 
-    Under the Log View submenu of the Action box a user can select between two actions:
+    Under the System Logs submenu of the Action box a user can select between two actions:
 
     * Create token - Allows creating a token. When selected, it asks to confirm the action and opens a modal window with the newly created token:
 
