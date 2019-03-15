@@ -5,7 +5,7 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
   allScriptsTimeout: 15000,
-  specs: ['./e2e/**/*.e2e-spec.ts'],
+  specs: ['*.e2e-spec.ts'],
   /*
   multiCapabilities: [{
     'browserName': 'firefox',
@@ -29,9 +29,10 @@ exports.config = {
   baseUrl: 'http://localhost:8081',
   framework: 'jasmine',
   suites: {
-    login: './e2e/login.e2e-spec.ts',
-    vm_creation: './e2e/vm-creation.e2e-spec.ts',
-    disk_creation: './e2e/disk-creation.e2e-spec.ts',
+    login: 'login.e2e-spec.ts',
+    vm_creation: 'vm-creation.e2e-spec.ts',
+    disk_creation: 'disk-creation.e2e-spec.ts',
+    CI: ['login.e2e-spec.ts', 'vm-creation.e2e-spec.ts', 'disk-creation.e2e-spec.ts'],
   },
   params: {
     so: 'Small Instance',

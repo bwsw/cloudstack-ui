@@ -65,7 +65,7 @@ export class VMCreation extends CloudstackUiPage {
   }
 
   getDiskSize() {
-    return element(by.css('.current-value'))
+    return element(by.css('.custom-slider'))
       .element(
         by.css(
           '.mat-input-element.mat-form-field-autofill-control.cdk-text-field-autofill-monitored.ng-untouched.ng-pristine.ng-valid',
@@ -77,7 +77,7 @@ export class VMCreation extends CloudstackUiPage {
   clickAdvancedTab() {
     element
       .all(by.css('.mat-tab-label.mat-ripple.ng-star-inserted'))
-      .last()
+      .get(1)
       .click();
     const EC = protractor.ExpectedConditions;
     const group = EC.visibilityOf(element(by.name('instanceGroup')));

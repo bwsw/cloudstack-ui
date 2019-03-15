@@ -16,8 +16,6 @@ describe('e2e-test-disk-creation', () => {
       .window()
       .maximize();
     login = new Login();
-    login.navigateTo('/');
-    login.login();
     login.waitRedirect('instances');
     login.clickStorageMenu();
   });
@@ -40,6 +38,7 @@ describe('e2e-test-disk-creation', () => {
   });
 
   it('Verify notification about creation of Custom disk', () => {
+    browser.sleep(500); // Костыль. Пока не рашим проблему с waitForAngular в vm_creation
     disklist.clickBell();
     disklist.waitDialog();
     expect(disklist.verifyBellMessage('Volume created')).toBeTruthy('No bell message found');
@@ -73,6 +72,7 @@ describe('e2e-test-disk-creation', () => {
   });
 
   it('Verify notification about creation of disk', () => {
+    browser.sleep(500); //  Костыль. Пока не рашим проблему с waitForAngular в vm_creation
     disklist.clickBell();
     disklist.waitDialog();
     expect(disklist.verifyBellMessage('Volume created')).toBeTruthy('No bell message found');

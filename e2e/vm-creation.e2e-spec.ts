@@ -59,6 +59,7 @@ describe('e2e-test-vm-creation', () => {
     page.setPrivateSG();
     page.setGroupName(page.group);
     page.clickYesDialogButton();
+    browser.waitForAngularEnabled(false);
     deploy.waitVMDeploy();
     expect(deploy.getConsoleButton().isPresent()).toBeFalsy();
     expect(deploy.getDeployText()).toEqual(deploy.deployText);
@@ -90,7 +91,7 @@ describe('e2e-test-vm-creation', () => {
     imsidebar.setTag('csui.vm.http.login', 'login');
     imsidebar.setTag('csui.vm.http.password', 'password');
     imsidebar.setTag('csui.template.agreement', 'agreements/template-uuid-agreement.md');
-    imsidebar.clickClose();
+    // imsidebar.clickClose(); Костыль для headless режима
     imlist.clickVMMenu();
     page = new VMCreation();
     vmlist.clickCreateVM();
@@ -115,6 +116,7 @@ describe('e2e-test-vm-creation', () => {
     expect(page.getDialog().isPresent()).toBeTruthy();
     expect(page.getYesDialogButton().getText()).toEqual('I AGREE');
     page.clickYesDialogButton();
+    browser.waitForAngularEnabled(false);
     deploy.waitVMDeploy();
     expect(deploy.getConsoleButton().isPresent()).toBeTruthy();
     expect(deploy.getDeployText()).toEqual(deploy.deployText);
@@ -151,7 +153,7 @@ describe('e2e-test-vm-creation', () => {
       'csui.vm.http.password',
     );
     expect(sidebar.getTagValue('password').isPresent()).toBeTruthy('password');
-    sidebar.clickClose();
+    // sidebar.clickClose(); Костыль для headless режима
   });
 
   it('Verify access VM: ssh, http', () => {
