@@ -39,7 +39,10 @@ export class DiskSidebar extends CloudstackUiPage {
       .all(by.css('.buttons button'))
       .last()
       .click();
-    element.all(by.css('.buttons button')).isPresent();
+    element
+      .all(by.css('.buttons button'))
+      .first()
+      .isPresent();
   }
 
   getDescription() {

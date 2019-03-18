@@ -18,10 +18,27 @@ export class DiskList extends CloudstackUiPage {
     return element.all(by.cssContainingText('.mat-card-content div', disksize)).isPresent();
   }
 
-  getDiskState() {
+  clickReadyDisk() {
+    element
+      .all(
+        by.xpath(
+          `//div[@class='entity-card-data-line' and contains(text(),"State: Ready")]/ancestor::mat-card`,
+        ),
+      )
+      .first()
+      .click();
+    const EC = browser.ExpectedConditions;
+    browser.wait(EC.presenceOf(element(by.css('.open'))), 5000, "Sidebar doesn't open");
+  }
+
+  getSizeReadyDisk() {
     return element
-      .all(by.css('.mat-card-content div'))
-      .get(1)
+      .all(
+        by.xpath(
+          `//div[@class='entity-card-data-line' and contains(text(),"State: Ready")]/ancestor::mat-card//div[@class="entity-card-data-line"][1]`,
+        ),
+      )
+      .first()
       .getText();
   }
 
@@ -39,15 +56,6 @@ export class DiskList extends CloudstackUiPage {
   }
   clickClose() {
     element(by.css('.backdrop.ng-star-inserted')).click();
-  }
-
-  clickOnReadyDisk() {
-    element
-      .all(by.css('.entity-card.mat-card'))
-      .first()
-      .click();
-    const EC = browser.ExpectedConditions;
-    browser.wait(EC.presenceOf(element(by.css('.open'))), 5000, "Sidebar doesn't open");
   }
 
   findDiskSize(diskname) {

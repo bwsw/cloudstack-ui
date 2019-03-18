@@ -13,10 +13,6 @@ describe('e2e-test-disk-details', () => {
       .manage()
       .window()
       .maximize();
-    login = new Login();
-    login.navigateTo('/');
-    login.login();
-    login.waitRedirect('instances');
     login.clickStorageMenu();
   });
 
@@ -28,9 +24,7 @@ describe('e2e-test-disk-details', () => {
   it('Change description of disk in sidebar', () => {
     disklist.openDiskSidebar();
     disksidebar.setDescription(disksidebar.description);
-  });
 
-  it('Verify description of disk is changed', () => {
     expect(disksidebar.getDescription()).toEqual(disksidebar.description);
     disklist.clickClose();
     disklist.clickBell();
@@ -40,8 +34,7 @@ describe('e2e-test-disk-details', () => {
   });
 
   it('Create snapshot for ready disk', () => {
-    expect(disklist.getDiskState()).toEqual('State: Ready');
-    disklist.clickOnReadyDisk();
+    disklist.clickReadyDisk();
     disksidebar.clickSnapshotTab();
     disksidebar.clickCreateSnapshot();
     disksidebar.waitDialog();
@@ -54,12 +47,9 @@ describe('e2e-test-disk-details', () => {
       5000,
       'Snapshot is not created',
     );
-  });
 
-  it('Verify snapshot is created', () => {
     expect(disksidebar.getSnapshotName()).toEqual(disksidebar.snapshotname);
     expect(disksidebar.getSnapshotDescription()).toEqual(disksidebar.snapshotdesc);
-
     disklist.clickBell();
     disklist.waitDialog();
     expect(disklist.verifyBellMessage('Snapshot taken')).toBeTruthy('No bell message found');
@@ -68,8 +58,7 @@ describe('e2e-test-disk-details', () => {
   });
 
   it('Create volume from snapshot of ready disk', () => {
-    expect(disklist.getDiskState()).toEqual('State: Ready');
-    disklist.clickOnReadyDisk();
+    disklist.clickReadyDisk();
     disksidebar.clickSnapshotTab();
     disksidebar.clickActionBoxOfSnapshot();
     disksidebar.clickCreateVolume();
@@ -78,9 +67,7 @@ describe('e2e-test-disk-details', () => {
     disksidebar.clickYesDialogButton();
     const EC = browser.ExpectedConditions;
     browser.wait(EC.presenceOf(element(by.css('.open'))), 5000, "Sidebar doesn't open");
-  });
 
-  it('Verify creation of disk from snapshot of ready disk', () => {
     disklist.clickBell();
     disklist.waitDialog();
     expect(disklist.verifyBellMessage('Volume created')).toBeTruthy('No bell message found');
@@ -90,14 +77,11 @@ describe('e2e-test-disk-details', () => {
     expect(disklist.getDiskName(disksidebar.diskfromsnap)).toBeTruthy(
       'Do not found disk with the same name',
     );
-    expect(disklist.findDiskSize('ROOT-3')).toEqual(
-      disklist.findDiskSize(disksidebar.diskfromsnap),
-    );
+    expect(disklist.getSizeReadyDisk()).toEqual(disklist.findDiskSize(disksidebar.diskfromsnap));
   });
 
   it('Delete snapshot of ready disk', () => {
-    expect(disklist.getDiskState()).toEqual('State: Ready');
-    disklist.clickOnReadyDisk();
+    disklist.clickReadyDisk();
     disksidebar.clickSnapshotTab();
     disksidebar.clickActionBoxOfSnapshot();
     disksidebar.clickDeleteSnapshot();
@@ -105,16 +89,12 @@ describe('e2e-test-disk-details', () => {
     disksidebar.clickYesDialogButton();
     const EC = browser.ExpectedConditions;
     browser.wait(EC.presenceOf(element(by.css('.open'))), 5000, "Sidebar doesn't open");
-  });
 
-  it('Verify snapshot is deleted', () => {
-    const EC = browser.ExpectedConditions;
     browser.wait(
       EC.presenceOf(element(by.css('.no-results'))),
       5000,
       "Sidebar doesn't open or list of snapshots does not empty",
     );
-    expect(disksidebar.getNoResult('No results')).toBeTruthy('List of snapshots does not empty');
     disklist.clickClose();
     disklist.clickBell();
     disklist.waitDialog();
