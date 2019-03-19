@@ -1,5 +1,6 @@
-import { browser, by, element, protractor } from 'protractor';
+import { browser, by, element, protractor, until } from 'protractor';
 import { CloudstackUiPage } from './app.po';
+import elementLocated = until.elementLocated;
 
 export class VMSidebar extends CloudstackUiPage {
   group = `e2e_group_${this.generateID()}`;
@@ -170,5 +171,143 @@ export class VMSidebar extends CloudstackUiPage {
     return element(by.css('.mat-card-content-container')).element(
       by.cssContainingText('.value', expected),
     );
+  }
+
+  clickChangeSO() {
+    const edit = element(by.css('cs-service-offering-details .mat-icon-button'));
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.elementToBeClickable(edit), 2000, 'No edit Group button').then(() => {
+      edit.click();
+      this.waitDialogModal();
+    });
+  }
+
+  selectFixedTab() {
+    element
+      .all(by.css('cs-service-offering-dialog-container mat-button-toggle-group mat-button-toggle'))
+      .first()
+      .click();
+  }
+
+  changeSO() {
+    element(
+      by.xpath(
+        "//mat-radio-button[@class='mat-radio-button mat-accent mat-radio-checked']/ancestor::tbody//mat-radio-button[@class='mat-radio-button mat-accent']",
+      ),
+    ).click();
+  }
+
+  getSelectedSO() {
+    return element(
+      by.xpath(
+        "//mat-radio-button[@class='mat-radio-button mat-accent mat-radio-checked']/ancestor::td/preceding-sibling::td//span",
+      ),
+    ).getText();
+  }
+
+  getChangedSO() {
+    return element(
+      by.xpath(`//cs-service-offering-details//div[text()="Name"]/following-sibling::div`),
+    ).getText();
+  }
+
+  checkWarning() {
+    element(by.css('.message.warning.ng-star-inserted')).isPresent();
+    return element(by.css('.message.warning.ng-star-inserted')).getText();
+  }
+
+  isEnabledChangeSO() {
+    expect(
+      element(by.css('cs-service-offering-details button[ng-reflect-disabled=true]')),
+    ).toBeTruthy('Change SO button is enabled');
+  }
+
+  isEnabledAddAffinityGroup() {
+    expect(element(by.css('cs-affinity-group button[ng-reflect-disabled=true]'))).toBeTruthy(
+      'Affinity group button is enabled',
+    );
+  }
+
+  isEnabledAddSSHKey() {
+    expect(element(by.css('cs-vm-ssh-keypair button[ng-reflect-disabled=true]'))).toBeTruthy(
+      'Add SHH Key is enabled',
+    );
+  }
+
+  clickChangeSSHKey() {
+    const edit = element(by.css('cs-vm-ssh-keypair button'));
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.elementToBeClickable(edit), 2000, 'No edit Group button').then(() => {
+      edit.click();
+      this.waitDialogModal();
+    });
+  }
+
+  selectSSHKey(index) {
+    element(by.css('cs-ssh-keypair-reset mat-select')).click();
+    element
+      .all(by.css('mat-option'))
+      .get(index)
+      .click();
+    return element
+      .all(by.css('mat-option span'))
+      .get(index)
+      .getText();
+  }
+
+  getSHHKey() {
+    return element(by.css('cs-vm-ssh-keypair span')).getText();
+  }
+
+  checkResetWarning() {
+    return browser.wait(
+      protractor.ExpectedConditions.presenceOf(element(by.css('.mat-dialog-content.notification'))),
+      5000,
+    );
+  }
+
+  isEnabledCreateAffGroupButton() {
+    return element(by.css('.add-rule-button.mat-icon-button')).isEnabled();
+  }
+
+  setIncorrectAffGroupName(name) {
+    element(by.css('input[formControlName=name]')).sendKeys(name);
+  }
+
+  getErrorText() {
+    element(by.css('cs-affinity-group-selector mat-card-header')).click();
+    const EC = browser.ExpectedConditions;
+    browser.wait(
+      EC.presenceOf(element(by.css('.mat-error.ng-star-inserted'))),
+      5000,
+      'Error message is not present',
+    );
+    return element(by.css('.mat-error.ng-star-inserted')).getText();
+  }
+
+  clickDeleteAffGroup() {
+    const del = element(by.css('cs-affinity-group .row.ng-star-inserted button'));
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.elementToBeClickable(del), 2000, 'does not clicable button').then(() => {
+      del.click();
+    });
+  }
+  getNotificationText() {
+    return element(by.css('cs-confirm-dialog .mat-dialog-content.notification')).getText();
+  }
+
+  checkNoAffGroup() {
+    browser.wait(
+      protractor.ExpectedConditions.presenceOf(
+        element(by.css('cs-affinity-group .mat-card-content-container div')),
+      ),
+      5000,
+    );
+    return element(by.css('cs-affinity-group .mat-card-content-container div')).getText();
+  }
+
+  waitSidebar() {
+    const EC = browser.ExpectedConditions;
+    browser.wait(EC.presenceOf(element(by.css('.open'))), 5000, 'Sidebar is not opened');
   }
 }

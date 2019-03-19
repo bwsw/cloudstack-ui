@@ -26,7 +26,7 @@ exports.config = {
     },
   },
   directConnect: true,
-  baseUrl: 'http://localhost:8081',
+  baseUrl: 'http://localhost:8080',
   framework: 'jasmine',
   suites: {
     login: './e2e/login.e2e-spec.ts',

@@ -1,7 +1,7 @@
 ///<reference path="../node_modules/@types/jasmine/index.d.ts"/>
 import { VMCreation } from './pages/vm-creation.po';
 import { VMDeploy } from './pages/vm-deploy.po';
-import { browser, by, element } from 'protractor';
+import { browser, by, element, protractor } from 'protractor';
 import { VMList } from './pages/vm-list.po';
 import { Login } from './pages/login.po';
 import { VMSidebar } from './pages/vm-sidebar.po';
@@ -21,12 +21,12 @@ describe('e2e-test-vm-sidebar', () => {
     login.navigateTo('/');
     login.login();
     login.waitRedirect('instances');
+    sidebar = new VMSidebar();
   });
 
   beforeEach(() => {
     vmlist = new VMList();
     deploy = new VMDeploy();
-    sidebar = new VMSidebar();
   });
 
   /* it('Verify VM color is changed', () => {
