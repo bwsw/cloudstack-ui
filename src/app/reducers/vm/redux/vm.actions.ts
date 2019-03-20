@@ -19,6 +19,7 @@ export const VM_ATTACHMENT_FILTER_UPDATE = '[VM] VM_ATTACHMENT_FILTER_UPDATE';
 export const LOAD_SELECTED_VM = '[VM] LOAD_SELECTED_VM';
 export const VM_CHANGE_DESCRIPTION = '[VM] VM_CHANGE_DESCRIPTION';
 export const VM_CHANGE_SERVICE_OFFERING = '[VM] VM_CHANGE_SERVICE_OFFERING';
+export const VM_CHANGE_SERVICE_OFFERING_SUCCESS = '[VM] VM_CHANGE_SERVICE_OFFERING_SUCCESS';
 export const VM_CHANGE_AFFINITY_GROUP = '[VM] VM_CHANGE_AFFINITY_GROUP';
 export const VM_CHANGE_SECURITY_GROUP = '[VM] VM_CHANGE_SECURITY_GROUP';
 export const VM_CHANGE_INSTANCE_GROUP = '[VM] VM_CHANGE_INSTANCE_GROUP';
@@ -143,6 +144,13 @@ export class ChangeServiceOffering implements Action {
       offering: ServiceOffering;
     },
   ) {}
+}
+
+export class ChangeServiceOfferingSuccess implements Action {
+  readonly type = VM_CHANGE_SERVICE_OFFERING_SUCCESS;
+
+  // Service offering change require vm reboot. startVm property used to start VM if it was stopped.
+  constructor(readonly payload: { vm: VirtualMachine; startVm: boolean }) {}
 }
 
 export class ChangeAffinityGroup implements Action {
@@ -515,6 +523,7 @@ export type Actions =
   | LoadSelectedVM
   | ChangeDescription
   | ChangeServiceOffering
+  | ChangeServiceOfferingSuccess
   | ChangeSecurityGroup
   | ChangeAffinityGroup
   | ChangeInstanceGroup

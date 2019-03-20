@@ -310,7 +310,7 @@ describe('Virtual machine Effects', () => {
       offering: {} as ServiceOffering,
       vm: list[1],
     });
-    const completion = new vmActions.UpdateVM(list[1]);
+    const completion = new vmActions.ChangeServiceOfferingSuccess({ vm: list[1], startVm: false });
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -328,7 +328,7 @@ describe('Virtual machine Effects', () => {
       offering: {} as ServiceOffering,
       vm: list[0],
     });
-    const completion = new vmActions.UpdateVM(list[0]);
+    const completion = new vmActions.ChangeServiceOfferingSuccess({ vm: list[0], startVm: true });
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
