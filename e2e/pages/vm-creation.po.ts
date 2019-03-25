@@ -52,6 +52,8 @@ export class VMCreation extends CloudstackUiPage {
   }
 
   getZone() {
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(element(by.name('zone'))), 5000, 'No zone dropdown appears');
     return element(by.name('zone'))
       .all(by.tagName('span'))
       .last()
@@ -103,15 +105,15 @@ export class VMCreation extends CloudstackUiPage {
     element(by.css('.add-rule-button.mat-icon-button')).click();
     const EC = protractor.ExpectedConditions;
     browser.wait(
-      EC.textToBePresentInElement(element(by.cssContainingText('.ng-star-inserted', name)), name),
+      EC.textToBePresentInElement(
+        element(by.cssContainingText('span.ng-star-inserted', name)),
+        name,
+      ),
       5000,
     );
     // Can't find aff created element. so choose last
     // element (by.css(".mat-row.ng-star-inserted")). element(by.cssContainingText('.ng-star-inserted', name)).click();
-    element
-      .all(by.css('.mat-row.ng-star-inserted'))
-      .get(1)
-      .click();
+    element(by.xpath(`//span[text()='${name}']`)).click();
     element
       .all(by.css('.mat-button.mat-primary'))
       .last()

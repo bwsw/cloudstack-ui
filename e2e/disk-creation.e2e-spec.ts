@@ -16,6 +16,8 @@ describe('e2e-test-disk-creation', () => {
       .window()
       .maximize();
     login = new Login();
+    login.navigateTo('/');
+    login.login();
     login.waitRedirect('instances');
     login.clickStorageMenu();
   });
@@ -24,6 +26,10 @@ describe('e2e-test-disk-creation', () => {
     disklist = new DiskList();
     diskcreation = new DiskCreation();
     disksidebar = new DiskSidebar();
+  });
+
+  afterAll(() => {
+    login.logout();
   });
 
   it('Create disk with Custom DO', () => {
@@ -38,7 +44,7 @@ describe('e2e-test-disk-creation', () => {
   });
 
   it('Verify notification about creation of Custom disk', () => {
-    browser.sleep(500); // Костыль. Пока не рашим проблему с waitForAngular в vm_creation
+    // browser.sleep(500); // Костыль. Пока не рашим проблему с waitForAngular в vm_creation
     disklist.clickBell();
     disklist.waitDialog();
     expect(disklist.verifyBellMessage('Volume created')).toBeTruthy('No bell message found');
@@ -56,7 +62,7 @@ describe('e2e-test-disk-creation', () => {
     disklist.openDiskSidebar();
     expect(disksidebar.getDiskName(diskcreation.diskcustom)).toBeTruthy('Wrong disk name');
     expect(disksidebar.getDiskSize('12')).toBeTruthy('Wrong disk size');
-    disksidebar.clickClose();
+    disksidebar.clickCloseSidebar();
     disklist.clickSpareDrives();
   });
 
@@ -72,7 +78,7 @@ describe('e2e-test-disk-creation', () => {
   });
 
   it('Verify notification about creation of disk', () => {
-    browser.sleep(500); //  Костыль. Пока не рашим проблему с waitForAngular в vm_creation
+    // browser.sleep(500); //  Костыль. Пока не рашим проблему с waitForAngular в vm_creation
     disklist.clickBell();
     disklist.waitDialog();
     expect(disklist.verifyBellMessage('Volume created')).toBeTruthy('No bell message found');
@@ -90,7 +96,7 @@ describe('e2e-test-disk-creation', () => {
     disklist.openDiskSidebar();
     expect(disksidebar.getDiskName(diskcreation.diskfixed)).toBeTruthy('Wrong disk name');
     expect(disksidebar.getDiskSize('20')).toBeTruthy('Wrong disk size');
-    disksidebar.clickClose();
+    disksidebar.clickCloseSidebar();
     disklist.clickSpareDrives();
   });
 });

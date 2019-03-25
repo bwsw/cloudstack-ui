@@ -37,14 +37,22 @@ export class VMList extends CloudstackUiPage {
   clickOpenAccessVM() {
     const EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf(element(by.tagName('mat-list'))), 5000);
-    element
-      .all(by.css('.mdi-dots-vertical'))
-      .first()
-      .click();
-    element
-      .all(by.css('.mat-menu-item.ng-star-inserted'))
-      .last()
-      .click();
+    browser
+      .actions()
+      .mouseMove(element.all(by.css('.mdi-dots-vertical')).first())
+      .click()
+      .perform();
+    browser
+      .actions()
+      .mouseMove(
+        element(
+          by.xpath(
+            "//mat-icon[contains(@class,'mdi-laptop')]/ancestor::button[contains(@class,'mat-menu-item')]",
+          ),
+        ),
+      )
+      .click()
+      .perform();
     this.waitDialogModal();
     browser.wait(EC.visibilityOf(element(by.tagName('h3'))), 5000);
   }

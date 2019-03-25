@@ -203,4 +203,12 @@ export class CloudstackUiPage {
   verifyBellMessage(text) {
     return element(by.cssContainingText('.message', text)).isPresent();
   }
+
+  clickCloseSidebar() {
+    browser
+      .actions()
+      .mouseMove(element(by.css('.backdrop')))
+      .click()
+      .perform();
+  }
 }

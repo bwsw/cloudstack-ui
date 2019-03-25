@@ -45,6 +45,10 @@ describe('e2e-test-vm-creation', () => {
     sgsidebar = new SGSidebar();
   });
 
+  afterAll(() => {
+    login.logout();
+  });
+
   it('Create VM propose, VM with fixed SO, group, aff-group, unchecked start VM', () => {
     vmlist.waitDialogModal();
     expect(vmlist.getDialog().isPresent()).toBeTruthy();
@@ -76,7 +80,7 @@ describe('e2e-test-vm-creation', () => {
     sglist.clickPrivateTab();
     sglist.clickOpenSidebar();
     expect(sgsidebar.getVMbyName(page.name).isPresent()).toBeTruthy();
-    sgsidebar.clickClose();
+    sgsidebar.clickCloseSidebar();
     sglist.clickVMMenu();
     sglist.waitRedirect('instances');
   });
@@ -153,7 +157,7 @@ describe('e2e-test-vm-creation', () => {
       'csui.vm.http.password',
     );
     expect(sidebar.getTagValue('password').isPresent()).toBeTruthy('password');
-    // sidebar.clickClose(); Костыль для headless режима
+    sidebar.clickCloseSidebar();
   });
 
   it('Verify access VM: ssh, http', () => {
@@ -176,7 +180,7 @@ describe('e2e-test-vm-creation', () => {
     sglist.clickSharedTab();
     sglist.clickOpenSidebar();
     expect(sgsidebar.getVMbyName(page.name).isPresent()).toBeTruthy();
-    sgsidebar.clickClose();
+    sgsidebar.clickCloseSidebar();
     sglist.clickVMMenu();
     sglist.waitRedirect('instances');
   });

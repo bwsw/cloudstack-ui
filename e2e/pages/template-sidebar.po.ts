@@ -25,10 +25,6 @@ export class ImageSidebar extends CloudstackUiPage {
     );
   }
 
-  clickClose() {
-    element(by.css('.backdrop.ng-star-inserted')).click();
-  }
-
   clickTagTab() {
     element
       .all(by.css('.mat-tab-link'))
