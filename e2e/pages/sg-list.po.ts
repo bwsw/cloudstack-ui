@@ -30,12 +30,8 @@ export class SGList extends CloudstackUiPage {
     element(by.css('.mat-fab.mat-accent')).click();
   }
 
-  getSGNameCard() {
-    return element
-      .all(by.css('.entity-card-title.mat-card-title'))
-      .last()
-      .element(by.tagName('span'))
-      .getText();
+  getSGNameCard(name) {
+    return element.all(by.cssContainingText('.entity-card-title.mat-card-title', name)).isPresent();
   }
 
   getElementFromRules() {
@@ -50,12 +46,12 @@ export class SGList extends CloudstackUiPage {
       });
   }
 
-  getSGDescriptionCard() {
-    return element
-      .all(by.css('.entity-card-data-line.ng-star-inserted'))
-      .all(by.tagName('span'))
-      .last()
-      .getText();
+  getSGDescriptionCard(name, desc) {
+    return element(
+      by.xpath(
+        `//span[text()="${name}"]/ancestor:: mat-card//mat-card-content//span[text()="${desc}"]`,
+      ),
+    ).isPresent();
   }
 
   clickSGActionBox() {

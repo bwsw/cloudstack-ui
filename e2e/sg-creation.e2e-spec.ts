@@ -56,8 +56,10 @@ describe('e2e-test-sg-creation', () => {
   });
 
   it('Verify custom SG card: name, description', () => {
-    expect(sglist.getSGNameCard()).toEqual(page.name);
-    expect(sglist.getSGDescriptionCard()).toEqual(page.description);
+    expect(sglist.getSGNameCard(page.name)).toBeTruthy('No card with that name');
+    expect(sglist.getSGDescriptionCard(page.name, page.description)).toBeTruthy(
+      'No card with that description',
+    );
   });
 
   it('Verify custom Sidebar: name, description , type', () => {
@@ -101,8 +103,10 @@ describe('e2e-test-sg-creation', () => {
   });
 
   it('Verify shared SG card: name, description', () => {
-    expect(sglist.getSGNameCard()).toEqual(page.name);
-    expect(sglist.getSGDescriptionCard()).toEqual(page.description);
+    expect(sglist.getSGNameCard(page.name)).toBeTruthy('No card with that name');
+    expect(sglist.getSGDescriptionCard(page.name, page.description)).toBeTruthy(
+      'No card with that description',
+    );
   });
 
   it('Verify shared Sidebar: name, description , type', () => {

@@ -14,19 +14,21 @@ export class SGCreation extends CloudstackUiPage {
   }
 
   setSGName(name) {
-    element(by.name('name'))
-      .click()
-      .then(() => {
-        element(by.name('name')).sendKeys(name);
-      });
+    const elem = element(by.name('name'));
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.elementToBeClickable(elem), 5000);
+    elem.click().then(() => {
+      element(by.name('name')).sendKeys(name);
+    });
   }
 
   setSGDescription(description) {
-    element(by.name('description'))
-      .click()
-      .then(() => {
-        element(by.name('description')).sendKeys(description);
-      });
+    const elem = element(by.name('description'));
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.elementToBeClickable(elem), 5000);
+    elem.click().then(() => {
+      element(by.name('description')).sendKeys(description);
+    });
   }
 
   clickADDRules() {
