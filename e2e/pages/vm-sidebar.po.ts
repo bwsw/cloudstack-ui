@@ -5,6 +5,7 @@ import elementLocated = until.elementLocated;
 export class VMSidebar extends CloudstackUiPage {
   group = `e2e_group_${this.generateID()}`;
   aff = `aff_${this.generateID()}`;
+  EC = browser.ExpectedConditions;
 
   clickColorChange() {
     element(by.css('.color-preview-container')).click();
@@ -35,8 +36,7 @@ export class VMSidebar extends CloudstackUiPage {
 
   clickEditGroup() {
     const edit = element(by.css('cs-instance-group mat-icon.mdi-pencil.mat-icon.mdi'));
-    const EC = protractor.ExpectedConditions;
-    browser.wait(EC.elementToBeClickable(edit), 2000, 'No edit Group button').then(() => {
+    browser.wait(this.EC.elementToBeClickable(edit), 2000, 'No edit Group button').then(() => {
       edit.click();
       this.waitDialogModal();
     });
@@ -44,19 +44,22 @@ export class VMSidebar extends CloudstackUiPage {
 
   clickAddAffGroup() {
     const edit = element(by.css('cs-affinity-group mat-icon.mdi-plus.mat-icon.mdi'));
-    const EC = protractor.ExpectedConditions;
-    browser.wait(EC.elementToBeClickable(edit), 2000, 'No add Affinity group button').then(() => {
-      edit.click();
-      this.waitDialogModal();
-    });
+    browser
+      .wait(this.EC.elementToBeClickable(edit), 2000, 'No add Affinity group button')
+      .then(() => {
+        edit.click();
+        this.waitDialogModal();
+      });
   }
 
   setNewAffGroup(name) {
     element(by.css('input[formControlName=name]')).sendKeys(name);
     element(by.css('.add-rule-button.mat-icon-button')).click();
-    const EC = protractor.ExpectedConditions;
     browser.wait(
-      EC.textToBePresentInElement(element(by.cssContainingText('.ng-star-inserted', name)), name),
+      this.EC.textToBePresentInElement(
+        element(by.cssContainingText('.ng-star-inserted', name)),
+        name,
+      ),
       5000,
       'New affinity group was not added',
     );
@@ -99,18 +102,19 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   waitGroupChanged(group) {
-    const EC = protractor.ExpectedConditions;
     browser.wait(
-      EC.textToBePresentInElement(element(by.css('cs-instance-group div.ng-star-inserted')), group),
+      this.EC.textToBePresentInElement(
+        element(by.css('cs-instance-group div.ng-star-inserted')),
+        group,
+      ),
       5000,
       'Group name is not changed in sidebar VM',
     );
   }
 
   waitAffGroupChanged(aff) {
-    const EC = protractor.ExpectedConditions;
     browser.wait(
-      EC.presenceOf(element(by.xpath(`//cs-affinity-group//span[text()="${aff}"]`))),
+      this.EC.presenceOf(element(by.xpath(`//cs-affinity-group//span[text()="${aff}"]`))),
       5000,
       'Group name is not changed in sidebar VM',
     );
@@ -174,12 +178,7 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   clickChangeSO() {
-    const edit = element(by.css('cs-service-offering-details .mat-icon-button'));
-    const EC = protractor.ExpectedConditions;
-    browser.wait(EC.elementToBeClickable(edit), 2000, 'No edit Group button').then(() => {
-      edit.click();
-      this.waitDialogModal();
-    });
+    element(by.css('cs-service-offering-details .mat-icon-button')).click();
   }
 
   selectFixedTab() {
@@ -205,7 +204,7 @@ export class VMSidebar extends CloudstackUiPage {
     ).getText();
   }
 
-  getChangedSO() {
+  getChangedSOName() {
     return element(
       by.xpath(`//cs-service-offering-details//div[text()="Name"]/following-sibling::div`),
     ).getText();
@@ -235,12 +234,8 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   clickChangeSSHKey() {
-    const edit = element(by.css('cs-vm-ssh-keypair button'));
-    const EC = protractor.ExpectedConditions;
-    browser.wait(EC.elementToBeClickable(edit), 2000, 'No edit Group button').then(() => {
-      edit.click();
-      this.waitDialogModal();
-    });
+    element(by.css('cs-vm-ssh-keypair button')).click();
+    this.waitDialogModal();
   }
 
   selectSSHKey(index) {
@@ -261,7 +256,7 @@ export class VMSidebar extends CloudstackUiPage {
 
   checkResetWarning() {
     return browser.wait(
-      protractor.ExpectedConditions.presenceOf(element(by.css('.mat-dialog-content.notification'))),
+      this.EC.presenceOf(element(by.css('.mat-dialog-content.notification'))),
       5000,
     );
   }
@@ -270,15 +265,10 @@ export class VMSidebar extends CloudstackUiPage {
     return element(by.css('.add-rule-button.mat-icon-button')).isEnabled();
   }
 
-  setIncorrectAffGroupName(name) {
-    element(by.css('input[formControlName=name]')).sendKeys(name);
-  }
-
   getErrorText() {
     element(by.css('cs-affinity-group-selector mat-card-header')).click();
-    const EC = browser.ExpectedConditions;
     browser.wait(
-      EC.presenceOf(element(by.css('.mat-error.ng-star-inserted'))),
+      this.EC.presenceOf(element(by.css('.mat-error.ng-star-inserted'))),
       5000,
       'Error message is not present',
     );
@@ -286,28 +276,26 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   clickDeleteAffGroup() {
-    const del = element(by.css('cs-affinity-group .row.ng-star-inserted button'));
-    const EC = protractor.ExpectedConditions;
-    browser.wait(EC.elementToBeClickable(del), 2000, 'does not clicable button').then(() => {
-      del.click();
-    });
+    element(by.css('cs-affinity-group .row.ng-star-inserted button')).click();
   }
+
+  setAffGroupName(name) {
+    element(by.css('input[formControlName=name]')).sendKeys(name);
+  }
+
   getNotificationText() {
     return element(by.css('cs-confirm-dialog .mat-dialog-content.notification')).getText();
   }
 
   checkNoAffGroup() {
     browser.wait(
-      protractor.ExpectedConditions.presenceOf(
-        element(by.css('cs-affinity-group .mat-card-content-container div')),
-      ),
+      this.EC.presenceOf(element(by.css('cs-affinity-group .mat-card-content-container div'))),
       5000,
     );
     return element(by.css('cs-affinity-group .mat-card-content-container div')).getText();
   }
 
   waitSidebar() {
-    const EC = browser.ExpectedConditions;
-    browser.wait(EC.presenceOf(element(by.css('.open'))), 5000, 'Sidebar is not opened');
+    browser.wait(this.EC.presenceOf(element(by.css('.open'))), 5000, 'Sidebar is not opened');
   }
 }

@@ -2,6 +2,8 @@ import { CloudstackUiPage } from './app.po';
 import { browser, by, element, protractor } from 'protractor';
 
 export class VMList extends CloudstackUiPage {
+  EC = protractor.ExpectedConditions;
+
   getVMColor(index) {
     return element
       .all(by.tagName('cs-vm-list mat-card'))
@@ -37,8 +39,7 @@ export class VMList extends CloudstackUiPage {
       .all(by.css('cs-vm-list mat-card'))
       .get(index)
       .click();
-    const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
+    browser.wait(this.EC.visibilityOf(element(by.tagName('h4'))), 5000);
   }
 
   clickOpenSidebarRunning() {
@@ -46,8 +47,7 @@ export class VMList extends CloudstackUiPage {
       .all(by.xpath("//mat-icon[contains(@class,'running')]/ancestor::mat-card"))
       .first()
       .click();
-    const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
+    browser.wait(this.EC.visibilityOf(element(by.tagName('h4'))), 5000);
   }
 
   clickOpenSidebarStopped() {
@@ -55,13 +55,11 @@ export class VMList extends CloudstackUiPage {
       .all(by.xpath("//mat-icon[contains(@class,'stopped')]/ancestor::mat-card"))
       .first()
       .click();
-    const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
+    browser.wait(this.EC.visibilityOf(element(by.tagName('h4'))), 5000);
   }
 
   clickOpenAccessVM() {
-    const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element(by.tagName('mat-list'))), 5000);
+    browser.wait(this.EC.visibilityOf(element(by.tagName('mat-list'))), 5000);
     element
       .all(by.css('.mdi-dots-vertical'))
       .first()
@@ -71,7 +69,7 @@ export class VMList extends CloudstackUiPage {
       .last()
       .click();
     this.waitDialogModal();
-    browser.wait(EC.visibilityOf(element(by.tagName('h3'))), 5000);
+    browser.wait(this.EC.visibilityOf(element(by.tagName('h3'))), 5000);
   }
 
   getStateRunning() {
