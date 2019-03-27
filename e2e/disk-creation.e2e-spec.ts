@@ -11,10 +11,6 @@ describe('e2e-test-disk-creation', () => {
   let disksidebar: DiskSidebar;
 
   beforeAll(() => {
-    browser.driver
-      .manage()
-      .window()
-      .maximize();
     login = new Login();
     login.navigateTo('/');
     login.login();
@@ -44,7 +40,7 @@ describe('e2e-test-disk-creation', () => {
   });
 
   it('Verify notification about creation of Custom disk', () => {
-    // browser.sleep(500); // Костыль. Пока не рашим проблему с waitForAngular в vm_creation
+    browser.sleep(500); // Костыль. Пока не рашим проблему с waitForAngular в vm_creation
     disklist.clickBell();
     disklist.waitDialog();
     expect(disklist.verifyBellMessage('Volume created')).toBeTruthy('No bell message found');
@@ -75,10 +71,11 @@ describe('e2e-test-disk-creation', () => {
     diskcreation.selectFixedDO();
     diskcreation.waitDialogModal();
     diskcreation.clickYesDialogButton();
+    // browser.sleep(15000);
   });
 
   it('Verify notification about creation of disk', () => {
-    // browser.sleep(500); //  Костыль. Пока не рашим проблему с waitForAngular в vm_creation
+    browser.sleep(500); //  Костыль. Пока не рашим проблему с waitForAngular в vm_creation
     disklist.clickBell();
     disklist.waitDialog();
     expect(disklist.verifyBellMessage('Volume created')).toBeTruthy('No bell message found');
@@ -88,7 +85,7 @@ describe('e2e-test-disk-creation', () => {
   it('Verify card of disk with FixedDO: name, size, status', () => {
     disklist.clickSpareDrives();
     expect(disklist.getDiskName(diskcreation.diskfixed)).toBeTruthy('Wrong disk name');
-    expect(disklist.getDiskSize('20')).toBeTruthy('Wrong disk size');
+    expect(disklist.getDiskSize('5')).toBeTruthy('Wrong disk size');
     expect(disklist.getDiskState()).toEqual(disklist.diskstate);
   });
 

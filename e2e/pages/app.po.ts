@@ -208,6 +208,9 @@ export class CloudstackUiPage {
     browser
       .actions()
       .mouseMove(element(by.css('.backdrop')))
+      .perform();
+    browser
+      .actions()
       .click()
       .perform();
   }

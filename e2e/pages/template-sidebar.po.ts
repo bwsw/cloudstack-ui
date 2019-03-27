@@ -35,6 +35,10 @@ export class ImageSidebar extends CloudstackUiPage {
   }
 
   clickShowSystemTab() {
-    element(by.name('showSystemTags')).click();
+    element(by.xpath("//mat-checkbox[contains(@class,'mat-checkbox-checked')]"))
+      .isPresent()
+      .catch(() => {
+        element(by.name('showSystemTags')).click();
+      });
   }
 }

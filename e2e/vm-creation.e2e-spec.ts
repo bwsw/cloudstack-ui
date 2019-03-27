@@ -160,7 +160,7 @@ describe('e2e-test-vm-creation', () => {
     sidebar.clickCloseSidebar();
   });
 
-  it('Verify access VM: ssh, http', () => {
+  xit('Verify access VM: ssh, http', () => {
     vmlist.clickOpenAccessVM();
     expect(accessVM.getTitle()).toEqual('Access VM');
     expect(accessVM.getConsoleButton().isPresent).toBeTruthy();

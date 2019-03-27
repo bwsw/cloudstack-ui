@@ -1,5 +1,5 @@
 import { CloudstackUiPage } from './app.po';
-import { browser, by, element, protractor } from 'protractor';
+import { browser, by, element, ExpectedConditions, protractor } from 'protractor';
 
 export class VMList extends CloudstackUiPage {
   getVMNameCard() {
@@ -22,7 +22,19 @@ export class VMList extends CloudstackUiPage {
   }
 
   clickCreateVM() {
-    element(by.css('.mat-fab.mat-accent')).click();
+    browser.wait(
+      ExpectedConditions.visibilityOf(element(by.css('mat-list'))),
+      2000,
+      'No VM list is loaded',
+    );
+    browser
+      .actions()
+      .mouseMove(element(by.css('.mat-fab.mat-accent')))
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
   }
 
   clickOpenSidebar(index) {
@@ -36,12 +48,31 @@ export class VMList extends CloudstackUiPage {
 
   clickOpenAccessVM() {
     const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element(by.tagName('mat-list'))), 5000);
+    browser.wait(
+      EC.elementToBeClickable(element(by.css('button.entity-card-menu.mat-icon-button'))),
+      5000,
+    );
+    const elem = element.all(by.css('button.entity-card-menu.mat-icon-button')).first();
     browser
       .actions()
-      .mouseMove(element.all(by.css('.mdi-dots-vertical')).first())
+      .mouseMove(elem)
+      .perform();
+    browser
+      .actions()
       .click()
       .perform();
+    browser.wait(
+      EC.visibilityOf(
+        element(
+          by.xpath(
+            "//mat-icon[contains(@class,'mdi-laptop')]/ancestor::button[contains(@class,'mat-menu-item')]",
+          ),
+        ),
+      ),
+      2000,
+      'No action menu items appear',
+    );
+
     browser
       .actions()
       .mouseMove(
