@@ -12,8 +12,4 @@ export class DiskSidebar extends CloudstackUiPage {
       .get(0)
       .isPresent();
   }
-
-  clickClose() {
-    element(by.css('.backdrop.ng-star-inserted')).click();
-  }
 }

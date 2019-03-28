@@ -1,4 +1,4 @@
-import { by, element } from 'protractor';
+import { browser, by, element } from 'protractor';
 import { CloudstackUiPage } from './app.po';
 
 export class VMSidebar extends CloudstackUiPage {
@@ -34,10 +34,6 @@ export class VMSidebar extends CloudstackUiPage {
       .element(by.css('.mat-card-content-container'))
       .element(by.css('.key.ng-star-inserted'))
       .getText();
-  }
-
-  clickClose() {
-    element(by.css('.backdrop.ng-star-inserted')).click();
   }
 
   clickTagTab() {
