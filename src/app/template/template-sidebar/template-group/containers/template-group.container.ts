@@ -14,7 +14,8 @@ import { BaseTemplateModel } from '../../../shared/base-template.model';
       [groups]="imageGroups$ | async"
       (groupChange)="onGroupChange($event)"
       (groupReset)="onGroupReset()"
-    ></cs-template-group>`,
+    ></cs-template-group>
+  `,
 })
 export class TemplateGroupContainerComponent {
   readonly imageGroups$ = this.store.pipe(select(configSelectors.get('imageGroups')));

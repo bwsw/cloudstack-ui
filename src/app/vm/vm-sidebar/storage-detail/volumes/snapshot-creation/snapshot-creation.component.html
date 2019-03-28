@@ -1,11 +1,9 @@
 <ng-container *loading="loading">
-  <h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.TAKE_SNAPSHOT' | translate }}</h3>
+  <h3 class="mat-dialog-title">
+    {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.TAKE_SNAPSHOT' | translate }}
+  </h3>
 
-  <form
-    (ngSubmit)="onSubmit($event)"
-    #snapshotCreationDialog="ngForm"
-    novalidate
-  >
+  <form (ngSubmit)="onSubmit($event)" #snapshotCreationDialog="ngForm" novalidate>
     <div class="mat-dialog-content">
       <ng-container *ngIf="enoughResources">
         <mat-form-field class="full-width-input">
@@ -16,7 +14,7 @@
             [placeholder]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.NAME' | translate"
             autofocus
             required
-          >
+          />
         </mat-form-field>
         <mat-form-field class="full-width-input">
           <input
@@ -24,22 +22,16 @@
             name="description"
             [(ngModel)]="description"
             [placeholder]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.DESCRIPTION' | translate"
-          >
+          />
         </mat-form-field>
       </ng-container>
-      <div *ngIf="!enoughResources">{{ "ERRORS.SNAPSHOT.LIMIT_EXCEEDED" | translate }}</div>
+      <div *ngIf="!enoughResources">{{ 'ERRORS.SNAPSHOT.LIMIT_EXCEEDED' | translate }}</div>
     </div>
     <div class="mat-dialog-actions">
       <button mat-button color="primary" matDialogClose type="button">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <button
-        *ngIf="enoughResources"
-        mat-button
-        color="primary"
-        type="button"
-        (click)="onSubmit()"
-      >
+      <button *ngIf="enoughResources" mat-button color="primary" type="button" (click)="onSubmit()">
         {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>

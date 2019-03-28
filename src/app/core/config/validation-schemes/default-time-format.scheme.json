@@ -2,9 +2,5 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "defaultTimeFormat",
   "type": "string",
-  "enum": [
-    "hour12",
-    "hour24",
-    "auto"
-  ]
+  "enum": ["hour12", "hour24", "auto"]
 }

@@ -171,7 +171,6 @@ export type Actions =
   | CreateSuccess
   | EnableAccountRequest
   | DisableAccountRequest
-  | LoadAccountsRequest
   | DeleteAccountRequest
   | DeleteSuccess
   | UpdateAccount

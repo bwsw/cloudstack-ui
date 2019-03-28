@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-04 16:11+0700\n"
-"PO-Revision-Date: 2019-03-04 16:48+0700\n"
+"POT-Creation-Date: 2019-03-14 15:23+0700\n"
+"PO-Revision-Date: 2019-03-14 15:27+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -215,8 +215,12 @@ msgstr ""
 "правом углу."
 
 #: ../../CSUI-VirtualMachines.rst:77
-msgid "The *New virtual machine* form contains two tabs: *General* and *Advanced*."
-msgstr "В форме создания ВМ вы увидите вкладки: Основные и Дополнительные."
+msgid ""
+"The *New virtual machine* form contains three tabs: *General*, *Advanced* and "
+"*VM UserData*."
+msgstr ""
+"В форме создания ВМ вы увидите вкладки: *Основные*, *Дополнительные* и *UserData "
+"ВМ*."
 
 #: ../../CSUI-VirtualMachines.rst:79
 msgid "In the *General* tab the following fields should be filled in:"
@@ -883,15 +887,16 @@ msgstr ""
 
 #: ../../CSUI-VirtualMachines.rst:257
 msgid ""
-"In the *User data* tab you can add any custom data for the machine. It allows "
+"In the *VM UserData* tab you can add any custom data for the machine. It allows "
 "adding necessary settings to the machine and deploying it configured with "
 "necessary services. In this tab, you will find a text area, where you can enter "
 "the configurations in any format. The maximum allowed size of data is 32 KB."
 msgstr ""
-"Во вкладке *User data* можно добавить любые пользовательские данные к настройкам "
-"машины. Это позволяет передать дополнительные настройки внутрь виртуальной "
-"машины и развернуть машину с нужными сервисами. User data добавляется при "
-"создании ВМ в любом формате. Максимальный размер данных - 32 Кбайт."
+"Во вкладке *UserData ВМ* можно добавить любые пользовательские данные к "
+"настройкам машины. Это позволяет передать дополнительные настройки внутрь "
+"виртуальной машины и развернуть машину с нужными сервисами. User data "
+"добавляется при создании ВМ в любом формате. Максимальный размер данных - 32 "
+"Кбайт."
 
 #: ../../CSUI-VirtualMachines.rst:261
 msgid "Once all fields are filled in, click \"Create\"."
@@ -1234,22 +1239,23 @@ msgstr ""
 
 #: ../../CSUI-VirtualMachines.rst:385
 msgid ""
-"**Log View** - This option is available if the Log View plugin is activated via "
-"the configuration file. It allows creating and managing a secret token required "
-"for secure publishing of VM logs (see more details in `the plugin documentation "
-"<https://github.com/bwsw/cloud-plugin-vm-logs#filebeat-63>`_)."
+"**System Logs** - This option is available if the Log View plugin is activated "
+"via the configuration file. It allows creating and managing a secret token "
+"required for secure publishing of VM logs (see more details in `the plugin "
+"documentation <https://github.com/bwsw/cloud-plugin-vm-logs#filebeat-63>`_)."
 msgstr ""
-"**Логи ВМ** — данная опция доступна в меню, если плагин Log View подключен через "
-"конфигурационный файл. Она позволяет создать и управлять секретным токеном, "
-"необходимым для безопасной публикации журналов ВМ (подробнее читайте в "
-"`документации плагина <https://github.com/bwsw/cloud-plugin-vm-"
+"**Cистемные журналы** — данная опция доступна в меню, если плагин Log View "
+"подключен через конфигурационный файл. Она позволяет создать и управлять "
+"секретным токеном, необходимым для безопасной публикации журналов ВМ (подробнее "
+"читайте в `документации плагина <https://github.com/bwsw/cloud-plugin-vm-"
 "logs#filebeat-63>`_)."
 
 #: ../../CSUI-VirtualMachines.rst:389
 msgid ""
-"Under the Log View submenu of the Action box a user can select between two "
+"Under the System Logs submenu of the Action box a user can select between two "
 "actions:"
-msgstr "В дополнительном меню \"Логи ВМ\" можно выбрать одно из действий:"
+msgstr ""
+"В дополнительном меню \"Системные журналы\" можно выбрать одно из действий:"
 
 #: ../../CSUI-VirtualMachines.rst:391
 msgid ""
@@ -1443,15 +1449,16 @@ msgid "Zone selected for the VM to be available in,"
 msgstr "зону, в которой ВМ будет доступна, "
 
 #: ../../CSUI-VirtualMachines.rst:464
-msgid "Machine ID."
-msgstr "ID виртуальной машины. "
+msgid "Machine ID,"
+msgstr "ID виртуальной машины,"
 
 #: ../../CSUI-VirtualMachines.rst:465
 msgid ""
-"User data - Allows viewing, editing and copying user data applied to the machine."
+"VM UserData - Allows viewing, editing and copying user data applied to the "
+"machine."
 msgstr ""
-"User data - позволяет просматривать, редактировать и копировать пользовательские "
-"данные, используемые для машины."
+"UserData ВМ - позволяет просматривать, редактировать и копировать "
+"пользовательские данные, используемые для машине."
 
 #: ../../CSUI-VirtualMachines.rst:467
 msgid ""
@@ -1470,7 +1477,7 @@ msgid ""
 "Click EDIT to view the data in the editing mode. Make necessary changes and save "
 "them."
 msgstr ""
-"Нажмите РЕДАКТИРОВАТЬ для просмотра данных в режиме редактирования. Внесите "
+"Нажмите РЕДАКТИРОВАТЬ для просмотра данные в режиме редактирования. Внесите "
 "изменения в текстовом поле и сохраните их."
 
 #: ../../CSUI-VirtualMachines.rst:477
@@ -2311,7 +2318,6 @@ msgid "Network Tab"
 msgstr "Вкладка \"Сеть\""
 
 #: ../../CSUI-VirtualMachines.rst:788
-#, fuzzy
 msgid "The Network tab presents the network configurations of the VM."
 msgstr "Во вкладке \"Сеть\" представлены конфигурации сети ВМ."
 

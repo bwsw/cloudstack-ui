@@ -15,9 +15,7 @@ import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
       (secondaryIpAdded)="addSecondaryIp($event)"
       (secondaryIpRemoved)="removeSecondaryIp($event)"
     ></cs-nic-list>
-    <cs-firewall-rules-detail-container
-      [vm]="vm$ | async"
-    ></cs-firewall-rules-detail-container>
+    <cs-firewall-rules-detail-container [vm]="vm$ | async"></cs-firewall-rules-detail-container>
   `,
 })
 export class NetworkDetailContainerComponent {

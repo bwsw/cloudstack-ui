@@ -52,6 +52,8 @@ export class VMCreation extends CloudstackUiPage {
   }
 
   getZone() {
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(element(by.name('zone'))), 5000, 'No zone dropdown appears');
     return element(by.name('zone'))
       .all(by.tagName('span'))
       .last()
@@ -65,7 +67,7 @@ export class VMCreation extends CloudstackUiPage {
   }
 
   getDiskSize() {
-    return element(by.css('.current-value'))
+    return element(by.css('.custom-slider'))
       .element(
         by.css(
           '.mat-input-element.mat-form-field-autofill-control.cdk-text-field-autofill-monitored.ng-untouched.ng-pristine.ng-valid',
@@ -77,7 +79,7 @@ export class VMCreation extends CloudstackUiPage {
   clickAdvancedTab() {
     element
       .all(by.css('.mat-tab-label.mat-ripple.ng-star-inserted'))
-      .last()
+      .get(1)
       .click();
     const EC = protractor.ExpectedConditions;
     const group = EC.visibilityOf(element(by.name('instanceGroup')));
@@ -103,15 +105,15 @@ export class VMCreation extends CloudstackUiPage {
     element(by.css('.add-rule-button.mat-icon-button')).click();
     const EC = protractor.ExpectedConditions;
     browser.wait(
-      EC.textToBePresentInElement(element(by.cssContainingText('.ng-star-inserted', name)), name),
+      EC.textToBePresentInElement(
+        element(by.cssContainingText('span.ng-star-inserted', name)),
+        name,
+      ),
       5000,
     );
     // Can't find aff created element. so choose last
     // element (by.css(".mat-row.ng-star-inserted")). element(by.cssContainingText('.ng-star-inserted', name)).click();
-    element
-      .all(by.css('.mat-row.ng-star-inserted'))
-      .get(1)
-      .click();
+    element(by.xpath(`//span[text()='${name}']`)).click();
     element
       .all(by.css('.mat-button.mat-primary'))
       .last()

@@ -15,7 +15,8 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
       [confirmButtonText]="confirmButtonText"
       [user]="user"
       (updateUser)="updateUser($event)"
-    ></cs-account-user-edit>`,
+    ></cs-account-user-edit>
+  `,
 })
 export class AccountUserEditContainerComponent {
   public account: Account;

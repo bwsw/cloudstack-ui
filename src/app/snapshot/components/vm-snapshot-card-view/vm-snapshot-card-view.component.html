@@ -1,8 +1,4 @@
-<mat-card
-  class="entity-card"
-  [class.card-selected]="isSelected(item)"
-  (click)="onSelect()"
->
+<mat-card class="entity-card" [class.card-selected]="isSelected(item)" (click)="onSelect()">
   <mat-card-header class="entity-card-header">
     <cs-round-state-indicator
       class="entity-card-thumbnail"
@@ -12,7 +8,12 @@
     <mat-card-title class="entity-card-title" [matTooltip]="item.name">
       <span>{{ item.name }}</span>
     </mat-card-title>
-    <button mat-icon-button [mat-menu-trigger-for]="actionsMenu" class="entity-card-menu" (click)="$event.stopPropagation()">
+    <button
+      mat-icon-button
+      [mat-menu-trigger-for]="actionsMenu"
+      class="entity-card-menu"
+      (click)="$event.stopPropagation()"
+    >
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>

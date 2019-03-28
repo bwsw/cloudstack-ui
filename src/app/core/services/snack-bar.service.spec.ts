@@ -17,7 +17,8 @@ class ViewContainerDirective {
 @Component({
   selector: 'cs-test-component',
   template: `
-    <div csViewContainer></div>`,
+    <div csViewContainer></div>
+  `,
 })
 class TestComponent {
   @ViewChild(ViewContainerDirective)

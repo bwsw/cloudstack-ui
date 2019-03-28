@@ -7,10 +7,7 @@
 
   <ng-container cs-list *loading="isLoading">
     <div class="switch-panel">
-      <cs-view-mode-switch
-        (modeChanged)="changeMode($event)"
-        [key]="viewModeKey"
-      >
+      <cs-view-mode-switch (modeChanged)="changeMode($event)" [key]="viewModeKey">
       </cs-view-mode-switch>
     </div>
 
@@ -43,7 +40,6 @@
       </ng-container>
     </ng-container>
 
-
     <ng-template #noResults>
       <cs-no-results></cs-no-results>
     </ng-template>
@@ -55,5 +51,3 @@
     </cs-sidebar>
   </ng-container>
 </cs-list>
-
-

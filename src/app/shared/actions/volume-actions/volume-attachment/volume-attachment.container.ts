@@ -11,13 +11,14 @@ import { Volume } from '../../../models/volume.model';
   selector: 'cs-volume-attachment-container',
   template: `
     <cs-volume-attachment
-      *loading="loading$ | async"
+      *loading="(loading$ | async)"
       [volume]="volume"
       [zoneId]="zoneId"
       [virtualMachines]="vms$ | async"
       (onVirtualMachineId)="attachVolume($event)"
     >
-    </cs-volume-attachment>`,
+    </cs-volume-attachment>
+  `,
 })
 export class VolumeAttachmentContainerComponent implements OnInit {
   public volume: Volume;

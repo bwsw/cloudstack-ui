@@ -11,12 +11,14 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
     <ng-container *ngFor="let action of actions">
       <button
         *ngIf="action.canActivate(account)"
-        mat-menu-item (click)="activateAction(action, account)"
+        mat-menu-item
+        (click)="activateAction(action, account)"
       >
         <mat-icon [ngClass]="action.icon"></mat-icon>
         <span>{{ action.name | translate }}</span>
       </button>
-    </ng-container>`,
+    </ng-container>
+  `,
 })
 export class AccountActionsComponent {
   @Input()

@@ -25,7 +25,8 @@ import { DialogService } from '../../../../../dialog/dialog-service/dialog.servi
       (snapshotReverted)="onSnapshotRevert($event)"
       (snapshotDeleted)="onSnapshotDelete($event)"
     >
-    </cs-snapshot-modal>`,
+    </cs-snapshot-modal>
+  `,
 })
 export class SnapshotModalContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly volume$ = this.store.pipe(select(fromVolumes.getSelectedVolumeWithSnapshots));

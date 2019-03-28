@@ -132,7 +132,7 @@
     },
     "VM": {
       "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов",
-      "USER_DATA_TOO_BIG": "Максимально допустимый размер user data превышен"
+      "USER_DATA_TOO_BIG": "Максимально допустимый размер значения параметра UserData превышен"
     },
     "VM_POST_ACTION": {
       "INVALID_URL": "Неподдерживаемый URL. Проверьте значения, задаваемые в тэгах ВМ"
@@ -274,9 +274,9 @@
       "RECOVER_IN_PROGRESS": "Идет восстановление ВМ",
       "RECOVER_DONE": "ВМ восстановлена",
       "RECOVER_FAILED": "Не удалось восстановить ВМ",
-      "DEPLOY_IN_PROGRESS": "Развертывание ВМ",
-      "DEPLOY_DONE": "ВМ развернута",
-      "DEPLOY_FAILED": "Не удалось развернуть ВМ",
+      "DEPLOY_IN_PROGRESS": "Выделение ВМ",
+      "DEPLOY_DONE": "ВМ выделена",
+      "DEPLOY_FAILED": "Не удалось выделить ВМ",
       "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение вычислительного предложения",
       "CHANGE_SERVICE_OFFERING_DONE": "Вычислительное предложение изменено",
       "CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить вычислительное предложение",
@@ -298,9 +298,9 @@
       "CHANGE_SSH_IN_PROGRESS": "Изменение SSH-ключа",
       "CHANGE_SSH_DONE": "SSH-ключ изменен",
       "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ",
-      "CHANGE_USER_DATA_IN_PROGRESS": "Изменение user data",
-      "CHANGE_USER_DATA_DONE": "User data изменена",
-      "CHANGE_USER_DATA_FAILED": "Не удалось изменить user data"
+      "CHANGE_USER_DATA_IN_PROGRESS": "Изменение параметра UserData для ВМ",
+      "CHANGE_USER_DATA_DONE": "Значение параметра UserData ВМ изменено",
+      "CHANGE_USER_DATA_FAILED": "Не удалось изменить значение параметра UserData для ВМ"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Открепление диска",
@@ -350,7 +350,7 @@
     "SSH_KEYS": "SSH ключи",
     "ACCOUNTS": "Аккаунты",
     "RESOURCE_QUOTAS": "Квоты ресурсов",
-    "LOGS": "Просмотр логов",
+    "LOGS": "Системные журналы",
     "SETTINGS": "Настройки",
     "LOGOUT": "Выйти",
     "LICENSE": {
@@ -373,7 +373,7 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
       "VM_ACCESS_TITLE": "Виртуальная машина",
-      "LOGS": "Логи ВМ",
+      "LOGS": "Системные журналы",
       "CREATE_VM_LOGS_TOKEN": "Создать токен",
       "INVALIDATE_VM_LOGS_TOKEN": "Аннулировать токен"
     },
@@ -430,7 +430,7 @@
         "ZONE": "Зона",
         "HOST_NAME": "Имя хоста",
         "ID": "ID",
-        "USER_DATA": "User data"
+        "USER_DATA": "UserData ВМ"
       },
       "SECURITY_GROUP": {
         "STOP_MACHINE_FOR_SG": "Для того, чтобы изменить группу безопасности, необходимо остановить виртуальную машину. Хотите остановить сейчас?",
@@ -650,7 +650,7 @@
       "NO_OFFERINGS": "Нет доступных вычислительных предложений",
       "GENERAL": "Основные",
       "ADVANCED": "Дополнительные",
-      "USER_DATA": "User data",
+      "USER_DATA": "UserData ВМ",
       "DETAILS": "Детали",
       "REQUEST": "ЗАПРОС",
       "PARAMS": "ПАРАМЕТРЫ",
@@ -670,9 +670,9 @@
         "ACTIONS": "Действия"
       },
       "VM_USER_DATA": {
-        "TITLE": "User data",
-        "USER_DATA": "User data",
-        "NO_USER_DATA": "User data не задана"
+        "TITLE": "UserData ВМ",
+        "USER_DATA": "UserData ВМ",
+        "NO_USER_DATA": "Параметр UserData ВМ не задан"
       }
     }
   },
@@ -1659,7 +1659,7 @@
       "TITLE": "Теги пользователя"
     },
     "VM_LOGS": {
-      "TITLE": "Просмотр логов (режим реального времени)",
+      "TITLE": "Системные журналы (режим реального времени)",
       "SHOW_LAST_MESSAGES": "Максимальное количество сообщений",
       "SHOW_LAST_MINUTES": "Показывать последние (минут)"
     }

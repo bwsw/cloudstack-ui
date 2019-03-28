@@ -187,7 +187,7 @@ Click the field and select another color if you wish.
 
 A theme color can be set in the configuration JSON file. You will find more information in the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-theme-name>`_. 
 
-Log View (real-time mode) 
+System Logs (real-time mode) 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This section is available if the LogView UI-plugin is activated. See the `plugin page <https://github.com/bwsw/cloudstack-ui/wiki/Log-View-Plugin>`_ for installation instructions.
 

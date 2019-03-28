@@ -7,9 +7,12 @@
       [class.selected-template]="selectedTemplate?.id === template?.id"
       [class.inline-block]="!radio"
     >
-      <cs-template-os-icon-container matListAvatar [template]="template"></cs-template-os-icon-container>
+      <cs-template-os-icon-container
+        matListAvatar
+        [template]="template"
+      ></cs-template-os-icon-container>
       <h5 matLine>
-        <span [innerHTML]="template.name | highlight:query"></span>
+        <span [innerHTML]="template.name | highlight: query"></span>
         <ng-container *ngIf="!template.isready">
           <div
             class="state-icon"
@@ -22,7 +25,7 @@
       <p
         matLine
         class="matLine-secondary"
-        [innerHTML]="template.displaytext | highlight:query"
+        [innerHTML]="template.displaytext | highlight: query"
       ></p>
       <span *ngIf="radio">
         <mat-radio-button [checked]="template?.id === selectedTemplate?.id"></mat-radio-button>
@@ -32,4 +35,3 @@
 </div>
 
 <cs-no-results *ngIf="!templateList?.length && !isLoading"></cs-no-results>
-

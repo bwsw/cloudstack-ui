@@ -8,9 +8,8 @@ import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 @Component({
   selector: 'cs-account-sidebar-container',
   template: `
-    <cs-account-sidebar
-      [entity]="account$ | async"
-    ></cs-account-sidebar>`,
+    <cs-account-sidebar [entity]="account$ | async"></cs-account-sidebar>
+  `,
 })
 export class AccountSidebarContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAccounts.getSelectedAccount));

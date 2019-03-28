@@ -9,11 +9,13 @@ mat-card-content {
     border-collapse: collapse;
     table-layout: fixed;
 
-    td, th {
+    td,
+    th {
       border-right: 1px solid black;
     }
 
-    td:last-child, th:last-child {
+    td:last-child,
+    th:last-child {
       border-right: 0;
     }
   }

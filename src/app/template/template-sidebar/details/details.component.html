@@ -6,14 +6,16 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>
-        <h2 class="mat-card-title-text">{{ "TEMPLATE_PAGE.TEMPLATE_DETAILS.DETAILS" | translate }}</h2>
+        <h2 class="mat-card-title-text">
+          {{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DETAILS' | translate }}
+        </h2>
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="grid grid-right">
         <div class="row" *ngIf="entity.size">
           <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.SIZE' | translate }}</div>
-          <div>{{ entity.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</div>
+          <div>{{ entity.size | division: 2:30:2 }} {{ 'UNITS.GB' | translate }}</div>
         </div>
         <div class="row">
           <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.EXTRACTABLE' | translate }}</div>
@@ -60,12 +62,14 @@
   </mat-card>
   <mat-card *ngIf="downloadUrl(entity)">
     <mat-card-header>
-      <mat-card-title><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></mat-card-title>
+      <mat-card-title
+        ><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></mat-card-title
+      >
     </mat-card-header>
     <mat-card-content>
       <cs-input-group class="full-width-input">
         <mat-form-field class="full-width-input" cs-input-group-textbox>
-          <input matInput [value]="downloadUrl(entity)" readonly>
+          <input matInput [value]="downloadUrl(entity)" readonly />
         </mat-form-field>
         <cs-clipboard-button
           cs-input-group-button

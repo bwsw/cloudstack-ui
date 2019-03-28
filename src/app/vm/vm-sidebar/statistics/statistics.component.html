@@ -38,11 +38,11 @@
       </div>
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_READ_IO' | translate }}</div>
-        <div>{{ 'IOPS' | translate:{ value: vm.diskioread || 0 } }}</div>
+        <div>{{ 'IOPS' | translate: { value: vm.diskioread || 0 } }}</div>
       </div>
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_WRITE_IO' | translate }}</div>
-        <div>{{ 'IOPS' | translate:{ value: vm.diskiowrite || 0 } }}</div>
+        <div>{{ 'IOPS' | translate: { value: vm.diskiowrite || 0 } }}</div>
       </div>
     </div>
   </mat-card-content>

@@ -17,7 +17,8 @@ import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-o
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
-    ></cs-volume-page>`,
+    ></cs-volume-page>
+  `,
 })
 export class VolumePageContainerComponent implements OnInit, AfterViewInit {
   readonly volumes$ = this.store.pipe(select(fromVolumes.selectFilteredVolumes));

@@ -1,15 +1,10 @@
 <div *ngIf="entity">
   <div class="title-container">
     <h4 class="details-header">{{ entity.name }}</h4>
-    <button
-      *ngIf="isAdmin() && !isSelf"
-      mat-icon-button
-      [matMenuTriggerFor]="actionsMenu"
-    >
+    <button *ngIf="isAdmin() && !isSelf" mat-icon-button [matMenuTriggerFor]="actionsMenu">
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </div>
-
 
   <nav #tabs [csSidebarTabNav]="tabs" mat-tab-nav-bar>
     <a
@@ -18,10 +13,7 @@
       queryParamsHandling="preserve"
       [active]="tabIsActive('account')"
     >
-      <div
-        [matTooltip]="'ACCOUNT_PAGE.SIDEBAR.GENERAL' | translate"
-        class="mat-tab-tooltip"
-      >
+      <div [matTooltip]="'ACCOUNT_PAGE.SIDEBAR.GENERAL' | translate" class="mat-tab-tooltip">
         <mat-icon class="mdi-earth"></mat-icon>
       </div>
     </a>
@@ -31,10 +23,7 @@
       queryParamsHandling="preserve"
       [active]="tabIsActive('users')"
     >
-      <div
-        [matTooltip]="'ACCOUNT_PAGE.SIDEBAR.USERS' | translate"
-        class="mat-tab-tooltip"
-      >
+      <div [matTooltip]="'ACCOUNT_PAGE.SIDEBAR.USERS' | translate" class="mat-tab-tooltip">
         <mat-icon class="mdi-account"></mat-icon>
       </div>
     </a>
@@ -42,13 +31,9 @@
 </div>
 
 <mat-menu #actionsMenu="matMenu">
-  <cs-account-action-container
-    *ngIf="entity"
-    [account]="entity"
-  ></cs-account-action-container>
+  <cs-account-action-container *ngIf="entity" [account]="entity"></cs-account-action-container>
 </mat-menu>
 
 <router-outlet></router-outlet>
 
 <cs-overlay-loading [active]="!entity"></cs-overlay-loading>
-

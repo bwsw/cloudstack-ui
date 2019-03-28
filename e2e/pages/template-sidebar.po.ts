@@ -25,10 +25,6 @@ export class ImageSidebar extends CloudstackUiPage {
     );
   }
 
-  clickClose() {
-    element(by.css('.backdrop.ng-star-inserted')).click();
-  }
-
   clickTagTab() {
     element
       .all(by.css('.mat-tab-link'))
@@ -39,6 +35,10 @@ export class ImageSidebar extends CloudstackUiPage {
   }
 
   clickShowSystemTab() {
-    element(by.name('showSystemTags')).click();
+    element(by.xpath("//mat-checkbox[contains(@class,'mat-checkbox-checked')]"))
+      .isPresent()
+      .catch(() => {
+        element(by.name('showSystemTags')).click();
+      });
   }
 }

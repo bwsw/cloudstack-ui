@@ -10,11 +10,8 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 @Component({
   selector: 'cs-vm-volume-details-container',
   template: `
-    <cs-volume-details
-      [volume]="volume"
-      [diskOffering]="offering$ | async"
-    >
-    </cs-volume-details>`,
+    <cs-volume-details [volume]="volume" [diskOffering]="offering$ | async"> </cs-volume-details>
+  `,
 })
 export class VmVolumeDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
   @Input()

@@ -32,7 +32,8 @@ import { selectFilteredOfferings } from '../selectors';
       (selectedClassesChanged)="onSelectedClassesChange($event)"
       (queryChange)="onQueryChange($event)"
     >
-    </cs-service-offering-dialog>`,
+    </cs-service-offering-dialog>
+  `,
 })
 export class ServiceOfferingDialogContainerComponent implements OnInit, AfterViewInit {
   readonly offerings$ = this.store.pipe(select(selectFilteredOfferings));

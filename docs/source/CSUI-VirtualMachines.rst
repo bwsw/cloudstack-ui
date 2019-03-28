@@ -74,7 +74,7 @@ To create a new VM click the "Create" button |create icon| at the bottom-right c
 
 .. figure:: _static/VMs_Create5.png
    
-The *New virtual machine* form contains two tabs: *General* and *Advanced*. 
+The *New virtual machine* form contains three tabs: *General*, *Advanced* and *VM UserData*. 
 
 In the *General* tab the following fields should be filled in:
 
@@ -254,7 +254,7 @@ In the *Advanced* tab you will find the following fields:
 5. **SSH keypair** - Select an SSH keypair. The list of keys contains the SSH keys available for the account under which the VM is being created. Find more information on SSH keys in the :ref:`SSH_Keys` section.
 6. **Start VM** - Tick the box to start the VM right after its deployment. If this option is activated, the VM acquires an IP and a password (if required by the template). If it is not, the machine IP is not available till VM is started, no password is assigned to it.
 
-In the *User data* tab you can add any custom data for the machine. It allows adding necessary settings to the machine and deploying it configured with necessary services. In this tab, you will find a text area, where you can enter the configurations in any format. The maximum allowed size of data is 32 KB.
+In the *VM UserData* tab you can add any custom data for the machine. It allows adding necessary settings to the machine and deploying it configured with necessary services. In this tab, you will find a text area, where you can enter the configurations in any format. The maximum allowed size of data is 32 KB.
 
 .. figure:: _static/VMs_Create_Udata.png
 
@@ -382,11 +382,11 @@ It allows performing the following actions with the VM:
 
     In the :ref:`VM_Access` section you can find more information on accessing a VM.
 
-- **Log View** - This option is available if the Log View plugin is activated via the configuration file. It allows creating and managing a secret token required for secure publishing of VM logs (see more details in `the plugin documentation <https://github.com/bwsw/cloud-plugin-vm-logs#filebeat-63>`_). 
+- **System Logs** - This option is available if the Log View plugin is activated via the configuration file. It allows creating and managing a secret token required for secure publishing of VM logs (see more details in `the plugin documentation <https://github.com/bwsw/cloud-plugin-vm-logs#filebeat-63>`_). 
 
     .. figure:: _static/VMactions_ViewLogs.png
 
-    Under the Log View submenu of the Action box a user can select between two actions:
+    Under the System Logs submenu of the Action box a user can select between two actions:
 
     * Create token - Allows creating a token. When selected, it asks to confirm the action and opens a modal window with the newly created token:
 
@@ -431,9 +431,9 @@ By clicking a VM line or card you can open a sidebar to the right.
 
 Here and in all other sections the sidebar width is adjustable - you can change it by hovering over its edge and dragging to the width you wish.
 
-.. figure:: _static/VM_Details_Resize1.png
+.. figure:: _static/VMs_Details_Resize1.png
 
-.. figure:: _static/VM_Details_Resize2.png
+.. figure:: _static/VMs_Details_Resize2.png
 
 In the details sidebar you will find the information for the selected virtual machine:
 
@@ -461,8 +461,8 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
 
     * VM host name, 
     * Zone selected for the VM to be available in, 
-    * Machine ID.
-    * User data - Allows viewing, editing and copying user data applied to the machine. 
+    * Machine ID,
+    * VM UserData - Allows viewing, editing and copying user data applied to the machine. 
     
       Click |view| to open the modal window and view the user data applied to the machine. Use the scroll tool if the text contains many symbols.
     

@@ -15,7 +15,8 @@ import { AuthService } from '../../shared/services/auth.service';
       (userRegenerateKey)="generateUserKeys($event)"
       (userDeleted)="deleteUser($event)"
       (loadUserKeys)="loadUserKeys($event)"
-    ></cs-account-users>`,
+    ></cs-account-users>
+  `,
 })
 export class AccountUsersContainerComponent {
   readonly account$ = this.store.pipe(select(fromAccounts.getSelectedAccount));
