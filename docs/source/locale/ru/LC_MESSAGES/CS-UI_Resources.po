@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-21 11:24+0700\n"
-"PO-Revision-Date: 2019-02-21 11:29+0700\n"
+"POT-Creation-Date: 2019-03-13 16:56+0700\n"
+"PO-Revision-Date: 2019-03-13 17:10+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -30,69 +30,55 @@ msgstr "Общая информация"
 
 #: ../../CS-UI_Resources.rst:11
 msgid ""
-"We introduced a new plugin - *Resource Limits Management* - that allows "
-"Domain Administrators to manage resource quotas, and users to change "
-"resource limits. The extension helps to avoid such situations when a user "
-"has extra resources that are not used but accounted in billing. Or when a "
-"user has utilized all the available resources and now needs more. In either "
-"of these cases, a user would have to request Administrator to change the "
-"resource limits. With the new plugin a user gets access to resource limits, "
-"and Administrator can manage resoure quotas via UI."
+"We introduced a plugin - *Resource Limits Management* - that allows Domain "
+"Administrators to manage resource quotas, and users to request or release "
+"account resources in the clouds where billing is based on the requested "
+"resource quotas of the account. Now it has become available to a user "
+"without contacting an administrator. The business rules for request "
+"processing are implemented on the backend and are completely separated from "
+"the extension."
 msgstr ""
-"Мы представили новый плагин, который позоволяет администраторам домена "
-"управлять квотами ресурсов, доступных пользователю, а пользавателю в свою "
-"очередь - изменять ограничения доступных для него ресурсов в рамках тех "
-"квот,  которые установил администратор. Плагин позволяет разумно "
-"расходовать ресурсы и избегать ситуаций, когда лишние ресурсы простаивают, "
-"но за них приходится платить.  Или когда пользователь использовал все "
-"доступные ресурсы, и ему приходится обращаться к Администратору, чтобы тот "
-"выделил ему дополнительные ресурсы. C новым плагином пользователь может сам "
-"изменить лимиты ресурсов. А Администратор получает доступ к управлению "
-"квотами ресурсов."
+"Мы представили UI-плагин, Resource Limits Management, который дает "
+"возможность администраторам домена управлять квотами ресурсов аккаунтов, а "
+"пользователям самостоятельно  заказывать увеличение или уменьшение "
+"доступных в рамках аккаунта ресурсов без обращения к администратору.  "
+"Плагин предназначен для самостоятельного заказа или освобождения ресурсов "
+"аккаунта самим пользователем в облаках, в которых тарификация "
+"обеспечивается на основании заказанной квоты ресурсов аккаунта. При этом "
+"бизнес-правила обработки запроса реализуются на бэкенд-части и полностью "
+"отделены от приложения. "
 
 #: ../../CS-UI_Resources.rst:13
-msgid "The extension uses two backend plugins:"
-msgstr "Расширение работает на основе двух бэкенд-плагинов:"
+msgid ""
+"The extension uses the backend plugin - `µAPI Gateway <https://bitworks."
+"software/en/products/cloudstack-micro-api-gateway/>`_ - developed by our "
+"team to help developers to create extensions for CloudStack using any "
+"programming language and make these extensions available via additional "
+"CloudStack API endpoints. Additional endpoints are implemented with the "
+"*Resource Limits Management* backend component developed on Node. Backend "
+"services necessary for the extension work (*uAPI Gateway, Resource Limits "
+"Management*) and the decision-making backend component based on the "
+"business rule are not accessible under the open licensing."
+msgstr ""
+"Плагин использует разработанный нашей командой бэкенд-плагин CloudStack - "
+"`µAPI Gateway <https://bitworks.software/en/products/cloudstack-micro-api-"
+"gateway/>`_ - с помощью которого разработчики могут создавать расширения "
+"для CloudStack, используя любой язык программирования, и эти расширения "
+"становятся доступны через дополнительные вызовы API CloudStack. Реализация "
+"дополнительных API выполнена с помощью микро-сервиса *Resource Limits "
+"Management*, реализованного на Node. Бэкенд-сервисы, необходимые для работы "
+"расширения (*µAPI Gateway, Resource Limits Management*) и модуль принятия "
+"решения на основе бизнес-правила не опубликованы под открытыми лицензиями. "
 
 #: ../../CS-UI_Resources.rst:15
-msgid ""
-"the `µAPI Gateway plugin <https://bitworks.software/en/products/cloudstack-"
-"micro-api-gateway/>`_ developed by us to help developers to create "
-"extensions for CloudStack using any programming language."
-msgstr ""
-"`µAPI Gateway <https://bitworks.software/en/products/cloudstack-micro-api-"
-"gateway/>`_, с помощью которого разработчики могут создавать и подключать "
-"расширения для CloudStack, созданные на любом языке программирования."
+msgid "The plugin is deactivated by default."
+msgstr "Плагин по-умолчанию отключен."
 
-#: ../../CS-UI_Resources.rst:17
-msgid ""
-"the *Resource Limits Management* backend plugin that extends CloudStack API "
-"with additional endpoints."
-msgstr ""
-"бэкенд-плагин *Resource Limits Management*, который расширяет API "
-"CloudStack дополнительными вызовами."
-
-#: ../../CS-UI_Resources.rst:19
-msgid ""
-"After the backend plugins are deployed and configured the Resource Limits "
-"Management UI-plugin can be activated and configured via the configuration "
-"file (see the `configuration guide <https://github.com/bwsw/cloudstack-ui/"
-"blob/master/config-guide.md#resource-limits-plugin>`_). Once it is "
-"activated, users and administrators get access to resource limits and "
-"quotas management via UI."
-msgstr ""
-"После установки, подключения и настройки бэкенд-плагинов можно активировать "
-"и настроить UI-плагин Resource Limits Management в файле конфигурации "
-"config.json (см. подробнее `руководство по конфигурациям <https://github."
-"com/bwsw/cloudstack-ui/blob/master/config-guide.md#resource-limits-"
-"plugin>`_). После этого пользователям и Администраторам становится доступно "
-"управление ресурсами в UI."
-
-#: ../../CS-UI_Resources.rst:22
+#: ../../CS-UI_Resources.rst:18
 msgid "Plugin Deployment"
 msgstr "Установка плагина"
 
-#: ../../CS-UI_Resources.rst:24
+#: ../../CS-UI_Resources.rst:20
 msgid ""
 "The instructions on plugin deployment are presented at the `project wiki-"
 "page <https://github.com/bwsw/cloudstack-ui/wiki/Resource-Limits-Management-"
@@ -102,19 +88,19 @@ msgstr ""
 "проекта <https://github.com/bwsw/cloudstack-ui/wiki/Resource-Limits-"
 "Management-Plugin>`_."
 
-#: ../../CS-UI_Resources.rst:26
+#: ../../CS-UI_Resources.rst:22
 msgid "To enable the Resource Limits Management UI-plugin you will need to:"
 msgstr "Чтобы подключить UI-плагин Resource Limits Management нужно:"
 
-#: ../../CS-UI_Resources.rst:28
+#: ../../CS-UI_Resources.rst:24
 msgid "Install and configure the *µAPI Gateway* backend plugin in CloudStack."
 msgstr "Установить и настроить бэкенд-плагин µAPI Gateway в CloudStack."
 
-#: ../../CS-UI_Resources.rst:29
+#: ../../CS-UI_Resources.rst:25
 msgid "Deploy the *Resource Limits Management* backend plugin."
 msgstr "Установить бэкенд-плагин Resource Limits Management."
 
-#: ../../CS-UI_Resources.rst:30
+#: ../../CS-UI_Resources.rst:26
 msgid ""
 "Enable and configure the *Resource Limits Management* UI extension via the "
 "`config.json` file."
@@ -122,15 +108,15 @@ msgstr ""
 "Настроить и подключить UI-плагин Resource Limits Management через "
 "конфигурационный файл."
 
-#: ../../CS-UI_Resources.rst:33
+#: ../../CS-UI_Resources.rst:29
 msgid "Managing Resource Limits via UI"
 msgstr "Управление лимитами ресурсов через UI"
 
-#: ../../CS-UI_Resources.rst:36
+#: ../../CS-UI_Resources.rst:32
 msgid "Resource limits management by Domain Administrators"
 msgstr "Управление квотами ресурсов для Администраторов домена"
 
-#: ../../CS-UI_Resources.rst:38
+#: ../../CS-UI_Resources.rst:34
 msgid ""
 "After the plugin is enabled, Domain Administrator can open \"Resource quotas"
 "\" under the \"Accounts\" menu. In this section, Administrator can view and "
@@ -143,7 +129,7 @@ msgstr ""
 "минимальные и максимальные значения для того параметра ресурсов, квоты "
 "которого нужно изменить."
 
-#: ../../CS-UI_Resources.rst:42
+#: ../../CS-UI_Resources.rst:38
 msgid ""
 "[-1] stands for any value, that means a resource parameter with [-1] is "
 "unlimited. Such parameters are not available for users to change resource "
@@ -152,15 +138,15 @@ msgstr ""
 "Значение [-1] означает, что параметр ресурса неограничен. Лимиты такого "
 "параметра недоступны для изменения пользователем. "
 
-#: ../../CS-UI_Resources.rst:44
+#: ../../CS-UI_Resources.rst:40
 msgid "Administrator sets resource quotas for all accounts in the domain."
 msgstr "Ограничения задаются для всех аккаунтов в домене."
 
-#: ../../CS-UI_Resources.rst:47
+#: ../../CS-UI_Resources.rst:43
 msgid "Changing resources by users"
 msgstr "Изменения лимитов ресурсов пользователями"
 
-#: ../../CS-UI_Resources.rst:49
+#: ../../CS-UI_Resources.rst:45
 msgid ""
 "After the plugin is enabled, a user can change resource limits in case of "
 "the lack of resources or, alternatively, nonuse of extra resources. To send "
@@ -172,7 +158,7 @@ msgstr ""
 "достаточно нажать на кнопку \"Запросить ресурсы\", которая расположена в "
 "панели ресурсов в разделе *Виртуальные машины*."
 
-#: ../../CS-UI_Resources.rst:51
+#: ../../CS-UI_Resources.rst:47
 msgid ""
 "In the appeared modal window, a user can see resource parameters and a "
 "slider for each parameter. The scales are limited in accordance with the "
@@ -188,7 +174,7 @@ msgstr ""
 "\"Запросить\". Лимиты ресурсов изменяются в соответствии с заданными "
 "значениями."
 
-#: ../../CS-UI_Resources.rst:55
+#: ../../CS-UI_Resources.rst:51
 msgid ""
 "Unlimited resources (set by Administrator as [-1]) are not listed among the "
 "resource parameters. That means they are not available for changing."
@@ -202,3 +188,59 @@ msgstr ""
 #~ msgstr ""
 #~ "Для доступа к подробным инструкциям по установке и настройке бэкенд-"
 #~ "плагинов необходим доступ к проектам в GitLab. "
+
+#~ msgid ""
+#~ "We introduced a new plugin - *Resource Limits Management* - that allows "
+#~ "Domain Administrators to manage resource quotas, and users to change "
+#~ "resource limits. The extension helps to avoid such situations when a "
+#~ "user has extra resources that are not used but accounted in billing. Or "
+#~ "when a user has utilized all the available resources and now needs more. "
+#~ "In either of these cases, a user would have to request Administrator to "
+#~ "change the resource limits. With the new plugin a user gets access to "
+#~ "resource limits, and Administrator can manage resoure quotas via UI."
+#~ msgstr ""
+#~ "Мы представили новый плагин, который позоволяет администраторам домена "
+#~ "управлять квотами ресурсов, доступных пользователю, а пользавателю в "
+#~ "свою очередь - изменять ограничения доступных для него ресурсов в рамках "
+#~ "тех квот,  которые установил администратор. Плагин позволяет разумно "
+#~ "расходовать ресурсы и избегать ситуаций, когда лишние ресурсы "
+#~ "простаивают, но за них приходится платить.  Или когда пользователь "
+#~ "использовал все доступные ресурсы, и ему приходится обращаться к "
+#~ "Администратору, чтобы тот выделил ему дополнительные ресурсы. C новым "
+#~ "плагином пользователь может сам изменить лимиты ресурсов. А "
+#~ "Администратор получает доступ к управлению квотами ресурсов."
+
+#~ msgid "The extension uses two backend plugins:"
+#~ msgstr "Расширение работает на основе двух бэкенд-плагинов:"
+
+#~ msgid ""
+#~ "the `µAPI Gateway plugin <https://bitworks.software/en/products/"
+#~ "cloudstack-micro-api-gateway/>`_ developed by us to help developers to "
+#~ "create extensions for CloudStack using any programming language."
+#~ msgstr ""
+#~ "`µAPI Gateway <https://bitworks.software/en/products/cloudstack-micro-"
+#~ "api-gateway/>`_, с помощью которого разработчики могут создавать и "
+#~ "подключать расширения для CloudStack, созданные на любом языке "
+#~ "программирования."
+
+#~ msgid ""
+#~ "the *Resource Limits Management* backend plugin that extends CloudStack "
+#~ "API with additional endpoints."
+#~ msgstr ""
+#~ "бэкенд-плагин *Resource Limits Management*, который расширяет API "
+#~ "CloudStack дополнительными вызовами."
+
+#~ msgid ""
+#~ "After the backend plugins are deployed and configured the Resource "
+#~ "Limits Management UI-plugin can be activated and configured via the "
+#~ "configuration file (see the `configuration guide <https://github.com/"
+#~ "bwsw/cloudstack-ui/blob/master/config-guide.md#resource-limits-"
+#~ "plugin>`_). Once it is activated, users and administrators get access to "
+#~ "resource limits and quotas management via UI."
+#~ msgstr ""
+#~ "После установки, подключения и настройки бэкенд-плагинов можно "
+#~ "активировать и настроить UI-плагин Resource Limits Management в файле "
+#~ "конфигурации config.json (см. подробнее `руководство по конфигурациям "
+#~ "<https://github.com/bwsw/cloudstack-ui/blob/master/config-guide."
+#~ "md#resource-limits-plugin>`_). После этого пользователям и "
+#~ "Администраторам становится доступно управление ресурсами в UI."

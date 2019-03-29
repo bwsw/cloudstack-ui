@@ -34,7 +34,7 @@ export class Login extends CloudstackUiPage {
   }
 
   clickLogin() {
-    return this.clickButtonbyText('Login');
+    return element(by.css('.mat-button.mat-primary')).click();
   }
 
   login() {

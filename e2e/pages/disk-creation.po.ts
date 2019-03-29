@@ -18,9 +18,16 @@ export class DiskCreation extends CloudstackUiPage {
     const EC = browser.ExpectedConditions;
     element(by.css('cs-volume-creation-dialog button.mat-button')).click();
     this.waitDialog();
-    const elem = element(by.xpath('//div[contains(text(),"Custom")]/ancestor::mat-radio-button'));
-    browser.wait(EC.elementToBeClickable(elem), 2000, ' Custom radiobutton is not clickable');
-    elem.click();
+    browser.wait(
+      EC.elementToBeClickable(element(by.css('mat-radio-button'))),
+      2000,
+      ' Custom radiobutton is not clickable',
+    );
+    element(
+      by.xpath(
+        "//div[@class='mat-radio-label-content' and contains(text(),'Custom')]/ancestor::mat-radio-button[@class='mat-radio-button mat-accent']",
+      ),
+    ).click();
     this.clickYesDialogButton();
     browser.wait(
       EC.presenceOf(element(by.name('new-size'))),
@@ -32,7 +39,7 @@ export class DiskCreation extends CloudstackUiPage {
   selectFixedDO() {
     element(by.css('cs-volume-creation-dialog button.mat-button')).click();
     this.waitDialog();
-    element(by.xpath('//div[contains(text(),"Medium")]/ancestor::mat-radio-button')).click();
+    element(by.xpath('//div[contains(text(),"Small")]/ancestor::mat-radio-button')).click();
     this.clickYesDialogButton();
     const EC = browser.ExpectedConditions;
     browser.wait(

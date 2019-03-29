@@ -143,11 +143,12 @@ export class VirtualMachinesEffects {
             const message = 'NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_DONE';
             this.showNotificationsOnFinish(message, notificationId);
           }),
-          switchMap(newVm => {
-            if (vmState === VmState.Running) {
-              return this.start(newVm);
-            }
-            return of(new vmActions.UpdateVM(newVm));
+          map(newVm => {
+            const shouldStartVm = vmState === VmState.Running;
+            return new vmActions.ChangeServiceOfferingSuccess({
+              vm: newVm,
+              startVm: shouldStartVm,
+            });
           }),
           catchError((error: Error) => {
             const message = 'NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_FAILED';
@@ -161,6 +162,18 @@ export class VirtualMachinesEffects {
             );
           }),
         );
+    }),
+  );
+
+  @Effect()
+  changeServiceOfferingSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<vmActions.ChangeServiceOfferingSuccess>(vmActions.VM_CHANGE_SERVICE_OFFERING_SUCCESS),
+    map(action => action.payload),
+    mergeMap(({ vm, startVm }) => {
+      if (startVm) {
+        return this.start(vm);
+      }
+      return of(new vmActions.UpdateVM(vm));
     }),
   );
 

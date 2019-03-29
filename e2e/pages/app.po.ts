@@ -203,4 +203,24 @@ export class CloudstackUiPage {
   verifyBellMessage(text) {
     return element(by.cssContainingText('.message', text)).isPresent();
   }
+
+  clickCloseSidebar() {
+    browser
+      .actions()
+      .mouseMove(element(by.css('.backdrop')))
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
+  }
+
+  waitActionProcess() {
+    const EC = browser.ExpectedConditions;
+    browser.wait(
+      EC.presenceOf(element(by.css('.open'))),
+      5000,
+      'Sidebar Action process is timeout',
+    );
+  }
 }
