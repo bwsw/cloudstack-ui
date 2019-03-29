@@ -32,7 +32,13 @@ exports.config = {
     login: 'login.e2e-spec.ts',
     vm_creation: 'vm-creation.e2e-spec.ts',
     disk_creation: 'disk-creation.e2e-spec.ts',
-    CI: ['vm-creation.e2e-spec.ts', 'disk-creation.e2e-spec.ts'],
+    disk_details: 'disk-details.e2e-spec.ts',
+    CI: [
+      'vm-creation.e2e-spec.ts',
+      'disk-creation.e2e-spec.ts',
+      'disk-details.e2e-spec.ts',
+      'login.e2e-spec.ts',
+    ],
   },
   params: {
     so: 'Small Instance',

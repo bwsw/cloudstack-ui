@@ -71,7 +71,6 @@ describe('e2e-test-disk-creation', () => {
     diskcreation.selectFixedDO();
     diskcreation.waitDialogModal();
     diskcreation.clickYesDialogButton();
-    // browser.sleep(15000);
   });
 
   it('Verify notification about creation of disk', () => {
@@ -92,7 +91,7 @@ describe('e2e-test-disk-creation', () => {
   it('Verify sidebar of fixed disk: name, size', () => {
     disklist.openDiskSidebar();
     expect(disksidebar.getDiskName(diskcreation.diskfixed)).toBeTruthy('Wrong disk name');
-    expect(disksidebar.getDiskSize('20')).toBeTruthy('Wrong disk size');
+    expect(disksidebar.getDiskSize('5')).toBeTruthy('Wrong disk size');
     disksidebar.clickCloseSidebar();
     disklist.clickSpareDrives();
   });

@@ -18,7 +18,14 @@ export class DiskList extends CloudstackUiPage {
     return element.all(by.cssContainingText('.mat-card-content div', disksize)).isPresent();
   }
 
-  clickReadyDisk() {
+  getDiskState() {
+    return element
+      .all(by.css('.mat-card-content div'))
+      .get(1)
+      .getText();
+  }
+
+  openSidebarReadyDisk() {
     element
       .all(
         by.xpath(
