@@ -36,10 +36,6 @@ export class VMSidebar extends CloudstackUiPage {
       .getText();
   }
 
-  clickClose() {
-    element(by.css('div.backdrop.ng-star-inserted')).click();
-  }
-
   clickTagTab() {
     element
       .all(by.css('.mat-tab-link'))

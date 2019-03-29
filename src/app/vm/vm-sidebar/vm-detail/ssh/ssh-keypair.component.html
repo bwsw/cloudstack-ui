@@ -13,7 +13,7 @@
       <button
         mat-icon-button
         type="button"
-        [matTooltip]="(vm.keypair ? 'COMMON.EDIT': 'COMMON.ADD') | translate"
+        [matTooltip]="(vm.keypair ? 'COMMON.EDIT' : 'COMMON.ADD') | translate"
         matTooltipPosition="above"
         [disabled]="!canActivate"
         (click)="showSshKeypairResetDialog()"

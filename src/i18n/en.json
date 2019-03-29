@@ -37,20 +37,20 @@
   },
   "DIALOG_MESSAGES": {
     "ACCOUNT": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this account?",
-      "CONFIRM_DISABLE": "Are you sure you want to disable this account?",
-      "CONFIRM_ENABLE": "Are you sure you want to enable this account?",
-      "CONFIRM_LOCK": "Are you sure you want to lock this account?"
+      "CONFIRM_DELETION": "Confirm that you want to delete this account?",
+      "CONFIRM_DISABLE": "Confirm that you want to disable this account?",
+      "CONFIRM_ENABLE": "Confirm that you want to enable this account?",
+      "CONFIRM_LOCK": "Confirm that you want to lock this account?"
     },
     "ACCOUNT_USER": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this user?",
-      "CONFIRM_EDIT": "Are you sure you want to edit this user?",
-      "CONFIRM_CHANGE_PASSWORD": "Are you sure you want to change password for this user?",
-      "CONFIRM_REGENERATE_KEY": "Are you sure you want to regenerate key for this user?"
+      "CONFIRM_DELETION": "Confirm that you want to delete this user?",
+      "CONFIRM_EDIT": "Confirm that you want to edit this user?",
+      "CONFIRM_CHANGE_PASSWORD": "Confirm that you want to change password for this user?",
+      "CONFIRM_REGENERATE_KEY": "Confirm that you want to regenerate key for this user?"
     },
     "ISO": {
-      "CONFIRM_DETACHMENT": "Are you sure you want to detach this ISO?",
-      "CONFIRM_DELETION": "Are you sure you want to delete this ISO?"
+      "CONFIRM_DETACHMENT": "Confirm that you want to detach this ISO?",
+      "CONFIRM_DELETION": "Confirm that you want to delete this ISO?"
     },
     "SNAPSHOT": {
       "CONFIRM_DELETION": "Are you sure you want to delete this snapshot?",
@@ -132,7 +132,7 @@
     },
     "VM": {
       "INSUFFICIENT_RESOURCES": "Insufficient resources",
-      "USER_DATA_TOO_BIG": "Maximum user data size is exceeded"
+      "USER_DATA_TOO_BIG": "Maximum size of VM UserData is exceeded"
     },
     "VM_POST_ACTION": {
       "INVALID_URL": "Invalid URL. Please check values in VM tags"
@@ -298,9 +298,9 @@
       "CHANGE_SSH_IN_PROGRESS": "Changing an SSH-key",
       "CHANGE_SSH_DONE": "SSH-key changed",
       "CHANGE_SSH_FAILED": "Failed to change an SSH-key",
-      "CHANGE_USER_DATA_IN_PROGRESS": "Changing a user data",
-      "CHANGE_USER_DATA_DONE": "User data changed",
-      "CHANGE_USER_DATA_FAILED": "Failed to change a user data"
+      "CHANGE_USER_DATA_IN_PROGRESS": "Changing VM UserData",
+      "CHANGE_USER_DATA_DONE": "VM UserData changed",
+      "CHANGE_USER_DATA_FAILED": "Failed to change VM UserData"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Detaching a volume",
@@ -373,7 +373,7 @@
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Access VM",
       "VM_ACCESS_TITLE": "Virtual Machine",
-      "LOGS": "Log View",
+      "LOGS": "System Logs",
       "CREATE_VM_LOGS_TOKEN": "Create token",
       "INVALIDATE_VM_LOGS_TOKEN": "Invalidate token"
     },
@@ -430,7 +430,7 @@
         "ZONE": "Zone",
         "HOST_NAME": "VM host name",
         "ID": "ID",
-        "USER_DATA": "User data"
+        "USER_DATA": "VM UserData"
       },
       "SECURITY_GROUP": {
         "STOP_MACHINE_FOR_SG": "You need to stop the virtual machine to change security group. Do you want to stop it now?",
@@ -650,7 +650,7 @@
       "NO_OFFERINGS": "There are no service offering available",
       "GENERAL": "General",
       "ADVANCED": "Advanced",
-      "USER_DATA": "User data",
+      "USER_DATA": "VM UserData",
       "DETAILS": "Details",
       "REQUEST": "REQUEST",
       "PARAMS": "PARAMS",
@@ -670,9 +670,9 @@
         "ACTIONS": "Actions"
       },
       "VM_USER_DATA": {
-        "TITLE": "User data",
-        "USER_DATA": "User data",
-        "NO_USER_DATA": "No user data"
+        "TITLE": "VM UserData",
+        "USER_DATA": "VM UserData",
+        "NO_USER_DATA": "No VM UserData"
       }
     }
   },
@@ -1663,7 +1663,7 @@
       "TITLE": "User Tags"
     },
     "VM_LOGS": {
-      "TITLE": "Log View (real-time mode)",
+      "TITLE": "System Logs (real-time mode)",
       "SHOW_LAST_MESSAGES": "Show last (messages)",
       "SHOW_LAST_MINUTES": "Show last (minutes)"
     }

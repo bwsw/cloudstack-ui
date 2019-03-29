@@ -13,6 +13,7 @@
     "test:watch": "ng test",
     "lint": "ng lint",
     "lint:ci": "mkdir -p reports; ng lint cloudstack-ui --format checkstyle > reports/checkstyle-result.xml",
+    "format:check": "prettier --config ./.prettierrc --check \"{src,e2e}/**/*{.ts,.js,.json,.css,.scss,.html}\"",
     "e2e": "ng e2e",
     "coveralls": "cat ./reports/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
@@ -99,7 +100,7 @@
     "karma-junit-reporter": "^1.2.0",
     "karma-mocha-reporter": "^2.2.3",
     "ngrx-store-freeze": "^0.2.0",
-    "prettier": "^1.15.3",
+    "prettier": "^1.16.4",
     "pretty-quick": "^1.8.0",
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",

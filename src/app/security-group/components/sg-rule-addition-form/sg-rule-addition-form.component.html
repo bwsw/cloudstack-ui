@@ -22,7 +22,7 @@
       formControlName="cidr"
       [placeholder]="'SECURITY_GROUP_PAGE.RULES.ENTER_CIDR' | translate"
       required
-    >
+    />
     <mat-error>
       {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }}
     </mat-error>
@@ -42,7 +42,7 @@
         [errorStateMatcher]="portMatcher"
         [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
         required
-      >
+      />
       <mat-error>
         {{ getStartPortErrorMessage() }}
       </mat-error>
@@ -60,7 +60,7 @@
         [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
         [errorStateMatcher]="portMatcher"
         required
-      >
+      />
       <mat-error>
         {{ getEndPortErrorMessage() }}
       </mat-error>
@@ -77,7 +77,7 @@
         [matAutocomplete]="icmpTypesAuto"
         #icmpTypeField
         required
-      >
+      />
       <mat-error>
         {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}
       </mat-error>
@@ -95,7 +95,7 @@
         [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate"
         [matAutocomplete]="icmpCodesAuto"
         required
-      >
+      />
       <mat-error>
         {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
       </mat-error>
@@ -107,18 +107,10 @@
     </mat-form-field>
   </ng-container>
 
-  <button
-    mat-icon-button
-    class="add-rule-button"
-    [disabled]="ruleForm.invalid"
-  >
+  <button mat-icon-button class="add-rule-button" [disabled]="ruleForm.invalid">
     <mat-icon *ngIf="!isAdding" class="mdi-plus"></mat-icon>
-    <mat-spinner
-      *ngIf="isAdding"
-      diameter="25"
-      strokeWidth="5"
-    ></mat-spinner>
+    <mat-spinner *ngIf="isAdding" diameter="25" strokeWidth="5"></mat-spinner>
   </button>
 </form>
 
-<hr>
+<hr />

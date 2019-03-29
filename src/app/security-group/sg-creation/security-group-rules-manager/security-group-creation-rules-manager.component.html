@@ -2,12 +2,7 @@
   <h5 class="fancy-select-header">
     {{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.BASIC_RULES' | translate }}
   </h5>
-  <button
-    mat-button
-    type="button"
-    class="fancy-select-button"
-    (click)="showDialog()"
-  >
+  <button mat-button type="button" class="fancy-select-button" (click)="showDialog()">
     <span *ngIf="showAddButton">
       {{ 'COMMON.ADD' | translate }}
     </span>

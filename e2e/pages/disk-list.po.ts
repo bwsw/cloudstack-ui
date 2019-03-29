@@ -37,7 +37,4 @@ export class DiskList extends CloudstackUiPage {
     const EC = browser.ExpectedConditions;
     browser.wait(EC.presenceOf(element(by.css('.open'))), 5000, "Sidebar doesn't open");
   }
-  clickClose() {
-    element(by.css('.backdrop.ng-star-inserted')).click();
-  }
 }

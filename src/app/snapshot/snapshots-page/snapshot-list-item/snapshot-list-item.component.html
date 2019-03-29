@@ -10,7 +10,7 @@
   ></cs-square-state-indicator>
 
   <h2 class="entity-list-item-title">
-    <span [matTooltip]="item.name" [innerHTML]="item.name | highlight:query"></span>
+    <span [matTooltip]="item.name" [innerHTML]="item.name | highlight: query"></span>
   </h2>
 
   <div class="entity-list-item-data" *ngIf="item.volumeid">
@@ -19,7 +19,7 @@
 
   <div class="entity-list-item-data">
     {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}:
-   <span [innerHTML]="snapshotCreated | csStringifyDate"></span>
+    <span [innerHTML]="snapshotCreated | csStringifyDate"></span>
   </div>
 
   <button mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">

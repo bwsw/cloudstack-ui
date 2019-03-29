@@ -21,17 +21,12 @@ import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 @Component({
   selector: 'cs-storage-details-container',
   template: `
-    <cs-volumes
-      [volumes]="volumes$ | async"
-    ></cs-volumes>
+    <cs-volumes [volumes]="volumes$ | async"></cs-volumes>
     <cs-volume-attachment-detail
       [volumes]="allVolumes$ | async"
       (attached)="onVolumeAttach($event)"
     ></cs-volume-attachment-detail>
-    <cs-iso
-      [iso]="iso$ | async"
-      (isoAction)="handleIsoAction($event)"
-    ></cs-iso>
+    <cs-iso [iso]="iso$ | async" (isoAction)="handleIsoAction($event)"></cs-iso>
   `,
 })
 export class StorageDetailContainerComponent implements OnInit, AfterViewInit {

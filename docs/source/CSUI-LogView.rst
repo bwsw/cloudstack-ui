@@ -8,9 +8,9 @@ Log View Plugin
 Overview
 ----------------
 
-In the *Virtual Machines*-*View Logs* section a user can see VM logs. This section appears if the UI-plugin - Log View - is activated. This UI-plugin works together with the backend API plugin developed to process and view virtual machine logs which are handled by ELK and delivered to the storage by Filebeat. The version of the backend API plugin matches Apache CloudStack version that it is built for. The plugin is tested with Apache CloudStack 4.11.2.0.
+In the *Virtual Machines*-*System logs* section a user can see VM logs. This section appears if the UI-plugin - Log View - is activated. This UI-plugin works together with the backend API plugin developed to process and view virtual machine logs which are handled by ELK and delivered to the storage by Filebeat. The version of the backend API plugin matches Apache CloudStack version that it is built for. The plugin is tested with Apache CloudStack 4.11.2.0.
 
-To make the *View logs* section available, first deploy the backend API plugin and then activate the Log View UI-plugin via the ``config.json`` file. See deployment instructions below.
+To make the *System logs* section available, first deploy the backend API plugin and then activate the Log View UI-plugin via the ``config.json`` file. See deployment instructions below.
 
 Deployment Instructions
 -------------------------
@@ -23,10 +23,16 @@ To enable the Log View plugin you need to:
 2. Deploy the necessary components: ElasticSearch, Filebeat, Logstash, Curator.
 3. Enable the UI extension via the ``config.json`` file.
 
-View Logs 
+.. note:: To ramp up the security of the machine logs exporting to the storage, it is required to use a secret token along with the UUID of a VM. You can create and copy a new token via the interface. Find more information in :ref:`VM_Actions`. Detailed instructions on how to configure the log export service in VM to CloudStack are provided in the `plugin documentation <https://github.com/bwsw/cloud-plugin-vm-logs#filebeat-63>`_. The token can be regenerated in case of compromising.
+
+View System Logs 
 -------------------------
 
-After successful deployment you can see the *View logs* section under the *Virtual Machines* menu in UI. In this section you can view the log files for a defined period of time or in a real-time mode. To view logs you should specify an account (for Administrators), a VM for which you wish to see the logs, and a log file to view the logs from. More details are provided below.
+After successful deployment you can see the *System logs* section under the *Virtual Machines* menu in UI. In this section you can view the log files for a defined period of time or in a real-time mode. 
+
+.. figure:: _static/LogView.png 
+
+To view logs you should specify an account (for Administrators), a VM for which you wish to see the logs, and a log file to view the logs from. More details are provided below.
 
 Filtering Logs
 '''''''''''''''''''''''''
@@ -60,7 +66,7 @@ You can change filtering parameters and refresh the list of logs by clicking "SH
 
 The set filtering parameters are saved to user tags. That means, if you log out of the system and then login again, you will continue to view logs with the previously set filtering parameters.
 
-View Logs List
+System Logs List
 ''''''''''''''''''''''''
 By clicking "SHOW LOGS", a user can view log files corresponding to the filtering parameters. Logs are listed in a chronological order from the earliest till the latest. 
 
@@ -80,23 +86,23 @@ You can change filtering parameters and refresh the list of logs by clicking "SH
 
 Sorting Logs
 ~~~~~~~~~~~~~~~~~~~~~~
-The sorting tool allows viewing the newest logs first in the list. Enable the checkbox to the right and click on "Show logs" to refresh the list.
+The sorting tool allows viewing the newest logs first in the list. Enable the checkbox to the right and click on "SHOW LOGS" to refresh the list.
 
 .. figure:: _static/Logs_Newest1.png
 
 Searching Logs
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-Use the search tool to find logs by a word or a text. Enter the text in the search field above the list and click on "Show logs" to refresh the list.
+Use the search tool to find logs by a word or a text. Enter the text in the search field above the list and click "SHOW LOGS" to refresh the list.
 
 .. figure:: _static/Logs_Search2.png
 
 Following Logs
 '''''''''''''''''''''''''
-After setting filtering parameters and clicking "Show logs", a user can start following logs, in other words, start monitoring logs online.
+After setting filtering parameters and clicking "SHOW LOGS", a user can start following logs, in other words, start monitoring logs online.
 
 When the "Follow logs" option is activated, the Log View UI-plugin sends requests to get the latest logs with the defined frequency and for a period, defined in the configuration file. By default, once per 1 second the system requests logs for the last 30 seconds. A user can customize these parameters via the configuration file (see `details <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#log-view-plugin>`_).
 
-To view logs in a real time-mode, click "Follow logs" |follow icon|. This button is available right after selecting a virtual machine in the filtering parameters or after setting all necessary filtering parameters and clicking "Show logs". You will see the filtering options are got disabled and the log list is automatically getting refreshed per every second. 
+To view logs in a real time-mode, click "Follow logs" |follow icon|. This button is available right after selecting a virtual machine in the filtering parameters or after setting all necessary filtering parameters and clicking "SHOW LOGS". You will see the filtering options are got disabled and the log list is automatically getting refreshed per every second. 
 
 .. figure:: _static/Logs_Follow.png
 
@@ -108,14 +114,14 @@ By default, the list contains up to 1000 log records showing logs for the last m
 
 If too many entries are to be displayed in the list, the system loads them by parts when a user scrolls the list down.
 
-You can set up parameters of log following in the "Log View Plugin Settings" section:
+You can set up parameters of log following in the "System Logs (real-time mode)" section:
 
 - **Show last (minutes)** - allows viewing logs for the last set period. You can set the number of minutes from 1 (default) to 10.
 - **Show last (messages)** - allows setting a maximum amount of logs to display. You can set from 1 to any number of log records. By default, 1000 messages are shown.
 
 Click "Update" to apply the settings.
 
-.. figure:: _static/RN_Logs_ViewOnlineSettings.png
+.. figure:: _static/Settings_LogView.png
 
 To stop following logs click on |unfollow icon|.
 

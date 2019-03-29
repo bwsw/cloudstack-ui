@@ -3,28 +3,27 @@
   [class.disabled]="disabled"
   (click)="handlePreviewClick($event)"
 >
-  <div *ngIf="hasColorField"
-       class="color-preview"
-       [style.background-color]="selectedColor?.value"></div>
-  <div *ngIf="!hasColorField"
-       class="color-preview"
-       [csPopoverTrigger]="popover"
-       [style.background-color]="selectedColor?.value"></div>
+  <div
+    *ngIf="hasColorField"
+    class="color-preview"
+    [style.background-color]="selectedColor?.value"
+  ></div>
+  <div
+    *ngIf="!hasColorField"
+    class="color-preview"
+    [csPopoverTrigger]="popover"
+    [style.background-color]="selectedColor?.value"
+  ></div>
 </div>
 <mat-form-field *ngIf="hasColorField" [csPopoverTrigger]="popover" class="full-width-input">
-  <input
-    matInput
-    [value]="selectedColor?.value.toLowerCase()"
-    [disabled]="disabled"
-    readonly
-  >
+  <input matInput [value]="selectedColor?.value.toLowerCase()" [disabled]="disabled" readonly />
 </mat-form-field>
 
 <div class="popover-container">
   <cs-popover #popover>
     <div
       class="color-picker-container mat-elevation-z2"
-      [ngClass]="{'color-picker-no-field': !hasColorField}"
+      [ngClass]="{ 'color-picker-no-field': !hasColorField }"
       [style.width.px]="containerWidth"
     >
       <div

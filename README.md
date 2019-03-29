@@ -103,9 +103,9 @@ This feature is not available in basic CloudStack UI and API. Plugin deployment 
 
 **Log View Plugin**
 
-This extension allows users to view VM log files. It uses the Log View backend-plugin that extends the CloudStack API with additional requests providing access the VM log files storage. For the Log View UI-plugin operation, firstly, the Log View backend-plugin should be downloaded from [GitHub](https://github.com/bwsw/cloud-plugin-vm-logs) and deployed. The plugin uses the ELK stack to store machine log files and Filebeat to export log files from a VM to the storage. The plugin is developed and tested only with Apache CloudStack 4.11.1.
+This extension allows users to view VM log files. It uses the Log View backend-plugin that extends the CloudStack API with additional requests providing access the VM log files storage. For the Log View UI-plugin operation, firstly, the Log View backend-plugin should be downloaded from [GitHub](https://github.com/bwsw/cloud-plugin-vm-logs) and deployed. The plugin uses the ELK stack to store machine log files and Filebeat to export log files from a VM to the storage. The plugin is tested with Apache CloudStack 4.11.2.0.
 
-Then, it is necessary to enable the LogView UI-plugin via the CloudStack-UI configuration file. After activation, the _View Logs_ section appears in CloudStack-UI. There a user can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs.
+Then, it is necessary to enable the LogView UI-plugin via the CloudStack-UI configuration file. After activation, the _System Logs_ section appears in CloudStack-UI. There a user can select the log files to display by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs.
 
 Plugin deployment and configuration instructions can be found at the [plugin page](https://github.com/bwsw/cloudstack-ui/wiki/View-Logs-Plugin).
 

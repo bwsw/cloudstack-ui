@@ -19,7 +19,8 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
       (tagAdded)="addTag($event)"
       (tagDeleted)="deleteTag($event)"
       (tagEdited)="editTag($event)"
-    ></cs-template-tags>`,
+    ></cs-template-tags>
+  `,
 })
 export class TagsContainerComponent {
   readonly template$ = this.store.pipe(select(fromTemplates.getSelectedTemplate));

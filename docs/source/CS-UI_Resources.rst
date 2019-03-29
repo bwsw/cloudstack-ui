@@ -8,15 +8,11 @@ Resource Limits Management Plugin
 Overview
 ---------------
 
-We introduced a new plugin - *Resource Limits Management* - that allows Domain Administrators to manage resource quotas, and users to change resource limits. The extension helps to avoid such situations when a user has extra resources that are not used but accounted in billing. Or when a user has utilized all the available resources and now needs more. In either of these cases, a user would have to request Administrator to change the resource limits. With the new plugin a user gets access to resource limits, and Administrator can manage resoure quotas via UI.
+We introduced a plugin - *Resource Limits Management* - that allows Domain Administrators to manage resource quotas, and users to request or release account resources in the clouds where billing is based on the requested resource quotas of the account. Now it has become available to a user without contacting an administrator. The business rules for request processing are implemented on the backend and are completely separated from the extension.
 
-The extension uses two backend plugins:
+The extension uses the backend plugin - `µAPI Gateway <https://bitworks.software/en/products/cloudstack-micro-api-gateway/>`_ - developed by our team to help developers to create extensions for CloudStack using any programming language and make these extensions available via additional CloudStack API endpoints. Additional endpoints are implemented with the *Resource Limits Management* backend component developed on Node. Backend services necessary for the extension work (*uAPI Gateway, Resource Limits Management*) and the decision-making backend component based on the business rule are not accessible under the open licensing.
 
-* the `µAPI Gateway plugin <https://bitworks.software/en/products/cloudstack-micro-api-gateway/>`_ developed by us to help developers to create extensions for CloudStack using any programming language. 
-
-* the *Resource Limits Management* backend plugin that extends CloudStack API with additional endpoints.
-
-After the backend plugins are deployed and configured the Resource Limits Management UI-plugin can be activated and configured via the configuration file (see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#resource-limits-plugin>`_). Once it is activated, users and administrators get access to resource limits and quotas management via UI.
+The plugin is deactivated by default. 
 
 Plugin Deployment
 -------------------

@@ -7,10 +7,7 @@
     <mat-option [value]="sshKeyNotSelected">
       {{ sshKeyNotSelected?.name | translate }}
     </mat-option>
-    <mat-option
-      *ngFor="let keyPair of sshKeyPairs"
-      [value]="keyPair"
-    >
+    <mat-option *ngFor="let keyPair of sshKeyPairs" [value]="keyPair">
       {{ keyPair.name }}
     </mat-option>
   </mat-select>

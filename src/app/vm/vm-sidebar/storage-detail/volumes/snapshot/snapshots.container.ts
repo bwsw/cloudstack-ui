@@ -20,7 +20,8 @@ import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapsh
       (snapshotReverted)="onSnapshotRevert($event)"
       (snapshotDeleted)="onSnapshotDelete($event)"
     >
-    </cs-snapshots>`,
+    </cs-snapshots>
+  `,
 })
 export class SnapshotsContainerComponent {
   @Input()

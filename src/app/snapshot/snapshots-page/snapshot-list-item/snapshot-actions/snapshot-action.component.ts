@@ -14,7 +14,8 @@ import { SnapshotActions, SnapshotActionService } from './snapshot-action.servic
         <mat-icon [ngClass]="action.icon"></mat-icon>
         <span>{{ action.name | translate }}</span>
       </button>
-    </ng-container>`,
+    </ng-container>
+  `,
 })
 export class SnapshotActionComponent {
   @Input()

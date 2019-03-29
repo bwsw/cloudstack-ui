@@ -12,7 +12,8 @@ import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.red
       [mode]="viewMode$ | async"
       [creationInProgress]="isLoading$ | async"
       (createSecurityGroup)="onSecurityGroupCreation($event)"
-    ></cs-security-group-creation>`,
+    ></cs-security-group-creation>
+  `,
 })
 export class SecurityGroupCreationContainerComponent {
   readonly isLoading$ = this.store.pipe(select(fromSecurityGroups.isFormLoading));

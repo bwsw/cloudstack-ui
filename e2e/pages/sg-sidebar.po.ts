@@ -1,6 +1,5 @@
-import { browser, by, element, protractor } from 'protractor';
+import { by, element } from 'protractor';
 import { CloudstackUiPage } from './app.po';
-import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 export class SGSidebar extends CloudstackUiPage {
   getVMbyName(name) {
@@ -42,10 +41,6 @@ export class SGSidebar extends CloudstackUiPage {
 
   clickFirewallTab() {
     element(by.css('.mat-tab-link.mat-tab-label-active')).click();
-  }
-
-  clickClose() {
-    element(by.css('.backdrop.ng-star-inserted')).click();
   }
 
   clickTagTab() {

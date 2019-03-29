@@ -25,7 +25,8 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
       [snapshot]="snapshot"
       [account]="account$ | async"
       (templateCreated)="onCreate($event)"
-    ></cs-template-creation>`,
+    ></cs-template-creation>
+  `,
 })
 export class TemplateCreationContainerComponent {
   readonly viewMode$ = this.store.pipe(select(fromTemplates.filterSelectedViewMode));

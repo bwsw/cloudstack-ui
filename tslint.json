@@ -90,7 +90,6 @@
     "no-attribute-parameter-decorator": true,
     "no-output-named-after-standard-event": true,
     "no-unused-css": true,
-    "use-pipe-decorator": true,
-    "angular-whitespace": [true, "check-interpolation", "check-semicolon"]
+    "use-pipe-decorator": true
   }
 }

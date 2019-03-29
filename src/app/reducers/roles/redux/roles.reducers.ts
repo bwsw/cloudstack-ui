@@ -75,14 +75,21 @@ export function reducer(state = initialState, action: event.Actions): State {
 
 export const getRolesState = createFeatureSelector<RolesState>('roles');
 
-export const getRolesEntitiesState = createSelector(getRolesState, state => state.list);
+export const getRolesEntitiesState = createSelector(
+  getRolesState,
+  state => state.list,
+);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getRolesEntitiesState,
 );
 
-export const isLoading = createSelector(getRolesEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getRolesEntitiesState,
+  state => state.loading,
+);
 
-export const roleTypes = createSelector(selectAll, roles =>
-  Array.from(new Set(roles.map(role => role.type))),
+export const roleTypes = createSelector(
+  selectAll,
+  roles => Array.from(new Set(roles.map(role => role.type))),
 );

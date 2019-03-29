@@ -8,7 +8,7 @@
   "definitions": {
     "FilterOfferingEnabled": {
       "type": "object",
-      "required":[ "filterOfferings", "zones" ],
+      "required": ["filterOfferings", "zones"],
       "properties": {
         "filterOfferings": {
           "const": true
@@ -24,7 +24,7 @@
     },
     "FilterOfferingDisabled": {
       "type": "object",
-      "required":[ "filterOfferings" ],
+      "required": ["filterOfferings"],
       "properties": {
         "filterOfferings": {
           "const": false

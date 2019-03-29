@@ -7,13 +7,13 @@
   <h2
     class="entity-list-item-title"
     [matTooltip]="item.name"
-    [innerHTML]="item.name | highlight:query"
+    [innerHTML]="item.name | highlight: query"
   ></h2>
 
   <div class="entity-list-item-data">
     <span>{{ 'VOLUME_PAGE.CARD.SIZE' | translate }}: </span>
-    <span>{{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</span>
-   </div>
+    <span>{{ item.size | division: 2:30:2 }} {{ 'UNITS.GB' | translate }}</span>
+  </div>
 
   <div class="entity-list-item-data">
     <span>{{ 'VOLUME_PAGE.CARD.STATE' | translate }}: </span>
@@ -25,7 +25,6 @@
   </button>
 
   <mat-menu #actionsMenu="matMenu">
-    <cs-volume-actions-container [volume]="item"
-    ></cs-volume-actions-container>
+    <cs-volume-actions-container [volume]="item"></cs-volume-actions-container>
   </mat-menu>
 </mat-list-item>
