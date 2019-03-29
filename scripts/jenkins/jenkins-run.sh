@@ -26,15 +26,16 @@ export DOCKER_REPO=cloudstack-ui
 # Preparation
 ./scripts/ci/docker-cleanup.sh
 
-if [[ "$CI_TYPE" != "RELEASE" ]]; then
-  ./scripts/ci/add-app-config.sh
-fi
-
 # Dependencies, Lint, Format, Unit tests
 ./scripts/ci/test.sh
 
 # e2e tests
+./scripts/ci/add-e2e-config.sh
 ./scripts/ci/test-e2e.sh
+
+if [[ "$CI_TYPE" != "RELEASE" ]]; then
+  ./scripts/ci/add-deployment-config.sh
+fi
 
 # Deploy
 ./scripts/ci/build.sh

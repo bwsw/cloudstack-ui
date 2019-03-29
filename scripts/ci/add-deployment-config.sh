@@ -7,7 +7,7 @@ if [[ "$CI_TYPE" == "ON_DEMAND" ]]; then
 else
   # Setup environment
   readonly thisDir=$(cd $(dirname $0); pwd)
-  cp ${thisDir}/configs/ci-config.json ${thisDir}/../../src/config/config.json
+  cp ${thisDir}/configs/deployment-config.json ${thisDir}/../../src/config/config.json
 fi
 
-echo -e "\nApplication config added\n"
+echo -e "\Deployment application config added\n"
