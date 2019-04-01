@@ -3,12 +3,25 @@ import { CloudstackUiPage } from './app.po';
 
 export class SGList extends CloudstackUiPage {
   clickSharedTab() {
-    element
-      .all(by.name('viewMode'))
-      .get(2)
-      .click();
+    browser
+      .actions()
+      .mouseMove(
+        element(
+          by.xpath("//button[@name='viewMode']/descendant::div[text()=' Shared Security Groups ']"),
+        ),
+      )
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
     const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element(by.css('.entity-card.mat-card'))), 5000);
+    browser.wait(
+      EC.visibilityOf(
+        element(by.xpath(`//mat-card-title/child::span[text()="${browser.params.rule}"]`)),
+      ),
+      5000,
+    );
   }
 
   clickPrivateTab() {
@@ -23,7 +36,9 @@ export class SGList extends CloudstackUiPage {
   clickOpenSidebar(name) {
     element(by.xpath(`//span[text()="${name}"]/ancestor:: mat-card`)).click();
     const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
+    const backdrop = EC.presenceOf(element(by.css('cs-sidebar div.backdrop')));
+    const header = EC.visibilityOf(element(by.tagName('h4')));
+    browser.wait(EC.and(backdrop), 5000);
   }
 
   clickCreateSG() {

@@ -11,6 +11,11 @@ export class SGCreation extends CloudstackUiPage {
 
   clickCreateSGButton() {
     element(by.css('button[type=submit]')).click();
+    browser.wait(
+      protractor.ExpectedConditions.visibilityOf(element(by.css('snack-bar-container'))),
+      15000,
+      'No snack message Create SG appears',
+    );
   }
 
   setSGName(name) {
@@ -60,10 +65,11 @@ export class SGCreation extends CloudstackUiPage {
 
   waitCreatingTemplate(name) {
     const EC = protractor.ExpectedConditions;
-    browser.wait(
-      EC.presenceOf(element(by.cssContainingText('.entity-card-title.mat-card-title span', name))),
-      17000,
+    const snack = EC.stalenessOf(element(by.css('snack-bar-container')));
+    const card = EC.presenceOf(
+      element(by.cssContainingText('.entity-card-title.mat-card-title span', name)),
     );
+    browser.wait(EC.and(snack, card), 15000);
   }
 
   verifyBuildNewSGModal() {

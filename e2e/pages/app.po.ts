@@ -205,13 +205,26 @@ export class CloudstackUiPage {
   }
 
   clickCloseSidebar() {
+    browser.wait(
+      protractor.ExpectedConditions.elementToBeClickable(
+        element(by.css('cs-sidebar div.backdrop')),
+      ),
+    );
     browser
       .actions()
-      .mouseMove(element(by.css('.backdrop')))
+      .mouseMove(element(by.css('cs-sidebar div.backdrop')))
       .perform();
     browser
       .actions()
       .click()
       .perform();
+  }
+
+  clickShowSystemTag() {
+    element(by.xpath("//mat-checkbox[contains(@class,'mat-checkbox-checked')]"))
+      .isPresent()
+      .catch(() => {
+        element(by.name('showSystemTags')).click();
+      });
   }
 }

@@ -1,4 +1,4 @@
-import { browser } from 'protractor';
+import { browser, by, element } from 'protractor';
 import { Login } from './pages/login.po';
 import { VMSidebar } from './pages/vm-sidebar.po';
 import { SGList } from './pages/sg-list.po';
@@ -74,7 +74,10 @@ describe('e2e-test-sg-creation', () => {
     );
     expect(sgsidebar.getTagValue('custom-template').isPresent()).toBeTruthy('custom-template');
     sgsidebar.clickChekbox();
-    sgsidebar.clickClose();
+    sgsidebar.clickCloseSidebar();
+    // TOD0: sidebar close issue in headless mode
+    sglist.clickCreateSG();
+    sglist.clickNoDialogButton();
   });
 
   it('Create template in Shared Security Group, verify rules', () => {
@@ -114,6 +117,6 @@ describe('e2e-test-sg-creation', () => {
     expect(sgsidebar.getSGName()).toEqual(page.name);
     expect(sgsidebar.getSGDescription()).toEqual(page.description);
     expect(sgsidebar.getSGType()).toEqual('shared');
-    sgsidebar.clickClose();
+    sgsidebar.clickCloseSidebar();
   });
 });

@@ -29,11 +29,16 @@ exports.config = {
   baseUrl: 'http://localhost:8080',
   framework: 'jasmine',
   suites: {
-    sg_creation: './e2e/sg-creation.e2e-spec.ts',
-    login: './e2e/login.e2e-spec.ts',
-    vm_creation: './e2e/vm-creation.e2e-spec.ts',
-    disk_creation: './e2e/disk-creation.e2e-spec.ts',
-    CI: ['vm-creation.e2e-spec.ts', 'disk-creation.e2e-spec.ts'],
+    sg_creation: 'sg-creation.e2e-spec.ts',
+    login: 'login.e2e-spec.ts',
+    vm_creation: 'vm-creation.e2e-spec.ts',
+    disk_creation: 'disk-creation.e2e-spec.ts',
+    CI: [
+      'vm-creation.e2e-spec.ts',
+      'sg-creation.e2e-spec.ts',
+      'disk-creation.e2e-spec.ts',
+      'login.e2e-spec.ts',
+    ],
   },
   params: {
     so: 'Small Instance',

@@ -71,7 +71,6 @@ describe('e2e-test-disk-creation', () => {
     diskcreation.selectFixedDO();
     diskcreation.waitDialogModal();
     diskcreation.clickYesDialogButton();
-    // browser.sleep(15000);
   });
 
   it('Verify notification about creation of disk', () => {

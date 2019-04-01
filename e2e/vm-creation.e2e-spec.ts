@@ -78,7 +78,7 @@ describe('e2e-test-vm-creation', () => {
   it('Verify VM in private security group', () => {
     vmlist.clickFirewallMenu();
     sglist.clickPrivateTab();
-    sglist.clickOpenSidebar();
+    sglist.clickOpenSidebar(0);
     expect(sgsidebar.getVMbyName(page.name).isPresent()).toBeTruthy();
     sgsidebar.clickCloseSidebar();
     sglist.clickVMMenu();
@@ -89,7 +89,7 @@ describe('e2e-test-vm-creation', () => {
     vmlist.clickImageMenu();
     imlist.clickOpenSidebar();
     imsidebar.clickTagTab();
-    imsidebar.clickShowSystemTab();
+    imsidebar.clickShowSystemTag();
     imsidebar.setTag('csui.vm.auth-mode', 'SSH, HTTP');
     imsidebar.setTag('csui.vm.http.protocol', 'HTTP');
     imsidebar.setTag('csui.vm.http.login', 'login');
@@ -178,7 +178,7 @@ describe('e2e-test-vm-creation', () => {
   it('Verify VM in default security group', () => {
     vmlist.clickFirewallMenu();
     sglist.clickSharedTab();
-    sglist.clickOpenSidebar();
+    sglist.clickOpenSidebar(0);
     expect(sgsidebar.getVMbyName(page.name).isPresent()).toBeTruthy();
     sgsidebar.clickCloseSidebar();
     sglist.clickVMMenu();

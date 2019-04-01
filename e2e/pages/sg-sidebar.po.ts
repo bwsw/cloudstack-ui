@@ -1,4 +1,4 @@
-import { by, element } from 'protractor';
+import { protractor, browser, by, element } from 'protractor';
 import { CloudstackUiPage } from './app.po';
 
 export class SGSidebar extends CloudstackUiPage {
@@ -48,6 +48,8 @@ export class SGSidebar extends CloudstackUiPage {
       .all(by.css('.mat-tab-link'))
       .last()
       .click();
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(element(by.css('.mdi-plus.mat-icon.mdi'))), 5000);
   }
 
   getTagKey(expected) {
