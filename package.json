@@ -12,7 +12,6 @@
     "test": "ng test --code-coverage --watch=false",
     "test:watch": "ng test",
     "lint": "ng lint",
-    "lint:ci": "mkdir -p reports; ng lint cloudstack-ui --format checkstyle > reports/checkstyle-result.xml",
     "format:check": "prettier --config ./.prettierrc --check \"{src,e2e}/**/*{.ts,.js,.json,.css,.scss,.html}\"",
     "e2e": "ng e2e",
     "coveralls": "cat ./reports/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
