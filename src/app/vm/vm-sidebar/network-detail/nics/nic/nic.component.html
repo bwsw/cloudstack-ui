@@ -1,9 +1,7 @@
 <mat-card class="vm-card">
   <mat-card-header>
     <mat-card-title>
-      <h2 class="mat-card-title-text">
-        {{ name }}
-      </h2>
+      <h2 class="mat-card-title-text">{{ name }}</h2>
     </mat-card-title>
   </mat-card-header>
 
@@ -13,7 +11,8 @@
       <cs-secondary-ip-list
         [nic]="nic"
         (secondaryIpAdded)="secondaryIpAdded.emit($event)"
-        (secondaryIpRemoved)="secondaryIpRemoved.emit($event)">
+        (secondaryIpRemoved)="secondaryIpRemoved.emit($event)"
+      >
       </cs-secondary-ip-list>
     </div>
   </mat-card-content>

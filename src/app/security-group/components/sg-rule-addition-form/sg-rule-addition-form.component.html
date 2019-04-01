@@ -22,10 +22,8 @@
       formControlName="cidr"
       [placeholder]="'SECURITY_GROUP_PAGE.RULES.ENTER_CIDR' | translate"
       required
-    >
-    <mat-error>
-      {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }}
-    </mat-error>
+    />
+    <mat-error> {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }} </mat-error>
   </mat-form-field>
 
   <!--This container contains start, end port fields for protocols such TCP, UDP-->
@@ -42,10 +40,8 @@
         [errorStateMatcher]="portMatcher"
         [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
         required
-      >
-      <mat-error>
-        {{ getStartPortErrorMessage() }}
-      </mat-error>
+      />
+      <mat-error> {{ getStartPortErrorMessage() }} </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -60,10 +56,8 @@
         [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
         [errorStateMatcher]="portMatcher"
         required
-      >
-      <mat-error>
-        {{ getEndPortErrorMessage() }}
-      </mat-error>
+      />
+      <mat-error> {{ getEndPortErrorMessage() }} </mat-error>
     </mat-form-field>
   </ng-container>
 
@@ -77,10 +71,8 @@
         [matAutocomplete]="icmpTypesAuto"
         #icmpTypeField
         required
-      >
-      <mat-error>
-        {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}
-      </mat-error>
+      />
+      <mat-error> {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }} </mat-error>
       <mat-autocomplete #icmpTypesAuto="matAutocomplete" class="icmp-autocomplete-width">
         <mat-option *ngFor="let icmp of filteredIcmpTypes" [value]="icmp.type">
           [{{ icmp.type }}] {{ getIcmpTypeTranslationToken(icmp.type) | translate }}
@@ -95,10 +87,8 @@
         [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate"
         [matAutocomplete]="icmpCodesAuto"
         required
-      >
-      <mat-error>
-        {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
-      </mat-error>
+      />
+      <mat-error> {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }} </mat-error>
       <mat-autocomplete #icmpCodesAuto="matAutocomplete" class="icmp-autocomplete-width">
         <mat-option *ngFor="let codes of filteredIcmpCodes" [value]="codes">
           [{{ codes }}] {{ getIcmpCodeTranslationToken(+icmpTypeField.value, codes) | translate }}
@@ -107,18 +97,10 @@
     </mat-form-field>
   </ng-container>
 
-  <button
-    mat-icon-button
-    class="add-rule-button"
-    [disabled]="ruleForm.invalid"
-  >
+  <button mat-icon-button class="add-rule-button" [disabled]="ruleForm.invalid">
     <mat-icon *ngIf="!isAdding" class="mdi-plus"></mat-icon>
-    <mat-spinner
-      *ngIf="isAdding"
-      diameter="25"
-      strokeWidth="5"
-    ></mat-spinner>
+    <mat-spinner *ngIf="isAdding" diameter="25" strokeWidth="5"></mat-spinner>
   </button>
 </form>
 
-<hr>
+<hr />

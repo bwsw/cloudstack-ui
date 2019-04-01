@@ -32,12 +32,11 @@ exports.config = {
     rule: 'default',
   },
   directConnect: true,
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'http://localhost:8081',
   framework: 'jasmine',
   suites: {
     login: './e2e/login.e2e-spec.ts',
     vm_creation: './e2e/vm-creation.e2e-spec.ts',
-    vm_sidebar: './e2e/vm-sidebar.e2e-spec.ts',
   },
   jasmineNodeOpts: {
     showColors: true,

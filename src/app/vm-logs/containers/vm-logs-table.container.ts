@@ -10,12 +10,13 @@ import { selectIsAutoUpdateWithScroll } from '../redux/selectors/select-is-autou
   selector: 'cs-vm-logs-table-container',
   template: `
     <cs-vm-logs-table
-      *loading="loading$ | async"
+      *loading="(loading$ | async)"
       [csScrollToLast]="shouldScrollToLast$ | async"
       [vmLogs]="vmLogs$ | async"
       [enableShowMore]="enableShowMore$ | async"
       (showMoreClicked)="onShowMore()"
-    ></cs-vm-logs-table>`,
+    ></cs-vm-logs-table>
+  `,
 })
 export class VmLogsTableContainerComponent {
   readonly loading$ = this.store.pipe(select(fromVmLogs.isLoading));

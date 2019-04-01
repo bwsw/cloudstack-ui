@@ -1,6 +1,6 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <h3 *ngIf="!loading" class="mat-dialog-title">
-  {{ (title || 'ACCOUNT_PAGE.USER.EDIT_USER') | translate }}
+  {{ title || 'ACCOUNT_PAGE.USER.EDIT_USER' | translate }}
 </h3>
 <form (ngSubmit)="onUserUpdate()" [formGroup]="userForm">
   <div class="mat-dialog-content">
@@ -12,7 +12,7 @@
         autocomplete="new-username"
         required
         formControlName="username"
-      >
+      />
     </mat-form-field>
     <mat-form-field *ngIf="!(user && user.id)" class="full-width-input">
       <input
@@ -23,7 +23,7 @@
         [type]="showPassword ? 'password' : 'text'"
         required
         formControlName="password"
-      >
+      />
       <mat-icon
         matSuffix
         (click)="showPassword = !showPassword"
@@ -38,7 +38,7 @@
         formControlName="firstname"
         required
         [placeholder]="'ACCOUNT_PAGE.USER.FIRST_NAME' | translate"
-      >
+      />
     </mat-form-field>
     <mat-form-field class="full-width-input">
       <input
@@ -47,7 +47,7 @@
         formControlName="lastname"
         required
         [placeholder]="'ACCOUNT_PAGE.USER.LAST_NAME' | translate"
-      >
+      />
     </mat-form-field>
     <mat-form-field class="full-width-input">
       <input
@@ -56,30 +56,17 @@
         formControlName="email"
         [placeholder]="'ACCOUNT_PAGE.USER.EMAIL' | translate"
         required
-      >
+      />
     </mat-form-field>
-    <cs-time-zone
-      name="timezone"
-      formControlName="timezone"
-    ></cs-time-zone>
+    <cs-time-zone name="timezone" formControlName="timezone"></cs-time-zone>
   </div>
 
   <div class="mat-dialog-actions">
-    <button
-      mat-button
-      color="primary"
-      matDialogClose
-      type="button"
-    >
+    <button mat-button color="primary" matDialogClose type="button">
       {{ 'COMMON.CANCEL' | translate }}
     </button>
-    <button
-      mat-button
-      color="primary"
-      type="submit"
-      [disabled]="!userForm.valid"
-    >
-      {{ (confirmButtonText || 'COMMON.EDIT') | translate }}
+    <button mat-button color="primary" type="submit" [disabled]="!userForm.valid">
+      {{ confirmButtonText || 'COMMON.EDIT' | translate }}
     </button>
   </div>
 </form>

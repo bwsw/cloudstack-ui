@@ -4,6 +4,7 @@ import * as uuid from 'uuid';
 import { Time } from '../../components/time-picker/time-picker.component';
 import { DayPeriod } from '../../components/day-period/day-period.component';
 import { Language, TimeFormat } from '../../types';
+import { Base64 } from 'js-base64';
 
 interface RouterState {
   snapshot: {
@@ -205,5 +206,27 @@ export class Utils {
       LT: 'h:mm A',
       LTS: 'h:mm:ss A',
     };
+  }
+
+  public static encodeStringToBase64(str: string): string {
+    if (!str) {
+      return null;
+    }
+    return Base64.encode(str);
+  }
+
+  public static decodeStringFromBase64(base64: string): string {
+    if (!base64) {
+      return null;
+    }
+    return Base64.decode(base64);
+  }
+
+  public static sizeOfBase64String(base64String: string): number {
+    if (!base64String) {
+      return 0;
+    }
+    const padding = base64String.match(/(=*)$/)[1].length;
+    return 4 * Math.ceil(base64String.length / 3) - padding;
   }
 }

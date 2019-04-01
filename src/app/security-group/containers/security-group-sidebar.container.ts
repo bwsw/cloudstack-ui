@@ -9,9 +9,8 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
 @Component({
   selector: 'cs-sg-sidebar-container',
   template: `
-    <cs-sg-sidebar
-      [entity]="securityGroup$ | async"
-    ></cs-sg-sidebar>`,
+    <cs-sg-sidebar [entity]="securityGroup$ | async"></cs-sg-sidebar>
+  `,
 })
 export class SecurityGroupSidebarContainerComponent implements OnInit {
   readonly securityGroup$ = this.store.pipe(select(fromSecurityGroups.getSelectedSecurityGroup));

@@ -2,8 +2,5 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "defaultTheme",
   "type": "string",
-  "enum": [
-    "blue-red",
-    "indigo-pink"
-  ]
+  "enum": ["blue-red", "indigo-pink"]
 }

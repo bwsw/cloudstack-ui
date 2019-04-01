@@ -21,14 +21,15 @@ const FILTER_KEY = 'sshKeyListFilters';
   selector: 'cs-ssh-key-filter-container',
   template: `
     <cs-ssh-key-filter
-      *loading="loading$ | async"
+      *loading="(loading$ | async)"
       [accounts]="accounts$ | async"
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedGroupings]="selectedGroupings$ | async"
       [groupings]="groupings"
       (groupingsChanged)="onGroupingsChange($event)"
       (accountsChanged)="onAccountsChange($event)"
-    ></cs-ssh-key-filter>`,
+    ></cs-ssh-key-filter>
+  `,
 })
 export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements OnInit {
   public groupings: Grouping[] = sshKeyGroupings;

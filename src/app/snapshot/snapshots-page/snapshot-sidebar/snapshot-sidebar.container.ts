@@ -16,8 +16,8 @@ import { SnapshotPageViewMode } from '../../types';
 @Component({
   selector: 'cs-snapshot-sidebar-container',
   template: `
-    <ng-container *loading="isLoading$ | async">
-      <ng-container *ngIf="snapshot$ | async as snapshot" [ngSwitch]="viewMode$ | async">
+    <ng-container *loading="(isLoading$ | async)">
+      <ng-container *ngIf="(snapshot$ | async) as snapshot" [ngSwitch]="viewMode$ | async">
         <cs-snapshot-sidebar
           *ngSwitchCase="viewModeType.Volume"
           [snapshot]="snapshot"

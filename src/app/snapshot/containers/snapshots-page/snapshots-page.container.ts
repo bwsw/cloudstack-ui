@@ -22,7 +22,8 @@ import { snapshotPageSelectors } from '../../store';
       [query]="query$ | async"
       [volumes]="volumes$ | async"
       [virtualMachines]="virtualMachines$ | async"
-    ></cs-snapshots-page>`,
+    ></cs-snapshots-page>
+  `,
 })
 export class SnapshotsPageContainerComponent implements OnInit, AfterViewInit {
   readonly snapshots$ = this.store.pipe(select(snapshotPageSelectors.getFilteredSnapshots));

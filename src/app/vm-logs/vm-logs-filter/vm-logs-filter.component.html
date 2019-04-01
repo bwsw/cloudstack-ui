@@ -7,10 +7,8 @@
       (selectionChange)="accountsChanged.emit($event.value)"
       [disabled]="isAutoUpdateEnabled"
     >
-      <mat-option
-        *ngFor="let account of accounts"
-        [value]="account.id"
-      >{{ account?.fullDomain }}{{ account.name }}
+      <mat-option *ngFor="let account of accounts" [value]="account.id"
+        >{{ account?.fullDomain }}{{ account.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -22,12 +20,7 @@
       (selectionChange)="vmChanged.emit($event.value)"
       [disabled]="isAutoUpdateEnabled"
     >
-      <mat-option
-        *ngFor="let vm of vms"
-        [value]="vm.id"
-      >
-        {{ vm.name }}
-      </mat-option>
+      <mat-option *ngFor="let vm of vms" [value]="vm.id"> {{ vm.name }} </mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -41,13 +34,8 @@
       <mat-option [value]="null">
         {{ 'LOGS_PAGE.FILTERS.LOG_FILE_NOT_SELECTED' | translate }}
       </mat-option>
-      <mat-option
-        *ngFor="let logFile of logFiles"
-        [value]="logFile.file"
-      >
-        <span [matTooltip]="logFile.file">
-          {{ logFile.file | csBasepath }}
-        </span>
+      <mat-option *ngFor="let logFile of logFiles" [value]="logFile.file">
+        <span [matTooltip]="logFile.file"> {{ logFile.file | csBasepath }} </span>
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -106,13 +94,10 @@
       (ngModelChange)="searchChanged.emit($event)"
       [placeholder]="'LOGS_PAGE.FILTERS.SEARCH' | translate"
       [disabled]="isAutoUpdateEnabled"
-    >
+    />
   </mat-form-field>
 
-  <mat-checkbox
-    [ngModel]="newestFirst"
-    (change)="newestFirstChanged.emit()"
-  >
+  <mat-checkbox [ngModel]="newestFirst" (change)="newestFirstChanged.emit()">
     {{ 'LOGS_PAGE.FILTERS.NEWEST_FIRST' | translate }}
   </mat-checkbox>
 

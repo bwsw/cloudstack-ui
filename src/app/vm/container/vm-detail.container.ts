@@ -66,6 +66,7 @@ const vmDescriptionKey = 'csui.vm.description';
 })
 export class VmDetailContainerComponent implements OnInit {
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
+  readonly selectedVMId = this.store.pipe(select(fromVMs.getSelectedId));
   readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
   readonly offering$ = this.store.pipe(select(fromServiceOfferings.getSelectedOffering));
   readonly areOfferingsAvailable$ = this.store.pipe(select(areOfferingsAvailable));
@@ -177,5 +178,8 @@ export class VmDetailContainerComponent implements OnInit {
       new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters),
     );
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
+    this.selectedVMId.pipe(take(1)).subscribe((id: string) => {
+      this.store.dispatch(new vmActions.LoadVMUserDataRequest(id));
+    });
   }
 }

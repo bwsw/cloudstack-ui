@@ -1,6 +1,5 @@
-import { browser, by, element, protractor, until } from 'protractor';
+import { by, element } from 'protractor';
 import { CloudstackUiPage } from './app.po';
-import elementLocated = until.elementLocated;
 
 export class VMSidebar extends CloudstackUiPage {
   group = `e2e_group_${this.generateID()}`;

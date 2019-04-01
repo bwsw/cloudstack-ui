@@ -1,20 +1,7 @@
 <form (ngSubmit)="onSubmit()" #inlineInputForm="ngForm" novalidate>
-  <div
-    class="container"
-    *ngIf="!editing && !showContentPlaceholder"
-  >
-    <span
-      class="text-content"
-      (click)="edit()"
-      style="overflow: hidden"
-    >
-      {{ content }}
-    </span>
-    <button
-      class="edit-button"
-      mat-icon-button
-      (click)="edit()"
-    >
+  <div class="container" *ngIf="!editing && !showContentPlaceholder">
+    <span class="text-content" (click)="edit()" style="overflow: hidden"> {{ content }} </span>
+    <button class="edit-button" mat-icon-button (click)="edit()">
       <mat-icon class="mdi-pencil"></mat-icon>
     </button>
   </div>
@@ -41,22 +28,11 @@
   </mat-form-field>
 
   <div class="buttons">
-    <button
-      *ngIf="editing"
-      mat-button
-      color="primary"
-      (click)="onCancel()"
-      type="button"
-    >
+    <button *ngIf="editing" mat-button color="primary" (click)="onCancel()" type="button">
       {{ 'COMMON.CANCEL' | translate }}
     </button>
 
-    <button
-      mat-button
-      color="primary"
-      *ngIf="editing"
-      type="submit"
-    >
+    <button mat-button color="primary" *ngIf="editing" type="submit">
       {{ 'COMMON.SAVE' | translate }}
     </button>
   </div>

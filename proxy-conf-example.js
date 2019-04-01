@@ -1,8 +1,8 @@
 const CLOUDSTACK_ENDPOINT = 'https://example.com';
 /*
-* Plugins endpoint
-* https://github.com/bwsw/cloudstack-ui#plugins-supported
-* */
+ * Plugins endpoint
+ * https://github.com/bwsw/cloudstack-ui#plugins-supported
+ * */
 const PULSE_PLUGIN_ENDPOINT = 'http://example.com:8081';
 const WEBSHELL_PLUGIN_ENDPOINT = 'http://example.com:8082';
 

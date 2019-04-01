@@ -242,4 +242,29 @@ describe('GetComputeOfferingForVmEditingSelector', () => {
 
     expect(computeOfferingViewModel.isAvailableByResources).toEqual(false);
   });
+
+  it('iisAvailableByResources should return empty array when no selected vm', () => {
+    const computeOfferingViewModels: ComputeOfferingViewModel[] = getComputeOfferingForVmEditing.projector(
+      account,
+      [fixedComputeOffering],
+      [],
+      nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
+      nonCustomizableProperties.customComputeOfferingHardwareValues,
+      [],
+      null,
+    );
+    expect(computeOfferingViewModels).toEqual([]);
+  });
+  it('iisAvailableByResources should return empty array when no account', () => {
+    const computeOfferingViewModels: ComputeOfferingViewModel[] = getComputeOfferingForVmEditing.projector(
+      null,
+      [fixedComputeOffering],
+      [],
+      nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
+      nonCustomizableProperties.customComputeOfferingHardwareValues,
+      [],
+      vm,
+    );
+    expect(computeOfferingViewModels).toEqual([]);
+  });
 });

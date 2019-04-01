@@ -3,6 +3,7 @@ import { default as update } from 'immutability-helper';
 import * as resourceQuotasActions from './resource-quotas.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { getTotalResources } from '../../shared/models';
+import { convertFromLimitToQuotaMeasurement } from '../models/resource-quota.model';
 
 const pickBy = require('lodash/pickBy');
 const mapValues = require('lodash/mapValues');
@@ -17,11 +18,13 @@ export interface ResourceQuotasUserFormState {
   limits: {
     [resourceType: number]: number;
   };
+  isSaving: boolean;
 }
 
 export const initialState = {
   quotas: {},
   limits: {},
+  isSaving: false,
 };
 
 export function resourceQuotasUserFormReducer(
@@ -32,7 +35,7 @@ export function resourceQuotasUserFormReducer(
     case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_USER_FORM_FIELD: {
       const resourceType = action.payload.resourceType;
       return {
-        quotas: state.quotas,
+        ...state,
         limits: {
           ...state.limits,
           [resourceType]: action.payload.limit,
@@ -51,9 +54,26 @@ export function resourceQuotasUserFormReducer(
     case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_USER_FORM_LIMITS: {
       return update(state, {
         $merge: {
-          limits: mapValues(action.payload, 'max'),
+          // limits: mapValues(action.payload, 'max'),
+          limits: mapValues(action.payload, (value, key) => {
+            return convertFromLimitToQuotaMeasurement(+key, value.max);
+          }),
         },
       });
+    }
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_REQUEST: {
+      return {
+        ...state,
+        isSaving: true,
+      };
+    }
+
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_RESPONSE:
+    case resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_ERROR: {
+      return {
+        ...state,
+        isSaving: false,
+      };
     }
 
     default:
@@ -75,9 +95,10 @@ export const getUserResourceQuotas = createSelector(
       bound => bound.minimum !== -1 && bound.maximum !== -1,
     );
     const quotasWithAdjustedMinimum = mapValues(finiteQuotas, (value, key) => {
+      const resourceValue = convertFromLimitToQuotaMeasurement(+key, totalResources[key]);
       return {
-        minimum: Math.max(Math.ceil(totalResources[key]), value.minimum),
-        maximum: Math.max(Math.ceil(totalResources[key]), value.maximum),
+        minimum: Math.max(Math.ceil(resourceValue), value.minimum),
+        maximum: Math.max(Math.ceil(resourceValue), value.maximum),
       };
     });
     return pickBy(quotasWithAdjustedMinimum, bound => bound.maximum >= bound.minimum);
@@ -87,4 +108,9 @@ export const getUserResourceQuotas = createSelector(
 export const getUserResourceLimits = createSelector(
   getResourceQuotasUserFormState,
   state => state.limits,
+);
+
+export const isUserResourceLimitsSaving = createSelector(
+  getResourceQuotasUserFormState,
+  state => state.isSaving,
 );

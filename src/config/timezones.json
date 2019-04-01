@@ -546,11 +546,17 @@
   { "geo": "ROK", "zone": "Korea Standard Time" },
   { "geo": "ACT", "zone": "Central Standard Time (Northern Territory)" },
   { "geo": "Australia/Adelaide", "zone": "Central Standard Time (South Australia)" },
-  { "geo": "Australia/Broken_Hill", "zone": "Central Standard Time (South Australia/New South Wales)" },
+  {
+    "geo": "Australia/Broken_Hill",
+    "zone": "Central Standard Time (South Australia/New South Wales)"
+  },
   { "geo": "Australia/Darwin", "zone": "Central Standard Time (Northern Territory)" },
   { "geo": "Australia/North", "zone": "Central Standard Time (Northern Territory)" },
   { "geo": "Australia/South", "zone": "Central Standard Time (South Australia)" },
-  { "geo": "Australia/Yancowinna", "zone": "Central Standard Time (South Australia/New South Wales)" },
+  {
+    "geo": "Australia/Yancowinna",
+    "zone": "Central Standard Time (South Australia/New South Wales)"
+  },
   { "geo": "AET", "zone": "Eastern Standard Time (New South Wales)" },
   { "geo": "Antarctica/DumontDUrville", "zone": "Dumont-d'Urville Time" },
   { "geo": "Asia/Khandyga", "zone": "GMT+10:00" },

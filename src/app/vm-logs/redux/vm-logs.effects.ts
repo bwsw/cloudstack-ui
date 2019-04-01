@@ -234,7 +234,7 @@ export class VmLogsEffects {
 
   @Effect()
   setFiltersFromUserTags$: Observable<Action> = this.actions$.pipe(
-    ofType(UserTagsActionTypes.LoadUserTagsSuccess),
+    ofType(UserTagsActionTypes.LoadUserTagsSuccess, UserTagsActionTypes.UpdateTagSuccess),
     withLatestFrom(
       this.store.pipe(select(UserTagsSelectors.getVmLogsFilters)),
       this.store.pipe(select(vmLogsFilters)),

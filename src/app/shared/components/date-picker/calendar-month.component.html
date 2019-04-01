@@ -8,13 +8,8 @@
       (click)="setSelectedDate($event, day)"
     >
       <ng-container *ngIf="day">
-        <div
-          class="button-state"
-          [class.selected]="isSameDate(day)"
-        ></div>
-        <span class="label">
-          {{ getDay(day) }}
-        </span>
+        <div class="button-state" [class.selected]="isSameDate(day)"></div>
+        <span class="label"> {{ getDay(day) }} </span>
       </ng-container>
       <span class="label" *ngIf="!day"></span>
     </div>

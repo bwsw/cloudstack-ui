@@ -14,7 +14,7 @@ import { getModifiedQuotas } from '../redux/selectors/modified-quotas.selector';
       <cs-resource-quotas
         *loading="(isLoading$ | async)"
         [resourceQuotas]="resourceQuotas$ | async"
-        [isUpdateButtonActive]="quotasChanged$ | async"
+        [isUpdateButtonActive]="(quotasChanged$ | async) && (isSaving$ | async) === false"
         (fieldChange)="onFieldChange($event)"
         (update)="onUpdate()"
       ></cs-resource-quotas>
@@ -27,6 +27,7 @@ import { getModifiedQuotas } from '../redux/selectors/modified-quotas.selector';
 })
 export class ResourceQuotasContainerComponent implements OnInit {
   readonly resourceQuotas$ = this.store.pipe(select(fromAdminForm.getAdminResourceQuotasForm));
+  readonly isSaving$ = this.store.pipe(select(fromAdminForm.isAdminResourceQuotasSaving));
   readonly isLoading$ = this.store.pipe(
     select(fromResourceQuotas.isLoaded),
     map(isLoaded => !isLoaded),

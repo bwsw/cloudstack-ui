@@ -1,11 +1,12 @@
 <ng-container *loading="!securityGroup">
   <h3
     class="mat-dialog-title"
-    [innerHTML]="!editMode ?
-    ('SECURITY_GROUP_PAGE.RULES.VIEW_TITLE' | translate:{ value: securityGroup.name }) :
-    ('SECURITY_GROUP_PAGE.RULES.EDIT_TITLE' | translate:{ value: securityGroup.name })"
-  >
-  </h3>
+    [innerHTML]="
+      !editMode
+        ? ('SECURITY_GROUP_PAGE.RULES.VIEW_TITLE' | translate: { value: securityGroup.name })
+        : ('SECURITY_GROUP_PAGE.RULES.EDIT_TITLE' | translate: { value: securityGroup.name })
+    "
+  ></h3>
 
   <div class="mat-dialog-content">
     <cs-sg-rule-addition-form
@@ -85,16 +86,9 @@
   </div>
 
   <div class="mat-dialog-actions">
-    <button
-      *ngIf="!isPredefinedTemplate"
-      mat-button
-      color="primary"
-      (click)="confirmChangeMode()"
-    >
+    <button *ngIf="!isPredefinedTemplate" mat-button color="primary" (click)="confirmChangeMode()">
       {{ (!editMode ? 'COMMON.EDIT' : 'COMMON.VIEW') | translate }}
     </button>
-    <button mat-button color="primary" matDialogClose>
-      {{ 'COMMON.CLOSE' | translate }}
-    </button>
+    <button mat-button color="primary" matDialogClose>{{ 'COMMON.CLOSE' | translate }}</button>
   </div>
 </ng-container>

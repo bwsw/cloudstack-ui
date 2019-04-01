@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { Observable, of, zip } from 'rxjs';
-import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import * as resourceQuotasActions from './resource-quotas.actions';
 import { State } from '../../reducers';
 import { Router } from '@angular/router';
@@ -17,8 +17,6 @@ import { getModifiedLimits } from './selectors/modified-limits.selector';
 import * as resourceLimitActions from '../../reducers/resource-limit/redux/resource-limits.actions';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import { MatDialog } from '@angular/material';
-
-const pick = require('lodash/pick');
 
 @Injectable()
 export class ResourceQuotasEffects {
@@ -63,62 +61,60 @@ export class ResourceQuotasEffects {
     ofType(resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_QUOTAS_REQUEST),
     withLatestFrom(this.store.pipe(select(getModifiedQuotas))),
     switchMap(([_, modifiedQuotas]) => {
-      const requests = modifiedQuotas.map(quota => {
-        const params = pick(quota, ['resourceType', 'minimum', 'maximum']);
-        return this.resourceQuotaService.updateResourceLimit(params);
-      });
-
-      return zip(...requests).pipe(
+      return this.resourceQuotaService.updateResourceLimits(modifiedQuotas).pipe(
         map(() => {
           this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.ADMIN_PAGE.QUOTA_UPDATED');
-          return new resourceQuotasActions.LoadResourceQuotasRequest();
+          return new resourceQuotasActions.UpdateResourceQuotasResponse();
         }),
         catchError((error: Error) => {
           this.dialogService.showNotificationsOnFail(error);
-          return of(new resourceQuotasActions.LoadResourceQuotasRequest());
+          return of(new resourceQuotasActions.UpdateResourceQuotasError(error));
         }),
       );
     }),
   );
 
   @Effect()
-  updateResourceLimit$ = this.actions$.pipe(
+  updateResourceLimits$ = this.actions$.pipe(
     ofType(resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_REQUEST),
     withLatestFrom(this.store.pipe(select(getModifiedLimits))),
     switchMap(([_, modifiedLimits]) => {
-      const requests = modifiedLimits.map(limit => {
-        const params = pick(limit, ['resourceType', 'max']);
-        return this.resourceQuotaService.updateResource(params);
-      });
-
-      return zip(...requests).pipe(
-        switchMap(() => {
+      return this.resourceQuotaService.updateResources(modifiedLimits).pipe(
+        map(() => {
           this.showNotificationsOnFinish('RESOURCE_QUOTAS_PAGE.REQUEST.LIMIT_UPDATED');
-          // todo: optimize
-          // LoadAccountsRequest is needed to update the resource usage section
           this.matDialogService.closeAll();
 
-          return of(
-            new resourceLimitActions.LoadResourceLimitsForCurrentUser(null),
-            new accountActions.LoadAccountsRequest(),
-          );
+          return new resourceQuotasActions.UpdateResourceLimitsResponse();
         }),
         catchError((error: Error) => {
           this.dialogService.showNotificationsOnFail(error);
-          // todo: optimize
-          // LoadAccountsRequest is needed to update the resource usage section
-          return of(
-            new resourceLimitActions.LoadResourceLimitsForCurrentUser(null),
-            new accountActions.LoadAccountsRequest(),
-          );
+          return of(new resourceQuotasActions.UpdateResourceLimitsError(error));
         }),
       );
     }),
   );
 
   @Effect()
-  loadResourceQuotasOnUpdated$: Observable<Action> = this.actions$.pipe(
-    ofType(resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_QUOTAS_ERROR),
+  updateResourceResponse$ = this.actions$.pipe(
+    ofType(
+      resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_ERROR,
+      resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_LIMITS_RESPONSE,
+    ),
+    switchMap(() =>
+      of(
+        new resourceLimitActions.LoadResourceLimitsForCurrentUser(null),
+        // LoadAccountsRequest is needed to update the resource usage section
+        new accountActions.LoadAccountsRequest(),
+      ),
+    ),
+  );
+
+  @Effect()
+  updateResourceQuotasResponse$: Observable<Action> = this.actions$.pipe(
+    ofType(
+      resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_QUOTAS_ERROR,
+      resourceQuotasActions.ResourceQuotasActionTypes.UPDATE_RESOURCE_QUOTAS_RESPONSE,
+    ),
     map(() => new resourceQuotasActions.LoadResourceQuotasRequest()),
   );
 

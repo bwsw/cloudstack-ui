@@ -1,0 +1,16 @@
+.userdata-field {
+  min-height: 20px;
+}
+
+.mat-dialog-content {
+  min-height: 57px;
+  overflow: initial;
+}
+
+.mat-dialog-actions {
+  position: relative;
+  cs-clipboard-button {
+    position: absolute;
+    left: 0;
+  }
+}

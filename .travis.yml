@@ -1,47 +1,28 @@
-sudo: true
 dist: trusty
 
 language: node_js
 node_js:
   - '8'
 
-services:
-  - docker
-
 branches:
   only:
-  - master
-  - /^\d+\.\d+\.\d+$/
+    - master
 
-cache: yarn
+cache:
+  yarn: true
+  directories:
+    - node_modules
 
 addons:
-  apt:
-    packages:
-      - docker-ce
+  chrome: stable
 
-env:
-  global:
-    - DOCKER_USER=bwsw
-    - DOCKER_REPO=cloudstack-ui
+install:
+  - yarn install
 
-before_install:
- - export CHROME_BIN=/usr/bin/google-chrome
- - export DISPLAY=:99.0
- - sh -e /etc/init.d/xvfb start
- - sudo apt-get update
- - sudo apt-get install -y libappindicator1 fonts-liberation
- - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
- - sudo dpkg -i google-chrome*.deb
+script:
+  - yarn lint
+  - yarn format:check
+  - yarn test
 
 after_success:
   - yarn coveralls
-
-before_deploy:
-  - docker build -t ${DOCKER_USER}/${DOCKER_REPO} .
-
-deploy:
-  - provider: script
-    script: ./scripts/publish-docker-image.sh
-    on:
-      all_branches: true

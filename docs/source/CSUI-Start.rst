@@ -96,13 +96,38 @@ In case of errors at data loading the snackbar also notifies of them. In this ca
 Support Information in Error Messages
 -----------------------------------------------
 
-A user can add the information on support services to all error messages to let users get assistance faster in case of a failure. Support information should be specified in the ``support-info.md`` file stored in a `special folder <https://github.com/bwsw/cloudstack-ui/tree/master/src/support>`_ of the project. It may include contacts e.g. phone numbers, emails or any other details.
+A user can add the information on support services to all error messages to let users get assistance faster in case of a failure. Support information may include contacts e.g. phone numbers, emails or any other details. It should be specified in the ``support-info.md`` file stored in a `special folder <https://github.com/bwsw/cloudstack-ui/tree/master/src/support>`_ of the project. We support localization of the file to Russian. As you see, there are two files in the folder:
 
-The specified support details will display under a drop-down menu. Click it in the error message window to expand it.
+- ``support-info.md`` - the main file that contains contact details of the technical support team in English,
+
+- ``support-info.ru.md`` - contains a Russian version of the main file.
+
+If you use the prepared `Docker image <https://github.com/bwsw/cloudstack-ui#deployment>`_ to deploy the project, you should map your custom support information files via Docker-volume when running the container. For example:
+:: 
+ docker run -d -p 80:80 --name cloudstack-ui \
+           -e CLIENT_ENDPOINT=http://cloudstack/client \
+           -e BASE_HREF=base_href \
+           -v /path/to/config.json:/static/config/config.json \
+           -v /path/to/support-info.md:/static/support/support-info.md \
+           -v /path/to/support-info.ru.md:/static/support/support-info.ru.md \
+           bitworks.software:8443/cloudstack-ui:1.411.29
+
+
+The support details specified in the file will display under a drop-down menu. Click it in the error message window to expand.
 
 .. figure:: _static/RN_Supportinfo.png
 
-Localization of the file is supported.
+Adding Custom Scripts
+----------------------------------
+
+We support adding custom JavaScript scripts to extend the UI functionality with the services necessary for a user.  For example, using custom scripts a user can add JivoSite or Google Analytics widgets to the interface.
+
+Custom scripts are added at running the CloudStack-UI Docker-container. All that a user should do is to define the ``/scripts/custom.js`` custom script content and map it via a Docker-volume. By default, the ``/scripts/custom.js`` file is empty.
+
+As a result, you can see the added service in the UI:
+
+.. figure:: _static/RN_CustomScr.png
+
 
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png

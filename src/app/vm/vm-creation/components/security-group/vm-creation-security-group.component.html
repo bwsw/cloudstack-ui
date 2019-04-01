@@ -1,11 +1,7 @@
-<h3 class="mat-dialog-title">
-  {{ title[savedData.mode] | translate }}
-</h3>
+<h3 class="mat-dialog-title">{{ title[savedData.mode] | translate }}</h3>
 
 <div class="mat-dialog-content">
-  <mat-button-toggle-group
-    [(ngModel)]="savedData.mode"
-  >
+  <mat-button-toggle-group [(ngModel)]="savedData.mode">
     <mat-button-toggle [value]="VmCreationSecurityGroupMode.Builder">
       {{ 'SECURITY_GROUP_SELECTOR.CREATE' | translate }}
     </mat-button-toggle>
@@ -28,11 +24,7 @@
 </div>
 
 <div class="mat-dialog-actions">
-  <button
-    mat-button
-    type="button"
-    color="primary"
-    (click)="canceled.emit()">
+  <button mat-button type="button" color="primary" (click)="canceled.emit()">
     {{ 'COMMON.CANCEL' | translate }}
   </button>
 
@@ -40,8 +32,10 @@
     mat-button
     type="button"
     color="primary"
-    [disabled]="(isModeBuilder && !savedData.rules?.templates?.length)
-     || (isModeSelector && !savedData.securityGroups?.length)"
+    [disabled]="
+      (isModeBuilder && !savedData.rules?.templates?.length) ||
+      (isModeSelector && !savedData.securityGroups?.length)
+    "
     (click)="saved.emit(savedData)"
   >
     {{ 'COMMON.SAVE' | translate }}

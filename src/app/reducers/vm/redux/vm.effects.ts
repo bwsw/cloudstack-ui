@@ -143,11 +143,12 @@ export class VirtualMachinesEffects {
             const message = 'NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_DONE';
             this.showNotificationsOnFinish(message, notificationId);
           }),
-          switchMap(newVm => {
-            if (vmState === VmState.Running) {
-              return this.start(newVm);
-            }
-            return of(new vmActions.UpdateVM(newVm));
+          map(newVm => {
+            const shouldStartVm = vmState === VmState.Running;
+            return new vmActions.ChangeServiceOfferingSuccess({
+              vm: newVm,
+              startVm: shouldStartVm,
+            });
           }),
           catchError((error: Error) => {
             const message = 'NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_FAILED';
@@ -161,6 +162,18 @@ export class VirtualMachinesEffects {
             );
           }),
         );
+    }),
+  );
+
+  @Effect()
+  changeServiceOfferingSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<vmActions.ChangeServiceOfferingSuccess>(vmActions.VM_CHANGE_SERVICE_OFFERING_SUCCESS),
+    map(action => action.payload),
+    mergeMap(({ vm, startVm }) => {
+      if (startVm) {
+        return this.start(vm);
+      }
+      return of(new vmActions.UpdateVM(vm));
     }),
   );
 
@@ -603,7 +616,7 @@ export class VirtualMachinesEffects {
         }),
         map(vm => new vmActions.ReplaceVM(vm)),
         catchError((error: Error) => {
-          const message = 'NOTIFICATIONS.VM.DETACHMENT_FAILED';
+          const message = 'NOTIFICATIONS.ISO.DETACHMENT_FAILED';
           this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new vmActions.VMUpdateError({ error }));
         }),
@@ -877,6 +890,39 @@ export class VirtualMachinesEffects {
               );
             }),
           );
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  loadVMUserData: Observable<Action> = this.actions$.pipe(
+    ofType<vmActions.LoadVMUserDataRequest>(vmActions.LOAD_VM_USER_DATA_REQUEST),
+    mergeMap((action: vmActions.LoadVMUserDataRequest) => {
+      return this.vmService
+        .getUserData(action.payload)
+        .pipe(map(resp => new vmActions.LoadVMUserDataResponse(resp)));
+    }),
+  );
+
+  @Effect()
+  changeVMUserData$: Observable<Action> = this.actions$.pipe(
+    ofType(vmActions.VM_CHANGE_USER_DATA),
+    mergeMap((action: vmActions.ChangeVmUserData) => {
+      const notificationId = this.jobsNotificationService.add(
+        'NOTIFICATIONS.VM.CHANGE_USER_DATA_IN_PROGRESS',
+      );
+
+      return this.vmService.updateUserData(action.payload.vm, action.payload.userdata).pipe(
+        tap(() => {
+          const message = 'NOTIFICATIONS.VM.CHANGE_USER_DATA_DONE';
+          this.showNotificationsOnFinish(message, notificationId);
+        }),
+        map(vm => new vmActions.UpdateVM(vm)),
+        catchError((error: Error) => {
+          const message = 'NOTIFICATIONS.VM.CHANGE_USER_DATA_FAILED';
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
+          return of(new vmActions.VMUpdateError({ error }));
         }),
       );
     }),

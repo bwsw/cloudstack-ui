@@ -9,15 +9,18 @@ import {
 import { MAT_DIALOG_DATA, MatTabChangeEvent } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Dictionary } from '@ngrx/entity';
-const debounce = require('lodash/debounce');
 import * as moment from 'moment';
 
 import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { PulseChartComponent } from '../charts/pulse-chart';
-import { PulseCpuRamChartComponent } from '../charts/pulse-cpu-ram-chart/pulse-cpu-ram-chart.component';
-import { PulseDiskChartComponent } from '../charts/pulse-disk-chart/pulse-disk-chart.component';
-import { PulseNetworkChartComponent } from '../charts/pulse-network-chart/pulse-network-chart.component';
-import { Interval, PulseService } from '../pulse.service';
+import {
+  PulseChartComponent,
+  PulseCpuRamChartComponent,
+  PulseDiskChartComponent,
+  PulseNetworkChartComponent,
+} from '../charts';
+import { Intervals, IntervalsResp, PulseService } from '../pulse.service';
+
+const debounce = require('lodash/debounce');
 
 const enum TabIndex {
   CpuRam,
@@ -47,7 +50,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   diskChart: PulseDiskChartComponent;
 
   public tabIndex = 0;
-  public permittedIntervals;
+  public permittedIntervals: Intervals;
 
   public pulseTranslations: {
     LABELS: Dictionary<string>;
@@ -79,9 +82,11 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     moment.locale(this.translateService.currentLang);
-    this.pulse.getPermittedIntervals().subscribe((intervals: Interval) => {
-      intervals.scales = Object.values(intervals.scales);
-      this.permittedIntervals = intervals;
+    this.pulse.getPermittedIntervals().subscribe((intervals: IntervalsResp) => {
+      this.permittedIntervals = {
+        shifts: intervals.shifts,
+        scales: intervals.scales.map(scale => Object.values(scale)[0]),
+      };
       this.scheduleAutoRefresh();
       this.initParameters();
     });

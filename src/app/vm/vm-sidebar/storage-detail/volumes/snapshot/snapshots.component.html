@@ -1,5 +1,7 @@
 <div class="grid volumes snapshots">
-  <ng-container *ngIf="volume?.snapshots?.length; then lastSnapshotExist else lastSnapshotDoesNotExist">
+  <ng-container
+    *ngIf="volume?.snapshots?.length; then lastSnapshotExist; else lastSnapshotDoesNotExist"
+  >
   </ng-container>
 
   <ng-template #lastSnapshotExist>
@@ -8,16 +10,15 @@
         <div>{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.LAST_SNAPSHOT' | translate }}:</div>
         <div>
           <button mat-button color="primary" (click)="showSnapshots()">
-            {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.VIEW_ALL' | translate }}
-            ({{ volume.snapshots.length }})
+            {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.VIEW_ALL' | translate }} ({{
+              volume.snapshots.length
+            }})
           </button>
         </div>
       </div>
       <div class="row snapshot-name">{{ lastSnapshot.name }}</div>
       <div class="row">
-        <div style="width: 60%;">
-          {{ snapshotCreatedDate(lastSnapshot) | csStringifyDate }}
-        </div>
+        <div style="width: 60%;">{{ snapshotCreatedDate(lastSnapshot) | csStringifyDate }}</div>
         <div style="width: 40%;">
           <button
             *ngFor="let action of actions"
@@ -36,8 +37,6 @@
   </ng-template>
 
   <ng-template #lastSnapshotDoesNotExist>
-    <div class="row">
-      {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.NO_SNAPSHOTS' | translate }}
-    </div>
+    <div class="row">{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.NO_SNAPSHOTS' | translate }}</div>
   </ng-template>
 </div>

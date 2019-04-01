@@ -12,7 +12,7 @@ import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared';
 import { VirtualMachine } from './vm.model';
 import { IpAddress } from '../../shared/models/ip-address.model';
-import { SecurityGroup } from '../../security-group/sg.model';
+import { Utils } from '../../shared/services/utils/utils.service';
 
 export const virtualMachineEntityName = 'VirtualMachine';
 export const nicEntityName = 'Nic';
@@ -143,6 +143,35 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public removeGroup(virtualMachine: VirtualMachine): Observable<VirtualMachine> {
     return this.updateGroup(virtualMachine, '');
+  }
+
+  public getUserData(id: string): Observable<{ id: string; userdata: string }> {
+    return this.sendCommand(CSCommands.GetVMUserData, { virtualmachineid: id }).pipe(
+      map(result => {
+        // because of cs does not allow to clear userdata, and converts null to 'null' string,
+        // assume that 'null' string is empty userdata
+        const userdata =
+          result.virtualmachineuserdata.userdata === 'null'
+            ? null
+            : Utils.decodeStringFromBase64(result.virtualmachineuserdata.userdata);
+        return { id, userdata };
+      }),
+    );
+  }
+
+  public updateUserData(
+    virtualMachine: VirtualMachine,
+    userdata: string,
+  ): Observable<VirtualMachine> {
+    return this.sendPostCommand(CSCommands.Update, {
+      id: virtualMachine.id,
+      userdata: Utils.encodeStringToBase64(userdata),
+    }).pipe(
+      map(result => ({
+        ...result.virtualmachine,
+        userdata,
+      })),
+    );
   }
 
   private commandInternal(vm: VirtualMachine, command: string, params?: {}): Observable<any> {

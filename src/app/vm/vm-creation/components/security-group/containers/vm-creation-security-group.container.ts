@@ -14,7 +14,8 @@ import * as fromSecurityGroups from '../../../../../reducers/security-groups/red
       [savedData]="savedData"
       (saved)="onSave($event)"
       (canceled)="onCancel()"
-    ></cs-vm-creation-security-group>`,
+    ></cs-vm-creation-security-group>
+  `,
 })
 export class VmCreationSecurityGroupContainerComponent {
   readonly sharedGroups$ = this.store.pipe(

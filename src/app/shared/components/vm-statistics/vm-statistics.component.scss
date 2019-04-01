@@ -53,6 +53,12 @@
   display: inline-block;
 }
 
+.stat-list-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .stat-list-container mat-card {
   display: inline-flex;
   min-height: 156px;

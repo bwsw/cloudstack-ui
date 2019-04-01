@@ -1,21 +1,12 @@
-<h3 class="mat-dialog-title">
-  {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.TITLE' | translate }}
-</h3>
+<h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.TITLE' | translate }}</h3>
 <div class="mat-dialog-content">
   <cs-iso-attachment-filter-selector-container
     [(selectedTemplate)]="selectedIso"
   ></cs-iso-attachment-filter-selector-container>
 </div>
 <div class="mat-dialog-actions">
-  <button mat-button color="primary" matDialogClose>
-    {{ 'COMMON.CANCEL' | translate }}
-  </button>
-  <button
-    mat-button
-    color="primary"
-    [matDialogClose]="selectedIso"
-    [disabled]="!selectedIso"
-  >
+  <button mat-button color="primary" matDialogClose>{{ 'COMMON.CANCEL' | translate }}</button>
+  <button mat-button color="primary" [matDialogClose]="selectedIso" [disabled]="!selectedIso">
     {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.ATTACH' | translate }}
   </button>
 </div>

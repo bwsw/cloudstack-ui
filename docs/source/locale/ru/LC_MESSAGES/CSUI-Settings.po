@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CSUI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 11:07+0700\n"
-"PO-Revision-Date: 2019-01-30 11:08+0700\n"
+"POT-Creation-Date: 2019-03-14 15:23+0700\n"
+"PO-Revision-Date: 2019-03-14 15:24+0700\n"
 "Last-Translator: \n"
 "Language: ru\n"
 "Language-Team: \n"
@@ -394,19 +394,19 @@ msgstr ""
 msgid "Click “Create” to assign a new tag to the user."
 msgstr "Нажмите «СОЗДАТЬ» для добавления нового тега пользователя."
 
-#: ../../CSUI-Settings.rst:153
+#: ../../CSUI-Settings.rst:152
 msgid "Look and Feel"
 msgstr "Настройки интерфейса"
 
-#: ../../CSUI-Settings.rst:154
+#: ../../CSUI-Settings.rst:153
 msgid "In this section, you can adjust the interface look."
 msgstr "В данном подразделе можно настроить вид интерфейса."
 
-#: ../../CSUI-Settings.rst:157
+#: ../../CSUI-Settings.rst:156
 msgid "Interface Language"
 msgstr "Язык интерфейса"
 
-#: ../../CSUI-Settings.rst:158
+#: ../../CSUI-Settings.rst:157
 msgid ""
 "Select the language of your interface. Currently two options are available in "
 "the drop-down list: Russian and English."
@@ -414,11 +414,11 @@ msgstr ""
 "Выберите язык интерфейса из представленных в списке вариантов: русский или "
 "английский."
 
-#: ../../CSUI-Settings.rst:164
+#: ../../CSUI-Settings.rst:163
 msgid "First Day of Week"
 msgstr "Первый день недели"
 
-#: ../../CSUI-Settings.rst:165
+#: ../../CSUI-Settings.rst:164
 msgid ""
 "In this block, you have the opportunity to choose between two types of weeks: "
 "Sunday - Saturday or Monday - Sunday."
@@ -426,18 +426,18 @@ msgstr ""
 "В данном блоке можно выбрать один из типов недели: воскресенье - суббота или "
 "понедельник - воскресенье. "
 
-#: ../../CSUI-Settings.rst:167
+#: ../../CSUI-Settings.rst:166
 msgid ""
 "From the drop-down list select the day when a week starts: Monday or Sanday."
 msgstr ""
 "Выберите из ниспадающего списка день, с которого будет начинаться неделя: "
 "понедельник или воскресенье. "
 
-#: ../../CSUI-Settings.rst:174
+#: ../../CSUI-Settings.rst:173
 msgid "Time Format"
 msgstr "Формат времени"
 
-#: ../../CSUI-Settings.rst:175
+#: ../../CSUI-Settings.rst:174
 msgid ""
 "Here you have the opportunity to switch the time format from AM/PM to 24H. You "
 "can set it to \"Auto\" and the time format will be set in correspondence to "
@@ -449,11 +449,11 @@ msgstr ""
 "зависимости от выбранного языка интерфейса: если язык интерфейса английский - "
 "12-часовой формат; если язык интерфейса русский - 24-часовой формат. "
 
-#: ../../CSUI-Settings.rst:182
+#: ../../CSUI-Settings.rst:181
 msgid "Theme Color"
 msgstr "Цвет темы"
 
-#: ../../CSUI-Settings.rst:183
+#: ../../CSUI-Settings.rst:182
 msgid ""
 "Select a preferred theme color. Currently two options are available: \"blue-red"
 "\" and \"indigo-pink\". The blue-red one is used by default."
@@ -461,11 +461,11 @@ msgstr ""
 "Выберите желаемый цвет темы. В текущей реализации доступны два варианта: сине-"
 "красный или индиго-розовый. Сине-красный цвет темы используется по умолчанию. "
 
-#: ../../CSUI-Settings.rst:185
+#: ../../CSUI-Settings.rst:184
 msgid "Click the field and select another color if you wish."
 msgstr "Кликните на поле и выберите желаемый цвет."
 
-#: ../../CSUI-Settings.rst:189
+#: ../../CSUI-Settings.rst:188
 msgid ""
 "A theme color can be set in the configuration JSON file. You will find more "
 "information in the `configuration guide <https://github.com/bwsw/cloudstack-ui/"
@@ -475,11 +475,11 @@ msgstr ""
 "`руководство по конфигурациям <https://github.com/bwsw/cloudstack-ui/blob/"
 "master/config-guide.md#default-theme-name>`_."
 
-#: ../../CSUI-Settings.rst:192
-msgid "Log View (real-time mode)"
+#: ../../CSUI-Settings.rst:191
+msgid "System Logs (real-time mode)"
 msgstr "Просмотр журналов в режиме реального времени"
 
-#: ../../CSUI-Settings.rst:193
+#: ../../CSUI-Settings.rst:192
 msgid ""
 "This section is available if the LogView UI-plugin is activated. See the "
 "`plugin page <https://github.com/bwsw/cloudstack-ui/wiki/Log-View-Plugin>`_ "
@@ -489,7 +489,7 @@ msgstr ""
 "установке плагина можно найти на `странице плагина <https://github.com/bwsw/"
 "cloudstack-ui/wiki/Log-View-Plugin>`_."
 
-#: ../../CSUI-Settings.rst:195
+#: ../../CSUI-Settings.rst:194
 msgid ""
 "In this settings block you can configure viewing VM logs in a real-time mode. "
 "The following parameters can be set:"
@@ -497,7 +497,7 @@ msgstr ""
 "В данном разделе настроек можно задать параметра просмотра журналов ВМ в "
 "режиме реального времени. Можно задать следующие параметры:"
 
-#: ../../CSUI-Settings.rst:197
+#: ../../CSUI-Settings.rst:196
 msgid ""
 "Show last (minutes) - allows viewing logs for the last set period. You can set "
 "the number of minutes from 1 (default) to 10."
@@ -505,7 +505,7 @@ msgstr ""
 "Показывать за последние (минуты) - время, за которое вы желаете видеть записи; "
 "допустимые значения - от 1 (по умолчанию) до 10 минут."
 
-#: ../../CSUI-Settings.rst:198
+#: ../../CSUI-Settings.rst:197
 msgid ""
 "Show last (messages) - allows setting a maximum amount of logs to display. You "
 "can set from 1 to any number of log records. By default, 1000 messages are "
@@ -515,7 +515,7 @@ msgstr ""
 "число записей для показа; допустимые значения - от 1 до бесконечности. По "
 "умолчанию, показываются 1000 записей."
 
-#: ../../CSUI-Settings.rst:200
+#: ../../CSUI-Settings.rst:199
 msgid "Click \"Update\" to apply the set parameters."
 msgstr "Нажмите «Обновить» для применения заданных значений."
 

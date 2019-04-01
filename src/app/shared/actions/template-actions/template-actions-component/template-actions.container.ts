@@ -15,7 +15,8 @@ import { IsoActionsService } from '../iso-actions.service';
       [template]="template"
       [actions]="actions"
       (deleteTemplate)="deleteTemplate($event)"
-    ></cs-template-actions>`,
+    ></cs-template-actions>
+  `,
 })
 export class TemplateActionsContainerComponent implements OnInit {
   @Input()

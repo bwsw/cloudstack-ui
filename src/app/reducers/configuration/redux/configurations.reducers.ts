@@ -84,4 +84,7 @@ export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.get
   getConfigurationsEntitiesState,
 );
 
-export const isLoading = createSelector(getConfigurationsEntitiesState, state => state.loading);
+export const isLoading = createSelector(
+  getConfigurationsEntitiesState,
+  state => state.loading,
+);

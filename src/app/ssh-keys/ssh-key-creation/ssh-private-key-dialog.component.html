@@ -2,12 +2,7 @@
   <div class="mat-dialog-content" [style.padding-bottom.px]="0">
     <p>{{ 'SSH_KEYS.SAVE_THIS_KEY' | translate }}</p>
     <mat-form-field class="full-width-input">
-      <textarea
-        matInput
-        [(ngModel)]="privateKey"
-        rows="12"
-        readonly
-      ></textarea>
+      <textarea matInput [(ngModel)]="privateKey" rows="12" readonly></textarea>
     </mat-form-field>
   </div>
   <div class="mat-dialog-actions">
@@ -21,8 +16,6 @@
     >
       {{ 'CLIPBOARD.COPY' | translate }}
     </button>
-    <button mat-button color="primary" matDialogClose>
-      {{ 'COMMON.OK' | translate }}
-    </button>
+    <button mat-button color="primary" matDialogClose>{{ 'COMMON.OK' | translate }}</button>
   </div>
 </div>

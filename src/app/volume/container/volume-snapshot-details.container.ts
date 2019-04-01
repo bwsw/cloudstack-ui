@@ -16,7 +16,8 @@ import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.action
       [isLoading]="isLoading$ | async"
       (snapshotAdded)="addSnapshot($event)"
     >
-    </cs-volume-snapshot-details>`,
+    </cs-volume-snapshot-details>
+  `,
 })
 export class VolumeSnapshotDetailsContainerComponent {
   readonly volume$ = this.store.pipe(select(fromVolumes.getSelectedVolumeWithSnapshots));

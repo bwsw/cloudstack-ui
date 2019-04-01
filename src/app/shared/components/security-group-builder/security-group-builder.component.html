@@ -2,11 +2,7 @@
   <div class="left-list">
     <div class="flex-container">
       <h3>{{ 'SECURITY_GROUP_SELECTOR.ALL_GROUPS' | translate }}</h3>
-      <button
-        mat-button
-        *ngIf="securityGroups.available.length"
-        (click)="selectAll()"
-      >
+      <button mat-button *ngIf="securityGroups.available.length" (click)="selectAll()">
         {{ 'COMMON.SELECT_ALL' | translate }}
       </button>
     </div>
@@ -16,47 +12,32 @@
         [class.active]="selectedColumnIndex === 0 && selectedGroupIndex === i"
         (click)="selectGroup(i, true)"
       >
-        <h5 matLine>
-          {{ securityGroup.name }}
-        </h5>
+        <h5 matLine>{{ securityGroup.name }}</h5>
       </mat-list-item>
     </mat-list>
   </div>
   <div class="buttons-container">
-    <button
-      mat-icon-button
-      (click)="moveRight()"
-      disabled="{{ selectedColumnIndex !== 0 }}"
-    >
+    <button mat-icon-button (click)="moveRight()" disabled="{{ selectedColumnIndex !== 0 }}">
       <mat-icon class="mdi-chevron-right"></mat-icon>
     </button>
-    <button
-      mat-icon-button
-      (click)="moveLeft()"
-      disabled="{{ selectedColumnIndex !== 1 }}"
-    >
+    <button mat-icon-button (click)="moveLeft()" disabled="{{ selectedColumnIndex !== 1 }}">
       <mat-icon class="mdi-chevron-left"></mat-icon>
     </button>
   </div>
   <div class="right-list">
     <div class="flex-container">
       <h3>{{ 'SECURITY_GROUP_SELECTOR.SELECTED_GROUPS' | translate }}</h3>
-      <button
-        mat-button
-        *ngIf="securityGroups.selected.length"
-        (click)="reset()"
-      >{{ 'COMMON.RESET' | translate }}
+      <button mat-button *ngIf="securityGroups.selected.length" (click)="reset()">
+        {{ 'COMMON.RESET' | translate }}
       </button>
     </div>
     <mat-list>
       <mat-list-item
-        *ngFor="let securityGroup of securityGroups.selected; let i=index"
+        *ngFor="let securityGroup of securityGroups.selected; let i = index"
         [class.active]="selectedColumnIndex === 1 && selectedGroupIndex === i"
         (click)="selectGroup(i, false)"
       >
-        <h5 matLine>
-          {{ securityGroup.name }}
-        </h5>
+        <h5 matLine>{{ securityGroup.name }}</h5>
       </mat-list-item>
     </mat-list>
   </div>
@@ -79,4 +60,3 @@
     ></cs-security-group-builder-rule>
   </mat-list>
 </div>
-

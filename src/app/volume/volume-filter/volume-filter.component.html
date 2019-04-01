@@ -13,16 +13,12 @@
       [ngModel]="selectedAccountIds"
       (selectionChange)="accountsChanged.emit($event.value)"
     >
-      <mat-option
-        *ngFor="let account of accounts"
-        [value]="account.id"
-      >{{ account.fullDomain }}{{ account.name }}
+      <mat-option *ngFor="let account of accounts" [value]="account.id"
+        >{{ account.fullDomain }}{{ account.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field
-    *ngIf="zones"
-  >
+  <mat-form-field *ngIf="zones">
     <mat-select
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ZONES' | translate"
@@ -52,16 +48,11 @@
       [dragItems]="groupings"
       (selectionChange)="groupingsChanged.emit($event.value)"
     >
-      <mat-option *ngFor="let g of groupings" [value]="g">
-        {{ g.label | translate }}
-      </mat-option>
+      <mat-option *ngFor="let g of groupings" [value]="g"> {{ g.label | translate }} </mat-option>
     </cs-draggable-select>
   </mat-form-field>
 </div>
 
 <div class="filter-wrapper">
-  <cs-search
-    [ngModel]="query"
-    (ngModelChange)="queryChanged.emit($event)"
-  ></cs-search>
+  <cs-search [ngModel]="query" (ngModelChange)="queryChanged.emit($event)"></cs-search>
 </div>

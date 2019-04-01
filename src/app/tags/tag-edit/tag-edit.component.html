@@ -1,7 +1,5 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 *ngIf="!loading" class="mat-dialog-title">
-  {{ (title || 'TAGS.EDIT_TAG') | translate }}
-</h3>
+<h3 *ngIf="!loading" class="mat-dialog-title">{{ title || 'TAGS.EDIT_TAG' | translate }}</h3>
 <form (ngSubmit)="onTagUpdate()" #tagCreationForm="ngForm">
   <div class="mat-dialog-content">
     <mat-form-field class="full-width-input">
@@ -16,10 +14,8 @@
         autofocus
         required
         #keyField="ngModel"
-      >
-      <mat-error *ngIf="keyField.invalid">
-        {{ keyFieldErrorMessage | translate }}
-      </mat-error>
+      />
+      <mat-error *ngIf="keyField.invalid"> {{ keyFieldErrorMessage | translate }} </mat-error>
       <mat-hint align="end">
         <cs-character-count [value]="key" [maxLength]="maxKeyLength"></cs-character-count>
       </mat-hint>
@@ -35,35 +31,22 @@
         pattern="^\S.*$"
         required
         #valueField="ngModel"
-      >
+      />
       <mat-error *ngIf="valueField.invalid && valueField.errors['pattern']">
         {{ 'TAGS.TAG_START_FROM_SPACE' | translate }}
       </mat-error>
       <mat-hint align="end">
-        <cs-character-count
-          [value]="value"
-          [maxLength]="maxValueLength"
-        ></cs-character-count>
+        <cs-character-count [value]="value" [maxLength]="maxValueLength"></cs-character-count>
       </mat-hint>
     </mat-form-field>
   </div>
 
   <div class="mat-dialog-actions">
-    <button
-      mat-button
-      color="primary"
-      matDialogClose
-      type="button"
-    >
+    <button mat-button color="primary" matDialogClose type="button">
       {{ 'COMMON.CANCEL' | translate }}
     </button>
-    <button
-      mat-button
-      color="primary"
-      type="submit"
-      [disabled]="!tagCreationForm.valid"
-    >
-      {{ (confirmButtonText || 'COMMON.EDIT') | translate }}
+    <button mat-button color="primary" type="submit" [disabled]="!tagCreationForm.valid">
+      {{ confirmButtonText || 'COMMON.EDIT' | translate }}
     </button>
   </div>
 </form>

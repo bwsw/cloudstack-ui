@@ -1,5 +1,5 @@
 import { CloudstackUiPage } from './app.po';
-import { browser, by, element, protractor } from 'protractor';
+import { browser, by, element, ExpectedConditions, protractor } from 'protractor';
 
 export class VMList extends CloudstackUiPage {
   EC = protractor.ExpectedConditions;
@@ -31,45 +31,70 @@ export class VMList extends CloudstackUiPage {
   }
 
   clickCreateVM() {
-    element(by.css('.mat-fab.mat-accent')).click();
+    browser.wait(
+      ExpectedConditions.visibilityOf(element(by.css('mat-list'))),
+      2000,
+      'No VM list is loaded',
+    );
+    browser
+      .actions()
+      .mouseMove(element(by.css('.mat-fab.mat-accent')))
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
   }
 
   clickOpenSidebar(index) {
     element
-      .all(by.css('cs-vm-list mat-card'))
+      .all(by.css('.entity-card.mat-card.light-background'))
       .get(index)
       .click();
-    browser.wait(this.EC.visibilityOf(element(by.tagName('h4'))), 5000);
-  }
-
-  clickOpenSidebarRunning() {
-    element
-      .all(by.xpath("//mat-icon[contains(@class,'running')]/ancestor::mat-card"))
-      .first()
-      .click();
-    browser.wait(this.EC.visibilityOf(element(by.tagName('h4'))), 5000);
-  }
-
-  clickOpenSidebarStopped() {
-    element
-      .all(by.xpath("//mat-icon[contains(@class,'stopped')]/ancestor::mat-card"))
-      .first()
-      .click();
-    browser.wait(this.EC.visibilityOf(element(by.tagName('h4'))), 5000);
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
   }
 
   clickOpenAccessVM() {
-    browser.wait(this.EC.visibilityOf(element(by.tagName('mat-list'))), 5000);
-    element
-      .all(by.css('.mdi-dots-vertical'))
-      .first()
-      .click();
-    element
-      .all(by.css('.mat-menu-item.ng-star-inserted'))
-      .last()
-      .click();
+    const EC = protractor.ExpectedConditions;
+    browser.wait(
+      EC.elementToBeClickable(element(by.css('button.entity-card-menu.mat-icon-button'))),
+      5000,
+    );
+    const elem = element.all(by.css('button.entity-card-menu.mat-icon-button')).first();
+    browser
+      .actions()
+      .mouseMove(elem)
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
+    browser.wait(
+      EC.visibilityOf(
+        element(
+          by.xpath(
+            "//mat-icon[contains(@class,'mdi-laptop')]/ancestor::button[contains(@class,'mat-menu-item')]",
+          ),
+        ),
+      ),
+      2000,
+      'No action menu items appear',
+    );
+
+    browser
+      .actions()
+      .mouseMove(
+        element(
+          by.xpath(
+            "//mat-icon[contains(@class,'mdi-laptop')]/ancestor::button[contains(@class,'mat-menu-item')]",
+          ),
+        ),
+      )
+      .click()
+      .perform();
     this.waitDialogModal();
-    browser.wait(this.EC.visibilityOf(element(by.tagName('h3'))), 5000);
+    browser.wait(EC.visibilityOf(element(by.tagName('h3'))), 5000);
   }
 
   getStateRunning() {

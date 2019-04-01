@@ -5,7 +5,6 @@
   [style.color]="color?.textColor"
   class="entity-card"
 >
-
   <mat-card-header class="entity-card-header">
     <cs-round-state-indicator
       [state]="statusClass"
@@ -13,9 +12,14 @@
       class="entity-card-thumbnail"
     ></cs-round-state-indicator>
     <mat-card-title [matTooltip]="item.displayname" class="entity-card-title">
-      <span [innerHTML]="item.displayname | highlight:query"></span>
+      <span [innerHTML]="item.displayname | highlight: query"></span>
     </mat-card-title>
-    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu" (click)="$event.stopPropagation()">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="actionsMenu"
+      class="entity-card-menu"
+      (click)="$event.stopPropagation()"
+    >
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>
@@ -34,23 +38,35 @@
         </tr>
       </thead>
       <tr>
-        <td class="entity-card-data-line"
-            [matTooltip]="'SERVICE_OFFERING.CPU_MHZ' | translate:({ count: item.cpunumber, speed: item.cpuspeed })">
-          {{ 'SERVICE_OFFERING.CPU_MHZ' | translate:({ count: item.cpunumber, speed: item.cpuspeed }) }}
+        <td
+          class="entity-card-data-line"
+          [matTooltip]="
+            'SERVICE_OFFERING.CPU_MHZ' | translate: { count: item.cpunumber, speed: item.cpuspeed }
+          "
+        >
+          {{
+            'SERVICE_OFFERING.CPU_MHZ' | translate: { count: item.cpunumber, speed: item.cpuspeed }
+          }}
         </td>
         <td class="entity-card-data-line">
-          <span *ngIf="item.memory < gigabyte"
-                [matTooltip]="'UNITS.MB_VALUE' | translate:({ value: getMemoryInMb() })">
-            {{ 'UNITS.MB_VALUE' | translate:({ value: getMemoryInMb() }) }}
+          <span
+            *ngIf="item.memory < gigabyte"
+            [matTooltip]="'UNITS.MB_VALUE' | translate: { value: getMemoryInMb() }"
+          >
+            {{ 'UNITS.MB_VALUE' | translate: { value: getMemoryInMb() } }}
           </span>
-          <span *ngIf="item.memory >= gigabyte"
-                [matTooltip]="'UNITS.GB_VALUE' | translate:({ value: getMemoryInGb() })">
-            {{ 'UNITS.GB_VALUE' | translate:({ value: getMemoryInGb() }) }}
+          <span
+            *ngIf="item.memory >= gigabyte"
+            [matTooltip]="'UNITS.GB_VALUE' | translate: { value: getMemoryInGb() }"
+          >
+            {{ 'UNITS.GB_VALUE' | translate: { value: getMemoryInGb() } }}
           </span>
         </td>
-        <td class="entity-card-data-line"
-            [matTooltip]="'UNITS.GB_VALUE' | translate:({ value: getDisksSize.toFixed(2) })">
-          {{ 'UNITS.GB_VALUE' | translate:({ value: getDisksSize.toFixed(2) }) }}
+        <td
+          class="entity-card-data-line"
+          [matTooltip]="'UNITS.GB_VALUE' | translate: { value: getDisksSize.toFixed(2) }"
+        >
+          {{ 'UNITS.GB_VALUE' | translate: { value: getDisksSize.toFixed(2) } }}
         </td>
       </tr>
     </table>
@@ -59,5 +75,4 @@
   <mat-menu #actionsMenu="matMenu">
     <cs-vm-actions-container [vm]="item"></cs-vm-actions-container>
   </mat-menu>
-
 </mat-card>

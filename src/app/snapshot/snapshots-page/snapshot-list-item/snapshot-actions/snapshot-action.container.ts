@@ -17,7 +17,8 @@ import { DialogService } from '../../../../dialog/dialog-service/dialog.service'
       (snapshotDeleted)="onSnapshotDelete($event)"
       (snapshotReverted)="onSnapshotRevert($event)"
     >
-    </cs-snapshot-action>`,
+    </cs-snapshot-action>
+  `,
 })
 export class SnapshotActionContainerComponent {
   @Input()

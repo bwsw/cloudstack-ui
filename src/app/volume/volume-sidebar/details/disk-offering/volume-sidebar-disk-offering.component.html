@@ -1,32 +1,63 @@
 <mat-card *ngIf="offering">
   <mat-card-header>
     <mat-card-title>
-      <h2 class="mat-card-title-text">
-        {{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}
-      </h2>
+      <h2 class="mat-card-title-text">{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</h2>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="grid grid-right">
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.name" [value]="offering.name"></cs-parameters-pair>
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.displaytext" [value]="offering.displaytext"></cs-parameters-pair>
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.disksize" [value]="offering.disksize || '-'"></cs-parameters-pair>
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.bytesreadrate" [value]="convertToMb(offering.diskBytesReadRate) || '-'">
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.name"
+        [value]="offering.name"
+      ></cs-parameters-pair>
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.displaytext"
+        [value]="offering.displaytext"
+      ></cs-parameters-pair>
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.disksize"
+        [value]="offering.disksize || '-'"
+      ></cs-parameters-pair>
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.bytesreadrate"
+        [value]="convertToMb(offering.diskBytesReadRate) || '-'"
+      >
       </cs-parameters-pair>
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.byteswriterate" [value]="convertToMb(offering.diskBytesWriteRate) || '-'">
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.byteswriterate"
+        [value]="convertToMb(offering.diskBytesWriteRate) || '-'"
+      >
       </cs-parameters-pair>
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.iopsreadrate" [value]="offering.diskIopsReadRate || '-'"></cs-parameters-pair>
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.iopswriterate" [value]="offering.diskIopsWriteRate || '-'"></cs-parameters-pair>
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.miniops" [value]="offering.miniops || '-'"></cs-parameters-pair>
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.maxiops" [value]="offering.maxiops || '-'"></cs-parameters-pair>
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.storagetype" [value]="'VOLUME_PAGE.DETAILS.' + offering.storagetype | translate">
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.iopsreadrate"
+        [value]="offering.diskIopsReadRate || '-'"
+      ></cs-parameters-pair>
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.iopswriterate"
+        [value]="offering.diskIopsWriteRate || '-'"
+      ></cs-parameters-pair>
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.miniops"
+        [value]="offering.miniops || '-'"
+      ></cs-parameters-pair>
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.maxiops"
+        [value]="offering.maxiops || '-'"
+      ></cs-parameters-pair>
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.storagetype"
+        [value]="'VOLUME_PAGE.DETAILS.' + offering.storagetype | translate"
+      >
       </cs-parameters-pair>
       <cs-parameters-pair
         name="VOLUME_PAGE.DETAILS.provisioningtype"
         [value]="'VOLUME_PAGE.DETAILS.' + offering.provisioningtype | translate"
       >
       </cs-parameters-pair>
-      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.iscustomized" [value]="'VOLUME_PAGE.DETAILS.' + offering.iscustomized | translate">
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.iscustomized"
+        [value]="'VOLUME_PAGE.DETAILS.' + offering.iscustomized | translate"
+      >
       </cs-parameters-pair>
 
       <div class="row">

@@ -4,19 +4,24 @@
   [class.root-disk]="isRoot"
   class="entity-card"
 >
-
   <mat-card-header class="entity-card-header">
     <mat-card-title [matTooltip]="item.name" class="entity-card-title">
-      <span [innerHTML]="item.name | highlight:query"></span>
+      <span [innerHTML]="item.name | highlight: query"></span>
     </mat-card-title>
-    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu" (click)="$event.stopPropagation()">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="actionsMenu"
+      class="entity-card-menu"
+      (click)="$event.stopPropagation()"
+    >
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>
 
   <mat-card-content>
     <div class="entity-card-data-line">
-      {{ 'VOLUME_PAGE.CARD.SIZE' | translate }}: {{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}
+      {{ 'VOLUME_PAGE.CARD.SIZE' | translate }}: {{ item.size | division: 2:30:2 }}
+      {{ 'UNITS.GB' | translate }}
     </div>
     <div class="entity-card-data-line">
       {{ 'VOLUME_PAGE.CARD.STATE' | translate }}: {{ stateTranslationToken | translate }}
@@ -26,5 +31,4 @@
   <mat-menu #actionsMenu="matMenu">
     <cs-volume-actions-container [volume]="item"></cs-volume-actions-container>
   </mat-menu>
-
 </mat-card>
