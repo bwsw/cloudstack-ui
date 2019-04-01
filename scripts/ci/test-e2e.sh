@@ -12,6 +12,6 @@ docker run --rm \
   -v $(pwd):/workspace \
   -w /workspace \
   ${NODE_CHROME_YARN_IMAGE} \
-  /bin/bash -ce "yarn && yarn e2e"
+  /bin/bash -ce "yarn && yarn e2e --protractor-config=./e2e/protractor-ci.conf.js --suite=CI"
 
 echo -e "\nEnd of e2e tests\n"
