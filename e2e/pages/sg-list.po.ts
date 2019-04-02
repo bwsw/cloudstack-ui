@@ -34,7 +34,14 @@ export class SGList extends CloudstackUiPage {
   }
 
   clickOpenSidebar(name) {
-    element(by.xpath(`//span[text()="${name}"]/ancestor:: mat-card`)).click();
+    browser
+      .actions()
+      .mouseMove(element(by.xpath(`//span[text()="${name}"]/ancestor:: mat-card`)))
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
     const EC = protractor.ExpectedConditions;
     const backdrop = EC.presenceOf(element(by.css('cs-sidebar div.backdrop')));
     const header = EC.visibilityOf(element(by.tagName('h4')));
