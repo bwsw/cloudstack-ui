@@ -227,4 +227,13 @@ export class CloudstackUiPage {
         element(by.name('showSystemTags')).click();
       });
   }
+
+  waitActionProcess() {
+    const EC = browser.ExpectedConditions;
+    browser.wait(
+      EC.presenceOf(element(by.css('.open'))),
+      5000,
+      'Sidebar Action process is timeout',
+    );
+  }
 }

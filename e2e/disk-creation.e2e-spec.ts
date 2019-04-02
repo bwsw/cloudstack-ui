@@ -91,7 +91,7 @@ describe('e2e-test-disk-creation', () => {
   it('Verify sidebar of fixed disk: name, size', () => {
     disklist.openDiskSidebar();
     expect(disksidebar.getDiskName(diskcreation.diskfixed)).toBeTruthy('Wrong disk name');
-    expect(disksidebar.getDiskSize('20')).toBeTruthy('Wrong disk size');
+    expect(disksidebar.getDiskSize('5')).toBeTruthy('Wrong disk size');
     disksidebar.clickCloseSidebar();
     disklist.clickSpareDrives();
   });
