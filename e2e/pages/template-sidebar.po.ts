@@ -33,12 +33,4 @@ export class ImageSidebar extends CloudstackUiPage {
     const EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf(element(by.css('.mdi-plus.mat-icon.mdi'))), 5000);
   }
-
-  clickShowSystemTab() {
-    element(by.xpath("//mat-checkbox[contains(@class,'mat-checkbox-checked')]"))
-      .isPresent()
-      .catch(() => {
-        element(by.name('showSystemTags')).click();
-      });
-  }
 }

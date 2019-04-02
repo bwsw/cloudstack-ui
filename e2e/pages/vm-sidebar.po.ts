@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import { by, element } from 'protractor';
 import { CloudstackUiPage } from './app.po';
 
 export class VMSidebar extends CloudstackUiPage {
@@ -54,8 +54,6 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   getTagValue(expected) {
-    return element(by.css('.mat-card-content-container')).element(
-      by.cssContainingText('.value', expected),
-    );
+    return element(by.css('.mat-card-content')).element(by.cssContainingText('.value', expected));
   }
 }
