@@ -43,7 +43,7 @@ exports.config = {
     ],
   },
   params: {
-    so: 'Small Instance',
+    so: 'Instance',
     template: 'CentOS 5.6 (64-bit)',
     zone: 'Sandbox-simulator',
     rule: 'default',

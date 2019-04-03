@@ -145,7 +145,7 @@ export class CloudstackUiPage {
     const EC = protractor.ExpectedConditions;
     browser.wait(
       EC.visibilityOf(element.all(by.tagName('mat-dialog-container')).last()),
-      5000,
+      8000,
       'No Dialog Modal is loaded ',
     );
   }
@@ -212,7 +212,7 @@ export class CloudstackUiPage {
     );
     browser
       .actions()
-      .mouseMove(element(by.css('cs-sidebar div.backdrop')))
+      .mouseMove(element(by.css('cs-sidebar div.backdrop')), { x: 100, y: 5 })
       .perform();
     browser
       .actions()
@@ -220,11 +220,13 @@ export class CloudstackUiPage {
       .perform();
   }
 
-  clickShowSystemTag() {
+  setShowSystemTag() {
     element(by.xpath("//mat-checkbox[contains(@class,'mat-checkbox-checked')]"))
       .isPresent()
-      .catch(() => {
-        element(by.name('showSystemTags')).click();
+      .then(result => {
+        if (!result) {
+          element(by.name('showSystemTags')).click();
+        }
       });
   }
 

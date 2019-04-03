@@ -110,9 +110,8 @@ export class VMCreation extends CloudstackUiPage {
         name,
       ),
       5000,
+      'No Aff group added',
     );
-    // Can't find aff created element. so choose last
-    // element (by.css(".mat-row.ng-star-inserted")). element(by.cssContainingText('.ng-star-inserted', name)).click();
     element(by.xpath(`//span[text()='${name}']`)).click();
     element
       .all(by.css('.mat-button.mat-primary'))
@@ -126,6 +125,7 @@ export class VMCreation extends CloudstackUiPage {
         'anti-affinity',
       ),
       5000,
+      'No Aff group is set',
     );
   }
 
@@ -140,7 +140,7 @@ export class VMCreation extends CloudstackUiPage {
     element(by.cssContainingText('.mat-button-toggle-label-content', ' Create new ')).click();
     // element.all (by.css('.mat-button-toggle-button')).first().click();
 
-    browser.wait(EC.visibilityOf(element(by.tagName('mat-list-item'))), 3000);
+    browser.wait(EC.visibilityOf(element(by.tagName('mat-list-item'))), 3000, 'No sg items appear');
     element(by.tagName('mat-list-item')).click();
     element(by.css('.mdi-chevron-right.mat-icon.mdi')).click();
     element
@@ -153,6 +153,7 @@ export class VMCreation extends CloudstackUiPage {
         'Based on TCP Permit All',
       ),
       5000,
+      'No private sg is set',
     );
   }
 
@@ -179,6 +180,7 @@ export class VMCreation extends CloudstackUiPage {
         'default',
       ),
       5000,
+      'No default group is set',
     );
   }
 

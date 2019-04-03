@@ -48,12 +48,14 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   getTagKey(expected) {
-    return element(by.css('.mat-card-content-container')).element(
+    return element(by.css('cs-tag-category div.mat-card-content-container')).element(
       by.cssContainingText('.key', expected),
     );
   }
 
   getTagValue(expected) {
-    return element(by.css('.mat-card-content')).element(by.cssContainingText('.value', expected));
+    return element(by.css('cs-tag-category div.mat-card-content-container')).element(
+      by.cssContainingText('.value', expected),
+    );
   }
 }
