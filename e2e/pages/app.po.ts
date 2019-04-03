@@ -64,6 +64,15 @@ export class CloudstackUiPage {
     });
   }
 
+  clickSSHMenu() {
+    browser.wait(
+      browser.ExpectedConditions.elementToBeClickable(element(by.css('mat-icon.mdi-key.mdi'))),
+      2000,
+      'No edit Group button',
+    );
+    element(by.css('mat-icon.mdi-key.mdi')).click();
+  }
+
   clickVMMenu() {
     element
       .all(by.css('.mat-icon.mdi-cloud.mdi'))
@@ -148,6 +157,11 @@ export class CloudstackUiPage {
       5000,
       'No Dialog Modal is loaded ',
     );
+    browser.wait(
+      EC.visibilityOf(element.all(by.css('.mat-button.mat-primary')).last()),
+      5000,
+      'No Dialog Modal is loaded ',
+    );
   }
 
   clickButtonbyText(text: string) {
@@ -189,5 +203,41 @@ export class CloudstackUiPage {
     return Math.random()
       .toString(36)
       .substr(2, 9);
+  }
+
+  clickBell() {
+    browser
+      .actions()
+      .mouseMove(element(by.css('cs-notification-box button')))
+      .perform();
+    browser.wait(
+      protractor.ExpectedConditions.elementToBeClickable(
+        element(by.css('cs-notification-box button')),
+      ),
+    );
+    browser
+      .actions()
+      .click()
+      .perform();
+    browser.wait(
+      browser.ExpectedConditions.presenceOf(element(by.css('.message'))),
+      5000,
+      'No notification',
+    );
+  }
+
+  verifyBellMessage(text) {
+    return element(by.cssContainingText('.message', text)).isPresent();
+  }
+
+  clickCloseSidebar() {
+    browser
+      .actions()
+      .mouseMove(element(by.css('.backdrop')), { x: 100, y: 5 })
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
   }
 }

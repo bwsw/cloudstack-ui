@@ -1,4 +1,4 @@
-import { by, element } from 'protractor';
+import { by, element, browser, protractor } from 'protractor';
 import { CloudstackUiPage } from './app.po';
 
 export class VMSidebar extends CloudstackUiPage {
@@ -7,7 +7,9 @@ export class VMSidebar extends CloudstackUiPage {
   EC = browser.ExpectedConditions;
 
   clickColorChange() {
-    element(by.css('.color-preview-container')).click();
+    const elem = element(by.css('.color-preview-container'));
+    browser.wait(this.EC.elementToBeClickable(elem), 2000, 'No edit Group button');
+    elem.click();
     const color = element
       .all(by.css('.color.ng-star-inserted'))
       .first()
@@ -16,12 +18,7 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   setDescription(text) {
-    element(by.tagName('cs-inline-edit')).click();
-    element(by.css('cs-description mat-icon.mdi-pencil.mat-icon.mdi'))
-      .isPresent()
-      .then(() => {
-        element(by.css('cs-description mat-icon.mdi-pencil.mat-icon.mdi')).click();
-      });
+    element(by.css('cs-inline-edit span.text-content')).click();
     element(by.tagName('textarea'))
       .clear()
       .sendKeys(text);
@@ -56,7 +53,7 @@ export class VMSidebar extends CloudstackUiPage {
     element(by.css('.add-rule-button.mat-icon-button')).click();
     browser.wait(
       this.EC.textToBePresentInElement(
-        element(by.cssContainingText('.ng-star-inserted', name)),
+        element(by.cssContainingText('cs-vm-details-affinity-group-list', name)),
         name,
       ),
       5000,
@@ -115,7 +112,7 @@ export class VMSidebar extends CloudstackUiPage {
     browser.wait(
       this.EC.presenceOf(element(by.xpath(`//cs-affinity-group//span[text()="${aff}"]`))),
       5000,
-      'Group name is not changed in sidebar VM',
+      'Affinity group name is not changed in sidebar VM',
     );
   }
 
@@ -149,10 +146,6 @@ export class VMSidebar extends CloudstackUiPage {
       .getText();
   }
 
-  clickClose() {
-    element(by.css('.backdrop.ng-star-inserted')).click();
-  }
-
   clickTagTab() {
     element
       .all(by.css('.mat-tab-link'))
@@ -177,41 +170,36 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   clickChangeSO() {
-    element(by.css('cs-service-offering-details .mat-icon-button')).click();
+    const elem = element.all(by.css('cs-service-offering-details .mat-icon-button')).first();
+    browser.wait(this.EC.elementToBeClickable(elem), 2000, 'No edit Group button');
+    elem.click();
   }
 
-  selectFixedTab() {
+  selectFixedSO() {
     element
       .all(by.css('cs-service-offering-dialog-container mat-button-toggle-group mat-button-toggle'))
       .first()
       .click();
-  }
-
-  changeSO() {
     element(
       by.xpath(
         "//mat-radio-button[@class='mat-radio-button mat-accent mat-radio-checked']/ancestor::tbody//mat-radio-button[@class='mat-radio-button mat-accent']",
       ),
     ).click();
-  }
-
-  getSelectedSO() {
-    return element(
+    const elem = element(by.css('.message.warning.ng-star-inserted')).getText();
+    expect(elem).toEqual('Virtual machine will be restarted');
+    const temp = element(
       by.xpath(
         "//mat-radio-button[@class='mat-radio-button mat-accent mat-radio-checked']/ancestor::td/preceding-sibling::td//span",
       ),
     ).getText();
+    this.clickYesDialogButton();
+    return temp;
   }
 
   getChangedSOName() {
     return element(
       by.xpath(`//cs-service-offering-details//div[text()="Name"]/following-sibling::div`),
     ).getText();
-  }
-
-  checkWarning() {
-    element(by.css('.message.warning.ng-star-inserted')).isPresent();
-    return element(by.css('.message.warning.ng-star-inserted')).getText();
   }
 
   isEnabledChangeSO() {
@@ -232,9 +220,19 @@ export class VMSidebar extends CloudstackUiPage {
     );
   }
 
-  clickChangeSSHKey() {
+  changeSSHKey() {
+    browser.wait(
+      this.EC.elementToBeClickable(element(by.css('cs-vm-ssh-keypair button'))),
+      2000,
+      'Button is not clickable',
+    );
     element(by.css('cs-vm-ssh-keypair button')).click();
     this.waitDialogModal();
+    this.waitDialog();
+    const temp = this.selectSSHKey(0);
+    this.clickYesDialogButton();
+    this.waitDialog();
+    return temp;
   }
 
   selectSSHKey(index) {
@@ -250,13 +248,15 @@ export class VMSidebar extends CloudstackUiPage {
   }
 
   getSHHKey() {
-    return element(by.css('cs-vm-ssh-keypair span')).getText();
+    return element(by.css('cs-vm-ssh-keypair .mat-card-content-container span')).getText();
   }
 
-  checkResetWarning() {
+  checkResetWarningMessage() {
+    this.waitDialog();
     return browser.wait(
-      this.EC.presenceOf(element(by.css('.mat-dialog-content.notification'))),
-      5000,
+      this.EC.presenceOf(element(by.xpath(`//cs-confirm-dialog//div[contains(text(),"stop")]`))),
+      2000,
+      'No notification about stopping VM',
     );
   }
 
@@ -274,24 +274,31 @@ export class VMSidebar extends CloudstackUiPage {
     return element(by.css('.mat-error.ng-star-inserted')).getText();
   }
 
-  clickDeleteAffGroup() {
-    element(by.css('cs-affinity-group .row.ng-star-inserted button')).click();
+  clickDeleteAffGroup(aff) {
+    browser
+      .actions()
+      .mouseMove(element(by.xpath(`//cs-affinity-group//span[text()="${aff}"]`)))
+      .perform();
+    browser
+      .actions()
+      .mouseMove(
+        element(by.xpath(`//cs-affinity-group//span[text()="${aff}"]/following-sibling::button`)),
+      )
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
+    this.waitDialog();
+    this.clickYesDialogButton();
+  }
+
+  getNoAffGroup(aff) {
+    return element(by.xpath(`//cs-confirm-dialog//div[contains(text(),"${aff}")]`)).isPresent();
   }
 
   setAffGroupName(name) {
     element(by.css('input[formControlName=name]')).sendKeys(name);
-  }
-
-  getNotificationText() {
-    return element(by.css('cs-confirm-dialog .mat-dialog-content.notification')).getText();
-  }
-
-  checkNoAffGroup() {
-    browser.wait(
-      this.EC.presenceOf(element(by.css('cs-affinity-group .mat-card-content-container div'))),
-      5000,
-    );
-    return element(by.css('cs-affinity-group .mat-card-content-container div')).getText();
   }
 
   waitSidebar() {

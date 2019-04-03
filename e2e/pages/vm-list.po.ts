@@ -47,18 +47,52 @@ export class VMList extends CloudstackUiPage {
   }
 
   clickOpenSidebar(index) {
-    element
-      .all(by.css('.entity-card.mat-card.light-background'))
-      .get(index)
-      .click();
-    const EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
+    const elem = element.all(by.css('cs-vm-list mat-card')).get(index);
+    browser
+      .actions()
+      .mouseMove(elem)
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
+    browser.wait(this.EC.visibilityOf(element(by.tagName('h4'))), 5000);
+  }
+
+  clickOpenSidebarRunning() {
+    const elem = element
+      .all(by.xpath("//mat-icon[contains(@class,'running')]/ancestor::mat-card"))
+      .first();
+    browser.wait(this.EC.visibilityOf(elem), 5000);
+    browser
+      .actions()
+      .mouseMove(elem)
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
+    browser.wait(this.EC.visibilityOf(element(by.tagName('h4'))), 5000);
+  }
+
+  clickOpenSidebarStopped() {
+    const elem = element
+      .all(by.xpath("//mat-icon[contains(@class,'stopped')]/ancestor::mat-card"))
+      .first();
+    browser
+      .actions()
+      .mouseMove(elem)
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
+    browser.wait(this.EC.visibilityOf(element(by.tagName('h4'))), 5000);
   }
 
   clickOpenAccessVM() {
-    const EC = protractor.ExpectedConditions;
     browser.wait(
-      EC.elementToBeClickable(element(by.css('button.entity-card-menu.mat-icon-button'))),
+      this.EC.elementToBeClickable(element(by.css('button.entity-card-menu.mat-icon-button'))),
       5000,
     );
     const elem = element.all(by.css('button.entity-card-menu.mat-icon-button')).first();
@@ -71,7 +105,7 @@ export class VMList extends CloudstackUiPage {
       .click()
       .perform();
     browser.wait(
-      EC.visibilityOf(
+      this.EC.visibilityOf(
         element(
           by.xpath(
             "//mat-icon[contains(@class,'mdi-laptop')]/ancestor::button[contains(@class,'mat-menu-item')]",
@@ -94,7 +128,7 @@ export class VMList extends CloudstackUiPage {
       .click()
       .perform();
     this.waitDialogModal();
-    browser.wait(EC.visibilityOf(element(by.tagName('h3'))), 5000);
+    browser.wait(this.EC.visibilityOf(element(by.tagName('h3'))), 5000);
   }
 
   getStateRunning() {

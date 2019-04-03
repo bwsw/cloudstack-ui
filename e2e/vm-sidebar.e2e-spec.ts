@@ -5,12 +5,14 @@ import { browser, by, element, protractor } from 'protractor';
 import { VMList } from './pages/vm-list.po';
 import { Login } from './pages/login.po';
 import { VMSidebar } from './pages/vm-sidebar.po';
+import { SSHList } from './pages/ssh-list.po';
 
 describe('e2e-test-vm-sidebar', () => {
   let deploy: VMDeploy;
   let login: Login;
   let vmlist: VMList;
   let sidebar: VMSidebar;
+  let sshlist: SSHList;
 
   beforeAll(() => {
     browser.driver
@@ -27,12 +29,17 @@ describe('e2e-test-vm-sidebar', () => {
   beforeEach(() => {
     vmlist = new VMList();
     deploy = new VMDeploy();
+    sshlist = new SSHList();
+  });
+
+  afterAll(() => {
+    login.logout();
   });
 
   it('Verify VM color is changed', () => {
     vmlist.clickOpenSidebar(0);
     sidebar.clickColorChange().then(color => {
-      sidebar.clickClose();
+      sidebar.clickCloseSidebar();
       vmlist.getVMColor(0).then(vmcolor => {
         expect(vmcolor).toContain(color);
       });
@@ -42,9 +49,10 @@ describe('e2e-test-vm-sidebar', () => {
   it('Verify description is changed', () => {
     vmlist.clickOpenSidebar(0);
     sidebar.setDescription('desc');
-    sidebar.clickClose();
+
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Description changed')).toBeTruthy();
+    sidebar.clickCloseSidebar();
   });
 
   it('Verify new group is set', () => {
@@ -53,9 +61,10 @@ describe('e2e-test-vm-sidebar', () => {
     sidebar.setNewGroupOption(sidebar.group);
     sidebar.clickSubmitGroupButton();
     sidebar.waitGroupChanged(sidebar.group);
-    sidebar.clickClose();
+
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Instance group changed')).toBeTruthy();
+    sidebar.clickCloseSidebar();
   });
 
   it('Verify existing group can be set', () => {
@@ -66,9 +75,10 @@ describe('e2e-test-vm-sidebar', () => {
       sidebar.waitGroupChanged(group);
       expect(sidebar.getGroup()).toEqual(group);
     });
-    sidebar.clickClose();
+
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Instance group changed')).toBeTruthy();
+    sidebar.clickCloseSidebar();
   });
 
   it('Verify group with incorrect name can not be set', () => {
@@ -79,12 +89,8 @@ describe('e2e-test-vm-sidebar', () => {
       'Create button is enabled for incorrect group name',
     );
     sidebar.clickCancelGroupButton();
-    browser.wait(
-      protractor.ExpectedConditions.visibilityOf(element(by.css(`.open`))),
-      2000,
-      'No sidebar',
-    );
-    sidebar.clickClose();
+    sidebar.waitSidebar();
+    sidebar.clickCloseSidebar();
   });
 
   it('Verify group is removed', () => {
@@ -93,19 +99,16 @@ describe('e2e-test-vm-sidebar', () => {
     sidebar.setRemoveGroupOption();
     sidebar.clickSubmitGroupButton();
     sidebar.waitGroupChanged('Default group');
-    sidebar.clickClose();
+
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Instance group removed')).toBeTruthy('No bell message');
+    sidebar.clickCloseSidebar();
   });
 
   it('Change SO to fixed SO for running VM', () => {
     vmlist.clickOpenSidebarRunning();
     sidebar.clickChangeSO();
-    sidebar.selectFixedTab();
-    sidebar.changeSO();
-    expect(sidebar.checkWarning()).toEqual('Virtual machine will be restarted');
-    const temp = sidebar.getSelectedSO();
-    sidebar.clickYesDialogButton();
+    const temp = sidebar.selectFixedSO();
 
     sidebar.isEnabledChangeSO();
     sidebar.isEnabledAddAffinityGroup();
@@ -115,10 +118,8 @@ describe('e2e-test-vm-sidebar', () => {
     expect(vmlist.verifyBellMessage('Service offering changed')).toBeTruthy();
     expect(vmlist.verifyBellMessage('VM started')).toBeTruthy();
     expect(sidebar.getChangedSOName()).toEqual(temp);
-    sidebar.clickClose();
+    sidebar.clickCloseSidebar();
   });
-
-  // custom SO for stopped VM
 
   it('Verify new affinity group is set', () => {
     vmlist.clickOpenSidebarRunning();
@@ -127,11 +128,12 @@ describe('e2e-test-vm-sidebar', () => {
     sidebar.waitDialogModal();
     sidebar.clickYesDialogButton();
     sidebar.waitAffGroupChanged(sidebar.aff);
-    sidebar.clickClose();
+
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Affinity group changed')).toBeTruthy(
       'Affinity group has not changed',
     );
+    sidebar.clickCloseSidebar();
   });
 
   it('Verify affinity group with incorrect name can not be create', () => {
@@ -140,27 +142,19 @@ describe('e2e-test-vm-sidebar', () => {
     sidebar.setAffGroupName('123');
     expect(sidebar.isEnabledCreateAffGroupButton()).toBeFalsy('Create Affinity button is enabled');
     sidebar.clickNoDialogButton();
-    browser.wait(
-      protractor.ExpectedConditions.visibilityOf(element(by.css(`.backdrop.ng-star-inserted`))),
-      2000,
-      'Sidebar is not opened',
-    );
-    sidebar.clickClose();
+    sidebar.waitSidebar();
+    sidebar.clickCloseSidebar();
   });
 
-  it('Verify existing affinity group can be create', () => {
+  it('Verify existing affinity group can not be create', () => {
     vmlist.clickOpenSidebarRunning();
     sidebar.clickAddAffGroup();
     sidebar.setAffGroupName(sidebar.aff);
     expect(sidebar.getErrorText()).toEqual('This name is taken');
     expect(sidebar.isEnabledCreateAffGroupButton()).toBeFalsy('Create Affinity button is enabled');
     sidebar.clickNoDialogButton();
-    browser.wait(
-      protractor.ExpectedConditions.visibilityOf(element(by.css(`.backdrop.ng-star-inserted`))),
-      2000,
-      'Sidebar is not opened',
-    );
-    sidebar.clickClose();
+    sidebar.waitSidebar();
+    sidebar.clickCloseSidebar();
   });
 
   it('Verify new affinity group is set for stopped VM', () => {
@@ -168,30 +162,18 @@ describe('e2e-test-vm-sidebar', () => {
     sidebar.clickAddAffGroup();
     sidebar.setNewAffGroup(sidebar.aff);
     sidebar.waitAffGroupChanged(sidebar.aff);
-    sidebar.clickClose();
+
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Affinity group changed')).toBeTruthy(
       'Affinity group has not changed',
     );
+    sidebar.clickCloseSidebar();
   });
 
   it('Remove a VM from the affinity group ', () => {
     vmlist.clickOpenSidebarRunning();
-    browser
-      .actions()
-      .mouseMove(element(by.css('cs-affinity-group .row.ng-star-inserted')))
-      .perform();
-    sidebar.clickDeleteAffGroup();
-    sidebar.waitDialog();
-    sidebar.clickYesDialogButton();
-    browser.wait(
-      protractor.ExpectedConditions.presenceOf(
-        element(by.xpath(`//cs-confirm-dialog//div[contains(text(),"stop")]`)),
-      ),
-      2000,
-      'No notification about stopping VM',
-    );
-    sidebar.waitDialog();
+    sidebar.clickDeleteAffGroup(sidebar.aff);
+    sidebar.checkResetWarningMessage();
     sidebar.clickYesDialogButton();
 
     sidebar.isEnabledChangeSO();
@@ -201,24 +183,19 @@ describe('e2e-test-vm-sidebar', () => {
     expect(vmlist.verifyBellMessage('VM stopped')).toBeTruthy();
     expect(vmlist.verifyBellMessage('Affinity group changed')).toBeTruthy();
     expect(vmlist.verifyBellMessage('VM started')).toBeTruthy();
-    browser.wait(
-      protractor.ExpectedConditions.presenceOf(
-        element(by.xpath(`//cs-affinity-group//div[contains(text()," No affinity group ")]`)),
-      ),
-      2000,
-      'List of affinity group not empty',
-    );
-    sidebar.clickClose();
+
+    expect(sidebar.getNoAffGroup(sidebar.aff)).toBeFalsy('Affinity is not deleted');
+    sidebar.clickCloseSidebar();
   });
 
   it('Change SSH key of running VM', () => {
+    vmlist.clickSSHMenu();
+    sshlist.clickCreateSSH(sshlist.sshname);
+    vmlist.clickVMMenu();
     vmlist.clickOpenSidebarRunning();
-    sidebar.clickChangeSSHKey();
-    sidebar.waitDialog();
-    const temp = sidebar.selectSSHKey(1);
-    sidebar.clickYesDialogButton();
-    sidebar.waitDialog();
-    expect(sidebar.checkResetWarning()).toBeTruthy('No warning message about reset VM');
+    const temp = sidebar.changeSSHKey();
+    expect(sidebar.checkResetWarningMessage()).toBeTruthy('No warning message about reset VM');
+    sidebar.checkResetWarningMessage();
     sidebar.clickYesDialogButton();
 
     sidebar.isEnabledChangeSO();
@@ -229,6 +206,6 @@ describe('e2e-test-vm-sidebar', () => {
     expect(vmlist.verifyBellMessage('SSH-key changed')).toBeTruthy();
     expect(vmlist.verifyBellMessage('VM started')).toBeTruthy();
     expect(sidebar.getSHHKey()).toEqual(temp);
-    sidebar.clickClose();
+    sidebar.clickCloseSidebar();
   });
 });
