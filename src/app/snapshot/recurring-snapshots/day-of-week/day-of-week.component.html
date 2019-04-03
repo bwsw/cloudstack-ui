@@ -5,8 +5,6 @@
     [placeholder]="'DATE_TIME.DAY_OF_WEEK' | translate"
     required
   >
-    <mat-option *ngFor="let day of daysOfWeek" [value]="day.value">
-      {{ day.name }}
-    </mat-option>
+    <mat-option *ngFor="let day of daysOfWeek" [value]="day.value"> {{ day.name }} </mat-option>
   </mat-select>
 </mat-form-field>

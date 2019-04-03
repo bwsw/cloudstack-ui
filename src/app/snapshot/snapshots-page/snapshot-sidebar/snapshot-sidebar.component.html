@@ -17,9 +17,7 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>
-        <h2 class="mat-card-title-text">
-          {{ 'SNAPSHOT_PAGE.SIDEBAR.DETAILS' | translate }}
-        </h2>
+        <h2 class="mat-card-title-text">{{ 'SNAPSHOT_PAGE.SIDEBAR.DETAILS' | translate }}</h2>
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
@@ -39,14 +37,10 @@
   <mat-card *ngIf="snapshotDescription">
     <mat-card-header>
       <mat-card-title>
-        <h2 class="mat-card-title-text">
-          {{ 'SNAPSHOT_PAGE.SIDEBAR.DESCRIPTION' | translate }}
-        </h2>
+        <h2 class="mat-card-title-text">{{ 'SNAPSHOT_PAGE.SIDEBAR.DESCRIPTION' | translate }}</h2>
       </mat-card-title>
     </mat-card-header>
-    <mat-card-content class="content-wrap">
-      {{ snapshotDescription }}
-    </mat-card-content>
+    <mat-card-content class="content-wrap"> {{ snapshotDescription }} </mat-card-content>
   </mat-card>
 
   <mat-card *ngIf="volume">

@@ -1,8 +1,6 @@
 <form (ngSubmit)="onSubmit()" #inlineInputForm="ngForm" novalidate>
   <div class="container" *ngIf="!editing && !showContentPlaceholder">
-    <span class="text-content" (click)="edit()" style="overflow: hidden">
-      {{ content }}
-    </span>
+    <span class="text-content" (click)="edit()" style="overflow: hidden"> {{ content }} </span>
     <button class="edit-button" mat-icon-button (click)="edit()">
       <mat-icon class="mdi-pencil"></mat-icon>
     </button>

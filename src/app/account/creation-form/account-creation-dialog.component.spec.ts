@@ -47,9 +47,7 @@ class TestComponent {
   selector: 'cs-time-zone',
   template: `
     <mat-form-field>
-      <mat-select [(ngModel)]="timeZone">
-        <mat-option>value </mat-option>
-      </mat-select>
+      <mat-select [(ngModel)]="timeZone"> <mat-option>value </mat-option> </mat-select>
     </mat-form-field>
   `,
   providers: [

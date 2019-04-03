@@ -64,6 +64,15 @@ export class CloudstackUiPage {
     });
   }
 
+  clickSSHMenu() {
+    browser.wait(
+      browser.ExpectedConditions.elementToBeClickable(element(by.css('mat-icon.mdi-key.mdi'))),
+      2000,
+      'No edit Group button',
+    );
+    element(by.css('mat-icon.mdi-key.mdi')).click();
+  }
+
   clickVMMenu() {
     element
       .all(by.css('.mat-icon.mdi-cloud.mdi'))
@@ -148,6 +157,11 @@ export class CloudstackUiPage {
       5000,
       'No Dialog Modal is loaded ',
     );
+    browser.wait(
+      EC.visibilityOf(element.all(by.css('.mat-button.mat-primary')).last()),
+      5000,
+      'No Dialog Modal is loaded ',
+    );
   }
 
   clickButtonbyText(text: string) {
@@ -192,12 +206,24 @@ export class CloudstackUiPage {
   }
 
   clickBell() {
+    browser
+      .actions()
+      .mouseMove(element(by.css('cs-notification-box button')))
+      .perform();
     browser.wait(
       protractor.ExpectedConditions.elementToBeClickable(
         element(by.css('cs-notification-box button')),
       ),
     );
-    element(by.css('cs-notification-box button')).click();
+    browser
+      .actions()
+      .click()
+      .perform();
+    browser.wait(
+      browser.ExpectedConditions.presenceOf(element(by.css('.message'))),
+      5000,
+      'No notification',
+    );
   }
 
   verifyBellMessage(text) {
@@ -212,14 +238,13 @@ export class CloudstackUiPage {
     );
     browser
       .actions()
-      .mouseMove(element(by.css('cs-sidebar div.backdrop')))
+      .mouseMove(element(by.css('cs-sidebar div.backdrop')), { x: 100, y: 5 })
       .perform();
     browser
       .actions()
       .click()
       .perform();
   }
-
   clickShowSystemTag() {
     element(by.xpath("//mat-checkbox[contains(@class,'mat-checkbox-checked')]"))
       .isPresent()

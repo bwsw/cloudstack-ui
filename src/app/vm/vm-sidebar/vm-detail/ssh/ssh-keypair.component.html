@@ -19,9 +19,7 @@
         (click)="showSshKeypairResetDialog()"
       >
         <mat-icon *ngIf="vm.keypair; else add" class="mdi-pencil"></mat-icon>
-        <ng-template #add>
-          <mat-icon class="mdi-plus"></mat-icon>
-        </ng-template>
+        <ng-template #add> <mat-icon class="mdi-plus"></mat-icon> </ng-template>
       </button>
     </mat-card-actions>
   </mat-card-content>

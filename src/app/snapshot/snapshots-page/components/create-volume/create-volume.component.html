@@ -1,7 +1,5 @@
 <div *loading="isLoading">
-  <h3 class="mat-dialog-title">
-    {{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}
-  </h3>
+  <h3 class="mat-dialog-title">{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}</h3>
   <form (ngSubmit)="onSubmit($event)" #volumeCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
       <mat-form-field class="full-width-input">

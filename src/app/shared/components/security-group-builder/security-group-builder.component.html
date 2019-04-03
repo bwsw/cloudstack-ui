@@ -12,9 +12,7 @@
         [class.active]="selectedColumnIndex === 0 && selectedGroupIndex === i"
         (click)="selectGroup(i, true)"
       >
-        <h5 matLine>
-          {{ securityGroup.name }}
-        </h5>
+        <h5 matLine>{{ securityGroup.name }}</h5>
       </mat-list-item>
     </mat-list>
   </div>
@@ -39,9 +37,7 @@
         [class.active]="selectedColumnIndex === 1 && selectedGroupIndex === i"
         (click)="selectGroup(i, false)"
       >
-        <h5 matLine>
-          {{ securityGroup.name }}
-        </h5>
+        <h5 matLine>{{ securityGroup.name }}</h5>
       </mat-list-item>
     </mat-list>
   </div>
