@@ -231,13 +231,34 @@ export class CloudstackUiPage {
   }
 
   clickCloseSidebar() {
+    browser.wait(
+      protractor.ExpectedConditions.elementToBeClickable(
+        element(by.css('cs-sidebar div.backdrop')),
+      ),
+    );
     browser
       .actions()
-      .mouseMove(element(by.css('.backdrop')), { x: 100, y: 5 })
+      .mouseMove(element(by.css('cs-sidebar div.backdrop')), { x: 100, y: 5 })
       .perform();
     browser
       .actions()
       .click()
       .perform();
+  }
+  clickShowSystemTag() {
+    element(by.xpath("//mat-checkbox[contains(@class,'mat-checkbox-checked')]"))
+      .isPresent()
+      .catch(() => {
+        element(by.name('showSystemTags')).click();
+      });
+  }
+
+  waitActionProcess() {
+    const EC = browser.ExpectedConditions;
+    browser.wait(
+      EC.presenceOf(element(by.css('.open'))),
+      5000,
+      'Sidebar Action process is timeout',
+    );
   }
 }
