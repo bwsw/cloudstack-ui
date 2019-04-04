@@ -43,8 +43,9 @@ export class SGList extends CloudstackUiPage {
       .click()
       .perform();
     const EC = protractor.ExpectedConditions;
-    const backdrop = EC.presenceOf(element(by.css('cs-sidebar div.backdrop')));
+    const backdrop = EC.presenceOf(element(by.css('cs-sidebar div.open')));
     const header = EC.visibilityOf(element(by.tagName('h4')));
+    const elem = EC.visibilityOf(element(by.css('cs-sidebar div.value.ng-star-inserted')));
     browser.wait(EC.and(backdrop), 5000);
   }
 

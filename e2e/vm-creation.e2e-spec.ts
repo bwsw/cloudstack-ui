@@ -101,7 +101,7 @@ describe('e2e-test-vm-creation', () => {
     vmlist.clickCreateVM();
     page.waitDialogModal();
     page.setDisplayName(page.name);
-    // TODO: csui issue zone appears empty
+    // TODO: csui issue zone appears empty https://github.com/bwsw/cloudstack-ui/issues/1650
     // expect(page.getZone()).toContain(browser.params.zone);
     expect(page.getSO()).toContain(browser.params.so);
     expect(page.getInstSourceText()).toContain(browser.params.template);
@@ -163,7 +163,7 @@ describe('e2e-test-vm-creation', () => {
   });
 
   xit('Verify access VM: ssh, http', () => {
-    // TODO: issue with access vm
+    // TODO: issue with access vm https://github.com/bwsw/cloudstack-ui/issues/1652
     vmlist.clickOpenAccessVM();
     expect(accessVM.getTitle()).toEqual('Access VM');
     expect(accessVM.getConsoleButton().isPresent).toBeTruthy();

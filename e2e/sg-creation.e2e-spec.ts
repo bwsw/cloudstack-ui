@@ -21,12 +21,18 @@ describe('e2e-test-sg-creation', () => {
     login.navigateTo('/');
     login.login();
     login.waitRedirect('instances');
+    login.waitDialogModal();
+    login.cancelDialog();
   });
 
   beforeEach(() => {
     sidebar = new VMSidebar();
     sglist = new SGList();
     sgsidebar = new SGSidebar();
+  });
+
+  afterAll(() => {
+    login.logout();
   });
 
   it('Create custom firewall template, verify rules', () => {
@@ -68,12 +74,11 @@ describe('e2e-test-sg-creation', () => {
     expect(sgsidebar.getSGDescription()).toEqual(page.description);
     expect(sgsidebar.getSGType()).toEqual('custom-template');
     sgsidebar.clickTagTab();
-    sgsidebar.clickChekbox();
+    sgsidebar.setShowSystemTag();
     expect(sgsidebar.getTagKey('csui.security-group.type').isPresent()).toBeTruthy(
       'csui.security-group.type',
     );
     expect(sgsidebar.getTagValue('custom-template').isPresent()).toBeTruthy('custom-template');
-    sgsidebar.clickChekbox();
     sgsidebar.clickCloseSidebar();
     // TOD0: sidebar close issue in headless mode
     sglist.clickCreateSG();

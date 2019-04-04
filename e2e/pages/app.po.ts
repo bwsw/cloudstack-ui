@@ -238,4 +238,22 @@ export class CloudstackUiPage {
       'Sidebar Action process is timeout',
     );
   }
+
+  waitSnackMessage() {
+    const EC = browser.ExpectedConditions;
+    browser.wait(
+      EC.visibilityOf(element(by.css('snack-bar-container'))),
+      20000,
+      'No snack message appears',
+    );
+  }
+
+  waitNoSnackMessage() {
+    const EC = browser.ExpectedConditions;
+    browser.wait(
+      EC.stalenessOf(element(by.css('snack-bar-container'))),
+      20000,
+      'Snack message is not hidden',
+    );
+  }
 }
