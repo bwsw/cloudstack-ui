@@ -165,7 +165,8 @@ export class VMSidebar extends CloudstackUiPage {
 
   getTagValue(expected) {
     return element(by.css('cs-tag-category div.mat-card-content-container')).element(
-      by.cssContainingText('.value', expected),    
+      by.cssContainingText('.value', expected),
+    );
   }
 
   clickChangeSO() {

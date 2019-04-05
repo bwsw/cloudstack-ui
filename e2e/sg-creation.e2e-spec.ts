@@ -115,7 +115,7 @@ describe('e2e-test-sg-creation', () => {
     );
   });
 
-  it('Verify shared Sidebar: name, description , type', () => {
+  xit('Verify shared Sidebar: name, description , type', () => {
     sglist.clickOpenSidebar(page.name);
     expect(sgsidebar.getSGName()).toEqual(page.name);
     expect(sgsidebar.getSGDescription()).toEqual(page.description);
