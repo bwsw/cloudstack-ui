@@ -1,13 +1,7 @@
 <div *ngIf="!!templateOsType" class="os-icon" [ngSwitch]="templateOsType.osFamily" mat-card-avatar>
-  <ng-template [ngSwitchCase]="'Linux'">
-    <img src="img/os/linux.png" />
-  </ng-template>
-  <ng-template [ngSwitchCase]="'Windows'">
-    <img src="img/os/windows.png" />
-  </ng-template>
-  <ng-template [ngSwitchCase]="'Mac OS'">
-    <img src="img/os/osx.png" />
-  </ng-template>
+  <ng-template [ngSwitchCase]="'Linux'"> <img src="img/os/linux.png" /> </ng-template>
+  <ng-template [ngSwitchCase]="'Windows'"> <img src="img/os/windows.png" /> </ng-template>
+  <ng-template [ngSwitchCase]="'Mac OS'"> <img src="img/os/osx.png" /> </ng-template>
   <ng-template ngSwitchDefault>
     <mat-icon class="mdi-help-circle mdi-36px"></mat-icon>
   </ng-template>

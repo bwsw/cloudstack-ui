@@ -26,9 +26,7 @@
   </ng-container>
 
   <ng-container cs-sidebar>
-    <cs-sidebar [isOpen]="listService?.hasSelected()">
-      <router-outlet></router-outlet>
-    </cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()"> <router-outlet></router-outlet> </cs-sidebar>
   </ng-container>
 </cs-list>
 
@@ -47,8 +45,6 @@
   ></cs-account-list>
 
   <ng-container cs-sidebar>
-    <cs-sidebar [isOpen]="listService?.hasSelected()">
-      <router-outlet></router-outlet>
-    </cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()"> <router-outlet></router-outlet> </cs-sidebar>
   </ng-container>
 </div>

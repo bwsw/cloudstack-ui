@@ -20,9 +20,7 @@
       (selectionChange)="vmChanged.emit($event.value)"
       [disabled]="isAutoUpdateEnabled"
     >
-      <mat-option *ngFor="let vm of vms" [value]="vm.id">
-        {{ vm.name }}
-      </mat-option>
+      <mat-option *ngFor="let vm of vms" [value]="vm.id"> {{ vm.name }} </mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -37,9 +35,7 @@
         {{ 'LOGS_PAGE.FILTERS.LOG_FILE_NOT_SELECTED' | translate }}
       </mat-option>
       <mat-option *ngFor="let logFile of logFiles" [value]="logFile.file">
-        <span [matTooltip]="logFile.file">
-          {{ logFile.file | csBasepath }}
-        </span>
+        <span [matTooltip]="logFile.file"> {{ logFile.file | csBasepath }} </span>
       </mat-option>
     </mat-select>
   </mat-form-field>

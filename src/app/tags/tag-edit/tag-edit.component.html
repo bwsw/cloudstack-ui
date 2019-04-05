@@ -1,7 +1,5 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 *ngIf="!loading" class="mat-dialog-title">
-  {{ title || 'TAGS.EDIT_TAG' | translate }}
-</h3>
+<h3 *ngIf="!loading" class="mat-dialog-title">{{ title || 'TAGS.EDIT_TAG' | translate }}</h3>
 <form (ngSubmit)="onTagUpdate()" #tagCreationForm="ngForm">
   <div class="mat-dialog-content">
     <mat-form-field class="full-width-input">
@@ -17,9 +15,7 @@
         required
         #keyField="ngModel"
       />
-      <mat-error *ngIf="keyField.invalid">
-        {{ keyFieldErrorMessage | translate }}
-      </mat-error>
+      <mat-error *ngIf="keyField.invalid"> {{ keyFieldErrorMessage | translate }} </mat-error>
       <mat-hint align="end">
         <cs-character-count [value]="key" [maxLength]="maxKeyLength"></cs-character-count>
       </mat-hint>

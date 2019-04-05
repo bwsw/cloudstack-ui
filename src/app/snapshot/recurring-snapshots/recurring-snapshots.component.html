@@ -1,6 +1,4 @@
-<h3 class="mat-dialog-title">
-  {{ 'SNAPSHOT_POLICIES.TITLE' | translate }}
-</h3>
+<h3 class="mat-dialog-title">{{ 'SNAPSHOT_POLICIES.TITLE' | translate }}</h3>
 <div class="mat-dialog-content">
   <div *ngIf="policies?.length" class="list">
     <cs-policy-list
@@ -52,8 +50,6 @@
   </mat-tab-group>
 
   <div class="mat-dialog-actions">
-    <button mat-button color="primary" matDialogClose>
-      {{ 'COMMON.CLOSE' | translate }}
-    </button>
+    <button mat-button color="primary" matDialogClose>{{ 'COMMON.CLOSE' | translate }}</button>
   </div>
 </div>

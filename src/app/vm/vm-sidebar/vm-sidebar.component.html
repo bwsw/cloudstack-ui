@@ -4,9 +4,7 @@
       <div class="title-color-container">
         <cs-vm-color [vm]="entity" (colorChanged)="colorChanged.emit($event)"></cs-vm-color>
       </div>
-      <h4 class="details-header">
-        {{ entity.displayname }}
-      </h4>
+      <h4 class="details-header">{{ entity.displayname }}</h4>
     </div>
     <div class="vm-actions-container">
       <button class="vm-actions-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">

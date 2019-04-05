@@ -16,9 +16,7 @@
       [placeholder]="'DATE_TIME.DAY_OF_MONTH' | translate"
       required
     >
-      <mat-option *ngFor="let d of daysOfMonth" [value]="d">
-        {{ d }}
-      </mat-option>
+      <mat-option *ngFor="let d of daysOfMonth" [value]="d"> {{ d }} </mat-option>
     </mat-select>
   </mat-form-field>
 </div>

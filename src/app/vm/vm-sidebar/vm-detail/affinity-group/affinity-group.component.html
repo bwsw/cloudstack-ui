@@ -29,9 +29,7 @@
             <mat-icon class="mdi-delete"></mat-icon>
           </button>
         </div>
-        <span class="value">
-          {{ getAffinityGroupType(affinityGroup.id) }}
-        </span>
+        <span class="value"> {{ getAffinityGroupType(affinityGroup.id) }} </span>
       </div>
       <div *ngIf="!vm.affinitygroup.length">
         {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.NO_AFFINITY_GROUP' | translate }}

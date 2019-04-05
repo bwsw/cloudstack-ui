@@ -5,7 +5,7 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
   allScriptsTimeout: 15000,
-  specs: ['./**/*.e2e-spec.ts'],
+  specs: ['./e2e/**/*.e2e-spec.ts'],
   /*
   multiCapabilities: [{
     'browserName': 'firefox',
@@ -34,6 +34,7 @@ exports.config = {
     vm_creation: 'vm-creation.e2e-spec.ts',
     disk_creation: 'disk-creation.e2e-spec.ts',
     disk_details: 'disk-details.e2e-spec.ts',
+    vm_sidebar: 'vm-sidebar.e2e-spec.ts',
     CI: [
       'login.e2e-spec.ts',
       'sg-creation.e2e-spec.ts',

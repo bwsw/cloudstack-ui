@@ -3,13 +3,9 @@
     {{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.BASIC_RULES' | translate }}
   </h5>
   <button mat-button type="button" class="fancy-select-button" (click)="showDialog()">
-    <span *ngIf="showAddButton">
-      {{ 'COMMON.ADD' | translate }}
-    </span>
+    <span *ngIf="showAddButton"> {{ 'COMMON.ADD' | translate }} </span>
 
-    <span *ngIf="showEditButton">
-      {{ 'COMMON.EDIT' | translate }}
-    </span>
+    <span *ngIf="showEditButton"> {{ 'COMMON.EDIT' | translate }} </span>
   </button>
   <span class="fancy-select-content">
     <cs-security-group-manager-base-templates

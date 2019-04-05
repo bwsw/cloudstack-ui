@@ -3,8 +3,6 @@
     <ng-container *ngIf="securityGroups?.length">
       {{ 'SECURITY_GROUP_SELECTOR.BASED_ON_VALUE' | translate: { value: securityGroupsLine } }}
     </ng-container>
-    <ng-container *ngIf="!securityGroups?.length">
-      {{ 'COMMON.NONE' | translate }}
-    </ng-container>
+    <ng-container *ngIf="!securityGroups?.length"> {{ 'COMMON.NONE' | translate }} </ng-container>
   </span>
 </div>

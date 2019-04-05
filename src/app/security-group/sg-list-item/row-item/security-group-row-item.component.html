@@ -7,9 +7,7 @@
 
   <div class="entity-list-item-data" *ngIf="isPrivate">
     {{ 'SECURITY_GROUP_PAGE.CARD.VM_NAME' | translate }}:
-    <ng-template [ngIf]="(item?.virtualmachineids)[0]">
-      {{ sgVmName }}
-    </ng-template>
+    <ng-template [ngIf]="(item?.virtualmachineids)[0]"> {{ sgVmName }} </ng-template>
     <ng-template [ngIf]="!(item?.virtualmachineids)[0]">
       {{ 'SECURITY_GROUP_PAGE.DETAILS.EMPTY_VM_NAME' | translate }}
     </ng-template>

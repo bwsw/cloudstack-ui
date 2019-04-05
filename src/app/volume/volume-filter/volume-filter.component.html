@@ -48,9 +48,7 @@
       [dragItems]="groupings"
       (selectionChange)="groupingsChanged.emit($event.value)"
     >
-      <mat-option *ngFor="let g of groupings" [value]="g">
-        {{ g.label | translate }}
-      </mat-option>
+      <mat-option *ngFor="let g of groupings" [value]="g"> {{ g.label | translate }} </mat-option>
     </cs-draggable-select>
   </mat-form-field>
 </div>

@@ -1,6 +1,4 @@
-<h3 class="mat-dialog-title">
-  {{ title || 'ACCOUNT_PAGE.CONFIGURATION.EDIT' | translate }}
-</h3>
+<h3 class="mat-dialog-title">{{ title || 'ACCOUNT_PAGE.CONFIGURATION.EDIT' | translate }}</h3>
 <form (ngSubmit)="onConfigurationUpdate()" #configurationForm="ngForm">
   <div class="mat-dialog-content">
     <mat-form-field class="full-width-input">
@@ -24,9 +22,7 @@
   </div>
 
   <div class="mat-dialog-actions">
-    <button mat-button color="primary" (click)="close()">
-      {{ 'COMMON.CANCEL' | translate }}
-    </button>
+    <button mat-button color="primary" (click)="close()">{{ 'COMMON.CANCEL' | translate }}</button>
     <button mat-button color="primary" type="submit" [disabled]="!configurationForm.valid">
       {{ 'COMMON.EDIT' | translate }}
     </button>
