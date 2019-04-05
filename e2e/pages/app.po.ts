@@ -93,7 +93,7 @@ export class CloudstackUiPage {
     element(by.css('.cdk-overlay-pane'))
       .isPresent()
       .then(() => {
-        return element
+        element
           .all(by.css('.mat-button.mat-primary.ng-star-inserted'))
           .get(1)
           .click();
@@ -104,9 +104,20 @@ export class CloudstackUiPage {
     element(by.css('.cdk-overlay-pane'))
       .isPresent()
       .then(() => {
-        return element
+        element
           .all(by.css('.mat-button.mat-primary.ng-star-inserted'))
           .get(0)
+          .click();
+      });
+  }
+
+  notAskDialog() {
+    element(by.css('.cdk-overlay-pane'))
+      .isPresent()
+      .then(() => {
+        element
+          .all(by.css('.mat-button.mat-primary.ng-star-inserted'))
+          .last()
           .click();
       });
   }
@@ -115,6 +126,7 @@ export class CloudstackUiPage {
     return browser.wait(
       protractor.ExpectedConditions.presenceOf(element(by.css('.cdk-overlay-pane'))),
       5000,
+      'No Dialog Modal is loaded ',
     );
   }
 
@@ -138,7 +150,6 @@ export class CloudstackUiPage {
       .all(by.css('.mat-button.mat-primary'))
       .first()
       .click();
-    browser.waitForAngular();
   }
 
   waitDialogModal() {
@@ -230,30 +241,12 @@ export class CloudstackUiPage {
       });
   }
 
-  waitActionProcess() {
+  waitBellMessage(text) {
     const EC = browser.ExpectedConditions;
     browser.wait(
-      EC.presenceOf(element(by.css('.open'))),
+      EC.visibilityOf(element(by.cssContainingText('.message', text))),
       5000,
-      'Sidebar Action process is timeout',
-    );
-  }
-
-  waitSnackMessage() {
-    const EC = browser.ExpectedConditions;
-    browser.wait(
-      EC.visibilityOf(element(by.css('snack-bar-container'))),
-      20000,
-      'No snack message appears',
-    );
-  }
-
-  waitNoSnackMessage() {
-    const EC = browser.ExpectedConditions;
-    browser.wait(
-      EC.stalenessOf(element(by.css('snack-bar-container'))),
-      20000,
-      'Snack message is not hidden',
+      'No Bell message appears',
     );
   }
 }

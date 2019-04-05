@@ -78,7 +78,6 @@ export class DiskSidebar extends CloudstackUiPage {
     this.waitDialog();
     this.clickYesDialogButton();
     const EC = browser.ExpectedConditions;
-    this.waitActionProcess();
     browser.wait(
       EC.presenceOf(element(by.css('.no-results'))),
       5000,

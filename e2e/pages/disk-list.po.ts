@@ -73,4 +73,13 @@ export class DiskList extends CloudstackUiPage {
       ),
     ).getText();
   }
+
+  waitCreatingDisk(diskname) {
+    const EC = browser.ExpectedConditions;
+    browser.wait(
+      EC.presenceOf(element(by.xpath(`//mat-card-title//span[text()="${diskname}"]`))),
+      5000,
+      'Snapshot is not created',
+    );
+  }
 }

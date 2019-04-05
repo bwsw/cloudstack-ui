@@ -21,8 +21,6 @@ describe('e2e-test-sg-creation', () => {
     login.navigateTo('/');
     login.login();
     login.waitRedirect('instances');
-    login.waitDialogModal();
-    login.cancelDialog();
   });
 
   beforeEach(() => {

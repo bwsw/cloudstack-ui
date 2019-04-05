@@ -50,10 +50,7 @@ describe('e2e-test-vm-creation', () => {
   });
 
   it('Create VM propose, VM with fixed SO, group, aff-group, unchecked start VM', () => {
-    vmlist.waitDialogModal();
-    expect(vmlist.getDialog().isPresent()).toBeTruthy();
-    vmlist.confirmDialog();
-    vmlist.waitDialogModal();
+    vmlist.clickCreateVM();
     page = new VMCreation();
     page.setDisplayName(page.name);
     // Go to Advanced Tab

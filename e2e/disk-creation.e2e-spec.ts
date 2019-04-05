@@ -16,23 +16,31 @@ describe('e2e-test-disk-creation', () => {
     login.login();
     login.waitRedirect('instances');
     login.clickStorageMenu();
+    login.waitDialogModal();
+    login.notAskDialog();
+    browser.sleep(200); // wait for tag is saved
   });
 
   beforeEach(() => {
     disklist = new DiskList();
     disksidebar = new DiskSidebar();
+    // disklist.navigateTo('/storage');
   });
 
   afterAll(() => {
+    disklist.navigateTo('/storage');
     login.logout();
   });
 
-  //TODO: no slider element appears for disk creation with custom DO,
+  // TODO: no slider element appears for disk creation with custom DO,
   // https://github.com/bwsw/cloudstack-ui/issues/1651
 
-  xit('Create disk with Custom DO', () => {
+  it('Create disk with Custom DO and verify notification', () => {
     diskcreation = new DiskCreation();
     disklist.clickCreateDisk();
+    disklist.waitDialogModal();
+    disklist.clickYesDialogButton();
+    disklist.waitDialogModal();
     disklist.waitDialogModal();
     expect(disklist.getDialog().isPresent()).toBeTruthy('No modal dialog for disk creation');
     diskcreation.setName(diskcreation.diskcustom);
@@ -40,24 +48,22 @@ describe('e2e-test-disk-creation', () => {
     diskcreation.setCustomDO();
     diskcreation.setDiskSize(2);
     diskcreation.clickYesDialogButton();
-  });
 
-  xit('Verify notification about creation of Custom disk', () => {
-    // browser.sleep(500); // Костыль. Пока не рашим проблему с waitForAngular в vm_creation
     disklist.clickBell();
     disklist.waitDialog();
+    disklist.waitBellMessage('Volume created');
     expect(disklist.verifyBellMessage('Volume created')).toBeTruthy('No bell message found');
     disklist.clickBell();
   });
 
-  xit('Verify card of disk with CustomDO: name, size, status', () => {
+  it('Verify card of disk with CustomDO: name, size, status', () => {
     disklist.clickSpareDrives();
     expect(disklist.getDiskName(diskcreation.diskcustom)).toBeTruthy('Wrong disk name');
     expect(disklist.getDiskSize('12')).toBeTruthy('Wrong disk size');
     expect(disklist.getDiskState()).toEqual(disklist.diskstate);
   });
 
-  xit('Verify sidebar of custom disk: name, size', () => {
+  it('Verify sidebar of custom disk: name, size', () => {
     disklist.openDiskSidebar(diskcreation.diskcustom);
     expect(disksidebar.getDiskName(diskcreation.diskcustom)).toBeTruthy('Wrong disk name');
     expect(disksidebar.getDiskSize('12')).toBeTruthy('Wrong disk size');
@@ -65,9 +71,12 @@ describe('e2e-test-disk-creation', () => {
     disklist.clickSpareDrives();
   });
 
-  it('Create disk with Fixed DO', () => {
+  it('Create disk with Fixed DO and verify notification', () => {
     diskcreation = new DiskCreation();
     disklist.clickCreateDisk();
+    disklist.waitDialogModal();
+    disklist.clickYesDialogButton();
+    disklist.waitDialogModal();
     disklist.waitDialogModal();
     expect(disklist.getDialog().isPresent()).toBeTruthy('No modal dialog for disk creation');
     diskcreation.setName(diskcreation.diskfixed);
@@ -75,12 +84,9 @@ describe('e2e-test-disk-creation', () => {
     diskcreation.selectFixedDO();
     diskcreation.waitDialogModal();
     diskcreation.clickYesDialogButton();
-  });
-
-  it('Verify notification about creation of disk', () => {
-    // browser.sleep(500); //  Костыль. Пока не рашим проблему с waitForAngular в vm_creation
     disklist.clickBell();
     disklist.waitDialog();
+    disklist.waitBellMessage('Volume created');
     expect(disklist.verifyBellMessage('Volume created')).toBeTruthy('No bell message found');
     disklist.clickBell();
   });

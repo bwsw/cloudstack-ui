@@ -37,8 +37,8 @@ exports.config = {
     CI: [
       'login.e2e-spec.ts',
       'sg-creation.e2e-spec.ts',
-      'vm-creation.e2e-spec.ts',
       'disk-creation.e2e-spec.ts',
+      'vm-creation.e2e-spec.ts',
       'disk-details.e2e-spec.ts',
     ],
   },
