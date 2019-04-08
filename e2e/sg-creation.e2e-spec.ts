@@ -29,6 +29,12 @@ describe('e2e-test-sg-creation', () => {
     sgsidebar = new SGSidebar();
   });
 
+  afterAll(() => {
+    login.navigateTo('/instances');
+    login.waitRedirect('instances');
+    login.logout();
+  });
+
   it('Create custom firewall template, verify rules', () => {
     sglist.clickFirewallMenu();
     sglist.clickCreateSG();
@@ -68,12 +74,11 @@ describe('e2e-test-sg-creation', () => {
     expect(sgsidebar.getSGDescription()).toEqual(page.description);
     expect(sgsidebar.getSGType()).toEqual('custom-template');
     sgsidebar.clickTagTab();
-    sgsidebar.clickChekbox();
+    sgsidebar.setShowSystemTag();
     expect(sgsidebar.getTagKey('csui.security-group.type').isPresent()).toBeTruthy(
       'csui.security-group.type',
     );
     expect(sgsidebar.getTagValue('custom-template').isPresent()).toBeTruthy('custom-template');
-    sgsidebar.clickChekbox();
     sgsidebar.clickCloseSidebar();
     // TOD0: sidebar close issue in headless mode
     sglist.clickCreateSG();
@@ -112,7 +117,7 @@ describe('e2e-test-sg-creation', () => {
     );
   });
 
-  it('Verify shared Sidebar: name, description , type', () => {
+  xit('Verify shared Sidebar: name, description , type', () => {
     sglist.clickOpenSidebar(page.name);
     expect(sgsidebar.getSGName()).toEqual(page.name);
     expect(sgsidebar.getSGDescription()).toEqual(page.description);

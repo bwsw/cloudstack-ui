@@ -24,6 +24,8 @@ describe('e2e-test-disk-details', () => {
 
   afterAll(() => {
     disklist.clickCloseSidebar();
+    login.navigateTo('/instances');
+    login.waitRedirect('instances');
     login.logout();
   });
 
@@ -52,19 +54,19 @@ describe('e2e-test-disk-details', () => {
     disklist.clickBell();
   });
 
-  it('Create volume from snapshot of ready disk', () => {
+  xit('Create volume from snapshot of ready disk', () => {
     disksidebar.clickSnapshotTab();
     disksidebar.clickActionBoxOfSnapshot();
     disksidebar.clickCreateVolume();
     disksidebar.waitDialog();
     disksidebar.setVolumeName(disksidebar.diskfromsnap);
     disksidebar.clickYesDialogButton();
-    disksidebar.waitActionProcess();
+    // TODO: bug CSUI(backlog) disk does not appears without refresh the page https://github.com/bwsw/cloudstack-ui/issues/1653
+    disklist.waitCreatingDisk(disksidebar.diskfromsnap);
     disklist.clickBell();
     disklist.waitDialog();
     expect(disklist.verifyBellMessage('Volume created')).toBeTruthy('No bell message found');
     disklist.clickBell();
-    browser.refresh(); // TODO: bug CSUI(backlog) disk does not appears without refresh the page
     expect(disklist.getDiskName(disksidebar.diskfromsnap)).toBeTruthy(
       'Do not found disk with the same name',
     );

@@ -11,7 +11,7 @@ export class DiskList extends CloudstackUiPage {
   }
 
   getDiskName(diskname) {
-    return element.all(by.cssContainingText('mat-card-title span', diskname)).isPresent();
+    return element(by.xpath(`//mat-card-title//span[text()="${diskname}"]`)).isPresent();
   }
 
   getDiskSize(disksize) {
@@ -53,11 +53,15 @@ export class DiskList extends CloudstackUiPage {
     element(by.css('.mat-fab.mat-accent')).click();
   }
 
-  openDiskSidebar() {
-    element
-      .all(by.css('.entity-card.mat-card'))
-      .last()
-      .click();
+  openDiskSidebar(name) {
+    browser
+      .actions()
+      .mouseMove(element(by.xpath(`//span[text()="${name}"]/ancestor:: mat-card`)))
+      .perform();
+    browser
+      .actions()
+      .click()
+      .perform();
     const EC = browser.ExpectedConditions;
     browser.wait(EC.presenceOf(element(by.css('.open'))), 5000, "Sidebar doesn't open");
   }
@@ -68,5 +72,14 @@ export class DiskList extends CloudstackUiPage {
         `//span[text()="${diskname}"]/ancestor::mat-card//div[@class="entity-card-data-line"][1]`,
       ),
     ).getText();
+  }
+
+  waitCreatingDisk(diskname) {
+    const EC = browser.ExpectedConditions;
+    browser.wait(
+      EC.presenceOf(element(by.xpath(`//mat-card-title//span[text()="${diskname}"]`))),
+      5000,
+      'Snapshot is not created',
+    );
   }
 }

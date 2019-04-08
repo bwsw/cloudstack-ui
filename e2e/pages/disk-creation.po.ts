@@ -2,8 +2,8 @@ import { CloudstackUiPage } from './app.po';
 import { element, by, protractor, browser } from 'protractor';
 
 export class DiskCreation extends CloudstackUiPage {
-  diskcustom = 'diskcustom';
-  diskfixed = 'diskfixed';
+  diskcustom = `custom${this.generateID()}`;
+  diskfixed = `fixed${this.generateID()}`;
 
   setName(diskname: string) {
     element(by.name('name')).sendKeys(diskname);

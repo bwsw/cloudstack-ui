@@ -102,7 +102,7 @@ export class CloudstackUiPage {
     element(by.css('.cdk-overlay-pane'))
       .isPresent()
       .then(() => {
-        return element
+        element
           .all(by.css('.mat-button.mat-primary.ng-star-inserted'))
           .get(1)
           .click();
@@ -113,9 +113,20 @@ export class CloudstackUiPage {
     element(by.css('.cdk-overlay-pane'))
       .isPresent()
       .then(() => {
-        return element
+        element
           .all(by.css('.mat-button.mat-primary.ng-star-inserted'))
           .get(0)
+          .click();
+      });
+  }
+
+  notAskDialog() {
+    element(by.css('.cdk-overlay-pane'))
+      .isPresent()
+      .then(() => {
+        element
+          .all(by.css('.mat-button.mat-primary.ng-star-inserted'))
+          .last()
           .click();
       });
   }
@@ -124,6 +135,7 @@ export class CloudstackUiPage {
     return browser.wait(
       protractor.ExpectedConditions.presenceOf(element(by.css('.cdk-overlay-pane'))),
       5000,
+      'No Dialog Modal is loaded ',
     );
   }
 
@@ -147,14 +159,13 @@ export class CloudstackUiPage {
       .all(by.css('.mat-button.mat-primary'))
       .first()
       .click();
-    browser.waitForAngular();
   }
 
   waitDialogModal() {
     const EC = protractor.ExpectedConditions;
     browser.wait(
       EC.visibilityOf(element.all(by.tagName('mat-dialog-container')).last()),
-      5000,
+      8000,
       'No Dialog Modal is loaded ',
     );
     browser.wait(
@@ -219,11 +230,6 @@ export class CloudstackUiPage {
       .actions()
       .click()
       .perform();
-    browser.wait(
-      browser.ExpectedConditions.presenceOf(element(by.css('.message'))),
-      5000,
-      'No notification',
-    );
   }
 
   verifyBellMessage(text) {
@@ -253,12 +259,22 @@ export class CloudstackUiPage {
       });
   }
 
-  waitActionProcess() {
+  setShowSystemTag() {
+    element(by.xpath("//mat-checkbox[contains(@class,'mat-checkbox-checked')]"))
+      .isPresent()
+      .then(result => {
+        if (!result) {
+          element(by.name('showSystemTags')).click();
+        }
+      });
+  }
+
+  waitBellMessage(text) {
     const EC = browser.ExpectedConditions;
     browser.wait(
-      EC.presenceOf(element(by.css('.open'))),
+      EC.visibilityOf(element(by.cssContainingText('.message', text))),
       5000,
-      'Sidebar Action process is timeout',
+      'No Bell message appears',
     );
   }
 }

@@ -32,18 +32,11 @@ export class VMList extends CloudstackUiPage {
 
   clickCreateVM() {
     browser.wait(
-      ExpectedConditions.visibilityOf(element(by.css('mat-list'))),
+      ExpectedConditions.elementToBeClickable(element(by.css('button.mat-fab.mat-accent'))),
       2000,
-      'No VM list is loaded',
+      'Create VM button is not clickable',
     );
-    browser
-      .actions()
-      .mouseMove(element(by.css('.mat-fab.mat-accent')))
-      .perform();
-    browser
-      .actions()
-      .click()
-      .perform();
+    element(by.css('button.mat-fab.mat-accent')).click();
   }
 
   clickOpenSidebar(index) {

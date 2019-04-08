@@ -16,12 +16,18 @@ export class VMDeploy extends CloudstackUiPage {
 
   waitVMDeploy() {
     const EC = protractor.ExpectedConditions;
+    browser.wait(
+      protractor.ExpectedConditions.visibilityOf(element(by.css('snack-bar-container'))),
+      20000,
+      'No snack message Create VM appears',
+    );
     const header = EC.textToBePresentInElement(
       element(by.tagName('h3')),
       'Virtual Machine Successfully Created',
     );
+    const snack = EC.stalenessOf(element(by.css('snack-bar-container')));
     const button = EC.visibilityOf(element.all(by.css('.mat-button.mat-primary')).last());
-    browser.wait(EC.and(header, button), 20000, 'Error for deploying VM occurs');
+    browser.wait(EC.and(header, button, snack), 20000, 'Error for deploying VM occurs');
   }
 
   getProgressText() {

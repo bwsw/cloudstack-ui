@@ -12,7 +12,7 @@ describe('e2e-test-login', () => {
     page.navigateTo('/');
   });
 
-  fit('Show/Hide options: domain', () => {
+  it('Show/Hide options: domain', () => {
     expect(page.domainIsPresent()).toBeFalsy();
     page.clickShowOptions();
     expect(page.domainIsPresent()).toBeTruthy();
@@ -69,18 +69,20 @@ describe('e2e-test-login', () => {
     page.login();
     page.waitRedirect('instances');
     page.checkUrlToContain('instances');
-    vmlist.waitDialogModal();
+    vmlist.waitDialog();
+    expect(vmlist.getDialog().isPresent()).toBeTruthy();
     vmlist.cancelDialog();
     page.logout();
     page.waitUrlContains('login');
   });
 
-  it('After logout no access for instance page', () => {
+  it('After logout no access for instance page, verify vm propose', () => {
     page.waitUrlContains('login');
     page.login();
     page.waitRedirect('instances');
-    vmlist.waitDialogModal();
-    vmlist.cancelDialog();
+    vmlist.waitDialog();
+    vmlist.notAskDialog();
+    browser.sleep(300); // wait while tag is saved
     page.logout();
     page.waitUrlContains('login');
     browser.get(`${browser.baseUrl}/instances`);
