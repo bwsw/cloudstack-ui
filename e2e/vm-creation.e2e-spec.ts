@@ -46,6 +46,8 @@ describe('e2e-test-vm-creation', () => {
   });
 
   afterAll(() => {
+    login.navigateTo('/instances');
+    login.waitRedirect('instances');
     login.logout();
   });
 

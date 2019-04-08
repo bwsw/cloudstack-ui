@@ -33,6 +33,8 @@ describe('e2e-test-vm-sidebar', () => {
   });
 
   afterAll(() => {
+    login.navigateTo('/instances');
+    login.waitRedirect('instances');
     login.logout();
   });
 
@@ -49,7 +51,6 @@ describe('e2e-test-vm-sidebar', () => {
   it('Verify description is changed', () => {
     vmlist.clickOpenSidebar(0);
     sidebar.setDescription('desc');
-
     vmlist.clickBell();
     expect(vmlist.verifyBellMessage('Description changed')).toBeTruthy();
     sidebar.clickCloseSidebar();

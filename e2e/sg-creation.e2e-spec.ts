@@ -30,6 +30,8 @@ describe('e2e-test-sg-creation', () => {
   });
 
   afterAll(() => {
+    login.navigateTo('/instances');
+    login.waitRedirect('instances');
     login.logout();
   });
 

@@ -230,11 +230,6 @@ export class CloudstackUiPage {
       .actions()
       .click()
       .perform();
-    browser.wait(
-      browser.ExpectedConditions.presenceOf(element(by.css('.message'))),
-      5000,
-      'No notification',
-    );
   }
 
   verifyBellMessage(text) {

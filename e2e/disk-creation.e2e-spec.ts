@@ -24,11 +24,11 @@ describe('e2e-test-disk-creation', () => {
   beforeEach(() => {
     disklist = new DiskList();
     disksidebar = new DiskSidebar();
-    // disklist.navigateTo('/storage');
   });
 
   afterAll(() => {
-    disklist.navigateTo('/storage');
+    login.navigateTo('/instances');
+    login.waitRedirect('instances');
     login.logout();
   });
 

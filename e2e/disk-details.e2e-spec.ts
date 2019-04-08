@@ -24,6 +24,8 @@ describe('e2e-test-disk-details', () => {
 
   afterAll(() => {
     disklist.clickCloseSidebar();
+    login.navigateTo('/instances');
+    login.waitRedirect('instances');
     login.logout();
   });
 

@@ -64,7 +64,7 @@ describe('e2e-test-login', () => {
     page.checkUrlToContain('login');
   });
 
-  it('Can login by correct settings: login, password, domain, verify vm propose', () => {
+  it('Can login by correct settings: login, password, domain', () => {
     page.waitUrlContains('login');
     page.login();
     page.waitRedirect('instances');
@@ -76,12 +76,13 @@ describe('e2e-test-login', () => {
     page.waitUrlContains('login');
   });
 
-  it('After logout no access for instance page', () => {
+  it('After logout no access for instance page, verify vm propose', () => {
     page.waitUrlContains('login');
     page.login();
     page.waitRedirect('instances');
     vmlist.waitDialog();
     vmlist.notAskDialog();
+    browser.sleep(300); // wait while tag is saved
     page.logout();
     page.waitUrlContains('login');
     browser.get(`${browser.baseUrl}/instances`);
