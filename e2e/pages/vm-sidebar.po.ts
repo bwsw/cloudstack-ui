@@ -157,6 +157,12 @@ export class VMSidebar extends CloudstackUiPage {
     // element(by.css('.mdi-delete.mat-icon.mdi')).click();
   }
 
+  clickSidebar() {
+    return element(by.css('.vm-actions-button.mat-icon-button'))
+      .element(by.css('.mdi-dots-vertical.mat-icon.mdi'))
+      .click();
+  }
+
   getTagKey(expected) {
     return element(by.css('cs-tag-category div.mat-card-content-container')).element(
       by.cssContainingText('.key', expected),
