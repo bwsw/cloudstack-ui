@@ -1,4 +1,11 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParameterCodec,
+  HttpParams,
+  HttpUrlEncodingCodec,
+} from '@angular/common/http';
+import { HttpParamsOptions } from '@angular/common/http/src/params';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, map, share, switchMap } from 'rxjs/operators';
 const range = require('lodash/range');
@@ -142,8 +149,14 @@ export abstract class BaseBackendService<M> {
     return this.sendCommand(command, params, entity);
   }
 
-  protected buildParams(command: string, params?: {}, entity?: string): HttpParams {
-    let urlParams = new HttpParams();
+  protected buildParams(
+    command: string,
+    params?: {},
+    entity?: string,
+    encoder?: HttpUrlEncodingCodec,
+  ): HttpParams {
+    const httpParamsOptions: HttpParamsOptions = encoder ? { encoder } : {};
+    let urlParams = new HttpParams(httpParamsOptions);
     urlParams = urlParams.set('command', this.getRequestCommand(command, entity));
 
     for (const key in params) {
@@ -169,9 +182,14 @@ export abstract class BaseBackendService<M> {
     return urlParams;
   }
 
-  protected getRequest(command: string, params?: {}, entity?: string): Observable<any> {
+  protected getRequest(
+    command: string,
+    params?: {},
+    entity?: string,
+    encoder?: HttpUrlEncodingCodec,
+  ): Observable<any> {
     return this.http.get(BACKEND_API_URL, {
-      params: this.buildParams(command, params, entity),
+      params: this.buildParams(command, params, entity, encoder),
     });
   }
 
@@ -184,20 +202,37 @@ export abstract class BaseBackendService<M> {
     return result[responseKeys[0]];
   }
 
-  protected postRequest(command: string, params?: {}, entity?: string): Observable<any> {
+  protected postRequest(
+    command: string,
+    params?: {},
+    entity?: string,
+    encoder?: HttpUrlEncodingCodec,
+  ): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-    return this.http.post(BACKEND_API_URL, this.buildParams(command, params, entity), { headers });
+    return this.http.post(BACKEND_API_URL, this.buildParams(command, params, entity, encoder), {
+      headers,
+    });
   }
 
-  protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
-    return this.getRequest(command, params, entity).pipe(
+  protected sendCommand(
+    command: string,
+    params?: {},
+    entity?: string,
+    encoder?: HttpUrlEncodingCodec,
+  ): Observable<any> {
+    return this.getRequest(command, params, entity, encoder).pipe(
       map(res => this.getResponse(res)),
       catchError(e => this.handleCommandError(e.error)),
     );
   }
 
-  protected sendPostCommand(command: string, params?: {}, entity?: string): Observable<any> {
-    return this.postRequest(command, params, entity).pipe(
+  protected sendPostCommand(
+    command: string,
+    params?: {},
+    entity?: string,
+    encoder?: HttpUrlEncodingCodec,
+  ): Observable<any> {
+    return this.postRequest(command, params, entity, encoder).pipe(
       map(res => this.getResponse(res)),
       catchError(e => this.handleCommandError(e.error)),
     );
