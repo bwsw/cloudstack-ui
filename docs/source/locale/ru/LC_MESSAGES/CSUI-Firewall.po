@@ -584,7 +584,7 @@ msgstr "Версиям - ipv4 и/или ipv6;"
 
 #: ../../CSUI-Firewall.rst:200
 msgid "Types - Ingress and/or Egress;"
-msgstr "Типам - Входящее и/или Исходящее;"
+msgstr "Типам - Входящий и/или Исходящий;"
 
 #: ../../CSUI-Firewall.rst:201
 msgid "Protocols - TCP and/or UDP and/or ICMP."
