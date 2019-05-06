@@ -88,20 +88,9 @@ export class TemplateFiltersComponent implements OnInit {
     templateFilters.community,
   ];
 
-  private defaultCategoryFilters = [templateFilters.self, templateFilters.featured];
-
   constructor(private authService: AuthService, private translate: TranslateService) {}
 
   public ngOnInit(): void {
-    if (this.dialogMode) {
-      if (!this.selectedOsFamilies || !this.selectedOsFamilies.length) {
-        this.selectedOsFamilies = this.osFamilies.concat();
-      }
-      if (!this.selectedTypes || !this.selectedTypes.length) {
-        this.selectedTypes = [...this.defaultCategoryFilters];
-      }
-    }
-
     if (this.availableGroupings && this.selectedGroupings) {
       this.availableGroupings = reorderAvailableGroupings(
         this.availableGroupings,
