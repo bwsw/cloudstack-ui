@@ -30,8 +30,10 @@ export DOCKER_REPO=cloudstack-ui
 ./scripts/ci/test.sh
 
 # e2e tests
-./scripts/ci/add-e2e-config.sh
-./scripts/ci/test-e2e.sh
+if [[ "$SKIP_E2E" != true ]]; then
+  ./scripts/ci/add-e2e-config.sh
+  ./scripts/ci/test-e2e.sh
+fi
 
 if [[ "$CI_TYPE" != "RELEASE" ]]; then
   ./scripts/ci/add-deployment-config.sh
