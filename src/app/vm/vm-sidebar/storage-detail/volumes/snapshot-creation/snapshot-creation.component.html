@@ -31,7 +31,14 @@
       <button mat-button color="primary" matDialogClose type="button">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <button *ngIf="enoughResources" mat-button color="primary" type="button" (click)="onSubmit()">
+      <button
+        *ngIf="enoughResources"
+        mat-button
+        color="primary"
+        type="submit"
+        [disabled]="!name"
+        (click)="onSubmit()"
+      >
         {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>
