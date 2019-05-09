@@ -319,7 +319,7 @@ export class VolumesEffects {
                 new volumeActions.DeleteVolume({
                   ...volume,
                   virtualmachineid: expunged ? null : volume.virtualmachineid,
-                  snapshots: null,
+                  snapshots: [],
                 }),
               );
               return res;

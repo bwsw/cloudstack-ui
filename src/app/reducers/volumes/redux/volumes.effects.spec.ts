@@ -491,7 +491,7 @@ describe('Volume Effects', () => {
       expunged: false,
     });
     const completion1 = new snapshotActions.DeleteSnapshots(list[2].snapshots);
-    const completion2 = new volumeActions.DeleteVolume(list[2]);
+    const completion2 = new volumeActions.DeleteVolume({ ...list[2], snapshots: [] });
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-(bc)', { b: completion1, c: completion2 });
