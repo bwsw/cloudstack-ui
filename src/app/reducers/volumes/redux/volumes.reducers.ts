@@ -126,6 +126,7 @@ export function reducer(state = initialState, action: volumeActions.Actions): St
       };
     }
 
+    case volumeActions.CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS:
     case volumeActions.VOLUME_CREATE_SUCCESS: {
       return {
         ...adapter.addOne(action.payload, state),
