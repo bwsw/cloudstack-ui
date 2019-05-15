@@ -301,7 +301,7 @@ export class VolumesEffects {
         action.payload.expunged,
       ];
     }),
-    filter(([volumes, expunged]: [Volume[], boolean]) => !!volumes.length),
+    filter(([volumes]: [Volume[], boolean]) => !!volumes.length),
     switchMap(([volumes, expunged]: [Volume[], boolean]) =>
       this.dialog
         .open(VolumeDeleteDialogComponent, {
@@ -312,15 +312,16 @@ export class VolumesEffects {
           filter(Boolean),
           mergeMap(params => {
             return volumes.reduce((res: Action[], volume: Volume) => {
-              const detachedVolume = expunged ? { ...volume, virtualmachineid: '' } : volume;
               if (params.deleteSnapshots && !!volume.snapshots.length) {
-                res.push(
-                  new snapshotActions.DeleteSnapshots(detachedVolume.snapshots),
-                  new volumeActions.DeleteVolume(detachedVolume),
-                );
-              } else {
-                res.push(new volumeActions.DeleteVolume(detachedVolume));
+                res.push(new snapshotActions.DeleteSnapshots(volume.snapshots));
               }
+              res.push(
+                new volumeActions.DeleteVolume({
+                  ...volume,
+                  virtualmachineid: expunged ? null : volume.virtualmachineid,
+                  snapshots: [],
+                }),
+              );
               return res;
             }, []);
           }),
