@@ -15,6 +15,7 @@ import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromOsTypes from './ostype.reducers';
 import * as templateActions from './template.actions';
 import * as vmActions from '../../vm/redux/vm.actions';
+import { OsFamily } from '../../../shared/models';
 
 export interface ListState extends EntityState<BaseTemplateModel> {
   loading: boolean;
@@ -67,8 +68,8 @@ const initialListState: ListState = adapter.getInitialState({
 const initialVmCreationTemplatesState: VmCreationTemplatesState = {
   filters: {
     selectedViewMode: templateResourceType.template,
-    selectedTypes: [],
-    selectedOsFamilies: [],
+    selectedTypes: [templateFilters.self, templateFilters.featured],
+    selectedOsFamilies: [OsFamily.Linux, OsFamily.Windows, OsFamily.MacOs, OsFamily.Other],
     selectedGroups: [],
     selectedZoneId: null,
     query: '',
@@ -411,6 +412,7 @@ export const selectTemplatesForAction = createSelector(
     const selectedTypesFilter = (template: BaseTemplateModel) => {
       const selfFilter =
         !!typesMap[templateFilters.self] &&
+        user &&
         (template.account === user.name && template.domainid === user.domainid);
       const featuredFilter = typesMap[templateFilters.featured] && template.isfeatured;
       const communityFilter =

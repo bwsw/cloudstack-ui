@@ -91,15 +91,6 @@ export class TemplateFiltersComponent implements OnInit {
   constructor(private authService: AuthService, private translate: TranslateService) {}
 
   public ngOnInit(): void {
-    if (this.dialogMode) {
-      if (!this.selectedOsFamilies || !this.selectedOsFamilies.length) {
-        this.selectedOsFamilies = this.osFamilies.concat();
-      }
-      if (!this.selectedTypes || !this.selectedTypes.length) {
-        this.selectedTypes = this.categoryFilters.concat();
-      }
-    }
-
     if (this.availableGroupings && this.selectedGroupings) {
       this.availableGroupings = reorderAvailableGroupings(
         this.availableGroupings,
