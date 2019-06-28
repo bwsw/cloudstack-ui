@@ -13,10 +13,6 @@ export class AppNavComponent {
   public routes: Route[];
   @Input()
   public currentRoute: Route;
-  @Output()
-  public menuButtonClicked = new EventEmitter<void>();
-
-  public onMenuButtonClicked(): void {
-    this.menuButtonClicked.emit();
-  }
+  @Input()
+  public username: string;
 }

@@ -10,6 +10,7 @@
     color: mat-color($primary, '500-contrast');
     background-color: mat-color($primary);
 
+    .nav-sub-link:hover,
     .nav-link:hover,
     .link-active {
       background-color: mat-color($primary, 300);
