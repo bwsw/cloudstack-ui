@@ -10,6 +10,7 @@
             {{ route.text | translate }}
           </mat-panel-title>
         </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
         <ng-container *ngFor="let subroute of route.subroutes">
           <a [routerLink]="subroute.path" class="nav-sub-link" routerLinkActive="link-active">
             <mat-icon [ngClass]="subroute.icon"></mat-icon>
@@ -17,7 +18,6 @@
           </a>
         </ng-container>
       </mat-expansion-panel>
-      <mat-divider></mat-divider>
     </ng-container>
 
     <a class="nav-link" routerLink="/logout">

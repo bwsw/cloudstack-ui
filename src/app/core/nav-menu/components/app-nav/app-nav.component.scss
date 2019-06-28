@@ -18,7 +18,7 @@
     border-radius: 0;
     background: none;
     color: rgba(255, 255, 255, 0.87);
-    box-shadow: none;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 
     ::ng-deep .mat-expansion-panel-header-description,
     .mat-expansion-panel-header-title {
