@@ -1,5 +1,15 @@
 <mat-form-field class="full-width-input">
   <mat-select [placeholder]="'SNAPSHOT_POLICIES.TIME_ZONE' | translate" [(ngModel)]="timeZone">
+    <mat-option>
+      <ngx-mat-select-search
+        [placeholderLabel]="'SELECT_SEARCH.SEARCH' | translate"
+        [noEntriesFoundLabel]="'SELECT_SEARCH.NO_MATCH' | translate"
+        [ngModel]="query"
+        (ngModelChange)="queryChanged($event)"
+      >
+        <mat-icon ngxMatSelectSearchClear class="mdi-close"></mat-icon>
+      </ngx-mat-select-search>
+    </mat-option>
     <mat-option *ngFor="let tz of timeZones" [value]="tz"> {{ timeZoneToString(tz) }} </mat-option>
   </mat-select>
 </mat-form-field>
