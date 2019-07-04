@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Account, Grouping, VolumeType, volumeTypeNames, Zone } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
@@ -7,7 +15,7 @@ import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings'
   selector: 'cs-volume-filter',
   templateUrl: 'volume-filter.component.html',
 })
-export class VolumeFilterComponent implements OnInit {
+export class VolumeFilterComponent implements OnInit, OnChanges {
   @Input()
   public zones: Zone[];
   @Input()
@@ -41,10 +49,20 @@ export class VolumeFilterComponent implements OnInit {
   @Output()
   public groupingsChanged = new EventEmitter();
 
+  public accountsFiltered: Account[] = [];
+  public accountQuery = '';
+
   constructor(private authService: AuthService) {}
 
   public ngOnInit() {
     this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    const accounts = changes['accounts'];
+    if (accounts) {
+      this.onAccountQueryChanged(this.accountQuery);
+    }
   }
 
   public getVolumeTypeName(type: VolumeType): string {
@@ -53,5 +71,12 @@ export class VolumeFilterComponent implements OnInit {
 
   public showAccountFilter(): boolean {
     return this.authService.isAdmin();
+  }
+
+  public onAccountQueryChanged(accountQuery: string) {
+    const queryLower = accountQuery && accountQuery.toLowerCase();
+    this.accountsFiltered = this.accounts.filter(
+      account => !accountQuery || account.name.toLowerCase().includes(queryLower),
+    );
   }
 }

@@ -1,17 +1,18 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { VirtualMachine } from '../../vm';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, TimeFormat } from '../../shared/types';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
 import { VmLogFile } from '../models/vm-log-file.model';
+import { Account } from '../../shared/models';
 
 @Component({
   selector: 'cs-vm-logs-filter',
   templateUrl: 'vm-logs-filter.component.html',
   styleUrls: ['vm-logs-filter.component.scss'],
 })
-export class VmLogsFilterComponent {
+export class VmLogsFilterComponent implements OnChanges {
   @Input()
   public accounts: Account[];
   @Input()
@@ -63,6 +64,9 @@ export class VmLogsFilterComponent {
   @Output()
   public newestFirstChanged = new EventEmitter<void>();
 
+  public accountsFiltered: Account[] = [];
+  public accountQuery = '';
+
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
     public translate: TranslateService,
@@ -70,5 +74,19 @@ export class VmLogsFilterComponent {
 
   public get locale(): Language {
     return this.translate.currentLang as Language;
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    const accounts = changes['accounts'];
+    if (accounts) {
+      this.onAccountQueryChanged(this.accountQuery);
+    }
+  }
+
+  public onAccountQueryChanged(accountQuery: string) {
+    const queryLower = accountQuery && accountQuery.toLowerCase();
+    this.accountsFiltered = this.accounts.filter(
+      account => !accountQuery || account.name.toLowerCase().includes(queryLower),
+    );
   }
 }

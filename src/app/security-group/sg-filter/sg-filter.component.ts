@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { SecurityGroupViewMode } from '../sg-view-mode';
 
 export interface SecurityGroupFilter {
@@ -13,7 +13,7 @@ export interface SecurityGroupFilter {
   templateUrl: 'sg-filter.component.html',
   styleUrls: ['sg-filter.component.scss'],
 })
-export class SgFilterComponent {
+export class SgFilterComponent implements OnChanges {
   @Input()
   public accounts: Account[];
   @Input()
@@ -43,5 +43,19 @@ export class SgFilterComponent {
 
   public get SecurityGroupViewMode() {
     return SecurityGroupViewMode;
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    const accounts = changes['accounts'];
+    if (accounts) {
+      this.onAccountQueryChanged(this.accountQuery);
+    }
+  }
+
+  public onAccountQueryChanged(accountQuery: string) {
+    const queryLower = accountQuery && accountQuery.toLowerCase();
+    this.accountsFiltered = this.accounts.filter(
+      account => !accountQuery || account.name.toLowerCase().includes(queryLower),
+    );
   }
 }

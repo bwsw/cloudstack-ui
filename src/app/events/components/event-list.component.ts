@@ -55,6 +55,8 @@ export class EventListComponent implements OnChanges {
   @Output()
   public accountChanged = new EventEmitter<string[]>();
 
+  public accountsFiltered: Account[] = [];
+  public accountQuery = '';
   public dataSource: MatTableDataSource<Event>;
   public tableColumns = ['description', 'level', 'type', 'time'];
   public levels = ['INFO', 'WARN', 'ERROR'];
@@ -72,8 +74,19 @@ export class EventListComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges) {
     const events = changes['events'];
+    const accounts = changes['accounts'];
     if (events) {
       this.dataSource.data = events.currentValue;
     }
+    if (accounts) {
+      this.onAccountQueryChanged(this.accountQuery);
+    }
+  }
+
+  public onAccountQueryChanged(accountQuery: string) {
+    const queryLower = accountQuery && accountQuery.toLowerCase();
+    this.accountsFiltered = this.accounts.filter(
+      account => !accountQuery || account.name.toLowerCase().includes(queryLower),
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Account } from '../../../shared/models';
@@ -11,7 +11,7 @@ import { SnapshotPageViewMode } from '../../types';
   selector: 'cs-vm-snapshots-filter',
   templateUrl: './vm-snapshot-filter.component.html',
 })
-export class VmSnapshotFilterComponent {
+export class VmSnapshotFilterComponent implements OnChanges {
   @Input()
   public isLoading: boolean;
   @Input()
@@ -39,6 +39,9 @@ export class VmSnapshotFilterComponent {
   @Output()
   public viewModeChange = new EventEmitter<SnapshotPageViewMode>();
 
+  public accountsFiltered: Account[] = [];
+  public accountQuery = '';
+
   public get locale(): Language {
     return this.translate.currentLang as Language;
   }
@@ -47,4 +50,18 @@ export class VmSnapshotFilterComponent {
     private translate: TranslateService,
     public dateTimeFormatterService: DateTimeFormatterService,
   ) {}
+
+  public ngOnChanges(changes: SimpleChanges) {
+    const accounts = changes['accounts'];
+    if (accounts) {
+      this.onAccountQueryChanged(this.accountQuery);
+    }
+  }
+
+  public onAccountQueryChanged(accountQuery: string) {
+    const queryLower = accountQuery && accountQuery.toLowerCase();
+    this.accountsFiltered = this.accounts.filter(
+      account => !accountQuery || account.name.toLowerCase().includes(queryLower),
+    );
+  }
 }

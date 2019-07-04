@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { templateFilters, templateResourceType } from '../shared/base-template.service';
@@ -12,7 +20,7 @@ import { Language } from '../../shared/types';
   selector: 'cs-template-filters',
   templateUrl: 'template-filters.component.html',
 })
-export class TemplateFiltersComponent implements OnInit {
+export class TemplateFiltersComponent implements OnInit, OnChanges {
   @Input()
   public showIsoSwitch = true;
   @Input()
@@ -69,6 +77,9 @@ export class TemplateFiltersComponent implements OnInit {
   @Output()
   public queryChange = new EventEmitter();
 
+  public accountsFiltered: Account[] = [];
+  public accountQuery = '';
+
   public filterTranslations = {
     [templateFilters.self]: 'TEMPLATE_PAGE.FILTERS.SELF',
     [templateFilters.featured]: 'TEMPLATE_PAGE.FILTERS.FEATURED',
@@ -99,6 +110,13 @@ export class TemplateFiltersComponent implements OnInit {
     }
   }
 
+  public ngOnChanges(changes: SimpleChanges) {
+    const accounts = changes['accounts'];
+    if (accounts) {
+      this.onAccountQueryChanged(this.accountQuery);
+    }
+  }
+
   public get locale(): Language {
     return this.translate.currentLang as Language;
   }
@@ -122,5 +140,12 @@ export class TemplateFiltersComponent implements OnInit {
 
   public updateSelectedGroupings(selectedGroupings) {
     this.selectedGroupingsChange.emit(selectedGroupings);
+  }
+
+  public onAccountQueryChanged(accountQuery: string) {
+    const queryLower = accountQuery && accountQuery.toLowerCase();
+    this.accountsFiltered = this.accounts.filter(
+      account => !accountQuery || account.name.toLowerCase().includes(queryLower),
+    );
   }
 }

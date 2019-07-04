@@ -258,6 +258,7 @@ const SHARED_COMPONENTS = [
     RequestResourcesButtonComponent,
     RequestResourcesButtonContainerComponent,
     MatExpansionModule,
+    NgxMatSelectSearchModule,
   ],
   entryComponents: [
     DatePickerDialogComponent,

@@ -9,7 +9,17 @@
       [ngModel]="selectedAccounts"
       (selectionChange)="selectedAccountsChange.emit($event.value)"
     >
-      <mat-option *ngFor="let account of accounts" [value]="account.name"
+      <mat-option>
+        <ngx-mat-select-search
+          [placeholderLabel]="'SELECT_SEARCH.SEARCH' | translate"
+          [noEntriesFoundLabel]="'SELECT_SEARCH.NO_MATCH' | translate"
+          [ngModel]="accountQuery"
+          (ngModelChange)="onAccountQueryChanged($event)"
+        >
+          <mat-icon ngxMatSelectSearchClear class="mdi-close"></mat-icon>
+        </ngx-mat-select-search>
+      </mat-option>
+      <mat-option *ngFor="let account of accountsFiltered" [value]="account.name"
         >{{ account.fullDomain }} {{ account.name }}
       </mat-option>
     </mat-select>
