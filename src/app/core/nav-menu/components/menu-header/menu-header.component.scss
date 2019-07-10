@@ -4,9 +4,9 @@
 
 .menu-header {
   font-size: 13px;
-  padding: 16px;
   display: flex;
   flex-direction: column;
+  height: 64px;
 
   .mdi-menu {
     color: inherit !important;
@@ -14,7 +14,7 @@
 
   .logo {
     width: 210px;
-    margin: 15px 0;
+    margin: auto;
     align-self: center;
   }
 

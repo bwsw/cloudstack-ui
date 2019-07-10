@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
 import { Route } from '../../models';
 
 @Component({
@@ -14,5 +13,5 @@ export class AppNavComponent {
   @Input()
   public currentRoute: Route;
   @Input()
-  public username: string;
+  public account: Account;
 }

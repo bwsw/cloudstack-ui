@@ -6,6 +6,7 @@
   justify-content: space-between;
   min-width: $nav-menu-min-width;
   overflow: auto;
+  height: 100%;
 }
 
 .nav-routes {
@@ -73,5 +74,13 @@
     align-items: center;
     color: inherit;
     text-decoration: none;
+  }
+
+  // Disable the hover on touch devices since it can appear like it is stuck. We can't use
+  // `@media (hover)` above, because the desktop support browser support isn't great.
+  @media (hover: none) {
+    .mat-expansion-panel-header:hover {
+      background: transparent;
+    }
   }
 }

@@ -1,5 +1,6 @@
 mat-sidenav-content {
   display: flex;
+  flex-direction: column;
 
   .primary-content {
     width: 100%;

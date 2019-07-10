@@ -1,6 +1,7 @@
 <div>
-  <cs-menu-header [username]="username"></cs-menu-header>
-
+  <cs-menu-header></cs-menu-header>
+  <cs-account-info [account]="account"></cs-account-info>
+  <mat-divider></mat-divider>
   <div class="nav-routes">
     <mat-accordion>
       <ng-container *ngFor="let route of routes">

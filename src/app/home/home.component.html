@@ -1,10 +1,20 @@
 <mat-sidenav-container fullscreen>
-  <mat-sidenav-content>
+  <mat-sidenav #sidenav [mode]="sideNavMode" [(opened)]="sideNavOpen">
     <cs-app-nav
       [username]="username"
       [routes]="routes$ | async"
       [currentRoute]="currentRoute$ | async"
     ></cs-app-nav>
-    <div class="primary-content"><router-outlet></router-outlet></div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <cs-navbar
+      [routes]="routes$ | async"
+      [currentRoute]="currentRoute$ | async"
+      [currentSubroute]="currentSubroute$ | async"
+      (menuClick)="onMenuClick()"
+    ></cs-navbar>
+    <div class="primary-content">
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
