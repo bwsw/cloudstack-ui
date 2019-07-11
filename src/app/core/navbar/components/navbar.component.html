@@ -35,7 +35,7 @@
         <mat-icon class="mdi-magnify"></mat-icon>
         <input
           matInput
-          [placeholder]="searchBoxState.placeholder"
+          [placeholder]="searchBoxState.placeholder | translate"
           [(ngModel)]="searchBoxState.query"
           (ngModelChange)="searchBoxState.event($event)"
         />
