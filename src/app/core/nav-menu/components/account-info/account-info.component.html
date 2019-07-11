@@ -1,6 +1,10 @@
 <div class="account-info" *ngIf="account">
-  <div class="account-info-username">
-    {{ account.name }} <span class="account-info-domain">({{ account.domain }})</span>
+  <div class="account-welcome">
+    {{ 'NAVIGATION_SIDEBAR.WELCOME' | translate: userParam }}
+  </div>
+  <div class="account-info-account">
+    <span class="account-info-name" [matTooltip]="account.name">{{ account.name }}</span>
+    <span class="account-info-domain">({{ account.domain }})</span>
   </div>
   <div class="account-info-role">
     {{ account.rolename }}

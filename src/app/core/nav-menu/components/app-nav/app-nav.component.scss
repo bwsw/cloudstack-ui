@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: $nav-menu-min-width;
+  width: $nav-menu-width;
   overflow: auto;
   height: 100%;
 }

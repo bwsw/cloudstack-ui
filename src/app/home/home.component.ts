@@ -27,7 +27,6 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public currentRoute$: Observable<Route> = this.store.pipe(select(getCurrentRoute));
   public currentSubroute$: Observable<Route> = this.store.pipe(select(getCurrentSubroute));
   public account$: Observable<Account> = this.store.pipe(select(fromAccounts.selectUserAccount));
-  public username: string;
   public sideNavOpen = true;
   public sideNavMode = window.innerWidth > 900 ? 'side' : 'over';
 
@@ -37,7 +36,6 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
     private navbar: NavbarService,
   ) {
     super();
-    this.username = this.auth.user ? `${this.auth.user.username} (${this.auth.user.domain})` : '';
 
     // initial the navbar menu button's action
     this.navbar.setDefaultButtonEvent(this.onMenuClick.bind(this));

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { User } from '../../../../shared/models';
 
 @Component({
   selector: 'cs-account-info',
@@ -9,4 +10,10 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class AccountInfoComponent {
   @Input()
   public account: Account;
+  @Input()
+  public user: User;
+
+  get userParam() {
+    return { firstname: this.user.firstname, lastname: this.user.lastname };
+  }
 }

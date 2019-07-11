@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Route } from '../../models';
+import { User } from '../../../../shared/models';
 
 @Component({
   selector: 'cs-app-nav',
@@ -14,4 +15,6 @@ export class AppNavComponent {
   public currentRoute: Route;
   @Input()
   public account: Account;
+  @Input()
+  public user: User;
 }
