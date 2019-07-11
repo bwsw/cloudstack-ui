@@ -1,7 +1,7 @@
 <mat-sidenav-container fullscreen>
   <mat-sidenav #sidenav [mode]="sideNavMode" [(opened)]="sideNavOpen">
     <cs-app-nav
-      [username]="username"
+      [account]="account$ | async"
       [routes]="routes$ | async"
       [currentRoute]="currentRoute$ | async"
     ></cs-app-nav>
