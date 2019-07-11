@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { map, takeUntil, withLatestFrom } from 'rxjs/operators';
-const debounce = require('lodash/debounce');
 import * as moment from 'moment';
-
 import { State, UserTagsSelectors } from '../../root-store';
 import * as eventAction from '../redux/events.actions';
 import { FilterService } from '../../shared/services/filter.service';
@@ -13,6 +11,9 @@ import * as fromEvents from '../redux/events.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../shared/services/auth.service';
+import { NavbarService, SearchBoxState } from '../../core/services/navbar.service';
+
+const debounce = require('lodash/debounce');
 
 const FILTER_KEY = 'eventListFilters';
 
@@ -33,7 +34,6 @@ const FILTER_KEY = 'eventListFilters';
       [selectedAccountIds]="selectedAccountIds$ | async"
       (accountChanged)="onAccountChange($event)"
       (dateChange)="onDateChange($event)"
-      (queryChanged)="onQueryChange($event)"
       (eventTypesChanged)="onEventTypesChange($event)"
       (selectedLevelsChanged)="onSelectedLevelsChange($event)"
     ></cs-event-list>
@@ -59,6 +59,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
   );
   readonly date$ = this.store.pipe(select(fromEvents.filterDate));
 
+  public searchBoxState: SearchBoxState;
   public levels = ['INFO', 'WARN', 'ERROR'];
 
   private filterService = new FilterService(
@@ -81,10 +82,22 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
+    private navbar: NavbarService,
   ) {
     super();
 
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);
+
+    this.searchBoxState = {
+      showSearchBox: true,
+      event: this.onQueryChange.bind(this),
+      placeholder: 'EVENT_PAGE.SEARCH',
+      query: '',
+    };
+    this.query$.pipe(takeUntil(this.unsubscribe$)).subscribe(query => {
+      this.searchBoxState.query = query;
+    });
+    navbar.bindSearchBox(this.searchBoxState, this.unsubscribe$);
   }
 
   public isAdmin() {

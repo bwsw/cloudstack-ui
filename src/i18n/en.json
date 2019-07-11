@@ -1449,7 +1449,8 @@
     "DESCRIPTION": "Description",
     "LEVEL": "Level",
     "TYPE": "Type",
-    "TIME": "Time"
+    "TIME": "Time",
+    "SEARCH": "Search event..."
   },
   "SSH_KEYS": {
     "CREATE_SSH_KEY": "Create SSH key",
