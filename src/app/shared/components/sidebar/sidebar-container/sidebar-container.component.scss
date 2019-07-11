@@ -61,3 +61,11 @@
   background: rgba(0, 0, 0, 0.1);
   z-index: 1;
 }
+
+@media screen and (max-width: 660px) {
+  .sidebar {
+    width: 100% !important;
+    z-index: 100;
+    padding: 10px 10px;
+  }
+}
