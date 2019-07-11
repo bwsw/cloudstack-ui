@@ -942,7 +942,8 @@
       "PRIVATE": "Private Security Groups",
       "GROUP_BY": "Group by",
       "PROTOCOLS": "Protocols",
-      "TYPES": "Types"
+      "TYPES": "Types",
+      "SEARCH": "Search rules..."
     },
     "LIST": {
       "SYSTEM_SECURITY_GROUPS": "System",

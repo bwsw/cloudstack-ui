@@ -12,6 +12,7 @@ import * as fromSecurityGroups from '../../../reducers/security-groups/redux/sg.
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import { SecurityGroupViewMode } from '../../sg-view-mode';
 import { SessionStorageService } from '../../../shared/services/session-storage.service';
+import { NavbarService, SearchBoxState } from '../../../core/services/navbar.service';
 
 const FILTER_KEY = 'securityGroupFilters';
 
@@ -25,6 +26,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
   public viewMode: SecurityGroupViewMode;
 
   public query: string;
+  public searchBoxState: SearchBoxState;
 
   private filterService = new FilterService(
     {
@@ -53,8 +55,20 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private sessionStorage: SessionStorageService,
+    private navbar: NavbarService,
   ) {
     super();
+
+    this.searchBoxState = {
+      showSearchBox: true,
+      event: this.onQueryChange.bind(this),
+      placeholder: 'SECURITY_GROUP_PAGE.FILTERS.SEARCH',
+      query: '',
+    };
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
+      this.searchBoxState.query = filters.query;
+    });
+    navbar.bindSearchBox(this.searchBoxState, this.unsubscribe$);
   }
 
   public ngOnInit(): void {

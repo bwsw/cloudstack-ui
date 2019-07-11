@@ -21,8 +21,6 @@ export class SgFilterComponent {
   @Output()
   public viewModeChange = new EventEmitter<SecurityGroupViewMode>();
   @Output()
-  public queryChange = new EventEmitter<string>();
-  @Output()
   public vmChange = new EventEmitter<string>();
   @Output()
   public accountsChanged = new EventEmitter<string[]>();
@@ -30,13 +28,11 @@ export class SgFilterComponent {
   public orphanChanged = new EventEmitter<boolean>();
 
   public viewMode: SecurityGroupViewMode;
-  public query: string;
   public selectedAccountIds: string[];
 
   @Input()
   public set filters(filter: SecurityGroupFilter) {
     this.viewMode = filter.viewMode;
-    this.query = filter.query;
     this.selectedAccountIds = filter.selectedAccountIds;
     this.orphan = filter.selectOrphanSG;
   }
