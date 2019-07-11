@@ -38,8 +38,6 @@ export class VolumeSnapshotFilterComponent implements OnInit {
   public selectedDate: Date;
   @Input()
   public selectedGroupings: any[];
-  @Input()
-  public query: string;
 
   @Output()
   public selectedAccountsChange = new EventEmitter();
@@ -49,8 +47,6 @@ export class VolumeSnapshotFilterComponent implements OnInit {
   public selectedDateChange = new EventEmitter();
   @Output()
   public selectedGroupingsChange = new EventEmitter();
-  @Output()
-  public queryChange = new EventEmitter();
   @Output()
   public selectedVolumeVmsChange = new EventEmitter<string[]>();
   @Output()

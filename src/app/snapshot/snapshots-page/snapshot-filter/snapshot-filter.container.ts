@@ -19,12 +19,15 @@ import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { VmSnapshotViewModel } from '../../models/vm-snapshot.view-model';
 import { snapshotPageActions, snapshotPageSelectors } from '../../store';
 import { SnapshotPageViewMode } from '../../types';
+import { takeUntil } from 'rxjs/operators';
+import { NavbarService, SearchBoxState } from '../../../core/services/navbar.service';
 
 const getGroupName = (snapshot: Snapshot | VmSnapshotViewModel) => {
   return snapshot.domain !== 'ROOT' ? `${snapshot.domain}/${snapshot.account}` : snapshot.account;
 };
 
 const FILTER_KEY = 'snapshotFilters';
+
 @Component({
   selector: 'cs-snapshots-filter-container',
   template: `
@@ -42,13 +45,11 @@ const FILTER_KEY = 'snapshotFilters';
         [selectedTypes]="(filters$ | async).volumeSnapshotTypes"
         [selectedDate]="(filters$ | async).date"
         [selectedGroupings]="selectedGroupings$ | async"
-        [query]="(filters$ | async).query"
         (selectedAccountsChange)="onAccountsChange($event)"
         (selectedVolumeVmsChange)="onSelectedVolumeVmsChange($event)"
         (selectedTypesChange)="onTypesChange($event)"
         (selectedDateChange)="onDateChange($event)"
         (selectedGroupingsChange)="onGroupingsChange($event)"
-        (queryChange)="onQueryChange($event)"
         (viewModeChange)="onViewModeChange($event)"
       ></cs-volume-snapshots-filter>
     </ng-container>
@@ -130,6 +131,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
 
   public snapshotPageViewMode = SnapshotPageViewMode;
   public viewMode: SnapshotPageViewMode;
+  public searchBoxState: SearchBoxState;
 
   private filterService = new FilterService(
     {
@@ -158,15 +160,37 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     private storage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
+    private navbar: NavbarService,
   ) {
     super();
+
+    this.searchBoxState = {
+      showSearchBox: true,
+      event: this.onQueryChange.bind(this),
+      placeholder: 'SNAPSHOT_PAGE.FILTERS.SEARCH',
+      query: '',
+    };
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
+      this.searchBoxState.query = filters.query;
+    });
+    navbar.bindSearchBox(this.searchBoxState, this.unsubscribe$);
   }
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.initFilters();
 
-    this.viewMode$.subscribe(mode => (this.viewMode = mode));
+    this.viewMode$.subscribe(mode => {
+      this.viewMode = mode;
+      switch (mode) {
+        case SnapshotPageViewMode.Volume:
+          this.searchBoxState.showSearchBox = true;
+          break;
+        case SnapshotPageViewMode.VM:
+        default:
+          this.searchBoxState.showSearchBox = false;
+      }
+    });
 
     combineLatest(
       this.filters$,
