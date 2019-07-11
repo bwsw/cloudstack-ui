@@ -44,8 +44,6 @@ export class TemplateFiltersComponent implements OnInit {
   @Input()
   public selectedOsFamilies: OsFamily[];
   @Input()
-  public query: string;
-  @Input()
   public viewMode: string;
 
   @Output()
@@ -66,8 +64,6 @@ export class TemplateFiltersComponent implements OnInit {
   public selectedTypesChange = new EventEmitter();
   @Output()
   public selectedGroupsChange = new EventEmitter();
-  @Output()
-  public queryChange = new EventEmitter();
 
   public filterTranslations = {
     [templateFilters.self]: 'TEMPLATE_PAGE.FILTERS.SELF',

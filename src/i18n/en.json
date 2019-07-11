@@ -789,7 +789,8 @@
       "COMMUNITY": "Community",
       "SELFEXECUTABLE": "My",
       "ALL": "All",
-      "GENERAL": "General"
+      "GENERAL": "General",
+      "SEARCH": "Search Template/ISO..."
     },
     "CARD": {
       "DESCRIPTION": "Description",

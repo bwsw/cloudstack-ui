@@ -19,6 +19,9 @@ import * as fromZones from '../../reducers/templates/redux/zone.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
+import { NavbarService, SearchBoxState } from '../../core/services/navbar.service';
+
+const debounce = require('lodash/debounce');
 
 const FILTER_KEY = 'templateListFilters';
 
@@ -62,6 +65,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
     OsFamily.MacOs,
     OsFamily.Other,
   ];
+  public searchBoxState: SearchBoxState;
 
   public categoryFilters = [templateFilters.featured, templateFilters.self];
 
@@ -88,8 +92,22 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private cd: ChangeDetectorRef,
+    private navbar: NavbarService,
   ) {
     super();
+
+    this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);
+
+    this.searchBoxState = {
+      showSearchBox: true,
+      event: this.onQueryChange.bind(this),
+      placeholder: 'TEMPLATE_PAGE.FILTERS.SEARCH',
+      query: '',
+    };
+    this.query$.pipe(takeUntil(this.unsubscribe$)).subscribe(query => {
+      this.searchBoxState.query = query;
+    });
+    navbar.bindSearchBox(this.searchBoxState, this.unsubscribe$);
   }
 
   public ngOnInit() {
