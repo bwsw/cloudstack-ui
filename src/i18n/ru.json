@@ -342,7 +342,7 @@
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Здравствуйте, {{ name }}",
     "VMS": "Виртуальные машины",
-    "CLOUD": "облако",
+    "CLOUD": "Oблако",
     "STORAGE": "Хранилище",
     "IMAGES": "Образы",
     "SNAPSHOTS": "Снимки",
