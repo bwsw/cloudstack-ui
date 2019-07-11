@@ -1,7 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { delay, filter, map, tap } from 'rxjs/operators';
-import { JobsNotificationService } from '../../services/jobs-notification.service';
+import {
+  INotificationStatus,
+  JobsNotificationService,
+} from '../../services/jobs-notification.service';
 
 @Component({
   selector: 'cs-notification-box',
@@ -15,6 +18,7 @@ export class NotificationBoxComponent implements OnDestroy {
   ).pipe(map(([unseenCount, pendingCount]) => unseenCount + pendingCount));
   readonly hideNotifications$ = this.notificationCount$.pipe(map(count => count === 0));
 
+  public notificationStatus = INotificationStatus;
   private isOpen = false;
   private autoResetCompletedNotification = this.jobsNotificationService.unseenCompletedJobsCount$
     .pipe(

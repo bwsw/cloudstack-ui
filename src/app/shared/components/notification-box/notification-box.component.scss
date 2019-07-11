@@ -35,3 +35,30 @@ cs-popover {
 mat-card-actions {
   box-sizing: content-box;
 }
+
+button {
+  min-width: 0;
+  padding: 0 4px;
+}
+
+.notify-button,
+.notify-msg {
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+
+.notify-msg {
+  span {
+    padding: 0 8px;
+    max-width: 140px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 480px) {
+    span {
+      display: none;
+    }
+  }
+}

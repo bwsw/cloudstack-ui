@@ -1,18 +1,32 @@
 <button
-  mat-icon-button
+  mat-button
   style="overflow: visible;"
   [csPopoverTrigger]="popover"
   popoverPositionX="end"
   (popoverOpened)="onOpen()"
   (popoverClosed)="onClose()"
+  [matBadge]="notificationCount$ | async"
+  [matBadgeHidden]="hideNotifications$ | async"
+  matBadgeColor="accent"
 >
-  <div>
-    <mat-icon
-      class="mdi-bell"
-      [matBadge]="notificationCount$ | async"
-      [matBadgeHidden]="hideNotifications$ | async"
-      matBadgeColor="accent"
-    ></mat-icon>
+  <div class="notify-button">
+    <div
+      *ngIf="
+        jobsNotificationService.notifications.length > 0 &&
+          jobsNotificationService.notifications[0].status === notificationStatus.Pending;
+        else bellico
+      "
+      class="notify-msg"
+    >
+      <span
+        [innerHTML]="jobsNotificationService.notifications[0].message | translate"
+        [matTooltip]="jobsNotificationService.notifications[0].message | translate"
+      ></span>
+      <mat-spinner [diameter]="24"></mat-spinner>
+    </div>
+    <ng-template #bellico>
+      <mat-icon class="mdi-bell"></mat-icon>
+    </ng-template>
   </div>
 </button>
 
