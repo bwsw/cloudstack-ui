@@ -409,7 +409,8 @@
       "GROUP_BY_ZONES": "Zones",
       "GROUP_BY_COLORS": "Colors",
       "GROUP_BY_GROUPS": "Groups",
-      "GROUP_BY_ACCOUNTS": "Accounts"
+      "GROUP_BY_ACCOUNTS": "Accounts",
+      "SEARCH": "Search VM..."
     },
     "CARD": {
       "IP_NA": "IP N/A",

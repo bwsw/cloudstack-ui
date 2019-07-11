@@ -15,6 +15,7 @@ import { SessionStorageService } from '../../shared/services/session-storage.ser
 import { VmState } from '../shared/vm.model';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { Grouping } from '../../shared/models';
+import { SearchBoxState, NavbarService } from '../../core/services/navbar.service';
 
 const FILTER_KEY = 'vmListFilters';
 
@@ -28,13 +29,11 @@ const FILTER_KEY = 'vmListFilters';
       [groups]="groups$ | async"
       [states]="states"
       [groupings]="groupings"
-      [query]="query$ | async"
       [selectedGroupings]="selectedGroupings"
       [selectedZoneIds]="selectedZoneIds$ | async"
       [selectedGroupNames]="selectedGroupNames$ | async"
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedStates]="selectedStates$ | async"
-      (queryChanged)="onQueryChange($event)"
       (zonesChanged)="onZonesChange($event)"
       (groupNamesChanged)="onGroupNamesChange($event)"
       (accountsChanged)="onAccountsChange($event)"
@@ -64,6 +63,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
   readonly selectedStates$ = this.store.pipe(select(fromVMs.filterSelectedStates));
 
   public states = [];
+  public searchBoxState: SearchBoxState;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -71,9 +71,21 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private navbar: NavbarService,
   ) {
     super();
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);
+
+    this.searchBoxState = {
+      showSearchBox: true,
+      event: this.onQueryChange.bind(this),
+      placeholder: 'VM_PAGE.FILTERS.SEARCH',
+      query: '',
+    };
+    this.query$.pipe(takeUntil(this.unsubscribe$)).subscribe(query => {
+      this.searchBoxState.query = query;
+    });
+    navbar.bindSearchBox(this.searchBoxState, this.unsubscribe$);
   }
 
   public ngOnInit() {

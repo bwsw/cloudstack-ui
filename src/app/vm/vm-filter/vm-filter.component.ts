@@ -22,8 +22,6 @@ export class VmFilterComponent implements OnInit {
   @Input()
   public zones: Zone[];
   @Input()
-  public query: string;
-  @Input()
   public accounts: Account[];
   @Input()
   public selectedZoneIds: string[];
@@ -33,8 +31,6 @@ export class VmFilterComponent implements OnInit {
   public selectedAccountIds: string[];
   @Input()
   public selectedStates: any[];
-  @Output()
-  public queryChanged = new EventEmitter();
   @Output()
   public groupingsChanged = new EventEmitter();
   @Output()
