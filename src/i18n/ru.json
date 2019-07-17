@@ -1973,5 +1973,9 @@
     "NAME": "Имя",
     "TYPE": "Тип",
     "DESCRIPTION": "Описание"
+  },
+  "SELECT_SEARCH": {
+    "SEARCH": "Поиск...",
+    "NO_MATCH": "Ничего не найдено"
   }
 }
