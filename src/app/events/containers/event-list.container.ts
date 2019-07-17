@@ -91,7 +91,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     this.searchBoxState = {
       showSearchBox: true,
       event: this.onQueryChange.bind(this),
-      placeholder: 'EVENT_PAGE.SEARCH',
+      placeholder: 'COMMON.SEARCH_PLACEHOLDER',
       query: '',
     };
     this.query$.pipe(takeUntil(this.unsubscribe$)).subscribe(query => {

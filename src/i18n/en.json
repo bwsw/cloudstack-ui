@@ -30,6 +30,7 @@
     "VIEW": "View",
     "YES": "Yes",
     "SEARCH": "Search",
+    "SEARCH_PLACEHOLDER": "Search...",
     "CONTINUE": "Continue",
     "AGREE": "I agree",
     "NAME": "Name",
@@ -409,8 +410,7 @@
       "GROUP_BY_ZONES": "Zones",
       "GROUP_BY_COLORS": "Colors",
       "GROUP_BY_GROUPS": "Groups",
-      "GROUP_BY_ACCOUNTS": "Accounts",
-      "SEARCH": "Search VM..."
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "CARD": {
       "IP_NA": "IP N/A",
@@ -708,8 +708,7 @@
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
       "GROUP_BY_TYPES": "Types",
-      "GROUP_BY_ACCOUNTS": "Accounts",
-      "SEARCH": "Search storage..."
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "CARD": {
       "DESCRIPTION": "Description",
@@ -789,8 +788,7 @@
       "COMMUNITY": "Community",
       "SELFEXECUTABLE": "My",
       "ALL": "All",
-      "GENERAL": "General",
-      "SEARCH": "Search Template/ISO..."
+      "GENERAL": "General"
     },
     "CARD": {
       "DESCRIPTION": "Description",
@@ -880,8 +878,7 @@
       "GROUP_BY_TYPES": "Types",
       "GROUP_BY_VMS": "VMs",
       "GROUP_BY_ACCOUNTS": "Accounts",
-      "NO_VM": "No VM",
-      "SEARCH": "Search snapshot..."
+      "NO_VM": "No VM"
     },
     "SIDEBAR": {
       "DETAILS": "Details",
@@ -942,8 +939,7 @@
       "PRIVATE": "Private Security Groups",
       "GROUP_BY": "Group by",
       "PROTOCOLS": "Protocols",
-      "TYPES": "Types",
-      "SEARCH": "Search rules..."
+      "TYPES": "Types"
     },
     "LIST": {
       "SYSTEM_SECURITY_GROUPS": "System",
@@ -1452,8 +1448,7 @@
     "DESCRIPTION": "Description",
     "LEVEL": "Level",
     "TYPE": "Type",
-    "TIME": "Time",
-    "SEARCH": "Search event..."
+    "TIME": "Time"
   },
   "SSH_KEYS": {
     "CREATE_SSH_KEY": "Create SSH key",

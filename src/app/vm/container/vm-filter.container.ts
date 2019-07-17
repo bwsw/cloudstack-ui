@@ -79,7 +79,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     this.searchBoxState = {
       showSearchBox: true,
       event: this.onQueryChange.bind(this),
-      placeholder: 'VM_PAGE.FILTERS.SEARCH',
+      placeholder: 'COMMON.SEARCH_PLACEHOLDER',
       query: '',
     };
     this.query$.pipe(takeUntil(this.unsubscribe$)).subscribe(query => {

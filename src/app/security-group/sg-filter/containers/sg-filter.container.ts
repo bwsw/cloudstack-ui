@@ -62,7 +62,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     this.searchBoxState = {
       showSearchBox: true,
       event: this.onQueryChange.bind(this),
-      placeholder: 'SECURITY_GROUP_PAGE.FILTERS.SEARCH',
+      placeholder: 'COMMON.SEARCH_PLACEHOLDER',
       query: '',
     };
     this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
