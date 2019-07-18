@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { SecurityGroupViewMode } from '../sg-view-mode';
+import { Account } from '../../shared/models';
 
 export interface SecurityGroupFilter {
   viewMode: SecurityGroupViewMode;
@@ -32,6 +33,8 @@ export class SgFilterComponent implements OnChanges {
   public viewMode: SecurityGroupViewMode;
   public query: string;
   public selectedAccountIds: string[];
+  public accountsFiltered: Account[] = [];
+  public accountQuery = '';
 
   @Input()
   public set filters(filter: SecurityGroupFilter) {
