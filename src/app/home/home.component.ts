@@ -62,7 +62,7 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
 
     // When router changes and sideNavMode is 'over', hide the sideNav.
     this.currentSubroute$.subscribe(() => {
-      if (this.sideNavMode === 'over' && this.sideNavOpen === true) {
+      if (this.sideNavMode === 'over' && this.sideNavOpen) {
         this.sideNavOpen = false;
       }
     });
