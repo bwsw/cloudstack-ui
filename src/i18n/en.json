@@ -343,7 +343,7 @@
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Welcome, {{ firstname }} {{ lastname }}",
     "VMS": "Virtual machines",
-    "CLOUD": "Cloud",
+    "CLOUD": "Cloud VM",
     "STORAGE": "Storage",
     "IMAGES": "Images",
     "SNAPSHOTS": "Snapshots",
