@@ -31,7 +31,7 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public sideNavMode = window.innerWidth > 900 ? 'side' : 'over';
 
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private store: Store<State>,
     private navbar: NavbarService,
   ) {
