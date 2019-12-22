@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Account, Grouping } from '../../shared/models';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 
@@ -6,7 +14,7 @@ import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings'
   selector: 'cs-ssh-key-filter',
   templateUrl: 'ssh-key-filter.component.html',
 })
-export class ShhKeyFilterComponent implements OnInit {
+export class ShhKeyFilterComponent implements OnInit, OnChanges {
   @Input()
   public accounts: Account[];
   @Input()
@@ -20,7 +28,24 @@ export class ShhKeyFilterComponent implements OnInit {
   @Output()
   public accountsChanged = new EventEmitter<string[]>();
 
+  public accountsFiltered: Account[] = [];
+  public accountQuery = '';
+
   public ngOnInit() {
     this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    const accounts = changes['accounts'];
+    if (accounts) {
+      this.onAccountQueryChanged(this.accountQuery);
+    }
+  }
+
+  public onAccountQueryChanged(accountQuery: string) {
+    const queryLower = accountQuery && accountQuery.toLowerCase();
+    this.accountsFiltered = this.accounts.filter(
+      account => !accountQuery || account.name.toLowerCase().includes(queryLower),
+    );
   }
 }

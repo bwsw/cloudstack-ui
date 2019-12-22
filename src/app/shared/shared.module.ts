@@ -156,6 +156,7 @@ import { RequestResourcesButtonComponent } from './components/vm-statistics/requ
 import { RequestResourcesButtonContainerComponent } from './components/vm-statistics/request-resources-button.container';
 import { ApiLogService } from './services/api-log.service';
 import { LogViewGuard } from './services/log-view-guard.service';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
 
@@ -179,6 +180,7 @@ const SHARED_COMPONENTS = [
     TranslateModule,
     MatBadgeModule,
     MatExpansionModule,
+    NgxMatSelectSearchModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
@@ -256,6 +258,7 @@ const SHARED_COMPONENTS = [
     RequestResourcesButtonComponent,
     RequestResourcesButtonContainerComponent,
     MatExpansionModule,
+    NgxMatSelectSearchModule,
   ],
   entryComponents: [
     DatePickerDialogComponent,

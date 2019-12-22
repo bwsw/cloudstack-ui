@@ -1977,5 +1977,9 @@
     "NAME": "Name",
     "TYPE": "Type",
     "DESCRIPTION": "Description"
+  },
+  "SELECT_SEARCH": {
+    "SEARCH": "Search...",
+    "NO_MATCH": "no matching found"
   }
 }

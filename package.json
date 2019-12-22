@@ -61,6 +61,7 @@
     "ng2-dragula": "1.5.0",
     "ngx-clipboard": "^11.1.7",
     "ngx-infinite-scroll": "^6.0.1",
+    "ngx-mat-select-search": "^1.7.6",
     "resize-observer-polyfill": "^1.5.0",
     "rxjs": "^6.3.3",
     "showdown": "^1.8.4",
