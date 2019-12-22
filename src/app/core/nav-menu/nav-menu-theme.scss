@@ -10,9 +10,13 @@
     color: mat-color($primary, '500-contrast');
     background-color: mat-color($primary);
 
-    .nav-link:hover,
     .link-active {
-      background-color: mat-color($primary, 300);
+      background: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .nav-sub-link:hover,
+    .nav-link:hover {
+      background: rgba(0, 0, 0, 0.1);
     }
   }
 }

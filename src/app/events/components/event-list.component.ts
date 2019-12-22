@@ -47,8 +47,6 @@ export class EventListComponent implements OnChanges {
   @Output()
   public dateChange = new EventEmitter<Date>();
   @Output()
-  public queryChanged = new EventEmitter<string>();
-  @Output()
   public eventTypesChanged = new EventEmitter<string[]>();
   @Output()
   public selectedLevelsChanged = new EventEmitter<string[]>();

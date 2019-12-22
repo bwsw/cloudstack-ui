@@ -52,8 +52,6 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
   @Input()
   public selectedOsFamilies: OsFamily[];
   @Input()
-  public query: string;
-  @Input()
   public viewMode: string;
 
   @Output()
@@ -74,8 +72,6 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
   public selectedTypesChange = new EventEmitter();
   @Output()
   public selectedGroupsChange = new EventEmitter();
-  @Output()
-  public queryChange = new EventEmitter();
 
   public accountsFiltered: Account[] = [];
   public accountQuery = '';

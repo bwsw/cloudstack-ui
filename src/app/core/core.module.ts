@@ -6,18 +6,26 @@ import { ConfigValidationService } from './config';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material/material.module';
 import {
+  AccountInfoComponent,
   AppNavComponent,
   LicenseComponent,
   MenuHeaderComponent,
-  SectionNavComponent,
 } from './nav-menu/components/';
 import { SidebarWidthService, SnackBarService } from './services';
+import { NavbarComponent } from './navbar/components/navbar.component';
+import { NavbarService } from './services/navbar.service';
 
 @NgModule({
   imports: [CommonModule, SharedModule, MaterialModule, RouterModule],
-  exports: [AppNavComponent, SectionNavComponent],
-  declarations: [AppNavComponent, SectionNavComponent, LicenseComponent, MenuHeaderComponent],
-  providers: [ConfigValidationService, SnackBarService, SidebarWidthService],
+  exports: [AppNavComponent, NavbarComponent],
+  declarations: [
+    AppNavComponent,
+    LicenseComponent,
+    MenuHeaderComponent,
+    AccountInfoComponent,
+    NavbarComponent,
+  ],
+  providers: [ConfigValidationService, SnackBarService, SidebarWidthService, NavbarService],
 })
 export class CoreModule {
   constructor(

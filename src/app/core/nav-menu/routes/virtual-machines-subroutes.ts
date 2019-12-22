@@ -2,13 +2,13 @@ export const virtualMachinesSubroutes = [
   {
     text: 'NAVIGATION_SIDEBAR.VMS',
     path: '/instances',
-    icon: 'mdi-cloud',
+    icon: 'mdi-server',
     routeId: 'virtual-machines',
   },
   {
     text: 'NAVIGATION_SIDEBAR.STORAGE',
     path: '/storage',
-    icon: 'mdi-server',
+    icon: 'mdi-database',
     routeId: 'virtual-machines',
   },
   {

@@ -8,7 +8,6 @@
   [zones]="zones$ | async"
   [groups]="groups$ | async"
   [availableGroupings]="availableGroupings"
-  [query]="query$ | async"
   [viewMode]="selectedViewMode$ | async"
   [selectedAccountIds]="selectedAccountIds$ | async"
   [selectedGroupings]="selectedGroupings$ | async"
@@ -23,5 +22,4 @@
   (selectedZonesChange)="onZonesChange($event)"
   (selectedGroupsChange)="onGroupsChange($event)"
   (selectedOsFamiliesChange)="onOsFamiliesChange($event)"
-  (queryChange)="onQueryChange($event)"
 ></cs-template-filters>

@@ -1,0 +1,56 @@
+<mat-toolbar color="white">
+  <mat-toolbar-row>
+    <div class="navbar-left">
+      <button mat-icon-button (click)="buttonState.event()">
+        <mat-icon [ngClass]="buttonState.icon"></mat-icon>
+      </button>
+      <div class="navbar-breadcrumb">
+        <span class="navbar-route">
+          {{ currentRoute.text | translate }}<mat-icon class="mdi-chevron-right"></mat-icon
+        ></span>
+        <button mat-button [matMenuTriggerFor]="menu">
+          {{ currentSubroute.text | translate }}
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            *ngFor="let subroute of currentRoute.subroutes"
+            [routerLink]="subroute.path"
+          >
+            <mat-icon [ngClass]="subroute.icon"></mat-icon>
+            {{ subroute.text | translate }}
+          </button>
+        </mat-menu>
+      </div>
+      <div class="search-box-btn" *ngIf="searchBoxState.showSearchBox">
+        <button mat-icon-button (click)="searchBoxOpen = true">
+          <mat-icon class="mdi-magnify"></mat-icon>
+        </button>
+      </div>
+      <div
+        class="search-box"
+        [ngClass]="searchBoxOpen ? 'search-box-open' : ''"
+        *ngIf="searchBoxState.showSearchBox"
+      >
+        <mat-icon class="mdi-magnify"></mat-icon>
+        <input
+          matInput
+          [placeholder]="searchBoxState.placeholder | translate"
+          [(ngModel)]="searchBoxState.query"
+          (ngModelChange)="searchBoxState.event($event)"
+        />
+        <button
+          mat-icon-button
+          class="search-box-close"
+          (click)="onSearchBoxClose()"
+          [ngClass]="!!searchBoxState.query ? 'search-box-close-display' : ''"
+        >
+          <mat-icon class="mdi-close"></mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <cs-notification-box class="top-bar-notifications"></cs-notification-box>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

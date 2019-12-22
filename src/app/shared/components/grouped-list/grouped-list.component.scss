@@ -28,3 +28,10 @@
     font-size: 15px !important;
   }
 }
+@media screen and (max-width: 670px) {
+  .mat-list-base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

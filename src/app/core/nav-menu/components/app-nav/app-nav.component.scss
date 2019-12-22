@@ -4,7 +4,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: $nav-menu-min-width;
+  width: $nav-menu-width;
+  overflow: auto;
   height: 100%;
 }
 
@@ -14,15 +15,72 @@
   display: flex;
   flex-direction: column;
 
+  .mat-expansion-panel-spacing {
+    margin: 0;
+  }
+
+  .mat-expansion-panel:not(.mat-expanded) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .mat-expansion-panel {
+    border-radius: 0;
+    background: none;
+    color: rgba(255, 255, 255, 0.87);
+    box-shadow: none;
+
+    ::ng-deep .mat-expansion-panel-header-description,
+    .mat-expansion-panel-header-title {
+      align-items: center;
+    }
+
+    .mat-expansion-panel-header-title {
+      color: white;
+      font-size: 14px;
+    }
+
+    ::ng-deep .mat-expansion-panel-header-description,
+    ::ng-deep .mat-expansion-indicator::after {
+      color: rgba(255, 255, 255, 0.74);
+    }
+
+    ::ng-deep .mat-expansion-panel-content {
+      font-size: 13px;
+
+      ::ng-deep .mat-expansion-panel-body {
+        padding: 10px 0 10px 0;
+        box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.2) inset,
+          0 -3px 2px -1px rgba(0, 0, 0, 0.2) inset;
+      }
+    }
+  }
+
+  mat-icon {
+    margin-right: 10px;
+  }
+
   .nav-link {
-    padding: 12px 25px;
+    padding: 12px 24px;
     display: flex;
     align-items: center;
     color: inherit;
     text-decoration: none;
+    font-size: 14px;
+  }
 
-    mat-icon {
-      margin-right: 10px;
+  .nav-sub-link {
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  // Disable the hover on touch devices since it can appear like it is stuck. We can't use
+  // `@media (hover)` above, because the desktop support browser support isn't great.
+  @media (hover: none) {
+    .mat-expansion-panel-header:hover {
+      background: transparent;
     }
   }
 }

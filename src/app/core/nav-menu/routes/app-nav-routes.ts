@@ -5,7 +5,7 @@ import { Route } from '../models';
 export const appNavRoutes: Route[] = [
   {
     id: 'virtual-machines',
-    text: 'NAVIGATION_SIDEBAR.VMS',
+    text: 'NAVIGATION_SIDEBAR.CLOUD',
     path: '/instances',
     icon: 'mdi-cloud',
     subroutes: virtualMachinesSubroutes,

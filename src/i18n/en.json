@@ -30,6 +30,7 @@
     "VIEW": "View",
     "YES": "Yes",
     "SEARCH": "Search",
+    "SEARCH_PLACEHOLDER": "Search...",
     "CONTINUE": "Continue",
     "AGREE": "I agree",
     "NAME": "Name",
@@ -340,8 +341,9 @@
     "PASSWORD_REQUIRED": "Password is required"
   },
   "NAVIGATION_SIDEBAR": {
-    "WELCOME": "Welcome, {{ name }}",
+    "WELCOME": "Welcome, {{ firstname }} {{ lastname }}",
     "VMS": "Virtual machines",
+    "CLOUD": "Cloud",
     "STORAGE": "Storage",
     "IMAGES": "Images",
     "SNAPSHOTS": "Snapshots",

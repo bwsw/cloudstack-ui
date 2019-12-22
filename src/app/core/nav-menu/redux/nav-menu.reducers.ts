@@ -67,7 +67,7 @@ const getAllSubroutes = createSelector(
   },
 );
 
-const getCurrentSubroute = createSelector(
+export const getCurrentSubroute = createSelector(
   getCurrentSubroutePath,
   getAllSubroutes,
   (path, subroutes) => subroutes.find(subroute => subroute && subroute.path === path),

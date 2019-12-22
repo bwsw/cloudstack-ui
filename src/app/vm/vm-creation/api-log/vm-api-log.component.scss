@@ -8,7 +8,7 @@ mat-expansion-panel {
   overflow-y: hidden;
 }
 
-/deep/ .mat-expansion-panel-content {
+:host /deep/ .mat-expansion-panel-content {
   height: 25vh;
   overflow-y: auto !important;
 }

@@ -1,19 +1,27 @@
 <div>
-  <cs-menu-header (buttonClicked)="onMenuButtonClicked()"></cs-menu-header>
-
+  <cs-menu-header></cs-menu-header>
+  <cs-account-info [account]="account" [user]="user"></cs-account-info>
+  <mat-divider></mat-divider>
   <div class="nav-routes">
-    <ng-container *ngFor="let route of routes">
-      <a
-        class="nav-link"
-        [class.link-active]="route && currentRoute && route.id === currentRoute.id"
-        [routerLink]="route.path"
-        (click)="onMenuButtonClicked()"
-      >
-        <mat-icon [ngClass]="route.icon"></mat-icon>
-        {{ route.text | translate }}
-      </a>
-    </ng-container>
+    <mat-accordion>
+      <ng-container *ngFor="let route of routes">
+        <mat-expansion-panel [expanded]="route && currentRoute && route.id === currentRoute.id">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon [ngClass]="route.icon"></mat-icon>
+              {{ route.text | translate }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
+          <ng-container *ngFor="let subroute of route.subroutes">
+            <a [routerLink]="subroute.path" class="nav-sub-link" routerLinkActive="link-active">
+              <mat-icon [ngClass]="subroute.icon"></mat-icon>
+              {{ subroute.text | translate }}
+            </a>
+          </ng-container>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
     <a class="nav-link" routerLink="/logout">
       <mat-icon class="mdi-exit-to-app"></mat-icon>
       {{ 'NAVIGATION_SIDEBAR.LOGOUT' | translate }}

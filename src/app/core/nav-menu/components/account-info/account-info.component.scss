@@ -1,0 +1,32 @@
+.account-info {
+  margin: 25px;
+}
+
+.account-info-account {
+  font-size: 20px;
+  font-weight: 500;
+  display: flex;
+  align-items: baseline;
+}
+
+.account-info-role {
+  font-size: 14px;
+  color: #ffffffa8;
+}
+
+.account-info-domain {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.account-info-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 5px;
+}
+
+.account-welcome {
+  padding-bottom: 20px;
+  font-size: 14px;
+}

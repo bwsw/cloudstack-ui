@@ -30,6 +30,7 @@
     "VIEW": "Просмотреть",
     "YES": "Да",
     "SEARCH": "Поиск",
+    "SEARCH_PLACEHOLDER": "Поиск...",
     "CONTINUE": "Продолжить",
     "AGREE": "Принимаю",
     "NAME": "Имя",
@@ -340,8 +341,9 @@
     "PASSWORD_REQUIRED": "Необходимо заполнить пароль"
   },
   "NAVIGATION_SIDEBAR": {
-    "WELCOME": "Здравствуйте, {{ name }}",
+    "WELCOME": "Здравствуйте, {{ firstname }} {{ lastname }}",
     "VMS": "Виртуальные машины",
+    "CLOUD": "Oблако",
     "STORAGE": "Хранилище",
     "IMAGES": "Образы",
     "SNAPSHOTS": "Снимки",

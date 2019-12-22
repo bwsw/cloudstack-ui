@@ -1,20 +1,19 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Route } from '../../models';
 import { User } from '../../../../shared/models';
 
 @Component({
-  selector: 'cs-app-nav',
+  selector: 'cs-account-info',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './app-nav.component.html',
-  styleUrls: ['./app-nav.component.scss'],
+  templateUrl: './account-info.component.html',
+  styleUrls: ['./account-info.component.scss'],
 })
-export class AppNavComponent {
-  @Input()
-  public routes: Route[];
-  @Input()
-  public currentRoute: Route;
+export class AccountInfoComponent {
   @Input()
   public account: Account;
   @Input()
   public user: User;
+
+  get userParam() {
+    return { firstname: this.user.firstname, lastname: this.user.lastname };
+  }
 }

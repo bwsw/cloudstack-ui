@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
+
 const debounce = require('lodash/debounce');
 
 import { State } from '../../reducers';
@@ -14,6 +15,7 @@ import { Grouping, VolumeType } from '../../shared/models';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { NavbarService, SearchBoxState } from '../../core/services/navbar.service';
 
 const FILTER_KEY = 'volumeListFilters';
 
@@ -25,14 +27,12 @@ const FILTER_KEY = 'volumeListFilters';
       [zones]="zones$ | async"
       [accounts]="accounts$ | async"
       [types]="types"
-      [query]="query$ | async"
       [groupings]="groupings"
       [spareOnly]="spareOnly$ | async"
       [selectedGroupings]="selectedGroupings"
       [selectedZoneIds]="selectedZoneIds$ | async"
       [selectedTypes]="selectedTypes$ | async"
       [selectedAccountIds]="selectedAccountIds$ | async"
-      (queryChanged)="onQueryChange($event)"
       (spareOnlyChanged)="onSpareOnlyChange($event)"
       (zonesChanged)="onZonesChange($event)"
       (accountsChanged)="onAccountsChange($event)"
@@ -60,6 +60,7 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe()
   readonly selectedAccountIds$ = this.store.pipe(select(fromVolumes.filterSelectedAccountIds));
 
   public types = [VolumeType.ROOT, VolumeType.DATADISK];
+  public searchBoxState: SearchBoxState;
 
   private filterService = new FilterService(
     {
@@ -82,9 +83,21 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe()
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private navbar: NavbarService,
   ) {
     super();
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);
+
+    this.searchBoxState = {
+      showSearchBox: true,
+      event: this.onQueryChange.bind(this),
+      placeholder: 'COMMON.SEARCH_PLACEHOLDER',
+      query: '',
+    };
+    this.query$.pipe(takeUntil(this.unsubscribe$)).subscribe(query => {
+      this.searchBoxState.query = query;
+    });
+    navbar.bindSearchBox(this.searchBoxState, this.unsubscribe$);
   }
 
   public ngOnInit() {
