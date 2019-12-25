@@ -1,0 +1,23 @@
+<ng-container *ngIf="reachabilityState !== Reachability.Unknown" [ngSwitch]="reachabilityState">
+  <span *ngSwitchCase="Reachability.Unreachable">VM is unreachable</span>
+  <a
+    *ngSwitchDefault
+    [href]="vm | vmHttpAddress"
+    class="action-link"
+    target="_blank"
+    rel="noopener"
+    >{{ vm | vmHttpAddress }}</a
+  >
+</ng-container>
+
+<mat-icon
+  *ngIf="!checkingStatus && reachabilityState === Reachability.ServiceUnresponsive"
+  class="mdi-alert"
+  color="warn"
+  matTooltip="Service may be unreachable"
+></mat-icon>
+<mat-spinner
+  *ngIf="checkingStatus || reachabilityState === Reachability.Unknown"
+  [diameter]="20"
+  [strokeWidth]="2"
+></mat-spinner>

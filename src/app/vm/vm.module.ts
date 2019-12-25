@@ -113,6 +113,8 @@ import { VmApiLogComponent } from './vm-creation/api-log/vm-api-log.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MatExpansionModule } from '@angular/material';
 import { VmUserDataDialogComponent } from './vm-sidebar/vm-detail/vm-user-data-dialog/vm-user-data-dialog.component';
+import { VmHttpAccessLinkComponent } from './vm-actions/vm-actions-component/vm-http-access-link/vm-http-access-link.component';
+import { VmHttpAddressPipe } from './vm-actions/vm-actions-component/vm-http-address.pipe';
 
 // tslint:enable max-line-length
 
@@ -230,6 +232,8 @@ import { VmUserDataDialogComponent } from './vm-sidebar/vm-detail/vm-user-data-d
     VmsSgListComponent,
     SgListContainerComponent,
     VmUserDataDialogComponent,
+    VmHttpAccessLinkComponent,
+    VmHttpAddressPipe,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
