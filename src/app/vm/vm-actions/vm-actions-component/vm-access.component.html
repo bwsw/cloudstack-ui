@@ -79,7 +79,7 @@
       <p>
         <b>{{ 'VM_POST_ACTION.OPEN_URL' | translate }}:</b>
         <ng-container *ngIf="isValidUrl(httpAccessService.getAddress(vm)); else invalidUrl">
-          <a class="action-link" (click)="openUrlVm(vm)"> {{ httpAccessService.getAddress(vm) }}</a>
+          <cs-vm-http-access-link [vm]="vm"></cs-vm-http-access-link>
         </ng-container>
         <ng-template #invalidUrl>
           {{ httpAccessService.getAddress(vm) }}

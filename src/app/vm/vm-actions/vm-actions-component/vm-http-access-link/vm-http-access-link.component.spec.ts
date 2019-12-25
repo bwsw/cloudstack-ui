@@ -5,10 +5,10 @@ import { of } from 'rxjs';
 import { delay as observableDelay } from 'rxjs/operators';
 import { VirtualMachine } from '../../..';
 import { VmHttpAddressPipe } from '../vm-http-address.pipe';
+import { HttpAccessHelperService } from './http-access-helper.service';
 
 import { POLL_PERIOD, VmHttpAccessLinkComponent } from './vm-http-access-link.component';
 import { VmReachability } from './vm-reachability.enum';
-import { VM_REACHABILITY_SERVICE } from './vm-reachability.service';
 
 describe('VmHttpAccessLinkComponent', () => {
   let component: VmHttpAccessLinkComponent;
@@ -28,7 +28,7 @@ describe('VmHttpAccessLinkComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [VmHttpAccessLinkComponent, mockAddressPipe],
-      providers: [{ provide: VM_REACHABILITY_SERVICE, useValue: reachabilityService }],
+      providers: [{ provide: HttpAccessHelperService, useValue: reachabilityService }],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
@@ -55,7 +55,6 @@ describe('VmHttpAccessLinkComponent', () => {
   }
 
   it('should have Unknown reachability status by default', () => {
-    fixture.detectChanges();
     expect(component.reachabilityState).toBe(component.Reachability.Unknown);
   });
 
@@ -65,9 +64,8 @@ describe('VmHttpAccessLinkComponent', () => {
   });
 
   it('should poll for reachability every 5sec', fakeAsync(() => {
-    fixture.detectChanges();
-
     ensureReachability(VmReachability.Unreachable);
+    fixture.detectChanges(); // to kick off the polling
     tick(0);
     expect(reachabilityService.getReachibility).toHaveBeenCalledWith(vm);
     expect(reachabilityService.getReachibility).toHaveBeenCalledTimes(1);
@@ -108,9 +106,9 @@ describe('VmHttpAccessLinkComponent', () => {
   }));
 
   it('should show a warn sign when status service is unresponsive', fakeAsync(() => {
-    fixture.detectChanges();
-
     ensureReachability(VmReachability.ServiceUnresponsive, 1);
+
+    fixture.detectChanges();
     tick(0);
     fixture.detectChanges();
     expect(component.checkingStatus).toBe(true);
@@ -133,16 +131,14 @@ describe('VmHttpAccessLinkComponent', () => {
     }
 
     it('should not show anything when reachability is unknown', () => {
+      ensureReachability(VmReachability.Unknown);
       fixture.detectChanges();
-      expect(component.reachabilityState).toBe(VmReachability.Unknown);
       expect(findLink()).toBeNull();
       expect(findNotice()).toBeNull();
     });
 
     it('should show a notice when VM is unreachable', fakeAsync(() => {
-      fixture.detectChanges();
       ensureReachability(VmReachability.Unreachable);
-      tick(0);
 
       fixture.detectChanges();
       expect(findNotice()).not.toBeNull();

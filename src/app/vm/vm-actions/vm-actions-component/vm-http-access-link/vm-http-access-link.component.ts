@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, timer } from 'rxjs';
-import { finalize, switchMap, tap } from 'rxjs/operators';
+import { concat, interval, Subscription } from 'rxjs';
+import { finalize, repeat, switchMap, take } from 'rxjs/operators';
 import { VirtualMachine } from '../../..';
+import { HttpAccessHelperService } from './http-access-helper.service';
 import { VmReachability } from './vm-reachability.enum';
-import { VmReachabilityService } from './vm-reachability.service';
 
 export const POLL_PERIOD = 5000;
 
@@ -29,34 +29,43 @@ export class VmHttpAccessLinkComponent implements OnInit, OnDestroy {
 
   private reachibilityPollingSubscription = Subscription.EMPTY;
 
-  constructor(private reachabilityService: VmReachabilityService) {}
+  constructor(private reachabilityService: HttpAccessHelperService) {}
 
   ngOnInit() {
     if (this.vm == null) {
       throw new Error('VM is missing');
     }
 
-    this.reachibilityPollingSubscription = this.pollRequest().subscribe(reachability => {
-      this._reachabilityState = reachability;
-      if (this.shouldStopPolling()) {
-        this.reachibilityPollingSubscription.unsubscribe();
-      }
-    });
+    this.reachibilityPollingSubscription = this.createPollingObservable().subscribe(
+      reachability => {
+        this._reachabilityState = reachability;
+        if (this.shouldStopPolling()) {
+          this.reachibilityPollingSubscription.unsubscribe();
+        }
+      },
+    );
   }
 
   ngOnDestroy() {
     this.reachibilityPollingSubscription.unsubscribe();
   }
 
-  private pollRequest() {
-    return timer(0, POLL_PERIOD).pipe(
-      tap(() => (this._checkingStatus = true)),
-      switchMap(() =>
-        this.reachabilityService
-          .getReachibility(this.vm)
-          .pipe(finalize(() => (this._checkingStatus = false))),
-      ),
+  private createPollingObservable() {
+    const firstRequest$ = this.rechabilityRequest();
+    const polling$ = interval(POLL_PERIOD).pipe(
+      take(1),
+      switchMap(() => this.rechabilityRequest()),
+      repeat(),
     );
+
+    return concat(firstRequest$, polling$);
+  }
+
+  private rechabilityRequest() {
+    this._checkingStatus = true;
+    return this.reachabilityService
+      .getReachibility(this.vm)
+      .pipe(finalize(() => (this._checkingStatus = false)));
   }
 
   private shouldStopPolling() {
