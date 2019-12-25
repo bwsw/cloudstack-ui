@@ -235,7 +235,14 @@ import { VmHttpAddressPipe } from './vm-actions/vm-actions-component/vm-http-add
     VmHttpAccessLinkComponent,
     VmHttpAddressPipe,
   ],
-  providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
+  providers: [
+    VmActionsService,
+    VmService,
+    SshAccessService,
+    HttpAccessService,
+    VncAccessService,
+    // { provide: HttpAccessHelperService, useClass: VmHttpAccessService }
+  ],
   entryComponents: [
     AffinityGroupSelectorContainerComponent,
     VmDetailsAffinityGroupListComponent,
