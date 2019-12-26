@@ -1,7 +1,7 @@
 const { createApp } = require('./src/app');
 
-const requestTimeout = 6000; // 1 min
-const port = 8989;
+const requestTimeout = +process.env.HTTP_ACCESS_HELPER_TIMEOUT || 60000; // 1 min
+const port = +process.env.HTTP_ACCESS_HELPER_PORT || 8989;
 
 const app = createApp(requestTimeout);
 

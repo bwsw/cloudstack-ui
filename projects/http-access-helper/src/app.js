@@ -27,7 +27,7 @@ function createApp(requestTimeout) {
         res.json(ReachableResponse(url));
       })
       .catch(err => {
-        console.log(`Reachability request failed`);
+        console.log(`Reachability request failed:`);
         if (isExpectedError(err)) {
           let status = err.response.status;
           console.log(
@@ -37,6 +37,7 @@ function createApp(requestTimeout) {
           res.json(ReachableResponse(url));
         } else {
           console.log(err);
+          console.log();
           res.json(UnreachableResponse(url));
         }
       });
