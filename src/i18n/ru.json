@@ -1979,5 +1979,9 @@
   "SELECT_SEARCH": {
     "SEARCH": "Поиск...",
     "NO_MATCH": "Ничего не найдено"
+  },
+  "HTTP_ACCESS": {
+    "UNREACHABLE": "ВМ недоступна",
+    "SERVICE_DOWN": "Служба может быть недоступна"
   }
 }

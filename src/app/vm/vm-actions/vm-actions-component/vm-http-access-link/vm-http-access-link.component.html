@@ -1,5 +1,5 @@
 <ng-container *ngIf="reachabilityState !== Reachability.Unknown" [ngSwitch]="reachabilityState">
-  <span *ngSwitchCase="Reachability.Unreachable">VM is unreachable</span>
+  <span *ngSwitchCase="Reachability.Unreachable">{{ 'HTTP_ACCESS.UNREACHABLE' | translate }}</span>
   <a
     *ngSwitchDefault
     [href]="vm | vmHttpAddress"
@@ -14,7 +14,7 @@
   *ngIf="!checkingStatus && reachabilityState === Reachability.ServiceUnresponsive"
   class="mdi-alert warn-icon"
   color="warn"
-  matTooltip="Service may be unreachable"
+  [matTooltip]="'HTTP_ACCESS.SERVICE_DOWN' | translate"
   inline
 ></mat-icon>
 <mat-spinner

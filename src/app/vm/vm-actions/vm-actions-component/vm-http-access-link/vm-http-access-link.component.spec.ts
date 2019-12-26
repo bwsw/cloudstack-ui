@@ -4,6 +4,7 @@ import { MockPipe } from 'ng-mocks';
 import { of } from 'rxjs';
 import { delay as observableDelay } from 'rxjs/operators';
 import { VirtualMachine } from '../../..';
+import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { VmHttpAddressPipe } from '../vm-http-address.pipe';
 import { HttpAccessHelperService } from './http-access-helper.service';
 
@@ -27,7 +28,7 @@ describe('VmHttpAccessLinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [VmHttpAccessLinkComponent, mockAddressPipe],
+      declarations: [VmHttpAccessLinkComponent, mockAddressPipe, MockTranslatePipe],
       providers: [{ provide: HttpAccessHelperService, useValue: reachabilityService }],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
