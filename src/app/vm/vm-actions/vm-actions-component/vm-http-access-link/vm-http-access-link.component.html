@@ -12,9 +12,10 @@
 
 <mat-icon
   *ngIf="!checkingStatus && reachabilityState === Reachability.ServiceUnresponsive"
-  class="mdi-alert"
+  class="mdi-alert warn-icon"
   color="warn"
   matTooltip="Service may be unreachable"
+  inline
 ></mat-icon>
 <mat-spinner
   *ngIf="checkingStatus || reachabilityState === Reachability.Unknown"

@@ -76,13 +76,13 @@
       </p>
 
       <br />
-      <p>
+      <p class="http-access-link-row">
         <b>{{ 'VM_POST_ACTION.OPEN_URL' | translate }}:</b>
-        <ng-container *ngIf="isValidUrl(httpAccessService.getAddress(vm)); else invalidUrl">
+        <ng-container *ngIf="isValidUrl(vm | vmHttpAddress); else invalidUrl">
           <cs-vm-http-access-link [vm]="vm"></cs-vm-http-access-link>
         </ng-container>
         <ng-template #invalidUrl>
-          {{ httpAccessService.getAddress(vm) }}
+          {{ vm | vmHttpAddress }}
           <span class="error-message"> {{ 'ERRORS.VM_POST_ACTION.INVALID_URL' | translate }} </span>
         </ng-template>
       </p>
