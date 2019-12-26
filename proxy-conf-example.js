@@ -6,6 +6,8 @@ const CLOUDSTACK_ENDPOINT = 'https://example.com';
 const PULSE_PLUGIN_ENDPOINT = 'http://example.com:8081';
 const WEBSHELL_PLUGIN_ENDPOINT = 'http://example.com:8082';
 
+const HTTP_ACCESS_HELPER_ENDPOINT = 'http://localhost:8989';
+
 function onProxyRes(proxyRes, req, res) {
   var cookies = proxyRes.headers['set-cookie'];
   var cookieRegex = /Secure/i;
@@ -47,10 +49,18 @@ const webShellProxyConfig = {
   pathRewrite: { '^/cs-extensions/webshell': '' },
 };
 
+const httpAccessHelperProxyConfig = {
+  context: ['/cs-extensions/http-access-helper/**'],
+  target: HTTP_ACCESS_HELPER_ENDPOINT,
+  secure: false,
+  pathRewrite: { '^/cs-extensions/http-access-helper': '' },
+};
+
 const PROXY_CONFIG = [
   apiProxyConfig,
   // pulseProxyConfig,
-  // webShellProxyConfig
+  // webShellProxyConfig,
+  // httpAccessHelperProxyConfig,
 ];
 
 module.exports = PROXY_CONFIG;
