@@ -2,7 +2,8 @@
 
 EXTENSION_PULSE_URL=${PULSE_PLUGIN_ENDPOINT-"http://localhost/cs-extensions/pulse"}
 EXTENSION_WEBSHELL_URL=${WEBSHELL_PLUGIN_ENDPOINT-"http://localhost/cs-extensions/webshell"}
-EXTENSION_HTTP_ACCESS_HELPER_URL=${HTTP_ACCESS_HELPER_ENDPOINT-"http://localhost/cs-extensions/http-access-helper"}
+# http access helper is run in the same docker image
+EXTENSION_HTTP_ACCESS_HELPER_URL="http://localhost:8989/"
 # replace placeholders
 sed -i -e 's#CLIENT_ENDPOINT#'"$CLIENT_ENDPOINT"'#g' /etc/nginx/conf.d/default.conf
 sed -i -e 's#PULSE_PLUGIN_ENDPOINT#'"$EXTENSION_PULSE_URL"'#g' /etc/nginx/conf.d/default.conf
