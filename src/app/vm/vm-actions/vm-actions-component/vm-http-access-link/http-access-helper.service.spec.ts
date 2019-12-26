@@ -45,7 +45,7 @@ describe('HttpAccessHelperService', () => {
   it('should pass correct params', () => {
     service.getReachibility(vm).subscribe(r => {
       expect(http.get).toHaveBeenCalledWith('cs-extensions/http-access-helper/', {
-        params: { url: address },
+        params: { url: encodeURIComponent(address) },
       });
     });
   });

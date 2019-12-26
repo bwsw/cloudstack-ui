@@ -21,7 +21,7 @@ export class HttpAccessHelperService {
     const address = this.httpAccess.getAddress(vm);
     return this.http
       .get('cs-extensions/http-access-helper/', {
-        params: { url: address },
+        params: { url: encodeURIComponent(address) },
       })
       .pipe(
         map((resp: HttpAccessHelperResponse) =>

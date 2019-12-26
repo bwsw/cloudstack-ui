@@ -5,6 +5,18 @@ const { createApp } = require('../src/app');
 const { ReachableResponse, UnreachableResponse } = require('../src/response');
 
 describe('app', () => {
+  let originalConsoleLog;
+
+  beforeAll(() => {
+    originalConsoleLog = console.log;
+
+    console.log = () => {};
+  });
+
+  afterAll(() => {
+    console.log = originalConsoleLog;
+  });
+
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
 

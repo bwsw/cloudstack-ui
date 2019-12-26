@@ -18,7 +18,7 @@ function isExpectedError(err) {
 function createApp(requestTimeout) {
   const app = express();
   app.get('/', (req, res) => {
-    const url = req.query['url'];
+    const url = decodeURIComponent(req.query['url']);
 
     console.log(`Checking reachability of: ${url} ...`);
     requestWithTimeout(url, requestTimeout)
