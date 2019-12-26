@@ -1986,6 +1986,6 @@
   },
   "HTTP_ACCESS": {
     "UNREACHABLE": "VM is unreachable",
-    "SERVICE_DOWN": "Service may be unreachable"
+    "SERVICE_DOWN": "Unable to check service availability"
   }
 }
