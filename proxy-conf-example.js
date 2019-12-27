@@ -6,7 +6,8 @@ const CLOUDSTACK_ENDPOINT = 'https://example.com';
 const PULSE_PLUGIN_ENDPOINT = 'http://example.com:8081';
 const WEBSHELL_PLUGIN_ENDPOINT = 'http://example.com:8082';
 
-const HTTP_ACCESS_HELPER_ENDPOINT = 'http://localhost:8989';
+const httpAccessHelperPort = require('./projects/http-access-helper/config').port;
+const HTTP_ACCESS_HELPER_ENDPOINT = `http://localhost:${httpAccessHelperPort}`;
 
 function onProxyRes(proxyRes, req, res) {
   var cookies = proxyRes.headers['set-cookie'];
