@@ -115,6 +115,7 @@ import { MatExpansionModule } from '@angular/material';
 import { VmUserDataDialogComponent } from './vm-sidebar/vm-detail/vm-user-data-dialog/vm-user-data-dialog.component';
 import { VmHttpAccessLinkComponent } from './vm-actions/vm-actions-component/vm-http-access-link/vm-http-access-link.component';
 import { VmHttpAddressPipe } from './vm-actions/vm-actions-component/vm-http-address.pipe';
+import { ValueEqualToValidatorDirective } from './shared/vm-destroy-dialog/value-equal-to-validator.directive';
 
 // tslint:enable max-line-length
 
@@ -234,6 +235,7 @@ import { VmHttpAddressPipe } from './vm-actions/vm-actions-component/vm-http-add
     VmUserDataDialogComponent,
     VmHttpAccessLinkComponent,
     VmHttpAddressPipe,
+    ValueEqualToValidatorDirective,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [

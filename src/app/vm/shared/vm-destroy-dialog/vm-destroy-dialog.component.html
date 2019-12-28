@@ -1,15 +1,27 @@
-<div class="mat-dialog-content notification">
-  {{ 'DIALOG_MESSAGES.VM.CONFIRM_DESTROY' | translate }}
+<form #ngForm="ngForm">
+  <div class="mat-dialog-content notification">
+    {{ 'DIALOG_MESSAGES.VM.CONFIRM_DESTROY' | translate }}
 
-  <section *ngIf="canExpunge">
-    <mat-checkbox [(ngModel)]="expunge">
-      {{ 'VM_PAGE.COMMANDS.EXPUNGE' | translate }}
-    </mat-checkbox>
-  </section>
-</div>
-<div class="mat-dialog-actions">
-  <button mat-button color="primary" matDialogClose>{{ 'COMMON.NO' | translate }}</button>
-  <button mat-button color="primary" (click)="confirmDestroy()">
-    {{ 'COMMON.YES' | translate }}
-  </button>
-</div>
+    <section>
+      <div
+        class="mat-body-1"
+        [innerHTML]="'DIALOG_MESSAGES.VM.CONFIRM_VM_ID' | translate: { vmId: vmIdSlice }"
+      ></div>
+      <mat-form-field class="confirm-input-field">
+        <input name="confirm-id" matInput ngModel required [csValueEqualTo]="vmIdSlice" />
+      </mat-form-field>
+    </section>
+
+    <section *ngIf="canExpunge">
+      <mat-checkbox name="expunge" [(ngModel)]="expunge">
+        {{ 'VM_PAGE.COMMANDS.EXPUNGE' | translate }}
+      </mat-checkbox>
+    </section>
+  </div>
+  <div class="mat-dialog-actions">
+    <button mat-button color="primary" matDialogClose>{{ 'COMMON.NO' | translate }}</button>
+    <button mat-button color="primary" [disabled]="ngForm.invalid" (click)="confirmDestroy()">
+      {{ 'COMMON.YES' | translate }}
+    </button>
+  </div>
+</form>

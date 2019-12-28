@@ -26,7 +26,10 @@ import { JobsNotificationService } from '../../../shared/services/jobs-notificat
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { IsoService } from '../../../template/shared/iso.service';
-import { VmDestroyDialogComponent } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
+import {
+  VmDestroyDialogComponent,
+  VmDestroyDialogData,
+} from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
 import { VirtualMachine, vmResourceType, VmState } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
@@ -373,7 +376,7 @@ export class VirtualMachinesEffects {
     mergeMap(([action, canExpungeOrRecoverVm]) => {
       return this.dialog
         .open(VmDestroyDialogComponent, {
-          data: canExpungeOrRecoverVm,
+          data: { canExpungeOrRecoverVm, vm: action.payload } as VmDestroyDialogData,
         })
         .afterClosed()
         .pipe(
