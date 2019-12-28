@@ -7,7 +7,7 @@
         class="mat-body-1"
         [innerHTML]="'DIALOG_MESSAGES.VM.CONFIRM_VM_ID' | translate: { vmId: vmIdSlice }"
       ></div>
-      <mat-form-field class="confirm-input-field">
+      <mat-form-field>
         <input name="confirm-id" matInput ngModel required [csValueEqualTo]="vmIdSlice" />
       </mat-form-field>
     </section>
