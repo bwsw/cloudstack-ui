@@ -1985,7 +1985,7 @@
     "NO_MATCH": "no matching found"
   },
   "HTTP_ACCESS": {
-    "UNREACHABLE": "VM is unreachable",
-    "SERVICE_DOWN": "Unable to check service availability"
+    "UNREACHABLE": "Please, wait. Remote HTTP endpoint is not yet available...",
+    "SERVICE_DOWN": "Unable to check service availability."
   }
 }
