@@ -14,6 +14,7 @@
   (selectedOsFamiliesChange)="selectedOsFamiliesChanged.emit($event)"
   (viewModeChange)="viewModeChange.emit($event)"
 ></cs-template-filters>
+<cs-search [ngModel]="query" (ngModelChange)="queryChanged.emit($event)"></cs-search>
 <cs-template-list
   *loading="fetching"
   class="template-list"
