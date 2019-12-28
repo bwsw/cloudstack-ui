@@ -1,0 +1,12 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+
+  * + * {
+    margin-left: 5px;
+  }
+}
+
+.warn-icon {
+  font-size: 20px;
+}

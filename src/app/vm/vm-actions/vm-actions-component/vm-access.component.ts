@@ -37,10 +37,6 @@ export class VmAccessComponent {
     return this.store.dispatch(new vmActions.WebShellVm(vm));
   }
 
-  public openUrlVm(vm: VirtualMachine) {
-    return this.store.dispatch(new vmActions.OpenUrlVm(vm));
-  }
-
   public getVncPassword(vm: VirtualMachine): string {
     return (
       this.vncAccessService.getPassword(vm) ||

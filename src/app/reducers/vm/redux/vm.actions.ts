@@ -43,7 +43,6 @@ export const WEB_SHELL_VM = '[VM] WEB_SHELL_VM';
 export const ACCESS_VM = '[VM] ACCESS_VM';
 export const PULSE_VM = '[VM] PULSE_VM';
 export const CONSOLE_VM = '[VM] CONSOLE_VM';
-export const OPEN_URL_VM = '[VM] OPEN_URL_VM';
 export const EXPUNGE_VM = '[VM] EXPUNGE_VM';
 export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
@@ -324,12 +323,6 @@ export class ConsoleVm implements Action {
   constructor(public payload: VirtualMachine) {}
 }
 
-export class OpenUrlVm implements Action {
-  readonly type = OPEN_URL_VM;
-
-  constructor(public payload: VirtualMachine) {}
-}
-
 export class ViewVmLogs implements Action {
   readonly type = VIEW_VM_LOGS;
 
@@ -516,7 +509,6 @@ export type Actions =
   | AccessVm
   | PulseVm
   | ConsoleVm
-  | OpenUrlVm
   | LoadVMRequest
   | VMFilterUpdate
   | VMAttachmentFilterUpdate

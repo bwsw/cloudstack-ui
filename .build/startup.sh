@@ -2,10 +2,17 @@
 
 EXTENSION_PULSE_URL=${PULSE_PLUGIN_ENDPOINT-"http://localhost/cs-extensions/pulse"}
 EXTENSION_WEBSHELL_URL=${WEBSHELL_PLUGIN_ENDPOINT-"http://localhost/cs-extensions/webshell"}
+
+# get the http access helper port from its config.js file
+helper_port=$(node --print "require('/cloudstack-http-access-helper/config').port")
+# http access helper is run in the same docker image
+EXTENSION_HTTP_ACCESS_HELPER_URL="http://localhost:$helper_port/"
+
 # replace placeholders
 sed -i -e 's#CLIENT_ENDPOINT#'"$CLIENT_ENDPOINT"'#g' /etc/nginx/conf.d/default.conf
 sed -i -e 's#PULSE_PLUGIN_ENDPOINT#'"$EXTENSION_PULSE_URL"'#g' /etc/nginx/conf.d/default.conf
 sed -i -e 's#WEBSHELL_PLUGIN_ENDPOINT#'"$EXTENSION_WEBSHELL_URL"'#g' /etc/nginx/conf.d/default.conf
+sed -i -e 's#HTTP_ACCESS_HELPER_ENDPOINT#'"$EXTENSION_HTTP_ACCESS_HELPER_URL"'#g' /etc/nginx/conf.d/default.conf
 
 # add base href
 if [ -n "$BASE_HREF" ]; then

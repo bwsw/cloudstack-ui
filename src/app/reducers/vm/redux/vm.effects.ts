@@ -827,13 +827,6 @@ export class VirtualMachinesEffects {
   );
 
   @Effect({ dispatch: false })
-  vmUrlAction$: Observable<VirtualMachine> = this.actions$.pipe(
-    ofType(vmActions.OPEN_URL_VM),
-    map((action: vmActions.OpenUrlVm) => action.payload),
-    tap((vm: VirtualMachine) => this.httpModeService.openWindow(vm, '_blank')),
-  );
-
-  @Effect({ dispatch: false })
   viewVmLogs$: Observable<VirtualMachine> = this.actions$.pipe(
     ofType(vmActions.VIEW_VM_LOGS),
     map((action: vmActions.ViewVmLogs) => action.payload),

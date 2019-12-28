@@ -4805,6 +4805,11 @@ ng-dynamic-component@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ng-dynamic-component/-/ng-dynamic-component-3.0.0.tgz#a0bdff227deff8c405b80d7447a273516140f186"
 
+ng-mocks@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-8.1.0.tgz#d00a5e53ae53587f35c68147826590fab71a1658"
+  integrity sha512-/314nyU6UrONCUKfvFRuJPLpNBxqocwJmQBlPy4he5Vueu6gObXjy+KLUlbbENuA7zTeBjp//RA6w/Fa1yQ4Fw==
+
 ng2-dragula@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/ng2-dragula/-/ng2-dragula-1.5.0.tgz#12a221d7a34fc629cc74dc98efb26448290eb6e5"
@@ -4829,6 +4834,13 @@ ngx-infinite-scroll@^6.0.1:
   resolved "https://registry.yarnpkg.com/ngx-infinite-scroll/-/ngx-infinite-scroll-6.0.1.tgz#571e54860ce32839451569bcf6e7a63cfae327bd"
   dependencies:
     opencollective "^1.0.3"
+
+ngx-mat-select-search@^1.7.6:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/ngx-mat-select-search/-/ngx-mat-select-search-1.8.0.tgz#0d2a621e3ca50a82e1d230999ccd39d6f78ca6c9"
+  integrity sha512-oCuGWn0GYxqpOZ4mdJvHJ0l/vctVQ9kxMKEUy6HZ5bGx4dCBUsolwnQeUDM+vwGtlXoBzYQ27cxYgbfNSyuabg==
+  dependencies:
+    tslib "^1.9.0"
 
 ngx-window-token@^1.0.0:
   version "1.0.0"
