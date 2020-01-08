@@ -14,8 +14,8 @@ import { configSelectors, State } from '../root-store';
   styleUrls: ['login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  @ViewChild('user') public usernameField: NgControl;
-  @ViewChild('pass') public passwordField: NgControl;
+  @ViewChild('usernameControl') public usernameField: NgControl;
+  @ViewChild('passwordControl') public passwordField: NgControl;
 
   public username = '';
   public password = '';
