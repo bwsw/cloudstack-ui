@@ -590,7 +590,7 @@ describe('Virtual machine Effects', () => {
 
   it('should stop vm', () => {
     const spyCommand = spyOn(service, 'command').and.returnValue(of(list[0]));
-    spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    spyOn(matDialog, 'open').and.returnValue({ afterClosed: () => of({ forced: true }) });
 
     const action = new vmActions.StopVm(list[0]);
     const completion = new vmActions.UpdateVM(list[0]);
@@ -608,7 +608,7 @@ describe('Virtual machine Effects', () => {
     const spyCommand = spyOn(service, 'command').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
-    spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    spyOn(matDialog, 'open').and.returnValue({ afterClosed: () => of({ forced: true }) });
 
     const action = new vmActions.StopVm(list[0]);
     const completion = new vmActions.VMUpdateError({
