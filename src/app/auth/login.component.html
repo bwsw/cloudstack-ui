@@ -3,7 +3,7 @@
   <mat-card class="login">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
       <div class="mat-dialog-content">
-        <mat-form-field class="full-width-input">
+        <mat-form-field class="full-width-input" hideRequiredMarker>
           <input
             matInput
             name="username"
@@ -19,7 +19,7 @@
           </mat-error>
         </mat-form-field>
         <br />
-        <mat-form-field class="full-width-input">
+        <mat-form-field class="full-width-input" hideRequiredMarker>
           <input
             matInput
             type="password"
