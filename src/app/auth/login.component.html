@@ -35,7 +35,7 @@
           </mat-error>
         </mat-form-field>
         <br />
-        <mat-form-field *ngIf="showDomain" class="full-width-input">
+        <mat-form-field class="full-width-input">
           <input
             matInput
             name="domain"
@@ -52,16 +52,6 @@
           [disabled]="passwordControl.invalid || usernameControl.invalid"
         >
           {{ 'AUTH.LOGIN' | translate }}
-        </button>
-        <button
-          mat-icon-button
-          class="options-button"
-          type="button"
-          [matTooltip]="(showDomain ? 'AUTH.HIDE_ADVANCED' : 'AUTH.SHOW_ADVANCED') | translate"
-          matTooltipPosition="above"
-          (click)="toggleDomain()"
-        >
-          <mat-icon [class.domains-visible]="showDomain" class="mdi-settings"></mat-icon>
         </button>
       </div>
     </form>

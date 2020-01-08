@@ -6,7 +6,6 @@ import { first } from 'rxjs/operators';
 
 import { AuthService } from '../shared/services/auth.service';
 import { SnackBarService } from '../core/services/';
-import { LocalStorageService } from '../shared/services/local-storage.service';
 import { configSelectors, State } from '../root-store';
 
 @Component({
@@ -25,21 +24,15 @@ export class LoginComponent implements OnInit {
   public domain = '';
   public loading = true;
 
-  public showDomain = false;
-  public key = 'showDomain';
-
   constructor(
     private auth: AuthService,
     private notification: SnackBarService,
     private route: ActivatedRoute,
     private router: Router,
-    private storage: LocalStorageService,
     private store: Store<State>,
   ) {}
 
   public ngOnInit(): void {
-    const value = this.storage.read(this.key);
-    this.showDomain = value === 'true';
     const domainFromQueryParams = this.route.snapshot.queryParams['domain'];
     this.store
       .pipe(
@@ -50,11 +43,6 @@ export class LoginComponent implements OnInit {
         this.domain = domainFromQueryParams || domainFromConfig || '';
       });
     this.loading = false;
-  }
-
-  public toggleDomain(): void {
-    this.showDomain = !this.showDomain;
-    this.storage.write(this.key, this.showDomain.toString());
   }
 
   public onSubmit(): void {
