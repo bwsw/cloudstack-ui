@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, NgControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { first } from 'rxjs/operators';
+import { finalize, first } from 'rxjs/operators';
 
 import { AuthService } from '../shared/services/auth.service';
 import { SnackBarService } from '../core/services/';
@@ -14,15 +14,19 @@ import { configSelectors, State } from '../root-store';
   styleUrls: ['login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  @ViewChild('user')
-  public usernameField;
-  @ViewChild('pass')
-  public passwordField;
+  @ViewChild('user') public usernameField: NgControl;
+  @ViewChild('pass') public passwordField: NgControl;
 
   public username = '';
   public password = '';
   public domain = '';
-  public loading = true;
+  public ready = false;
+
+  public get loading(): boolean {
+    return this._loading;
+  }
+
+  private _loading = false;
 
   constructor(
     private auth: AuthService,
@@ -42,7 +46,7 @@ export class LoginComponent implements OnInit {
       .subscribe(domainFromConfig => {
         this.domain = domainFromQueryParams || domainFromConfig || '';
       });
-    this.loading = false;
+    this.ready = true;
   }
 
   public onSubmit(): void {
@@ -64,8 +68,11 @@ export class LoginComponent implements OnInit {
   }
 
   private login(username: string, password: string, domain: string): void {
+    this._loading = true;
+
     this.auth
       .login(username, password, domain)
+      .pipe(finalize(() => (this._loading = false)))
       .subscribe(() => this.handleLogin(), error => this.handleError(error));
   }
 
