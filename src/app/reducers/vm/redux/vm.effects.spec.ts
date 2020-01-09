@@ -2,50 +2,51 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
 import { Actions } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
+import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
+import { MockTagService } from '../../../../testutils/mocks/tag-services/mock-tag.service';
+import { SnackBarService } from '../../../core/services';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { AsyncJobService } from '../../../shared/services/async-job.service';
-import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { VmService } from '../../../vm';
-import { VirtualMachinesEffects } from './vm.effects';
-import { State } from '../../index';
-import * as vmActions from './vm.actions';
-import * as volumeActions from '../../volumes/redux/volumes.actions';
-import * as sgActions from '../../security-groups/redux/sg.actions';
-import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
-import { OsTypeService } from '../../../shared/services/os-type.service';
-import { AuthService } from '../../../shared/services/auth.service';
-import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
-import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
-import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
-import { LocalStorageService } from '../../../shared/services/local-storage.service';
-import { VolumeService } from '../../../shared/services/volume.service';
-import { SnapshotService } from '../../../shared/services/snapshot.service';
-import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
-import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
-import { IsoService } from '../../../template/shared/iso.service';
-import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
-import { Router } from '@angular/router';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { Color } from '../../../shared/models/color.model';
-import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+import {
+  capabilitiesFeatureName,
+  reducer as capabilityReducers,
+} from '../../../root-store/server-data/capabilities/capabilities.reducers';
 // tslint:disable-next-line
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
-import { SnackBarService } from '../../../core/services';
-import { MockTagService } from '../../../../testutils/mocks/tag-services/mock-tag.service';
+import { Color } from '../../../shared/models/color.model';
+import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
+import { AsyncJobService } from '../../../shared/services/async-job.service';
+import { AuthService } from '../../../shared/services/auth.service';
+import { CSCommands } from '../../../shared/services/base-backend.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { LocalStorageService } from '../../../shared/services/local-storage.service';
+import { OsTypeService } from '../../../shared/services/os-type.service';
+import { SnapshotService } from '../../../shared/services/snapshot.service';
+import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
+import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
-import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
-import { virtualMachineReducers } from './vm.reducers';
-import {
-  reducer as capabilityReducers,
-  capabilitiesFeatureName,
-} from '../../../root-store/server-data/capabilities/capabilities.reducers';
+import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
+import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
 import { Utils } from '../../../shared/services/utils/utils.service';
+import { VolumeService } from '../../../shared/services/volume.service';
+import { IsoService } from '../../../template/shared/iso.service';
+import { VmService } from '../../../vm';
+import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
+import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
+import { State } from '../../index';
+import * as sgActions from '../../security-groups/redux/sg.actions';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
+import * as vmActions from './vm.actions';
+import { VirtualMachinesEffects } from './vm.effects';
+import { virtualMachineReducers } from './vm.reducers';
 
 @Injectable()
 export class MockAccessService {}
@@ -1341,6 +1342,60 @@ describe('Virtual machine Effects', () => {
 
       expect(effects.changeVMUserData$).toBeObservable(expected);
       expect(spyUpdateUserData).toHaveBeenCalledWith(vm, userdata);
+      expect(spyAlert).toHaveBeenCalled();
+    });
+  });
+
+  describe('change os type', () => {
+    it('should update os type of a stopped vm', () => {
+      const vm = { ...list[0], state: VmState.Stopped };
+
+      const updateSpy = spyOn(service, 'updateOsType').and.returnValue(of(list[1]));
+      const commandSpy = spyOn(service, 'command');
+
+      const action = new vmActions.ChangeOsType({ vm, osTypeId: 'test' });
+      const completion = new vmActions.UpdateVM(list[1]);
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.changeOsType).toBeObservable(expected);
+
+      expect(commandSpy).not.toHaveBeenCalled(); // vm was not stopped and started
+      expect(updateSpy).toHaveBeenCalledWith(vm, 'test');
+    });
+
+    it('should update os type of a running vm', () => {
+      const vm = { ...list[0], state: VmState.Running };
+      const updatedVm = list[1];
+
+      const updateSpy = spyOn(service, 'updateOsType').and.returnValue(of(updatedVm));
+      const commandSpy = spyOn(service, 'command').and.returnValue(of(updatedVm));
+
+      const action = new vmActions.ChangeOsType({ vm, osTypeId: 'test' });
+      const completion = new vmActions.UpdateVM(updatedVm);
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.changeOsType).toBeObservable(expected);
+
+      expect(commandSpy).toHaveBeenCalledTimes(2);
+      expect(commandSpy.calls.argsFor(0)).toEqual([vm, CSCommands.Stop]);
+      expect(commandSpy.calls.argsFor(1)).toEqual([updatedVm, CSCommands.Start]);
+      expect(updateSpy).toHaveBeenCalledWith(vm, 'test');
+    });
+
+    it('should handle update error', () => {
+      const vm = { ...list[0], state: VmState.Stopped };
+      const spyAlert = spyOn(dialogService, 'showNotificationsOnFail');
+      const error = new Error();
+      spyOn(service, 'updateOsType').and.returnValue(throwError(error));
+
+      const action = new vmActions.ChangeOsType({ vm, osTypeId: 'test' });
+      const completion = new vmActions.VMUpdateError({ error, vm, state: VmState.Stopped });
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-a', { a: completion });
+      expect(effects.changeOsType).toBeObservable(expected);
       expect(spyAlert).toHaveBeenCalled();
     });
   });

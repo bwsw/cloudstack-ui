@@ -8,11 +8,10 @@ export interface OsTypeSelectorDialogData {
 }
 
 @Component({
-  selector: 'cs-os-type-selector',
-  templateUrl: './os-type-selector.component.html',
-  styleUrls: ['./os-type-selector.component.scss'],
+  templateUrl: './os-type-dialog.component.html',
+  styleUrls: ['./os-type-dialog.component.scss'],
 })
-export class OsTypeSelectorComponent {
+export class OsTypeDialogComponent {
   public osTypeId: string;
   public readonly initialOsTypeId: string;
   public readonly rebootRequired: boolean;

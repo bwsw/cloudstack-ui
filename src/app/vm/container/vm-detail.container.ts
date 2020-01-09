@@ -47,6 +47,7 @@ const vmDescriptionKey = 'csui.vm.description';
       (affinityGroupChanged)="changeAffinityGroup($event)"
     >
     </cs-affinity-group>
+    <cs-os-type [vm]="vm$ | async"></cs-os-type>
     <cs-vm-detail-template [vm]="vm$ | async"></cs-vm-detail-template>
     <cs-vm-ssh-keypair
       [vm]="vm$ | async"

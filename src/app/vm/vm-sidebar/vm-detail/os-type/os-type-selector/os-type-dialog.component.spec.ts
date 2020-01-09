@@ -2,38 +2,18 @@ import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogClose, MatOption, MatSelect } from '@angular/material';
 import { By } from '@angular/platform-browser';
-import {
-  MockComponent,
-  MockDirective,
-  MockedComponent,
-  MockedDirective,
-  MockHelper,
-} from 'ng-mocks';
+import { MockComponent, MockDirective, MockedComponent, MockedDirective } from 'ng-mocks';
 import { of } from 'rxjs';
 import { VirtualMachine, VmState } from '../../../..';
 import { MockTranslatePipe } from '../../../../../../testutils/mocks/mock-translate.pipe.spec';
+import { osTypes } from '../../../../../../testutils/mocks/model-services/fixtures/os-types';
 import { OsTypeService } from '../../../../../shared/services/os-type.service';
 
-import { OsTypeSelectorComponent } from './os-type-selector.component';
+import { OsTypeDialogComponent } from './os-type-dialog.component';
 
-const osTypes = [
-  {
-    id: '27ca019e-ff5e-11e6-86d7-0242ac110003',
-    oscategoryid: '27ac8256-ff5e-11e6-86d7-0242ac110003',
-    description: 'Apple Mac OS X 10.6 (32-bit)',
-    isuserdefined: 'false',
-  },
-  {
-    id: '27ca0c69-ff5e-11e6-86d7-0242ac110003',
-    oscategoryid: '27ac8256-ff5e-11e6-86d7-0242ac110003',
-    description: 'Apple Mac OS X 10.6 (64-bit)',
-    isuserdefined: 'false',
-  },
-];
-
-describe('OsTypeSelectorComponent', () => {
-  let component: OsTypeSelectorComponent;
-  let fixture: ComponentFixture<OsTypeSelectorComponent>;
+describe('OsTypeDialogComponent', () => {
+  let component: OsTypeDialogComponent;
+  let fixture: ComponentFixture<OsTypeDialogComponent>;
 
   let osTypeService;
 
@@ -58,7 +38,7 @@ describe('OsTypeSelectorComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [
-        OsTypeSelectorComponent,
+        OsTypeDialogComponent,
         mockMatSelect,
         mockMatOption,
         mockDialogClose,
@@ -71,7 +51,7 @@ describe('OsTypeSelectorComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OsTypeSelectorComponent);
+    fixture = TestBed.createComponent(OsTypeDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }
