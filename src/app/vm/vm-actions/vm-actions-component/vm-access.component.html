@@ -6,7 +6,8 @@
         <b>{{ 'VM_POST_ACTION.LOGIN' | translate }}:</b> {{ vncAccessService.getLogin(vm) }}
       </p>
       <p>
-        <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ getVncPassword(vm) }}
+        <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}: </b>
+        <cs-password [password]="getVncPassword(vm)"></cs-password>
       </p>
 
       <br />
@@ -50,7 +51,8 @@
         <b>{{ 'VM_POST_ACTION.LOGIN' | translate }}:</b> {{ sshAccessService.getLogin(vm) }}
       </p>
       <p>
-        <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ getSshPassword(vm) }}
+        <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}: </b>
+        <cs-password [password]="getSshPassword(vm)"></cs-password>
       </p>
       <p *ngIf="vm.keypair">
         <b>{{ 'VM_POST_ACTION.SSH_KEY' | translate }}: </b> <span> {{ vm.keypair }} </span>
@@ -72,7 +74,8 @@
         <b>{{ 'VM_POST_ACTION.LOGIN' | translate }}:</b> {{ httpAccessService.getLogin(vm) }}
       </p>
       <p>
-        <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ getUrlPassword(vm) }}
+        <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}: </b>
+        <cs-password [password]="getUrlPassword(vm)"></cs-password>
       </p>
 
       <br />

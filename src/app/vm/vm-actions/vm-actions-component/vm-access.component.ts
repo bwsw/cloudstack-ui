@@ -38,24 +38,15 @@ export class VmAccessComponent {
   }
 
   public getVncPassword(vm: VirtualMachine): string {
-    return (
-      this.vncAccessService.getPassword(vm) ||
-      this.translateService.instant('VM_POST_ACTION.NOT_SET')
-    );
+    return this.vncAccessService.getPassword(vm);
   }
 
   public getUrlPassword(vm: VirtualMachine): string {
-    return (
-      this.httpAccessService.getPassword(vm) ||
-      this.translateService.instant('VM_POST_ACTION.NOT_SET')
-    );
+    return this.httpAccessService.getPassword(vm);
   }
 
   public getSshPassword(vm: VirtualMachine): string {
-    return (
-      this.sshAccessService.getPassword(vm) ||
-      this.translateService.instant('VM_POST_ACTION.NOT_SET')
-    );
+    return this.sshAccessService.getPassword(vm);
   }
 
   public isValidUrl(url: string): boolean {

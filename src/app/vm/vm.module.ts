@@ -116,6 +116,7 @@ import { VmUserDataDialogComponent } from './vm-sidebar/vm-detail/vm-user-data-d
 import { VmHttpAccessLinkComponent } from './vm-actions/vm-actions-component/vm-http-access-link/vm-http-access-link.component';
 import { VmHttpAddressPipe } from './vm-actions/vm-actions-component/vm-http-address.pipe';
 import { ValueEqualToValidatorDirective } from './shared/vm-destroy-dialog/value-equal-to-validator.directive';
+import { PasswordComponent } from './vm-actions/vm-actions-component/password/password.component';
 
 // tslint:enable max-line-length
 
@@ -236,6 +237,7 @@ import { ValueEqualToValidatorDirective } from './shared/vm-destroy-dialog/value
     VmHttpAccessLinkComponent,
     VmHttpAddressPipe,
     ValueEqualToValidatorDirective,
+    PasswordComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
