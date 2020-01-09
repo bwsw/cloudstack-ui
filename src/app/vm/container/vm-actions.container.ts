@@ -86,7 +86,15 @@ export class VmActionsContainerComponent {
   }
 
   public onVmStop(vm: VirtualMachine): void {
-    this.store.dispatch(new vmActions.StopVm(vm));
+    this.dialogService
+      .confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_STOP' })
+      .pipe(
+        onErrorResumeNext(),
+        filter(Boolean),
+      )
+      .subscribe(() => {
+        this.store.dispatch(new vmActions.StopVm(vm));
+      });
   }
 
   public onCreateVmLogsToken(vm: VirtualMachine): void {
