@@ -82,7 +82,8 @@
       "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?",
       "CONFIRM_SAVE_PASSWORD": "Do you want to always save passwords for newly created VMs?",
-      "CONFIRM_AFFINITY_DELETION": "Are you sure you want to delete this affinity group?"
+      "CONFIRM_AFFINITY_DELETION": "Are you sure you want to delete this affinity group?",
+      "FORCE_STOP": "Force Stop"
     },
     "SECURITY_GROUPS": {
       "CONFIRM_EDIT_FROM_VM": "This group is shared. Other VMs that use this group will also be affected. Are you sure you want to edit this group in the Security Group management area?",
