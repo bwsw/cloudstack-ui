@@ -117,6 +117,7 @@ import { VmHttpAccessLinkComponent } from './vm-actions/vm-actions-component/vm-
 import { VmHttpAddressPipe } from './vm-actions/vm-actions-component/vm-http-address.pipe';
 import { ValueEqualToValidatorDirective } from './shared/vm-destroy-dialog/value-equal-to-validator.directive';
 import { PasswordComponent } from './vm-actions/vm-actions-component/password/password.component';
+import { VmStopDialogComponent } from './shared/vm-stop-dialog/vm-stop-dialog.component';
 
 // tslint:enable max-line-length
 
@@ -238,6 +239,7 @@ import { PasswordComponent } from './vm-actions/vm-actions-component/password/pa
     VmHttpAddressPipe,
     ValueEqualToValidatorDirective,
     PasswordComponent,
+    VmStopDialogComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
@@ -247,6 +249,7 @@ import { PasswordComponent } from './vm-actions/vm-actions-component/password/pa
     InstanceGroupSelectorComponent,
     VmCreationContainerComponent,
     VmDestroyDialogComponent,
+    VmStopDialogComponent,
     InstallationSourceDialogComponent,
     VmCreationAgreementComponent,
     SnapshotCreationComponent,
