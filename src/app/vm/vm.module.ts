@@ -117,6 +117,7 @@ import { VmHttpAccessLinkComponent } from './vm-actions/vm-actions-component/vm-
 import { VmHttpAddressPipe } from './vm-actions/vm-actions-component/vm-http-address.pipe';
 import { ValueEqualToValidatorDirective } from './shared/vm-destroy-dialog/value-equal-to-validator.directive';
 import { PasswordComponent } from './vm-actions/vm-actions-component/password/password.component';
+import { OsTypeSelectorComponent } from './vm-sidebar/vm-detail/os-type/os-type-selector/os-type-selector.component';
 
 // tslint:enable max-line-length
 
@@ -238,6 +239,7 @@ import { PasswordComponent } from './vm-actions/vm-actions-component/password/pa
     VmHttpAddressPipe,
     ValueEqualToValidatorDirective,
     PasswordComponent,
+    OsTypeSelectorComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
@@ -265,6 +267,7 @@ import { PasswordComponent } from './vm-actions/vm-actions-component/password/pa
     ServiceOfferingDialogContainerComponent,
     SgListContainerComponent,
     VmUserDataDialogComponent,
+    OsTypeSelectorComponent,
   ],
 })
 export class VmModule {}
