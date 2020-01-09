@@ -16,6 +16,8 @@ import { NavbarService, SearchBoxState } from '../../../core/services/navbar.ser
 
 const FILTER_KEY = 'securityGroupFilters';
 
+const defaultViewMode = SecurityGroupViewMode.Shared;
+
 @Component({
   selector: 'cs-sg-filter-container',
   templateUrl: 'sg-filter.container.html',
@@ -37,7 +39,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
           SecurityGroupViewMode.Shared,
           SecurityGroupViewMode.Private,
         ],
-        defaultOption: SecurityGroupViewMode.Templates,
+        defaultOption: defaultViewMode,
       },
       query: {
         type: 'string',
@@ -77,7 +79,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
 
   public initFilters(): void {
     const params = this.filterService.getParams();
-    const viewMode = params.viewMode || SecurityGroupViewMode.Templates;
+    const viewMode = params.viewMode || defaultViewMode;
     const query = params.query;
     const selectedAccountIds = params.accounts;
 
