@@ -1,9 +1,9 @@
-<div class="flex-container" *ngIf="!loading">
+<div class="flex-container" *ngIf="ready">
   <img class="logo" src="img/cloudstack_logo.png" />
   <mat-card class="login">
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+    <form (ngSubmit)="onSubmit()" novalidate>
       <div class="mat-dialog-content">
-        <mat-form-field class="full-width-input">
+        <mat-form-field class="full-width-input" hideRequiredMarker>
           <input
             matInput
             name="username"
@@ -19,7 +19,7 @@
           </mat-error>
         </mat-form-field>
         <br />
-        <mat-form-field class="full-width-input">
+        <mat-form-field class="full-width-input" hideRequiredMarker>
           <input
             matInput
             type="password"
@@ -35,7 +35,7 @@
           </mat-error>
         </mat-form-field>
         <br />
-        <mat-form-field *ngIf="showDomain" class="full-width-input">
+        <mat-form-field class="full-width-input">
           <input
             matInput
             name="domain"
@@ -49,19 +49,13 @@
           mat-button
           color="primary"
           type="submit"
-          [disabled]="passwordControl.invalid || usernameControl.invalid"
+          [disabled]="loading || passwordControl.invalid || usernameControl.invalid"
         >
-          {{ 'AUTH.LOGIN' | translate }}
-        </button>
-        <button
-          mat-icon-button
-          class="options-button"
-          type="button"
-          [matTooltip]="(showDomain ? 'AUTH.HIDE_ADVANCED' : 'AUTH.SHOW_ADVANCED') | translate"
-          matTooltipPosition="above"
-          (click)="toggleDomain()"
-        >
-          <mat-icon [class.domains-visible]="showDomain" class="mdi-settings"></mat-icon>
+          <span *ngIf="loading; else loginText" class="spinner-container">
+            <!-- zero-width space so that line-height takes effect -->
+            &#8203;<mat-spinner diameter="25" strokeWidth="3"></mat-spinner>
+          </span>
+          <ng-template #loginText>{{ 'AUTH.LOGIN' | translate }}</ng-template>
         </button>
       </div>
     </form>
