@@ -116,7 +116,6 @@ import { VmUserDataDialogComponent } from './vm-sidebar/vm-detail/vm-user-data-d
 import { VmHttpAccessLinkComponent } from './vm-actions/vm-actions-component/vm-http-access-link/vm-http-access-link.component';
 import { VmHttpAddressPipe } from './vm-actions/vm-actions-component/vm-http-address.pipe';
 import { ValueEqualToValidatorDirective } from './shared/vm-destroy-dialog/value-equal-to-validator.directive';
-import { VmStopDialogComponent } from './shared/vm-stop-dialog/vm-stop-dialog.component';
 
 // tslint:enable max-line-length
 
@@ -237,7 +236,6 @@ import { VmStopDialogComponent } from './shared/vm-stop-dialog/vm-stop-dialog.co
     VmHttpAccessLinkComponent,
     VmHttpAddressPipe,
     ValueEqualToValidatorDirective,
-    VmStopDialogComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
@@ -247,7 +245,6 @@ import { VmStopDialogComponent } from './shared/vm-stop-dialog/vm-stop-dialog.co
     InstanceGroupSelectorComponent,
     VmCreationContainerComponent,
     VmDestroyDialogComponent,
-    VmStopDialogComponent,
     InstallationSourceDialogComponent,
     VmCreationAgreementComponent,
     SnapshotCreationComponent,
