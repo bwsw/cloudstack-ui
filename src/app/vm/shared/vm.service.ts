@@ -17,6 +17,10 @@ import { Utils } from '../../shared/services/utils/utils.service';
 export const virtualMachineEntityName = 'VirtualMachine';
 export const nicEntityName = 'Nic';
 
+export interface VmStopParams {
+  forced: boolean;
+}
+
 @Injectable()
 @BackendResource({
   entity: virtualMachineEntityName,

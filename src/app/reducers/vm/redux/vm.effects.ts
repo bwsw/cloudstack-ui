@@ -36,6 +36,7 @@ import {
   VmDestroyDialogComponent,
   VmDestroyDialogData,
 } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
+import { VmStopDialogComponent } from '../../../vm/shared/vm-stop-dialog/vm-stop-dialog.component';
 import { VirtualMachine, vmResourceType, VmState } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
@@ -338,28 +339,39 @@ export class VirtualMachinesEffects {
   @Effect()
   stopVm$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.STOP_VM),
-    mergeMap((action: vmActions.StopVm) => {
-      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.VM.STOP_IN_PROGRESS');
-      this.update(action.payload, VmState.Stopping);
-      return this.vmService.command(action.payload, CSCommands.Stop).pipe(
-        tap(() => {
-          const message = 'NOTIFICATIONS.VM.STOP_DONE';
-          this.showNotificationsOnFinish(message, notificationId);
-        }),
-        map(vm => new vmActions.UpdateVM(vm)),
-        catchError((error: Error) => {
-          const message = 'NOTIFICATIONS.VM.STOP_FAILED';
-          this.dialogService.showNotificationsOnFail(error, message, notificationId);
-          return of(
-            new vmActions.VMUpdateError({
-              error,
-              vm: action.payload,
-              state: VmState.Error,
-            }),
-          );
-        }),
-      );
-    }),
+    mergeMap((action: vmActions.StopVm) =>
+      this.dialog
+        .open(VmStopDialogComponent)
+        .afterClosed()
+        .pipe(
+          onErrorResumeNext(),
+          filter(Boolean),
+          switchMap(params => {
+            const notificationId = this.jobsNotificationService.add(
+              'NOTIFICATIONS.VM.STOP_IN_PROGRESS',
+            );
+            this.update(action.payload, VmState.Stopping);
+            return this.vmService.command(action.payload, CSCommands.Stop, params).pipe(
+              tap(() => {
+                const message = 'NOTIFICATIONS.VM.STOP_DONE';
+                this.showNotificationsOnFinish(message, notificationId);
+              }),
+              map(vm => new vmActions.UpdateVM(vm)),
+              catchError((error: Error) => {
+                const message = 'NOTIFICATIONS.VM.STOP_FAILED';
+                this.dialogService.showNotificationsOnFail(error, message, notificationId);
+                return of(
+                  new vmActions.VMUpdateError({
+                    error,
+                    vm: action.payload,
+                    state: VmState.Error,
+                  }),
+                );
+              }),
+            );
+          }),
+        ),
+    ),
   );
 
   @Effect()
