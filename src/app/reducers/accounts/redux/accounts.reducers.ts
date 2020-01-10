@@ -244,9 +244,14 @@ export const selectStorageAvailable = createSelector(
   selectUserAccount,
   account => {
     if (account) {
-      const available = Number(account.primarystorageavailable);
+      const primaryStorage = account.primarystorageavailable;
+      if (primaryStorage === 'Unlimited') {
+        return primaryStorage;
+      }
+      const available = Number(primaryStorage);
       return !isNaN(available) ? available : null;
     }
+    return null;
   },
 );
 
