@@ -132,10 +132,7 @@ We intensively use features like projects in our own CloudStack cloud to manage 
 - Responsive interface for smart devices
 - SAML2 authentication support
 - CloudStack projects
-- JivoChat widget integration
-- Resources request/release plugin
 - OTA/KVS integration for VM automation
-- Docker stack library support
 
 ## Screenshots & Features Descriptions
 
