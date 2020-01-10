@@ -132,7 +132,7 @@ describe('OsTypeComponent', () => {
       setNextDialogResult(osTypes[1].id);
       clickEditButton();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ChangeOsType({ osTypeId: osTypes[1].id, vm }),
+        new ChangeOsType({ vm, osTypeId: osTypes[1].id }),
       );
     });
   });
