@@ -24,12 +24,20 @@
             </button>
 
             <button
+              #detachButton
               class="button-18px"
               mat-icon-button
-              [matTooltip]="'VM_PAGE.NETWORK_DETAILS.DETACH' | translate"
+              [disabled]="vm.securitygroup.length < 2"
               (click)="detachFirewall.emit(group?.id)"
             >
-              <mat-icon class="mdi-minus"></mat-icon>
+              <mat-icon
+                class="mdi-minus"
+                [matTooltip]="
+                  (detachButton.disabled
+                    ? 'VM_PAGE.NETWORK_DETAILS.CANNOT_DETACH'
+                    : 'VM_PAGE.NETWORK_DETAILS.DETACH') | translate
+                "
+              ></mat-icon>
             </button>
           </div>
         </div>
