@@ -23,6 +23,7 @@ export const VM_CHANGE_SERVICE_OFFERING_SUCCESS = '[VM] VM_CHANGE_SERVICE_OFFERI
 export const VM_CHANGE_AFFINITY_GROUP = '[VM] VM_CHANGE_AFFINITY_GROUP';
 export const VM_CHANGE_SECURITY_GROUP = '[VM] VM_CHANGE_SECURITY_GROUP';
 export const VM_CHANGE_INSTANCE_GROUP = '[VM] VM_CHANGE_INSTANCE_GROUP';
+export const VM_CHANGE_OS_TYPE = '[VM] VM_CHANGE_OS_TYPE';
 export const VM_REMOVE_INSTANCE_GROUP = '[VM] VM_REMOVE_INSTANCE_GROUP';
 export const VM_ADD_SECONDARY_IP = '[VM] VM_ADD_SECONDARY_IP';
 export const VM_REMOVE_SECONDARY_IP = '[VM] VM_REMOVE_SECONDARY_IP';
@@ -170,6 +171,17 @@ export class ChangeSecurityGroup implements Action {
     public payload: {
       vm: VirtualMachine;
       securityGroups: string[];
+    },
+  ) {}
+}
+
+export class ChangeOsType implements Action {
+  type = VM_CHANGE_OS_TYPE;
+
+  constructor(
+    public payload: {
+      vm: VirtualMachine;
+      osTypeId: string;
     },
   ) {}
 }
