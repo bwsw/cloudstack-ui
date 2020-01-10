@@ -618,7 +618,7 @@
       "EGRESS": "Outgoing",
       "ATTACH": "Attach",
       "DETACH": "Detach",
-      "CANNOT_DETACH": "Cannot detach the last rule",
+      "CANNOT_DETACH": "Unable to detach the last group",
       "VIEW": "View",
       "NO_SG": "No security group"
     },
