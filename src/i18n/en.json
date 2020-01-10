@@ -75,6 +75,7 @@
       "CONFIRM_STOP": "Are you sure you want to stop this virtual machine?",
       "CONFIRM_REBOOT": "Are you sure you want to reboot this virtual machine?",
       "CONFIRM_RESTORE": "Are you sure you want to reinstall this virtual machine?",
+      "REMOVE_SNAPSHOTS": "Please remove VM snapshots before restoring VM",
       "CONFIRM_DESTROY": "Are you sure you want to destroy this virtual machine?",
       "CONFIRM_EXPUNGE": "Are you sure you want to expunge this virtual machine?<br><b>This cannot be undone.</b>",
       "CONFIRM_VM_ID": "Please type <b>{{ vmId }}</b> to confirm.",

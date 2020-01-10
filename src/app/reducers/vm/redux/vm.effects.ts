@@ -30,6 +30,10 @@ import {
   VmDestroyDialogComponent,
   VmDestroyDialogData,
 } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
+import {
+  VmRestoreDialogComponent,
+  VmRestoreDialogData,
+} from '../../../vm/shared/vm-restore-dialog/vm-restore-dialog.component';
 import { VmStopDialogComponent } from '../../../vm/shared/vm-stop-dialog/vm-stop-dialog.component';
 import { VirtualMachine, vmResourceType, VmState } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
@@ -486,37 +490,42 @@ export class VirtualMachinesEffects {
   @Effect()
   restoreVm$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.RESTORE_VM),
-    mergeMap((action: vmActions.RestoreVm) => {
-      return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_RESTORE' }).pipe(
-        onErrorResumeNext(),
-        filter(Boolean),
-        switchMap(() => {
-          const notificationId = this.jobsNotificationService.add(
-            'NOTIFICATIONS.VM.RESTORE_IN_PROGRESS',
-          );
-          this.update(action.payload, VmState.InProgress);
+    mergeMap((action: vmActions.RestoreVm) =>
+      this.dialog
+        .open(VmRestoreDialogComponent, {
+          width: '400px',
+          data: { vm: action.payload } as VmRestoreDialogData,
+        })
+        .afterClosed()
+        .pipe(
+          filter(Boolean),
+          switchMap(() => {
+            const notificationId = this.jobsNotificationService.add(
+              'NOTIFICATIONS.VM.RESTORE_IN_PROGRESS',
+            );
+            this.update(action.payload, VmState.InProgress);
 
-          return this.vmService.command(action.payload, CSCommands.Restore).pipe(
-            tap(() => {
-              const message = 'NOTIFICATIONS.VM.RESTORE_DONE';
-              this.showNotificationsOnFinish(message, notificationId);
-            }),
-            map(newVm => new vmActions.UpdateVM(newVm)),
-            catchError((error: Error) => {
-              const message = 'NOTIFICATIONS.VM.RESTORE_FAILED';
-              this.dialogService.showNotificationsOnFail(error, message, notificationId);
-              return of(
-                new vmActions.VMUpdateError({
-                  error,
-                  vm: action.payload,
-                  state: VmState.Error,
-                }),
-              );
-            }),
-          );
-        }),
-      );
-    }),
+            return this.vmService.command(action.payload, CSCommands.Restore).pipe(
+              tap(() => {
+                const message = 'NOTIFICATIONS.VM.RESTORE_DONE';
+                this.showNotificationsOnFinish(message, notificationId);
+              }),
+              map(newVm => new vmActions.UpdateVM(newVm)),
+              catchError((error: Error) => {
+                const message = 'NOTIFICATIONS.VM.RESTORE_FAILED';
+                this.dialogService.showNotificationsOnFail(error, message, notificationId);
+                return of(
+                  new vmActions.VMUpdateError({
+                    error,
+                    vm: action.payload,
+                    state: VmState.Error,
+                  }),
+                );
+              }),
+            );
+          }),
+        ),
+    ),
   );
 
   @Effect()

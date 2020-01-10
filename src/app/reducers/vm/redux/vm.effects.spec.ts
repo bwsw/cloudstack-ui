@@ -801,7 +801,7 @@ describe('Virtual machine Effects', () => {
 
   it('should restore vm', () => {
     const spyCommand = spyOn(service, 'command').and.returnValue(of(list[0]));
-    spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    spyOn(matDialog, 'open').and.returnValue({ afterClosed: () => of(true) });
 
     const action = new vmActions.RestoreVm(list[0]);
     const completion = new vmActions.UpdateVM(list[0]);
@@ -816,7 +816,7 @@ describe('Virtual machine Effects', () => {
 
   it('should not restore vm', () => {
     const spyCommand = spyOn(service, 'command');
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(false));
+    spyOn(matDialog, 'open').and.returnValue({ afterClosed: () => of(false) });
 
     const action = new vmActions.RestoreVm(list[0]);
 
@@ -824,7 +824,6 @@ describe('Virtual machine Effects', () => {
     const expected = cold('', []);
 
     expect(effects.restoreVm$).toBeObservable(expected);
-    expect(spyDialog).toHaveBeenCalled();
     expect(spyCommand).not.toHaveBeenCalled();
   });
 
@@ -833,7 +832,7 @@ describe('Virtual machine Effects', () => {
     const spyCommand = spyOn(service, 'command').and.returnValue(
       throwError(new Error('Error occurred!')),
     );
-    spyOn(dialogService, 'confirm').and.returnValue(of(true));
+    spyOn(matDialog, 'open').and.returnValue({ afterClosed: () => of(true) });
 
     const action = new vmActions.RestoreVm(list[0]);
     const completion = new vmActions.VMUpdateError({
