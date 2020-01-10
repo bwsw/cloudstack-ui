@@ -1,0 +1,24 @@
+<mat-card class="vm-card">
+  <mat-card-header>
+    <h2 class="mat-card-title-text">OS Type</h2>
+  </mat-card-header>
+  <mat-card-content class="overflow-card mat-card-content-with-actions">
+    <ng-container *ngIf="(osType$ | async) as type; else loading">
+      <div class="mat-card-content-container">{{ type.description }}</div>
+      <mat-card-actions>
+        <button
+          mat-icon-button
+          [matTooltip]="'COMMON.EDIT' | translate"
+          matTooltipPosition="above"
+          [disabled]="!canEdit"
+          (click)="changeOsType()"
+        >
+          <mat-icon class="mdi-pencil"></mat-icon>
+        </button>
+      </mat-card-actions>
+    </ng-container>
+    <ng-template #loading>
+      <ng-container *loading="true"></ng-container>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

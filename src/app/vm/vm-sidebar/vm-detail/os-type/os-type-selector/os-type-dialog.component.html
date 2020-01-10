@@ -1,0 +1,30 @@
+<h3 class="mat-dialog-title">Change OS Type</h3>
+
+<div class="mat-dialog-content">
+  <mat-form-field class="full-width-input">
+    <mat-select [(value)]="osTypeId" placeholder="Select OS Type">
+      <mat-option *ngFor="let type of (osTypes$ | async)" [value]="type.id">{{
+        type.description
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="mat-body-2 warning" *ngIf="valueChanged && rebootRequired">
+    {{ 'SERVICE_OFFERING.VM_WILL_BE_RESTARTED' | translate }}
+  </div>
+</div>
+
+<div class="mat-dialog-actions">
+  <button mat-button color="primary" type="button" matDialogClose>
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <button
+    mat-button
+    color="primary"
+    type="submit"
+    [matDialogClose]="osTypeId"
+    [disabled]="!valueChanged"
+  >
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+</div>

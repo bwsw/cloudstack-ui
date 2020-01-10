@@ -303,7 +303,11 @@
       "CHANGE_SSH_FAILED": "Failed to change an SSH-key",
       "CHANGE_USER_DATA_IN_PROGRESS": "Changing VM UserData",
       "CHANGE_USER_DATA_DONE": "VM UserData changed",
-      "CHANGE_USER_DATA_FAILED": "Failed to change VM UserData"
+      "CHANGE_USER_DATA_FAILED": "Failed to change VM UserData",
+
+      "CHANGE_OS_TYPE_IN_PROGRESS": "Changing VM OS Type",
+      "CHANGE_OS_TYPE_DONE": "VM OS Type changed",
+      "CHANGE_OS_TYPE_FAILED": "Failed to change VM OS Type"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Detaching a volume",

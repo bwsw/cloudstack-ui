@@ -9,23 +9,29 @@ import {
   filter,
   flatMap,
   map,
+  mapTo,
   mergeMap,
   onErrorResumeNext,
   switchMap,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { SnackBarService } from '../../../core/services';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
+import { capabilitiesSelectors } from '../../../root-store/server-data/capabilities';
 // tslint:disable-next-line
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { CSCommands } from '../../../shared/services/base-backend.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
+import { TagService } from '../../../shared/services/tags/tag.service';
+import { virtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { IsoService } from '../../../template/shared/iso.service';
+import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
 import {
   VmDestroyDialogComponent,
   VmDestroyDialogData,
@@ -37,16 +43,11 @@ import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/v
 // tslint:disable-next-line
 import { VmPasswordDialogComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-password-dialog.component';
 import { State } from '../../index';
-import * as vmActions from './vm.actions';
-import { SnackBarService } from '../../../core/services';
-import { TagService } from '../../../shared/services/tags/tag.service';
-import { virtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
+import * as sgActions from '../../security-groups/redux/sg.actions';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
 
 import * as zoneActions from '../../zones/redux/zones.actions';
-import * as volumeActions from '../../volumes/redux/volumes.actions';
-import * as sgActions from '../../security-groups/redux/sg.actions';
-import { capabilitiesSelectors } from '../../../root-store/server-data/capabilities';
+import * as vmActions from './vm.actions';
 
 @Injectable()
 export class VirtualMachinesEffects {
@@ -904,6 +905,39 @@ export class VirtualMachinesEffects {
   );
 
   @Effect()
+  changeOsType: Observable<Action> = this.actions$.pipe(
+    ofType(vmActions.VM_CHANGE_OS_TYPE),
+    switchMap((action: vmActions.ChangeOsType) =>
+      this.stopIfNeeded$(action.payload.vm).pipe(mapTo(action)),
+    ),
+    switchMap(({ payload: { vm, osTypeId } }) => {
+      const vmState = vm.state;
+      const notificationId = this.jobsNotificationService.add(
+        'NOTIFICATIONS.VM.CHANGE_OS_TYPE_IN_PROGRESS',
+      );
+
+      return this.vmService.updateOsType(vm, osTypeId).pipe(
+        tap(() => {
+          const message = 'NOTIFICATIONS.VM.CHANGE_OS_TYPE_DONE';
+          this.showNotificationsOnFinish(message, notificationId);
+        }),
+        switchMap(newVm => this.startIfNeeded$(newVm, vmState)),
+        catchError((error: Error) => {
+          const message = 'NOTIFICATIONS.VM.CHANGE_OS_TYPE_FAILED';
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
+          return of(
+            new vmActions.VMUpdateError({
+              error,
+              vm,
+              state: VmState.Stopped,
+            }),
+          );
+        }),
+      );
+    }),
+  );
+
+  @Effect()
   loadVMUserData: Observable<Action> = this.actions$.pipe(
     ofType<vmActions.LoadVMUserDataRequest>(vmActions.LOAD_VM_USER_DATA_REQUEST),
     mergeMap((action: vmActions.LoadVMUserDataRequest) => {
@@ -1042,5 +1076,15 @@ export class VirtualMachinesEffects {
       });
     }
     this.snackBarService.open(message).subscribe();
+  }
+
+  // tslint:disable-next-line:function-name
+  private stopIfNeeded$(vm: VirtualMachine) {
+    return vm.state === VmState.Running ? this.stop(vm) : of(null);
+  }
+
+  // tslint:disable-next-line:function-name
+  private startIfNeeded$(vm: VirtualMachine, state: VmState) {
+    return state === VmState.Running ? this.start(vm) : of(new vmActions.UpdateVM(vm));
   }
 }

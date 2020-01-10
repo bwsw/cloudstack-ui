@@ -303,7 +303,11 @@
       "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ",
       "CHANGE_USER_DATA_IN_PROGRESS": "Изменение параметра UserData для ВМ",
       "CHANGE_USER_DATA_DONE": "Значение параметра UserData ВМ изменено",
-      "CHANGE_USER_DATA_FAILED": "Не удалось изменить значение параметра UserData для ВМ"
+      "CHANGE_USER_DATA_FAILED": "Не удалось изменить значение параметра UserData для ВМ",
+
+      "CHANGE_OS_TYPE_IN_PROGRESS": "Изменение типа OS ВМ",
+      "CHANGE_OS_TYPE_DONE": "Тип OS ВМ изменен",
+      "CHANGE_OS_TYPE_FAILED": "Не удалось изменить тип OS для ВМ"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Открепление диска",

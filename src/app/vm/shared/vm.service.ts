@@ -178,6 +178,16 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     );
   }
 
+  public updateOsType(
+    virtualMachine: VirtualMachine,
+    osTypeId: string,
+  ): Observable<VirtualMachine> {
+    return this.sendPostCommand(CSCommands.Update, {
+      id: virtualMachine.id,
+      ostypeid: osTypeId,
+    }).pipe(map(res => res.virtualmachine));
+  }
+
   private commandInternal(vm: VirtualMachine, command: string, params?: {}): Observable<any> {
     const commandName = command;
     return this.sendCommand(commandName, this.buildCommandParams(vm.id, commandName, params));

@@ -38,12 +38,12 @@ export class OsTypeService extends BaseBackendService<OsType> {
 
     this.requestObservable = super.getList(params).pipe(
       map(osTypes => {
-        osTypes.forEach(osType => {
-          osType.osFamily = this.mapOsFamily(osType.description);
-        });
-
-        this.osTypes = osTypes;
-        return osTypes;
+        // copy the types to avoid obscure readonly property errors
+        this.osTypes = osTypes.map(type => ({
+          ...type,
+          osFamily: this.mapOsFamily(type.description),
+        }));
+        return this.osTypes;
       }),
     );
     return this.requestObservable;

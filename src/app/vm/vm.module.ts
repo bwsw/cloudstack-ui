@@ -118,6 +118,8 @@ import { VmHttpAddressPipe } from './vm-actions/vm-actions-component/vm-http-add
 import { ValueEqualToValidatorDirective } from './shared/vm-destroy-dialog/value-equal-to-validator.directive';
 import { PasswordComponent } from './vm-actions/vm-actions-component/password/password.component';
 import { VmStopDialogComponent } from './shared/vm-stop-dialog/vm-stop-dialog.component';
+import { OsTypeComponent } from './vm-sidebar/vm-detail/os-type/os-type.component';
+import { OsTypeDialogComponent } from './vm-sidebar/vm-detail/os-type/os-type-selector/os-type-dialog.component';
 
 // tslint:enable max-line-length
 
@@ -240,6 +242,8 @@ import { VmStopDialogComponent } from './shared/vm-stop-dialog/vm-stop-dialog.co
     ValueEqualToValidatorDirective,
     PasswordComponent,
     VmStopDialogComponent,
+    OsTypeComponent,
+    OsTypeDialogComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
@@ -268,6 +272,7 @@ import { VmStopDialogComponent } from './shared/vm-stop-dialog/vm-stop-dialog.co
     ServiceOfferingDialogContainerComponent,
     SgListContainerComponent,
     VmUserDataDialogComponent,
+    OsTypeDialogComponent,
   ],
 })
 export class VmModule {}
