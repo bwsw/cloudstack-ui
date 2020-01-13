@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ChangeDetectorRef, NO_ERRORS_SCHEMA, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 
@@ -22,7 +22,7 @@ describe('PasswordComponent', () => {
   });
 
   function detectChanges() {
-    fixture.debugElement.injector.get(ChangeDetectorRef).markForCheck();
+    fixture.debugElement.injector.get(ChangeDetectorRef as Type<ChangeDetectorRef>).markForCheck();
     fixture.detectChanges();
   }
 

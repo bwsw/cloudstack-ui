@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
 import { Converter } from 'showdown';
 import { CacheService } from '../shared/services/cache.service';
 import { of } from 'rxjs/internal/observable/of';
@@ -8,6 +7,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import * as userTagsSelectors from '../root-store/server-data/user-tags/user-tags.selectors';
 import { select, Store } from '@ngrx/store';
 import { State } from '../reducers';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'cs-support-information',
@@ -22,7 +22,7 @@ export class SupportInformationComponent implements OnInit {
   protected requestCache;
   protected interfaceLanguage$ = this.store.pipe(select(userTagsSelectors.getInterfaceLanguage));
 
-  constructor(private http: Http, private store: Store<State>) {}
+  constructor(private http: HttpClient, private store: Store<State>) {}
 
   public ngOnInit() {
     this.initRequestCache();
