@@ -43,12 +43,14 @@ const FILTER_KEY = 'snapshotFilters';
         [selectedAccounts]="(filters$ | async).accounts"
         [selectedVms]="(filters$ | async).volumeVmIds"
         [selectedTypes]="(filters$ | async).volumeSnapshotTypes"
-        [selectedDate]="(filters$ | async).date"
+        [selectedStartDate]="(filters$ | async).startDate"
+        [selectedEndDate]="(filters$ | async).endDate"
         [selectedGroupings]="selectedGroupings$ | async"
         (selectedAccountsChange)="onAccountsChange($event)"
         (selectedVolumeVmsChange)="onSelectedVolumeVmsChange($event)"
         (selectedTypesChange)="onTypesChange($event)"
-        (selectedDateChange)="onDateChange($event)"
+        (selectedStartDateChange)="onStartDateChange($event)"
+        (selectedEndDateChange)="onEndDateChange($event)"
         (selectedGroupingsChange)="onGroupingsChange($event)"
         (viewModeChange)="onViewModeChange($event)"
       ></cs-volume-snapshots-filter>
@@ -63,10 +65,12 @@ const FILTER_KEY = 'snapshotFilters';
         [firstDayOfWeek]="firstDayOfWeek$ | async"
         [selectedAccounts]="(filters$ | async).accounts"
         [selectedVms]="(filters$ | async).vmIds"
-        [selectedDate]="(filters$ | async).date"
+        [selectedStartDate]="(filters$ | async).startDate"
+        [selectedEndDate]="(filters$ | async).endDate"
         (selectedAccountsChange)="onAccountsChange($event)"
         (selectedVmsChange)="onSelectedVmsChange($event)"
-        (selectedDateChange)="onDateChange($event)"
+        (selectedStartDateChange)="onStartDateChange($event)"
+        (selectedEndDateChange)="onEndDateChange($event)"
         (viewModeChange)="onViewModeChange($event)"
       ></cs-vm-snapshots-filter>
     </ng-container>
@@ -204,7 +208,8 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
         vms: filters.vmIds,
         volumeVmIds: filters.volumeVmIds,
 
-        date: moment(filters.date).format('YYYY-MM-DD'),
+        startDate: filters.startDate && moment(filters.startDate).format('YYYY-MM-DD'),
+        endDate: filters.endDate && moment(filters.endDate).format('YYYY-MM-DD'),
         query: filters.query,
         groupings: groupings.map(grouping => grouping.key),
       });
@@ -229,8 +234,12 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     );
   }
 
-  public onDateChange(selectedDate) {
-    this.store.dispatch(new snapshotPageActions.UpdateFilters({ date: selectedDate }));
+  public onStartDateChange(selectedDate) {
+    this.store.dispatch(new snapshotPageActions.UpdateFilters({ startDate: selectedDate }));
+  }
+
+  public onEndDateChange(selectedDate) {
+    this.store.dispatch(new snapshotPageActions.UpdateFilters({ endDate: selectedDate }));
   }
 
   public onGroupingsChange(selectedGroupings) {
@@ -252,7 +261,13 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     const vms = params['vms'];
     const volumeSnapshotTypes = params['types'];
     const volumeVmIds = params['volumeVmIds'];
-    const date = moment(params['date']).toDate();
+    // defaults to 1 year back from today
+    const startDate = params['startDate']
+      ? moment(params['startDate']).toDate()
+      : moment()
+          .subtract(1, 'year')
+          .toDate();
+    const endDate = moment(params['endDate']).toDate(); // defaults to today
     const groupings = params['groupings'].reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
       if (grouping) {
@@ -269,7 +284,8 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
         accounts,
         volumeSnapshotTypes,
         volumeVmIds,
-        date,
+        startDate,
+        endDate,
         query,
         vmIds: vms,
       }),

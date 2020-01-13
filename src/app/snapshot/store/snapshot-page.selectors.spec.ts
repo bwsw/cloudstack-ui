@@ -44,14 +44,14 @@ describe('Snapshot page selectors', () => {
       {
         accounts: [],
         vmIds: [],
-        date: '2017-10-15T00:00:00.000Z',
+        startDate: '2017-10-15T00:00:00.000Z',
+        endDate: '2017-10-15T00:00:00.000Z',
         query: undefined,
         volumeSnapshotTypes: [],
         volumeVmIds: [],
       },
       volumeEntities,
     );
-
     expect(slice).toEqual([differentSnapshots[1]]);
 
     slice = snapshotSelectors.getFilteredSnapshots.projector(
@@ -60,14 +60,30 @@ describe('Snapshot page selectors', () => {
       {
         accounts: [],
         vmIds: [],
+        startDate: '2017-10-16T00:00:00.000Z',
+        endDate: '2017-10-17T00:00:00.000Z',
+        query: undefined,
+        volumeSnapshotTypes: [],
         volumeVmIds: [],
-        date: null,
+      },
+      volumeEntities,
+    );
+    expect(slice).toEqual([]);
+
+    slice = snapshotSelectors.getFilteredSnapshots.projector(
+      volumesVmIds,
+      differentSnapshots,
+      {
+        accounts: [],
+        vmIds: [],
+        volumeVmIds: [],
+        startDate: null,
+        endDate: null,
         query: undefined,
         volumeSnapshotTypes: [SnapshotType.Daily],
       },
       volumeEntities,
     );
-
     expect(slice).toEqual([differentSnapshots[0]]);
 
     slice = snapshotSelectors.getFilteredSnapshots.projector(
@@ -77,13 +93,13 @@ describe('Snapshot page selectors', () => {
         accounts: ['develop'],
         vmIds: [],
         volumeVmIds: [],
-        date: null,
+        startDate: null,
+        endDate: null,
         query: undefined,
         volumeSnapshotTypes: [],
       },
       volumeEntities,
     );
-
     expect(slice).toEqual([differentSnapshots[0]]);
   });
 });

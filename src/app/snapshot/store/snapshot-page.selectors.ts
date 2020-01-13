@@ -74,6 +74,21 @@ export const getSelectedSnapshotForSidebar = createSelector(
   },
 );
 
+function isBetween(date: moment.MomentInput, a: Date | undefined, b: Date | undefined) {
+  let result = true;
+
+  const targetDate = moment(date);
+
+  if (a != null) {
+    result = result && targetDate.isAfter(moment(a).startOf('day'));
+  }
+  if (b != null) {
+    result = result && targetDate.isBefore(moment(b).endOf('day'));
+  }
+
+  return result;
+}
+
 const getFilteredVmSnapshots = createSelector(
   vmSnapshotsSelectors.selectAll,
   getFilters,
@@ -87,13 +102,7 @@ const getFilteredVmSnapshots = createSelector(
     };
 
     const filterByDate = (snapshot: VmSnapshot) => {
-      const filterEnabled = filters.date != null;
-      if (!filterEnabled) {
-        return true;
-      }
-      const start = moment(filters.date).startOf('day');
-      const end = moment(filters.date).endOf('day');
-      return moment(snapshot.created).isBetween(start, end);
+      return isBetween(snapshot.created, filters.startDate, filters.endDate);
     };
 
     const filterByVms = (snapshot: VmSnapshot) => {
@@ -166,11 +175,7 @@ export const getFilteredSnapshots = createSelector(
       !filter.accounts.length || filter.accounts.find(id => id === snapshot.account);
 
     const filterByDate = (snapshot: Snapshot) =>
-      !filter.date ||
-      moment(snapshot.created).isBetween(
-        moment(filter.date).startOf('day'),
-        moment(filter.date).endOf('day'),
-      );
+      isBetween(snapshot.created, filter.startDate, filter.endDate);
 
     const queryLower = filter.query && filter.query.toLowerCase();
 

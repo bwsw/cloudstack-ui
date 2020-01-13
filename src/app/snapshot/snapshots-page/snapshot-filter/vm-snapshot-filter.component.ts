@@ -28,14 +28,18 @@ export class VmSnapshotFilterComponent implements OnChanges {
   @Input()
   public selectedVms: string[];
   @Input()
-  public selectedDate: Date;
+  public selectedStartDate: Date;
+  @Input()
+  public selectedEndDate: Date;
 
   @Output()
   public selectedAccountsChange = new EventEmitter();
   @Output()
   public selectedVmsChange = new EventEmitter<string[]>();
   @Output()
-  public selectedDateChange = new EventEmitter();
+  public selectedStartDateChange = new EventEmitter();
+  @Output()
+  public selectedEndDateChange = new EventEmitter();
   @Output()
   public viewModeChange = new EventEmitter<SnapshotPageViewMode>();
 
