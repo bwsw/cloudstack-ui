@@ -5,7 +5,8 @@ export interface Filters {
   vmIds: string[];
   // id of vms with volume
   volumeVmIds: string[];
-  date: Date;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
   query: string | undefined;
   volumeSnapshotTypes: SnapshotType[];
 }

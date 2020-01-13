@@ -63,13 +63,23 @@
   </mat-form-field>
 
   <cs-date-picker
-    [label]="'SNAPSHOT_PAGE.FILTERS.SELECT_DATE' | translate"
+    [label]="'SNAPSHOT_PAGE.FILTERS.SELECT_START_DATE' | translate"
     [okLabel]="'COMMON.OK' | translate"
     [locale]="locale"
     [firstDayOfWeek]="firstDayOfWeek"
     [dateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
     [cancelLabel]="'COMMON.CANCEL' | translate"
-    [ngModel]="selectedDate"
-    (changed)="selectedDateChange.emit($event)"
+    [ngModel]="selectedStartDate"
+    (changed)="selectedStartDateChange.emit($event)"
+  ></cs-date-picker>
+  <cs-date-picker
+    [label]="'SNAPSHOT_PAGE.FILTERS.SELECT_END_DATE' | translate"
+    [okLabel]="'COMMON.OK' | translate"
+    [locale]="locale"
+    [firstDayOfWeek]="firstDayOfWeek"
+    [dateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+    [cancelLabel]="'COMMON.CANCEL' | translate"
+    [ngModel]="selectedEndDate"
+    (changed)="selectedEndDateChange.emit($event)"
   ></cs-date-picker>
 </div>

@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import { Filters } from '../models/filters.model';
 import { SnapshotPageViewMode } from '../types';
 import { SnapshotPageActionsUnion, SnapshotPageActionTypes } from './snapshot-page.actions';
@@ -17,7 +16,8 @@ export const initialState: SnapshotPageState = {
     accounts: [],
     vmIds: [],
     volumeVmIds: [],
-    date: moment().toDate(),
+    startDate: undefined,
+    endDate: undefined,
     query: undefined,
     volumeSnapshotTypes: [],
   },
