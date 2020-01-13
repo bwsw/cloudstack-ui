@@ -1,4 +1,4 @@
-import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, NO_ERRORS_SCHEMA, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -34,7 +34,7 @@ describe('ValueEqualToValidatorDirective', () => {
   });
 
   function getFormControl(): NgControl {
-    return fixture.debugElement.query(By.css('input')).injector.get(NgControl);
+    return fixture.debugElement.query(By.css('input')).injector.get(NgControl as Type<NgControl>);
   }
 
   async function setInputValue(value: string) {

@@ -9,7 +9,7 @@ import { DialogService } from './dialog.service';
 import { MaterialModule } from '../../material/material.module';
 import { MatExpansionModule, MatIconModule } from '@angular/material';
 import { SupportInformationComponent } from '../../support/support-information.component';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { HttpModule } from '@angular/http';
     TranslateModule,
     MatIconModule,
     MatExpansionModule,
-    HttpModule,
+    HttpClientModule,
   ],
   exports: [ConfirmDialogComponent, AlertDialogComponent, AskDialogComponent],
   declarations: [
