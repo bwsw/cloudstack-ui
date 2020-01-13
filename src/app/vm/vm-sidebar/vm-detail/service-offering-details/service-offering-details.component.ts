@@ -4,6 +4,10 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import * as moment from 'moment';
 import { ServiceOffering } from '../../../../shared/models/service-offering.model';
 import { ServiceOfferingDialogContainerComponent } from '../../../container/service-offering-dialog.container';
+import {
+  VmSnapshotsCheckerDialogComponent,
+  VmSnapshotsCheckerDialogData,
+} from '../../../shared/vm-snapshots-checker-dialog/vm-snapshots-checker-dialog.component';
 import { VirtualMachine, VmState } from '../../../shared/vm.model';
 
 @Component({
@@ -27,10 +31,15 @@ export class ServiceOfferingDetailsComponent {
 
   public changeServiceOffering(): void {
     this.dialog
-      .open(ServiceOfferingDialogContainerComponent, {
-        width: '700px',
+      .open(VmSnapshotsCheckerDialogComponent, {
+        minWidth: '400px',
+        maxWidth: '700px',
         disableClose: true,
-        data: { vm: this.vm },
+        data: {
+          vm: this.vm,
+          component: ServiceOfferingDialogContainerComponent,
+          noticeMessageId: 'DIALOG_MESSAGES.VM.REMOVE_SNAPSHOTS_SO',
+        } as VmSnapshotsCheckerDialogData,
       } as MatDialogConfig)
       .afterClosed();
   }

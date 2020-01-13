@@ -1,0 +1,12 @@
+<ng-container *loading="!ready">
+  <ng-container *ngIf="canActivateAction; else snapshotsNotice">
+    <ng-container *ngComponentOutlet="componentType"></ng-container>
+  </ng-container>
+
+  <ng-template #snapshotsNotice>
+    <div class="mat-dialog-content">{{ messageId | translate }}</div>
+    <div class="mat-dialog-actions">
+      <button mat-button color="primary" matDialogClose>{{ 'COMMON.OK' | translate }}</button>
+    </div>
+  </ng-template>
+</ng-container>

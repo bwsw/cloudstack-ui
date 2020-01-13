@@ -121,6 +121,7 @@ import { VmStopDialogComponent } from './shared/vm-stop-dialog/vm-stop-dialog.co
 import { OsTypeComponent } from './vm-sidebar/vm-detail/os-type/os-type.component';
 import { OsTypeDialogComponent } from './vm-sidebar/vm-detail/os-type/os-type-selector/os-type-dialog.component';
 import { VmRestoreDialogComponent } from './shared/vm-restore-dialog/vm-restore-dialog.component';
+import { VmSnapshotsCheckerDialogComponent } from './shared/vm-snapshots-checker-dialog/vm-snapshots-checker-dialog.component';
 
 // tslint:enable max-line-length
 
@@ -246,6 +247,7 @@ import { VmRestoreDialogComponent } from './shared/vm-restore-dialog/vm-restore-
     OsTypeComponent,
     OsTypeDialogComponent,
     VmRestoreDialogComponent,
+    VmSnapshotsCheckerDialogComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
@@ -276,6 +278,7 @@ import { VmRestoreDialogComponent } from './shared/vm-restore-dialog/vm-restore-
     SgListContainerComponent,
     VmUserDataDialogComponent,
     OsTypeDialogComponent,
+    VmSnapshotsCheckerDialogComponent,
   ],
 })
 export class VmModule {}
