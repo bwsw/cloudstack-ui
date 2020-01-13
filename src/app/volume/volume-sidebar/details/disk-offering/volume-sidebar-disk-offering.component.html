@@ -20,12 +20,12 @@
       ></cs-parameters-pair>
       <cs-parameters-pair
         name="VOLUME_PAGE.DETAILS.bytesreadrate"
-        [value]="convertToMb(offering.diskBytesReadRate) || '-'"
+        [value]="(offering.diskBytesReadRate | convertToMb) || '-'"
       >
       </cs-parameters-pair>
       <cs-parameters-pair
         name="VOLUME_PAGE.DETAILS.byteswriterate"
-        [value]="convertToMb(offering.diskBytesWriteRate) || '-'"
+        [value]="(offering.diskBytesWriteRate | convertToMb) || '-'"
       >
       </cs-parameters-pair>
       <cs-parameters-pair

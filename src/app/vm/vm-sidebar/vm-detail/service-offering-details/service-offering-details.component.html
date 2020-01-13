@@ -83,12 +83,12 @@
 
       <div *ngIf="offering?.diskBytesReadRate" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.diskBytesReadRate' | translate }}</div>
-        <div>{{ offering.diskBytesReadRate | division: 10:6 }}</div>
+        <div>{{ offering.diskBytesReadRate | convertToMb }}</div>
       </div>
 
       <div *ngIf="offering?.diskIopsWriteRate != null" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.diskBytesWriteRate' | translate }}</div>
-        <div>{{ offering.diskBytesWriteRate | division: 10:6 }}</div>
+        <div>{{ offering.diskBytesWriteRate | convertToMb }}</div>
       </div>
 
       <div *ngIf="offering?.diskIopsReadRate != null" class="row">

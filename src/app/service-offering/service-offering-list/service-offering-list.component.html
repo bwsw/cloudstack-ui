@@ -49,7 +49,7 @@
             {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_READ' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.diskBytesReadRate ? (element.diskBytesReadRate | division: 10:6) : '-' }}
+            {{ element.diskBytesReadRate ? (element.diskBytesReadRate | convertToMb) : '-' }}
           </td>
         </ng-container>
 
@@ -58,7 +58,7 @@
             {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_WRITE' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.diskBytesWriteRate ? (element.diskBytesWriteRate | division: 10:6) : '-' }}
+            {{ element.diskBytesWriteRate ? (element.diskBytesWriteRate | convertToMb) : '-' }}
           </td>
         </ng-container>
 
