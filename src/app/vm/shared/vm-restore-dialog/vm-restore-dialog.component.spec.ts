@@ -16,7 +16,6 @@ describe('VmRestoreDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [VmRestoreDialogComponent, MockTranslatePipe, mockMatDialogClose],
-      providers: [],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

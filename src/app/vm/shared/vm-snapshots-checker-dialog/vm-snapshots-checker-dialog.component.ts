@@ -6,7 +6,7 @@ import { VirtualMachine } from '../vm.model';
 
 export interface VmSnapshotsCheckerDialogData {
   vm: VirtualMachine;
-  component: Type<any>;
+  component: Type<unknown>;
   noticeMessageId: string;
 }
 

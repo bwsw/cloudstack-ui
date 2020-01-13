@@ -76,7 +76,7 @@ describe('VmSnapshotsCheckerDialogComponent', () => {
     component = fixture.componentInstance;
   });
 
-  function hasLoading() {
+  function hasSpinner() {
     return !!fixture.nativeElement.querySelector('mat-spinner');
   }
 
@@ -92,10 +92,10 @@ describe('VmSnapshotsCheckerDialogComponent', () => {
     snapshotService.getList.and.returnValue(of(snaps));
   }
 
-  it('should a loading when snapshots are not fetched', () => {
+  it('should show a spinner when snapshots are not fetched', () => {
     fixture.detectChanges();
     expect(snapshotService.getList).toHaveBeenCalledWith({ virtualmachineid: vm.id });
-    expect(hasLoading()).toBe(true);
+    expect(hasSpinner()).toBe(true);
     expect(hasContent()).toBe(false);
   });
 
