@@ -44,7 +44,7 @@
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.READ_RATE_MB' | translate }}</div>
       <div>
         {{
-          'UNITS.MBPS_VALUE' | translate: { value: diskOffering.diskBytesReadRate | division: 10:6 }
+          'UNITS.MBPS_VALUE' | translate: { value: diskOffering.diskBytesReadRate | convertToMb }
         }}
       </div>
     </div>
@@ -53,8 +53,7 @@
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.WRITE_RATE_MB' | translate }}</div>
       <div>
         {{
-          'UNITS.MBPS_VALUE'
-            | translate: { value: diskOffering.diskBytesWriteRate | division: 10:6 }
+          'UNITS.MBPS_VALUE' | translate: { value: diskOffering.diskBytesWriteRate | convertToMb }
         }}
       </div>
     </div>

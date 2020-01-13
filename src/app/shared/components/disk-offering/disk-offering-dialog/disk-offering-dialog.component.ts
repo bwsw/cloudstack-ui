@@ -33,11 +33,6 @@ export class DiskOfferingDialogComponent {
     return moment(date).toDate();
   }
 
-  public convertToMb(bytes: number): number {
-    const megabytes = Utils.convertBytesToMegabytes(bytes);
-    return Math.round(megabytes);
-  }
-
   public selectOffering(offering: DiskOffering) {
     this.selectedDiskOffering = offering;
     this.checkResourcesLimit();

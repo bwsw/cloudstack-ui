@@ -64,7 +64,7 @@ export class Utils {
     if (bytes == null) {
       return undefined;
     }
-    return bytes / 1048576; // bytes / 2^20
+    return bytes / 1000000;
   }
 
   public static matchLower(string: string, subString: string): boolean {

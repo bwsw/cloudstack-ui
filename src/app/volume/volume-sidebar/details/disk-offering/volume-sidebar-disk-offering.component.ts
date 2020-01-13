@@ -17,9 +17,4 @@ export class VolumeSidebarDiskOfferingComponent {
   public get offeringCreated(): Date {
     return moment(this.offering.created).toDate();
   }
-
-  public convertToMb(bytes: number): number {
-    const megabytes = Utils.convertBytesToMegabytes(bytes);
-    return Math.round(megabytes);
-  }
 }

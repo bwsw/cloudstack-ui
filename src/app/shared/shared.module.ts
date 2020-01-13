@@ -157,6 +157,7 @@ import { RequestResourcesButtonContainerComponent } from './components/vm-statis
 import { ApiLogService } from './services/api-log.service';
 import { LogViewGuard } from './services/log-view-guard.service';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ConvertToMbPipe } from './pipes/convert-to-mb.pipe';
 
 const SHARED_DIRECTIVES = [UrlDirective, SidebarTabNavDirective, InputTypeNumberDirective];
 
@@ -259,6 +260,7 @@ const SHARED_COMPONENTS = [
     RequestResourcesButtonContainerComponent,
     MatExpansionModule,
     NgxMatSelectSearchModule,
+    ConvertToMbPipe,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -357,6 +359,7 @@ const SHARED_COMPONENTS = [
     VolumeSnapshotFromVmSnapshotDialogComponent,
     RequestResourcesButtonComponent,
     RequestResourcesButtonContainerComponent,
+    ConvertToMbPipe,
   ],
   providers: [
     AccountService,

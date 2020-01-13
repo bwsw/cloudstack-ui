@@ -37,9 +37,9 @@
             <tr>
               <td>{{ 'DISK_OFFERING.BANDWIDTH_MBPS' | translate }}:</td>
               <td>{{ 'DISK_OFFERING.READ' | translate }}</td>
-              <td class="text-right">{{ convertToMb(offering.diskBytesReadRate) || '-' }}</td>
+              <td class="text-right">{{ (offering.diskBytesReadRate | convertToMb) || '-' }}</td>
               <td>{{ 'DISK_OFFERING.WRITE' | translate }}</td>
-              <td class="text-right">{{ convertToMb(offering.diskBytesWriteRate) || '-' }}</td>
+              <td class="text-right">{{ (offering.diskBytesWriteRate | convertToMb) || '-' }}</td>
             </tr>
             <tr>
               <td>{{ 'UNITS.IOPS' | translate }}:</td>

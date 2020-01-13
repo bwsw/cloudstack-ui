@@ -16,6 +16,7 @@ import { StringifyDatePipe } from '../../../pipes';
 import { DateTimeFormatterService } from '../../../services/date-time-formatter.service';
 import { User } from '../../../models/user.model';
 import { AuthService } from '../../../services/auth.service';
+import { ConvertToMbPipe } from '../../../pipes/convert-to-mb.pipe';
 
 class MockConfigServiceDateTimeFormatterService {
   public stringifyToTime() {
@@ -62,7 +63,12 @@ describe('Disk Offering dialog', () => {
 
     TestBed.configureTestingModule({
       imports: [FormsModule, MatDialogModule, MatRadioModule, MatTableModule],
-      declarations: [MockTranslatePipe, DiskOfferingDialogComponent, StringifyDatePipe],
+      declarations: [
+        MockTranslatePipe,
+        DiskOfferingDialogComponent,
+        StringifyDatePipe,
+        ConvertToMbPipe,
+      ],
       providers: [
         {
           provide: MatDialogRef,
