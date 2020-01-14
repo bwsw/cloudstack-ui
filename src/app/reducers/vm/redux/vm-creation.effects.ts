@@ -622,7 +622,8 @@ export class VirtualMachineCreationEffects {
       params.hypervisor = 'KVM';
     }
 
-    if (securityGroups && securityGroups.length && securityGroups[0].id) {
+    const isSecurityGroupSelected = securityGroups && securityGroups.length && securityGroups[0].id;
+    if (isSecurityGroupSelected && state.zone.securitygroupsenabled) {
       params.securityGroupIds = securityGroups.map(item => item.id).join(',');
     }
 
