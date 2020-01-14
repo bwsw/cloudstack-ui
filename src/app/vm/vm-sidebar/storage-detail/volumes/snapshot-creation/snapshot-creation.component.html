@@ -3,7 +3,7 @@
     {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.TAKE_SNAPSHOT' | translate }}
   </h3>
 
-  <form (ngSubmit)="onSubmit($event)" #snapshotCreationDialog="ngForm" novalidate>
+  <form (ngSubmit)="onSubmit()" novalidate>
     <div class="mat-dialog-content">
       <ng-container *ngIf="enoughResources">
         <mat-form-field class="full-width-input">
@@ -31,14 +31,7 @@
       <button mat-button color="primary" matDialogClose type="button">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <button
-        *ngIf="enoughResources"
-        mat-button
-        color="primary"
-        type="submit"
-        [disabled]="!name"
-        (click)="onSubmit()"
-      >
+      <button *ngIf="enoughResources" mat-button color="primary" type="submit" [disabled]="!name">
         {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>
