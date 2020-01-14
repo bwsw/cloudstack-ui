@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import * as accountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
 import { State } from '../../reducers';
 // tslint:disable-next-line
@@ -47,8 +46,7 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
-    public dialogService: DialogService,
-    public dialogRef: MatDialogRef<ServiceOfferingDialogContainerComponent>,
+    public dialogRef: MatDialogRef<unknown>,
     private store: Store<State>,
     private cd: ChangeDetectorRef,
   ) {

@@ -36,10 +36,11 @@ import {
   VmDestroyDialogComponent,
   VmDestroyDialogData,
 } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
+import { VmRestoreDialogComponent } from '../../../vm/shared/vm-restore-dialog/vm-restore-dialog.component';
 import {
-  VmRestoreDialogComponent,
-  VmRestoreDialogData,
-} from '../../../vm/shared/vm-restore-dialog/vm-restore-dialog.component';
+  VmSnapshotsCheckerDialogComponent,
+  VmSnapshotsCheckerDialogData,
+} from '../../../vm/shared/vm-snapshots-checker-dialog/vm-snapshots-checker-dialog.component';
 import { VmStopDialogComponent } from '../../../vm/shared/vm-stop-dialog/vm-stop-dialog.component';
 import { VirtualMachine, vmResourceType, VmState } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
@@ -493,9 +494,13 @@ export class VirtualMachinesEffects {
     ofType(vmActions.RESTORE_VM),
     mergeMap((action: vmActions.RestoreVm) =>
       this.dialog
-        .open(VmRestoreDialogComponent, {
+        .open(VmSnapshotsCheckerDialogComponent, {
           width: '400px',
-          data: { vm: action.payload } as VmRestoreDialogData,
+          data: {
+            vm: action.payload,
+            component: VmRestoreDialogComponent,
+            noticeMessageId: 'DIALOG_MESSAGES.VM.REMOVE_SNAPSHOTS_REINSTALL',
+          } as VmSnapshotsCheckerDialogData,
         })
         .afterClosed()
         .pipe(

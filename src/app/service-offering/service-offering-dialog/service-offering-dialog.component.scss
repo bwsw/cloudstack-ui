@@ -1,5 +1,10 @@
 @import '../../../style/_variables';
 
+:host {
+  display: block;
+  width: 650px;
+}
+
 .service-offering-selector {
   padding-top: 10px;
   display: block;
