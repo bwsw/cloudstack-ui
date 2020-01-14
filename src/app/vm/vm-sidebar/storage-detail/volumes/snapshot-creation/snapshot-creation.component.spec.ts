@@ -122,7 +122,7 @@ describe('SnapshotCreationComponent', () => {
     });
 
     it('should show resources notice', () => {
-      expect(findContent().textContent.trim()).toBe('Secondary storage filled');
+      expect(findContent().textContent.trim()).toBe('ERRORS.SNAPSHOT.STORAGE_EXCEEDED');
     });
 
     it('should have only cancel button', () => {

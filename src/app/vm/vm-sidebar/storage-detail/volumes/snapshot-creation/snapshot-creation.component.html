@@ -1,8 +1,13 @@
 <ng-container *loading="loading">
-  <ng-container *ngIf="secondaryStorageQuotaFilled || snapshotsQuotaFilled; else form">
+  <ng-container *ngIf="storageQuotaFilled || snapshotsQuotaFilled; else form">
     <div class="mat-dialog-content">
-      <div *ngIf="secondaryStorageQuotaFilled">{{ 'Secondary storage filled' | translate }}</div>
-      <div *ngIf="!secondaryStorageQuotaFilled && snapshotsQuotaFilled">
+      <div *ngIf="storageQuotaFilled">
+        {{
+          'ERRORS.SNAPSHOT.STORAGE_EXCEEDED'
+            | translate: { available: storageAvailable, required: storageRequired }
+        }}
+      </div>
+      <div *ngIf="!storageQuotaFilled && snapshotsQuotaFilled">
         {{ 'ERRORS.SNAPSHOT.LIMIT_EXCEEDED' | translate }}
       </div>
     </div>

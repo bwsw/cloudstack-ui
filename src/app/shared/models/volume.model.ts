@@ -36,7 +36,7 @@ export interface Volume extends BaseModel {
   loading: boolean;
   name: string;
   state: VolumeState;
-  size: number;
+  size: number; // in bytes
   virtualmachineid: string;
   vmdisplayname?: string;
   provisioningtype: string;
