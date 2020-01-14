@@ -1,14 +1,16 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MatDialogClose, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogClose, MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { MockDirective, MockedDirective } from 'ng-mocks';
 import { NEVER, of } from 'rxjs';
 import { MockTranslatePipe } from '../../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { LoaderComponent } from '../../../../../shared/components/loader/loader.component';
 import { LoadingDirective } from '../../../../../shared/directives';
+import { Volume } from '../../../../../shared/models';
 import { ResourceUsageService } from '../../../../../shared/services/resource-usage.service';
+import { Utils } from '../../../../../shared/services/utils/utils.service';
 import { SnapshotCreationComponent } from './snapshot-creation.component';
 
 describe('SnapshotCreationComponent', () => {
@@ -19,6 +21,8 @@ describe('SnapshotCreationComponent', () => {
 
   let dialogRef;
   let resourceUsageService;
+
+  const volume: Volume = require('../../../../../../testutils/mocks/model-services/fixtures/volumes.json')[0];
 
   @NgModule({
     declarations: [LoadingDirective, LoaderComponent],
@@ -48,6 +52,10 @@ describe('SnapshotCreationComponent', () => {
         {
           provide: ResourceUsageService,
           useValue: resourceUsageService,
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: volume,
         },
       ],
       schemas: [NO_ERRORS_SCHEMA],
@@ -89,14 +97,46 @@ describe('SnapshotCreationComponent', () => {
       .map(el => el.injector.get(mockDialogClose));
   }
 
-  describe('not enough resources', () => {
+  function resources(res: { storage: number; snapshots: number }) {
+    return {
+      available: {
+        snapshots: res.snapshots,
+        secondaryStorage: res.storage,
+      },
+    };
+  }
+
+  describe('secondary storage is filled', () => {
     beforeEach(() => {
       resourceUsageService.getResourceUsage.and.returnValue(
-        of({
-          available: {
-            snapshots: 0,
-          },
-        }),
+        of(resources({ storage: Utils.convertToGb(volume.size) - 1, snapshots: 1 })),
+      );
+
+      fixture.detectChanges();
+    });
+
+    it('should not show spinners', () => {
+      expect(component.loading).toBe(false);
+      expect(hasSpinner()).toBe(false);
+      expect(findContent()).not.toBeNull();
+    });
+
+    it('should show resources notice', () => {
+      expect(findContent().textContent.trim()).toBe('Secondary storage filled');
+    });
+
+    it('should have only cancel button', () => {
+      expect(findCancelButton()).not.toBeNull();
+      expect(findSubmitButton()).toBeNull();
+
+      expect(findDialogClose()[0]._matDialogClose).toBeFalsy();
+    });
+  });
+
+  describe('not snapshots left', () => {
+    beforeEach(() => {
+      resourceUsageService.getResourceUsage.and.returnValue(
+        of(resources({ snapshots: 0, storage: 100 })),
       );
 
       fixture.detectChanges();
@@ -147,11 +187,7 @@ describe('SnapshotCreationComponent', () => {
 
     beforeEach(() => {
       resourceUsageService.getResourceUsage.and.returnValue(
-        of({
-          available: {
-            snapshots: 1,
-          },
-        }),
+        of(resources({ storage: 100, snapshots: 100 })),
       );
 
       fixture.detectChanges();

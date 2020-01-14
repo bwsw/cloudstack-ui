@@ -50,6 +50,8 @@ export class SnapshotEffects {
     mergeMap((action: snapshotActions.AddSnapshot) => {
       return this.dialog
         .open(SnapshotCreationComponent, {
+          minWidth: '300px',
+          maxWidth: '550px',
           data: action.payload,
         })
         .afterClosed()

@@ -1,11 +1,25 @@
 <ng-container *loading="loading">
-  <h3 class="mat-dialog-title">
-    {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.TAKE_SNAPSHOT' | translate }}
-  </h3>
-
-  <form (ngSubmit)="onSubmit()" novalidate>
+  <ng-container *ngIf="secondaryStorageQuotaFilled || snapshotsQuotaFilled; else form">
     <div class="mat-dialog-content">
-      <ng-container *ngIf="enoughResources">
+      <div *ngIf="secondaryStorageQuotaFilled">{{ 'Secondary storage filled' | translate }}</div>
+      <div *ngIf="!secondaryStorageQuotaFilled && snapshotsQuotaFilled">
+        {{ 'ERRORS.SNAPSHOT.LIMIT_EXCEEDED' | translate }}
+      </div>
+    </div>
+    <div class="mat-dialog-actions">
+      <button mat-button color="primary" matDialogClose type="button">
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-template #form>
+    <h3 class="mat-dialog-title">
+      {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.TAKE_SNAPSHOT' | translate }}
+    </h3>
+
+    <form (ngSubmit)="onSubmit()" novalidate>
+      <div class="mat-dialog-content">
         <mat-form-field class="full-width-input">
           <input
             matInput
@@ -24,16 +38,15 @@
             [placeholder]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.DESCRIPTION' | translate"
           />
         </mat-form-field>
-      </ng-container>
-      <div *ngIf="!enoughResources">{{ 'ERRORS.SNAPSHOT.LIMIT_EXCEEDED' | translate }}</div>
-    </div>
-    <div class="mat-dialog-actions">
-      <button mat-button color="primary" matDialogClose type="button">
-        {{ 'COMMON.CANCEL' | translate }}
-      </button>
-      <button *ngIf="enoughResources" mat-button color="primary" type="submit" [disabled]="!name">
-        {{ 'COMMON.CREATE' | translate }}
-      </button>
-    </div>
-  </form>
+      </div>
+      <div class="mat-dialog-actions">
+        <button mat-button color="primary" matDialogClose type="button">
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+        <button mat-button color="primary" type="submit" [disabled]="!name">
+          {{ 'COMMON.CREATE' | translate }}
+        </button>
+      </div>
+    </form>
+  </ng-template>
 </ng-container>
