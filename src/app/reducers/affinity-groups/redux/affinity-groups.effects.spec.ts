@@ -5,8 +5,6 @@ import { Store } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { AffinityGroup, AffinityGroupType, DiskOffering } from '../../../shared/models';
-import { TestStore } from '../../../../testutils/ngrx-test-store';
-
 import * as actions from './affinity-groups.actions';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { AffinityGroupsEffects } from './affinity-groups.effects';
@@ -14,6 +12,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { Injectable } from '@angular/core';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 @Injectable()
 class MockAsyncJobService {
@@ -49,7 +48,7 @@ describe('Affinity Groups Effects', () => {
   let actions$: TestActions;
   let service: AffinityGroupService;
   let effects: AffinityGroupsEffects;
-  let store: TestStore<any>;
+  let store: MockStore<unknown>;
   let dialogService: DialogService;
 
   beforeEach(() => {
@@ -59,7 +58,9 @@ describe('Affinity Groups Effects', () => {
         AffinityGroupService,
         AffinityGroupsEffects,
         { provide: Actions, useFactory: getActions },
-        { provide: Store, useClass: TestStore },
+        provideMockStore({
+          initialState: {},
+        }),
         { provide: DialogService, useClass: MockDialogService },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
       ],

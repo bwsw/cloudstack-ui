@@ -6,17 +6,18 @@ import { Store } from '@ngrx/store';
 import { of, Subject } from 'rxjs';
 import { MockSnackBarService } from '../../testutils/mocks/mock-snack-bar.service';
 import { MockTranslatePipe } from '../../testutils/mocks/mock-translate.pipe.spec';
-import { TestStore } from '../../testutils/ngrx-test-store';
 import { SnackBarService } from '../core/services';
 import { State } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
 import { LoginComponent } from './login.component';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { getDefaultDomain } from '../root-store/config/config.selectors';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  let store: TestStore<State>;
+  let store: MockStore<State>;
   let authService;
   let authSubj: Subject<any>;
 
@@ -36,10 +37,9 @@ describe('LoginComponent', () => {
           provide: AuthService,
           useValue: authService,
         },
-        {
-          provide: Store,
-          useClass: TestStore,
-        },
+        provideMockStore({
+          initialState: {},
+        }),
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { queryParams: {} } },
@@ -58,6 +58,7 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     store = TestBed.get(Store);
     spyOn(store, 'dispatch');
+    store.overrideSelector(getDefaultDomain, '');
 
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;

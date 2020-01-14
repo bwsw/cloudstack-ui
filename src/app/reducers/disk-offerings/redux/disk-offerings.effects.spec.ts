@@ -7,9 +7,8 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { DiskOffering } from '../../../shared/models';
 import { DiskOfferingEffects } from './disk-offerings.effects';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
-import { TestStore } from '../../../../testutils/ngrx-test-store';
-
 import * as actions from './disk-offerings.actions';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 const diskOfferings: DiskOffering[] = [
   {
@@ -49,7 +48,7 @@ describe('Disk Offering Effects', () => {
   let actions$: TestActions;
   let service: DiskOfferingService;
   let effects: DiskOfferingEffects;
-  let store: TestStore<any>;
+  let store: MockStore<unknown>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -58,7 +57,9 @@ describe('Disk Offering Effects', () => {
         DiskOfferingService,
         DiskOfferingEffects,
         { provide: Actions, useFactory: getActions },
-        { provide: Store, useClass: TestStore },
+        provideMockStore({
+          initialState: {},
+        }),
       ],
     });
     actions$ = TestBed.get(Actions);

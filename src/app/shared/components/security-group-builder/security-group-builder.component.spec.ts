@@ -10,12 +10,13 @@ import { SecurityGroupService } from '../../../security-group/services/security-
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { Rules } from './rules';
 import { SecurityGroupBuilderComponent } from './security-group-builder.component';
-import { TestStore } from '../../../../testutils/ngrx-test-store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { getSecurityGroupTemplates } from '../../../root-store/config/config.selectors';
 
 describe('Sg creation component', () => {
   let f;
   let comp: SecurityGroupBuilderComponent;
-  let store: TestStore<any>;
+  let store: MockStore<unknown>;
 
   const dialogReferenceMock = {
     close(): void {},
@@ -115,7 +116,9 @@ describe('Sg creation component', () => {
       providers: [
         { provide: MatDialogRef, useFactory: () => dialogReferenceMock },
         { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
-        { provide: Store, useClass: TestStore },
+        provideMockStore({
+          initialState: {},
+        }),
       ],
       schemas: [NO_ERRORS_SCHEMA],
     });
@@ -130,7 +133,7 @@ describe('Sg creation component', () => {
   }));
 
   it('inits rules', () => {
-    store.setState([mockSg1]);
+    store.overrideSelector(getSecurityGroupTemplates, [mockSg1]);
     comp.ngOnInit();
 
     expect(comp.securityGroups.available).toEqual([mockSg1, mockSg2]);
@@ -142,7 +145,6 @@ describe('Sg creation component', () => {
     comp = f.componentInstance;
     comp.inputRules = mockRules;
     mockRules.templates = [mockSg1];
-    store.setState([mockSg1]);
     comp.ngOnInit();
     expect(comp.securityGroups.available).toEqual([mockSg2]);
     expect(comp.securityGroups.selected).toEqual([mockSg1]);
@@ -167,7 +169,7 @@ describe('Sg creation component', () => {
   });
 
   it('handles dialog close', () => {
-    store.setState([]);
+    store.overrideSelector(getSecurityGroupTemplates, []);
     spyOn(dialogReferenceMock, 'close').and.callThrough();
 
     mockRules.templates = [mockSg2];

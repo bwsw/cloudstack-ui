@@ -17,6 +17,9 @@ export const get = <T extends keyof Config>(key: T) =>
     (state: ConfigState): Config[T] => state.config[key as string],
   );
 
+export const getDefaultDomain = get('defaultDomain');
+export const getSecurityGroupTemplates = get('securityGroupTemplates');
+
 export const getDefaultUserTags = createSelector(
   getConfigState,
   (state: ConfigState): Tag[] => {

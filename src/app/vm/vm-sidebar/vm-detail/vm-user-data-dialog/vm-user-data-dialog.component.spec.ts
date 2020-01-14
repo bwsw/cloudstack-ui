@@ -7,15 +7,15 @@ import { Store } from '@ngrx/store';
 import { VmUserDataDialogComponent } from './vm-user-data-dialog.component';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { vm } from '../../../../../testutils/data';
-import { TestStore } from '../../../../../testutils/ngrx-test-store';
 import { ChangeVmUserData } from '../../../../reducers/vm/redux/vm.actions';
 import { State } from '../../../../root-store';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 describe('VmUserDataDialogComponent', () => {
   let component: VmUserDataDialogComponent;
   let fixture: ComponentFixture<VmUserDataDialogComponent>;
-  let store: TestStore<State>;
+  let store: MockStore<State>;
   let dialogServce: jasmine.SpyObj<DialogService>;
 
   beforeEach(async(() => {
@@ -35,10 +35,9 @@ describe('VmUserDataDialogComponent', () => {
           provide: MAT_DIALOG_DATA,
           useValue: vm,
         },
-        {
-          provide: Store,
-          useClass: TestStore,
-        },
+        provideMockStore({
+          initialState: {},
+        }),
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();

@@ -10,6 +10,13 @@ import {
 } from './vm-logs.reducers';
 
 describe('VM logs reducer', () => {
+  const Log = id => ({
+    id: `${id}`,
+    timestamp: '',
+    file: '',
+    log: '',
+  });
+
   it('should set loading', () => {
     const state = reducer(undefined, { type: VmLogsActionTypes.LOAD_VM_LOGS_REQUEST });
     expect(state).toEqual({
@@ -116,16 +123,16 @@ describe('VM logs reducer', () => {
   });
 
   it('should select visible static logs', () => {
-    const logs = [1, 2, 3];
+    const logs = [Log(1), Log(2), Log(3)];
 
     expect(selectVisibleStaticLogs.projector(logs, 0)).toEqual([]);
-    expect(selectVisibleStaticLogs.projector(logs, 1)).toEqual([1]);
-    expect(selectVisibleStaticLogs.projector(logs, 2)).toEqual([1, 2]);
-    expect(selectVisibleStaticLogs.projector(logs, 3)).toEqual([1, 2, 3]);
+    expect(selectVisibleStaticLogs.projector(logs, 1)).toEqual([Log(1)]);
+    expect(selectVisibleStaticLogs.projector(logs, 2)).toEqual([Log(1), Log(2)]);
+    expect(selectVisibleStaticLogs.projector(logs, 3)).toEqual([Log(1), Log(2), Log(3)]);
   });
 
   it('should select visible auto update logs', () => {
-    const logs = [1, 2, 3, 4, 5];
+    const logs = [Log(1), Log(2), Log(3), Log(4), Log(5)];
 
     // Should select all logs.
     expect(selectVisibleAutoUpdateLogs.projector(logs, 5, false, 5)).toEqual(logs);
@@ -134,29 +141,29 @@ describe('VM logs reducer', () => {
     // Oldest logs go first.
     // Selects 3 most recent logs (3, 4, 5), according to showLastMessages.
     // Selects the first two of them (3, 4), according to totalScrollLogs.
-    expect(selectVisibleAutoUpdateLogs.projector(logs, 3, false, 2)).toEqual([3, 4]);
+    expect(selectVisibleAutoUpdateLogs.projector(logs, 3, false, 2)).toEqual([Log(3), Log(4)]);
 
     // Newest logs go first
     // Selects 3 most recent logs (1, 2, 3), according to showLastMessages.
     // Selects the first two of them (1, 2), according to totalScrollLogs.
-    expect(selectVisibleAutoUpdateLogs.projector(logs, 3, true, 2)).toEqual([1, 2]);
+    expect(selectVisibleAutoUpdateLogs.projector(logs, 3, true, 2)).toEqual([Log(1), Log(2)]);
 
     // Selects 3 most recent logs (1, 2, 3), according to showLastMessages.
     // Selects 4 logs. Result can't be bigger than the length of logs from the previous step
-    expect(selectVisibleAutoUpdateLogs.projector(logs, 1, false, 4)).toEqual([5]);
-    expect(selectVisibleAutoUpdateLogs.projector(logs, 1, true, 4)).toEqual([1]);
+    expect(selectVisibleAutoUpdateLogs.projector(logs, 1, false, 4)).toEqual([Log(5)]);
+    expect(selectVisibleAutoUpdateLogs.projector(logs, 1, true, 4)).toEqual([Log(1)]);
   });
 
   it('should select visible logs', () => {
-    const staticLogs = ['static-log'];
-    const autoUpdateLogs = ['auto-update-log'];
+    const staticLogs = [Log(1)];
+    const autoUpdateLogs = [Log(2)];
 
     expect(selectVisibleLogs.projector(staticLogs, autoUpdateLogs, false)).toEqual(staticLogs);
     expect(selectVisibleLogs.projector(staticLogs, autoUpdateLogs, true)).toEqual(autoUpdateLogs);
   });
 
   it('should select if all logs are shown according to the scroll limit', () => {
-    const logs = [1, 2, 3];
+    const logs = [Log(1), Log(2), Log(3)];
 
     expect(selectAreAllLogsShown.projector(logs, 2)).toBe(false);
     expect(selectAreAllLogsShown.projector(logs, 3)).toBe(true);
