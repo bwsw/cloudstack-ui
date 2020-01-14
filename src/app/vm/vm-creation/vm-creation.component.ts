@@ -204,4 +204,14 @@ export class VmCreationComponent {
       !this.isDiskOfferingAvailableByResources
     );
   }
+
+  /**
+   * Used by mat-select
+   */
+  public compareZones(a: Zone | null, b: Zone | null) {
+    if (a == null || b == null) {
+      return a === b;
+    }
+    return a.id === b.id;
+  }
 }
