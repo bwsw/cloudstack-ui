@@ -10,8 +10,6 @@ import { MAT_DIALOG_DATA, MatTabChangeEvent } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Dictionary } from '@ngrx/entity';
 import * as moment from 'moment';
-
-import { LocalStorageService } from '../../shared/services/local-storage.service';
 import {
   PulseChartComponent,
   PulseCpuRamChartComponent,
@@ -19,6 +17,7 @@ import {
   PulseNetworkChartComponent,
 } from '../charts';
 import { Intervals, IntervalsResp, PulseService } from '../pulse.service';
+import { PulseParamsPersistence } from './pulse-params-persistence';
 
 const debounce = require('lodash/debounce');
 
@@ -27,13 +26,6 @@ const enum TabIndex {
   Network,
   Disk,
 }
-
-export const pulseParameters = {
-  ScaleRange: 'pulseScaleRange',
-  Aggregations: 'pulseAggregations',
-  Shift: 'pulseShift',
-  ShiftAmount: 'pulseShiftAmount',
-};
 
 @Component({
   selector: 'cs-vm-pulse',
@@ -75,7 +67,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public vmId: string,
     private pulse: PulseService,
     private translateService: TranslateService,
-    private storage: LocalStorageService,
+    private persistence: PulseParamsPersistence,
   ) {
     this.updateChart = debounce(this.updateChart, 300);
   }
@@ -112,7 +104,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     this._selectedScale = value;
 
     if (this.selectedScale) {
-      this.storage.write(pulseParameters.ScaleRange, this._selectedScale.range);
+      this.persistParams();
 
       const available = this.selectedAggregations.reduce((res, val) => {
         return this._selectedScale.aggregations.find(a => a === val) ? res.concat(val) : res;
@@ -131,7 +123,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   public set selectedAggregations(value) {
     this._selectedAggregations = value;
 
-    this.storage.write(pulseParameters.Aggregations, this._selectedAggregations.toString());
+    this.persistParams();
 
     if (Array.isArray(value) && !value.length) {
       this.resetDatasets();
@@ -146,7 +138,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
   public set selectedShift(value) {
     this._selectedShift = value;
-    this.storage.write(pulseParameters.Shift, this._selectedShift);
+    this.persistParams();
 
     // TODO
     if (this.shouldUpdate()) {
@@ -160,7 +152,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
   public set shiftAmount(value) {
     this._shiftAmount = value;
-    this.storage.write(pulseParameters.ShiftAmount, this._shiftAmount.toString());
+    this.persistParams();
 
     if (this.shouldUpdate()) {
       this.updateChart(this.tabIndex);
@@ -238,25 +230,25 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   }
 
   private initParameters() {
-    this._selectedScale = this.getScale();
-    this._selectedAggregations = this.getAggregations();
-    this._selectedShift = this.getShift();
-    this._shiftAmount = this.getShiftAmount();
+    const persistedParams = this.persistence.readParams();
+
+    this._selectedScale = this.getScale(persistedParams.scaleRange);
+    this._selectedAggregations = this.getAggregations(persistedParams.aggregations);
+    this._selectedShift = this.getShift(persistedParams.shift);
+    this._shiftAmount = persistedParams.shiftAmount;
 
     this.refresh();
   }
 
-  private getScale(): { range: string; aggregations: string[] } {
-    const scale = this.storage.read(pulseParameters.ScaleRange);
-    return !!scale
-      ? this.permittedIntervals.scales.find(_ => _.range === scale)
+  private getScale(scaleRange: string | undefined): { range: string; aggregations: string[] } {
+    return !!scaleRange
+      ? this.permittedIntervals.scales.find(_ => _.range === scaleRange)
       : this.permittedIntervals.scales[0];
   }
 
-  private getAggregations(): string[] {
-    const aggregations = this.storage.read(pulseParameters.Aggregations);
+  private getAggregations(aggregations: string[] | undefined): string[] {
     if (aggregations) {
-      return aggregations.split(',');
+      return aggregations;
     }
     if (this._selectedScale && !!this._selectedScale.aggregations.length) {
       return [this._selectedScale.aggregations[0]];
@@ -264,13 +256,16 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     return [];
   }
 
-  private getShift(): string {
-    const shift = this.storage.read(pulseParameters.Shift);
+  private getShift(shift: string | undefined): string {
     return !!shift ? shift : this.permittedIntervals.shifts[0];
   }
 
-  private getShiftAmount(): number {
-    const shiftAmount = this.storage.read(pulseParameters.ShiftAmount);
-    return shiftAmount ? +shiftAmount : 0;
+  private persistParams() {
+    this.persistence.writeParams({
+      shiftAmount: this._shiftAmount,
+      shift: this._selectedShift,
+      scaleRange: this._selectedScale.range,
+      aggregations: this._selectedAggregations,
+    });
   }
 }

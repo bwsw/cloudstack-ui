@@ -5,11 +5,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { MemoryStorageService } from '../../shared/services/memory-storage.service';
-import { StorageService } from '../../shared/services/storage.service';
 import { IntervalsResp, PulseService } from '../pulse.service';
-import { pulseParameters, VmPulseComponent } from './vm-pulse.component';
+import { PulseParamsPersistence } from './pulse-params-persistence';
+import { VmPulseComponent } from './vm-pulse.component';
 
 describe('VmPulseComponent', () => {
   let component: VmPulseComponent;
@@ -28,11 +26,16 @@ describe('VmPulseComponent', () => {
   };
 
   let pulseService;
-  let storage: StorageService;
+  let persistence;
 
   beforeEach(async(() => {
     pulseService = {
       getPermittedIntervals: jasmine.createSpy().and.returnValue(of(permittedIntervals)),
+    };
+
+    persistence = {
+      readParams: jasmine.createSpy(),
+      writeParams: jasmine.createSpy(),
     };
 
     TestBed.configureTestingModule({
@@ -48,14 +51,12 @@ describe('VmPulseComponent', () => {
           useValue: pulseService,
         },
         {
-          provide: LocalStorageService,
-          useClass: MemoryStorageService,
+          provide: PulseParamsPersistence,
+          useValue: persistence,
         },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
-
-    storage = TestBed.get(LocalStorageService);
   }));
 
   beforeEach(() => {
@@ -64,15 +65,15 @@ describe('VmPulseComponent', () => {
   });
 
   it('should read params from the storage', () => {
-    storage.write(pulseParameters.Shift, 'd');
-    storage.write(pulseParameters.Aggregations, '15m,1h');
-    storage.write(pulseParameters.ScaleRange, '1h');
-    storage.write(pulseParameters.ShiftAmount, '1');
-
-    const readSpy = spyOn(storage, 'read').and.callThrough();
+    persistence.readParams.and.returnValue({
+      shift: 'd',
+      aggregations: ['15m', '1h'],
+      scaleRange: '1h',
+      shiftAmount: 1,
+    });
 
     fixture.detectChanges(); // results in ngOnInit call
-    expect(readSpy).toHaveBeenCalled();
+    expect(persistence.readParams).toHaveBeenCalled();
     expect(component.selectedShift).toBe('d');
     expect(component.selectedAggregations).toEqual(['15m', '1h']);
     expect(component.selectedScale.range).toBe('1h');
@@ -80,31 +81,45 @@ describe('VmPulseComponent', () => {
   });
 
   describe('storage updates', () => {
-    let writeSpy: jasmine.Spy;
-
     beforeEach(() => {
-      writeSpy = spyOn(storage, 'write');
+      persistence.readParams.and.returnValue({});
       fixture.detectChanges();
     });
 
     it('should update shift', () => {
       component.selectedShift = 'm';
-      expect(writeSpy).toHaveBeenCalledWith(pulseParameters.Shift, 'm');
+      expect(persistence.writeParams).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          shift: 'm',
+        }),
+      );
     });
 
     it('should update scale range', () => {
       component.selectedScale = { range: '15m', aggregations: [] };
-      expect(writeSpy).toHaveBeenCalledWith(pulseParameters.ScaleRange, '15m');
+      expect(persistence.writeParams).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          scaleRange: '15m',
+        }),
+      );
     });
 
     it('should update shift amount', () => {
       component.shiftAmount = 2;
-      expect(writeSpy).toHaveBeenCalledWith(pulseParameters.ShiftAmount, '2');
+      expect(persistence.writeParams).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          shiftAmount: 2,
+        }),
+      );
     });
 
     it('should update aggregations', () => {
       component.selectedAggregations = ['1h', '1w'];
-      expect(writeSpy).toHaveBeenCalledWith(pulseParameters.Aggregations, '1h,1w');
+      expect(persistence.writeParams).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          aggregations: ['1h', '1w'],
+        }),
+      );
     });
   });
 });
