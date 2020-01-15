@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, map } from 'rxjs/operators';
 
 import { BackendResource } from '../../shared/decorators';
 import { CSCommands } from '../../shared/services/base-backend.service';
@@ -11,6 +11,8 @@ import {
   RegisterTemplateBaseParams,
   templateResourceType,
 } from './base-template.service';
+import { TemplateUploadParamsRequest, TemplateUploadParams } from './base-template.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 @BackendResource({
@@ -40,5 +42,33 @@ export class TemplateService extends BaseTemplateService {
     return super.register(requestParams).pipe(tap(() => this.invalidateCache())) as Observable<
       Template
     >;
+  }
+
+  public getUploadParamsForTemplate(
+    params: TemplateUploadParamsRequest,
+  ): Observable<TemplateUploadParams> {
+    const requestParams = { ...params };
+
+    requestParams['hypervisor'] = requestParams['hypervisor'] || 'KVM';
+    requestParams['format'] = requestParams['format'] || 'QCOW2';
+    requestParams['requiresHvm'] = requestParams['requiresHvm'] || true;
+
+    return this.sendCommand(CSCommands.GetUploadParamsFor, requestParams).pipe(
+      tap(() => this.invalidateCache()),
+      map(({ getuploadparams }) => getuploadparams),
+    ) as Observable<TemplateUploadParams>;
+  }
+
+  public uploadTemplate(params: TemplateUploadParams): Observable<unknown> {
+    const { localTemplate, postURL, expires, metadata, signature } = params;
+    const formData = new FormData();
+    formData.append('file', localTemplate);
+    return this.http.post(postURL, null, {
+      headers: new HttpHeaders({
+        'X-expires': expires,
+        'X-metadata': metadata,
+        'X-signature': signature,
+      }),
+    });
   }
 }

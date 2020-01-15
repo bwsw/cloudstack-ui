@@ -59,8 +59,14 @@ export class TemplateCreationContainerComponent {
   public onCreate(params: CreateTemplateBaseParams) {
     if (params.snapshotId) {
       this.store.dispatch(new templateActions.CreateTemplate(params));
-    } else {
+    }
+
+    if (params.url) {
       this.store.dispatch(new templateActions.RegisterTemplate(params));
+    }
+
+    if (params.localTemplate) {
+      this.store.dispatch(new templateActions.UploadTemplate(params));
     }
   }
 }

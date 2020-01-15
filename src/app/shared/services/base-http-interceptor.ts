@@ -33,9 +33,10 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     const sessionKey = user && user.sessionkey;
     const httpOptions = {
       headers: new HttpHeaders({
-        'Cache-Control': 'no-cache',
-        Pragma: 'no-cache',
-        Expires: 'Sat, 01 Jan 2000 00:00:00 GMT',
+        // todo: fix cors template upload (pragma not allowed for allow all)
+        // 'Cache-Control': 'no-cache',
+        // Pragma: 'no-cache',
+        // Expires: 'Sat, 01 Jan 2000 00:00:00 GMT',
       }),
     };
     const cloneParams = sessionKey

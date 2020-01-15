@@ -51,6 +51,22 @@ export interface CreateTemplateBaseParams {
   [propName: string]: any;
 }
 
+export interface TemplateUploadParamsRequest {
+  displayText: string;
+  name: string;
+  zoneId?: string;
+  osTypeId: string;
+  groupId?: string;
+}
+
+export interface TemplateUploadParams {
+  postURL: string;
+  metadata: string;
+  expires: string;
+  signature: string;
+  localTemplate: Blob;
+}
+
 export class GroupedTemplates<T extends BaseTemplateModel> {
   public community: T[];
   public executable: T[];

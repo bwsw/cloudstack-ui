@@ -61,6 +61,7 @@ export enum CSCommands {
   Stop = 'stop',
   Update = 'update',
   UpdateVM = 'updateVM',
+  GetUploadParamsFor = 'getUploadParamsFor',
 }
 
 // todo: should be M extends (type with id: string)

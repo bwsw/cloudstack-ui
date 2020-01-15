@@ -126,7 +126,14 @@ export class TemplateCreationComponent implements OnInit {
     }
 
     if (!this.snapshot) {
-      params['url'] = this.url;
+      if (this.templateUploadMode === TemplateUploadMode.Url) {
+        params['url'] = this.url;
+      }
+
+      if (this.templateUploadMode === TemplateUploadMode.Local) {
+        params['localTemplate'] = this.localTemplate;
+      }
+
       params['zoneId'] = this.zoneId;
     } else {
       params['snapshotId'] = this.snapshot.id;

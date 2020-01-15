@@ -159,6 +159,19 @@ export class TemplateEffects {
   );
 
   @Effect({ dispatch: false })
+  uploadTemplate$: Observable<unknown> = this.actions$.pipe(
+    ofType(templateActions.UPLOAD_TEMPLATE),
+    switchMap((action: templateActions.UploadTemplate) => {
+      const { localTemplate, ...getUploadParamsRequest } = action.payload;
+      return this.templateService.getUploadParamsForTemplate(getUploadParamsRequest).pipe(
+        switchMap(uploadParams => {
+          return this.templateService.uploadTemplate(uploadParams);
+        }),
+      );
+    }),
+  );
+
+  @Effect({ dispatch: false })
   registerAndCreateTemplateSuccess$: Observable<Action> = this.actions$.pipe(
     ofType(templateActions.TEMPLATE_REGISTER_SUCCESS, templateActions.TEMPLATE_CREATE_SUCCESS),
     tap(() => this.dialog.closeAll()),
