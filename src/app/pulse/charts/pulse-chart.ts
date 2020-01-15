@@ -27,8 +27,9 @@ export const defaultChartOptions = {
   },
   layout: {
     padding: {
-      left: 90,
+      left: 35,
       right: 40,
+      top: 20, // to prevent ticks cutoff
     },
   },
   tooltips: {
@@ -52,14 +53,21 @@ export const defaultChartOptions = {
             hour: 'LT',
           },
         },
+        ticks: {
+          maxTicksLimit: 15,
+          maxRotation: 0, // to ensure ticks' labels are horizontal
+        },
       },
     ],
     yAxes: [
       {
         ticks: {
-          autoSkip: false,
-          padding: 60,
+          autoSkip: true,
+          maxTicksLimit: 6,
+          padding: -5, // move the labels to the right slightly
+          labelOffset: -10, // move the labels up to prevent overlapping with grid lines
           mirror: true,
+          z: 123, // ticks z index
           suggestedMin: 0,
           userCallback(val) {
             if (val % 1 === 0) {

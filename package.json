@@ -49,7 +49,7 @@
     "ajv-errors": "^1.0.0",
     "ajv-keywords": "^3.2.0",
     "angular2-draggable": "^2.1.8",
-    "chart.js": "2.7.0",
+    "chart.js": "2.9.3",
     "core-js": "^2.4.1",
     "deep-diff": "^1.0.2",
     "hammerjs": "^2.0.8",
