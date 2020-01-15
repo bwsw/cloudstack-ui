@@ -1691,7 +1691,7 @@
   "TEMPLATE_NOT_FOUND": "Шаблон не найден",
   "ACCOUNT_NOT_FOUND": "Аккаунт не найден",
   "PULSE": {
-    "PULSE": "Pulse",
+    "PULSE": "Монитор ресурсов",
     "DIALOG_TITLE": "Монитор использования ресурсов VM",
     "CPU_RAM": "ЦП / ОЗУ",
     "NETWORK": "Сеть",
