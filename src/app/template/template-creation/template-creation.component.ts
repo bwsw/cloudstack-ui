@@ -1,3 +1,4 @@
+import { TemplateUploadMode } from './template-upload-mode';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -18,6 +19,8 @@ interface TemplateFormat {
   styleUrls: ['template-creation.component.scss'],
 })
 export class TemplateCreationComponent implements OnInit {
+  public TemplateUploadMode = TemplateUploadMode;
+
   @Input()
   public mode: string;
   @Input()
@@ -67,6 +70,9 @@ export class TemplateCreationComponent implements OnInit {
   public visibleFormats: TemplateFormat[];
 
   public showAdditional = false;
+
+  public templateUploadMode = TemplateUploadMode.Url;
+  public localTemplate;
 
   public get locale(): Language {
     return this.translate.currentLang as Language;

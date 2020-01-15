@@ -1,5 +1,18 @@
 <cs-overlay-loading></cs-overlay-loading>
 <h3 class="mat-dialog-title">{{ modeTranslationToken | translate }}</h3>
+
+<mat-button-toggle-group
+  *ngIf="!snapshot && mode === TemplateResourceType.template"
+  [(ngModel)]="templateUploadMode"
+>
+  <mat-button-toggle [value]="TemplateUploadMode.Url">
+    {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.FROM_URL' | translate }}
+  </mat-button-toggle>
+  <mat-button-toggle [value]="TemplateUploadMode.Local">
+    {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.FROM_LOCAL' | translate }}
+  </mat-button-toggle>
+</mat-button-toggle-group>
+
 <form (ngSubmit)="onCreate()" #templateCreationForm="ngForm" novalidate>
   <div class="mat-dialog-content">
     <div class="flex-dialog-content">
@@ -33,26 +46,49 @@
           </mat-hint>
         </mat-form-field>
         <br />
-        <mat-form-field *ngIf="!snapshot" class="full-width-input">
-          <input
-            matInput
-            type="url"
-            name="url"
-            [csUrl]="{ http: true, https: true }"
-            [(ngModel)]="url"
-            [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate"
-            maxlength="255"
-            required
-            #urlField="ngModel"
-          />
-          <mat-error *ngIf="urlField.hasError('pattern')">
-            {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}
-          </mat-error>
-          <mat-hint align="end">
-            <cs-character-count [value]="url" [maxLength]="255"></cs-character-count>
-          </mat-hint>
-        </mat-form-field>
+        <ng-container *ngIf="!snapshot">
+          <mat-form-field
+            *ngIf="templateUploadMode === TemplateUploadMode.Url"
+            class="full-width-input"
+          >
+            <input
+              matInput
+              type="url"
+              name="url"
+              [csUrl]="{ http: true, https: true }"
+              [(ngModel)]="url"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate"
+              maxlength="255"
+              required
+              #urlField="ngModel"
+            />
+            <mat-error *ngIf="urlField.hasError('pattern')">
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}
+            </mat-error>
+            <mat-hint align="end">
+              <cs-character-count [value]="url" [maxLength]="255"></cs-character-count>
+            </mat-hint>
+          </mat-form-field>
+          <mat-form-field
+            *ngIf="templateUploadMode === TemplateUploadMode.Local"
+            class="full-width-input"
+          >
+            <ngx-mat-file-input
+              name="localTemplateField"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.LOCAL_FILE' | translate"
+              [valuePlaceholder]="'FILE_INPUT.NO_FILE' | translate"
+              required
+              [(ngModel)]="localTemplate"
+              #localTemplateField="ngModel"
+            ></ngx-mat-file-input>
+            <mat-icon class="mdi-folder" matSuffix></mat-icon>
+            <mat-error *ngIf="localTemplateField.hasError('required')">
+              {{ 'FILE_INPUT.SELECT_FILE' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
       </div>
+
       <div class="column">
         <mat-form-field class="full-width-input">
           <mat-select

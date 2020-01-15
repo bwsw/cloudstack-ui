@@ -839,6 +839,9 @@
     "TEMPLATE_CREATION": {
       "NEW_TEMPLATE": "Register a new template",
       "NEW_ISO": "Register a new ISO",
+      "FROM_URL": "URL",
+      "FROM_LOCAL": "Local",
+      "LOCAL_FILE": "Local File",
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "URL": "URL",
@@ -1996,5 +1999,9 @@
   "HTTP_ACCESS": {
     "UNREACHABLE": "Please, hold on. Remote HTTP endpoint is not yet available...",
     "SERVICE_DOWN": "Unable to check service availability."
+  },
+  "FILE_INPUT": {
+    "NO_FILE": "No file selected",
+    "SELECT_FILE": "Please select a file"
   }
 }

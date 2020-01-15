@@ -839,6 +839,9 @@
     "TEMPLATE_CREATION": {
       "NEW_TEMPLATE": "Регистрация нового шаблона",
       "NEW_ISO": "Регистрация нового ISO",
+      "FROM_URL": "URL",
+      "FROM_LOCAL": "Локальный файл",
+      "LOCAL_FILE": "Локальный файл",
       "NAME": "Название",
       "DESCRIPTION": "Описание",
       "URL": "URL",
@@ -1992,5 +1995,9 @@
   "HTTP_ACCESS": {
     "UNREACHABLE": "Ожидайте, HTTP сервис еще не доступен",
     "SERVICE_DOWN": "Не удается проверить доступность сервиса"
+  },
+  "FILE_INPUT": {
+    "NO_FILE": "Файл не выбран",
+    "SELECT_FILE": "Выберите файл"
   }
 }

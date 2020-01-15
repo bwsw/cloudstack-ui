@@ -4839,6 +4839,13 @@ ngx-mat-select-search@^1.7.6:
   dependencies:
     tslib "^1.9.0"
 
+ngx-material-file-input@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-material-file-input/-/ngx-material-file-input-2.0.0.tgz#ae94d9e79193015258ff1edb101b04c0b85a26da"
+  integrity sha512-E8JyFbAZRzCNC96lbkzg+LS4xmcfoZ3Mh4jhuWfAeBngMLlLxdMW2dgZSu8MFO9V2ZQytb1DPjgmvGhJo5TJHg==
+  dependencies:
+    tslib "^1.9.0"
+
 ngx-window-token@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ngx-window-token/-/ngx-window-token-1.0.0.tgz#12acb174fbbcffa5c60b3fea5a6ea78cc3304793"

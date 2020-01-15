@@ -65,6 +65,7 @@ import { TemplateFilterListContainerComponent } from './template-filter-list/con
 // tslint:disable-next-line
 import { TemplateGroupSelectorContainerComponent } from './template-sidebar/template-group/containers/template-group-selector.container';
 import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-attachment-filter-selector.container';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 @NgModule({
   imports: [
@@ -76,6 +77,7 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     DynamicModule.withComponents([TemplateCardItemComponent, TemplateRowItemComponent]),
     RouterModule,
     TagsModule,
+    MaterialFileInputModule,
     StoreModule.forFeature('templates', templateReducers),
     StoreModule.forFeature('osTypes', osTypeReducers),
     StoreModule.forFeature('zones', zoneReducers),
