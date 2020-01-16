@@ -131,7 +131,7 @@ export class TemplateCreationComponent implements OnInit {
       }
 
       if (this.templateUploadMode === TemplateUploadMode.Local) {
-        params['localTemplate'] = this.localTemplate;
+        params['localTemplate'] = this.localTemplate.files[0];
       }
 
       params['zoneId'] = this.zoneId;

@@ -234,6 +234,9 @@
       "CREATION_IN_PROGRESS": "Создание шаблона",
       "CREATION_DONE": "Шаблон создан",
       "CREATION_FAILED": "Не удалось создать шаблон",
+      "UPLOAD_IN_PROGRESS": "Загрузка шаблона",
+      "UPLOAD_DONE": "Шаблон загружен",
+      "UPLOAD_FAILED": "Не удалось загрузить шаблон",
       "DELETION_IN_PROGRESS": "Удаление шаблона",
       "DELETION_DONE": "Шаблон удален",
       "DELETION_FAILED": "Не удалось удалить шаблон"

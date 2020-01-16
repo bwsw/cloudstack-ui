@@ -64,7 +64,7 @@ export interface TemplateUploadParams {
   metadata: string;
   expires: string;
   signature: string;
-  localTemplate: Blob;
+  localTemplate: File;
 }
 
 export class GroupedTemplates<T extends BaseTemplateModel> {

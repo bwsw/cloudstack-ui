@@ -234,6 +234,9 @@
       "CREATION_IN_PROGRESS": "Creating a template",
       "CREATION_DONE": "Template created",
       "CREATION_FAILED": "Failed to create a template",
+      "UPLOAD_IN_PROGRESS": "Uploading a template",
+      "UPLOAD_DONE": "Template uploaded",
+      "UPLOAD_FAILED": "Failed to upload a template",
       "DELETION_IN_PROGRESS": "Deleting a template",
       "DELETION_DONE": "Template deleted",
       "DELETION_FAILED": "Failed to delete a template"

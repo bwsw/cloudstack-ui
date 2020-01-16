@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 const uniqBy = require('lodash/uniqBy');
 
@@ -158,14 +158,42 @@ export class TemplateEffects {
     }),
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   uploadTemplate$: Observable<unknown> = this.actions$.pipe(
-    ofType(templateActions.UPLOAD_TEMPLATE),
+    ofType(templateActions.TEMPLATE_UPLOAD),
     switchMap((action: templateActions.UploadTemplate) => {
       const { localTemplate, ...getUploadParamsRequest } = action.payload;
+
+      const notificationId = this.jobsNotificationService.add(
+        'NOTIFICATIONS.TEMPLATE.UPLOAD_IN_PROGRESS',
+      );
+
       return this.templateService.getUploadParamsForTemplate(getUploadParamsRequest).pipe(
         switchMap(uploadParams => {
-          return this.templateService.uploadTemplate(uploadParams);
+          return this.templateService
+            .uploadTemplate({
+              ...uploadParams,
+              localTemplate,
+            })
+            .pipe(
+              catchError(error => {
+                if (error && error.error) {
+                  return throwError(new Error(error.error));
+                }
+
+                return throwError(error);
+              }),
+            );
+        }),
+        map(() => {
+          const message = 'NOTIFICATIONS.TEMPLATE.UPLOAD_DONE';
+          this.showNotificationsOnFinish(message, notificationId);
+          return new templateActions.UploadTemplateSuccess(action.payload);
+        }),
+        catchError(error => {
+          const message = 'NOTIFICATIONS.TEMPLATE.UPLOAD_FAILED';
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
+          return of(new templateActions.UploadTemplateError(error));
         }),
       );
     }),
@@ -173,8 +201,18 @@ export class TemplateEffects {
 
   @Effect({ dispatch: false })
   registerAndCreateTemplateSuccess$: Observable<Action> = this.actions$.pipe(
-    ofType(templateActions.TEMPLATE_REGISTER_SUCCESS, templateActions.TEMPLATE_CREATE_SUCCESS),
+    ofType(
+      templateActions.TEMPLATE_REGISTER_SUCCESS,
+      templateActions.TEMPLATE_CREATE_SUCCESS,
+      templateActions.TEMPLATE_UPLOAD_SUCCESS,
+    ),
     tap(() => this.dialog.closeAll()),
+  );
+
+  @Effect()
+  fetchTemplatesAfterUpload$: Observable<Action> = this.actions$.pipe(
+    ofType(templateActions.TEMPLATE_UPLOAD_SUCCESS),
+    map(() => new templateActions.LoadTemplatesRequest()),
   );
 
   @Effect()

@@ -1,3 +1,5 @@
+import { TemplateTagService } from './../../shared/services/tags/template-tag.service';
+import { AsyncJobService } from './../../shared/services/async-job.service';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, tap, map } from 'rxjs/operators';
@@ -12,13 +14,22 @@ import {
   templateResourceType,
 } from './base-template.service';
 import { TemplateUploadParamsRequest, TemplateUploadParams } from './base-template.service';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpBackend } from '@angular/common/http';
 
 @Injectable()
 @BackendResource({
   entity: templateResourceType.template,
 })
 export class TemplateService extends BaseTemplateService {
+  constructor(
+    protected asyncJobService: AsyncJobService,
+    protected templateTagService: TemplateTagService,
+    protected http: HttpClient,
+    private httpBackend: HttpBackend,
+  ) {
+    super(asyncJobService, templateTagService, http);
+  }
+
   public create(params: CreateTemplateBaseParams): Observable<Template> {
     return this.sendCommand(CSCommands.Create, params).pipe(
       switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
@@ -61,14 +72,18 @@ export class TemplateService extends BaseTemplateService {
 
   public uploadTemplate(params: TemplateUploadParams): Observable<unknown> {
     const { localTemplate, postURL, expires, metadata, signature } = params;
+
     const formData = new FormData();
     formData.append('file', localTemplate);
-    return this.http.post(postURL, null, {
+
+    const httpClient = new HttpClient(this.httpBackend); // bypass interceptor
+    return httpClient.post(postURL, formData, {
       headers: new HttpHeaders({
         'X-expires': expires,
         'X-metadata': metadata,
         'X-signature': signature,
       }),
+      responseType: 'text',
     });
   }
 }

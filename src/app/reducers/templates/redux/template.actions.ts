@@ -12,9 +12,9 @@ export const TEMPLATE_REGISTER_ERROR = '[Templates] TEMPLATE_REGISTER_ERROR';
 export const TEMPLATE_CREATE = '[Templates] TEMPLATE_CREATE';
 export const TEMPLATE_CREATE_SUCCESS = '[Templates] TEMPLATE_CREATE_SUCCESS';
 export const TEMPLATE_CREATE_ERROR = '[Templates] TEMPLATE_CREATE_ERROR';
-export const UPLOAD_TEMPLATE = '[Templates] UPLOAD_TEMPLATE';
-export const UPLOAD_TEMPLATE_SUCCESS = '[Templates] UPLOAD_TEMPLATE_SUCCESS';
-export const UPLOAD_TEMPLATE_ERROR = '[Templates] UPLOAD_TEMPLATE_ERROR';
+export const TEMPLATE_UPLOAD = '[Templates] TEMPLATE_UPLOAD';
+export const TEMPLATE_UPLOAD_SUCCESS = '[Templates] TEMPLATE_UPLOAD_SUCCESS';
+export const TEMPLATE_UPLOAD_ERROR = '[Templates] TEMPLATE_UPLOAD_ERROR';
 export const TEMPLATE_REMOVE = '[Templates] TEMPLATE_REMOVE';
 export const TEMPLATE_REMOVE_SUCCESS = '[Templates] TEMPLATE_REMOVE_SUCCESS';
 export const TEMPLATE_REMOVE_ERROR = '[Templates] TEMPLATE_REMOVE_ERROR';
@@ -93,19 +93,19 @@ export class CreateTemplateError implements Action {
 }
 
 export class UploadTemplate implements Action {
-  readonly type = UPLOAD_TEMPLATE;
+  readonly type = TEMPLATE_UPLOAD;
 
   constructor(public payload: any) {}
 }
 
 export class UploadTemplateSuccess implements Action {
-  readonly type = UPLOAD_TEMPLATE_SUCCESS;
+  readonly type = TEMPLATE_UPLOAD_SUCCESS;
 
   constructor(public payload: any) {}
 }
 
 export class UploadTemplateError implements Action {
-  readonly type = UPLOAD_TEMPLATE_ERROR;
+  readonly type = TEMPLATE_UPLOAD_ERROR;
 
   constructor(public payload: any) {}
 }
