@@ -1,3 +1,4 @@
+import { CreateTemplateBaseParams } from './../../../template/shared/base-template.service';
 import { Action } from '@ngrx/store';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { ImageGroup } from '../../../shared/models/config/image-group.model';
@@ -95,19 +96,19 @@ export class CreateTemplateError implements Action {
 export class UploadTemplate implements Action {
   readonly type = TEMPLATE_UPLOAD;
 
-  constructor(public payload: any) {}
+  constructor(public payload: CreateTemplateBaseParams) {}
 }
 
 export class UploadTemplateSuccess implements Action {
   readonly type = TEMPLATE_UPLOAD_SUCCESS;
 
-  constructor(public payload: any) {}
+  constructor(public payload: unknown) {}
 }
 
 export class UploadTemplateError implements Action {
   readonly type = TEMPLATE_UPLOAD_ERROR;
 
-  constructor(public payload: any) {}
+  constructor(public payload: Error) {}
 }
 
 export class RemoveTemplate implements Action {
