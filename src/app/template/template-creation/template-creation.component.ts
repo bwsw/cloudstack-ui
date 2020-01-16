@@ -7,6 +7,7 @@ import { Account, ImageGroup, isRootAdmin, Snapshot } from '../../shared/models'
 import { HypervisorService } from '../../shared/services/hypervisor.service';
 import { CreateTemplateBaseParams, templateResourceType } from '../shared/base-template.service';
 import { Language } from '../../shared/types';
+import { FileInput } from 'ngx-material-file-input';
 
 interface TemplateFormat {
   name: string;
@@ -72,7 +73,7 @@ export class TemplateCreationComponent implements OnInit {
   public showAdditional = false;
 
   public templateUploadMode = TemplateUploadMode.Url;
-  public localTemplate;
+  public localTemplateInput: FileInput;
 
   public get locale(): Language {
     return this.translate.currentLang as Language;
@@ -131,7 +132,7 @@ export class TemplateCreationComponent implements OnInit {
       }
 
       if (this.templateUploadMode === TemplateUploadMode.Local) {
-        params['localTemplate'] = this.localTemplate.files[0];
+        params['localTemplate'] = this.localTemplateInput.files[0];
       }
 
       params['zoneId'] = this.zoneId;
