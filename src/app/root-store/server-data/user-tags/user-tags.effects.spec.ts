@@ -22,9 +22,8 @@ import * as fromVolumes from '../../../reducers/volumes/redux/volumes.reducers';
 import { getActions, TestActions } from '../../../reducers/volumes/redux/volumes.effects.spec';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { MockTagService } from '../../../../testutils/mocks/tag-services/mock-tag.service';
-import { TestStore } from '../../../../testutils/ngrx-test-store';
-
-class StoreStub {}
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { configSelectors } from '../../config';
 
 function createTagServiceStub(listResponse: any, createRespone: any, removeResponce: any) {
   const service = jasmine.createSpyObj('tagService', ['getList', 'create', 'remove']);
@@ -130,7 +129,7 @@ describe('User tags effects new', () => {
   let actions$: TestActions;
   let tagService: TagService;
   let effects: UserTagsEffects;
-  let store: TestStore<any>;
+  let store: MockStore<unknown>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -138,7 +137,9 @@ describe('User tags effects new', () => {
       providers: [
         UserTagsEffects,
         { provide: Actions, useFactory: getActions },
-        { provide: Store, useClass: TestStore },
+        provideMockStore({
+          initialState: {},
+        }),
         { provide: AuthService, useValue: createAuthServiceStub },
         { provide: TagService, useClass: MockTagService },
       ],
@@ -155,7 +156,7 @@ describe('User tags effects new', () => {
       key,
       value: null,
     };
-    store.setState([tag]);
+    store.overrideSelector(configSelectors.getDefaultUserTags, [tag]);
     const action = new DeleteTagSuccess(key);
     const completion = new SetDefaultUserTagDueToDelete(tag);
 

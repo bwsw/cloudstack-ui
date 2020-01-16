@@ -7,13 +7,13 @@ import { NEVER, of } from 'rxjs';
 import { VirtualMachine, VmState } from '../../..';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { osTypes } from '../../../../../testutils/mocks/model-services/fixtures/os-types';
-import { TestStore } from '../../../../../testutils/ngrx-test-store';
 import { ChangeOsType } from '../../../../reducers/vm/redux/vm.actions';
 import { LoadingDirective } from '../../../../shared/directives';
 import { OsTypeService } from '../../../../shared/services/os-type.service';
 import { OsTypeDialogComponent } from './os-type-selector/os-type-dialog.component';
 
 import { OsTypeComponent } from './os-type.component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 describe('OsTypeComponent', () => {
   let component: OsTypeComponent;
@@ -23,7 +23,7 @@ describe('OsTypeComponent', () => {
 
   let dialog;
   let osTypeService;
-  let store;
+  let store: MockStore<unknown>;
 
   const vm: VirtualMachine = require('../../../../../testutils/mocks/model-services/fixtures/vms.json');
 
@@ -34,8 +34,6 @@ describe('OsTypeComponent', () => {
     osTypeService = {
       get: jasmine.createSpy().and.returnValue(of(osTypes[0])),
     };
-    store = new TestStore();
-    spyOn(store, 'dispatch');
 
     TestBed.configureTestingModule({
       declarations: [OsTypeComponent, MockTranslatePipe, mockLoadingDirective],
@@ -48,13 +46,18 @@ describe('OsTypeComponent', () => {
           provide: OsTypeService,
           useValue: osTypeService,
         },
-        { provide: Store, useValue: store },
+        provideMockStore({
+          initialState: {},
+        }),
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    store = TestBed.get(Store);
+    spyOn(store, 'dispatch');
+
     fixture = TestBed.createComponent(OsTypeComponent);
     component = fixture.componentInstance;
     component.vm = vm;

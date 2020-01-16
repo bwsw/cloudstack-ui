@@ -6,7 +6,8 @@ import { finalize, first } from 'rxjs/operators';
 
 import { AuthService } from '../shared/services/auth.service';
 import { SnackBarService } from '../core/services/';
-import { configSelectors, State } from '../root-store';
+import { State } from '../root-store';
+import { getDefaultDomain } from '../root-store/config/config.selectors';
 
 @Component({
   selector: 'cs-login',
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit {
     const domainFromQueryParams = this.route.snapshot.queryParams['domain'];
     this.store
       .pipe(
-        select(configSelectors.get('defaultDomain')),
+        select(getDefaultDomain),
         first(),
       )
       .subscribe(domainFromConfig => {

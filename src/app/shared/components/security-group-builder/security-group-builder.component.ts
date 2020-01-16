@@ -11,7 +11,8 @@ import {
 } from '../../../security-group/sg.model';
 import { securityGroupTagKeys } from '../../services/tags/security-group-tag-keys';
 import { Rules } from './rules';
-import { configSelectors, State } from '../../../root-store';
+import { State } from '../../../root-store';
+import { getSecurityGroupTemplates } from '../../../root-store/config/config.selectors';
 
 export interface RuleListItem {
   rule: NetworkRule;
@@ -61,7 +62,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
     });
 
     accountSecurityGroups
-      .pipe(withLatestFrom(this.store.pipe(select(configSelectors.get('securityGroupTemplates')))))
+      .pipe(withLatestFrom(this.store.pipe(select(getSecurityGroupTemplates))))
       .subscribe(([groups, templates]) => {
         this.securityGroups.available = templates.concat(groups);
 

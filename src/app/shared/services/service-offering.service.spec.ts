@@ -1,15 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store } from '@ngrx/store';
-
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 import { storageTypes } from '../models/offering.model';
 import { ServiceOffering, ServiceOfferingAvailability, Zone } from '../models';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
 import { ServiceOfferingService } from './service-offering.service';
-import { TestStore } from '../../../testutils/ngrx-test-store';
+import { provideMockStore } from '@ngrx/store/testing';
 
 @Injectable()
 class MockErrorService {
@@ -51,7 +49,9 @@ describe('Service-offering service', () => {
         ServiceOfferingService,
         { provide: ErrorService, useClass: MockErrorService },
         { provide: CacheService, useClass: MockCacheService },
-        { provide: Store, useClass: TestStore },
+        provideMockStore({
+          initialState: {},
+        }),
       ],
       imports: [HttpClientTestingModule],
     });

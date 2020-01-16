@@ -1,4 +1,4 @@
-import { serviceOfferingType } from '../../../shared/models';
+import { ServiceOffering, serviceOfferingType } from '../../../shared/models';
 import {
   LOAD_SERVICE_OFFERINGS_REQUEST,
   LOAD_SERVICE_OFFERINGS_RESPONSE,
@@ -76,7 +76,7 @@ describe('Test service offering reducer', () => {
       {
         id: '1',
         name: 'off1',
-      },
+      } as ServiceOffering,
     );
   });
 });

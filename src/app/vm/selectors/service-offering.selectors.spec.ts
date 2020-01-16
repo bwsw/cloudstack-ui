@@ -8,6 +8,7 @@ import {
 } from '../../shared/models';
 import { ResourcesData, ResourceStats } from '../../shared/services/resource-usage.service';
 import * as serviceOfferingSelectors from './service-offering.selectors';
+import { ComputeOfferingViewModel } from '../view-models';
 
 describe('Service Offering Selectors (VM module)', () => {
   it('should get available offerings', () => {
@@ -68,7 +69,7 @@ describe('Service Offering Selectors (VM module)', () => {
         { id: '1', localstorageenabled: false } as Zone,
         {},
       ),
-    ).toEqual([list[1]]);
+    ).toEqual([list[1] as ComputeOfferingViewModel]);
   });
 
   it('should filter offerings by classes', () => {
@@ -208,7 +209,7 @@ describe('Service Offering Selectors (VM module)', () => {
       soClasses,
     );
 
-    expect(res).toEqual(filtered);
+    expect(res).toEqual(filtered as ComputeOfferingViewModel[]);
   });
 
   it('should get filtered offerings (else branch)', () => {
@@ -283,6 +284,6 @@ describe('Service Offering Selectors (VM module)', () => {
       soClasses,
     );
 
-    expect(res).toEqual(filtered);
+    expect(res).toEqual(filtered as ComputeOfferingViewModel[]);
   });
 });
