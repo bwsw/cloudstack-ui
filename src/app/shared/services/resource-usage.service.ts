@@ -15,7 +15,7 @@ export class ResourcesData {
 
   public snapshots = 0;
   public ips = 0;
-  public secondaryStorage = 0;
+  public secondaryStorage = 0; // in GiB
 
   constructor(resources?: ResourceLimit[]) {
     if (resources) {

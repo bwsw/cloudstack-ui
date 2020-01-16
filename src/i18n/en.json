@@ -124,6 +124,7 @@
     },
     "SNAPSHOT": {
       "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first.",
+      "STORAGE_EXCEEDED": "Amount of free disk space required to take a snapshot is {{ required }} GiB but only {{ available }} GiB is available on secondary storage.",
       "CREATION_UNAVAILABLE_FOR_STOPPED": "VM snapshot creation is unavailable for stopped VMs",
       "CREATION_UNAVAILABLE_FOR_DELETED": "VM snapshot creation is unavailable for destroyed VMs",
       "CREATION_UNAVAILABLE": "VM snapshot can not be created. Contact your administrator",
