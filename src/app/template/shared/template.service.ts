@@ -1,3 +1,4 @@
+import { HttpClientNoInterceptors } from './../../shared/services/http-client-no-interceptors';
 import { TemplateTagService } from './../../shared/services/tags/template-tag.service';
 import { AsyncJobService } from './../../shared/services/async-job.service';
 import { Injectable } from '@angular/core';
@@ -25,7 +26,7 @@ export class TemplateService extends BaseTemplateService {
     protected asyncJobService: AsyncJobService,
     protected templateTagService: TemplateTagService,
     protected http: HttpClient,
-    private httpBackend: HttpBackend,
+    private httpClientNoInterceptors: HttpClientNoInterceptors,
   ) {
     super(asyncJobService, templateTagService, http);
   }
@@ -76,8 +77,7 @@ export class TemplateService extends BaseTemplateService {
     const formData = new FormData();
     formData.append('file', localTemplate);
 
-    const httpClient = new HttpClient(this.httpBackend); // bypass interceptor
-    return httpClient.post(postURL, formData, {
+    return this.httpClientNoInterceptors.post(postURL, formData, {
       headers: new HttpHeaders({
         'X-expires': expires,
         'X-metadata': metadata,

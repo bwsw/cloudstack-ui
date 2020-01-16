@@ -1,3 +1,4 @@
+import { HttpClientNoInterceptors } from './services/http-client-no-interceptors';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -376,6 +377,7 @@ const SHARED_COMPONENTS = [
     DomainService,
     ErrorService,
     GatewayApiService,
+    HttpClientNoInterceptors,
     JobsNotificationService,
     LocalStorageService,
     LoginGuard,
