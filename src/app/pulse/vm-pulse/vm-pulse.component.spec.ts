@@ -80,6 +80,15 @@ describe('VmPulseComponent', () => {
     expect(component.shiftAmount).toBe(1);
   });
 
+  it('should provide a default value for shiftAmount', () => {
+    persistence.readParams.and.returnValue({
+      shiftAmount: undefined,
+    });
+
+    fixture.detectChanges(); // results in ngOnInit call
+    expect(component.shiftAmount).toBe(0);
+  });
+
   describe('storage updates', () => {
     beforeEach(() => {
       persistence.readParams.and.returnValue({});
