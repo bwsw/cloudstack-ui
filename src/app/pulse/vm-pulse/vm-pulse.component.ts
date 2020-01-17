@@ -235,7 +235,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     this._selectedScale = this.getScale(persistedParams.scaleRange);
     this._selectedAggregations = this.getAggregations(persistedParams.aggregations);
     this._selectedShift = this.getShift(persistedParams.shift);
-    this._shiftAmount = persistedParams.shiftAmount;
+    this._shiftAmount = persistedParams.shiftAmount || 0;
 
     this.refresh();
   }
