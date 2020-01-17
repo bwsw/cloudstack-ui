@@ -77,6 +77,8 @@ export class TemplateService extends BaseTemplateService {
     const formData = new FormData();
     formData.append('file', localTemplate);
 
+    // no interceptors because this is not a CS endpoint
+    // and we don't want to add CS related headers and params to the request
     return this.httpClientNoInterceptors.post(postURL, formData, {
       headers: new HttpHeaders({
         'X-expires': expires,
