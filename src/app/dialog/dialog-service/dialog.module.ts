@@ -20,7 +20,12 @@ import { HttpClientModule } from '@angular/common/http';
     MatExpansionModule,
     HttpClientModule,
   ],
-  exports: [ConfirmDialogComponent, AlertDialogComponent, AskDialogComponent],
+  exports: [
+    ConfirmDialogComponent,
+    AlertDialogComponent,
+    AskDialogComponent,
+    SupportInformationComponent,
+  ],
   declarations: [
     ConfirmDialogComponent,
     AlertDialogComponent,
