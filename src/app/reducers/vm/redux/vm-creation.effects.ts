@@ -106,8 +106,17 @@ export class VirtualMachineCreationEffects {
             .filter(key => resources.indexOf(key) !== -1)
             .forEach(key => {
               const available = resourceUsage.available[key];
-              if (available === 0) {
-                insufficientResources.push(key);
+              const max = resourceUsage.max[key];
+
+              let resource: string | undefined;
+              if (max === 0) {
+                resource = `max_${key}`;
+              } else if (available === 0) {
+                resource = key;
+              }
+
+              if (resource) {
+                insufficientResources.push(resource);
               }
             });
 

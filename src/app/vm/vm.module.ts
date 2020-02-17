@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
+import { DialogModule } from '../dialog/dialog-service/dialog.module';
 import { MaterialModule } from '../material/material.module';
 import { PulseModule } from '../pulse/pulse.module';
 // tslint:disable max-line-length
@@ -158,6 +159,7 @@ import { InsufficientResourcesComponent } from './vm-creation/insufficient-resou
       AccountTagsEffects,
       ServiceOfferingEffects,
     ]),
+    DialogModule,
   ],
   declarations: [
     AffinityGroupComponent,

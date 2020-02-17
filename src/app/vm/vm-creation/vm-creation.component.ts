@@ -188,6 +188,7 @@ export class VmCreationComponent {
   public isSubmitButtonDisabled(isFormValid: boolean): boolean {
     return (
       !isFormValid ||
+      !this.enoughResources ||
       this.hostNameIsTaken() ||
       !this.vmCreationState.template ||
       !this.vmCreationState.serviceOffering ||

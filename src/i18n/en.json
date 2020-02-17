@@ -647,6 +647,8 @@
       "NO_SSH_KEY": "No SSH key",
       "START_VM": "Start VM",
       "YOU_RAN_OUT_OF": "You ran out of",
+      "NO_AVAILABLE_INSTANCES": "It's not possible to create VM because your account reached the maximum available VM amount. Please, contact support team.",
+      "NO_MAX_INSTANCES": "You are not allowed to create VM because VM limit is set to 0, Please, contact support team.",
       "CPUS": "CPU",
       "MEMORY": "RAM",
       "INSTANCES": "VMs",
