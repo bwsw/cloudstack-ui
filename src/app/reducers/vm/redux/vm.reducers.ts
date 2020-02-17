@@ -417,7 +417,8 @@ export function formReducer(
     case vmActions.VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE: {
       return {
         ...state,
-        enoughResources: action.payload,
+        enoughResources: action.payload.enoughResources,
+        insufficientResources: action.payload.insufficientResources,
         loading: false,
         loaded: true,
       };

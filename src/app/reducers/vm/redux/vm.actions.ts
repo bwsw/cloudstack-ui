@@ -403,7 +403,7 @@ export class VmCreationStateUpdate implements Action {
 export class VmCreationEnoughResourceUpdateState implements Action {
   type = VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE;
 
-  constructor(public payload: boolean) {}
+  constructor(public payload: { enoughResources: boolean; insufficientResources: string[] }) {}
 }
 
 export class VmInitialZoneSelect implements Action {

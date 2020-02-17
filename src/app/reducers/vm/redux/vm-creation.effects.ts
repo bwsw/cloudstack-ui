@@ -99,13 +99,11 @@ export class VirtualMachineCreationEffects {
     switchMap((action: vmActions.VmCreationFormInit) =>
       this.resourceUsageService.getResourceUsage().pipe(
         switchMap(resourceUsage => {
-          const insufficientResources = [];
+          const resources = ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'];
 
+          const insufficientResources = [];
           Object.keys(resourceUsage.available)
-            .filter(
-              key =>
-                ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'].indexOf(key) !== -1,
-            )
+            .filter(key => resources.indexOf(key) !== -1)
             .forEach(key => {
               const available = resourceUsage.available[key];
               if (available === 0) {
@@ -116,7 +114,10 @@ export class VirtualMachineCreationEffects {
           const enoughResources = !insufficientResources.length;
 
           return of(
-            new vmActions.VmCreationEnoughResourceUpdateState(enoughResources),
+            new vmActions.VmCreationEnoughResourceUpdateState({
+              enoughResources,
+              insufficientResources,
+            }),
             new vmActions.VmInitialZoneSelect(),
             new vmActions.VmInitialSecurityGroupsSelect(),
           );

@@ -47,10 +47,14 @@
     >
       <div class="container">
         <ng-container
-          *ngIf="enoughResources && vmCreationState; then enoughResources; else notEnoughResources"
+          *ngIf="
+            enoughResources && vmCreationState;
+            then enoughResourcesT;
+            else notEnoughResourcesT
+          "
         >
         </ng-container>
-        <ng-template #enoughResources>
+        <ng-template #enoughResourcesT>
           <mat-tab-group>
             <mat-tab [label]="'VM_PAGE.VM_CREATION.GENERAL' | translate">
               <div class="settings-column">
@@ -241,7 +245,7 @@
           </mat-tab-group>
         </ng-template>
 
-        <ng-template #notEnoughResources>
+        <ng-template #notEnoughResourcesT>
           <div>
             {{ 'ERRORS.VM.INSUFFICIENT_RESOURCES' | translate }}
             <div *ngIf="insufficientResources?.length">
