@@ -1,0 +1,19 @@
+<div *ngIf="noInstances || noMaxInstances; else resourcesT">
+  <ng-container *ngIf="noInstances; else noMax">
+    {{ 'VM_PAGE.VM_CREATION.NO_AVAILABLE_INSTANCES' | translate }}
+  </ng-container>
+  <ng-template #noMax>{{ 'VM_PAGE.VM_CREATION.NO_MAX_INSTANCES' | translate }} </ng-template>
+</div>
+
+<ng-template #resourcesT>
+  {{ 'ERRORS.VM.INSUFFICIENT_RESOURCES' | translate }}
+  <div *ngIf="resources?.size">
+    {{ 'VM_PAGE.VM_CREATION.YOU_RAN_OUT_OF' | translate }}
+    <ng-container *ngFor="let resource of resources; let l = last">
+      {{ insufficientResourcesErrorMap[resource] | translate }}
+      <ng-container *ngIf="!l">,</ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+<cs-support-information></cs-support-information>

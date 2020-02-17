@@ -31,7 +31,7 @@ export class SupportInformationComponent implements OnInit {
 
   public convertFile() {
     this.readFile().subscribe(response => {
-      const text = response.text();
+      const text = response;
 
       const converter = new Converter();
       const supportText = converter.makeHtml(text);
@@ -47,8 +47,8 @@ export class SupportInformationComponent implements OnInit {
     }
 
     const request = this.getPath().pipe(
-      switchMap(responsePath => this.http.get(responsePath)),
-      catchError(() => this.http.get(this.defaultLangPath)),
+      switchMap(responsePath => this.http.get(responsePath, { responseType: 'text' })),
+      catchError(() => this.http.get(this.defaultLangPath, { responseType: 'text' })),
       catchError(error => {
         this.isShow = false;
         return throwError(error);

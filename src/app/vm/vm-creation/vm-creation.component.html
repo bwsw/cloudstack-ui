@@ -46,212 +46,199 @@
       novalidate
     >
       <div class="container">
-        <ng-container
-          *ngIf="enoughResources && vmCreationState; then enoughResources; else notEnoughResources"
-        >
-        </ng-container>
-        <ng-template #enoughResources>
-          <mat-tab-group>
-            <mat-tab [label]="'VM_PAGE.VM_CREATION.GENERAL' | translate">
-              <div class="settings-column">
-                <div>
-                  <h4>{{ 'VM_PAGE.VM_CREATION.DISPLAY_NAME' | translate }}</h4>
-                  <mat-form-field floatLabel="never" class="full-width-input">
-                    <input
-                      matInput
-                      name="displayName"
-                      [ngModel]="vmCreationState.displayName"
-                      (ngModelChange)="displayNameChange.emit($event)"
-                      [placeholder]="'VM_PAGE.VM_CREATION.DISPLAY_NAME' | translate"
-                      [maxlength]="32"
-                      [minlength]="1"
-                      pattern="^[\S]{0}.{0,30}[\S]$"
-                      required
-                    />
-                    <mat-hint align="end">
-                      <cs-character-count
-                        [value]="vmCreationState.displayName"
-                        [maxLength]="32"
-                      ></cs-character-count>
-                    </mat-hint>
-                  </mat-form-field>
-                </div>
-
-                <div>
-                  <h4>{{ 'VM_PAGE.VM_CREATION.ZONE' | translate }}</h4>
-                  <mat-form-field class="form-select-control">
-                    <mat-select
-                      name="zone"
-                      [ngModel]="vmCreationState.zone"
-                      [compareWith]="compareZones"
-                      (selectionChange)="zoneChange.emit($event.value)"
-                    >
-                      <mat-option *ngFor="let z of zones" [value]="z"> {{ z.name }} </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-
-                <div *ngIf="vmCreationState.zone" class="dialog-select-wrapper">
-                  <cs-service-offering-selector
-                    name="serviceOffering"
-                    [serviceOffering]="vmCreationState.serviceOffering"
-                    (changed)="serviceOfferingChange.emit($event)"
-                  ></cs-service-offering-selector>
-                </div>
-                <div class="dialog-select-wrapper" *ngIf="vmCreationState.zone">
-                  <cs-vm-creation-template-container
-                    [template]="vmCreationState.template"
-                    (changed)="changeTemplate($event)"
-                  ></cs-vm-creation-template-container>
-                </div>
-
-                <div *ngIf="diskOfferingsAreAllowed()">
-                  <cs-disk-offering-selector
-                    name="diskOffering"
-                    [availableStorage]="account.primarystorageavailable"
-                    [min]="minSize"
-                    [diskOfferings]="diskOfferings"
-                    [account]="account"
-                    [diskOffering]="vmCreationState?.diskOffering"
-                    [customDiskOfferingMinSize]="minSize"
-                    [customDiskOfferingMaxSize]="maxRootSize"
-                    (changed)="diskOfferingChange.emit($event)"
-                  ></cs-disk-offering-selector>
-                </div>
-
-                <cs-error-message *ngIf="!isDiskOfferingAvailableByResources">
-                  {{ 'ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED' | translate }}
-                </cs-error-message>
-
-                <div *ngIf="showResizeSlider()">
-                  <cs-slider
-                    name="rds"
-                    [min]="vmCreationState.rootDiskMinSize"
-                    [max]="rootDiskSizeLimit()"
-                    [label]="'VM_PAGE.VM_CREATION.DISK_SIZE' | translate"
-                    [ngModel]="vmCreationState.rootDiskSize"
-                    (ngModelChange)="rootDiskSizeChange.emit($event)"
-                    [units]="'UNITS.GB' | translate"
-                  ></cs-slider>
-                </div>
+        <mat-tab-group *ngIf="enoughResources && vmCreationState; else notEnoughResourcesT">
+          <mat-tab [label]="'VM_PAGE.VM_CREATION.GENERAL' | translate">
+            <div class="settings-column">
+              <div>
+                <h4>{{ 'VM_PAGE.VM_CREATION.DISPLAY_NAME' | translate }}</h4>
+                <mat-form-field floatLabel="never" class="full-width-input">
+                  <input
+                    matInput
+                    name="displayName"
+                    [ngModel]="vmCreationState.displayName"
+                    (ngModelChange)="displayNameChange.emit($event)"
+                    [placeholder]="'VM_PAGE.VM_CREATION.DISPLAY_NAME' | translate"
+                    [maxlength]="32"
+                    [minlength]="1"
+                    pattern="^[\S]{0}.{0,30}[\S]$"
+                    required
+                  />
+                  <mat-hint align="end">
+                    <cs-character-count
+                      [value]="vmCreationState.displayName"
+                      [maxLength]="32"
+                    ></cs-character-count>
+                  </mat-hint>
+                </mat-form-field>
               </div>
-            </mat-tab>
 
-            <mat-tab [label]="'VM_PAGE.VM_CREATION.ADVANCED' | translate">
-              <div class="settings-column">
-                <div>
-                  <h4>{{ 'VM_PAGE.VM_CREATION.HOST_NAME' | translate }}</h4>
-                  <mat-form-field floatLabel="never" class="full-width-input">
-                    <input
-                      matInput
-                      name="hostName"
-                      [ngModel]="vmCreationState.name"
-                      (ngModelChange)="hostNameChange.emit($event)"
-                      [placeholder]="'VM_PAGE.VM_CREATION.HOST_NAME' | translate"
-                      pattern="^[a-zA-Z]{0}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
-                      [maxlength]="maxEntityNameLength"
-                    />
-                    <mat-hint align="end">
-                      <cs-character-count
-                        [value]="vmCreationState.name"
-                        [maxLength]="maxEntityNameLength"
-                      ></cs-character-count>
-                    </mat-hint>
-                  </mat-form-field>
-                  <mat-error *ngIf="hostNameIsTaken()">
-                    {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
-                  </mat-error>
-                </div>
-
-                <div>
-                  <h4>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h4>
-                  <mat-form-field floatLabel="never">
-                    <input
-                      name="instanceGroup"
-                      matInput
-                      [matAutocomplete]="instanceGroups"
-                      [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-                      [ngModel]="vmCreationState.instanceGroup"
-                      (ngModelChange)="changeInstanceGroup($event)"
-                    />
-                  </mat-form-field>
-                  <mat-autocomplete #instanceGroups>
-                    <mat-option
-                      *ngFor="let group of visibleInstanceGroups || instanceGroupList"
-                      [value]="group"
-                    >
-                      {{ group }}
-                    </mat-option>
-                  </mat-autocomplete>
-                </div>
-
-                <div>
-                  <cs-vm-creation-affinity-group-manager
-                    [affinityGroup]="vmCreationState.affinityGroup"
-                    (affinityGroupChanged)="changeAffinityGroup($event)"
-                  ></cs-vm-creation-affinity-group-manager>
-                </div>
-
-                <div>
-                  <cs-vm-creation-security-group-rules-manager
-                    name="sgm"
-                    class="sg-rules-manager"
-                    *ngIf="showSecurityGroups()"
-                    [ngModel]="vmCreationState.securityGroupData"
-                    (ngModelChange)="securityRulesChange.emit($event)"
-                  ></cs-vm-creation-security-group-rules-manager>
-                </div>
-
-                <div>
-                  <h4>{{ 'VM_PAGE.VM_CREATION.SSH_KEY_PAIR' | translate }}</h4>
-                  <cs-vm-creation-ssh-key-selector
-                    [sshKeyPair]="vmCreationState.sshKeyPair"
-                    [sshKeyPairs]="sshKeyPairs"
-                    (sshKeyPairChange)="sshKeyPairChanged.emit($event)"
-                  ></cs-vm-creation-ssh-key-selector>
-                </div>
-
-                <div class="start-vm-checkbox">
-                  <mat-checkbox
-                    name="startVm"
-                    [ngModel]="vmCreationState.doStartVm"
-                    (ngModelChange)="doStartVmChange.emit($event)"
+              <div>
+                <h4>{{ 'VM_PAGE.VM_CREATION.ZONE' | translate }}</h4>
+                <mat-form-field class="form-select-control">
+                  <mat-select
+                    name="zone"
+                    [ngModel]="vmCreationState.zone"
+                    [compareWith]="compareZones"
+                    (selectionChange)="zoneChange.emit($event.value)"
                   >
-                    {{ 'VM_PAGE.VM_CREATION.START_VM' | translate }}
-                  </mat-checkbox>
-                </div>
+                    <mat-option *ngFor="let z of zones" [value]="z"> {{ z.name }} </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
-            </mat-tab>
 
-            <mat-tab [label]="'VM_PAGE.VM_CREATION.USER_DATA' | translate">
-              <mat-form-field class="full-width-input">
-                <textarea
-                  matInput
-                  name="userData"
-                  class="userdata-field"
-                  matTextareaAutosize
-                  matAutosizeMinRows="1"
-                  matAutosizeMaxRows="10"
-                  [ngModel]="vmCreationState.userData"
-                  (ngModelChange)="userDataChanged.emit($event)"
-                  [placeholder]="'VM_PAGE.VM_CREATION.USER_DATA' | translate"
-                ></textarea>
-              </mat-form-field>
-            </mat-tab>
-          </mat-tab-group>
-        </ng-template>
+              <div *ngIf="vmCreationState.zone" class="dialog-select-wrapper">
+                <cs-service-offering-selector
+                  name="serviceOffering"
+                  [serviceOffering]="vmCreationState.serviceOffering"
+                  (changed)="serviceOfferingChange.emit($event)"
+                ></cs-service-offering-selector>
+              </div>
+              <div class="dialog-select-wrapper" *ngIf="vmCreationState.zone">
+                <cs-vm-creation-template-container
+                  [template]="vmCreationState.template"
+                  (changed)="changeTemplate($event)"
+                ></cs-vm-creation-template-container>
+              </div>
 
-        <ng-template #notEnoughResources>
-          <div>
-            {{ 'ERRORS.VM.INSUFFICIENT_RESOURCES' | translate }}
-            <div *ngIf="insufficientResources?.length">
-              {{ 'VM_PAGE.VM_CREATION.YOU_RAN_OUT_OF' | translate }}
-              <ng-container *ngFor="let resource of insufficientResources; let l = last">
-                {{ insufficientResourcesErrorMap[resource] | translate }}
-                <ng-container *ngIf="!l">,</ng-container>
-              </ng-container>
+              <div *ngIf="diskOfferingsAreAllowed()">
+                <cs-disk-offering-selector
+                  name="diskOffering"
+                  [availableStorage]="account.primarystorageavailable"
+                  [min]="minSize"
+                  [diskOfferings]="diskOfferings"
+                  [account]="account"
+                  [diskOffering]="vmCreationState?.diskOffering"
+                  [customDiskOfferingMinSize]="minSize"
+                  [customDiskOfferingMaxSize]="maxRootSize"
+                  (changed)="diskOfferingChange.emit($event)"
+                ></cs-disk-offering-selector>
+              </div>
+
+              <cs-error-message *ngIf="!isDiskOfferingAvailableByResources">
+                {{ 'ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED' | translate }}
+              </cs-error-message>
+
+              <div *ngIf="showResizeSlider()">
+                <cs-slider
+                  name="rds"
+                  [min]="vmCreationState.rootDiskMinSize"
+                  [max]="rootDiskSizeLimit()"
+                  [label]="'VM_PAGE.VM_CREATION.DISK_SIZE' | translate"
+                  [ngModel]="vmCreationState.rootDiskSize"
+                  (ngModelChange)="rootDiskSizeChange.emit($event)"
+                  [units]="'UNITS.GB' | translate"
+                ></cs-slider>
+              </div>
             </div>
-          </div>
+          </mat-tab>
+
+          <mat-tab [label]="'VM_PAGE.VM_CREATION.ADVANCED' | translate">
+            <div class="settings-column">
+              <div>
+                <h4>{{ 'VM_PAGE.VM_CREATION.HOST_NAME' | translate }}</h4>
+                <mat-form-field floatLabel="never" class="full-width-input">
+                  <input
+                    matInput
+                    name="hostName"
+                    [ngModel]="vmCreationState.name"
+                    (ngModelChange)="hostNameChange.emit($event)"
+                    [placeholder]="'VM_PAGE.VM_CREATION.HOST_NAME' | translate"
+                    pattern="^[a-zA-Z]{0}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
+                    [maxlength]="maxEntityNameLength"
+                  />
+                  <mat-hint align="end">
+                    <cs-character-count
+                      [value]="vmCreationState.name"
+                      [maxLength]="maxEntityNameLength"
+                    ></cs-character-count>
+                  </mat-hint>
+                </mat-form-field>
+                <mat-error *ngIf="hostNameIsTaken()">
+                  {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
+                </mat-error>
+              </div>
+
+              <div>
+                <h4>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h4>
+                <mat-form-field floatLabel="never">
+                  <input
+                    name="instanceGroup"
+                    matInput
+                    [matAutocomplete]="instanceGroups"
+                    [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
+                    [ngModel]="vmCreationState.instanceGroup"
+                    (ngModelChange)="changeInstanceGroup($event)"
+                  />
+                </mat-form-field>
+                <mat-autocomplete #instanceGroups>
+                  <mat-option
+                    *ngFor="let group of visibleInstanceGroups || instanceGroupList"
+                    [value]="group"
+                  >
+                    {{ group }}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+
+              <div>
+                <cs-vm-creation-affinity-group-manager
+                  [affinityGroup]="vmCreationState.affinityGroup"
+                  (affinityGroupChanged)="changeAffinityGroup($event)"
+                ></cs-vm-creation-affinity-group-manager>
+              </div>
+
+              <div>
+                <cs-vm-creation-security-group-rules-manager
+                  name="sgm"
+                  class="sg-rules-manager"
+                  *ngIf="showSecurityGroups()"
+                  [ngModel]="vmCreationState.securityGroupData"
+                  (ngModelChange)="securityRulesChange.emit($event)"
+                ></cs-vm-creation-security-group-rules-manager>
+              </div>
+
+              <div>
+                <h4>{{ 'VM_PAGE.VM_CREATION.SSH_KEY_PAIR' | translate }}</h4>
+                <cs-vm-creation-ssh-key-selector
+                  [sshKeyPair]="vmCreationState.sshKeyPair"
+                  [sshKeyPairs]="sshKeyPairs"
+                  (sshKeyPairChange)="sshKeyPairChanged.emit($event)"
+                ></cs-vm-creation-ssh-key-selector>
+              </div>
+
+              <div class="start-vm-checkbox">
+                <mat-checkbox
+                  name="startVm"
+                  [ngModel]="vmCreationState.doStartVm"
+                  (ngModelChange)="doStartVmChange.emit($event)"
+                >
+                  {{ 'VM_PAGE.VM_CREATION.START_VM' | translate }}
+                </mat-checkbox>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab [label]="'VM_PAGE.VM_CREATION.USER_DATA' | translate">
+            <mat-form-field class="full-width-input">
+              <textarea
+                matInput
+                name="userData"
+                class="userdata-field"
+                matTextareaAutosize
+                matAutosizeMinRows="1"
+                matAutosizeMaxRows="10"
+                [ngModel]="vmCreationState.userData"
+                (ngModelChange)="userDataChanged.emit($event)"
+                [placeholder]="'VM_PAGE.VM_CREATION.USER_DATA' | translate"
+              ></textarea>
+            </mat-form-field>
+          </mat-tab>
+        </mat-tab-group>
+
+        <ng-template #notEnoughResourcesT>
+          <cs-insufficient-resources
+            [insufficientResources]="insufficientResources"
+          ></cs-insufficient-resources>
         </ng-template>
       </div>
 

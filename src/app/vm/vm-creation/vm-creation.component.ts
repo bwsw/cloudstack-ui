@@ -109,15 +109,6 @@ export class VmCreationComponent {
   @Output()
   public cancel = new EventEmitter();
 
-  public insufficientResourcesErrorMap = {
-    instances: 'VM_PAGE.VM_CREATION.INSTANCES',
-    ips: 'VM_PAGE.VM_CREATION.IPS',
-    volumes: 'VM_PAGE.VM_CREATION.VOLUMES',
-    cpus: 'VM_PAGE.VM_CREATION.CPUS',
-    memory: 'VM_PAGE.VM_CREATION.MEMORY',
-    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE',
-  };
-
   public maxEntityNameLength = 63;
   public visibleInstanceGroups: string[];
 
@@ -197,6 +188,7 @@ export class VmCreationComponent {
   public isSubmitButtonDisabled(isFormValid: boolean): boolean {
     return (
       !isFormValid ||
+      !this.enoughResources ||
       this.hostNameIsTaken() ||
       !this.vmCreationState.template ||
       !this.vmCreationState.serviceOffering ||

@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
+import { DialogModule } from '../dialog/dialog-service/dialog.module';
 import { MaterialModule } from '../material/material.module';
 import { PulseModule } from '../pulse/pulse.module';
 // tslint:disable max-line-length
@@ -122,6 +123,7 @@ import { OsTypeComponent } from './vm-sidebar/vm-detail/os-type/os-type.componen
 import { OsTypeDialogComponent } from './vm-sidebar/vm-detail/os-type/os-type-selector/os-type-dialog.component';
 import { VmRestoreDialogComponent } from './shared/vm-restore-dialog/vm-restore-dialog.component';
 import { VmSnapshotsCheckerDialogComponent } from './shared/vm-snapshots-checker-dialog/vm-snapshots-checker-dialog.component';
+import { InsufficientResourcesComponent } from './vm-creation/insufficient-resources/insufficient-resources.component';
 
 // tslint:enable max-line-length
 
@@ -157,6 +159,7 @@ import { VmSnapshotsCheckerDialogComponent } from './shared/vm-snapshots-checker
       AccountTagsEffects,
       ServiceOfferingEffects,
     ]),
+    DialogModule,
   ],
   declarations: [
     AffinityGroupComponent,
@@ -248,6 +251,7 @@ import { VmSnapshotsCheckerDialogComponent } from './shared/vm-snapshots-checker
     OsTypeDialogComponent,
     VmRestoreDialogComponent,
     VmSnapshotsCheckerDialogComponent,
+    InsufficientResourcesComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
