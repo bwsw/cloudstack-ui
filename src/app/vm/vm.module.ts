@@ -122,6 +122,7 @@ import { OsTypeComponent } from './vm-sidebar/vm-detail/os-type/os-type.componen
 import { OsTypeDialogComponent } from './vm-sidebar/vm-detail/os-type/os-type-selector/os-type-dialog.component';
 import { VmRestoreDialogComponent } from './shared/vm-restore-dialog/vm-restore-dialog.component';
 import { VmSnapshotsCheckerDialogComponent } from './shared/vm-snapshots-checker-dialog/vm-snapshots-checker-dialog.component';
+import { InsufficientResourcesComponent } from './vm-creation/insufficient-resources/insufficient-resources.component';
 
 // tslint:enable max-line-length
 
@@ -248,6 +249,7 @@ import { VmSnapshotsCheckerDialogComponent } from './shared/vm-snapshots-checker
     OsTypeDialogComponent,
     VmRestoreDialogComponent,
     VmSnapshotsCheckerDialogComponent,
+    InsufficientResourcesComponent,
   ],
   providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [

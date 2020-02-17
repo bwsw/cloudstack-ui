@@ -1,0 +1,8 @@
+{{ 'ERRORS.VM.INSUFFICIENT_RESOURCES' | translate }}
+<div *ngIf="insufficientResources?.length">
+  {{ 'VM_PAGE.VM_CREATION.YOU_RAN_OUT_OF' | translate }}
+  <ng-container *ngFor="let resource of insufficientResources; let l = last">
+    {{ insufficientResourcesErrorMap[resource] | translate }}
+    <ng-container *ngIf="!l">,</ng-container>
+  </ng-container>
+</div>
