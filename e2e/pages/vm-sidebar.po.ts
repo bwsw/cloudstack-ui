@@ -5,6 +5,7 @@ export class VMSidebar extends CloudstackUiPage {
   group = `e2e_group_${this.generateID()}`;
   aff = `aff_${this.generateID()}`;
   EC = browser.ExpectedConditions;
+  volume = `e2e_volume_${this.generateID()}`;
 
   clickColorChange() {
     const elem = element(by.css('.color-preview-container'));
@@ -299,6 +300,148 @@ export class VMSidebar extends CloudstackUiPage {
 
   setAffGroupName(name) {
     element(by.css('input[formControlName=name]')).sendKeys(name);
+  }
+
+  clickStorageTab() {
+    element
+      .all(by.css('.mat-tab-link'))
+      .get(1)
+      .click();
+  }
+
+  clickCreateNewVolume() {
+    browser.wait(
+      this.EC.elementToBeClickable(element(by.css('cs-volume-attachment-detail a'))),
+      2000,
+      `There isn't "create a new one" link`,
+    );
+    element(by.css('cs-volume-attachment-detail a')).click();
+  }
+
+  clickAttachVolume() {
+    browser.wait(
+      this.EC.elementToBeClickable(element(by.css('cs-volume-attachment-detail button'))),
+      2000,
+      `There isn't attach volume button`,
+    );
+    element(by.css('cs-volume-attachment-detail button')).click();
+  }
+
+  selectVolume() {
+    element(by.css('.form-select-control')).click();
+    element
+      .all(by.css('.mat-option'))
+      .first()
+      .click();
+  }
+
+  getVolumeName() {
+    return element(by.css('.mat-select-value-text span')).getText();
+  }
+
+  checkVolumeName(name) {
+    const volumename = element
+      .all(by.css('cs-volume'))
+      .last()
+      .element(by.css('.mat-card-title-text'));
+    expect(volumename.getText()).toEqual(name, 'Volume names do not match');
+  }
+
+  createSnapshot() {
+    element
+      .all(by.css('cs-volume'))
+      .last()
+      .element(by.css('button.ng-star-inserted'))
+      .click();
+    element(by.css('cs-volume-actions'))
+      .all(by.css('button span'))
+      .first()
+      .click();
+    this.waitDialogModal();
+    const snapname = element(by.css('[ng-reflect-placeholder=Name]')).getAttribute('value');
+    this.clickYesDialogButton();
+    return snapname;
+  }
+
+  createVolumeFromSnapshot() {
+    element(by.css('button mat-icon.mdi-dns')).click();
+    this.waitDialogModal();
+    element(by.css('cs-create-volume-from-snapshot input')).sendKeys(this.volume);
+    const volumename = element(by.css('cs-create-volume-from-snapshot input')).getAttribute(
+      'value',
+    );
+    this.clickYesDialogButton();
+    return volumename;
+  }
+
+  deleteSnapshot() {
+    element(by.css('button mat-icon.mdi-delete')).click();
+    this.waitDialogModal();
+    this.clickYesDialogButton();
+  }
+
+  checkSnapshotNameSidebar(name) {
+    const snapshotname = element(by.css('.snapshot-name'));
+    expect(snapshotname.getText()).toEqual(name, 'Snapshot names does not match');
+  }
+
+  checkSnapshotNameDialog(name) {
+    const snapshotname = element(by.css('.mat-cell.mat-column-name'));
+    expect(snapshotname.getText()).toEqual(name, 'Snapshot names does not match');
+  }
+
+  checkLackSnapshots() {
+    expect(element(by.css('cs-snapshots .last-snapshot')).isPresent()).toBeFalsy(
+      "Snapshot wasn't deleted",
+    );
+  }
+
+  checkVolumeActionBox() {
+    const actionBoxButton = element
+      .all(by.css('cs-volume'))
+      .last()
+      .element(by.css('button.ng-star-inserted'));
+    const actionBoxItems = element(by.css('cs-volume-actions')).all(by.css('button span'));
+    actionBoxButton.click();
+    this.checkActionBoxItem(actionBoxItems, 0, 'Take a snapshot');
+    this.checkActionBoxItem(actionBoxItems, 1, 'Set up snapshot schedule');
+    this.checkActionBoxItem(actionBoxItems, 2, 'Detach');
+    this.checkActionBoxItem(actionBoxItems, 3, 'Resize the disk');
+    this.checkActionBoxItem(actionBoxItems, 4, 'Delete');
+    this.clickCloseSidebar();
+  }
+
+  checkRootVolumeActionBox() {
+    const actionBoxButton = element
+      .all(by.css('cs-volume'))
+      .first()
+      .element(by.css('button.ng-star-inserted'));
+    const actionBoxItems = element(by.css('cs-volume-actions')).all(by.css('button span'));
+    actionBoxButton.click();
+    this.checkActionBoxItem(actionBoxItems, 0, 'Take a snapshot');
+    this.checkActionBoxItem(actionBoxItems, 1, 'Set up snapshot schedule');
+    this.checkActionBoxItem(actionBoxItems, 2, 'Resize the disk');
+    this.clickCloseSidebar();
+  }
+
+  checkSnapshotActions() {
+    this.checkSnapshotActionItem('mdi-disc');
+    this.checkSnapshotActionItem('mdi-dns');
+    this.checkSnapshotActionItem('mdi-backup-restore');
+    this.checkSnapshotActionItem('mdi-delete');
+  }
+
+  clickViewAllSnaoshots() {
+    element(by.css('.last-snapshot .mat-button.mat-primary')).click();
+  }
+
+  checkActionBoxItem(actionbox, index, text) {
+    expect(actionbox.get(index).getText()).toEqual(text);
+  }
+
+  checkSnapshotActionItem(locator) {
+    const action = element(by.css(`button mat-icon.${locator}`));
+    expect(action.isPresent()).toBeTruthy(`Snapshot action with "${locator}" locator wasn't find`);
   }
 
   waitSidebar() {
