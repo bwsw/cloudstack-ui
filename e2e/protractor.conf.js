@@ -35,11 +35,13 @@ exports.config = {
     disk_creation: 'disk-creation.e2e-spec.ts',
     disk_details: 'disk-details.e2e-spec.ts',
     vm_sidebar: 'vm-sidebar.e2e-spec.ts',
+    vm_list: 'vm-list.e2e-spec.ts',
     CI: [
       'login.e2e-spec.ts',
       'sg-creation.e2e-spec.ts',
       'disk-creation.e2e-spec.ts',
       'vm-creation.e2e-spec.ts',
+      'vm-list.e2e-spec.ts',
       'disk-details.e2e-spec.ts',
     ],
   },

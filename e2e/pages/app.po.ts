@@ -216,6 +216,15 @@ export class CloudstackUiPage {
       .substr(2, 9);
   }
 
+  waitActionProcess() {
+    const EC = browser.ExpectedConditions;
+    browser.wait(
+      EC.presenceOf(element(by.css('.open'))),
+      5000,
+      'Sidebar Action process is timeout',
+    );
+  }
+
   clickBell() {
     browser
       .actions()
@@ -234,6 +243,25 @@ export class CloudstackUiPage {
 
   verifyBellMessage(text) {
     return element(by.cssContainingText('.message', text)).isPresent();
+  }
+
+  clickCloseActionBox() {
+    element(
+      by.css('.cdk-overlay-backdrop.cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing'),
+    ).click();
+  }
+
+  clickCheckBox() {
+    element(by.css('.mat-checkbox-layout')).click();
+  }
+
+  clickOpenSidebar(index) {
+    element
+      .all(by.css('.entity-card.mat-card.light-background'))
+      .get(index)
+      .click();
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(element(by.tagName('h4'))), 5000);
   }
 
   clickCloseSidebar() {
@@ -256,6 +284,51 @@ export class CloudstackUiPage {
       .isPresent()
       .catch(() => {
         element(by.name('showSystemTags')).click();
+      });
+  }
+
+  setShowSystemTag() {
+    element(by.xpath("//mat-checkbox[contains(@class,'mat-checkbox-checked')]"))
+      .isPresent()
+      .then(result => {
+        if (!result) {
+          element(by.name('showSystemTags')).click();
+        }
+      });
+  }
+
+  waitBellMessage(text) {
+    const EC = browser.ExpectedConditions;
+    browser.wait(
+      EC.visibilityOf(element(by.cssContainingText('.message', text))),
+      5000,
+      'No Bell message appears',
+    );
+  }
+
+  clickShowSystemTag() {
+    element(by.xpath("//mat-checkbox[contains(@class,'mat-checkbox-checked')]"))
+      .isPresent()
+      .catch(() => {
+        element(by.name('showSystemTags')).click();
+      });
+  }
+
+  waitMessage(text) {
+    const message = element(by.cssContainingText('.mat-simple-snackbar', text));
+    const EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(message), 10000, `No message with text: ${text}`).then(() => {
+      return true;
+    });
+  }
+
+  waitCloseMessage() {
+    const message = element(by.css('.mat-simple-snackbar'));
+    const EC = protractor.ExpectedConditions;
+    browser
+      .wait(EC.not(EC.visibilityOf(message)), 10000, `The message did not disappear`)
+      .then(() => {
+        return true;
       });
   }
 
