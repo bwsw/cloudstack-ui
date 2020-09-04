@@ -64,7 +64,7 @@
     "ngx-mat-select-search": "^1.7.6",
     "resize-observer-polyfill": "^1.5.0",
     "rxjs": "^6.3.3",
-    "showdown": "^1.8.4",
+    "showdown": "^1.9.1",
     "tslib": "^1.9.0",
     "uuid": "^3.1.0",
     "web-animations-js": "2.3.1",
